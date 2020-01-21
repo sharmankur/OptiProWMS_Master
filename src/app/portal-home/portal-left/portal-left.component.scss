@@ -1,0 +1,258 @@
+@import '../../../assets/css/_base';
+// 1. Css Start Related to left panel menu listing
+// 2. CSS Start  Related To Logo
+// 1. Css Start Related to left panel menu listing //
+.opti_left-nav-ul {
+    width: 100%;
+    > li {
+        list-style: none;
+        padding: 12px 15px;
+        background-color: transparent;
+        cursor: pointer;
+        > a {
+            color: $light-black;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            &:hover {
+                text-decoration: none;
+                color: $dark-black;
+            }
+            span.text{
+                align-self:center;
+                justify-self: flex-start;
+                display: flex;
+                flex: 1;
+                font-size: 12px;
+                
+            }
+            svg{
+                width:32px;
+            }
+        }
+        &.dropdown {
+            position: static;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            z-index: 0;
+            & > a.dropdown-toggle{
+                padding: 12px 15px;
+
+                &:after{
+                    font-family: "OptiProErp";
+                    content: "\e936";
+                    border: none;
+                    display: flex;
+                    align-self: center;
+                    justify-self: flex-end;
+                    justify-content: flex-end;
+                    font-size: 10px;
+                    width: 10px;
+                    height: 9px;
+                    margin: 0 0 0 5px;
+                    line-height: 9px;
+                    transition: transform 300ms ease-in-out;
+                }
+            }
+            &.open{
+                &:hover{
+                    background-color: transparent !important;
+                }
+                > a{
+                    background-color: var(--kendo-off-white-color);
+                }
+                & > a.dropdown-toggle:after{
+                    transform: rotateX(180deg)
+                }
+            }
+            & > .dropdown-menu{
+                margin: 0;
+                padding:0                                                                                                                      ;
+                border: none;
+                border-radius: 0;
+                position: static;
+                z-index: 0;
+                box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
+                & > li{
+
+                    & > a{                        
+                        padding: 10px 15px 10px 25px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        font-size: 12px;
+                        &:hover{
+                            background-color: transparent;
+                        }
+                        svg{
+                            width:28px
+                        }
+                    }
+                    &:hover, &.active{
+                        background-color: var(--kendo-off-white-color);
+                        a, a:hover{
+                            background-color: rgba(255,255,255,0.5)
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+}
+
+.opti_left-navigation>ul li span {
+    margin-left: 15px;
+}
+
+#opti_LeftPanelID.opti_sidebar-minimize {
+    .opti_left-navigation {
+        >ul {
+            min-width: initial;
+           > li {
+                a{
+                    justify-content: center;
+                    width: 100%;
+                }
+                a.dropdown-toggle {
+                    padding: 15px 5px 15px 10px;
+                }
+                & > ul.dropdown-menu{
+                    min-width: initial;
+                    & > li a{
+                        padding: 10px 15px;
+                        justify-content: center;
+                    }
+                }
+                a.dropdown-toggle{
+                    &:after{
+                        font-size: 8px;
+                        width: 8px;
+                        line-height: 8px;
+                        margin-right: -9px;
+                    }
+                }
+                img {
+                    width: 100%;
+                }
+                span.text {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+// If left Sidebar is Minimize
+.opti_sidebar-minimize {
+    ul {
+        li {
+            @include truncate(80px);
+            text-align: center;
+        }
+    }
+}
+
+// End Css Related to left panel menu listing //        
+// 2. CSS Start  Related To Logo //
+.opti_logo.opti_vertical-align {
+    max-height: $top-bar-height;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+// if left panel close
+.opti_sidebar-minimize {
+    .opti_logo {
+        .opti_large-logo {
+            display: none;
+        }
+        .opti_small-logo {
+            display: block;
+        }
+    }
+}
+
+// if left panel open
+.opti_logo {
+    .opti_large-logo {
+        display: block;
+    }
+    .opti_small-logo {
+        display: none;
+    }
+}
+
+// Css Related To Desktop and Ipad Logo
+.opti_device-logo-outer {
+    max-height: $top-bar-height + 10;
+    overflow: hidden;
+    height: $top-bar-height + 10;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .opti_logo.opti_device-logo{
+        flex: 1;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    #sidebarCollapse-alt{
+        display: none;
+        @media screen and (max-width:767px){
+            display: block;
+        }
+        i{
+            font-size: 24px;
+        }
+    }
+    @media screen and (max-width:479px){
+        //height: $top-bar-height - 15px;
+    }
+}
+.opti_sidebar-minimize{
+    & .opti_logo.opti_device-logo{
+        font-size: 25px;
+        line-height: 22px;
+    }
+}
+.opti_device-logo {
+    // display: block;   
+    max-height: 100%;
+    img {
+        // height: 100%;
+        // width: 100%;
+        // padding-top: 10px;
+        // padding-bottom: 10px;
+        height: auto;
+        width: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+        @media screen and (max-width:479px){
+            padding:0
+        }
+    }
+}
+
+// CSS End  Related To Logo //       
+// powered by logo
+#opti_LeftPanelFooterLogo {
+    display: flex;
+    align-self: center;
+    justify-self: flex-end;
+    align-items: center;
+    justify-items: flex-end;
+    justify-content: center;
+    img {
+        width: 60%;
+        @media screen and (max-width:479px){
+            width:auto;
+            height:50px;
+        }
+    }
+}
+

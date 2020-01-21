@@ -1,0 +1,30 @@
+@import '../../_typography-button-layout';
+
+#opti_DashboardID {
+    background: $white;
+    height: calc(100vh - 85px);
+    border-radius: 5px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    // background: url('/assets/images/signup/nouse/shutter/background-wms.jpg');
+    // background-size: cover;
+    // background-position: center;
+    // @media screen and (max-width:767px) {
+    //     background: url('/assets/images/signup/nouse/shutter/background-wms-m.jpg');
+    //     background-position: center;
+    // }
+}
+.opti_dashboard-icon{
+    font-size: 80px;
+    margin: 0 auto;
+}
+.text-logo{
+    font-size: 80px;
+    margin-left: 10px;
+    line-height: 1;
+    font-weight: 800;
+}

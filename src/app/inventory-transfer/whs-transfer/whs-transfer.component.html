@@ -1,0 +1,80 @@
+<div class="opti_container position-relative bg-white rounded" *ngIf="whsView">
+  <form class="form-with-fix-btnBar">
+    <div class="opti_container_inner" [perfectScrollbar]=" ">
+      <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+        {{pageHeading}}
+      </h3>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6">
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-3 col-form-label">{{'InvTransfer_FromWhse'|translate}}</label>
+            <div class="col-sm-9">
+              <div class="input-group input-group-sm">
+                <input id="whsTransferFromWhsInputField" #scanFromWhse name="fromWhse" [(ngModel)]="fromWhse" type="text" class="form-control form-control-sm" placeholder="{{'InvTransfer_FromWhse'|translate}}"
+                  [disabled]="isfromWhsDisabled">
+                <div class="input-group-append">
+                  <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getFromWhse()" [disabled]="isfromWhsDisabled">
+                    <i class="opti-icon-hammenu"></i>
+                  </button>
+                </div>
+                <div class="ml-1 d-flex" *ngIf="fromWhere==2">
+                    <button tabIndex="-1" type="button" id="whseTransferFromWhseScanBtn"  (mousedown)="onInboundScan()" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
+                     <i class="opti-icon-qr-code fs-24"></i>
+                    </button>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-3 col-form-label">{{'InvTransfer_ToWhse'|translate}}</label>
+            <div class="col-sm-9">
+              <div class="input-group input-group-sm">
+                <input type="text" #scanToWhse name="toWhse" [(ngModel)]="toWhse" id= "whsTransferToWhsInputField" class="form-control form-control-sm" placeholder="{{'InvTransfer_ToWhse'|translate}}"
+                  (blur)="OnToWarehouseChange()" [disabled]="!isfromWhsDisabled">
+                <div class="input-group-append">
+                  <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getToWhse()" [disabled]="!isfromWhsDisabled">
+                    <i class="opti-icon-hammenu"></i>
+                  </button>
+                </div>
+                <div class="ml-1 d-flex" *ngIf="fromWhere==1">
+                    <button tabIndex="-1" type="button" id="whseTransferToWhseScanBtn"  (mousedown)="onInboundScan()" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
+                     <i class="opti-icon-qr-code fs-24"></i>
+                    </button>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row fix-footer-btnBar">
+      <div class="col-sm-12 col-12">
+        <hr />
+      </div>
+      <div class="col-sm-12 col-12">
+        <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
+          <span class="k-icon k-i-close-outline" role="presentation"></span> {{'Cancel'|translate}}</button>
+
+        <button type="button" *ngIf="showNext" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon" (click)="viewSwitch()">
+          <i class="opti-icon-arrow-next"></i>
+        </button>
+
+        <button type="button" id="Hid_btnWhsTransferToWhsScanBtn" style="visibility:hidden" (click)="onHiddenToWhsScanClick()" class="btn btn-primary k-button btn-sm btn-icon-with-text mr-0.5">
+          <i [ngClass]="manageEyeIcon? 'opti-icon-eye mr-2':'opti-icon-eye-off mr-2'"></i>
+        </button>
+        <button type="button" id="Hid_btnWhsTransferFromWhsScanBtn" style="visibility:hidden" (click)="onHiddenFromWhsScanClick()" class="btn btn-primary k-button btn-sm btn-icon-with-text mr-0.5">
+            <i [ngClass]="manageEyeIcon? 'opti-icon-eye mr-2':'opti-icon-eye-off mr-2'"></i>
+          </button>
+      </div>
+    </div>
+  </form>
+</div>
+<app-bin-transfer *ngIf="!whsView" [fromScreen]='fromScreen' (cancelevent)="binCancelEvent($event)"></app-bin-transfer>
+<span [hidden]="showLookupLoader">
+  <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
+</span>
+<div class="opti_loader full-section" *ngIf="showLoader">
+  <div class="opti_spinner"></div>
+</div>

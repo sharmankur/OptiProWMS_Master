@@ -1,0 +1,424 @@
+@import "_icons-variables.scss";
+
+@font-face {
+  font-family: '#{$icon-font-family}';
+  src:  url('#{$icon-font-path}/#{$icon-font-family}.eot?9f81c2');
+  src:  url('#{$icon-font-path}/#{$icon-font-family}.eot?9f81c2#iefix') format('embedded-opentype'),
+    url('#{$icon-font-path}/#{$icon-font-family}.ttf?9f81c2') format('truetype'),
+    url('#{$icon-font-path}/#{$icon-font-family}.woff?9f81c2') format('woff'),
+    url('#{$icon-font-path}/#{$icon-font-family}.svg?9f81c2##{$icon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="opti-icon-"], [class*=" opti-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-flex;
+  align-items: center;
+}
+
+.k-icon.fs-12{
+  font-size: 12px;
+}
+.opti-icon-eye {
+  &:before {
+    content: $opti-icon-eye; 
+  }
+}
+.opti-icon-eye-off {
+  &:before {
+    content: $opti-icon-eye-off; 
+  }
+}
+.opti-icon-palletize {
+  &:before {
+    content: $opti-icon-palletize; 
+  }
+}
+.opti-icon-deplletization {
+  &:before {
+    content: $opti-icon-deplletization; 
+  }
+}
+.opti-icon-pallet-marge {
+  &:before {
+    content: $opti-icon-pallet-marge; 
+  }
+}
+.opti-icon-pallet-split {
+  &:before {
+    content: $opti-icon-pallet-split; 
+  }
+}
+.opti-icon-pallet-transfer {
+  &:before {
+    content: $opti-icon-pallet-transfer; 
+  }
+}
+.opti-icon-detail-view {
+  &:before {
+    content: $opti-icon-detail-view; 
+  }
+}
+.opti-icon-view-batch {
+  &:before {
+    content: $opti-icon-view-batch; 
+  }
+}
+.opti-icon-wms-logo {
+  &:before {
+    content: $opti-icon-wms-logo; 
+  }
+}
+.opti-icon-wms-logo-with-text {
+  &:before {
+    content: $opti-icon-wms-logo-with-text; 
+  }
+}
+.opti-icon-qr-code {
+  &:before {
+    content: $opti-icon-qr-code; 
+  }
+}
+.opti-icon-time {
+  &:before {
+    content: $opti-icon-time; 
+  }
+}
+.opti-icon-factory {
+  &:before {
+    content: $opti-icon-factory; 
+  }
+}
+.opti-icon-warehouse-transfer {
+  &:before {
+    content: $opti-icon-warehouse-transfer; 
+  }
+}
+.opti-icon-inventory-transfer {
+  &:before {
+    content: $opti-icon-inventory-transfer; 
+  }
+}
+.opti-icon-bin-transfer {
+  &:before {
+    content: $opti-icon-bin-transfer; 
+  }
+}
+.opti-icon-issue {
+  &:before {
+    content: $opti-icon-issue; 
+  }
+}
+.opti-icon-printer {
+  &:before {
+    content: $opti-icon-printer; 
+  }
+}
+.opti-icon-next {
+  &:before {
+    content: $opti-icon-next; 
+  }
+}
+.opti-icon-previous {
+  &:before {
+    content: $opti-icon-previous; 
+  }
+}
+.opti-icon-up {
+  &:before {
+    content: $opti-icon-up; 
+  }
+}
+.opti-icon-down {
+  &:before {
+    content: $opti-icon-down; 
+  }
+}
+.opti-icon-outbound-order {
+  &:before {
+    content: $opti-icon-outbound-order; 
+  }
+}
+.opti-icon-inbound-order {
+  &:before {
+    content: $opti-icon-inbound-order; 
+  }
+}
+.opti-icon-open-Invoices {
+  &:before {
+    content: $opti-icon-open-Invoices; 
+  }
+}
+.opti-icon-customer {
+  &:before {
+    content: $opti-icon-customer; 
+  }
+}
+.opti-icon-home {
+  &:before {
+    content: $opti-icon-home; 
+  }
+}
+.opti-icon-about-us {
+  &:before {
+    content: $opti-icon-about-us; 
+  }
+}
+.opti-icon-link {
+  &:before {
+    content: $opti-icon-link; 
+  }
+}
+.opti-icon-paperclip {
+  &:before {
+    content: $opti-icon-paperclip; 
+  }
+}
+.opti-icon-more {
+  &:before {
+    content: $opti-icon-more; 
+  }
+}
+.opti-icon-upload {
+  &:before {
+    content: $opti-icon-upload; 
+  }
+}
+.opti-icon-download {
+  &:before {
+    content: $opti-icon-download; 
+  }
+}
+.opti-icon-attachment {
+  &:before {
+    content: $opti-icon-attachment; 
+  }
+}
+.opti-icon-save {
+  &:before {
+    content: $opti-icon-save; 
+  }
+}
+.opti-icon-flowchart {
+  &:before {
+    content: $opti-icon-flowchart; 
+  }
+}
+.opti-icon-notifications {
+  &:before {
+    content: $opti-icon-notifications; 
+  }
+}
+.opti-icon-dashboard {
+  &:before {
+    content: $opti-icon-dashboard; 
+  }
+}
+.opti-icon-hammenu {
+  &:before {
+    content: $opti-icon-hammenu; 
+  }
+}
+.opti-icon-search {
+  &:before {
+    content: $opti-icon-search; 
+  }
+}
+.opti-icon-notes {
+  &:before {
+    content: $opti-icon-notes; 
+  }
+}
+.opti-icon-customer-purchase-order {
+  &:before {
+    content: $opti-icon-customer-purchase-order; 
+  }
+}
+.opti-icon-invoice {
+  &:before {
+    content: $opti-icon-invoice; 
+  }
+}
+.opti-icon-delivery-notes {
+  &:before {
+    content: $opti-icon-delivery-notes; 
+  }
+}
+.opti-icon-sales-order {
+  &:before {
+    content: $opti-icon-sales-order; 
+  }
+}
+.opti-icon-advance-shipment-notes {
+  &:before {
+    content: $opti-icon-advance-shipment-notes; 
+  }
+}
+.opti-icon-customer-contacts {
+  &:before {
+    content: $opti-icon-customer-contacts; 
+  }
+}
+.opti-icon-edit {
+  &:before {
+    content: $opti-icon-edit; 
+  }
+}
+.opti-icon-logout {
+  &:before {
+    content: $opti-icon-logout; 
+  }
+}
+.opti-icon-user {
+  &:before {
+    content: $opti-icon-user; 
+  }
+}
+.opti-icon-vendor {
+  &:before {
+    content: $opti-icon-vendor; 
+  }
+}
+.opti-icon-download1 {
+  &:before {
+    content: $opti-icon-download1; 
+  }
+}
+.opti-icon-refresh-button {
+  &:before {
+    content: $opti-icon-refresh-button; 
+  }
+}
+.opti-icon-settings {
+  &:before {
+    content: $opti-icon-settings; 
+  }
+}
+.opti-icon-arrow-back {
+  &:before {
+    content: $opti-icon-arrow-back; 
+  }
+}
+.opti-icon-arrow-up {
+  &:before {
+    content: $opti-icon-arrow-up; 
+  }
+}
+.opti-icon-arrow-next {
+  &:before {
+    content: $opti-icon-arrow-next; 
+  }
+}
+.opti-icon-arrow-down {
+  &:before {
+    content: $opti-icon-arrow-down; 
+  }
+}
+.opti-icon-trash {
+  &:before {
+    content: $opti-icon-trash; 
+  }
+}
+.opti-icon-customer-contracts {
+  &:before {
+    content: $opti-icon-customer-contracts; 
+  }
+}
+.opti-icon-sales-quotations {
+  &:before {
+    content: $opti-icon-sales-quotations; 
+  }
+}
+.opti-icon-shopping-list {
+  &:before {
+    content: $opti-icon-shopping-list; 
+  }
+}
+.opti-icon-purchase-Inquiries {
+  &:before {
+    content: $opti-icon-purchase-Inquiries; 
+  }
+}
+.opti-icon-add {
+  &:before {
+    content: $opti-icon-add; 
+  }
+}
+.opti-icon-close {
+  &:before {
+    content: $opti-icon-close; 
+  }
+}
+.opti-icon-check {
+  &:before {
+    content: $opti-icon-check; 
+  }
+}
+.opti-icon-cancel-1 {
+  &:before {
+    content: $opti-icon-cancel-1; 
+  }
+}
+.opti-icon-add1 {
+  &:before {
+    content: $opti-icon-add1; 
+  }
+}
+.opti-icon-remove {
+  &:before {
+    content: $opti-icon-remove; 
+  }
+}
+.opti-icon-up-arrow {
+  &:before {
+    content: $opti-icon-up-arrow; 
+  }
+}
+.opti-icon-down-arrow {
+  &:before {
+    content: $opti-icon-down-arrow; 
+  }
+}
+.opti-icon-right-arrow {
+  &:before {
+    content: $opti-icon-right-arrow; 
+  }
+}
+.opti-icon-left-arrow {
+  &:before {
+    content: $opti-icon-left-arrow; 
+  }
+}
+.opti-icon-help {
+  &:before {
+    content: $opti-icon-help; 
+  }
+}
+.opti-icon-question {
+  &:before {
+    content: $opti-icon-question; 
+  }
+}
+.opti-icon-mobile-logo-old {
+  &:before {
+    content: $opti-icon-mobile-logo-old; 
+  }
+}
+.opti-icon-mobile-logo-old1 {
+  &:before {
+    content: $opti-icon-mobile-logo-old1; 
+  }
+}
+

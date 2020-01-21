@@ -1,0 +1,95 @@
+<div class="opti_container position-relative bg-white rounded">
+  <form class="form-with-fix-btnBar" >
+      <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+          <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+              {{'binLabelReport'|translate}}
+          </h3>
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-3 col-form-label">{{'InvTransfer_FromBin'|translate}}</label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" #fromBinIp id="BinLabelFromBinInput"
+                             [(ngModel)] ='fromBin' (blur)="OnFromBinChange()" name ='fromBin' placeholder="{{'InvTransfer_FromBin'|translate}}">
+                            <div class="input-group-append">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"  (mousedown)="OnFromBinLookupClick()">
+                                    <i class="opti-icon-hammenu"></i>
+                                </button>
+                                <div class="d-flex">
+                                    <button tabIndex="-1" type="button"  id="BinLabelFromBinScanBtn" 
+                                        class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
+                                        <i class="opti-icon-qr-code fs-24"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-3 col-form-label">{{'InvTransfer_ToBin'|translate}}</label>
+                  <div class="col-sm-9">
+                      <div class="input-group input-group-sm">
+                          <input #scanToBin type="text"   id="BinLabelToBinInput" (blur)="OnToBinChange()" class="form-control form-control-sm" [(ngModel)]='toBin' #toBinIp=ngModel
+                           name ='toBin' placeholder="{{'InvTransfer_ToBin'|translate}}">
+                          <div class="input-group-append">
+                              <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="OnToBinLookupClick()">
+                                  <i class="opti-icon-hammenu"></i>
+                              </button>
+                              <div class="d-flex">
+                                <button tabIndex="-1" type="button"  id="BinLabelToBinScanBtn" (mousedown)="onInboundScan()"
+                                    class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
+                                    <i class="opti-icon-qr-code fs-24"></i>
+                                </button>
+                            </div>
+                          </div> 
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputPassword" class="col-sm-3 col-form-label">{{'noOfCopies'|translate}}</label>
+                  <div class="col-sm-9">
+                    <input type="text"   [(ngModel)]="noOfCopies" #numberOfCopiesIp=ngModel class="form-control form-control-sm" name ='customerCode' placeholder="{{'noOfCopies'|translate}}">
+                  </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="fix-footer-btnBar">
+        <div class="col-sm-12 col-12">
+            <hr />
+        </div>
+        <div class="col-sm-12 col-12">
+            <button type="button" (click)="OnCancelClick()" class="btn btn-danger k-button btn-sm btn-icon-with-text"><span
+                    class="k-icon k-i-close-outline" role="presentation"></span> {{'Cancel'|translate}}</button>
+            <button type="button" (click)="OnPrintClick()" class="btn btn-success k-button btn-sm btn-icon-with-text"><span
+                    class="k-icon k-i-printer" role="presentation"></span> {{'Print'|translate}}</button>
+        
+        
+            <button type="button" id="hid_btnBinLabelFromBinScanBtn" style="visibility:hidden"
+                (click)="onHiddenBinLabelFromBinScanClick()"
+                class="btn btn-primary k-button btn-sm btn-icon-with-text mr-0.5">
+                <i [ngClass]="manageEyeIcon? 'opti-icon-eye mr-2':'opti-icon-eye-off mr-2'"></i>btn
+            </button>
+            <button type="button" id="hid_btnBinLabelToBinScanBtn" style="visibility:hidden"
+                (click)="onHiddenBinLabelToBinScanClick()" class="btn btn-primary k-button btn-sm btn-icon-with-text mr-0.5">
+                <i [ngClass]="manageEyeIcon? 'opti-icon-eye mr-2':'opti-icon-eye-off mr-2'"></i>btn
+            </button>
+        
+        </div>
+        </div>
+  </form>
+</div>
+<div *ngIf="showLookupLoader == false">
+        <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
+</div>
+<div>
+    <app-display-pdf *ngIf ="displayPDF" [base64String] = 'base64String' [fileName] = 'fileName'
+        (redirectTo)="getValueOfRedirect($event)"></app-display-pdf>
+</div>
+<div class="opti_loader full-section"  *ngIf="showLoader" >
+    <div class="opti_spinner"></div>
+</div>

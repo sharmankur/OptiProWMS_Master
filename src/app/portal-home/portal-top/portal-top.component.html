@@ -1,0 +1,136 @@
+<section id="opti_TopBarID">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- this logo only for mobile -->
+                <!-- <div class="opti_icon-spacing float-left opti_mobile-logo opti_vertical-align"><img src="assets/images/logo/mobile-logo.png" alt="Logo" class="opti_small-logo opti_mouse-pointer" /></div> -->
+                <!-- ebd this logo only for mobile -->
+
+                <div id="sidebarCollapse" class="opti_vertical-align float-left">
+                    <!-- hamburger and close icon -->
+                    <i class="opti-icon-hammenu opti_desktop-menu-icon opti_mouse-pointer opti_hamburger"></i>
+                    <i class="opti-icon-hammenu opti_mobile-menu-icon opti_mouse-pointer opti_hamburger"></i>
+                </div>
+
+                <!-- Top Right Section -->
+                <div class="opti_topbar-rightpanel float-right">
+                    <div class="opti_vertical-align">
+                        <ul class="d-inline-flex">
+                          
+
+                            <li class="opti_icon-spacing opti_user-profile position-relative" dropdown>
+                                <a dropdownToggle class="dropdown-toggle">
+                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30" height="30" />
+                                    <span>{{DBName}}</span>
+                                </a>
+                                <ul class="dropdown-menu opti_user-profile-drop-down" *dropdownMenu>
+                                  
+                                    <li class="opti_mouse-pointer opti_profile-box-setting cursor-normal">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12 pl-2">
+                                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30" height="30" /> {{loggedInUserName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="opti_seprator"></li>
+
+                                    <!-- <li class="opti_mouse-pointer opti_profile-box-setting" (click)="openCloseRightPanel();"> -->
+                                    <li class="opti_mouse-pointer opti_profile-box-setting" (click)="listClick($event, 'changeWarehouse')">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <svg-icon src="assets/images/common/settings-black.svg" [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }"></svg-icon>{{'ChangeWarehouse'|translate}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="opti_seprator"></li>
+
+                                    <li class="opti_mouse-pointer opti_profile-box-aboutus" (click)="openVerticallyCentered(about)">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <svg-icon src="assets/images/common/about-us.svg" [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }"></svg-icon>{{'About'|translate}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="opti_seprator"></li>
+
+                                    <li class="opti_mouse-pointer opti_profile-box-logout" (click)="signOut()">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <svg-icon src="assets/images/common/logout.svg" [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }"></svg-icon>{{'Logout'|translate}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <!-- <li class="opti_icon-spacing opti_warehouse_count">
+                                <i class="opti-icon-home mr-2"></i><span>{{loggedinWarehouse}}</span>
+                            </li> -->
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Theme setting -->
+<!-- <section id="opti_ThemeSettingID" [ngClass]="{'opt_show': openThemeSetting==true}">
+    <app-theme-manager (messageEvent)=receiverMessage($event)></app-theme-manager>
+</section> -->
+
+<!-- About us modal start -->
+<ng-template #about let-modal>
+    <!-- <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div> -->
+
+    <div class="modal-body text-center" style="padding: 20px;">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <img src="assets/images/common/close-black.svg" width="15" />
+        </button>
+        <p></p>
+        <p>
+            <img src="assets/images/logo/large-logo-old.png" alt="Large Logo" class="opti_large-logo" />
+        </p>
+        <p>{{appVersion}}</p>
+        <p>{{'Dashboard_CopyWrt_Msg'|translate}}</p>
+        <p><a href="http://www.optiproerp.com">www.optiproerp.com</a></p>
+    </div>
+
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div> -->
+</ng-template>
+<!-- About us modal end -->
+
+<!-- Mobile search start -->
+<ng-template #mobileSearch let-modal>
+    <div class="modal-body opti_mobile-search-modal">
+        <div class="opti_search-form">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <span class="opti_top-search-icon opti_vertical-align opti_mouse-pointer" (click)="modal.dismiss('Cross click')"><img src="assets/images/common/search-black.svg" class="" alt="Search" width="15" /></span>
+        </div>
+    </div>
+</ng-template>
+<!-- mobile search end -->
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>

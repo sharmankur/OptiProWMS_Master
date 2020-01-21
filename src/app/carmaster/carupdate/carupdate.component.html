@@ -1,0 +1,164 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'ContainerAutoRule'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_CPackRule'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" [disabled]=isUpdate>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_ContainerType'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="CAR_ContainerType" [(ngModel)]="CAR_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
+                                    (blur)="OnVendorChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onVendorLookupClick()" [disabled]=isUpdate>
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_PackType'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_PackType" [(ngModel)]="CAR_PackType" [disabled]=isUpdate>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_AddPartsToContainer'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="opti_input-group-checkbox">
+                                <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer" class="k-checkbox" checked
+                                />
+                                <label class="k-checkbox-label" for="ch7"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <kendo-grid class="no-shadow" [kendoGridBinding]="recvingQuantityBinArray" [resizable]="true" [sortable]="true" [selectable]="true"
+                        #gridItem>
+
+                        <!-- grid for mobile start -->
+                        <!-- <kendo-grid-column media="(max-width: 767px)" title="List" class="opti_mobile-grid-td">
+                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex='rowIndex'>
+                                        <dl class="opti_mobile_grid_dl">
+                                            <dt style="margin-top:4px;">{{mfrGridColumnText}}</dt>
+                                            <dd>
+                                                <input type="text" class="form-control form-control-sm" name="dataItem.VendorLot"
+                                                [disabled]="isDisabledScanInput" id="VendorLot" #VendorLot (change)="updateVendorLot(display_name, VendorLot.value, rowIndex)">
+                                            </dd>
+        
+                                            <dt>{{'Quantity'|translate}}</dt>
+                                            <dd>{{dataItem.LotQty | numberFormat}}</dd>
+        
+                                            <dt>{{'ExpiryDate'|translate}}</dt>
+                                            <dd>{{dataItem.expiryDate | date:dateFormat}}</dd>
+                                        </dl> 
+        
+                                        <dl class="opti_mobile_grid_dl">
+                                            <dt class="d-flex align-items-center">{{SRBatchColumnText}}
+                                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon ml-auto"
+                                                    style="margin-bottom: 2px;" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
+                                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                                </button>
+                                            </dt>
+                                            <dd>
+                                                <input type="text" class="form-control form-control-sm" name="dataItem.LotNumber"
+                                                    [disabled]="isDisabledLotNoField" id="display_name1" [(ngModel)]=dataItem.LotNumber
+                                                    #display_name (change)="updateLotNumber(display_name, display_name.value, rowIndex, gridItem)">
+                                            </dd>
+        
+                                            <dt>{{'BinNo'|translate}}</dt> 
+                                            <dd>{{dataItem.Bin}}</dd>
+        
+                                            <dt>{{'Plt_PalletNo'|translate}}</dt>
+                                            <dd>{{dataItem.PalletCode}}</dd>
+                                        </dl>
+                                    </ng-template>
+                                </kendo-grid-column> -->
+                        <!-- grid for mobile end -->
+
+                        <kendo-grid-column media="(min-width: 768px)" field="VendorLot" [width]="18" title="{{'CAR_CPackRule'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                <input type="text" class="form-control form-control-sm" name="dataItem.VendorLot" value={{dataItem.VendorLot}} id="display_name"
+                                    #display_name (change)="updateVendorLot(display_name, display_name.value, idx)" [disabled]="isDisabledScanInput">
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column media="(min-width: 768px)" field="LotNumber" [width]="18" title="{{'CAR_ItemCode'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                <input type="text" class="form-control form-control-sm" name="dataItem.LotNumber" value={{dataItem.LotNumber}} [disabled]="isDisabledLotNoField"
+                                    id="display_name" #display_name (change)="updateLotNumber(display_name, display_name.value, idx, gridItem)">
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column *ngIf="isPalletizationEnable" media="(min-width: 768px)" field="PalletCode" [width]="18" title="{{'CAR_PartsPerContainer'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="Bin" [width]="18" title="{{'BinNo'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="LotQty" headerClass="text-right" class="text-right" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                {{dataItem.LotQty | numberFormat}}
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column media="(min-width: 768px)" field="expiryDate" [width]="18" title="{{'ExpiryDate'|translate}}">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{dataItem.expiryDate | date:dateFormat}}
+                                    </ng-template>
+                                </kendo-grid-column> -->
+
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
+                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <hr />
+            </div>
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<span [hidden]="hideLookup">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>

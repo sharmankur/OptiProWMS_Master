@@ -1,0 +1,61 @@
+<!-- left panel start -->
+<section id="opti_LeftPanelID" class="position-relative">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center opti_vertical-align opti_device-logo-outer">
+                <!-- logo -->
+                <section class="opti_logo opti_device-logo text-primary">
+
+                    <svg viewBox="0 0 464.3 148.3" class="opti_large-logo" style="height:45px;"><use xlink:href="#planLogo"></use></svg>
+                    <svg viewBox="0 0 164.6 148.3" class="opti_small-logo" style="height:45px;"><use xlink:href="#logo"></use></svg>
+                </section>
+                <div id="sidebarCollapse-alt" class="opti_vertical-align">
+                    <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#home"></use></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="opti_left-navigation position-relative" [perfectScrollbar]="">
+        <ul class="opti_left-nav-ul">
+
+            <li id="PUR" (click)="listClick($event, 'containertype')" [ngClass]="{'active': selectedItem == 'containertype'}" [ngStyle]="{'display':'flex'}">
+                <a (click)="onInboundClick()">
+                    <svg viewBox="0 0 503.322 503.322"  class="icon"><use xlink:href="#inbound"></use></svg>
+                    <span class="text">{{'ContainerType'|translate}}</span>
+                </a>
+            </li>
+
+            <li id="SLS" (click)="listClick($event, 'containertyperelation')" [ngClass]="{'active': selectedItem == 'containertyperelation'}" [ngStyle]="{'display':'flex'}">
+                <a (click)="onOutboundClick()">
+                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
+                    <span class="text">{{'ContainerTypeRelation'|translate}}</span>
+                </a>
+            </li>
+            <li id="CAR" (click)="listClick($event, 'containerautorule')" [ngClass]="{'active': selectedItem == 'containerautorule'}" [ngStyle]="{'display':'flex'}">
+                <a (click)="onOutboundClick()">
+                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
+                    <span class="text">{{'ContainerAutoRule'|translate}}</span>
+                </a>
+            </li>
+            <li id="DCKDOR" (click)="listClick($event, 'dockdoor')" [ngClass]="{'active': selectedItem == 'dockdoor'}" [ngStyle]="{'display':'flex'}">
+                <a (click)="onOutboundClick()">
+                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
+                    <span class="text">{{'Dock_Door'|translate}}</span>
+                </a>
+            </li>
+        </ul>
+
+    </section>
+
+    <section id="opti_LeftPanelFooterLogo">
+        <img src="assets/images/logo/poweredbylogo.svg" alt="powered logo">
+    </section>
+
+
+</section>
+<!-- left panel end -->
+
+<!-- <a routerLink='dashboard'>Dashboard</a><br>
+<a routerLink='purchaseinquiry'> Purchase Inquery</a> -->

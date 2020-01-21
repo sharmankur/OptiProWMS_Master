@@ -1,0 +1,117 @@
+<div class="opti_container position-relative bg-white rounded">
+        <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+            <div class="opti_container_inner" [perfectScrollbar]=" ">
+    
+                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                    {{'CT_ContainerType'|translate}}
+                </h3>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+    
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_ContainerType'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="CT_ContainerType" [(ngModel)]="CT_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
+                                       #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Length'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                        <input type="number" #scanQty name="CT_Length"
+                                        [(ngModel)]=CT_Length 
+                                        min="0"
+                                        class="text-right form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Width'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                        <input type="number" #scanQty name="CT_Width"
+                                        [(ngModel)]=CT_Width 
+                                        min="0"
+                                        class="text-right form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Height'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                        <input type="number" #scanQty name="CT_Height"
+                                        [(ngModel)]=CT_Height 
+                                        min="0"
+                                        class="text-right form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Max_Width'|translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="input-group input-group-sm">
+                                        <input type="number" #scanQty name="CT_Max_Width"
+                                        [(ngModel)]=CT_Max_Width 
+                                        min="0"
+                                        class="text-right form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+    
+            </div>
+            <div class="fix-footer-btnBar">
+                <div class="col-sm-12 col-12">
+                    <hr />
+                </div>
+                <div class="col-sm-12 col-12">
+                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                                <i class="opti-icon-arrow-back"></i>
+                            </button>
+                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                        <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+    
+                  
+                </div>
+            </div>
+        </form> 
+    
+    </div>
+    <span *ngIf="showLookupLoader == false">
+        <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
+    </span>
+    
+    <span *ngIf="showConfirmDialog">
+        <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+            (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    </span>
+    <div class="opti_loader full-section" *ngIf="showLoader">
+        <div class="opti_spinner"></div>
+    </div>
+    
+    <span *ngIf="showConfirmDialog">
+        <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+            (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    </span>
+    
+    <div>
+        <app-display-pdf *ngIf="displayPDF1" [base64String]='base64String' [fileName]='fileName' (pdfClose)="closePDF($event)"></app-display-pdf>
+    </div>
+    
+    <div class="opti_loader full-section" *ngIf="showLoader">
+        <div class="opti_spinner"></div>
+    </div>
