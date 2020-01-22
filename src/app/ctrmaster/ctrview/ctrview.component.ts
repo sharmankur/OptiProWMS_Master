@@ -96,9 +96,11 @@ getContainerRelationship() {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookupLoader = false;
-          this.serviceData = data;
-          this.lookupfor = "DDList";
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.getContainerRelationship();
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

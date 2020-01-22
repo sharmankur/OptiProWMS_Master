@@ -70,8 +70,7 @@ export class CARViewComponent implements OnInit {
 
 
   getLookupValue(event) {
-    localStorage.setItem("CAR_ROW", JSON.stringify(event));
-    
+    localStorage.setItem("CAR_ROW", JSON.stringify(event));    
     this.IsValidContainerAutoRule(event[0], event[1], event[2]);
   }
 
@@ -84,14 +83,42 @@ export class CARViewComponent implements OnInit {
     this.carmainComponent.carComponent = 2;
   }
 
-  onEditClick(){
-    this.carmainComponent.carComponent = 2;
-  }
-
-  onDeleteRowClick(){
-    this.carmainComponent.carComponent = 2;
+  onDeleteRowClick(event){
+    this.DeleteFromContainerAutoRule(event[0], event[1], event[2]);
   }
   
+  DeleteFromContainerAutoRule(ruleId, ContType, PT) {
+    this.showLoader = true;
+    this.carmasterService.DeleteFromContainerAutoRule(ruleId, ContType, PT).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.GetDataForContainerAutoRule();
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   IsValidContainerAutoRule(ruleId, ContType, PT) {
     this.showLoader = true;
     this.carmasterService.IsValidContainerAutoRule(ruleId, ContType, PT).subscribe(

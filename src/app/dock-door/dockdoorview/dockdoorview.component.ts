@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { DockdoormainComponent } from '../dockdoormain/dockdoormain.component';
 import { DockdoorService } from '../../services/dockdoor.service';
 import { Router } from '@angular/router';
+import { LookupComponent } from '../../common/lookup/lookup.component';
 
 @Component({
   selector: 'app-dockdoorview',
@@ -13,24 +14,23 @@ import { Router } from '@angular/router';
 })
 export class DockdoorviewComponent implements OnInit {
 
-
   showLookupLoader: boolean = true;
   serviceData: any[];
   lookupfor: string;
   showLoader: boolean = false;
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService,
-    private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { 
+  @ViewChild('LookupComponent', {static:false}) look: LookupComponent;
+
+  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService, private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { 
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    translate.onLangChange.subscribe(() => {
     });
   }
 
   ngOnInit() {
     this.GetDataForDockDoor();
   }
-
 
   GetDataForDockDoor() {
     this.showLoader = true;
@@ -62,7 +62,6 @@ export class DockdoorviewComponent implements OnInit {
     );
   }
 
-
   getLookupValue(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     this.ddmainComponent.ddComponent = 2;
@@ -77,7 +76,9 @@ export class DockdoorviewComponent implements OnInit {
     this.ddmainComponent.ddComponent = 2;
   }
 
-  onEditClick(){
+  OnDeleteSelected(){
+    // this.LookupComponent.seleks
+    this.look.selectedValues;
     this.ddmainComponent.ddComponent = 2;
   }
 
@@ -96,9 +97,11 @@ export class DockdoorviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookupLoader = false;
-          this.serviceData = data;
-          this.lookupfor = "DDList";
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.GetDataForDockDoor();
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

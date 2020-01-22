@@ -27,8 +27,10 @@ export class LookupComponent implements OnInit {
   @Input() selectedImage: any
   @Output() lookupvalue = new EventEmitter();
   @Output() deleteClick = new EventEmitter();
+  @Output() deleteSelectedItems = new EventEmitter();
   @Output() lookupkey = new EventEmitter();
   @Input() ruleselected: any;
+  myInputVariable: ElementRef;
   public table_head: ColumnSetting[] = [];
   dialogOpened: boolean = true;
   lookupTitle: string;
@@ -41,7 +43,7 @@ export class LookupComponent implements OnInit {
   showLoader: boolean = false;
   grid: any;
   showSelection: boolean = false;
-  selectedValues: Array<any> = [];
+  public selectedValues: Array<any> = [];
   public mySelection: number[] = [];
 
 
@@ -763,6 +765,11 @@ export class LookupComponent implements OnInit {
   onDeleteRowClick(lookup_key){
     this.lookupkey.emit(lookup_key);
     this.deleteClick.emit(Object.values(lookup_key));
+  }
+
+  onSelectedDeleteRowClick(lookup_key){
+    this.lookupkey.emit(lookup_key);
+    this.deleteSelectedItems.emit(Object.values(lookup_key));
   }
 
   showLotsList() {

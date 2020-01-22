@@ -105,7 +105,7 @@ export class CARUpdateComponent implements OnInit {
           this.toastr.error('', this.translate.instant("CAR_PartsPerContainer_blank_msg"));
           return false;
         }
-        sum = sum + this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT;
+        sum = Number(sum) + Number(this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT);
       }
       if (sum != 100) {
         this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
@@ -208,7 +208,7 @@ export class CARUpdateComponent implements OnInit {
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_PACKTYPE: packtype,
       OPTM_ADD_TOCONT: addPartToCont,
-      OPTM_CREATEDBY: localStorage.getItem("UserId")
+      OPTM_MODIFIEDBY: localStorage.getItem("UserId")
     });
 
     for (var iBtchIndex = 0; iBtchIndex < this.autoRuleArray.length; iBtchIndex++) {
@@ -275,6 +275,12 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.toastr.error('', data[0].RESULT);
+            this.carmainComponent.carComponent = 1;
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -302,6 +308,12 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.toastr.error('', data[0].RESULT);
+            this.carmainComponent.carComponent = 1;
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -326,10 +338,16 @@ export class CARUpdateComponent implements OnInit {
     else if (this.lookupfor == "CTList") {
       this.CAR_ContainerType = $event[0];
     } else if (this.lookupfor == "ItemsList") {
-      for (let i = 0; i < this.autoRuleArray.length; ++i) {
-        if (i === this.index) {
-          this.autoRuleArray[i].OPTM_ITEMCODE = $event[0];
+
+      let result = this.autoRuleArray.find(element => element.OPTM_ITEMCODE == $event[0]);
+      if (result == undefined) {
+        for (let i = 0; i < this.autoRuleArray.length; ++i) {
+          if (i === this.index) {
+            this.autoRuleArray[i].OPTM_ITEMCODE = $event[0];
+          }
         }
+      }else{
+        this.toastr.error('', this.translate.instant("CAR_itemcode_exists_Msg"));
       }
     }
   }
@@ -385,14 +403,6 @@ export class CARUpdateComponent implements OnInit {
     }
   }
 
-  updateItemCode(lotTemplateVar, value, rowindex, gridData: any) {
-    for (let i = 0; i < this.autoRuleArray.length; ++i) {
-      if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_ITEMCODE = value;
-      }
-    }
-  }
-
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
@@ -437,6 +447,11 @@ export class CARUpdateComponent implements OnInit {
         }
       }
     );
+  }
+
+  openConfirmForDelete(rowIndex, gridItem){
+    this.autoRuleArray.splice(rowIndex, 1);
+    gridItem = this.autoRuleArray;
   }
 
 }
