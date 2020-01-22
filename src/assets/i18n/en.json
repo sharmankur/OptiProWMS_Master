@@ -460,6 +460,11 @@
   
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
+  
+  "DropdownMenu_Masters": "Masters",
+  "DropdownMenu_Wizard": "Wizard",
+  "DropdownMenu_Shipment": "Shipment",
+  "DropdownMenu_Carrier": "Carrier",
  
   "Dummy": "Dummy"
 }
