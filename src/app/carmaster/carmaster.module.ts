@@ -11,6 +11,7 @@ import { CARMainComponent } from './carmain/carmain.component';
 import { CARMasterRoutingModule } from './carmaster-routing.module';
 import { CARViewComponent } from './carview/carview.component';
 import { CARUpdateComponent } from './carupdate/carupdate.component';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 
 @NgModule({
   declarations: [CARMainComponent, CARViewComponent, CARUpdateComponent],
@@ -18,13 +19,13 @@ import { CARUpdateComponent } from './carupdate/carupdate.component';
     CommonModule,
     GridModule,
     SharedModule,
-     
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,
     CARMasterRoutingModule,
     DropDownsModule,
-    DateInputsModule
+    DateInputsModule,
+    DialogsModule
   ],
   providers: [ 
     CARMainComponent // added class in the providers

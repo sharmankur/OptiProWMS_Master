@@ -61,7 +61,7 @@ export class SigninComponent implements OnInit {
 
     }
 
-    @ViewChild('myCanvas',{static:false}) myCanvas;
+    // @ViewChild('myCanvas') myCanvas;
 
     ngOnInit() {
         this.selectedItem = this.translate.instant("Login_SelectCompany");
@@ -136,29 +136,29 @@ export class SigninComponent implements OnInit {
         // alert('login:: at login method top');
         // this.isCompleteLoginVisible = true;
 
-        window.localStorage.setItem('IsMenuLoaded', 'false');
-        if (this.userName == "" || this.password == "") {
-            this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
-            return true;
-        }
+        // window.localStorage.setItem('IsMenuLoaded', 'false');
+        // if (this.userName == "" || this.password == "") {
+        //     this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
+        //     return true;
+        // }
 
-        this.showLoader = true;
-        if (!this.isCompleteLoginVisible) {
-            this.validateUserLogin();
-        } else {
-            this.selectedItem = document.getElementById("compId").innerText.trim();
-            if (this.validateFields()) {
-                this.showLoader = false;
-                return;
-            }
-           this.getLicenseData();
+        // this.showLoader = true;
+        // if (!this.isCompleteLoginVisible) {
+        //     this.validateUserLogin();
+        // } else {
+        //     this.selectedItem = document.getElementById("compId").innerText.trim();
+        //     if (this.validateFields()) {
+        //         this.showLoader = false;
+        //         return;
+        //     }
+          //  this.getLicenseData();
             // this.showLoader = false;
             // localStorage.setItem("GUID", this.licenseData[1].GUID);
-            // localStorage.setItem("CompID", "DEVSCHEDULING");
-            // localStorage.setItem("whseId", "01");
-            // localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
-            // this.router.navigateByUrl('home/dashboard'); 
-         }
+            localStorage.setItem("CompID", "DEVSCHEDULING");
+            localStorage.setItem("whseId", "01");
+            localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
+            this.router.navigateByUrl('home/dashboard'); 
+        // }
     }
 
     private validateUserLogin() {

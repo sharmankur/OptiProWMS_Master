@@ -44,6 +44,13 @@ export class CARViewComponent implements OnInit {
           }
           this.showLookupLoader = false;
           this.serviceData = data;
+          for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
+            if(this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y'){
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
+            }else{
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
+            }
+          }
           this.lookupfor = "CARList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -64,7 +71,8 @@ export class CARViewComponent implements OnInit {
 
   getLookupValue(event) {
     localStorage.setItem("CAR_ROW", JSON.stringify(event));
-    this.carmainComponent.carComponent = 2;
+    
+    this.IsValidContainerAutoRule(event[0], event[1], event[2]);
   }
 
   OnCancelClick() {
@@ -83,6 +91,33 @@ export class CARViewComponent implements OnInit {
   onDeleteRowClick(){
     this.carmainComponent.carComponent = 2;
   }
-
-
+  
+  IsValidContainerAutoRule(ruleId, ContType, PT) {
+    this.showLoader = true;
+    this.carmasterService.IsValidContainerAutoRule(ruleId, ContType, PT).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          localStorage.setItem("CAR_Grid_Data", JSON.stringify(data));
+          this.carmainComponent.carComponent = 2;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

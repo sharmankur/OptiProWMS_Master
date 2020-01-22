@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
 import { CTRMainComponent } from '../ctrmain/ctrmain.component';
 import { CTRMasterService } from '../../services/ctrmaster.service';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,6 +22,9 @@ export class CTRUpdateComponent implements OnInit {
   BtnTitle: string;
   isUpdate: boolean = false;
   showLoader: boolean = false;
+  hideLookup: boolean = true;
+  lookupfor: string;
+  serviceData: any[];
   
   constructor(private commonservice: Commonservice, private toastr: ToastrService, private translate: TranslateService, private ctrmainComponent: CTRMainComponent, private ctrmasterService: CTRMasterService, private router: Router
     ) {
@@ -140,6 +143,91 @@ export class CTRUpdateComponent implements OnInit {
         }
       }
     );
+  }
+
+  OnContainerTypeChange(){
+    if(this.CTR_ContainerType == undefined || this.CTR_ContainerType == ""){
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidContainerType(this.CTR_ContainerType).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length > 0){
+            this.CTR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
+          }else{
+            this.CTR_ContainerType = "";
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.CTR_ContainerType = "";
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetDataForContainerType(fieldName) {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetDataForContainerType().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          if(fieldName == "CT"){
+            this.lookupfor = "CTList";
+          }else{
+            this.lookupfor = "PCTList";
+          }
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  getLookupValue($event) {
+    if ($event != null && $event == "close") {
+      this.hideLookup = false;
+      return;
+    }
+    else if (this.lookupfor == "CTList") {
+      this.CTR_ContainerType = $event[0];
+    }
+    else if (this.lookupfor == "PCTList") {
+      this.CTR_ParentContainerType = $event[0];
+    }
   }
 }
 

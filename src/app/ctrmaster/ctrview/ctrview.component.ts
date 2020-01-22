@@ -81,8 +81,37 @@ getContainerRelationship() {
     this.ctrmainComponent.ctrComponent = 2;
   }
 
-  onDeleteRowClick(){
-    this.ctrmainComponent.ctrComponent = 2;
+  onDeleteRowClick(event){
+    this.DeleteFromContainerRelationship(event[0], event[1]);
   }
 
+  DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE){
+    this.showLoader = true;
+    this.ctrmasterService.DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookupLoader = false;
+          this.serviceData = data;
+          this.lookupfor = "DDList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

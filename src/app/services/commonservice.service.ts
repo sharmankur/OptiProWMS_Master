@@ -176,19 +176,20 @@ export class Commonservice {
   }
 
   RemoveLicenseAndSignout(toastr: ToastrService, router: Router, message: string, fromLogout:boolean = false) {
-    this.RemoveLicense().subscribe(
-      (data: any) => {
-        this.signOut(this.toastr, this.router, message,fromLogout);
-      },
-      error => {
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.signOut(this.toastr, this.router, message,fromLogout);
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+    this.signOut(this.toastr, this.router, message,fromLogout);
+    // this.RemoveLicense().subscribe(
+    //   (data: any) => {
+    //     this.signOut(this.toastr, this.router, message,fromLogout);
+    //   },
+    //   error => {
+    //     if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+    //       this.signOut(this.toastr, this.router, message,fromLogout);
+    //     }
+    //     else {
+    //       this.toastr.error('', error);
+    //     }
+    //   }
+    // );
   }
 
 
@@ -659,5 +660,24 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerType", jObject, this.httpOptions);
+  }
+
+  IsValidContainerType(OPTM_CONTAINER_TYPE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerType", jObject, this.httpOptions);
+  }
+
+  GetItemCodeList(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
 }

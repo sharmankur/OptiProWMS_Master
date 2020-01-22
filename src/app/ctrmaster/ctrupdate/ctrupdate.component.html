@@ -1,102 +1,86 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-  
+
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                {{'ContainerAutoRule'|translate}}
+                {{'ContainerTypeRelation'|translate}}
             </h3>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-  
+
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_ContainerType'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CTR_ContainerType" [(ngModel)]="CTR_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
-                                    (blur)="OnVendorChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    (blur)="OnContainerTypeChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
                                 <div class="input-group-append">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onVendorLookupClick()" [disabled]=isUpdate>
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType('CT')" [disabled]=isUpdate>
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
-                                <!-- <div class="ml-1 d-flex">
-                                    <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                        <i class="opti-icon-qr-code fs-24"></i>
-                                    </button>
-                            </div> -->
+
+                            </div>
                         </div>
                     </div>
-                    </div>
-  
+
                     <div class="form-group row">
-                      <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
-                      <div class="col-sm-9">
-                          <div class="input-group input-group-sm">
-                              <input type="text" class="form-control form-control-sm" name="CTR_ParentContainerType" [(ngModel)]="CTR_ParentContainerType" placeholder="{{'CTR_Parent_CT'|translate}}"
-                                  (blur)="OnVendorChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
-                              <div class="input-group-append">
-                                  <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onVendorLookupClick()" [disabled]=isUpdate>
-                                      <i class="opti-icon-hammenu"></i>
-                                  </button>
-                              </div>
-                              <!-- <div class="ml-1 d-flex">
-                                  <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                      <i class="opti-icon-qr-code fs-24"></i>
-                                  </button>
-                          </div> -->
-                      </div>
-                  </div>
-                  </div>
-  
-  
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="CTR_ParentContainerType" [(ngModel)]="CTR_ParentContainerType"
+                                    placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="OnContainerTypeChange()" #VendScanInputField
+                                    [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType()" [disabled]=isUpdate>
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTRContainersPerParent'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                    <input type="number" #scanQty name="CTR_ConainerPerParent"
-                                    [(ngModel)]=CTR_ConainerPerParent 
-                                    min="0"
-                                    class="text-right form-control form-control-sm">
+                                <input type="number" #scanQty name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent min="0" class="text-right form-control form-control-sm">
                             </div>
                         </div>
                     </div>
-  
+
                     <div class="form-group row">
-                      <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
-                      <div class="col-sm-9">
-                          <div class="input-group input-group-sm">
-                                <input type="number" #scanQty name="CTR_ConatainerPartofParent"
-                                [(ngModel)]=CTR_ConatainerPartofParent 
-                                min="0"
-                                class="text-right form-control form-control-sm">
-                          </div>
-                      </div>
-                  </div>
-  
-                   
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="number" #scanQty name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent min="0" class="text-right form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-  
-  
         </div>
         <div class="fix-footer-btnBar">
             <div class="col-sm-12 col-12">
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                    <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
-                            <i class="opti-icon-arrow-back"></i>
-                        </button>
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
-  
-              
             </div>
         </div>
-    </form> 
-  
-  </div>
-  <div class="opti_loader full-section" *ngIf="showLoader">
+    </form>
+</div>
+
+<span [hidden]="hideLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
-  </div>
-  
+</div>

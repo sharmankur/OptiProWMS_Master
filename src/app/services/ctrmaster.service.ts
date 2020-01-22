@@ -54,38 +54,15 @@ export class CTRMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
-  getPOList(futurepo: boolean, vendercode: string, itemcode: string): Observable<any> {
-   // console.log("get polist method :");
+  DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string): Observable<any> {
     let jObject = {
-      GoodsReceiptToken: JSON.stringify([{
-        UserId: '',
-        CompanyDBId: localStorage.getItem("CompID"), WhseCode: localStorage.getItem("whseId"),
-        ItemCode: itemcode, VendorCode: vendercode,
-        FuturePO: futurepo, IsCustom: false, GUID: localStorage.getItem("GUID"),
-        UsernameForLic: localStorage.getItem("UserId")
+      Shipment: JSON.stringify([{
+        OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE,
+        OPTM_PARENT_CONTTYPE: OPTM_PARENT_CONTTYPE,
+        CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    //console.log("get polist method call api :");
-    return this.httpclient.post(this.config_params.service_url + "/api/GoodReceiptPO/GetPOList", jObject, this.commonService.httpOptions);
-  }
-
-  IsPOExists(poCode: string, cardCode: string): Observable<any> {
-    var jObject = { POCode: JSON.stringify([{ UserId: '', CompanyDBId: localStorage.getItem("CompID"), POCode: poCode, CardCode: cardCode }]) };
-    return this.httpclient.post(this.config_params.service_url + "/api/GoodReceiptPO/IsPOExists", jObject, this.commonService.httpOptions);
-  }
-
-  GetOpenPOLines(futurepo: boolean, itemCode: string, po: string): Observable<any> {
-    let jObject = {
-      GoodsReceiptToken: JSON.stringify([{
-        UserId: '',
-        CompanyDBId: localStorage.getItem("CompID"),
-        DOCNUM: po,
-        ItemCode: itemCode,
-        WhsCode: localStorage.getItem("whseId"),
-        FuturePO: futurepo
-      }])
-    };
-    return this.httpclient.post(this.config_params.service_url + "/api/GoodReceiptPO/GetOpenPOLines", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
   getAutoLot(itemCode: string, tracking: string, quantity: any): Observable<any> {

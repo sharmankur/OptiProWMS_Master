@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { DockdoormainComponent } from '../dockdoormain/dockdoormain.component';
-import { DockdoorService } from 'src/app/services/dockdoor.service';
+import { DockdoorService } from '../../services/dockdoor.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -81,8 +81,37 @@ export class DockdoorviewComponent implements OnInit {
     this.ddmainComponent.ddComponent = 2;
   }
 
-  onDeleteRowClick(){
-    this.ddmainComponent.ddComponent= 2;
+  onDeleteRowClick(event){
+    this.DeleteFromDockDoor(event[0]);
   }
 
+  DeleteFromDockDoor(DDId){
+    this.showLoader = true;
+    this.ddService.DeleteFromDockDoor(DDId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookupLoader = false;
+          this.serviceData = data;
+          this.lookupfor = "DDList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

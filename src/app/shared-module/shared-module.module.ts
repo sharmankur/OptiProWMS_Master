@@ -13,17 +13,18 @@ import {NumberFormatPipe} from '../common/number-format.pipe';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InputDialogComponent } from '../common/input-dialog/input-dialog.component';
 import { StatePersistingServiceService } from '../services/state-persisting-service.service';
+import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
     FormsModule,
     DialogsModule,PdfViewerModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
-  declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent,
+  declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
     PdfpipePipe,NumberFormatPipe, InputDialogComponent ],
   entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent ]
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent ]
     
 })
 export class SharedModule { }

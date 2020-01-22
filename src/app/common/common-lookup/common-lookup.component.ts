@@ -1,4 +1,9 @@
 import { Component, OnInit, setTestabilityGetter, Input, Output, EventEmitter, ElementRef, ViewChild, HostListener } from '@angular/core';
+// import { CommonService } from '../../../services/common.service';
+// import * as XLSX from 'ts-xlsx';
+// import { FeaturemodelService } from '../../../services/featuremodel.service';
+// import { ModelbomService } from '../../../services/modelbom.service';
+// import { CommonData, ColumnSetting } from "../../../models/CommonData";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
@@ -14,21 +19,22 @@ import { CommonConstants } from '../../const/common-constants';
 // import { Http, ResponseContentType } from '@angular/http';
 
 @Component({
-  selector: 'app-lookup',
-  templateUrl: './lookup.component.html',
-  styleUrls: ['./lookup.component.scss']
+  selector: 'app-common-lookup',
+  templateUrl: './common-lookup.component.html',
+  styleUrls: ['./common-lookup.component.scss']
 })
-export class LookupComponent implements OnInit {
-  // @ViewChild("lookupsearch") _el: ElementRef;
+export class CommonLookupComponent implements OnInit {
+  // @ViewChild("lookupsearch",{static:false}) _el: ElementRef;
   // input and output emitters
   @Input() serviceData: any;
   @Input() lookupfor: any;
   @Input() fillLookupArray: any;
   @Input() selectedImage: any
   @Output() lookupvalue = new EventEmitter();
-  @Output() deleteClick = new EventEmitter();
   @Output() lookupkey = new EventEmitter();
   @Input() ruleselected: any;
+  // @ViewChild('myInput',{static:false})
+  myInputVariable: ElementRef;
   public table_head: ColumnSetting[] = [];
   dialogOpened: boolean = true;
   lookupTitle: string;
@@ -102,8 +108,9 @@ export class LookupComponent implements OnInit {
       this.showItemCodeList();
     } else if (this.lookupfor == "BatchNoList" || this.lookupfor == "BatchNoList2") {
       this.showBatchNoList();
-    } else if (this.lookupfor == "NTrackFromBin") {
-      this.showNTrackFromBinList();
+    }
+    else if (this.lookupfor == "CTList" || this.lookupfor == "PCTList") {
+      this.showContainerType();
     } else if (this.lookupfor == "SBTrackFromBin") {
       this.showSBTrackFromBinList();
     } else if (this.lookupfor == "toBinsList") {
@@ -112,14 +119,14 @@ export class LookupComponent implements OnInit {
     else if (this.lookupfor == "RecvBinList") {
       this.showRecvBinList();
     }
-    else if (this.lookupfor == "CTList") {
-      this.showContainerType();
+    else if (this.lookupfor == "VendorList") {
+      this.showVendorList();
     }
-    else if (this.lookupfor == "CTRList") {
-      this.showCTRList();
+    else if (this.lookupfor == "POList") {
+      this.showPOList();
     }
-    else if (this.lookupfor == "CARList") {
-      this.showCARList();
+    else if (this.lookupfor == "POItemList") {
+      this.showPOItemList();
     }
     else if (this.lookupfor == "out-customer") {
       this.showCustomerList();
@@ -154,8 +161,6 @@ export class LookupComponent implements OnInit {
       this.palletList();
     } else if(this.lookupfor == "ITRList"){
       this.showITRList();
-    } else if (this.lookupfor == "DDList") {
-      this.showDDList();
     }
 
     this.clearFilters();
@@ -230,6 +235,61 @@ export class LookupComponent implements OnInit {
           var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.serviceData[i].TOTALQTY = qty;
         }
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContainerType() {
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_TYPE',
+        title: this.translate.instant("CT_ContainerType"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_LENGTH',
+        title: this.translate.instant("CT_Length"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WIDTH',
+        title: this.translate.instant("CT_Width"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'OPTM_HEIGHT',
+        title: this.translate.instant("CT_Height"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'OPTM_MAXWEIGHT',
+        title: this.translate.instant("CT_Max_Width"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'numeric',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("CT_ContainerType");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
         this.dialogOpened = true;
       }
     }
@@ -398,153 +458,22 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  showContainerType() {
+  showVendorList() {
     this.table_head = [
       {
-        field: 'OPTM_CONTAINER_TYPE',
-        title: this.translate.instant("CT_ContainerType"),
+        field: 'CARDCODE',
+        title: this.translate.instant("VendorCode"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'OPTM_DESC',
-        title: this.translate.instant("CT_Description"),
+        field: 'CARDNAME',
+        title: this.translate.instant("Inbound_VendorName"),
         type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_LENGTH',
-        title: this.translate.instant("CT_Length"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
-        width: '100'
-      },
-      {
-        field: 'OPTM_WIDTH',
-        title: this.translate.instant("CT_Width"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
-        width: '100'
-      },
-      {
-        field: 'OPTM_HEIGHT',
-        title: this.translate.instant("CT_Height"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
-        width: '100'
-      },
-      {
-        field: 'OPTM_MAXWEIGHT',
-        title: this.translate.instant("CT_Max_Width"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CT_ContainerType");
-    if (this.serviceData !== undefined) {
-      if (this.serviceData.length > 0) {
-        this.dialogOpened = true;
-      }
-    }
-  }
-
-  showCTRList() {
-    this.table_head = [
-      {
-        field: 'OPTM_CONTAINER_TYPE',
-        title: this.translate.instant("CT_ContainerType"),
-        type: 'text',
-        width: '150'
-      },
-      {
-        field: 'OPTM_PARENT_CONTTYPE',
-        title: this.translate.instant("CTR_Parent_CT"),
-        type: 'text',
-        width: '150'
-      },
-      {
-        field: 'OPTM_CONT_PERPARENT',
-        title: this.translate.instant("CTRContainersPerParent"),
-        type: 'numeric',
-        width: '150'
-      },
-      {
-        field: 'OPTM_CONT_PARTOFPARENT',
-        title: this.translate.instant("CTRContainerPartofParent"),
-        type: 'numeric',
-        width: '150'
-      }
-    ];
-    this.lookupTitle = this.translate.instant("CT_ContainerType");
-    if (this.serviceData !== undefined) {
-      if (this.serviceData.length > 0) {
-        this.dialogOpened = true;
-      }
-    }
-  }
-
-  showCARList() {
-    this.table_head = [
-      {
-        field: 'OPTM_RULEID',
-        title: this.translate.instant("CAR_CPackRule"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
-        width: '150'
-      },
-      {
-        field: 'OPTM_CONTTYPE',
-        title: this.translate.instant("CT_ContainerType"),
-        type: 'text',
-        width: '150'
-      },
-
-      {
-        field: 'OPTM_PACKTYPE',
-        title: this.translate.instant("CAR_PackType"),
-        headerClass: 'text-right',
-        class: 'text-right',
-        type: 'numeric',
-        width: '150'
-      },
-      {
-        field: 'OPTM_ADD_TOCONT',
-        title: this.translate.instant("CAR_AddPartsToContainer"),
-        type: 'boolean',
-        width: '150'
-      }
-    ];
-    this.lookupTitle = this.translate.instant("CT_ContainerType");
-    if (this.serviceData !== undefined) {
-      if (this.serviceData.length > 0) {
-        this.dialogOpened = true;
-      }
-    }
-  }
-
-
-  showDDList() {
-    this.table_head = [
-      {
-        field: 'OPTM_DOCKDOORID',
-        title: this.translate.instant("DD_ID"),
-        type: 'text',
-        width: '150'
-      },
-      {
-        field: 'OPTM_DESC',
-        title: this.translate.instant("DD_DESC"),
-        type: 'text',
-        width: '150'
-      }
-    ];
-    this.lookupTitle = this.translate.instant("Dock_Door");
+    this.lookupTitle = this.translate.instant("VendorList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -753,16 +682,6 @@ export class LookupComponent implements OnInit {
       this.serviceData = [];
       this.dialogOpened = false;
     }
-  }
-
-  onEditClick(lookup_key){
-    this.lookupkey.emit(lookup_key);
-    this.lookupvalue.emit(Object.values(lookup_key));
-  }
-
-  onDeleteRowClick(lookup_key){
-    this.lookupkey.emit(lookup_key);
-    this.deleteClick.emit(Object.values(lookup_key));
   }
 
   showLotsList() {
