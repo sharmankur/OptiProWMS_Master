@@ -48,13 +48,8 @@ export class DockdoorService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateDockDoor", jObject, this.commonService.httpOptions);
   }
 
-  DeleteFromDockDoor(OPTM_DOCKDOORID: string): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
-        CompanyDBId: localStorage.getItem("CompID")
-      }])
-    };
+  DeleteFromDockDoor(oShipmentAutoRule: any[]): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromDockDoor", jObject, this.commonService.httpOptions);
   }
 }

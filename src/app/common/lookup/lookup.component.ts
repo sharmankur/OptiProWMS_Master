@@ -768,8 +768,8 @@ export class LookupComponent implements OnInit {
   }
 
   onSelectedDeleteRowClick(lookup_key){
-    this.lookupkey.emit(lookup_key);
-    this.deleteSelectedItems.emit(Object.values(lookup_key));
+    this.lookupkey.emit(this.selectedValues);
+    this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
 
   showLotsList() {
