@@ -71,6 +71,13 @@ export class CARViewComponent implements OnInit {
 
   getLookupValue(event) {
     localStorage.setItem("CAR_ROW", JSON.stringify(event));    
+    localStorage.setItem("Action", "");
+    this.IsValidContainerAutoRule(event[0], event[1], event[2]);
+  }
+
+  onCopyItemClick(event) {
+    localStorage.setItem("CAR_ROW", JSON.stringify(event));  
+    localStorage.setItem("Action", "copy");  
     this.IsValidContainerAutoRule(event[0], event[1], event[2]);
   }
 
@@ -80,16 +87,41 @@ export class CARViewComponent implements OnInit {
 
   OnAddClick(){
     localStorage.setItem("CAR_ROW", "");
+    localStorage.setItem("Action", "");
     this.carmainComponent.carComponent = 2;
   }
 
-  onDeleteRowClick(event){
-    this.DeleteFromContainerAutoRule(event[0], event[1], event[2]);
+  OnDeleteSelected(event){
+    var ddDeleteArry: any[] = [];
+    for(var i=0; i<event.length; i++){
+      ddDeleteArry.push({       
+        OPTM_RULEID: event[i].OPTM_RULEID,
+        OPTM_CONTTYPE: event[i].OPTM_CONTTYPE,
+        OPTM_PACKTYPE: event[i].OPTM_PACKTYPE,     
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    }
+    this.DeleteFromContainerAutoRule(ddDeleteArry);
   }
+
+  onDeleteRowClick(event){
+    var ddDeleteArry: any[] = [];
+      ddDeleteArry.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_RULEID: event[0],
+        OPTM_CONTTYPE: event[1],
+        OPTM_PACKTYPE: event[2]       
+      });
+    this.DeleteFromContainerAutoRule(ddDeleteArry);
+  }
+
+  // onDeleteRowClick(event){
+  //   this.DeleteFromContainerAutoRule(event[0], event[1], event[2]);
+  // }
   
-  DeleteFromContainerAutoRule(ruleId, ContType, PT) {
+  DeleteFromContainerAutoRule(ddDeleteArry) {
     this.showLoader = true;
-    this.carmasterService.DeleteFromContainerAutoRule(ruleId, ContType, PT).subscribe(
+    this.carmasterService.DeleteFromContainerAutoRule(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

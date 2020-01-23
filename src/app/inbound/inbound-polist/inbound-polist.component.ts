@@ -44,8 +44,13 @@ export class InboundPolistComponent implements OnInit {
       this.CT_Length = this.CT_ROW[3];
       this.CT_Height = this.CT_ROW[4];
       this.CT_Max_Width = this.CT_ROW[5];
-      this.isUpdate = true;
-      this.BtnTitle = this.translate.instant("CT_Update");
+      if(localStorage.getItem("Action") == "copy"){
+        this.isUpdate = false;
+        this.BtnTitle = this.translate.instant("CT_Add");
+      }else{
+        this.isUpdate = true;
+        this.BtnTitle = this.translate.instant("CT_Update");
+      }
     }else{
       this.isUpdate = false;
       this.BtnTitle = this.translate.instant("CT_Add");

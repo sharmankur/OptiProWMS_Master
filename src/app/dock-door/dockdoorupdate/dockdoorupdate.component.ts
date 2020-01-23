@@ -29,8 +29,13 @@ export class DockdoorupdateComponent implements OnInit {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));
         this.DD_ID = this.DD_ROW[0];
         this.DD_DESC = this.DD_ROW[1];
-        this.BtnTitle = this.translate.instant("CT_Update");
-        this.isUpdate = true;
+        if(localStorage.getItem("Action") == "copy"){
+          this.isUpdate = false;
+          this.BtnTitle = this.translate.instant("CT_Add");
+        }else{
+          this.isUpdate = true;
+          this.BtnTitle = this.translate.instant("CT_Update");
+        }
       }else{
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");

@@ -43,8 +43,13 @@ export class CTRUpdateComponent implements OnInit {
       this.CTR_ParentContainerType = this.CTR_ROW[1];
       this.CTR_ConainerPerParent = this.CTR_ROW[2];
       this.CTR_ConatainerPartofParent = this.CTR_ROW[3];
-      this.BtnTitle = this.translate.instant("CT_Update");
-      this.isUpdate = true;
+      if(localStorage.getItem("Action") == "copy"){
+        this.isUpdate = false;
+        this.BtnTitle = this.translate.instant("CT_Add");
+      }else{
+        this.isUpdate = true;
+        this.BtnTitle = this.translate.instant("CT_Update");
+      }
     }else{
       this.isUpdate = false;
       this.BtnTitle = this.translate.instant("CT_Add");

@@ -65,6 +65,13 @@ getContainerRelationship() {
 
   getLookupValue(event) {
     localStorage.setItem("CTR_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "");
+    this.ctrmainComponent.ctrComponent = 2;
+  }
+
+  onCopyItemClick(event) {
+    localStorage.setItem("CTR_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "copy");
     this.ctrmainComponent.ctrComponent = 2;
   }
 
@@ -74,20 +81,35 @@ getContainerRelationship() {
 
   OnAddClick(){
     localStorage.setItem("CTR_ROW", "");
+    localStorage.setItem("Action", "");
     this.ctrmainComponent.ctrComponent = 2;
   }
 
-  onEditClick(){
-    this.ctrmainComponent.ctrComponent = 2;
+  OnDeleteSelected(event){
+    var ddDeleteArry: any[] = [];
+    for(var i=0; i<event.length; i++){
+      ddDeleteArry.push({       
+        OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
+        OPTM_CONTTYPE: event[i].OPTM_PARENT_CONTTYPE,
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    }
+    this.DeleteFromContainerRelationship(ddDeleteArry);
   }
 
   onDeleteRowClick(event){
-    this.DeleteFromContainerRelationship(event[0], event[1]);
+    var ddDeleteArry: any[] = [];
+      ddDeleteArry.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINER_TYPE: event[0],
+        OPTM_PARENT_CONTTYPE: event[1],
+      });
+    this.DeleteFromContainerRelationship(ddDeleteArry);
   }
 
-  DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE){
+  DeleteFromContainerRelationship(ddDeleteArry){
     this.showLoader = true;
-    this.ctrmasterService.DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE).subscribe(
+    this.ctrmasterService.DeleteFromContainerRelationship(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

@@ -28,6 +28,7 @@ export class LookupComponent implements OnInit {
   @Output() lookupvalue = new EventEmitter();
   @Output() deleteClick = new EventEmitter();
   @Output() deleteSelectedItems = new EventEmitter();
+  @Output() copyItem = new EventEmitter();
   @Output() lookupkey = new EventEmitter();
   @Input() ruleselected: any;
   myInputVariable: ElementRef;
@@ -765,6 +766,11 @@ export class LookupComponent implements OnInit {
   onDeleteRowClick(lookup_key){
     this.lookupkey.emit(lookup_key);
     this.deleteClick.emit(Object.values(lookup_key));
+  }
+
+  onCopyClick(lookup_key){
+    this.lookupkey.emit(lookup_key);
+    this.copyItem.emit(Object.values(lookup_key));
   }
 
   onSelectedDeleteRowClick(lookup_key){

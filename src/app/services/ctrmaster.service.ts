@@ -54,14 +54,8 @@ export class CTRMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
-  DeleteFromContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE,
-        OPTM_PARENT_CONTTYPE: OPTM_PARENT_CONTTYPE,
-        CompanyDBId: localStorage.getItem("CompID")
-      }])
-    };
+  DeleteFromContainerRelationship(ddDeleteArry: any[]): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerRelationship", jObject, this.commonService.httpOptions);
   }
 

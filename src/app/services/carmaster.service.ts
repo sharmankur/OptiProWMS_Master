@@ -47,15 +47,8 @@ export class CARMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerAutoRule", jObject, this.commonService.httpOptions);
   }
 
-  DeleteFromContainerAutoRule(OPTM_RULEID: number, OPTM_CONTTYPE: string, OPTM_PACKTYPE: number): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_RULEID: OPTM_RULEID,
-        OPTM_CONTTYPE: OPTM_CONTTYPE,
-        OPTM_PACKTYPE: OPTM_PACKTYPE
-      }])
-    };
+  DeleteFromContainerAutoRule(ddDeleteArry: any[]): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerAutoRule", jObject, this.commonService.httpOptions);
   }
   

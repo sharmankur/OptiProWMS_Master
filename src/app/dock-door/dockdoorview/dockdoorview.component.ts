@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DockdoormainComponent } from '../dockdoormain/dockdoormain.component';
 import { DockdoorService } from '../../services/dockdoor.service';
 import { Router } from '@angular/router';
+import { LookupComponent } from '../../common/lookup/lookup.component';
 
 @Component({
   selector: 'app-dockdoorview',
@@ -62,15 +63,23 @@ export class DockdoorviewComponent implements OnInit {
 
   getLookupValue(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "");
     this.ddmainComponent.ddComponent = 2;
   }
 
+  onCopyItemClick(event) {
+    localStorage.setItem("DD_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "copy");
+    this.ddmainComponent.ddComponent = 2;
+  }
+  
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
   OnAddClick(){
     localStorage.setItem("DD_ROW", "");
+    localStorage.setItem("Action", "");
     this.ddmainComponent.ddComponent = 2;
   }
 

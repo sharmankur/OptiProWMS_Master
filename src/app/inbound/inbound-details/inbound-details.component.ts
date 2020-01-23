@@ -65,9 +65,9 @@ export class InboundDetailsComponent implements OnInit {
   }
 
 
-  DeleteFromContainerType(OPTM_CONTAINER_TYPE: string) {
+  DeleteFromContainerType(ddDeleteArry) {
     this.showLoader = true;
-    this.inboundService.DeleteFromContainerType(OPTM_CONTAINER_TYPE).subscribe(
+    this.inboundService.DeleteFromContainerType(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -99,6 +99,13 @@ export class InboundDetailsComponent implements OnInit {
 
   getLookupValue(event) {
     localStorage.setItem("CT_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "");
+    this.inboundMasterComponent.inboundComponent = 2;
+  }
+
+  onCopyItemClick(event) {
+    localStorage.setItem("CT_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "copy");
     this.inboundMasterComponent.inboundComponent = 2;
   }
 
@@ -108,6 +115,7 @@ export class InboundDetailsComponent implements OnInit {
 
   OnAddClick(){
     localStorage.setItem("CT_ROW", "");
+    localStorage.setItem("Action", "");
     this.inboundMasterComponent.inboundComponent = 2;
   }
 
@@ -115,11 +123,23 @@ export class InboundDetailsComponent implements OnInit {
     this.inboundMasterComponent.inboundComponent = 2;
   }
 
-  onDeleteRowClick(event){
-    this.DeleteFromContainerType(event[0]);
+  OnDeleteSelected(event){
+    var ddDeleteArry: any[] = [];
+    for(var i=0; i<event.length; i++){
+      ddDeleteArry.push({       
+        OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    }
+    this.DeleteFromContainerType(ddDeleteArry);
   }
 
-  OnDeleteSelectedClick(){
-    
+  onDeleteRowClick(event){
+    var ddDeleteArry: any[] = [];
+      ddDeleteArry.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINER_TYPE: event[0],
+      });
+    this.DeleteFromContainerType(ddDeleteArry);
   }
 }
