@@ -44,6 +44,10 @@ getContainerRelationship() {
             return;
           }
           this.showLookupLoader = false;
+          for(var i=0; i<data.length ;i++){
+            data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }
           this.serviceData = data;
           this.lookupfor = "CTRList";
         } else {

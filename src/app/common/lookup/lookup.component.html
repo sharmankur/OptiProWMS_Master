@@ -30,20 +30,20 @@
     <kendo-grid-checkbox-column title="Select" [width]="25">
         <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
+                <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
                     id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
                 <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
             </div>
         </ng-template>
         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
             <div class="k-form-field d-flex center-checkbox">
-                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)"
+                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]=selectall
                     id="chkbox-{{idx}}" class="k-checkbox" name="columnfilter" />
-                <label class="k-checkbox-label" for="chkbox-{{idx}}"></label>
+                <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
             </div>
         </ng-template>
     </kendo-grid-checkbox-column>
-
+    
     <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}" title="{{column.title}}" filter="{{column.type}}"
         format="{{column.format}}" width="{{column.width}}" minResizableWidth="{{column.width}}" headerClass={{column.headerClass}}
         class={{column.class}}></kendo-grid-column>

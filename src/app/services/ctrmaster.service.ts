@@ -26,7 +26,7 @@ export class CTRMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
-  InsertIntoContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string, OPTM_CONT_PERPARENT: Number, OPTM_CONT_PARTOFPARENT:Number): Observable<any> {
+  InsertIntoContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 
@@ -40,7 +40,7 @@ export class CTRMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
-  UpdateContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string, OPTM_CONT_PERPARENT: Number, OPTM_CONT_PARTOFPARENT:Number): Observable<any> {
+  UpdateContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 

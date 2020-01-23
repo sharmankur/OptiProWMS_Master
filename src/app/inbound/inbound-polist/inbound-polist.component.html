@@ -30,7 +30,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Length"
-                                        [(ngModel)]=CT_Length 
+                                        [(ngModel)]=CT_Length (blur)="formatCT_Length()" 
                                         min="0"
                                         class="text-right form-control form-control-sm">
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Width"
-                                        [(ngModel)]=CT_Width 
+                                        [(ngModel)]=CT_Width (blur)="formatCT_Width()" 
                                         min="0"
                                         class="text-right form-control form-control-sm">
                                 </div>
@@ -52,7 +52,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Height"
-                                        [(ngModel)]=CT_Height 
+                                        [(ngModel)]=CT_Height (blur)="formatCT_Height()" 
                                         min="0"
                                         class="text-right form-control form-control-sm">
                                 </div>
@@ -63,7 +63,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Max_Width"
-                                        [(ngModel)]=CT_Max_Width 
+                                        [(ngModel)]=CT_Max_Width (blur)="formatCT_Max_Width()" 
                                         min="0"
                                         class="text-right form-control form-control-sm">
                                 </div>

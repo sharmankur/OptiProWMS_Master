@@ -15,10 +15,10 @@ import { StatePersistingServiceService } from '../../services/state-persisting-s
 })
 export class InboundPolistComponent implements OnInit {
   CT_Description: string;
-  CT_Length: Number;
-  CT_Width: Number;
-  CT_Height: Number;
-  CT_Max_Width: Number;
+  CT_Length: string;
+  CT_Width: string;
+  CT_Height: string;
+  CT_Max_Width: string;
   CT_ContainerType: string;
   CT_ROW: any;
   BtnTitle: string;
@@ -55,6 +55,22 @@ export class InboundPolistComponent implements OnInit {
       this.isUpdate = false;
       this.BtnTitle = this.translate.instant("CT_Add");
     }
+  }
+
+  formatCT_Width() {
+    this.CT_Width = Number(this.CT_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+
+  formatCT_Height() {
+    this.CT_Height = Number(this.CT_Height).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+
+  formatCT_Length() {
+    this.CT_Length = Number(this.CT_Length).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+
+  formatCT_Max_Width() {
+    this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   validateFields(): boolean{

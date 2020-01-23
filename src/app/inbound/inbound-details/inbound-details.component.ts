@@ -46,8 +46,14 @@ export class InboundDetailsComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
+          for(var i=0; i<data.length ;i++){
+            data[i].OPTM_LENGTH = data[i].OPTM_LENGTH.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_WIDTH = data[i].OPTM_WIDTH.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_HEIGHT = data[i].OPTM_HEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_MAXWEIGHT = data[i].OPTM_MAXWEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }
           this.serviceData = data;
-          this.lookupfor = "CTList";
+          this.lookupfor = "CTList";  
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

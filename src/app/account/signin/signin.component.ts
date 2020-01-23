@@ -157,8 +157,12 @@ export class SigninComponent implements OnInit {
             localStorage.setItem("CompID", "DEVSCHEDULING");
             localStorage.setItem("whseId", "01");
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
+
+            localStorage.setItem("DecimalPrecision", "2");
+            localStorage.setItem("DecimalSeparator", ".");
+            // localStorage.setItem("ThousandSeparator", this.licenseData[0].DefaultValues[i].DefaultValue);
+            // localStorage.setItem("DATEFORMAT", this.licenseData[0].DefaultValues[i].DefaultValue);
             this.router.navigateByUrl('home/dashboard'); 
-        // }
     }
 
     private validateUserLogin() {
