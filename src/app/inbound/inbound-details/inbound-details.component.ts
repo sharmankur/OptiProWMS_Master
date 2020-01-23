@@ -14,9 +14,6 @@ import { StatePersistingServiceService } from '../../services/state-persisting-s
 })
 export class InboundDetailsComponent implements OnInit {
 
-  @ViewChild('VendScanInputField',{static:false}) vendInputScanField: ElementRef;
-  @ViewChild('poScanInputField',{static:false}) poScanInputField;
-  @ViewChild('scanVenderRefNo',{static:false}) scanVenderRefNo;
   showLookupLoader: boolean = true;
   serviceData: any[];
   lookupfor: string;
@@ -79,7 +76,11 @@ export class InboundDetailsComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.GetDataForContainerType();
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.GetDataForContainerType();
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

@@ -85,10 +85,10 @@ export class InboundPolistComponent implements OnInit {
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
             this.toastr.error('', data[0].RESULT);
+            this.inboundMasterComponent.inboundComponent = 1;
           }else{
             this.toastr.error('', data[0].RESULT);
           }
-          // this.inboundMasterComponent.inboundComponent = 1;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

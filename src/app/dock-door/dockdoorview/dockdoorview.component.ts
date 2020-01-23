@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,24 +13,22 @@ import { Router } from '@angular/router';
 })
 export class DockdoorviewComponent implements OnInit {
 
-
   showLookupLoader: boolean = true;
   serviceData: any[];
   lookupfor: string;
   showLoader: boolean = false;
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService,
-    private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { 
+
+  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService, private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { 
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    translate.onLangChange.subscribe(() => {
     });
   }
 
   ngOnInit() {
     this.GetDataForDockDoor();
   }
-
 
   GetDataForDockDoor() {
     this.showLoader = true;
@@ -62,7 +60,6 @@ export class DockdoorviewComponent implements OnInit {
     );
   }
 
-
   getLookupValue(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     this.ddmainComponent.ddComponent = 2;
@@ -77,17 +74,29 @@ export class DockdoorviewComponent implements OnInit {
     this.ddmainComponent.ddComponent = 2;
   }
 
-  onEditClick(){
-    this.ddmainComponent.ddComponent = 2;
+  OnDeleteSelected(event){
+    var ddDeleteArry: any[] = [];
+    for(var i=0; i<event.length; i++){
+      ddDeleteArry.push({
+        OPTM_DOCKDOORID: event[i].OPTM_DOCKDOORID,
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    }
+    this.DeleteFromDockDoor(ddDeleteArry);
   }
 
   onDeleteRowClick(event){
-    this.DeleteFromDockDoor(event[0]);
+    var ddDeleteArry: any[] = [];
+      ddDeleteArry.push({
+        OPTM_DOCKDOORID: event[0],
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    this.DeleteFromDockDoor(ddDeleteArry);
   }
 
-  DeleteFromDockDoor(DDId){
+  DeleteFromDockDoor(ddDeleteArry){
     this.showLoader = true;
-    this.ddService.DeleteFromDockDoor(DDId).subscribe(
+    this.ddService.DeleteFromDockDoor(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -96,9 +105,11 @@ export class DockdoorviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookupLoader = false;
-          this.serviceData = data;
-          this.lookupfor = "DDList";
+          if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.GetDataForDockDoor();
+          }else{
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

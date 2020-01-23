@@ -7,11 +7,17 @@
                 <!-- logo -->
                 <section class="opti_logo opti_device-logo text-primary">
 
-                    <svg viewBox="0 0 464.3 148.3" class="opti_large-logo" style="height:45px;"><use xlink:href="#planLogo"></use></svg>
-                    <svg viewBox="0 0 164.6 148.3" class="opti_small-logo" style="height:45px;"><use xlink:href="#logo"></use></svg>
+                    <svg viewBox="0 0 464.3 148.3" class="opti_large-logo" style="height:45px;">
+                        <use xlink:href="#planLogo"></use>
+                    </svg>
+                    <svg viewBox="0 0 164.6 148.3" class="opti_small-logo" style="height:45px;">
+                        <use xlink:href="#logo"></use>
+                    </svg>
                 </section>
                 <div id="sidebarCollapse-alt" class="opti_vertical-align">
-                    <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#home"></use></svg>
+                    <svg viewBox="0 0 512 512" class="icon">
+                        <use xlink:href="#home"></use>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -19,31 +25,93 @@
 
     <section class="opti_left-navigation position-relative" [perfectScrollbar]="">
         <ul class="opti_left-nav-ul">
-
-            <li id="PUR" (click)="listClick($event, 'containertype')" [ngClass]="{'active': selectedItem == 'containertype'}" [ngStyle]="{'display':'flex'}">
-                <a (click)="onInboundClick()">
-                    <svg viewBox="0 0 503.322 503.322"  class="icon"><use xlink:href="#inbound"></use></svg>
-                    <span class="text">{{'ContainerType'|translate}}</span>
+            <li class="dropdown" dropdown id="INV">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 503.322 503.322" class="icon">
+                        <use xlink:href="#inbound"></use>
+                    </svg>
+                    <span class="text">{{'DropdownMenu_Masters'|translate}}</span>
                 </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="PUR" role="menuitem" (click)="listClick($event, 'containertype')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 503.322 503.322" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'ContainerType'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="SLS" role="menuitem" (click)="listClick($event, 'containertyperelation')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'ContainerTypeRelation'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="CAR" role="menuitem" (click)="listClick($event, 'containerautorule')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'ContainerAutoRule'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="DCKDOR" role="menuitem" (click)="listClick($event, 'dockdoor')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'Dock_Door'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="CARRIER" role="menuitem" (click)="listClick($event, 'carrier')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'DropdownMenu_Carrier'|translate}}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-
-            <li id="SLS" (click)="listClick($event, 'containertyperelation')" [ngClass]="{'active': selectedItem == 'containertyperelation'}" [ngStyle]="{'display':'flex'}">
-                <a (click)="onOutboundClick()">
-                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
-                    <span class="text">{{'ContainerTypeRelation'|translate}}</span>
+            <!-- Wizard Menu -->
+            <li class="dropdown" dropdown id="INVADJ" [ngStyle]="{'display':'flex'}">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 502.422 502.422" class="icon">
+                        <use xlink:href="#inbound"></use>
+                    </svg>
+                    <span class="text">{{'DropdownMenu_Wizard'|translate}}</span>
                 </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="1234567" role="menuitem" (click)="listClick($event, '')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="-66 0 512 512.00198" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'ContainerType'|translate}}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li id="CAR" (click)="listClick($event, 'containerautorule')" [ngClass]="{'active': selectedItem == 'containerautorule'}" [ngStyle]="{'display':'flex'}">
-                <a (click)="onOutboundClick()">
-                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
-                    <span class="text">{{'ContainerAutoRule'|translate}}</span>
+            <!-- Shipment Menu -->
+            <li class="dropdown" dropdown id="INVADJ" [ngStyle]="{'display':'flex'}">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 502.422 502.422" class="icon">
+                        <use xlink:href="#inbound"></use>
+                    </svg>
+                    <span class="text">{{'DropdownMenu_Shipment'|translate}}</span>
                 </a>
-            </li>
-            <li id="DCKDOR" (click)="listClick($event, 'dockdoor')" [ngClass]="{'active': selectedItem == 'dockdoor'}" [ngStyle]="{'display':'flex'}">
-                <a (click)="onOutboundClick()">
-                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
-                    <span class="text">{{'Dock_Door'|translate}}</span>
-                </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="1234567" role="menuitem" (click)="listClick($event, '')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="-66 0 512 512.00198" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'ContainerType'|translate}}</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li id="SHIPMENTWIZARD" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
                 <a (click)="onOutboundClick()">
@@ -52,7 +120,6 @@
                 </a>
             </li>
         </ul>
-
     </section>
 
     <section id="opti_LeftPanelFooterLogo">

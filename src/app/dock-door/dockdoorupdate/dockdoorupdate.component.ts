@@ -75,6 +75,7 @@ export class DockdoorupdateComponent implements OnInit {
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
             this.toastr.error('', data[0].RESULT);
+            this.ddmainComponent.ddComponent= 1;
           }else{
             this.toastr.error('', data[0].RESULT);
           }

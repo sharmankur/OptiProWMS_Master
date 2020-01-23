@@ -68,7 +68,12 @@
   "CAR_ItemCode_Blank_Msg":"Item Code can't blank.", 
   "CAR_ContainerPackRule_Blank_Msg":"Container Pack Rule can't blank.", 
   "DockDoorId_Blank_Msg":"Dock Door Id can't blank.", 
-  
+  "CAR_MinFillPercent_val_msg":"Sum of Min Fill Percent should be equal to 100.", 
+  "CAR_MinFillPercent_blank_msg":"Min Fill Percent should not be equal to 0.", 
+  "CAR_PartsPerContainer_blank_msg":"Parts Per Container should not be equal to 0.", 
+  "CAR_addItemDetail_blank_msg":"Please add item detail for the rule.", 
+  "CAR_itemcode_exists_Msg": "This item code already selected.",
+
   "Edit":"Edit",
   "Copy":"Copy",
   "Delete": "Delete",
@@ -455,6 +460,11 @@
   
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
+  
+  "DropdownMenu_Masters": "Masters",
+  "DropdownMenu_Wizard": "Wizard",
+  "DropdownMenu_Shipment": "Shipment",
+  "DropdownMenu_Carrier": "Carrier",
  
   "Dummy": "Dummy",
   "Shipment_Wizard": "Shipment Wizard",
