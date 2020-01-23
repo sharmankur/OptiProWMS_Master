@@ -1,0 +1,427 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Shipment_Wizard'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12">
+                    <!-- WIZARD START -->
+                    <div class="wizard-container">
+                        <div class="wizard-navigation">
+                            <div class="steps-bar">
+                                <div [ngClass]="[(currentStep==1) ? 'active' : '', (currentStep > 1) ? 'done' : '']"
+                                    class="steps-box">
+                                    <a (click)="onStepClick(1)"><i class="k-icon k-i-shape"></i></a>
+                                    <span class="steps-label">Selection Criteria</span>
+                                </div>
+                                <div [ngClass]="[(currentStep==2) ? 'active' : '', (currentStep > 2) ? 'done' : '']"
+                                    class="steps-box">
+                                    <a (click)="onStepClick(2)"><i class="k-icon k-i-paint"></i></a>
+                                    <span class="steps-label">SO Lines</span>
+                                </div>
+                                <div [ngClass]="[(currentStep==3) ? 'active' : '', (currentStep > 3) ? 'done' : '']"
+                                    class="steps-box">
+                                    <a (click)="onStepClick(3)"><i class="k-icon k-i-globe-outline"></i></a>
+                                    <span class="steps-label">Consolidation by</span>
+                                </div>
+                                <div [ngClass]="[(currentStep==4) ? 'active' : '', (currentStep > 4) ? 'done' : '']"
+                                    class="steps-box">
+                                    <a (click)="onStepClick(4)"><i class="k-icon k-i-globe-outline"></i></a>
+                                    <span class="steps-label">Preview</span>
+                                </div>
+                                <div [ngClass]="[(currentStep==5) ? 'active' : '', (currentStep > 5) ? 'done' : '']"
+                                    class="steps-box">
+                                    <a (click)="onStepClick(5)"><i class="k-icon k-i-globe-outline"></i></a>
+                                    <span class="steps-label">Shipments</span>
+                                </div>
+                                <div class="step-line"></div>
+                            </div>
+                        </div>
+                        <div class="wizard-box">
+                            <!-- STEP 1 START -->
+                            <div [ngClass]="{show:currentStep == 1}" class="wizard-content">
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="SOFrom"
+                                                class="col-sm-3 col-form-label">{{'SO_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="SOFrom"
+                                                    id="SOFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="SOTo"
+                                                class="col-sm-3 col-form-label">{{'SO_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="SOTo"
+                                                    id="SOTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="DueDateFrom"
+                                                class="col-sm-3 col-form-label">{{'Due_Date_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <!-- <input type="text" class="form-control form-control-sm"
+                                                    name="DueDateFrom" id="DueDateFrom"> -->
+                                                    <kendo-datepicker [(value)]="value"></kendo-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="DueDateTo"
+                                                class="col-sm-3 col-form-label">{{'Due_Date_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <!-- <input type="text" class="form-control form-control-sm" name="DueDateTo"
+                                                    id="DueDateTo"> -->
+                                                    <kendo-datepicker [(value)]="value"></kendo-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="CustomerFrom"
+                                                class="col-sm-3 col-form-label">{{'Customer_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="CustomerFrom" id="CustomerFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="CustomerTo"
+                                                class="col-sm-3 col-form-label">{{'Customer_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="CustomerTo" id="CustomerTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ShipFrom"
+                                                class="col-sm-3 col-form-label">{{'Ship_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="ShipFrom"
+                                                    id="ShipFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ShipTo"
+                                                class="col-sm-3 col-form-label">{{'Ship_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="ShipTo"
+                                                    id="ShipTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="OpenQtyFrom"
+                                                class="col-sm-3 col-form-label">{{'Open_Qty_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="OpenQtyFrom" id="OpenQtyFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="OpenQtyTo"
+                                                class="col-sm-3 col-form-label">{{'Open_Qty_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="OpenQtyTo"
+                                                    id="OpenQtyTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="NoofOpenLinesFrom"
+                                                class="col-sm-3 col-form-label">{{'No_of_Open_Lines_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="NoofOpenLinesFrom" id="NoofOpenLinesFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="NoofOpenLinesTo"
+                                                class="col-sm-3 col-form-label">{{'No_of_Open_Lines_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="NoofOpenLinesTo" id="NoofOpenLinesTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ItemFrom"
+                                                class="col-sm-3 col-form-label">{{'Item_From'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="ItemFrom"
+                                                    id="ItemFrom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ItemTo"
+                                                class="col-sm-3 col-form-label">{{'Item_To'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="ItemTo"
+                                                    id="ItemTo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                </div>
+                                <!-- row end -->
+
+                                <!-- row start -->
+                                <div class="row">
+                                    <!-- col start -->
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="Whse"
+                                                class="col-sm-3 col-form-label">{{'Whse'|translate}}</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control form-control-sm" name="Whse"
+                                                    id="Whse">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+
+                                </div>
+                                <!-- row end -->
+
+                            </div>
+                            <!-- STEP 1 END  -->
+
+                            <!-- STEP 2 START -->
+                            <div [ngClass]="{show:currentStep == 2}" class="wizard-content">
+                                <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+                                   [selectable]="true">
+                                    <kendo-grid-checkbox-column showSelectAll="true" [width]="30">
+                                        <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="parent_checkbox" id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
+                                                <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                            <div class="k-form-field d-flex center-checkbox">
+                                                <input  type="checkbox"  id="chkbox-{{idx}}" class="k-checkbox" name="columnfilter" />
+                                                <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-checkbox-column>
+                                    <kendo-grid-column field="ProductName" title="Customer"></kendo-grid-column>
+                                    <kendo-grid-column field="UnitsInStock" title="SO#"></kendo-grid-column>
+                                    <kendo-grid-column field="UnitsOnOrder" title="LN#"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Item Key"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Description"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Sales UOM"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Sales Order Qty"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Sales Open Qty"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Inv UOM"></kendo-grid-column>
+                                    <kendo-grid-column field="ReorderLevel" title="Sales Open Qty in Inv UOM">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="UnitsOnOrder" title="Del. Date"></kendo-grid-column>
+                                    <kendo-grid-column field="UnitsOnOrder" title="Ship-to"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
+                            <!-- STEP 2 END -->
+
+                            <!-- STEP 3 START -->
+                            <div [ngClass]="{show:currentStep == 3}" class="wizard-content">
+                             <!-- row start -->
+                             <div class="row">
+                                <!-- col start -->
+                                <div class="col-sm-12">                                   
+                                    <div class="k-form-field d-flex mrb-5">
+                                        <input type="checkbox"  id="Customer"  class="k-checkbox" name="Customer" />
+                                        <label class="k-checkbox-label" for="Customer">Customer</label>
+                                    </div>
+                                    <div class="k-form-field d-flex mrb-5">
+                                        <input type="checkbox"  id="Shipto"  class="k-checkbox" name="Shipto" />
+                                        <label class="k-checkbox-label" for="Customer">Ship to</label>
+                                    </div>
+                                    <div class="k-form-field d-flex mrb-5">
+                                        <input type="checkbox"  id="Item"  class="k-checkbox" name="Item" />
+                                        <label class="k-checkbox-label" for="Item">Item</label>
+                                    </div>
+                                    <div class="k-form-field d-flex mrb-5">
+                                        <input type="checkbox"  id="SOno"  class="k-checkbox" name="SOno" />
+                                        <label class="k-checkbox-label" for="SOno">SO#</label>
+                                    </div>
+                                    <div class="k-form-field d-flex mrb-5">
+                                        <input type="checkbox"  id="DueDate"  class="k-checkbox" name="DueDate" />
+                                        <label class="k-checkbox-label" for="DueDate">Due Date</label>
+                                    </div>
+                                </div>
+                                <!-- col end -->
+                            </div>
+                            <!-- row end -->
+                            </div>
+                            <!-- STEP 3 END -->
+
+                             <!-- STEP 4 START -->
+                            <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
+                                <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+                                [selectable]="true">
+                                <kendo-grid-checkbox-column showSelectAll="true" [width]="30">
+                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="parent_checkbox" id="parent_checkbox1_{{rowIndex}}"  class="custom-control-input">
+                                            <label class="custom-control-label" for="parent_checkbox1_{{rowIndex}}"></label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                        <div class="k-form-field d-flex center-checkbox">
+                                            <input  type="checkbox"  id="chkbox2-{{idx}}" class="k-checkbox" name="columnfilter" />
+                                            <label class="k-checkbox-label empty-check" for="chkbox2-{{idx}}"></label>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>
+                                <kendo-grid-column field="ProductName" title="Customer"></kendo-grid-column>
+                                <kendo-grid-column field="UnitsInStock" title="Whse"></kendo-grid-column>
+                                <div *kendoGridDetailTemplate="let dataItem">
+                                    <app-shipment-preview-list></app-shipment-preview-list>
+                                </div>
+                            </kendo-grid>
+                            </div>
+                            <!-- STEP 4 END -->
+
+                            <!-- STEP 5 START -->
+                            <div [ngClass]="{show:currentStep == 5}" class="wizard-content">
+                                <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+                                [height]="200" [selectable]="true">
+                                <kendo-grid-checkbox-column showSelectAll="true" [width]="30">
+                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="parent_checkbox" id="parent_checkbox2_{{rowIndex}}"  class="custom-control-input">
+                                            <label class="custom-control-label" for="parent_checkbox2_{{rowIndex}}"></label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                        <div class="k-form-field d-flex center-checkbox">
+                                            <input  type="checkbox"  id="chkbox2-{{idx}}" class="k-checkbox" name="columnfilter" />
+                                            <label class="k-checkbox-label empty-check" for="chkbox2-{{idx}}"></label>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>
+                                <kendo-grid-column field="ProductName" title="Customer"></kendo-grid-column>
+                                <kendo-grid-column field="UnitsInStock" title="Whse"></kendo-grid-column>
+                                <kendo-grid-column field="UnitsOnOrder" title="Status"></kendo-grid-column>
+                                <div *kendoGridDetailTemplate="let dataItem">
+                                    <app-shipment-details-list></app-shipment-details-list>
+                                </div>
+                            </kendo-grid>
+                            </div>
+                            <!-- STEP 5 END -->
+
+                        </div>
+                    </div>
+                    <!-- WIZARD END -->
+                </div>
+            </div>
+
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <!-- <div class="col-sm-12 col-12">
+                    <hr />
+                </div> -->
+            <div class="col-sm-12 col-12">
+                <button (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-next"></i></button>
+
+
+            </div>
+        </div>
+    </form>
+
+</div>

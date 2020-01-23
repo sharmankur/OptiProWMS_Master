@@ -456,5 +456,21 @@
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
  
-  "Dummy": "Dummy"
+  "Dummy": "Dummy",
+  "Shipment_Wizard": "Shipment Wizard",
+  "SO_From": "SO# From",
+  "SO_To": "SO# To",
+  "Due_Date_To": "Due Date To",
+  "Due_Date_From": "Due Date From",
+  "Customer_From": "Customer From",
+  "Customer_To": "Customer To",
+  "Ship_To": "Ship To",
+  "Ship_From": "Ship From",
+  "Open_Qty_From": "Open Qty To",
+  "Open_Qty_To": "Open Qty From",
+  "No_of_Open_Lines_From": "No of open lines from",
+  "No_of_Open_Lines_To": "No of open lines to",
+  "Item_From": "Item From",
+  "Item_To": "Item To",
+  "Whse": "Whse"
 }

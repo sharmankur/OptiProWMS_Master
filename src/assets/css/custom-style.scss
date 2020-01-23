@@ -58,7 +58,7 @@ body.opti_account-module {
         kendo-dateinput {
             width: calc(100% - 30px);
         }
-        .k-dateinput-wrap,
+        .k-dateinput-wrap, .k-dateinput  .k-dateinput-wrap,
         .k-select {
             border: none;
         }
@@ -200,7 +200,7 @@ file-drop .drop-zone.over {
     padding-bottom: calc(.24rem + 1px);
     line-height: 1;
 }
-body .k-dateinput-wrap .k-input{
+body .k-dateinput-wrap .k-input, body .k-dateinput .k-dateinput-wrap .k-input{
     font-size: $font-size-small;
     line-height: 1.5;
 }
@@ -226,7 +226,7 @@ kendo-numerictextbox.text-right{
 ////////////////////////////////////////////////////////////////////
 .btn-danger.k-button{
     color:#fff;
-    background-color: #ff0f31;
+    background: #ff0f31;
     &:hover, &:active, &:focus{
         background-color: #de102d;
         color:#fff;
@@ -234,7 +234,7 @@ kendo-numerictextbox.text-right{
 }
 .btn-success.k-button{
     color:#fff;
-    background-color: #11bf4f;
+    background: #11bf4f;
     &:hover, &:active, &:focus{
         background-color: #10a746;
         color:#fff;
@@ -242,7 +242,7 @@ kendo-numerictextbox.text-right{
 }
 .k-button.btn-transparent{
     color:#999;
-    background-color: transparent;
+    background: transparent;
     &:hover, &:active, &:focus{
         background-color: transparent;
         color:#333;

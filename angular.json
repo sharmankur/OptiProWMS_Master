@@ -29,9 +29,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              {
-                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
-              },            
+              "node_modules/@progress/kendo-theme-default/dist/all.css",     
               "src/assets/css/custom-style.scss"
             ],
             "scripts": []

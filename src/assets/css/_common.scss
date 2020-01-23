@@ -598,3 +598,6 @@ body{
     .blob-0 { animation: animate-to-0 1.5s infinite; }
     .blob-5 { animation: animate-to-5 1.5s infinite; }      
 }
+.k-checkbox-label.empty-check:empty{
+    display: block;
+}
