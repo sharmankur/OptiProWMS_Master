@@ -147,10 +147,11 @@ export class CommonData {
     }
 
     item_code_gen_string_dropdown() {
-        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
             { "value": 1, "Name": "String" },
-            { "value": 2, "Name": "Number" }
+            { "value": 2, "Name": "Number" },
+            { "value": 3, "Name": "Parameter" }
         ];
     }
 

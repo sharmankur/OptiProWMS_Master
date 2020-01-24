@@ -30,6 +30,9 @@ export class ItemCodeGenerationAddComponent implements OnInit {
   buttonText: string = "";
   actionType: string = "";
   isUpdate: boolean = false;
+  isLengthUpdate: boolean = false;
+  defaultType: any;
+  defaultOperation: any;
 
   constructor(private translate: TranslateService, private router: Router, private toastr: ToastrService,
     private itemCodeGenComponent: ItemCodeGenerationComponent, private maskingService: MaskingService,
@@ -42,7 +45,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         this.isUpdate = true;
         this.buttonText = this.translate.instant("CT_Update");
         var data = JSON.parse(localStorage.getItem("Row"));
-        this.codekey = data.codekey;
+        this.codekey = data[0];
         this.getItemCodeGenerationByCode(this.codekey);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
@@ -60,6 +63,8 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     this.itemCodeGenComponent.itemCodeGenComponent = 2;
     this.stringTypes = this.commonData.item_code_gen_string_dropdown();
     this.operations = this.commonData.item_code_gen_oper_drpdown();
+    this.defaultType = this.stringTypes[0];
+    this.defaultOperation = this.operations[0];
   }
 
   onCodeChange() {
@@ -138,11 +143,21 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     this.itemCodeGenComponent.itemCodeGenComponent = 1;
   }
 
-  onDeleteAllClick() {
-
+  onDeleteClick(rowindex) {
+    console.log("onDeleteClick rowindex: "+rowindex)
+    // for (var i = 0; i < this.itemCodeRowList.length; i++) {
+    //   if (this.itemCodeRowList[i].codekey == event.codekey){
+        this.itemCodeRowList.splice(rowindex-1, 1);
+      // }
+    // }
   }
 
   onAddUpdateClick() {
+    if (this.actionType == "add") {
+      if (this.itemCodeRowList.length == 0) {
+        return;
+      }
+    }
     this.showLoader = true;
     this.maskingService.saveData(this.itemCodeRowList).subscribe(
       (data: any) => {
@@ -332,7 +347,9 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         if (this.itemCodeRowList[i].rowindex === rowindex) {
           this.itemCodeRowList[i].string = selectedvalue.trim();
           this.itemCodeRowList[i].codekey = this.codekey.trim();
-          this.itemCodeRowList[i].length = selectedvalue.trim().length;
+          if(this.itemCodeRowList[i].stringtype == 1){
+            this.itemCodeRowList[i].length = selectedvalue.trim().length;
+          }
         }
         this.finalString = this.finalString + this.itemCodeRowList[i].string
       }
@@ -341,6 +358,11 @@ export class ItemCodeGenerationAddComponent implements OnInit {
 
   onStringTypeSelectChange(selectedvalue, rowindex) {
     selectedvalue = selectedvalue.value
+    // if(selectedvalue == 1){
+    //   this.isLengthUpdate = true;
+    // } else {
+    //   this.isLengthUpdate = false;
+    // }
     this.made_changes = true;
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       if (this.itemCodeRowList[i].rowindex === rowindex) {
@@ -359,6 +381,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
   }
 
   onStringOperationsSelectChange(selectedvalue, rowindex) {
+    selectedvalue = selectedvalue.value
     this.made_changes = true;
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       if (this.itemCodeRowList[i].rowindex === rowindex) {
