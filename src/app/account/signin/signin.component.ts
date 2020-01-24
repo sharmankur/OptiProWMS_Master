@@ -156,6 +156,7 @@ export class SigninComponent implements OnInit {
             // localStorage.setItem("GUID", this.licenseData[1].GUID);
             localStorage.setItem("CompID", "DEVSCHEDULING");
             localStorage.setItem("whseId", "01");
+            localStorage.setItem("UserId", this.userName);
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
 
             localStorage.setItem("DecimalPrecision", "2");
