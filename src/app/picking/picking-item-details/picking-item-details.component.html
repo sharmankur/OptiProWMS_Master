@@ -1,0 +1,79 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <!-- <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                Item Details
+            </h3> -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="po-details-comp">
+                        <div class="po-details-sec">
+                            <span class="po-details">
+                                <span class="po-labels po-num">Item 01</span>       
+                                <span>Qty: 5/100</span>              
+                                <span class="po-labels">PO#: 123456</span>
+                                <span class="po-labels po-des">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                            </span>
+                        </div>
+                        <div class="item-sec">
+                            <!-- <span class="po-items-icon">
+                                <i class="fa fa-rocket" aria-hidden="true"></i>
+                            </span> -->
+                            <div class="item-steps">
+                                <div *ngIf="currentStep != 3" class="item-input-section">
+                                    <input type="text" placeholder="Enter Location/Serial no/Batch No.">
+                                    <i class="k-icon k-i-group-box" aria-hidden="true"></i>
+                                </div>
+                                <div *ngIf="currentStep == 3" class="item-input-section">
+                                    <input type="text" placeholder="Qty">
+                                    <i class="fa fa-keyboard-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="or-class" *ngIf="currentStep != 3">
+                                   <span class="or-text">OR</span> 
+                                   <span class="or-line"></span>
+                                </div>
+                                <div class="scanner-box">
+                                    <div class="bar-code"  *ngIf="currentStep != 3">  <i class="k-icon k-i-greyscale" aria-hidden="true"></i></div>
+                                    <i *ngIf="currentStep > 1" (click)="prevStep()" class="k-icon k-i-arrow-chevron-left" aria-hidden="true"></i>     
+                                    <i *ngIf="currentStep != maxStep" (click)="nextStep()" class="k-icon k-i-arrow-chevron-right" aria-hidden="true"></i>
+                                    <i *ngIf="currentStep == maxStep" (click)="onNavClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i>
+                                    <div class="scan-text">{{currentStepText}}</div>
+                                </div>
+                            </div>        
+                            <div class="item-steps-bar">            
+                               <span [ngClass]="{active:currentStep == 1}" class="step"></span>
+                               <span [ngClass]="{active:currentStep == 2}" class="step"></span>
+                               <span [ngClass]="{active:currentStep == 3}" class="step"></span>
+                            </div>
+                    
+                         
+                        </div>
+                        <!-- <div class="option-menu-left" (click)="onNavClick('/po-order-details')">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </div> -->
+                        </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <!-- <div class="col-sm-12 col-12">
+                    <hr />
+                </div> -->
+            <div class="col-sm-12 col-12">
+                <button  (click)="onNavClick('/po-order-details')" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-next"></i></button>
+
+
+            </div>
+        </div>
+    </form>
+
+</div>

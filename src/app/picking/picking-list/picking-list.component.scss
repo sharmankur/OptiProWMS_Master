@@ -1,0 +1,23 @@
+@media (max-width:640px) {
+.pick-list-row{
+    height: calc(100% - 100px);
+}
+.pick-list-col{
+    height:100%;
+}
+.new-custom-grid{
+   height: 100%;
+   kendo-grid {
+    height: 100%;
+   }
+}
+body kendo-grid .k-grid-pager{
+    padding-top: 10px;
+}
+}
+
+@media screen and (max-width: 479px){
+.form-with-fix-btnBar {
+    padding-bottom: 0 !important;
+}
+}

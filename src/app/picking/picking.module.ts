@@ -9,14 +9,20 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { PickingComponent } from './picking.component';
 import { PickingRoutingModule } from './picking-routing.module';
+import { PickingListComponent } from './picking-list/picking-list.component';
+import { PickingItemListComponent } from './picking-item-list/picking-item-list.component';
+import { PickingItemDetailsComponent } from './picking-item-details/picking-item-details.component';
 
 @NgModule({
-  declarations: [ PickingComponent],
+  declarations: [ 
+    PickingComponent,
+    PickingListComponent,
+    PickingItemListComponent,
+    PickingItemDetailsComponent],
   imports: [
     CommonModule,
     GridModule,
-    SharedModule,
-    
+    SharedModule,    
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,
