@@ -3,8 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ItemCodeGenerationComponent } from '../item-code-generation/item-code-generation.component';
-import { MaskingService } from 'src/app/services/masking.service';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { MaskingService } from '../../services/masking.service';
+import { Commonservice } from '../../services/commonservice.service';
 
 @Component({
   selector: 'app-item-code-generation-view',

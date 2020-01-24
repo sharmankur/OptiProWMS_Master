@@ -54,4 +54,74 @@ export class PickingItemDetailsComponent implements OnInit {
   }
 
 
+  submitCurrentGRPO() {
+    var oSubmitPOLotsObj: any = {};
+    oSubmitPOLotsObj.Header = [];
+    oSubmitPOLotsObj.POReceiptLots = [];
+    oSubmitPOLotsObj.POReceiptLotDetails = [];
+    oSubmitPOLotsObj.UDF = [];
+    oSubmitPOLotsObj.LastSerialNumber = [];
+    var oSubmitPOLotsObj = this.preparePickTaskData(oSubmitPOLotsObj); 
+  //  this.SubmitGoodsReceiptPO(oSubmitPOLotsObj);
+  }
+
+  preparePickTaskData(oSubmitPOLotsObj: any): any {
+    // oSubmitPOLotsObj = this.manageRecords(oSubmitPOLotsObj);
+    // if (localStorage.getItem("Line") == null || localStorage.getItem("Line") == undefined ||
+    //   localStorage.getItem("Line") == "") {
+    //   localStorage.setItem("Line", "0");
+    // }
+
+
+    // oSubmitPOLotsObj.POReceiptLots.push({
+    //   DiServerToken: localStorage.getItem("Token"),
+    //   PONumber: this.Ponumber,
+    //   DocEntry: this.DocEntry,
+    //   CompanyDBId: localStorage.getItem("CompID"),
+    //   LineNo: this.openPOLineModel[0].LINENUM,
+    //   ShipQty: this.openPOLineModel[0].RPTQTY.toString(),
+    //   OpenQty: this.openPOLineModel[0].OPENQTY.toString(),
+    //   WhsCode: localStorage.getItem("whseId"),
+    //   Tracking: this.openPOLineModel[0].TRACKING,
+    //   ItemCode: this.openPOLineModel[0].ITEMCODE,
+    //   LastSerialNumber: 0,
+    //   Line: Number(localStorage.getItem("Line")),
+    //   GUID: localStorage.getItem("GUID"),
+    //   UOM: this.uomSelectedVal.UomEntry,
+    //   UsernameForLic: localStorage.getItem("UserId")
+
+    //   //------end Of parameter For License----
+    // });
+   
+
+    // for (var iBtchIndex = 0; iBtchIndex < this.recvingQuantityBinArray.length; iBtchIndex++) {
+    //   oSubmitPOLotsObj.POReceiptLotDetails.push({
+    //     // POItemCode: this.Ponumber+this.openPOLineModel[0].ITEMCODE,
+    //     Bin: this.recvingQuantityBinArray[iBtchIndex].Bin,
+    //     LineNo: this.openPOLineModel[0].LINENUM,
+    //     LotNumber: this.recvingQuantityBinArray[iBtchIndex].LotNumber, //getUpperTableData.GoodsReceiptLineRow[iBtchIndex].SysSerNo,
+    //     LotQty: this.recvingQuantityBinArray[iBtchIndex].LotQty,
+    //     SysSerial: "0",
+    //     ExpireDate: this.GetSubmitDateFormat(this.expiryDate),//GetSubmitDateFormat(getUpperTableData.GoodsReceiptLineRow[iBtchIndex].EXPDATE), // oCurrentController.GetSubmitDateFormat(oActualGRPOModel.PoDetails[iIndex].ExpireDate),//oActualGRPOModel.PoDetails[iIndex].ExpireDate,
+    //     VendorLot: this.recvingQuantityBinArray[iBtchIndex].VendorLot,
+    //     //NoOfLabels: oActualGRPOModel.PoDetails[iIndex].NoOfLabels,
+    //     //Containers: piContainers,
+    //     SuppSerial: this.recvingQuantityBinArray[iBtchIndex].VendorLot,
+    //     ParentLineNo: Number(localStorage.getItem("Line")),
+    //     LotSteelRollId: "",
+    //     ItemCode: this.openPOLineModel[0].ITEMCODE,
+    //     PalletCode: this.recvingQuantityBinArray[iBtchIndex].PalletCode
+    //   });
+    // }
+
+
+    localStorage.setItem("Line", "" + (Number(localStorage.getItem("Line")) + 1));
+
+    oSubmitPOLotsObj.Header.push({
+      NumAtCard: localStorage.getItem("VendRefNo")
+    });
+    return oSubmitPOLotsObj;
+  }
+
+
 }

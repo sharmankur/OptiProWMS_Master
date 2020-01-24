@@ -3,42 +3,42 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom no-border-mobile d-flex pt-1 pb-3 mb-4">
-                Po List
+                {{'PT_ShipmentList'|translate}}
             </h3>
             <div class="row pick-list-row">
                 <div class="col-12 pick-list-col">
                     <div class="new-custom-grid">
-                        <kendo-grid  [data]="gridView" (cellClick)="cellClickHandler($event)" [pageSize]="pageSize"
+                        <kendo-grid  [data]="gridView" (cellClick)="onShipmentSelection($event)" [pageSize]="pageSize"
                             [skip]="skip" [pageable]="true">
                             <kendo-grid-column [media]="mobileMedia" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <dl class="grid-mobile-card">
                                         <div class="di-list">
-                                            <dt>Shipment Id</dt>
+                                            <dt>{{'PT_ShipmentId'|translate}}</dt>
                                             <dd>{{ dataItem.ShipmentId }}</dd>
                                         </div>
                                         <div class="di-list">
-                                            <dt>Customer</dt>
+                                            <dt>{{'PT_Customer'|translate}}</dt>
                                             <dd>{{ dataItem.Customer }}</dd>
                                         </div>
                                         <div class="di-list">
-                                            <dt>Ship To</dt>
+                                            <dt>{{'PT_Ship_To'|translate}}</dt>
                                             <dd>{{ dataItem.ShipTo }}</dd>
                                         </div>
                                         <div class="di-list">
-                                            <dt>Warehouse</dt>
+                                            <dt>{{'PT_Warehouse'|translate}}</dt>
                                             <dd>{{ dataItem.Warehouse }}</dd>
                                         </div>
                                     </dl>
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="ShipmentId" title="Shipment Id">
+                            <kendo-grid-column [media]="desktopMedia" field="ShipmentId" title="{{'PT_ShipmentId'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="Customer" title="Customer">
+                            <kendo-grid-column [media]="desktopMedia" field="Customer" title="{{'PT_Customer'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="ShipTo" title="Ship To">
+                            <kendo-grid-column [media]="desktopMedia" field="ShipTo" title="{{'PT_Ship_To'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="Warehouse" title="Warehouse">
+                            <kendo-grid-column [media]="desktopMedia" field="Warehouse" title="{{'PT_Warehouse'|translate}}">
                             </kendo-grid-column>
                         </kendo-grid>
                     </div>
@@ -49,17 +49,12 @@
         </div>
         <div class="fix-footer-btnBar">
             <!-- <div class="col-sm-12 col-12">
-                    <hr />
-                </div> -->
-            <div class="col-sm-12 col-12">
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-next"></i></button>
-
-
-            </div>
+            </div> -->
         </div>
     </form>
 

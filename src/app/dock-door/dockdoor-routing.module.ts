@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DockdoormainComponent } from 'src/app/dock-door/dockdoormain/dockdoormain.component';
+import { DockdoormainComponent } from './dockdoormain/dockdoormain.component';
 
 // const routes: Routes = [];
 

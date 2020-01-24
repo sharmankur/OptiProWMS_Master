@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { CARMainComponent } from '../carmain/carmain.component';
 import { AutoRuleModel } from '../../models/Inbound/autoRuleModel';
 import { CARMasterService } from '../../services/carmaster.service';

@@ -79,6 +79,12 @@
   "Delete": "Delete",
   "DataSaved":"Data Saved",
 
+  "PT_ShipmentList": "Shipment List",
+  "PT_ShipmentId": "Shipment Id",
+  "PT_Customer": "Customer",
+  "PT_Ship_To": "Ship To",
+  "PT_Warehouse": "Warehouse",
+
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
   "Dashboard_CopyWrt_Msg":"Copyright 2000-2019. All rights reserved.",

@@ -11,8 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown/ngx-bootstrap-dropdown';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 
 import 'hammerjs';
 
@@ -31,7 +30,7 @@ import { CTRMasterModule } from '../ctrmaster/ctrmaster.module';
 import { CARMAsterModule } from '../carmaster/carmaster.module';
 import { DockDoorModule } from '../dock-door/dock-door.module';
 import { MaskingModule } from '../masking/masking.module';
-
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   imports: [
