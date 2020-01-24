@@ -13,6 +13,9 @@
                             <kendo-grid-column [media]="mobileMedia" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <dl class="grid-mobile-card">
+                                        <button class="task-btn">
+                                            <span class=" k-icon k-i-track-changes"></span>
+                                        </button>                                        
                                         <div class="di-list">
                                             <dt>Shipment Id</dt>
                                             <dd>{{ dataItem.ShipmentId }}</dd>
