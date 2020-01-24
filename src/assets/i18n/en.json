@@ -73,7 +73,7 @@
   "CAR_PartsPerContainer_blank_msg":"Parts Per Container should not be equal to 0.", 
   "CAR_addItemDetail_blank_msg":"Please add item detail for the rule.", 
   "CAR_itemcode_exists_Msg": "This item code already selected.",
-
+  "CAR_deleteitem_Msg": "Please select any item.",
   "Edit":"Edit",
   "Copy":"Copy",
   "Delete": "Delete",

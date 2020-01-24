@@ -227,7 +227,7 @@ export class CTRUpdateComponent implements OnInit {
 
   GetDataForContainerType(fieldName) {
     this.showLoader = true;
-    this.hideLookup = false;
+    
     this.commonservice.GetDataForContainerType().subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -237,6 +237,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.hideLookup = false;
           this.serviceData = data;
           if(fieldName == "CT"){
             this.lookupfor = "CTList";
