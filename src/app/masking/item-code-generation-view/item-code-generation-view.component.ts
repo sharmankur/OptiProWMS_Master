@@ -25,27 +25,27 @@ export class ItemCodeGenerationViewComponent implements OnInit {
 
   ngOnInit() {
     this.itemCodeGenComponent.itemCodeGenComponent = 1;
-    // this.getItemGenerationData();
-    this.itemCodeRowList.push({
-      rowindex: 1,
-      stringtype: 1,
-      string: "absccsdcsd",
-      length: "",
-      operations: 1,
-      delete: "",
-      CompanyDBId: localStorage.getItem("CompID"),
-      codekey: "Test",
-      CreatedUser: localStorage.getItem("UserId"),
-      isOperationDisable: true
-    });
-    this.showLookupLoader = false;
-    this.serviceData = this.itemCodeRowList;
-    this.lookupfor = "ItemCodeGenRow"
+    this.getItemGenerationData();
+    // this.itemCodeRowList.push({
+    //   rowindex: 1,
+    //   stringtype: 1,
+    //   string: "absccsdcsd",
+    //   length: "",
+    //   operations: 1,
+    //   delete: "",
+    //   CompanyDBId: localStorage.getItem("CompID"),
+    //   codekey: "Test",
+    //   CreatedUser: localStorage.getItem("UserId"),
+    //   isOperationDisable: true
+    // });
+    // this.showLookupLoader = false;
+    // this.serviceData = this.itemCodeRowList;
+    // this.lookupfor = "ItemCodeGenRowView"
 
   }
 
   pageNumber: any = "1";
-  perPageItem: any = "10";
+  perPageItem: any = "20";
   getItemGenerationData() {
     this.showLoader = true;
     this.maskingService.viewItemGenerationData("", this.pageNumber, this.perPageItem).subscribe(
@@ -60,6 +60,9 @@ export class ItemCodeGenerationViewComponent implements OnInit {
           }
           if (data.length > 0) {
             this.itemCodeRowList = data;
+            this.serviceData = data;
+            this.showLookupLoader = false;
+            this.lookupfor = "ItemCodeGenRowView"
           } else {
             this.toastr.error('', data[0].RESULT);
           }

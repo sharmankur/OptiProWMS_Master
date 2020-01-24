@@ -60,8 +60,8 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="stringtype" [width]="45" title="{{'Masking_StringNumber'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                <kendo-dropdownlist class="form-control" name="selectedType"
-                                    [data]="stringTypes" textField="Name" valueField="Value" #selectedvalue (blur)="onStringTypeSelectChange(selectedvalue.value, dataItem.rowindex)"></kendo-dropdownlist>
+                                <kendo-dropdownlist class="form-control" name="selectedType" [data]="stringTypes" [(ngModel)]="defaultType"
+                                    textField="Name" valueField="Value" #selectedvalue (selectionChange)="onStringTypeSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Masking_String'|translate}}">
@@ -72,17 +72,25 @@
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="length" [width]="45" title="{{'Masking_Length'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <input type="number" class="form-control form-control-sm" name="lengthvalue" value={{dataItem.string}}
+                                    title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                    [disabled]="dataItem.isOperationDisable" id="lengthvalue">
+                            </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'Masking_Operation'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <kendo-dropdownlist class="form-control" name="operation"
-                                    [data]="operations" textField="Name" valueField="Value" #selectedvalue (blur)="onStringOperationsSelectChange(selectedvalue.value, dataItem.rowindex)"></kendo-dropdownlist>
+                                <kendo-dropdownlist class="form-control" name="operation" [data]="operations" [(ngModel)]="defaultOperation" textField="Name"
+                                    valueField="Value" #selectedvalue 
+                                    [disabled]="dataItem.isOperationDisable" (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" [width]="45">
-                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
-                                <span class="k-icon k-i-delete" role="presentation">{{'CT_DeleteAll'|translate}}</span>
-                            </button>
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick(dataItem.rowindex)">
+                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                </button>
+                            </ng-template>
                         </kendo-grid-column>
                     </kendo-grid>
                 </div>

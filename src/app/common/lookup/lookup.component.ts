@@ -127,8 +127,8 @@ export class LookupComponent implements OnInit {
     else if (this.lookupfor == "DDList") {
       this.showDDList();
     }
-    else if(this.lookupfor == "ItemCodeGenRow"){
-      this.ItemCodeGenRowList();
+    else if(this.lookupfor == "ItemCodeGenRowView"){
+      this.ItemCodeGenRowListView();
     }
 
     this.clearFilters();
@@ -857,16 +857,16 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  ItemCodeGenRowList() {
+  ItemCodeGenRowListView() {
     this.table_head = [
       {
-        field: 'codekey',
+        field: 'Code',
         title: this.translate.instant("Masking_Code"),
         type: 'text',
         width: '200'
       },
       {
-        field: 'string',
+        field: 'FinalString',
         title: this.translate.instant("Masking_FinalString"),
         type: 'text',
         width: '200'
