@@ -19,9 +19,8 @@
     height: 50px;
     line-height: 50px;
 }
-.po-icon, .po-details{
-    display: inline-block;
-    vertical-align: top;
+.po-details{
+    display: block;
 }
 .po-num{
     font-size: 24px;
@@ -143,4 +142,10 @@ i {
     line-height: 40px;
     border-radius: 50%;
     color: #fff;
+}
+.item-name-row{
+    display: flex;
+}
+.po-item-name{
+    flex-grow: 1;
 }
