@@ -1,0 +1,59 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar">
+        <div class="opti_container_inner">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Masking_ItemCodeGeneration'|translate}}
+            </h3>
+            <!-- <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'Masking_Code'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="code" [(ngModel)]="codekey"
+                                    placeholder="{{'code'|translate}}" (blur)="onCodeChange()" #CodeInputField
+                                    [disabled]=shouldUpdate id="CodeInputField">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row" *ngIf="showAddRowbtn">
+                <div class="col-sm-12">
+                    <div class="input-group input-group-sm">
+                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" (click)="onAddClick()">
+                            <span class="k-icon k-i-plus-outline" role="presentation"></span>{{'CT_Add'|translate}}
+                        </button>
+                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick()">
+                            <span class="k-icon k-i-delete" role="presentation"></span>{{'CT_DeleteAll'|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
+                (deleteClick)="onDeleteRowClick($event)" 
+                (deleteSelectedItems)="OnDeleteSelected($event)" 
+                (copyItem)="onCopyItemClick($event)"></app-lookup>
+
+        </div>
+        <!-- Page Footer -->
+        <div class="fix-footer-btnBar">
+            <!-- <div class="col-sm-12 col-12">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onDeleteAllClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'CT_DeleteAll'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
+            </div> -->
+        </div>
+    </form>
+</div>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>

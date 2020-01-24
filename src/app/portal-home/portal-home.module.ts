@@ -30,6 +30,8 @@ import { PalletizationModule } from '../palletization/palletization.module';
 import { CTRMasterModule } from '../ctrmaster/ctrmaster.module';
 import { CARMAsterModule } from '../carmaster/carmaster.module';
 import { DockDoorModule } from '../dock-door/dock-door.module';
+import { MaskingModule } from '../masking/masking.module';
+
 
 @NgModule({
   imports: [
@@ -57,7 +59,8 @@ import { DockDoorModule } from '../dock-door/dock-door.module';
     CTRMasterModule,
     CARMAsterModule,
     InventoryTransferModule,
-    PalletizationModule
+    PalletizationModule,
+    MaskingModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
   providers:[DashboardComponent ]

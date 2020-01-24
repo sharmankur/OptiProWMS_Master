@@ -127,6 +127,9 @@ export class LookupComponent implements OnInit {
     else if (this.lookupfor == "DDList") {
       this.showDDList();
     }
+    else if(this.lookupfor == "ItemCodeGenRow"){
+      this.ItemCodeGenRowList();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -847,6 +850,29 @@ export class LookupComponent implements OnInit {
       },
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ItemCodeGenRowList() {
+    this.table_head = [
+      {
+        field: 'codekey',
+        title: this.translate.instant("Masking_Code"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'string',
+        title: this.translate.instant("Masking_FinalString"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = "";//this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
