@@ -49,8 +49,10 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         this.getItemCodeGenerationByCode(this.codekey);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
-        this.isUpdate = true;
-        this.buttonText = this.translate.instant("CT_Update");
+        this.isUpdate = false;
+        this.buttonText = this.translate.instant("CT_Add");
+        this.codekey = data[0];
+        this.getItemCodeGenerationByCode(this.codekey);
       } else {
         this.isUpdate = false;
         this.buttonText = this.translate.instant("CT_Add");
@@ -67,11 +69,25 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     this.defaultOperation = this.operations[0];
   }
 
-  onCodeChange() {
+  onCodeChangeBlur() {
+    console.log("onCodeChangeBlur this.isValidateCalled: " + this.isValidateCalled);
+    if (this.isValidateCalled) {
+      return;
+    }
+    this.onCodeChange();
+  }
+
+  async onCodeChange() {
+    if (this.codekey == undefined || this.codekey.trim() == "") {
+      //this.toastr.error('', this.translate.instant("CodeBlank"));
+      return false;
+    }
+
     this.showLoader = true;
-    this.maskingService.CheckDuplicateCode(this.codekey).subscribe(
+    var result = false;
+    await this.maskingService.CheckDuplicateCode(this.codekey).then(
       (data: any) => {
-        console.log("data: " + data);
+        console.log("inside CheckDuplicateCode");
         this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -80,13 +96,19 @@ export class ItemCodeGenerationAddComponent implements OnInit {
             return;
           }
           if (data.length > 0 && data[0].TOTALCOUNT > 0) {
-
+            this.toastr.error('', this.translate.instant("Masking_CodeAlreadyExist"));
+            this.codekey = '';
+            result = false;
+          } else {
+            result = true;
           }
         } else {
+          result = false;
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
+        result = false;
         this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonService.unauthorizedToken(error, this.translate.instant("token_expired"));
@@ -96,10 +118,23 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         }
       }
     );
+    return result;
   }
 
   counter: number = 0;
-  onAddRow(oninit) {
+  async onAddRow(oninit) {
+    if (this.codekey == undefined || this.codekey.trim() == "") {
+      this.toastr.error('', this.translate.instant("CodeBlank"));
+      return false;
+    }
+
+    var result = await this.validateBeforeSubmit();
+    this.isValidateCalled = false;
+    console.log("validate result: " + result);
+    if (result != undefined && result == false) {
+      return;
+    }
+
     if (oninit == 0) {
       if (this.validateRowData("AddRow") == false) {
         return
@@ -113,6 +148,8 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     }
 
     this.counter++;
+    this.defaultOperation = this.operations[0];
+    this.defaultType = this.stringTypes[0]
     this.itemCodeRowList.push(new CodeRow(this.counter,
       1, "", 0, 1, "", localStorage.getItem("CompID"), localStorage.getItem("UserId"),
       this.codekey, true,
@@ -144,12 +181,62 @@ export class ItemCodeGenerationAddComponent implements OnInit {
   }
 
   onDeleteClick(rowindex) {
-    console.log("onDeleteClick rowindex: "+rowindex)
+    console.log("onDeleteClick rowindex: " + rowindex)
     // for (var i = 0; i < this.itemCodeRowList.length; i++) {
     //   if (this.itemCodeRowList[i].codekey == event.codekey){
-        this.itemCodeRowList.splice(rowindex-1, 1);
-      // }
+    this.itemCodeRowList.splice(rowindex - 1, 1);
     // }
+    // }
+
+    this.finalString == "";
+    for (let i = 0; i < this.itemCodeRowList.length; ++i) {
+      this.finalString = this.finalString + this.itemCodeRowList[i].string
+    }
+  }
+
+  validatedFieldsBeforeSave() {
+    var row = 0;
+    var type = 0;
+    var opn = 0;
+
+    for (let i = 0; i < this.itemCodeRowList.length; ++i) {
+      if (this.itemCodeRowList[i].string == undefined || this.itemCodeRowList[i].string.length == 0) {
+        if (this.itemCodeRowList[i].stringtype == 3) {
+          return true;
+        } else {
+          this.toastr.error('', this.translate.instant("Masking_ValidateStringBlank"));
+          return false;
+        }
+      }
+
+      if (this.itemCodeRowList[i].length == undefined || this.itemCodeRowList[i].length == 0) {
+        this.toastr.error('', this.translate.instant("Masking_ValidateLengthBlank"));
+        return false;
+      }
+
+      if (this.itemCodeRowList[i].stringtype == 1) {
+        if (this.itemCodeRowList[i].operations != 1) {
+          row = i + 1;
+          type = this.itemCodeRowList[i].stringtype;
+          opn = this.itemCodeRowList[i].operations;
+          break;
+        }
+      } else {
+        if (this.itemCodeRowList[i].operations == 1) {
+          row = i + 1;
+          type = this.itemCodeRowList[i].stringtype;
+          opn = this.itemCodeRowList[i].operations;
+          break;
+        }
+      }
+    }
+
+    if (row == 0 && type == 0 && opn == 0) {
+      return true;
+    } else {
+      this.toastr.error('', this.translate.instant("Masking_ValidateTypeAndOper") + " " + row);
+      return false;
+    }
   }
 
   onAddUpdateClick() {
@@ -157,6 +244,9 @@ export class ItemCodeGenerationAddComponent implements OnInit {
       if (this.itemCodeRowList.length == 0) {
         return;
       }
+    }
+    if (!this.validatedFieldsBeforeSave()) {
+      return;
     }
     this.showLoader = true;
     this.maskingService.saveData(this.itemCodeRowList).subscribe(
@@ -171,6 +261,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
           }
           if (data == "True") {
             this.toastr.success('', this.translate.instant("DataSaved"));
+            this.onCancelClick();
           } else {
             this.toastr.error('', data[0].RESULT);
           }
@@ -220,54 +311,54 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     } else {
       if (buttonpressevent != "Delete") {
         if (this.itemCodeRowList.length == 0) {
-          this.toastr.error('', this.translate.instant("Addrow"), this.commonData.toast_config);
+          this.toastr.error('', this.translate.instant("Addrow"));
           return false;
         }
         else {
           this.countNumberRow = 0;
           for (let i = 0; i < this.itemCodeRowList.length; ++i) {
             if (this.codekey == " " || this.codekey == "" || this.codekey == null) {
-              this.toastr.error('', this.translate.instant("CodeBlank"), this.commonData.toast_config);
+              this.toastr.error('', this.translate.instant("CodeBlank"));
               return false;
             }
             else if (this.codekey.trim() == "" || this.codekey.trim() == null || this.codekey.trim() == " ") {
-              this.toastr.error('', this.translate.instant("CodeBlank"), this.commonData.toast_config);
+              this.toastr.error('', this.translate.instant("CodeBlank"));
               return false;
             }
             else if (this.commonData.excludeSpecialCharRegex.test(this.codekey) === true) {
-              this.toastr.error('', this.translate.instant("ValidString"), this.commonData.toast_config);
+              this.toastr.error('', this.translate.instant("ValidString"));
               return false;
             }
             if (this.itemCodeRowList[i].stringtype == 2 || this.itemCodeRowList[i].stringtype == 3) {
               if (isNaN(this.itemCodeRowList[i].string) == true) {
-                this.toastr.error('', this.translate.instant("ValidNumber"), this.commonData.toast_config);
+                this.toastr.error('', this.translate.instant("ValidNumber"));
                 return false;
               }
               if (this.itemCodeRowList[i].operations == 1) {
-                this.toastr.error('', this.translate.instant("ValidOperations"), this.commonData.toast_config);
+                this.toastr.error('', this.translate.instant("ValidOperations"));
                 return false;
               }
               this.countNumberRow++;
 
             } else if (this.itemCodeRowList[i].stringtype == 1 && this.commonData.excludeSpecialCharRegex.test(this.itemCodeRowList[i].string) === true) {
-              this.toastr.error('', this.translate.instant("ValidString"), this.commonData.toast_config);
+              this.toastr.error('', this.translate.instant("ValidString"));
               return false;
             }
             else {
               if (this.itemCodeRowList[i].operations != 1) {
-                this.toastr.error('', this.translate.instant("ValidOperations"), this.commonData.toast_config);
+                this.toastr.error('', this.translate.instant("ValidOperations"));
                 return false;
               }
 
             }
             if (this.itemCodeRowList[i].string.trim() == "") {
-              this.toastr.error('', this.translate.instant("EnterString"), this.commonData.toast_config);
+              this.toastr.error('', this.translate.instant("EnterString"));
               return false;
             }
 
           }
           if (this.countNumberRow == 0) {
-            this.toastr.error('', this.translate.instant("RowNumberType"), this.commonData.toast_config);
+            this.toastr.error('', this.translate.instant("RowNumberType"));
             return false;
 
           }
@@ -329,25 +420,39 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     }
   }
 
-  onStringChange(selectedvalue, rowindex, string_number) {
-    this.made_changes = true;
-    if (string_number == 2) { // validate string on blur
+  onStringChange(selectedvalue, rowindex, string_number) {  // validate string on blur
+    if (string_number == 2 || string_number == 3) {
       var rgexp = /^\d+$/;
       if (rgexp.test(selectedvalue) == false) {
-        this.toastr.error('', this.translate.instant("ValidNumber"), this.commonData.toast_config);
+        // selectedvalue = ""
+        this.toastr.error('', this.translate.instant("ValidNumber"));
+      } else {
+        for (let i = 0; i < this.itemCodeRowList.length; ++i) {
+          if (this.itemCodeRowList[i].rowindex === rowindex) {
+            if (this.itemCodeRowList[i].operations == 1) {
+              this.toastr.error('', this.translate.instant("ValidOperations"));
+            }
+          }
+        }
       }
     } else {
       if (this.commonData.excludeSpecialCharRegex.test(selectedvalue.trim()) === true) {
-        this.toastr.error('', this.translate.instant("ValidString"), this.commonData.toast_config);
+        this.toastr.error('', this.translate.instant("ValidString"));
       }
     }
+
     if (this.itemCodeRowList.length > 0) {
       this.finalString = "";
       for (let i = 0; i < this.itemCodeRowList.length; ++i) {
         if (this.itemCodeRowList[i].rowindex === rowindex) {
-          this.itemCodeRowList[i].string = selectedvalue.trim();
+          // if (selectedvalue == undefined || selectedvalue.trim().length == 0) {
+          //   this.itemCodeRowList[i].string = "";
+          // } else {
+            this.itemCodeRowList[i].string = selectedvalue.trim();
+          // }
+
           this.itemCodeRowList[i].codekey = this.codekey.trim();
-          if(this.itemCodeRowList[i].stringtype == 1){
+          if (this.itemCodeRowList[i].stringtype == 1) {
             this.itemCodeRowList[i].length = selectedvalue.trim().length;
           }
         }
@@ -358,21 +463,24 @@ export class ItemCodeGenerationAddComponent implements OnInit {
 
   onStringTypeSelectChange(selectedvalue, rowindex) {
     selectedvalue = selectedvalue.value
-    // if(selectedvalue == 1){
-    //   this.isLengthUpdate = true;
-    // } else {
-    //   this.isLengthUpdate = false;
-    // }
     this.made_changes = true;
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       if (this.itemCodeRowList[i].rowindex === rowindex) {
+        this.itemCodeRowList[i].string = "";
+        this.itemCodeRowList[i].length = 0;
         this.itemCodeRowList[i].stringtype = selectedvalue;
         if (selectedvalue == 1) {
           this.itemCodeRowList[i].isOperationDisable = true;
           this.itemCodeRowList[i].operations = 1;
-        }
-        else {
+          // this.defaultOperation = this.operations[0];
+        } else if (selectedvalue == 2) {
+          // this.itemCodeRowList[i].operations = 2;
           this.itemCodeRowList[i].isOperationDisable = false
+          // this.defaultOperation = this.operations[1];
+        } else if (selectedvalue == 3) {
+          this.itemCodeRowList[i].string = "P1";
+          this.itemCodeRowList[i].isOperationDisable = false
+          // this.defaultOperation = this.operations[1];
         }
       }
 
@@ -386,6 +494,41 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       if (this.itemCodeRowList[i].rowindex === rowindex) {
         this.itemCodeRowList[i].operations = selectedvalue;
+        if (this.itemCodeRowList[i].stringtype == 2 || this.itemCodeRowList[i].stringtype == 3) {
+          if (this.itemCodeRowList[i].operations == 1) {
+            this.toastr.error('', this.translate.instant("ValidOperations"));
+            return
+          }
+          // else {
+          //   this.itemCodeRowList[i].operations = 1;
+          // }
+        }
+      }
+    }
+  }
+
+  onLengthChange(selectedvalue, rowindex, string_number) {
+    if (string_number == 2) { // validate string on blur
+      var rgexp = /^\d+$/;
+      if (rgexp.test(selectedvalue) == false) {
+        this.toastr.error('', this.translate.instant("ValidNumber"));
+      }
+    } else {
+
+    }
+    if (this.itemCodeRowList.length > 0) {
+      this.finalString = "";
+      for (let i = 0; i < this.itemCodeRowList.length; ++i) {
+        if (this.itemCodeRowList[i].rowindex === rowindex) {
+          this.itemCodeRowList[i].length = Number("" + selectedvalue.trim());
+          if (this.itemCodeRowList[i].string.length > this.itemCodeRowList[i].length) {
+            this.toastr.error('', this.translate.instant("ValidLengthNumber"));
+            return;
+          } else {
+            this.itemCodeRowList[i].length = Number(selectedvalue.trim());
+          }
+        }
+        this.finalString = this.finalString + this.itemCodeRowList[i].string
       }
     }
   }
@@ -406,8 +549,10 @@ export class ItemCodeGenerationAddComponent implements OnInit {
           this.finalString = "";
           var isOperationDisable = true
           for (let i = 0; i < data.length; ++i) {
+            var len = 0;
             if (data[i].OPTM_TYPE == 1) {
               isOperationDisable = true
+              len = data[i].OPTM_CODESTRING.length;
             }
 
             if (data[0].Reference == false && data[i].OPTM_TYPE == 2) {
@@ -417,7 +562,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
             this.itemCodeRowList.push(new CodeRow(data[i].OPTM_LINEID,
               data[i].OPTM_TYPE,
               data[i].OPTM_CODESTRING,
-              0,
+              len,
               data[i].OPTM_OPERATION,
               "",
               localStorage.getItem("CompID"),
@@ -443,5 +588,18 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         }
       }
     );
+  }
+
+  isValidateCalled: boolean = false;
+  async validateBeforeSubmit(): Promise<any> {
+    this.isValidateCalled = true;
+    var currentFocus = document.activeElement.id;
+    console.log("validateBeforeSubmit current focus: " + currentFocus);
+
+    if (currentFocus != undefined) {
+      if (currentFocus == "CodeInputField") {
+        return this.onCodeChange();
+      }
+    }
   }
 }
