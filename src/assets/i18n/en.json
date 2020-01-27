@@ -502,6 +502,12 @@
   "EnterString": "String field cannot be blank",
   "RowNumberType": "Atleast one row should be number type",
   "Add": "Add",
+  "ValidLengthNumber": "Length must be greater than value's length",
+  "Masking_RowDeletedMsg": "Row deleted successfully",
+  "Masking_ValidateStringBlank": "String can not blank.",
+  "Masking_ValidateLengthBlank": "Length must be greater than zero(0).",
+  "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
+  "Masking_CodeAlreadyExist": "Code already exist.",
 
   "Dummy": "Dummy"
 }

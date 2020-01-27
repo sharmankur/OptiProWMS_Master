@@ -36,7 +36,10 @@ export class MaskingService {
 
     //JSON Obeject Prepared to be send as a param to API
     let jObject: any = {
-      ItemList: JSON.stringify(ItemCode)
+      ItemList: JSON.stringify([{
+        ItemCode: ItemCode,
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
     };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/GetDataByItemCode", jObject, this.commonService.httpOptions);
@@ -44,8 +47,14 @@ export class MaskingService {
   DeleteData(ItemCode): Observable<any> {
 
     //JSON Obeject Prepared to be send as a param to API
+    // let jObject: any = {
+    //   DeleteItemGeneration: JSON.stringify(ItemCode)
+    // };
     let jObject: any = {
-      DeleteItemGeneration: JSON.stringify(ItemCode)
+      DeleteItemGeneration: JSON.stringify([{
+        ItemCode: ItemCode,
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
     };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/DeleteItemGenerationCode", jObject, this.commonService.httpOptions);
@@ -76,14 +85,14 @@ export class MaskingService {
     return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/GetItemCodeReference", jObject, this.commonService.httpOptions);
   }
 
-  DeleteSelectedData(ItemCode): Observable<any> {
+  DeleteSelectedData(rows): Observable<any> {
 
     //JSON Obeject Prepared to be send as a param to API
-    let jObject: any = { DeleteItemGeneration: JSON.stringify(ItemCode) };
+    let jObject: any = { DeleteItemGeneration: JSON.stringify(rows) };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/DeleteItemGenerationCode", jObject, this.commonService.httpOptions);
   }
-  CheckDuplicateCode(codekey: string): Observable<any> {
+  CheckDuplicateCode(codekey: string): Promise<any> {
 
     //JSON Obeject Prepared to be send as a param to API
     let jObject = {
@@ -95,6 +104,6 @@ export class MaskingService {
       }])
     };
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/CheckDuplicateItemCode", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/CheckDuplicateItemCode", jObject, this.commonService.httpOptions).toPromise();
   }
 }
