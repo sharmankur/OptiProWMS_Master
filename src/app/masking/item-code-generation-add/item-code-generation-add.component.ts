@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CommonData } from 'src/app/models/CommonData';
+import { CommonData } from '../../models/CommonData';
 import { ItemCodeGenerationComponent } from '../item-code-generation/item-code-generation.component';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { MaskingService } from 'src/app/services/masking.service';
-import { CodeRow } from 'src/app/models/Inbound/CodeRow';
+import { Commonservice } from '../../services/commonservice.service';
+import { MaskingService } from '../../services/masking.service';
+import { CodeRow } from '../../models/Inbound/CodeRow';
 
 @Component({
   selector: 'app-item-code-generation-add',

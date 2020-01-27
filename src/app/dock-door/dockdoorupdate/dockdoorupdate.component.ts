@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { DockdoormainComponent } from '../dockdoormain/dockdoormain.component';
-import { DockdoorService } from 'src/app/services/dockdoor.service';
+import { DockdoorService } from '../../services/dockdoor.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

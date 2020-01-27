@@ -1,0 +1,81 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <!-- <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+               Item List
+            </h3> -->
+            <div class="po-details-sec">
+                <span class="po-details">
+                    <span class="po-labels po-num">{{shipmentno}}</span>
+                    <span class="po-labels">Vendor: Intel</span>
+                </span>
+            </div>
+            <div class="row pick-list-row">
+                <div class="col-12 pick-list-col">
+                    <div class="new-custom-grid">
+                        <kendo-grid (cellClick)="cellClickHandler($event)" [data]="gridView" [pageSize]="pageSize"
+                            [skip]="skip" [pageable]="true">
+                            <kendo-grid-column [media]="mobileMedia" class="opti_mobile-grid-td">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <dl class="grid-mobile-card">
+                                        <div class="di-list">
+                                            <dt>Task Id</dt>
+                                            <dd>{{ dataItem.TaskId }}</dd>
+                                        </div>
+                                        <div class="di-list">
+                                            <dt>Task Type</dt>
+                                            <dd>{{ dataItem.TaskType }}</dd>
+                                        </div>
+                                        <div class="di-list">
+                                            <dt>Item Code</dt>
+                                            <dd>{{ dataItem.ItemCode }}</dd>
+                                        </div>
+                                        <div class="di-list">
+                                            <dt>Warehouse</dt>
+                                            <dd>{{ dataItem.Warehouse }}</dd>
+                                        </div>
+                                        <div class="di-list">
+                                            <dt>Quantity</dt>
+                                            <dd>{{ dataItem.Quantity }}</dd>
+                                        </div>
+                                        <div class="di-list">
+                                            <dt>Plan Date</dt>
+                                            <dd>{{ dataItem.PlanDate }}</dd>
+                                        </div>
+                                    </dl>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="TaskId" title="Task Id">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="TaskType" title="Task Type">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="ItemCode" title="Item Code">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="Warehouse" title="Warehouse">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="Quantity" title="Quantity">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" field="PlanDate" title="Plan Date">
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <!-- <button (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-next"></i></button> -->
+            </div>
+        </div>
+    </form>
+
+</div>

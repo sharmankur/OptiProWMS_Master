@@ -162,10 +162,116 @@ export class CommonLookupComponent implements OnInit {
     } else if(this.lookupfor == "ITRList"){
       this.showITRList();
     }
+    else if(this.lookupfor == "SerialNoFrom"){
+      this.showSrNoList("From");
+      //this.showITRList();
+    }
+    else if(this.lookupfor == "SerialNoTo"){
+      this.showSrNoList("To");
+      //this.showITRList();
+    }
+    else if(this.lookupfor == "CustomerFrom"){
+      this.showLookupCustomerList("From");
+      
+    }
+    else if(this.lookupfor == "CustomerTo"){
+      this.showLookupCustomerList("To");
+      
+    }
 
+    else if(this.lookupfor == "ItemFrom"){
+      this.showItemList("From");
+      
+    }
+    else if(this.lookupfor == "ItemTo"){
+      this.showItemList("To");
+      
+    }
+    else if(this.lookupfor == "WareHouse"){
+      this.showLookupWHSList();
+      
+    }
     this.clearFilters();
     this.isColumnFilter = false
   }
+  showLookupWHSList() {
+    this.table_head = [
+      {
+        field: 'WhsCode',
+        title: this.translate.instant("WHSCODE"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'WhsName',
+        title: this.translate.instant("WHSName"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+   
+    this.lookupTitle = this.translate.instant("LookupWareHouseFrm");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showLookupCustomerList(value) {
+    this.table_head = [
+      {
+        field: 'CardCode',
+        title: this.translate.instant("CardCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'CardName',
+        title: this.translate.instant("CardName"),
+        type: 'text',
+        width: '100'
+      },
+    ];
+    if(value==='From')
+    this.lookupTitle = this.translate.instant("LookupCustomerFrm");
+    else 
+    this.lookupTitle = this.translate.instant("LookupCustomerTo");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+
+  showItemList(value) {
+    this.table_head = [
+      {
+        field: 'ItemCode',
+        title: this.translate.instant("ItmCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'ItemName',
+        title: this.translate.instant("ItmName"),
+        type: 'text',
+        width: '100'
+      },
+    ];
+    if(value==='From')
+    this.lookupTitle = this.translate.instant("LookupItemFrm");
+    else 
+    this.lookupTitle = this.translate.instant("LookupItemTo");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  
 
   showToWhsList() {
     this.table_head = [
@@ -838,6 +944,32 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("InvTransfer_ITRList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  showSrNoList(value){
+    
+    this.table_head = [
+      {
+        field: 'SODocNum',
+        title: this.translate.instant("DocNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'SODocEntry',
+        title: this.translate.instant("DocEntry"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    if(value==="From")
+    this.lookupTitle = this.translate.instant("SrNoTitleFrom");
+    else 
+    this.lookupTitle = this.translate.instant("SrNoTitleTo");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

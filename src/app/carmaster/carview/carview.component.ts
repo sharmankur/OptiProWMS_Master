@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Commonservice } from '../../services/commonservice.service';
-import { TranslateService, LangChangeEvent } from '../../../../node_modules/@ngx-translate/core';
-import { Router } from '../../../../node_modules/@angular/router';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { CARMainComponent } from '../carmain/carmain.component';
 import { CARMasterService } from '../../services/carmaster.service';
-import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-carview',
