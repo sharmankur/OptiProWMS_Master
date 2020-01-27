@@ -52,6 +52,10 @@ export class CARUpdateComponent implements OnInit {
       this.autoRuleArray = (JSON.parse(localStorage.getItem("CAR_Grid_Data"))).OPTM_CONT_AUTORULEDTL;
       this.CAR_CPackRule = this.CTR_ROW[0];
       this.CAR_ContainerType = this.CTR_ROW[1];
+      for(var i=0; i<this.autoRuleArray.length ;i++){
+        this.autoRuleArray[i].OPTM_PARTS_PERCONT = Number(this.autoRuleArray[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      }      
       if (this.CTR_ROW[2] == 1) {
         this.CAR_PackType = "Single Item";
       } else {
@@ -100,10 +104,10 @@ export class CARUpdateComponent implements OnInit {
     else if (this.autoRuleArray.length > 0) {
       let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.autoRuleArray.length; iBtchIndex++) {
-        if (this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == 0) {
+        if (this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "0" || this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "") {
           this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
           return false;
-        } else if (this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT == 0) {
+        } else if (this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT == "0" || this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT == "") {
           this.toastr.error('', this.translate.instant("CAR_PartsPerContainer_blank_msg"));
           return false;
         }
@@ -388,7 +392,7 @@ export class CARUpdateComponent implements OnInit {
     } else {
 
     }
-    this.autoRuleArray.push(new AutoRuleModel("", 0, 0, 0));
+    this.autoRuleArray.push(new AutoRuleModel("", 0, "0", "0"));
   }
 
   updateRuleId(lotTemplateVar, value, rowindex, gridData: any) {
@@ -408,6 +412,7 @@ export class CARUpdateComponent implements OnInit {
   }
 
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
+    value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
@@ -416,6 +421,7 @@ export class CARUpdateComponent implements OnInit {
   }
 
   updateMinfill(lotTemplateVar, value, rowindex, gridData: any) {
+    value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;

@@ -47,12 +47,10 @@ GetSalesOrder(SetParameter:any): Observable<any> {
     GetSalesOrderConsolidatedData(SetParameter:any): Observable<any> {
     
       let url=this.config_params.service_url
-      let jObject = {
-        Shipment: JSON.stringify(
-          SetParameter
-)
-      };
-      console.log(SetParameter);
-      return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataOfSalesOrder", jObject, this.commonService.httpOptions);
+       //var jObject = { SubmitSave: JSON.stringify(SubmitSave) };
+     // var jObject = { SubmitSave: JSON.stringify(SetParameter) };
+      var jObject = { Shipment: JSON.stringify(SetParameter)};
+     // console.log(SetParameter);
+      return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataOfConsolidation", jObject, this.commonService.httpOptions);
     }
 }

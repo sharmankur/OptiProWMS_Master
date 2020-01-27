@@ -680,4 +680,37 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
+
+  GetDataForSalesOrderLookup(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataSalesOrderLookup", jObject, this.httpOptions);
+  }
+  GetDataForCustomerLookup(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetCustomerLookup", jObject, this.httpOptions);
+  }
+  GetDataForItemCodeLookup(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetItemCodeLookup", jObject, this.httpOptions);
+  }
+  GetDataForWHSLookup(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetWHSELookup", jObject, this.httpOptions);
+  }
 }

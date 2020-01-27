@@ -15,8 +15,8 @@ import { Router } from '@angular/router';
 export class CTRUpdateComponent implements OnInit {
 
   CTR_ParentContainerType: string;
-  CTR_ConainerPerParent: Number;
-  CTR_ConatainerPartofParent: Number;
+  CTR_ConainerPerParent: string;
+  CTR_ConatainerPartofParent: string;
   CTR_ContainerType: string;
   CTR_ROW: any;
   BtnTitle: string;
@@ -188,9 +188,46 @@ export class CTRUpdateComponent implements OnInit {
     );
   }
 
+  OnParentContainerTypeChange(){
+    if(this.CTR_ParentContainerType == undefined || this.CTR_ParentContainerType == ""){
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidContainerType(this.CTR_ParentContainerType).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length > 0){
+            this.CTR_ParentContainerType = data[0].OPTM_CONTAINER_TYPE;
+          }else{
+            this.CTR_ParentContainerType = "";
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.CTR_ParentContainerType = "";
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForContainerType(fieldName) {
     this.showLoader = true;
-    this.hideLookup = false;
+    
     this.commonservice.GetDataForContainerType().subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -200,6 +237,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.hideLookup = false;
           this.serviceData = data;
           if(fieldName == "CT"){
             this.lookupfor = "CTList";
@@ -235,6 +273,15 @@ export class CTRUpdateComponent implements OnInit {
       this.CTR_ParentContainerType = $event[0];
     }
   }
+
+  formatCTR_ConainerPerParent() {
+    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+
+  formatCTR_ConatainerPartofParent() {
+    this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+
 }
 
 

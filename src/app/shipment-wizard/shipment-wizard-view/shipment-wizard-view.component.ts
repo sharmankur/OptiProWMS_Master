@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';
 import { ShipmentWizardService } from '../../services/shipment-wizard.service';
-
+import { isNumeric } from 'rxjs/util/isNumeric';
 @Component({
   selector: 'app-shipment-wizard-view',
   templateUrl: './shipment-wizard-view.component.html',
@@ -57,9 +57,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   public CHKSOno: boolean=true;
   public CHKDueDate: boolean=true;
   ngOnInit() {
-    this.HoldSelectedRow.SOLines = [];
+   // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
     this.HoldSelectedRow.Company = [];
+    this.HoldSelectedRow.SOLines=[];
   }
 
   onPrevClick(){
@@ -67,18 +68,26 @@ export class ShipmentWizardViewComponent implements OnInit {
       this.currentStep = this.currentStep - 1;
     }    
   }
+  numericOnly(event): boolean {    
+    let patt = /^([0-9])$/;
+    let result = patt.test(event.key);
+    return result;
+}
   onNextClick(){
+     let CheckValue=false;
     if(this.currentStep < this.maxStep){
-debugger
+
       if(this.currentStep===1)
         {
-          if(this.WareHouse !="" && this.WareHouse !=undefined)this.GetSalesWizardData();
+          if(this.WareHouse !="" && this.WareHouse !=undefined)
+           {
+            this.GetSalesWizardData();}
+           
           else {
             this.toastr.error('', this.translate.instant("WareHouseValidation"));  
             return;
-          }
+          }}
 
-        }
         if(this.currentStep===2)
         {
           if(this.HoldSelectedRow.SOLines.length >0)
@@ -142,9 +151,12 @@ debugger
       resp => {
         if (resp != undefined && resp != null) {
           this.currentStep = this.currentStep + 1;
+          debugger
           for(let i=0; i <resp.length; i++)
               {
                 if(resp[i].SELECT==="")resp[i].SELECT=false;
+                if(resp[i].SalesUOM===null) resp[i].SalesUOM='';
+                if(resp[i].InvntryUom===null) resp[i].InvntryUom='';
               }
                this.gridData = resp;
         }
@@ -169,8 +181,8 @@ debugger
   }
 
   GetConsolidatedData() {
-    this.HoldSelectedRow.Company=[];
-    this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID")})
+     this.HoldSelectedRow.Company=[];
+     this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID")})
     this.WizardService.GetSalesOrderConsolidatedData(this.HoldSelectedRow).subscribe(
       resp => {
         // this.currentStep = this.currentStep + 1;
@@ -206,7 +218,9 @@ debugger
   gridUserSelectionChange(gridUser, selection) {
     if(selection.selectedRows.length>0)
       {
-        this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
+        // this.HoldSelectedRow = {};
+        // this.HoldSelectedRow.ABC = [];
+         this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
       }
       else if(selection.deselectedRows.length>0)
         {
@@ -222,10 +236,13 @@ debugger
         }
 }
 
-GetDataForContainerType(fieldName) {
+
+
+GetDataForSalesOredr(fieldName) {
+  debugger
   this.showLoader = true;
   this.hideLookup = false;
-  this.commonservice.GetDataForContainerType().subscribe(
+  this.commonservice.GetDataForSalesOrderLookup().subscribe(
     (data: any) => {
       this.showLoader = false;
       if (data != undefined) {
@@ -235,10 +252,10 @@ GetDataForContainerType(fieldName) {
           return;
         }
         this.serviceData = data;
-        if(fieldName == "CT"){
-          this.lookupfor = "CTList";
-        }else{
-          this.lookupfor = "PCTList";
+        if(fieldName == "SrNO"){
+          this.lookupfor = "SerialNoFrom";
+        }else if(fieldName == "SrNOTO"){
+          this.lookupfor = "SerialNoTo";
         }
         
       } else {
@@ -255,6 +272,146 @@ GetDataForContainerType(fieldName) {
       }
     }
   );
+}
+
+GetDataForCustomer(fieldName) {
+  
+  this.showLoader = true;
+  this.hideLookup = false;
+  this.commonservice.GetDataForCustomerLookup().subscribe(
+    (data: any) => {
+      this.showLoader = false;
+      if (data != undefined) {
+        if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+          this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+            this.translate.instant("CommonSessionExpireMsg"));
+          return;
+        }
+        this.serviceData = data;
+        
+         if(fieldName == "CustFrom"){
+          this.lookupfor = "CustomerFrom";
+        }
+        else if(fieldName == "CustTo"){
+          this.lookupfor = "CustomerTo";
+        }
+      } else {
+        this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+      }
+    },
+    error => {
+      this.showLoader = false;
+      if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+        this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+      }
+      else {
+        this.toastr.error('', error);
+      }
+    }
+  );
+}
+
+GetDataForWareHouse(fieldName) {
+  debugger
+  this.showLoader = true;
+  this.hideLookup = false;
+  this.commonservice.GetDataForWHSLookup().subscribe(
+    (data: any) => {
+      this.showLoader = false;
+      if (data != undefined) {
+        if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+          this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+            this.translate.instant("CommonSessionExpireMsg"));
+          return;
+        }
+        this.serviceData = data;
+         if(fieldName == "Whs"){
+          this.lookupfor = "WareHouse";
+        }
+        
+      } else {
+        this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+      }
+    },
+    error => {
+      this.showLoader = false;
+      if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+        this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+      }
+      else {
+        this.toastr.error('', error);
+      }
+    }
+  );
+}
+
+GetDataForItemCode(fieldName) {
+  debugger
+  this.showLoader = true;
+  this.hideLookup = false;
+  this.commonservice.GetDataForItemCodeLookup().subscribe(
+    (data: any) => {
+      this.showLoader = false;
+      if (data != undefined) {
+        if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+          this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+            this.translate.instant("CommonSessionExpireMsg"));
+          return;
+        }
+        this.serviceData = data;
+         if(fieldName == "ItmFrm"){
+          this.lookupfor = "ItemFrom";
+        }
+        else if(fieldName == "ItmTo"){
+          this.lookupfor = "ItemTo";
+        }
+       
+        
+      } else {
+        this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+      }
+    },
+    error => {
+      this.showLoader = false;
+      if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+        this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+      }
+      else {
+        this.toastr.error('', error);
+      }
+    }
+  );
+}
+
+getLookupValue($event) {
+  debugger
+  if ($event != null && $event == "close") {
+    this.hideLookup = false;
+    return;
+  }
+  else if (this.lookupfor == "SerialNoFrom") {
+    this.SrNoFrom=$event[0];
+    //this.CTR_ContainerType = $event[0];
+  }
+  else if (this.lookupfor == "SerialNoTo") {
+    this.SrNoTo=$event[0];
+    //this.CTR_ContainerType = $event[0];
+  }
+  else if (this.lookupfor == "CustomerFrom") {
+    this.CustomerFrom = $event[0];
+  }
+  else if (this.lookupfor == "CustomerTo") {
+    this.CustomerTo = $event[0];
+  }
+  else if (this.lookupfor == "ItemFrom") {
+    this.ItemFrom = $event[0];
+  }
+  else if (this.lookupfor == "ItemTo") {
+    this.ItemTo = $event[0];
+  }
+  else if (this.lookupfor == "WareHouse") {
+    this.WareHouse = $event[0];
+  }
 }
 
 }

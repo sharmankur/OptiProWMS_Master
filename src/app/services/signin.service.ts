@@ -11,8 +11,8 @@ export class SigninService {
   // private baseUrl = "http://localhost:57911";
   // private adminUrl = "http://172.16.6.167/OptiAdmin";
   private venderListUrl: string = "/api/GoodReceiptPO/GetVendorList";
-  private validateUser: string = "/api/WMSlogin/ValidateUserLogin";
-  private lisenceDataUrl: string = "/api/WMSlogin/GetLicenseData";
+  private validateUser: string = "/api/login/ValidateUserLogin";
+  private lisenceDataUrl: string = "/api/login/GetLicenseData";
   private POlistUrl: string = "/api/GoodReceiptPO/GetPOList";
   private getItemListUrl: string = "/api/GoodReceiptPO/GetItemList";
   private OpenPOLinesurl: string = "/api/GoodReceiptPO/GetOpenPOLines";

@@ -44,6 +44,10 @@ getContainerRelationship() {
             return;
           }
           this.showLookupLoader = false;
+          for(var i=0; i<data.length ;i++){
+            data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }
           this.serviceData = data;
           this.lookupfor = "CTRList";
         } else {
@@ -86,6 +90,10 @@ getContainerRelationship() {
   }
 
   OnDeleteSelected(event){
+    if(event.length <= 0){
+      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+      return;
+    }
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({       

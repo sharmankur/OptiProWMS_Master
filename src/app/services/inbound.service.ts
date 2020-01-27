@@ -17,8 +17,8 @@ export class InboundService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
-  InsertIntoContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH: Number,
-    OPTM_WIDTH:Number, OPTM_HEIGHT: Number, OPTM_MAXWEIGHT:Number): Observable<any> {
+  InsertIntoContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH,
+    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 
@@ -34,8 +34,8 @@ export class InboundService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerType", jObject, this.commonService.httpOptions);
   }
 
-  UpdateContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH: Number,
-    OPTM_WIDTH:Number, OPTM_HEIGHT: Number, OPTM_MAXWEIGHT:Number): Observable<any> {
+  UpdateContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH,
+    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 

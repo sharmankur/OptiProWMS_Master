@@ -43,6 +43,7 @@ export class LookupComponent implements OnInit {
   gridHeight: number;
   showLoader: boolean = false;
   grid: any;
+  selectall: boolean = false;
   showSelection: boolean = false;
   public selectedValues: Array<any> = [];
   public mySelection: number[] = [];
@@ -91,13 +92,12 @@ export class LookupComponent implements OnInit {
     this.clearFilters()
   }
   ngOnInit() {
-    
+
   }
 
   async ngOnChanges(): Promise<void> {
-
-    if(this.serviceData != undefined && this.serviceData.length>= this.lookupPageSize){
-        this.lookupPagable = true;
+    if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
+      this.lookupPagable = true;
     }
     if (this.lookupfor == "toWhsList" || this.lookupfor == "fromWhsList") {
       this.showToWhsList();
@@ -124,40 +124,7 @@ export class LookupComponent implements OnInit {
     else if (this.lookupfor == "CARList") {
       this.showCARList();
     }
-    else if (this.lookupfor == "out-customer") {
-      this.showCustomerList();
-    }
-    else if (this.lookupfor == "out-items") {
-      this.showAvaliableItems();
-    }
-
-    else if (this.lookupfor == "out-order") {
-      this.showOutSOList();
-    }
-    else if (this.lookupfor == "LotsList") {
-      this.showLotsList();
-    }
-    else if (this.lookupfor == "FromBinList") {
-      this.showBinList();
-    }
-    else if (this.lookupfor == "ToBinList") {
-      this.showBinList();
-    }
-    else if (this.lookupfor == "OrderList") {
-      this.orderList();
-    } else if (this.lookupfor == "PhyCntItemList") {
-      this.ShowPhyCntItemList();
-    } else if (this.lookupfor == "showPhyCntItemsList") {
-      this.ShowPhyCntInnerItemList();
-    } else if (this.lookupfor == "ShowBatachSerList") {
-      this.ShowBatachSerList();
-    } else if(this.lookupfor == "PIOrderList"){
-      this.orderList();
-    } else if(this.lookupfor == "PalletList"){
-      this.palletList();
-    } else if(this.lookupfor == "ITRList"){
-      this.showITRList();
-    } else if (this.lookupfor == "DDList") {
+    else if (this.lookupfor == "DDList") {
       this.showDDList();
     }
 
@@ -190,13 +157,13 @@ export class LookupComponent implements OnInit {
 
   showAvaliableItems() {
     this.pagesize = 5;
-    if(this.serviceData.length>this.pagesize){
+    if (this.serviceData.length > this.pagesize) {
       this.pagable = true;
-    }else{
+    } else {
       this.pagable = false;
     }
-    
-    
+
+
     this.showSelection = true;
     this.selectedValues = [];
     this.table_head = [
@@ -229,7 +196,7 @@ export class LookupComponent implements OnInit {
       if (len > 0) {
         //  console.log('ServiceData', this.serviceData);
         var tempData: any;
-        for(var i=0;i<len;i++){
+        for (var i = 0; i < len; i++) {
           var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.serviceData[i].TOTALQTY = qty;
         }
@@ -473,6 +440,8 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CONT_PERPARENT',
         title: this.translate.instant("CTRContainersPerParent"),
+        headerClass: 'text-right',
+        class: 'text-right',
         type: 'numeric',
         width: '150'
       },
@@ -480,6 +449,8 @@ export class LookupComponent implements OnInit {
         field: 'OPTM_CONT_PARTOFPARENT',
         title: this.translate.instant("CTRContainerPartofParent"),
         type: 'numeric',
+        headerClass: 'text-right',
+        class: 'text-right',
         width: '150'
       }
     ];
@@ -591,7 +562,7 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("DelDate"),
         type: 'date',
         width: '100'
-       }//,
+      }//,
       // {
       //   field: 'CardCode',
       //   title: this.translate.instant("VendorCode"),
@@ -758,22 +729,22 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  onEditClick(lookup_key){
+  onEditClick(lookup_key) {
     this.lookupkey.emit(lookup_key);
     this.lookupvalue.emit(Object.values(lookup_key));
   }
 
-  onDeleteRowClick(lookup_key){
+  onDeleteRowClick(lookup_key) {
     this.lookupkey.emit(lookup_key);
     this.deleteClick.emit(Object.values(lookup_key));
   }
 
-  onCopyClick(lookup_key){
+  onCopyClick(lookup_key) {
     this.lookupkey.emit(lookup_key);
     this.copyItem.emit(Object.values(lookup_key));
   }
 
-  onSelectedDeleteRowClick(lookup_key){
+  onSelectedDeleteRowClick(lookup_key) {
     this.lookupkey.emit(this.selectedValues);
     this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
@@ -781,34 +752,34 @@ export class LookupComponent implements OnInit {
   showLotsList() {
     var titleValue = this.translate.instant("BatchNo");
     if (this.serviceData !== undefined && this.serviceData.length > 0) {
-        if("S" == this.serviceData[0].TRACKING){
-          titleValue = this.translate.instant("SerialNo");
-        } else if("N" == this.serviceData[0].TRACKING){
-          titleValue = this.serviceData[0].TRACKING;
-        }
+      if ("S" == this.serviceData[0].TRACKING) {
+        titleValue = this.translate.instant("SerialNo");
+      } else if ("N" == this.serviceData[0].TRACKING) {
+        titleValue = this.serviceData[0].TRACKING;
+      }
     }
     this.table_head = [
-        {
-          field: 'LOTNO',
-          title: titleValue,
-          type: 'text',
-          width: '100'
-        },
-        {
-          field: 'ITEMCODE',
-          title: this.translate.instant("ItemCode"),
-          type: 'text',
-          width: '100'
-        },
-        {
-          field: 'BINNO',
-          title: this.translate.instant("BinNo"),
-          type: 'text',
-          width: '100'
-        }
-      ];
-    
-    if("N" == titleValue){
+      {
+        field: 'LOTNO',
+        title: titleValue,
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+
+    if ("N" == titleValue) {
       this.table_head.splice(0, 1);
     }
 
@@ -883,18 +854,35 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  on_Selectall_checkbox_checked(checkedvalue) {
+    var isExist = 0;
+    // this.CheckedData = []
+    this.selectall = false
+    if (checkedvalue == true) {
+      if (this.serviceData.length > 0) {
+        this.selectall = true
+        for (let i = 0; i < this.serviceData.length; ++i) {
+          let servivceItem: any = this.serviceData[i];
+          this.selectedValues.push(servivceItem);
+        }
+      }
+    }
+    else {
+      this.selectall = false
+    }
+  }
 
   onCheckboxClick(checked: any, index: number) {
 
     let servivceItem: any = this.serviceData[index];
     if (checked) {
       this.selectedValues.push(servivceItem);
-    } 
+    }
     else {
       // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
       var temp = this.selectedValues.splice(index, 1);
-     this.selectedValues = this.selectedValues;
-     //console.log("selectedValues.size", this.selectedValues.length);
+      this.selectedValues = this.selectedValues;
+      //console.log("selectedValues.size", this.selectedValues.length);
     }
   }
 
@@ -922,7 +910,7 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  showITRList(){
+  showITRList() {
     this.table_head = [
       {
         field: 'DocNum',
@@ -941,7 +929,7 @@ export class LookupComponent implements OnInit {
 
   Done() {
     this.lookupkey.emit(this.selectedValues);
-    this.dialogOpened = false; 
+    this.dialogOpened = false;
   }
 
 

@@ -50,7 +50,7 @@
                             <div class="opti_input-group-checkbox">
                                 <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer" [disabled]=isUpdate
                                     class="k-checkbox" checked />
-                                <label class="k-checkbox-label" for="ch7"></label>
+                                <label class="k-checkbox-label empty-check" for="ch7"></label>
                             </div>
                         </div>
                     </div>
@@ -131,14 +131,14 @@
 
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="18" title="{{'CAR_PartsPerContainer'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="text" class="text-right form-control form-control-sm" name="dataItem.OPTM_PARTS_PERCONT" value={{dataItem.OPTM_PARTS_PERCONT}}
+                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PARTS_PERCONT" value={{dataItem.OPTM_PARTS_PERCONT}}
                                     id="display_name" min="0" #display_name (change)="updatePartperCont(display_name, display_name.value, idx)">
                             </ng-template>
                         </kendo-grid-column>
 
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="text" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
+                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
                                     #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
                             </ng-template>
                         </kendo-grid-column>

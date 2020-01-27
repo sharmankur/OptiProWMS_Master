@@ -114,9 +114,15 @@
                 </ul>
             </li>
             <li id="SHIPMENTWIZARD" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
-                <a (click)="onOutboundClick()">
+                <a>
                     <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
                     <span class="text">{{'Shipment_Wizard'|translate}}</span>
+                </a>
+            </li>
+            <li id="PICKING" (click)="listClick($event, 'picking')" [ngClass]="{'active': selectedItem == 'picking'}" [ngStyle]="{'display':'flex'}">
+                <a>
+                    <svg viewBox="0 0 8500 6050" class="icon"><use xlink:href="#outbound"></use></svg>
+                    <span class="text">{{'Picking'|translate}}</span>
                 </a>
             </li>
         </ul>

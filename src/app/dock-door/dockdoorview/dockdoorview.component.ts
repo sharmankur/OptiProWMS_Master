@@ -84,6 +84,10 @@ export class DockdoorviewComponent implements OnInit {
   }
 
   OnDeleteSelected(event){
+    if(event.length <= 0){
+      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+      return;
+    }
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({
