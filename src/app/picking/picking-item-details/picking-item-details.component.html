@@ -11,11 +11,11 @@
                         <div class="po-details-sec">
                             <span class="po-details">
                                 <div class="item-name-row">
-                                    <span class="po-item-name">Item 01</span>       
-                                    <span>Qty: 5/100</span>              
-                                </div>                                
-                                <span class="po-labels">PO#: 123456</span>
-                                <span class="po-labels po-des">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+                                    <span class="po-item-name">{{'PickTask'|translate}}: {{pickTaskName}}</span>
+                                    <span>{{'Quantity'|translate}}: {{pickQty}}/{{openQty}}</span>
+                                </div>
+                                <!-- <span class="po-labels">PO#: 123456</span>
+                                <span class="po-labels po-des">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> -->
                             </span>
                         </div>
                         <div class="item-sec">
@@ -23,38 +23,45 @@
                                 <i class="fa fa-rocket" aria-hidden="true"></i>
                             </span> -->
                             <div class="item-steps">
-                                <div *ngIf="currentStep != 3" class="item-input-section">
-                                    <input type="text" placeholder="Enter Location/Serial no/Batch No.">
+                                <div *ngIf="currentStep == 1" class="item-input-section">
+                                    <input type="text" placeholder="{{'PT_Enter_Location'|translate}}" (blur)="onLocationChange()" name="PT_Enter_Location" [(ngModel)]="PT_Enter_Location">
+                                    <i class="k-icon k-i-group-box" aria-hidden="true"></i>
+                                </div>
+                                <div *ngIf="currentStep == 2" class="item-input-section">
+                                    <input type="text" placeholder="{{'PT_Enter_ContBtchSer'|translate}}" (blur)="onLotChange()" name="PT_Enter_ContBtchSer"
+                                        [(ngModel)]="PT_Enter_ContBtchSer">
                                     <i class="k-icon k-i-group-box" aria-hidden="true"></i>
                                 </div>
                                 <div *ngIf="currentStep == 3" class="item-input-section">
-                                    <input type="text" placeholder="Qty">
+                                    <input type="number" placeholder="{{'PT_EnterQty'|translate}}" min=0 (blur)="onQtyChange()" name="pickQty" [(ngModel)]="pickQty">
                                     <i class="fa fa-keyboard-o" aria-hidden="true"></i>
                                 </div>
                                 <div class="or-class" *ngIf="currentStep != 3">
-                                   <span class="or-text">OR</span> 
-                                   <span class="or-line"></span>
+                                    <span class="or-text">OR</span>
+                                    <span class="or-line"></span>
                                 </div>
                                 <div class="scanner-box">
-                                    <div class="bar-code"  *ngIf="currentStep != 3">  <i class="k-icon k-i-greyscale" aria-hidden="true"></i></div>
-                                    <i *ngIf="currentStep > 1" (click)="prevStep()" class="k-icon k-i-arrow-chevron-left" aria-hidden="true"></i>     
+                                    <div class="bar-code" *ngIf="currentStep != 3">
+                                        <i class="k-icon k-i-greyscale" aria-hidden="true"></i>
+                                    </div>
+                                    <i *ngIf="currentStep > 1" (click)="prevStep()" class="k-icon k-i-arrow-chevron-left" aria-hidden="true"></i>
                                     <i *ngIf="currentStep != maxStep" (click)="nextStep()" class="k-icon k-i-arrow-chevron-right" aria-hidden="true"></i>
-                                    <i *ngIf="currentStep == maxStep" (click)="onNavClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i>
+                                    <i *ngIf="currentStep == maxStep" (click)="onSaveClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i>
                                     <div class="scan-text">{{currentStepText}}</div>
                                 </div>
-                            </div>        
-                            <div class="item-steps-bar">            
-                               <span [ngClass]="{active:currentStep == 1}" class="step"></span>
-                               <span [ngClass]="{active:currentStep == 2}" class="step"></span>
-                               <span [ngClass]="{active:currentStep == 3}" class="step"></span>
                             </div>
-                    
-                         
+                            <div class="item-steps-bar">
+                                <span [ngClass]="{active:currentStep == 1}" class="step"></span>
+                                <span [ngClass]="{active:currentStep == 2}" class="step"></span>
+                                <span [ngClass]="{active:currentStep == 3}" class="step"></span>
+                            </div>
+
+
                         </div>
                         <!-- <div class="option-menu-left" (click)="onNavClick('/po-order-details')">
                             <i class="fa fa-angle-left" aria-hidden="true"></i>
                         </div> -->
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -65,15 +72,16 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
-                <button  (click)="onNavClick('/po-order-details')" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
-                    type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button" (click)="onScreenBackClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                <!-- <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
                     type="button">
-                    <i class="opti-icon-arrow-next"></i></button>
+                    <i class="opti-icon-arrow-next"></i></button> -->
 
-
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onSubmitClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span>Submit</button>
             </div>
         </div>
     </form>

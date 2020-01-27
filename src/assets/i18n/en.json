@@ -84,7 +84,23 @@
   "PT_Customer": "Customer",
   "PT_Ship_To": "Ship To",
   "PT_Warehouse": "Warehouse",
+  "Quantity": "Quantity",
+  "PickTask": "Pick Task",
+  "PT_Enter_Location":"Enter Location",
+  "PT_Enter_ContBtchSer":"Enter Container Id/Batch No./Serial No.",
+  "PT_Scan_To_Location":"Scan To Location",
+  "PT_ScantoLotNumber":"Scan to Lot Number",
+  "PT_EnterQty":"Enter Quantity",
+  "PT_Location_not_match":"Location doesn't match.",
+  "PT_ContBtchSer_not_match":"Container Id/Batch/Serial no. doesn't match.",
+  "PT_Location_blank":"Location can't blank.",
+  "PT_ContBtchSer_not_blank":"Container Id/Batch/Serial no. can't blank.",
+  "PT_TaskId": "Task Id",
+  "PT_TaskType": "Task Type",
+  "Task Id": "Task Id",
+  "PT_PlanDate":"Plan Date",
 
+  
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
   "Dashboard_CopyWrt_Msg":"Copyright 2000-2019. All rights reserved.",
@@ -251,7 +267,7 @@
   "FrmNToBinCantSame": "From Bin and To Bin cannot be same",
   "UOM": "UOM",
   "Manual": "Manual",
-  "Quantity": "Quantity",
+
 
   "Close": "Close",
   "Confirm": "Confirm",

@@ -1,6 +1,10 @@
-import { Component, OnInit} from '@angular/core';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PickTaskService } from '../../services/picktask.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { TranslateService, LangChangeEvent } from '../../../../node_modules/@ngx-translate/core';
+import { PickTaskModel } from '../../models/PickTaskModel';
 
 @Component({
   selector: 'app-picking-item-details',
@@ -8,120 +12,215 @@ import { Router } from '@angular/router';
   styleUrls: ['./picking-item-details.component.scss']
 })
 export class PickingItemDetailsComponent implements OnInit {
- 
 
-  constructor(private router: Router) { }
+  public gridView: any = [
+    {
+      "TaskId": "Task123",
+      "TaskType": "Type 1",
+      "ItemCode": "Item123",
+      "Warehouse": "Warehouse123",
+      "Quantity": 1,
+      "PlanDate": "12-03-2020"
+    },
+    {
+      "TaskId": "Task123",
+      "TaskType": "Type 1",
+      "ItemCode": "Item123",
+      "Warehouse": "Warehouse123",
+      "Quantity": 1,
+      "PlanDate": "12-03-2020"
+    },
+    {
+      "TaskId": "Task123",
+      "TaskType": "Type 1",
+      "ItemCode": "Item123",
+      "Warehouse": "Warehouse123",
+      "Quantity": 1,
+      "PlanDate": "12-03-2020"
+    },
+    {
+      "TaskId": "Task123",
+      "TaskType": "Type 1",
+      "ItemCode": "Item123",
+      "Warehouse": "Warehouse123",
+      "Quantity": 1,
+      "PlanDate": "12-03-2020"
+    }
+  ];
+  ShipDetail: any;
+  shipmentno: string;
+  PickTaskList: any[]=[];
+  showLookupLoader: boolean = true;
+  showLoader: boolean = false;
+  pickTaskName: string;
+  openQty: number;
+  pickQty: number = 0; index = 0;
+  PT_Enter_Location: string;
+  PT_Enter_ContBtchSer: string;
+  ContBtchSerArray: string[] = [];
+  Tracking: string;
+
+  constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
+    let userLang = navigator.language.split('-')[0];
+    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+    translate.use(userLang);
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.shipmentno = this.translate.instant("PT_ShipmentId") + " " + this.ShipDetail.OPTM_OPTMID;
+    });
+  }
+
   // GRID VAIRABLE
-  public currentStepText = "Scan To Location";
+  public currentStepText = "";
   public currentStep = 1;
   public maxStep = 3;
   // GRID VARIABLE
 
-  
   ngOnInit() {
+    this.ShipDetail = JSON.parse(localStorage.getItem("ShipDetail"));
+    this.shipmentno = this.translate.instant("PT_ShipmentId") + " " + this.ShipDetail.OPTM_OPTMID;
+    if(localStorage.getItem("TaskDetail") == "" || localStorage.getItem("TaskDetail") == undefined){
+      this.getPickTaskList(this.ShipDetail.OPTM_OPTMID);
+    }else{
+      this.PickTaskList.push(JSON.parse(localStorage.getItem("TaskDetail")));
+    }
   }
 
- 
-  
-  prevStep(){
-    if(this.currentStep > 1){
-      this.currentStep = this.currentStep -1;
+  getPickTaskList(ShipmentId) {
+    this.showLoader = true;
+    this.picktaskService.GetPickTaskId(ShipmentId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookupLoader = false;
+          this.PickTaskList = data;
+          this.PickTaskList = this.gridView;
+          this.setVales(this.index);
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  setVales(index) {
+    this.pickTaskName = this.PickTaskList[index].TaskId;
+    this.openQty = this.PickTaskList[index].Quantity;
+    this.Tracking = this.PickTaskList[index].tracking;
+  }
+
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep = this.currentStep - 1;
       this.changeText(this.currentStep)
     }
-    
   }
-  nextStep(){
-    if(this.currentStep < this.maxStep ){
+
+  nextStep() {
+    if (this.currentStep < this.maxStep) {
+      if (this.currentStep == 1 && (this.PT_Enter_Location == undefined || this.PT_Enter_Location == "")) {
+        this.toastr.error('', this.translate.instant("PT_Location_blank"));
+        return;
+      } else if (this.currentStep == 2 && (this.PT_Enter_ContBtchSer == undefined || this.PT_Enter_ContBtchSer == "")) {
+        this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_blank"));
+        return;
+      }
       this.currentStep = this.currentStep + 1;
       this.changeText(this.currentStep)
     }
   }
 
-  changeText(step){
-    if(step == 1){
-      this.currentStepText = "Scan To Location";
+  onLocationChange() {
+    if (this.PT_Enter_Location == undefined || this.PT_Enter_Location == "") {
+      return;
     }
-    else if( step == 2){
-      this.currentStepText = 'Scan to Lot Number'
+    if (this.PT_Enter_Location === this.PickTaskList[this.index].Warehouse) {// location
+
+    } else {
+      this.toastr.error('', this.translate.instant("PT_Location_not_match"));
+      this.PT_Enter_Location = "";
     }
-    else if(step == 3){
-      this.currentStepText = 'Enter Qty'
+  }
+
+  onLotChange() {
+    if (this.PT_Enter_ContBtchSer == undefined || this.PT_Enter_ContBtchSer == "") {
+      return;
+    }
+    if (this.PT_Enter_ContBtchSer === this.PickTaskList[this.index].Warehouse) {// location
+      this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
+    } else {
+      this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_match"));
+      this.PT_Enter_ContBtchSer = "";
     }
   }
 
-  public onNavClick(rul){
-    this.router.navigate(['home/picking/picking-item-list'])
+  onQtyChange() {
+
   }
 
-
-  submitCurrentGRPO() {
-    var oSubmitPOLotsObj: any = {};
-    oSubmitPOLotsObj.Header = [];
-    oSubmitPOLotsObj.POReceiptLots = [];
-    oSubmitPOLotsObj.POReceiptLotDetails = [];
-    oSubmitPOLotsObj.UDF = [];
-    oSubmitPOLotsObj.LastSerialNumber = [];
-    var oSubmitPOLotsObj = this.preparePickTaskData(oSubmitPOLotsObj); 
-  //  this.SubmitGoodsReceiptPO(oSubmitPOLotsObj);
+  onSaveClick() {
+    this.preparePickTaskData();
+    if (this.index == this.PickTaskList.length - 1) {
+      //do you want to submit
+      return;
+    }
+    this.clearFields();
+    this.index = this.index++;
+    this.setVales(this.index);
   }
 
-  preparePickTaskData(oSubmitPOLotsObj: any): any {
-    // oSubmitPOLotsObj = this.manageRecords(oSubmitPOLotsObj);
-    // if (localStorage.getItem("Line") == null || localStorage.getItem("Line") == undefined ||
-    //   localStorage.getItem("Line") == "") {
-    //   localStorage.setItem("Line", "0");
-    // }
-
-
-    // oSubmitPOLotsObj.POReceiptLots.push({
-    //   DiServerToken: localStorage.getItem("Token"),
-    //   PONumber: this.Ponumber,
-    //   DocEntry: this.DocEntry,
-    //   CompanyDBId: localStorage.getItem("CompID"),
-    //   LineNo: this.openPOLineModel[0].LINENUM,
-    //   ShipQty: this.openPOLineModel[0].RPTQTY.toString(),
-    //   OpenQty: this.openPOLineModel[0].OPENQTY.toString(),
-    //   WhsCode: localStorage.getItem("whseId"),
-    //   Tracking: this.openPOLineModel[0].TRACKING,
-    //   ItemCode: this.openPOLineModel[0].ITEMCODE,
-    //   LastSerialNumber: 0,
-    //   Line: Number(localStorage.getItem("Line")),
-    //   GUID: localStorage.getItem("GUID"),
-    //   UOM: this.uomSelectedVal.UomEntry,
-    //   UsernameForLic: localStorage.getItem("UserId")
-
-    //   //------end Of parameter For License----
-    // });
-   
-
-    // for (var iBtchIndex = 0; iBtchIndex < this.recvingQuantityBinArray.length; iBtchIndex++) {
-    //   oSubmitPOLotsObj.POReceiptLotDetails.push({
-    //     // POItemCode: this.Ponumber+this.openPOLineModel[0].ITEMCODE,
-    //     Bin: this.recvingQuantityBinArray[iBtchIndex].Bin,
-    //     LineNo: this.openPOLineModel[0].LINENUM,
-    //     LotNumber: this.recvingQuantityBinArray[iBtchIndex].LotNumber, //getUpperTableData.GoodsReceiptLineRow[iBtchIndex].SysSerNo,
-    //     LotQty: this.recvingQuantityBinArray[iBtchIndex].LotQty,
-    //     SysSerial: "0",
-    //     ExpireDate: this.GetSubmitDateFormat(this.expiryDate),//GetSubmitDateFormat(getUpperTableData.GoodsReceiptLineRow[iBtchIndex].EXPDATE), // oCurrentController.GetSubmitDateFormat(oActualGRPOModel.PoDetails[iIndex].ExpireDate),//oActualGRPOModel.PoDetails[iIndex].ExpireDate,
-    //     VendorLot: this.recvingQuantityBinArray[iBtchIndex].VendorLot,
-    //     //NoOfLabels: oActualGRPOModel.PoDetails[iIndex].NoOfLabels,
-    //     //Containers: piContainers,
-    //     SuppSerial: this.recvingQuantityBinArray[iBtchIndex].VendorLot,
-    //     ParentLineNo: Number(localStorage.getItem("Line")),
-    //     LotSteelRollId: "",
-    //     ItemCode: this.openPOLineModel[0].ITEMCODE,
-    //     PalletCode: this.recvingQuantityBinArray[iBtchIndex].PalletCode
-    //   });
-    // }
-
-
-    localStorage.setItem("Line", "" + (Number(localStorage.getItem("Line")) + 1));
-
-    oSubmitPOLotsObj.Header.push({
-      NumAtCard: localStorage.getItem("VendRefNo")
-    });
-    return oSubmitPOLotsObj;
+  clearFields() {
+    this.ContBtchSerArray = [];
+    this.PT_Enter_ContBtchSer = "";
+    this.PT_Enter_Location = "";
+    this.pickQty = 0;
   }
 
+  changeText(step) {
+    if (step == 1) {
+      this.currentStepText = this.translate.instant("PT_Scan_To_Location");
+    }
+    else if (step == 2) {
+      this.currentStepText = this.translate.instant("PT_ScantoLotNumber");
+    }
+    else if (step == 3) {
+      this.currentStepText = this.translate.instant("PT_EnterQty");
+    }
+  }
 
+  public onScreenBackClick() {
+    this.clearFields();
+    if (localStorage.getItem("From") == "shiplist") {
+      this.router.navigate(['home/picking/picking-list'])
+    } else {
+      this.router.navigate(['home/picking/picking-item-list'])
+    }
+  }
+
+  preparePickTaskData(): any {
+    for (var i = 0; i < this.ContBtchSerArray.length; i++) {
+      if (this.Tracking == 'B' || this.Tracking == 'N') {
+        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].TaskId, this.PickTaskList[this.index].Warehouse, this.PT_Enter_Location, this.ContBtchSerArray[i], this.pickQty));
+      } else {
+        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].TaskId, this.PickTaskList[this.index].Warehouse, this.PT_Enter_Location, this.ContBtchSerArray[i], 1));
+      }
+    }
+  }
+
+  onSubmitClick() {
+
+  }
 }

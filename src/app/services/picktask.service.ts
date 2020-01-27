@@ -17,13 +17,23 @@ export class PickTaskService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
-  GetDataForContainerRelationship(): Observable<any> {
+  GetShipmentId(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerRelationship", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetShipmentId", jObject, this.commonService.httpOptions);
+  }
+
+  GetPickTaskId(ShipmentId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: ShipmentId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetDataBasedOnShipmentID", jObject, this.commonService.httpOptions);
   }
 
   InsertIntoContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
