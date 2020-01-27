@@ -1,0 +1,131 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar">
+        <div class="opti_container_inner">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Masking_ItemCodeGeneration'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'Masking_Code'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="code" [(ngModel)]="codekey"
+                                    placeholder="{{'code'|translate}}" (blur)="onCodeChange()" #CodeInputField
+                                    [disabled]=isUpdate id="CodeInputField">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="showAddRowbtn">
+                <div class="col-sm-12">
+                    <div class="input-group input-group-sm">
+                        <button type="button" #addRowBtn class="k-button k-primary k-button btn-sm btn-icon-with-text"
+                            (click)="onAddRow(0)">
+                            <span class="k-icon k-i-plus-outline" role="presentation"></span>
+                            {{'Masking_AddRow'|translate}}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-12">
+                    <kendo-grid class="no-shadow" [kendoGridBinding]="itemCodeRowList" [resizable]="true" [sortable]="true"
+                        [selectable]="true" #gridItem>
+                        <!-- grid for mobile start -->
+                        <kendo-grid-column media="(max-width: 767px)" title="{{'List'|translate}}" class="opti_mobile-grid-td">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <dl class="opti_mobile_grid_dl">
+                                    <dt>{{dataItem.rowindex}}</dt>
+                                    <dd>{{dataItem.stringtype}}</dd>
+                                    <dt>{{dataItem.string}}</dt>
+                                    <dd>{{dataItem.length}}</dd>
+                                    <dd>{{dataItem.operations}}</dd>
+                                </dl>
+                                <dl class="opti_mobile_grid_dl">
+                                    <dt>{{'#'}}</dt>
+                                    <dt>{{'Masking_StringNumber'|translate}}</dt>
+                                    <dd>{{'Masking_String'|translate}}</dd>
+                                    <dt>{{'Masking_Length'|translate}}</dt>
+                                    <dd>{{'Masking_Operation'|translate}}</dd>
+                                </dl>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- grid for mobile end -->
+
+                        <kendo-grid-column media="(min-width: 768px)" field="rowindex" [width]="45" title="{{'#'|translate}}">
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="stringtype" [width]="45" title="{{'Masking_StringNumber'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                <kendo-dropdownlist class="form-control" name="selectedType" [data]="stringTypes" [(ngModel)]="defaultType"
+                                    textField="Name" valueField="Value" #selectedvalue (selectionChange)="onStringTypeSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Masking_String'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <input type="text" class="form-control form-control-sm" name="stringtxt" value={{dataItem.string}}
+                                    title="{{dataItem.string}}" #stringtxtvalue (blur)="onStringChange(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                    [disabled]=shouldUpdate id="stringtxt">
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="length" [width]="45" title="{{'Masking_Length'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <input type="number" class="form-control form-control-sm" name="lengthvalue" value={{dataItem.string}}
+                                    title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                    [disabled]="dataItem.isOperationDisable" id="lengthvalue">
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'Masking_Operation'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <kendo-dropdownlist class="form-control" name="operation" [data]="operations" [(ngModel)]="defaultOperation" textField="Name"
+                                    valueField="Value" #selectedvalue 
+                                    [disabled]="dataItem.isOperationDisable" (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" [width]="45">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick(dataItem.rowindex)">
+                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'Masking_FinalString'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="finalString" [(ngModel)]="finalString"
+                                    id="finalString" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Footer -->
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onDeleteAllClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'CT_DeleteAll'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{buttonText}}</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>

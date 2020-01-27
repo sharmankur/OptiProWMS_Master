@@ -11,7 +11,7 @@ export interface ColumnSetting {
     width?: string;
     headerClass?: string;
     class?: string;
-  }
+}
 
 // Example of Data as model, can be used for non updating data (exaple - names, task type and etc)
 export class CommonData {
@@ -27,7 +27,7 @@ export class CommonData {
         }
         let sanitized = temp.replace(/^http\:\/\//, '').replace(/\/+/g, '/').replace(/\/+$/, '');
         temp = (window.location.protocol + '//' + sanitized);
-        
+
         return temp;
     }
 
@@ -73,7 +73,7 @@ export class CommonData {
 
     public less_bom_type: any = [
         { "value": 2, "Name": "Item" }
-       /*  , { "value": 3, "Name": "Value" } */
+        /*  , { "value": 3, "Name": "Value" } */
     ];
 
     public model_bom_type: any = [
@@ -122,9 +122,9 @@ export class CommonData {
 
     public document_type = [
         //{ "value": '', "Name": "" },
-        { "value": 'draft', "Name": "Draft", "selected":"1" },
-        { "value": 'sales_quote', "Name": "Sales Quote", "selected":"0" },
-        { "value": 'sales_order', "Name": "Sales Order", "selected":"0" }
+        { "value": 'draft', "Name": "Draft", "selected": "1" },
+        { "value": 'sales_quote', "Name": "Sales Quote", "selected": "0" },
+        { "value": 'sales_order', "Name": "Sales Order", "selected": "0" }
     ];
 
 
@@ -146,5 +146,23 @@ export class CommonData {
         }
     }
 
-   
+    item_code_gen_string_dropdown() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": 1, "Name": "String" },
+            { "value": 2, "Name": "Number" },
+            { "value": 3, "Name": "Parameter" }
+        ];
+    }
+
+    item_code_gen_oper_drpdown() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": 1, "Name": "No Operation" },
+            { "value": 2, "Name": "Increase" },
+            { "value": 3, "Name": "Decrease" }
+        ];
+    }
+
+    public excludeSpecialCharRegex = /[{}*!^=<>?|/(\\)&#@%]/;
 }

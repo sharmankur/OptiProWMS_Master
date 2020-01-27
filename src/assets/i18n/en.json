@@ -79,6 +79,12 @@
   "Delete": "Delete",
   "DataSaved":"Data Saved",
 
+  "PT_ShipmentList": "Shipment List",
+  "PT_ShipmentId": "Shipment Id",
+  "PT_Customer": "Customer",
+  "PT_Ship_To": "Ship To",
+  "PT_Warehouse": "Warehouse",
+
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
   "Dashboard_CopyWrt_Msg":"Copyright 2000-2019. All rights reserved.",
@@ -466,7 +472,6 @@
   "DropdownMenu_Shipment": "Shipment",
   "DropdownMenu_Carrier": "Carrier",
  
-  "Dummy": "Dummy",
   "Shipment_Wizard": "Shipment Wizard",
   "SO_From": "Sales Order From",
   "SO_To": "Sales Order To",
@@ -517,5 +522,27 @@
   "SalesOrderEntry": "Sales Order Entry",
   "WHSCODE":"Warehouse Code",
   "WHSName":"Warehouse Name",
-  "ItmName":"Item Name"
+  "ItmName":"Item Name",
+ 
+
+  "DropdownMenu_Masking": "Masking",
+  "Masking_ItemCodeGeneration": "Item Code Generation",
+  "Masking_Code": "Code",
+  "Masking_AddRow": "Add Row",
+  "Masking_Type": "Type",
+  "Masking_StringNumber": "Type",
+  "Masking_String": "Value",
+  "Masking_Length": "Length",
+  "Masking_Operation": "Operation",
+  "Masking_FinalString": "Final String",
+  "Addrow": "Enter any row",
+  "CodeBlank": "Code cannot be blank",
+  "ValidString": "String should not contain any of the following characters: * { } ! ^ = < > ? | & # % \\ / ( ) @",
+  "ValidNumber": "Enter valid number",
+  "ValidOperations": "Enter valid operation",
+  "EnterString": "String field cannot be blank",
+  "RowNumberType": "Atleast one row should be number type",
+  "Add": "Add",
+
+  "Dummy": "Dummy"
 }

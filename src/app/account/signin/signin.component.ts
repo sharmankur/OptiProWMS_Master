@@ -133,8 +133,7 @@ export class SigninComponent implements OnInit {
     * Function for login
     */
     public async login() {
-        // alert('login:: at login method top');
-        // this.isCompleteLoginVisible = true;
+       this.isCompleteLoginVisible = true;
 
         // window.localStorage.setItem('IsMenuLoaded', 'false');
         // if (this.userName == "" || this.password == "") {
@@ -151,18 +150,17 @@ export class SigninComponent implements OnInit {
         //         this.showLoader = false;
         //         return;
         //     }
-          //  this.getLicenseData();
-            // this.showLoader = false;
-            // localStorage.setItem("GUID", this.licenseData[1].GUID);
+        //    this.getLicenseData();
+
             localStorage.setItem("CompID", "DEVSCHEDULING");
             localStorage.setItem("whseId", "01");
+            localStorage.setItem("UserId", this.userName);
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
 
             localStorage.setItem("DecimalPrecision", "2");
             localStorage.setItem("DecimalSeparator", ".");
-            // localStorage.setItem("ThousandSeparator", this.licenseData[0].DefaultValues[i].DefaultValue);
-            // localStorage.setItem("DATEFORMAT", this.licenseData[0].DefaultValues[i].DefaultValue);
             this.router.navigateByUrl('home/dashboard'); 
+     //   }
     }
 
     private validateUserLogin() {
@@ -362,12 +360,12 @@ export class SigninComponent implements OnInit {
             this.toastr.error('', this.translate.instant("Login_SelectCompanyMsg"), this.commonService.toast_config.iconClasses.error);
             return true;
         }
-        if (document.getElementById("whseId").innerText.trim() == this.translate.instant("SelectWarehouse") ||
-            document.getElementById("whseId").innerText.trim() == "") {
-            this.showLoader = false;
-            this.toastr.error('', this.translate.instant("Login_SelectwarehouseMsg"), this.commonService.toast_config.iconClasses.error);
-            return true;
-        }
+        // if (document.getElementById("whseId").innerText.trim() == this.translate.instant("SelectWarehouse") ||
+        //     document.getElementById("whseId").innerText.trim() == "") {
+        //     this.showLoader = false;
+        //     this.toastr.error('', this.translate.instant("Login_SelectwarehouseMsg"), this.commonService.toast_config.iconClasses.error);
+        //     return true;
+        // }
         return false;
     }
     /**

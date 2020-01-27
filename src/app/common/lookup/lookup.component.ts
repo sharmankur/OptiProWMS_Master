@@ -56,6 +56,8 @@ export class LookupComponent implements OnInit {
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
+     // console.log("translate.onLangChange.subscribe inside lookup component");
+      this.ngOnChanges();
     });
   }
 
@@ -96,6 +98,7 @@ export class LookupComponent implements OnInit {
   }
 
   async ngOnChanges(): Promise<void> {
+  //  console.log("ngOnChanges ");
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
@@ -126,6 +129,9 @@ export class LookupComponent implements OnInit {
     }
     else if (this.lookupfor == "DDList") {
       this.showDDList();
+    }
+    else if(this.lookupfor == "ItemCodeGenRowView"){
+      this.ItemCodeGenRowListView();
     }
 
     this.clearFilters();
@@ -183,7 +189,7 @@ export class LookupComponent implements OnInit {
       },
       {
         field: 'TOTALQTY',
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         title: this.translate.instant("AvailableQty"),
         type: 'numeric',
@@ -221,7 +227,7 @@ export class LookupComponent implements OnInit {
       },
       {
         field: 'TOTALQTY',
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         title: this.translate.instant("TOTALQTY"),
         type: 'text',
@@ -373,19 +379,21 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CONTAINER_TYPE',
         title: this.translate.instant("CT_ContainerType"),
+        headerClass: 'text-center',
         type: 'text',
         width: '100'
       },
       {
         field: 'OPTM_DESC',
         title: this.translate.instant("CT_Description"),
+        headerClass: 'text-center',
         type: 'text',
         width: '100'
       },
       {
         field: 'OPTM_LENGTH',
         title: this.translate.instant("CT_Length"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '100'
@@ -393,7 +401,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_WIDTH',
         title: this.translate.instant("CT_Width"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '100'
@@ -401,7 +409,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_HEIGHT',
         title: this.translate.instant("CT_Height"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '100'
@@ -409,7 +417,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_MAXWEIGHT',
         title: this.translate.instant("CT_Max_Width"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '100'
@@ -428,19 +436,21 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CONTAINER_TYPE',
         title: this.translate.instant("CT_ContainerType"),
+        headerClass: 'text-center',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_PARENT_CONTTYPE',
         title: this.translate.instant("CTR_Parent_CT"),
+        headerClass: 'text-center',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_CONT_PERPARENT',
         title: this.translate.instant("CTRContainersPerParent"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '150'
@@ -449,7 +459,7 @@ export class LookupComponent implements OnInit {
         field: 'OPTM_CONT_PARTOFPARENT',
         title: this.translate.instant("CTRContainerPartofParent"),
         type: 'numeric',
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         width: '150'
       }
@@ -467,7 +477,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_RULEID',
         title: this.translate.instant("CAR_CPackRule"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '150'
@@ -475,6 +485,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CONTTYPE',
         title: this.translate.instant("CT_ContainerType"),
+        headerClass: 'text-center',
         type: 'text',
         width: '150'
       },
@@ -482,7 +493,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_PACKTYPE',
         title: this.translate.instant("CAR_PackType"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '150'
@@ -490,6 +501,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_ADD_TOCONT',
         title: this.translate.instant("CAR_AddPartsToContainer"),
+        headerClass: 'text-center',
         type: 'boolean',
         width: '150'
       }
@@ -508,12 +520,14 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_DOCKDOORID',
         title: this.translate.instant("DD_ID"),
+        headerClass: 'text-center',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_DESC',
         title: this.translate.instant("DD_DESC"),
+        headerClass: 'text-center',
         type: 'text',
         width: '150'
       }
@@ -589,7 +603,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'DocNum',
         title: this.translate.instant("DocNum"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '50'
@@ -609,7 +623,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'InWhsQty',
         title: this.translate.instant("OnHandQty"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
         width: '70'
@@ -650,7 +664,7 @@ export class LookupComponent implements OnInit {
       {
         field: 'TOTALQTY',
         title: this.translate.instant("TOTALQTY"),
-        headerClass: 'text-right',
+        headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
       },
@@ -847,6 +861,29 @@ export class LookupComponent implements OnInit {
       },
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ItemCodeGenRowListView() {
+    this.table_head = [
+      {
+        field: 'Code',
+        title: this.translate.instant("Masking_Code"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'FinalString',
+        title: this.translate.instant("Masking_FinalString"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = "";//this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
