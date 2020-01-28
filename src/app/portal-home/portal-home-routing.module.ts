@@ -41,6 +41,7 @@ const routes: Routes = [
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
       { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
+      { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
     ]
     
   }

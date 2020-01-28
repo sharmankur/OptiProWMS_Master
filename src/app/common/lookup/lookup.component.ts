@@ -133,6 +133,9 @@ export class LookupComponent implements OnInit {
     else if(this.lookupfor == "ItemCodeGenRowView"){
       this.ItemCodeGenRowListView();
     }
+    else if(this.lookupfor == "CarrierList"){
+      this.CarrierListView();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -883,7 +886,30 @@ export class LookupComponent implements OnInit {
         width: '200'
       },
     ];
-    this.lookupTitle = "";//this.translate.instant("ItemsList");
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  CarrierListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_DOCKDOORID',
+        title: this.translate.instant("Carrier_CarrierId"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
