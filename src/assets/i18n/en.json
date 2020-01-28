@@ -541,8 +541,8 @@
   "ItmName":"Item Name",
  
 
-  "DropdownMenu_Masking": "Masking",
-  "Masking_ItemCodeGeneration": "Item Code Generation",
+  "DropdownMenu_Masking": "Code Generation",
+  "Masking_ItemCodeGeneration": "Code Generation",
   "Masking_Code": "Code",
   "Masking_AddRow": "Add Row",
   "Masking_Type": "Type",

@@ -59,8 +59,12 @@ export class PickingListComponent implements OnInit {
   public desktopMedia = "(min-width: 768px)";
   // GRID VARIABLE
 
+  clearStorage(){
+    localStorage.setItem("TaskDetail", "");
+  }
 
   ngOnInit() {
+    this.clearStorage();
     this.getShipmentList()
   }
 

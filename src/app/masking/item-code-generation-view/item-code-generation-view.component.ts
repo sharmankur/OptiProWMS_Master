@@ -96,7 +96,7 @@ export class ItemCodeGenerationViewComponent implements OnInit {
     this.itemCodeGenComponent.itemCodeGenComponent = 2;
   }
 
-  OnCancelClick() {
+  onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
@@ -215,4 +215,6 @@ export class ItemCodeGenerationViewComponent implements OnInit {
       }
     );
   }
+
+  
 }

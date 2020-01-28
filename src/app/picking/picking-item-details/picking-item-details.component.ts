@@ -49,7 +49,8 @@ export class PickingItemDetailsComponent implements OnInit {
   ];
   ShipDetail: any;
   shipmentno: string;
-  PickTaskList: any[]=[];
+  PickTaskList: any[] = [];
+  PickTaskDetail: any;
   showLookupLoader: boolean = true;
   showLoader: boolean = false;
   pickTaskName: string;
@@ -78,9 +79,9 @@ export class PickingItemDetailsComponent implements OnInit {
   ngOnInit() {
     this.ShipDetail = JSON.parse(localStorage.getItem("ShipDetail"));
     this.shipmentno = this.translate.instant("PT_ShipmentId") + " " + this.ShipDetail.OPTM_OPTMID;
-    if(localStorage.getItem("TaskDetail") == "" || localStorage.getItem("TaskDetail") == undefined){
+    if (localStorage.getItem("TaskDetail") == "" || localStorage.getItem("TaskDetail") == undefined) {
       this.getPickTaskList(this.ShipDetail.OPTM_OPTMID);
-    }else{
+    } else {
       this.PickTaskList.push(JSON.parse(localStorage.getItem("TaskDetail")));
     }
   }
@@ -97,8 +98,8 @@ export class PickingItemDetailsComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          this.PickTaskList = data;
-          this.PickTaskList = this.gridView;
+          this.PickTaskList = data.OPTM_WHSTASKLIST;
+          this.PickTaskDetail = data;
           this.setVales(this.index);
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -117,8 +118,8 @@ export class PickingItemDetailsComponent implements OnInit {
   }
 
   setVales(index) {
-    this.pickTaskName = this.PickTaskList[index].TaskId;
-    this.openQty = this.PickTaskList[index].Quantity;
+    this.pickTaskName = this.PickTaskList[index].OPTM_TASKID;
+    this.openQty = this.PickTaskList[index].OPTM_PLANNED_QTY;
     this.Tracking = this.PickTaskList[index].tracking;
   }
 
@@ -147,7 +148,7 @@ export class PickingItemDetailsComponent implements OnInit {
     if (this.PT_Enter_Location == undefined || this.PT_Enter_Location == "") {
       return;
     }
-    if (this.PT_Enter_Location === this.PickTaskList[this.index].Warehouse) {// location
+    if (this.PT_Enter_Location === this.PickTaskList[this.index].OPTM_PICK_BIN) {// location
 
     } else {
       this.toastr.error('', this.translate.instant("PT_Location_not_match"));
@@ -159,9 +160,18 @@ export class PickingItemDetailsComponent implements OnInit {
     if (this.PT_Enter_ContBtchSer == undefined || this.PT_Enter_ContBtchSer == "") {
       return;
     }
-    if (this.PT_Enter_ContBtchSer === this.PickTaskList[this.index].Warehouse) {// location
-      this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
-    } else {
+    let batserAdded = false;
+    for (var i = 0; i < this.PickTaskDetail.OPTM_WHSTASK_BTCHSER.length; i++) {
+      if (this.PickTaskDetail.OPTM_WHSTASK_BTCHSER[i].OPTM_TASKID == this.PickTaskList[this.index].OPTM_TASKID) {
+        if (this.PT_Enter_ContBtchSer === this.PickTaskList[i].OPTM_BTCHSER) {
+          batserAdded = true;
+          this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
+          break;
+        }
+      }
+    }
+
+    if (!batserAdded) {
       this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_match"));
       this.PT_Enter_ContBtchSer = "";
     }
@@ -213,9 +223,9 @@ export class PickingItemDetailsComponent implements OnInit {
   preparePickTaskData(): any {
     for (var i = 0; i < this.ContBtchSerArray.length; i++) {
       if (this.Tracking == 'B' || this.Tracking == 'N') {
-        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].TaskId, this.PickTaskList[this.index].Warehouse, this.PT_Enter_Location, this.ContBtchSerArray[i], this.pickQty));
+        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.PT_Enter_Location, this.ContBtchSerArray[i], this.pickQty));
       } else {
-        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].TaskId, this.PickTaskList[this.index].Warehouse, this.PT_Enter_Location, this.ContBtchSerArray[i], 1));
+        this.PickTaskList.push(new PickTaskModel(this.ShipDetail.ShipmentId, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.PT_Enter_Location, this.ContBtchSerArray[i], 1));
       }
     }
   }

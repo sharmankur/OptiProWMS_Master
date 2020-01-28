@@ -15,11 +15,11 @@ export class PickingItemListComponent implements OnInit {
 
   ShipDetail: any;
   shipmentno: string;
-  PickTaskList: any[];
+  PickTaskList: any[]=[];
   showLookupLoader: boolean = true;
   showLoader: boolean = false;
   customereName="";
-  PickTaskDetail: any[];
+  PickTaskDetail: any;
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
