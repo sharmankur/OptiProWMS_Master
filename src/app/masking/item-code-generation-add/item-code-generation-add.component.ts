@@ -197,7 +197,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
       }
     }
 
-    this.finalString == "";
+    this.finalString = "";
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       this.finalString = this.finalString + this.itemCodeRowList[i].string
     }
