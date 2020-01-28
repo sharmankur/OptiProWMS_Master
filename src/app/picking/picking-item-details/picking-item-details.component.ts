@@ -160,20 +160,25 @@ export class PickingItemDetailsComponent implements OnInit {
     if (this.PT_Enter_ContBtchSer == undefined || this.PT_Enter_ContBtchSer == "") {
       return;
     }
-    let batserAdded = false;
-    for (var i = 0; i < this.PickTaskDetail.OPTM_WHSTASK_BTCHSER.length; i++) {
-      if (this.PickTaskDetail.OPTM_WHSTASK_BTCHSER[i].OPTM_TASKID == this.PickTaskList[this.index].OPTM_TASKID) {
-        if (this.PT_Enter_ContBtchSer === this.PickTaskList[i].OPTM_BTCHSER) {
-          batserAdded = true;
-          this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
-          break;
+
+    if((this.PickTaskList[this.index].OPTM_LINE_TYPE) == "1"){
+
+    }else{
+      let batserAdded = false;
+      for (var i = 0; i < this.PickTaskDetail.OPTM_WHSTASK_BTCHSER.length; i++) {
+        if (this.PickTaskDetail.OPTM_WHSTASK_BTCHSER[i].OPTM_TASKID == this.PickTaskList[this.index].OPTM_TASKID) {
+          if (this.PT_Enter_ContBtchSer === this.PickTaskList[i].OPTM_BTCHSER) {
+            batserAdded = true;
+            this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
+            break;
+          }
         }
       }
-    }
-
-    if (!batserAdded) {
-      this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_match"));
-      this.PT_Enter_ContBtchSer = "";
+  
+      if (!batserAdded) {
+        this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_match"));
+        this.PT_Enter_ContBtchSer = "";
+      }
     }
   }
 

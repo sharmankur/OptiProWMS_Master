@@ -28,27 +28,27 @@ export class PickingListComponent implements OnInit {
   // GRID VAIRABLE
   public gridView: any = [
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_OPTMID": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     }, {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_OPTMID": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_OPTMID": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_OPTMID": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
   ];
   public items: any[] = [];
