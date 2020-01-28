@@ -11,7 +11,7 @@
                         <div class="po-details-sec">
                             <span class="po-details">
                                 <div class="item-name-row">
-                                    <span class="po-item-name">{{'PickTask'|translate}}: {{pickTaskName}}</span>
+                                    <span class="po-item-name">{{'Pick'|translate}}: {{pickTaskName}}</span>
                                     <span>{{'Quantity'|translate}}: {{pickQty}}/{{openQty}}</span>
                                 </div>
                                 <!-- <span class="po-labels">PO#: 123456</span>
@@ -46,6 +46,7 @@
                                     </div>
                                     <i *ngIf="currentStep > 1" (click)="prevStep()" class="k-icon k-i-arrow-chevron-left" aria-hidden="true"></i>
                                     <i *ngIf="currentStep != maxStep" (click)="nextStep()" class="k-icon k-i-arrow-chevron-right" aria-hidden="true"></i>
+                                    <!-- <i *ngIf="threeSteps" (click)="onSaveClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i> -->
                                     <i *ngIf="currentStep == maxStep" (click)="onSaveClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i>
                                     <div class="scan-text">{{currentStepText}}</div>
                                 </div>
@@ -53,7 +54,7 @@
                             <div class="item-steps-bar">
                                 <span [ngClass]="{active:currentStep == 1}" class="step"></span>
                                 <span [ngClass]="{active:currentStep == 2}" class="step"></span>
-                                <span [ngClass]="{active:currentStep == 3}" class="step"></span>
+                                <span *ngIf="threeSteps" [ngClass]="{active:currentStep == 3}" class="step"></span>
                             </div>
 
 
@@ -73,7 +74,7 @@
                 </div> -->
             <div class="col-sm-12 col-12">
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
-                    type="button" (click)="onScreenBackClick()">
+                    type="button" (click)="onBackClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <!-- <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"

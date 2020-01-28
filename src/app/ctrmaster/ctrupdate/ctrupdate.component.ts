@@ -96,7 +96,7 @@ export class CTRUpdateComponent implements OnInit {
             return;
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.ctrmainComponent.ctrComponent = 1;
           }else{
             this.toastr.error('', data[0].RESULT);

@@ -104,8 +104,12 @@ export class CARUpdateComponent implements OnInit {
     else if (this.autoRuleArray.length > 0) {
       let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.autoRuleArray.length; iBtchIndex++) {
-        if (this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "0" || this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "") {
-          this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
+        if (this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE == undefined || this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE == "") {
+          this.toastr.error('', this.translate.instant("CAR_ItemCode_Blank_Msg"));
+          return false;
+        }
+        else if (this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "0" || this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT == "") {
+          this.toastr.error('', this.translate.instant("CAR_MinFillPercent_blank_msg"));
           return false;
         } else if (this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT == "0" || this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT == "") {
           this.toastr.error('', this.translate.instant("CAR_PartsPerContainer_blank_msg"));
@@ -282,7 +286,7 @@ export class CARUpdateComponent implements OnInit {
             return;
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.carmainComponent.carComponent = 1;
           }else{
             this.toastr.error('', data[0].RESULT);

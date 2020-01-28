@@ -78,6 +78,9 @@
   "Copy":"Copy",
   "Delete": "Delete",
   "DataSaved":"Data Saved",
+  "DataAlreadySaved":"Data Already Saved",
+  "PickedAllTask":"You have picked all the tasks, click Submit to process.",
+  "NoRecord":"No record saved to submit.",
 
   "PT_ShipmentList": "Shipment List",
   "PT_ShipmentId": "Shipment Id",
@@ -86,6 +89,7 @@
   "PT_Warehouse": "Warehouse",
   "Quantity": "Quantity",
   "PickTask": "Pick Task",
+  "Pick": "Pick",
   "PT_Enter_Location":"Enter Location",
   "PT_Enter_ContBtchSer":"Enter Container Id/Batch No./Serial No.",
   "PT_Scan_To_Location":"Scan To Location",
