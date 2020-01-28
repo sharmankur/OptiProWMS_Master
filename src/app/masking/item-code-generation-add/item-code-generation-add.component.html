@@ -60,8 +60,9 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="stringtype" [width]="45" title="{{'Masking_StringNumber'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                <kendo-dropdownlist class="form-control" name="selectedType" [data]="stringTypes" [value]="defaultType"
-                                    textField="Name" valueField="value" #selectedvalue (selectionChange)="onStringTypeSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                                <kendo-dropdownlist class="form-control" name="selectedType" [data]="stringTypes"
+                                    [valuePrimitive]="true" [value]="dataItem.stringtype" textField="Name" valueField="value"
+                                    #selectedvalue (selectionChange)="onStringTypeSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Masking_String'|translate}}">
@@ -80,9 +81,9 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'Masking_Operation'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <kendo-dropdownlist class="form-control" name="operation" [data]="operations" [value]="defaultOperation" textField="Name"
-                                    valueField="value" #selectedvalue 
-                                    [disabled]="dataItem.isOperationDisable" (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                                <kendo-dropdownlist class="form-control" name="operation" [data]="operations"
+                                    [valuePrimitive]="true" [value]="dataItem.operations" textField="Name" valueField="value"
+                                    #selectedvalue [disabled]="dataItem.isOperationDisable" (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" [width]="45">

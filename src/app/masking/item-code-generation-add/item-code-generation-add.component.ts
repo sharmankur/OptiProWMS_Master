@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CommonData } from '../../models/CommonData';
+import { CommonData } from 'src/app/models/CommonData';
 import { ItemCodeGenerationComponent } from '../item-code-generation/item-code-generation.component';
-import { Commonservice } from '../../services/commonservice.service';
-import { MaskingService } from '../../services/masking.service';
-import { CodeRow } from '../../models/Inbound/CodeRow';
+import { Commonservice } from 'src/app/services/commonservice.service';
+import { MaskingService } from 'src/app/services/masking.service';
+import { CodeRow } from 'src/app/models/Inbound/CodeRow';
 
 @Component({
   selector: 'app-item-code-generation-add',
@@ -286,7 +286,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
       if (this.itemCodeRowList.length > 0) {
 
         for (let i = 0; i < this.itemCodeRowList.length; ++i) {
-          if (this.itemCodeRowList[i].stringtype == 2 || this.itemCodeRowList[i].stringtype == 3) {
+          if (this.itemCodeRowList[i].stringtype == 2) {
             if (isNaN(this.itemCodeRowList[i].string) == true) {
               this.toastr.error('', this.translate.instant("ValidNumber"));
               return false;
@@ -295,7 +295,11 @@ export class ItemCodeGenerationAddComponent implements OnInit {
               this.toastr.error('', this.translate.instant("ValidOperations"));
               return false;
             }
-
+          } else if(this.itemCodeRowList[i].stringtype == 3){
+            if (this.itemCodeRowList[i].operations == 1) {
+              this.toastr.error('', this.translate.instant("ValidOperations"));
+              return false;
+            }
           } else {
             if (this.itemCodeRowList[i].operations != 1) {
               this.toastr.error('', this.translate.instant("ValidOperations"));
@@ -468,19 +472,22 @@ export class ItemCodeGenerationAddComponent implements OnInit {
       if (this.itemCodeRowList[i].rowindex === rowindex) {
         this.itemCodeRowList[i].string = "";
         this.itemCodeRowList[i].length = 0;
-        this.itemCodeRowList[i].stringtype = selectedvalue;
+
         if (selectedvalue == 1) {
+          this.itemCodeRowList[i].stringtype = 1;
           this.itemCodeRowList[i].isOperationDisable = true;
           this.itemCodeRowList[i].operations = 1;
           // this.defaultOperation = this.operations[0];
         } else if (selectedvalue == 2) {
-          // this.itemCodeRowList[i].operations = 2;
+          this.itemCodeRowList[i].stringtype = 2;
+          this.itemCodeRowList[i].operations = 2;
           this.itemCodeRowList[i].isOperationDisable = false
           // this.defaultOperation = this.operations[1];
         } else if (selectedvalue == 3) {
-          this.itemCodeRowList[i].string = "P1";
+          this.itemCodeRowList[i].string = "";
+          this.itemCodeRowList[i].stringtype = 3;
           this.itemCodeRowList[i].isOperationDisable = false
-          // this.defaultOperation = this.operations[1];
+          this.defaultOperation = this.operations[1];
         }
       }
 
@@ -549,10 +556,8 @@ export class ItemCodeGenerationAddComponent implements OnInit {
           this.finalString = "";
           var isOperationDisable = true
           for (let i = 0; i < data.length; ++i) {
-            var len = 0;
             if (data[i].OPTM_TYPE == 1) {
               isOperationDisable = true
-              len = data[i].OPTM_CODESTRING.length;
             }
 
             if (data[0].Reference == false && data[i].OPTM_TYPE == 2) {
@@ -562,7 +567,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
             this.itemCodeRowList.push(new CodeRow(data[i].OPTM_LINEID,
               data[i].OPTM_TYPE,
               data[i].OPTM_CODESTRING,
-              len,
+              data[i].OPTM_LENGTH,
               data[i].OPTM_OPERATION,
               "",
               localStorage.getItem("CompID"),
