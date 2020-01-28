@@ -33,7 +33,7 @@ export class CarrierViewComponent implements OnInit {
 
   GetDataForDockDoor() {
     this.showLoader = true;
-    this.carrierService.GetDataForDockDoor().subscribe(
+    this.carrierService.GetDataForCarrier().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -91,25 +91,25 @@ export class CarrierViewComponent implements OnInit {
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[i].OPTM_DOCKDOORID,
+        OPTM_CARRIERID: event[i].OPTM_CARRIERID,
         CompanyDBId: localStorage.getItem("CompID")
       });
     }
-    this.DeleteFromDockDoor(ddDeleteArry);
+    this.DeleteFromCarrier(ddDeleteArry);
   }
 
   onDeleteRowClick(event){
     var ddDeleteArry: any[] = [];
       ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[0],
+        OPTM_CARRIERID: event[0],
         CompanyDBId: localStorage.getItem("CompID")
       });
-    this.DeleteFromDockDoor(ddDeleteArry);
+    this.DeleteFromCarrier(ddDeleteArry);
   }
 
-  DeleteFromDockDoor(ddDeleteArry){
+  DeleteFromCarrier(ddDeleteArry){
     this.showLoader = true;
-    this.carrierService.DeleteFromDockDoor(ddDeleteArry).subscribe(
+    this.carrierService.DeleteFromCarrier(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -120,6 +120,7 @@ export class CarrierViewComponent implements OnInit {
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
             this.GetDataForDockDoor();
+            this.toastr.success('', this.translate.instant("Masking_RowDeletedMsg"));
           }else{
             this.toastr.error('', data[0].RESULT);
           }

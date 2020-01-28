@@ -182,11 +182,20 @@ export class ItemCodeGenerationAddComponent implements OnInit {
 
   onDeleteClick(rowindex) {
     console.log("onDeleteClick rowindex: " + rowindex)
-    // for (var i = 0; i < this.itemCodeRowList.length; i++) {
-    //   if (this.itemCodeRowList[i].codekey == event.codekey){
-    this.itemCodeRowList.splice(rowindex - 1, 1);
-    // }
-    // }
+    // // for (var i = 0; i < this.itemCodeRowList.length; i++) {
+    // //   if (this.itemCodeRowList[i].codekey == event.codekey){
+    // this.itemCodeRowList.splice(rowindex - 1, 1);
+    // // }
+    // // }
+    for (let i = 0; i < this.itemCodeRowList.length; ++i) {
+      if (this.itemCodeRowList[i].rowindex === rowindex) {
+        this.itemCodeRowList.splice(i, 1);
+        i = i - 1;
+      }
+      else {
+        this.itemCodeRowList[i].rowindex = i + 1;
+      }
+    }
 
     this.finalString == "";
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
@@ -202,7 +211,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     for (let i = 0; i < this.itemCodeRowList.length; ++i) {
       if (this.itemCodeRowList[i].string == undefined || this.itemCodeRowList[i].string.length == 0) {
         if (this.itemCodeRowList[i].stringtype == 3) {
-          return true;
+          //return true;
         } else {
           this.toastr.error('', this.translate.instant("Masking_ValidateStringBlank"));
           return false;
@@ -211,6 +220,10 @@ export class ItemCodeGenerationAddComponent implements OnInit {
 
       if (this.itemCodeRowList[i].length == undefined || this.itemCodeRowList[i].length == 0) {
         this.toastr.error('', this.translate.instant("Masking_ValidateLengthBlank"));
+        return false;
+      } else if(this.itemCodeRowList[i].stringtype != 3 
+        && this.itemCodeRowList[i].length < this.itemCodeRowList[i].string.length){
+        this.toastr.error('', this.translate.instant("ValidLengthNumber"));
         return false;
       }
 
@@ -248,7 +261,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     if (!this.validatedFieldsBeforeSave()) {
       return;
     }
-    if(this.itemCodeRowList.length == 0){
+    if (this.itemCodeRowList.length == 0) {
       return;
     }
     this.showLoader = true;
@@ -298,7 +311,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
               this.toastr.error('', this.translate.instant("ValidOperations"));
               return false;
             }
-          } else if(this.itemCodeRowList[i].stringtype == 3){
+          } else if (this.itemCodeRowList[i].stringtype == 3) {
             if (this.itemCodeRowList[i].operations == 1) {
               this.toastr.error('', this.translate.instant("ValidOperations"));
               return false;
@@ -455,7 +468,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
           // if (selectedvalue == undefined || selectedvalue.trim().length == 0) {
           //   this.itemCodeRowList[i].string = "";
           // } else {
-            this.itemCodeRowList[i].string = selectedvalue.trim();
+          this.itemCodeRowList[i].string = selectedvalue.trim();
           // }
 
           this.itemCodeRowList[i].codekey = this.codekey.trim();
@@ -562,6 +575,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
           for (let i = 0; i < data.length; ++i) {
             if (data[i].OPTM_TYPE == 1) {
               isOperationDisable = true
+              data[i].OPTM_LENGTH = data[i].OPTM_CODESTRING.length;
             }
 
             if (data[0].Reference == false && data[i].OPTM_TYPE == 2) {

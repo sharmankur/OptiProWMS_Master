@@ -14,41 +14,41 @@ export class CarrierService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
-  InsertIntoDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC: string): Observable<any> {
+  InsertIntoCarrier(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
+        OPTM_CARRIERID: OPTM_CARRIERID,
         OPTM_DESC: OPTM_DESC,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoDockDoor", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoCarrier", jObject, this.commonService.httpOptions);
   }
 
-  GetDataForDockDoor(): Observable<any> {
+  GetDataForCarrier(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForCarrier", jObject, this.commonService.httpOptions);
   }
 
-  UpdateDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC: string): Observable<any> {
+  UpdateCarrier(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
+        OPTM_CARRIERID: OPTM_CARRIERID,
         OPTM_DESC: OPTM_DESC,
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateDockDoor", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateCarrier", jObject, this.commonService.httpOptions);
   }
 
-  DeleteFromDockDoor(oShipmentAutoRule: any[]): Observable<any> {
+  DeleteFromCarrier(oShipmentAutoRule: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromDockDoor", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromCarrier", jObject, this.commonService.httpOptions);
   }
 }
