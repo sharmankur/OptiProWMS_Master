@@ -486,8 +486,9 @@ export class ItemCodeGenerationAddComponent implements OnInit {
         } else if (selectedvalue == 3) {
           this.itemCodeRowList[i].string = "";
           this.itemCodeRowList[i].stringtype = 3;
+          this.itemCodeRowList[i].operations = 2;
           this.itemCodeRowList[i].isOperationDisable = false
-          this.defaultOperation = this.operations[1];
+          // this.defaultOperation = this.operations[1];
         }
       }
 
