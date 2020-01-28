@@ -28,24 +28,24 @@ export class PickingListComponent implements OnInit {
   // GRID VAIRABLE
   public gridView: any = [
     {
-      "OPTM_OPTMID": "Ship123",
+      "OPTM_DOCENTRY": "Ship123",
       "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
       "OPTM_SHIPTO": "Indore",
       "OPTM_WHSCODE": "Warehouse123"
     }, {
-      "OPTM_OPTMID": "Ship123",
+      "OPTM_DOCENTRY": "Ship123",
       "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
       "OPTM_SHIPTO": "Indore",
       "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "OPTM_OPTMID": "Ship123",
+      "OPTM_DOCENTRY": "Ship123",
       "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
       "OPTM_SHIPTO": "Indore",
       "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "OPTM_OPTMID": "Ship123",
+      "OPTM_DOCENTRY": "Ship123",
       "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
       "OPTM_SHIPTO": "Indore",
       "OPTM_WHSCODE": "Warehouse123"
@@ -59,12 +59,8 @@ export class PickingListComponent implements OnInit {
   public desktopMedia = "(min-width: 768px)";
   // GRID VARIABLE
 
-  clearStorage(){
-    localStorage.setItem("TaskDetail", "");
-  }
-
   ngOnInit() {
-    this.clearStorage();
+    this.picktaskService.clearLocaStorage();
     this.getShipmentList()
   }
 

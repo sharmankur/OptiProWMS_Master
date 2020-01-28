@@ -15,10 +15,10 @@ export class PickingItemListComponent implements OnInit {
 
   ShipDetail: any;
   shipmentno: string;
-  PickTaskList: any[]=[];
+  PickTaskList: any[] = [];
   showLookupLoader: boolean = true;
   showLoader: boolean = false;
-  customereName="";
+  customereName = "";
   PickTaskDetail: any;
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
@@ -74,15 +74,19 @@ export class PickingItemListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.picktaskService.clearLocaStorage();
     this.ShipDetail = JSON.parse(localStorage.getItem("ShipDetail"));
-    this.shipmentno = this.translate.instant("PT_ShipmentId") + ": " + this.ShipDetail.OPTM_OPTMID;
+    this.shipmentno = this.translate.instant("PT_ShipmentId") + ": " + this.ShipDetail.OPTM_DOCENTRY;
     this.customereName = this.ShipDetail.OPTM_BPCODE;
-    this.getPickTaskList(this.ShipDetail.OPTM_OPTMID);
+    this.getPickTaskList(this.ShipDetail.OPTM_DOCENTRY);
   }
+
+
 
   cellClickHandler(row) {
     localStorage.setItem("From", "tasklist");
-    localStorage.setItem("TaskDetail", JSON.stringify(row.dataItem));
+    localStorage.setItem("PickItemIndex", row.rowIndex);
+    localStorage.setItem("TaskDetail", JSON.stringify(this.PickTaskDetail));
     this.router.navigate(['home/picking/picking-item-details']);
   }
 
