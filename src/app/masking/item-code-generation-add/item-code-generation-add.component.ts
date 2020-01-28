@@ -248,6 +248,9 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     if (!this.validatedFieldsBeforeSave()) {
       return;
     }
+    if(this.itemCodeRowList.length == 0){
+      return;
+    }
     this.showLoader = true;
     this.maskingService.saveData(this.itemCodeRowList).subscribe(
       (data: any) => {

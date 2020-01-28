@@ -565,6 +565,7 @@
   "Masking_ValidateLengthBlank": "Length must be greater than zero(0).",
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
-
+  "Carrier_CarrierId": "Carrier Id",
+  
   "Dummy": "Dummy"
 }

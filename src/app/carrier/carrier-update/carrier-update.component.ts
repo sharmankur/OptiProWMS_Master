@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from '../../services/commonservice.service';
-import { DockdoormainComponent } from '../dockdoormain/dockdoormain.component';
-import { DockdoorService } from '../../services/dockdoor.service';
-import { Router } from '@angular/router';
+import { Commonservice } from 'src/app/services/commonservice.service';
+import { CarrierMainComponent } from '../carrier-main/carrier-main.component';
+import { CarrierService } from 'src/app/services/carrier.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dockdoorupdate',
-  templateUrl: './dockdoorupdate.component.html',
-  styleUrls: ['./dockdoorupdate.component.scss']
+  selector: 'app-carrier-update',
+  templateUrl: './carrier-update.component.html',
+  styleUrls: ['./carrier-update.component.scss']
 })
-export class DockdoorupdateComponent implements OnInit {
+export class CarrierUpdateComponent implements OnInit {
 
   DD_ID: string;
   DD_DESC: string;
@@ -20,56 +20,56 @@ export class DockdoorupdateComponent implements OnInit {
   isUpdate: boolean = false;
   showLoader: boolean = false;
 
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService,
-    private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { }
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
+    private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) { }
 
-    ngOnInit() {
-      let DD_ROW = localStorage.getItem("DD_ROW")
-      if(DD_ROW != undefined && DD_ROW != ""){
+  ngOnInit() {
+    let DD_ROW = localStorage.getItem("DD_ROW")
+    if (DD_ROW != undefined && DD_ROW != "") {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));
-        this.DD_ID = this.DD_ROW[0];
-        this.DD_DESC = this.DD_ROW[1];
-        if(localStorage.getItem("Action") == "copy"){
-          this.isUpdate = false;
-          this.BtnTitle = this.translate.instant("CT_Add");
-        }else{
-          this.isUpdate = true;
-          this.BtnTitle = this.translate.instant("CT_Update");
-        }
-      }else{
+      this.DD_ID = this.DD_ROW[0];
+      this.DD_DESC = this.DD_ROW[1];
+      if (localStorage.getItem("Action") == "copy") {
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
+      } else {
+        this.isUpdate = true;
+        this.BtnTitle = this.translate.instant("CT_Update");
       }
+    } else {
+      this.isUpdate = false;
+      this.BtnTitle = this.translate.instant("CT_Add");
     }
+  }
 
-  
-  onCancelClick(){
-    this.ddmainComponent.ddComponent= 1;
+
+  onCancelClick() {
+    this.carrierMainComponent.carrierComponent = 1;
     // this.onAddUpdateClick();
   }
 
-  validateFields(): boolean{
-    if(this.DD_ID == '' || this.DD_ID == undefined){
+  validateFields(): boolean {
+    if (this.DD_ID == '' || this.DD_ID == undefined) {
       this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
       return false;
     }
     return true;
   }
-  
- public onAddUpdateClick() {
-    if(!this.validateFields()){
+
+  public onAddUpdateClick() {
+    if (!this.validateFields()) {
       return;
     }
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if (this.BtnTitle == this.translate.instant("CT_Update")) {
       this.UpdateDockDoor();
-    }else{
+    } else {
       this.InsertIntoDockDoor();
     }
   }
 
   InsertIntoDockDoor() {
     this.showLoader = true;
-    this.ddService.InsertIntoDockDoor(this.DD_ID, this.DD_DESC).subscribe(
+    this.carrierService.InsertIntoDockDoor(this.DD_ID, this.DD_DESC).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -78,14 +78,14 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.success('', data[0].RESULT);
-            this.ddmainComponent.ddComponent= 1;
-          }else{
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.error('', data[0].RESULT);
+            this.carrierMainComponent.carrierComponent = 1;
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
-          this.toastr.success('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -102,7 +102,7 @@ export class DockdoorupdateComponent implements OnInit {
 
   UpdateDockDoor() {
     this.showLoader = true;
-    this.ddService.UpdateDockDoor(this.DD_ID, this.DD_DESC).subscribe(
+    this.carrierService.UpdateDockDoor(this.DD_ID, this.DD_DESC).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -111,10 +111,10 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.success('', data[0].RESULT);
-            this.ddmainComponent.ddComponent= 1;
-          }else{
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.error('', data[0].RESULT);
+            this.carrierMainComponent.carrierComponent = 1;
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
