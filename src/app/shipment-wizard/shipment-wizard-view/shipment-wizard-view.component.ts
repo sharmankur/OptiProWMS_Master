@@ -56,6 +56,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   public CHKItem: boolean=true;
   public CHKSOno: boolean=true;
   public CHKDueDate: boolean=true;
+  public Step1: boolean=false;
+  public Step2: boolean=false;
+  public Step3: boolean=false;
+  public step4: boolean=false;
   ngOnInit() {
    // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
@@ -65,7 +69,23 @@ export class ShipmentWizardViewComponent implements OnInit {
 
   onPrevClick(){
     if(this.currentStep > 1){
+      
       this.currentStep = this.currentStep - 1;
+      //if(this.currentStep===2)
+        //  {
+        //   if(this.HoldSelectedRow.SOLines.length >0)
+        //      {
+        //        for(let i=0; i <this.HoldSelectedRow.SOLines.length; i++)
+        //            {
+        //             var findex =this.gridData.findIndex(function (x) 
+        //             { 
+        //               return x.SO === this.HoldSelectedRow.SOLines[i].SO && x.LN==this.HoldSelectedRow.SOLines[i].LN
+        //             });
+        //            }
+        //            console.log(findex);
+        //       // if(this.HoldSelectedRow.SOLines[i].SO===SO && this.HoldSelectedRow.SOLines[i].LN===LN)
+        //      }
+        //  }
     }    
   }
   numericOnly(event): boolean {    
@@ -81,7 +101,12 @@ export class ShipmentWizardViewComponent implements OnInit {
         {
           if(this.WareHouse !="" && this.WareHouse !=undefined)
            {
-            this.GetSalesWizardData();}
+            //  if(this.gridData === undefined)
+             this.GetSalesWizardData();
+            // else {
+            //   this.currentStep = this.currentStep + 1;
+            // }
+          }
            
           else {
             this.toastr.error('', this.translate.instant("WareHouseValidation"));  
@@ -93,6 +118,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           if(this.HoldSelectedRow.SOLines.length >0)
             {
               this.currentStep = this.currentStep + 1;
+              return;
             }
           else {
             this.toastr.error('', this.translate.instant("GridCheckBoxValidation"));  
@@ -123,66 +149,76 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
 
   onStepClick(currentStep){
-    this.currentStep = currentStep;
+    debugger
+    //this.currentStep = currentStep;
   }
 
   GetSalesWizardData() {
-    this.SetParameter=[];
-    this.SetParameter.push({
-      FROMCARDCODE: this.CustomerFrom,
-      TOCARDCODE: this.CustomerTo,
-      DOCDUEFROM: this.DueDateFrom,
-      DOCDUETO: this.DueDateTo,
-      ITEMCODEFROM: this.ItemFrom,
-      ITEMCODETO: this.ItemTo,
-      FROMSO: this.SrNoFrom,
-      TOSO: this.SrNoTo,
-      WHSCODE: this.WareHouse,
-      SHIPFROM:this.ShipFrom,
-      SHIPTO:this.ShipTo,
-      OPENQTYFROM:this.OpenQtyFrom,
-      OPENQTYTO:this.OpenQtyTo,
-      NOOFFOPENLINESFROM:this.NoofOpenLinesFrom,
-      NOOFFOPENLINESTO:this.NoofOpenLinesTo,
-      CompanyDBId: localStorage.getItem("CompID")
-    });
     
-    this.WizardService.GetSalesOrder(this.SetParameter).subscribe(
-      resp => {
-        if (resp != undefined && resp != null) {
-          this.currentStep = this.currentStep + 1;
-          debugger
-          for(let i=0; i <resp.length; i++)
-              {
-                if(resp[i].SELECT==="")resp[i].SELECT=false;
-                if(resp[i].SalesUOM===null) resp[i].SalesUOM='';
-                if(resp[i].InvntryUom===null) resp[i].InvntryUom='';
-              }
-               this.gridData = resp;
-        }
-        else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));  
-        }
-      },
-      error => {
-        console.log("Error:", error);
-        //this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
-        }
-       
-      },
-      () => {
+        this.SetParameter=[];
+        this.SetParameter.push({
+          FROMCARDCODE: this.CustomerFrom,
+          TOCARDCODE: this.CustomerTo,
+          DOCDUEFROM: this.DueDateFrom,
+          DOCDUETO: this.DueDateTo,
+          ITEMCODEFROM: this.ItemFrom,
+          ITEMCODETO: this.ItemTo,
+          FROMSO: this.SrNoFrom,
+          TOSO: this.SrNoTo,
+          WHSCODE: this.WareHouse,
+          SHIPFROM:this.ShipFrom,
+          SHIPTO:this.ShipTo,
+          OPENQTYFROM:this.OpenQtyFrom,
+          OPENQTYTO:this.OpenQtyTo,
+          NOOFFOPENLINESFROM:this.NoofOpenLinesFrom,
+          NOOFFOPENLINESTO:this.NoofOpenLinesTo,
+          CompanyDBId: localStorage.getItem("CompID")
+        });
+        
+        this.WizardService.GetSalesOrder(this.SetParameter).subscribe(
+          resp => {
+            if (resp != undefined && resp != null) {
+              this.currentStep = this.currentStep + 1;
+              debugger
+              for(let i=0; i <resp.length; i++)
+                  {
+                    if(resp[i].SELECT==="")resp[i].SELECT=false;
+                    if(resp[i].SalesUOM===null) resp[i].SalesUOM='';
+                    if(resp[i].InvntryUom===null) resp[i].InvntryUom='';
+                  }
+                 // if(this.gridData === undefined)
+                  this.gridData = resp;
+                  // else {
+                  //   this.currentStep = this.currentStep + 1;
+                  // }
+                  
+                   
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));  
+            }
+          },
+          error => {
+            console.log("Error:", error);
+            //this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+            if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+              this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+            }
+           
+          },
+          () => {
+          }
+        )
       }
-    )
-  }
 
   GetConsolidatedData() {
      this.HoldSelectedRow.Company=[];
-     this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID")})
+    
+   //this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
+     this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:"dmahore"})
     this.WizardService.GetSalesOrderConsolidatedData(this.HoldSelectedRow).subscribe(
       resp => {
         // this.currentStep = this.currentStep + 1;
