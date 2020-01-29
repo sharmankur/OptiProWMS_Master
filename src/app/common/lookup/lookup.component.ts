@@ -897,7 +897,7 @@ export class LookupComponent implements OnInit {
   CarrierListView() {
     this.table_head = [
       {
-        field: 'OPTM_DOCKDOORID',
+        field: 'OPTM_CARRIERID',
         title: this.translate.instant("Carrier_CarrierId"),
         type: 'text',
         width: '200'

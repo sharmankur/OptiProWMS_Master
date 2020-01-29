@@ -23,7 +23,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CAR_ContainerType" [(ngModel)]="CAR_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
-                                    (blur)="OnContainerTypeChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    (blur)="OnContainerTypeChangeBlur()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType()" [disabled]=isUpdate>
                                         <i class="opti-icon-hammenu"></i>
@@ -159,10 +159,10 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="OnAddUpdateClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>

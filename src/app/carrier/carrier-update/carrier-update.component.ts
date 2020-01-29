@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class CarrierUpdateComponent implements OnInit {
 
-  DD_ID: string;
-  DD_DESC: string;
+  carrierId: string;
+  carrierDesc: string;
   DD_ROW: any;
   BtnTitle: string;
   isUpdate: boolean = false;
@@ -27,8 +27,8 @@ export class CarrierUpdateComponent implements OnInit {
     let DD_ROW = localStorage.getItem("DD_ROW")
     if (DD_ROW != undefined && DD_ROW != "") {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));
-      this.DD_ID = this.DD_ROW[0];
-      this.DD_DESC = this.DD_ROW[1];
+      this.carrierId = this.DD_ROW[0];
+      this.carrierDesc = this.DD_ROW[1];
       if (localStorage.getItem("Action") == "copy") {
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
@@ -49,7 +49,7 @@ export class CarrierUpdateComponent implements OnInit {
   }
 
   validateFields(): boolean {
-    if (this.DD_ID == '' || this.DD_ID == undefined) {
+    if (this.carrierId == '' || this.carrierId == undefined) {
       this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
       return false;
     }
@@ -69,7 +69,7 @@ export class CarrierUpdateComponent implements OnInit {
 
   InsertIntoDockDoor() {
     this.showLoader = true;
-    this.carrierService.InsertIntoDockDoor(this.DD_ID, this.DD_DESC).subscribe(
+    this.carrierService.InsertIntoCarrier(this.carrierId, this.carrierDesc).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -79,8 +79,10 @@ export class CarrierUpdateComponent implements OnInit {
             return;
           }
           if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.carrierMainComponent.carrierComponent = 1;
+          } else if (data[0].RESULT == "Data Already Exists") {
+            this.toastr.error('', this.translate.instant("Carrier_CarrierIdAlreadyExist"));
           } else {
             this.toastr.error('', data[0].RESULT);
           }
@@ -102,7 +104,7 @@ export class CarrierUpdateComponent implements OnInit {
 
   UpdateDockDoor() {
     this.showLoader = true;
-    this.carrierService.UpdateDockDoor(this.DD_ID, this.DD_DESC).subscribe(
+    this.carrierService.UpdateCarrier(this.carrierId, this.carrierDesc).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -112,8 +114,10 @@ export class CarrierUpdateComponent implements OnInit {
             return;
           }
           if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.carrierMainComponent.carrierComponent = 1;
+          } else if (data[0].RESULT == "Data Already Exists") {
+            this.toastr.error('', this.translate.instant("Carrier_CarrierIdAlreadyExist"));
           } else {
             this.toastr.error('', data[0].RESULT);
           }
