@@ -20,7 +20,7 @@
                 </div>
             </div> -->
 
-            <div class="row" *ngIf="showAddRowbtn">
+            <!-- <div class="row" *ngIf="showAddRowbtn">
                 <div class="col-sm-12">
                     <div class="input-group input-group-sm">
                         <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" (click)="onAddClick()">
@@ -31,7 +31,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
                 (deleteClick)="onDeleteRowClick($event)" 
@@ -41,16 +41,20 @@
         </div>
         <!-- Page Footer -->
         <div class="fix-footer-btnBar">
-            <!-- <div class="col-sm-12 col-12">
+            <div class="col-sm-12 col-12">
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onDeleteAllClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span>
-                    {{'CT_DeleteAll'|translate}}</button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
-            </div> -->
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
+
+                    <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" (click)="onAddClick()">
+                        <span class="k-icon k-i-plus-outline" role="presentation"></span>{{'CT_Add'|translate}}
+                    </button>
+                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick()">
+                        <span class="k-icon k-i-delete" role="presentation"></span>{{'CT_DeleteAll'|translate}}
+                    </button>                     -->
+            </div>
         </div>
     </form>
 </div>

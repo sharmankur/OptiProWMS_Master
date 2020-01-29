@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { PickTaskService } from '../../services/picktask.service';
-import { TranslateService, LangChangeEvent } from '../../../../node_modules/@ngx-translate/core';
-import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
 
 @Component({
@@ -28,27 +28,27 @@ export class PickingListComponent implements OnInit {
   // GRID VAIRABLE
   public gridView: any = [
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_DOCENTRY": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     }, {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_DOCENTRY": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_DOCENTRY": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
     {
-      "ShipmentId": "Ship123",
-      "Customer": "BatchMaster Pvt. Ltd",
-      "ShipTo": "Indore",
-      "Warehouse": "Warehouse123"
+      "OPTM_DOCENTRY": "Ship123",
+      "OPTM_BPCODE": "BatchMaster Pvt. Ltd",
+      "OPTM_SHIPTO": "Indore",
+      "OPTM_WHSCODE": "Warehouse123"
     },
   ];
   public items: any[] = [];
@@ -59,24 +59,25 @@ export class PickingListComponent implements OnInit {
   public desktopMedia = "(min-width: 768px)";
   // GRID VARIABLE
 
-
   ngOnInit() {
+    this.picktaskService.clearLocaStorage();
     this.getShipmentList()
   }
 
   onShipmentSelection(row) {
     localStorage.setItem("ShipDetail", JSON.stringify(row.dataItem));
+    localStorage.setItem("From", "shiplist");
     this.router.navigate(['home/picking/picking-item-details']);
   }
 
-  // onShipmentSelection(row) {
-  //   localStorage.setItem("ShipDetail", JSON.stringify(row));
-  //   this.router.navigate(['home/picking/picking-item-list']);
-  // }
+  showPickTaskList(row) {
+    localStorage.setItem("ShipDetail", JSON.stringify(row));
+    this.router.navigate(['home/picking/picking-item-list']);
+  }
 
   getShipmentList() {
     this.showLoader = true;
-    this.picktaskService.GetDataForContainerRelationship().subscribe(
+    this.picktaskService.GetShipmentId().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -86,10 +87,10 @@ export class PickingListComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          for (var i = 0; i < data.length; i++) {
-            data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          }
+          // for (var i = 0; i < data.length; i++) {
+          //   data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          //   data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          // }
           this.ShipmentList = data;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

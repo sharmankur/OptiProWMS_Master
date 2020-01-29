@@ -93,10 +93,10 @@ export class ItemCodeGenerationViewComponent implements OnInit {
     console.log("onCopyItemClick" + event)
     localStorage.setItem("Action", "copy");
     localStorage.setItem("Row", JSON.stringify(event));
-    // this.itemCodeGenComponent.itemCodeGenComponent = 2;
+    this.itemCodeGenComponent.itemCodeGenComponent = 2;
   }
 
-  OnCancelClick() {
+  onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
@@ -111,33 +111,26 @@ export class ItemCodeGenerationViewComponent implements OnInit {
 
   OnDeleteSelected(event) {//called on delete multiple selected items
     console.log("OnDeleteSelected" + event)
-    // localStorage.setItem("Action", "delete");
-    // var ddDeleteArry: any[] = [];
-    // for(var i=0; i<event.length; i++){
-    //   ddDeleteArry.push({       
-    //     OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
-    //     OPTM_CONTTYPE: event[i].OPTM_PARENT_CONTTYPE,
-    //     CompanyDBId: localStorage.getItem("CompID")
-    //   });
-    // }
-    // this.deleteSelectedData("");
+    localStorage.setItem("Action", "delete");
+    var deletedRows: any[] = [];
+    for (var i = 0; i < event.length; i++) {
+      deletedRows.push({
+        ItemCode: event[i].Code,
+        FinalString: event[i].FinalString,
+        CompanyDBId: localStorage.getItem("CompID")
+      });
+    }
+    this.deleteSelectedData(deletedRows);
   }
 
   onDeleteRowClick(event) {
-    console.log("onDeleteRowClick" + event.codekey)
-    // this.deleteSelectedData(event.codekey);
-    // var ddDeleteArry: any[] = [];
-    //   ddDeleteArry.push({
-    //     CompanyDBId: localStorage.getItem("CompID"),
-    //     OPTM_CONTAINER_TYPE: event[0],
-    //     OPTM_PARENT_CONTTYPE: event[1],
-    //   });
-    //this.DeleteFromContainerRelationship(ddDeleteArry);
+    console.log("onDeleteRowClick" + event[0])
+    this.deleteData(event[0]);
   }
 
-  deleteSelectedData(itemCodeKey: string) {
+  deleteData(codeKey: string) {
     this.showLoader = true;
-    this.maskingService.DeleteSelectedData(itemCodeKey).subscribe(
+    this.maskingService.DeleteData(codeKey).subscribe(
       (data: any) => {
         console.log("data: " + data);
         this.showLoader = false;
@@ -148,7 +141,17 @@ export class ItemCodeGenerationViewComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
+            if (data[0].IsDeleted == 1) {
+              var tempArr: any = [];
+              for (var i = 0; i < this.serviceData.length; i++) {
+                if (this.serviceData[i].Code != data[0].ItemCode) {
+                  tempArr.push(this.serviceData[i])
+                }
+              }
+              this.serviceData = tempArr;
 
+              this.toastr.error('', this.translate.instant("Masking_RowDeletedMsg"));
+            }
           } else {
             this.toastr.error('', data[0].RESULT);
           }
@@ -167,4 +170,51 @@ export class ItemCodeGenerationViewComponent implements OnInit {
       }
     );
   }
+
+  deleteSelectedData(rows: any) {
+    this.showLoader = true;
+    this.maskingService.DeleteSelectedData(rows).subscribe(
+      (data: any) => {
+        console.log("data: " + data);
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonService.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          // var tempArr: any = [];
+          // tempArr = this.serviceData;
+          if (data.length > 0) {
+            // for (var i = 0; i < data.length; i++) {
+            //   for (var j = 0; j < tempArr.length; j++) {
+            //     if (data[i].ItemCode == tempArr[j].Code) {
+            //       tempArr.splice(j, 1);
+            //     }
+            //   }
+            // }
+            //this.serviceData = [];
+            // this.serviceData = tempArr;
+            this.getItemGenerationData();
+            this.toastr.error('', this.translate.instant("Masking_RowDeletedMsg"));
+          } else {
+            this.toastr.error('', data[0].RESULT);
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonService.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  
 }

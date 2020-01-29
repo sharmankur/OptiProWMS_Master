@@ -8,40 +8,40 @@
             <div class="row pick-list-row">
                 <div class="col-12 pick-list-col">
                     <div class="new-custom-grid">
-                        <kendo-grid  [data]="gridView" (cellClick)="onShipmentSelection($event)" [pageSize]="pageSize"
+                        <kendo-grid  [data]="ShipmentList" (cellClick)="onShipmentSelection($event)" [pageSize]="pageSize"
                             [skip]="skip" [pageable]="true">
                             <kendo-grid-column [media]="mobileMedia" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <dl class="grid-mobile-card">
-                                        <button class="task-btn">
+                                        <button class="task-btn" (click)="showPickTaskList(dataItem)">
                                             <span class=" k-icon k-i-track-changes"></span>
                                         </button>                                        
                                         <div class="di-list">
                                             <dt>{{'PT_ShipmentId'|translate}}</dt>
-                                            <dd>{{ dataItem.ShipmentId }}</dd>
+                                            <dd>{{ dataItem.OPTM_DOCENTRY}}</dd>
                                         </div>
                                         <div class="di-list">
                                             <dt>{{'PT_Customer'|translate}}</dt>
-                                            <dd>{{ dataItem.Customer }}</dd>
+                                            <dd>{{ dataItem.OPTM_BPCODE}}</dd>
                                         </div>
                                         <div class="di-list">
                                             <dt>{{'PT_Ship_To'|translate}}</dt>
-                                            <dd>{{ dataItem.ShipTo }}</dd>
+                                            <dd>{{ dataItem.OPTM_SHIPTO}}</dd>
                                         </div>
                                         <div class="di-list">
                                             <dt>{{'PT_Warehouse'|translate}}</dt>
-                                            <dd>{{ dataItem.Warehouse }}</dd>
+                                            <dd>{{ dataItem.OPTM_WHSCODE}}</dd>
                                         </div>
                                     </dl>
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="ShipmentId" title="{{'PT_ShipmentId'|translate}}">
+                             <kendo-grid-column [media]="desktopMedia" field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}">  
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="Customer" title="{{'PT_Customer'|translate}}">
+                            <kendo-grid-column [media]="desktopMedia" field="OPTM_BPCODE" title="{{'PT_Customer'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="ShipTo" title="{{'PT_Ship_To'|translate}}">
+                            <kendo-grid-column [media]="desktopMedia" field="OPTM_SHIPTO" title="{{'PT_Ship_To'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" field="Warehouse" title="{{'PT_Warehouse'|translate}}">
+                            <kendo-grid-column [media]="desktopMedia" field="OPTM_WHSCODE" title="{{'PT_Warehouse'|translate}}">
                             </kendo-grid-column>
                         </kendo-grid>
                     </div>

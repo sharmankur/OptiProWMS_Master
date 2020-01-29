@@ -31,6 +31,7 @@ import { CARMAsterModule } from '../carmaster/carmaster.module';
 import { DockDoorModule } from '../dock-door/dock-door.module';
 import { MaskingModule } from '../masking/masking.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CarrierModule } from '../carrier/carrier.module';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     CARMAsterModule,
     InventoryTransferModule,
     PalletizationModule,
-    MaskingModule
+    MaskingModule,
+    CarrierModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
   providers:[DashboardComponent ]
