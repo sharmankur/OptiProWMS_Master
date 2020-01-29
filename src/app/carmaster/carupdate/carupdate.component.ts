@@ -129,14 +129,24 @@ export class CARUpdateComponent implements OnInit {
     alert(this.CAR_PackType);
   }
 
-  OnContainerTypeChange() {
+  OnContainerTypeChangeBlur(){
+    if(this.isValidateCalled){
+      return
+    }
+    this.OnContainerTypeChange();
+  }
+
+  async OnContainerTypeChange() {
     if (this.CAR_ContainerType == undefined || this.CAR_ContainerType == "") {
       return;
     }
     this.showLoader = true;
-    this.commonservice.IsValidContainerType(this.CAR_ContainerType).subscribe(
+    var result = false;
+    await this.commonservice.IsValidContainerType(this.CAR_ContainerType).then(
       (data: any) => {
+        console.log("inside IsValidContainerType")
         this.showLoader = false;
+        result = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -145,6 +155,7 @@ export class CARUpdateComponent implements OnInit {
           }
           if (data.length > 0) {
             this.CAR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
+            result = true;
           } else {
             this.CAR_ContainerType = "";
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -155,6 +166,7 @@ export class CARUpdateComponent implements OnInit {
         }
       },
       error => {
+        result = false;
         this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
@@ -164,6 +176,7 @@ export class CARUpdateComponent implements OnInit {
         }
       }
     );
+    return result;
   }
 
   OnAddUpdateClick() {
@@ -274,10 +287,18 @@ export class CARUpdateComponent implements OnInit {
   }
 
 
-  InsertIntoContainerAutoRule(AutoRuleData: any) {
+  async InsertIntoContainerAutoRule(AutoRuleData: any) {
+    var result = await this.validateBeforeSubmit();
+    this.isValidateCalled = false;
+    console.log("validate result: " + result);
+    if (result != undefined && result == false) {
+      return;
+    }
+
     this.showLoader = true;
     this.carmasterService.InsertIntoContainerAutoRule(AutoRuleData).subscribe(
       (data: any) => {
+        console.log("inside InsertIntoContainerAutoRule")
         this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -307,10 +328,18 @@ export class CARUpdateComponent implements OnInit {
     );
   }
 
-  UpdateContainerAutoRule(AutoRuleData: any) {
+  async UpdateContainerAutoRule(AutoRuleData: any) {
+    var result = await this.validateBeforeSubmit();
+    this.isValidateCalled = false;
+    console.log("validate result: " + result);
+    if (result != undefined && result == false) {
+      return;
+    }
+
     this.showLoader = true;
     this.carmasterService.UpdateContainerAutoRule(AutoRuleData).subscribe(
       (data: any) => {
+        console.log("inside UpdateContainerAutoRule")
         this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -468,5 +497,19 @@ export class CARUpdateComponent implements OnInit {
     gridItem = this.autoRuleArray;
   }
 
+  isValidateCalled: boolean = false;
+  async validateBeforeSubmit(): Promise<any> {
+    this.isValidateCalled = true;
+    var currentFocus = document.activeElement.id;
+    console.log("validateBeforeSubmit current focus: " + currentFocus);
+
+    if (currentFocus != undefined) {
+      if (currentFocus == "InboundDetailVendScanInputField") {
+        return this.OnContainerTypeChange();
+      } else if(currentFocus == "ctrParentContainerType"){
+        return this.OnContainerTypeChange();
+      }
+    }
+  }
 }
 

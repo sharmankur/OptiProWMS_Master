@@ -13,7 +13,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CTR_ContainerType" [(ngModel)]="CTR_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
-                                    (blur)="OnContainerTypeChange()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    (blur)="OnContainerTypeChangeBlur()" #VendScanInputField [disabled]=isUpdate id="CTR_ContainerTypeScanInputField">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType('CT')" [disabled]=isUpdate>
                                         <i class="opti-icon-hammenu"></i>
@@ -29,8 +29,8 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CTR_ParentContainerType" [(ngModel)]="CTR_ParentContainerType"
-                                    placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="OnParentContainerTypeChange()" #VendScanInputField
-                                    [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="OnParentContainerTypeChangeBlur()" #VendScanInputField
+                                    [disabled]=isUpdate id="ctrParentContainerType">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType()" [disabled]=isUpdate>
                                         <i class="opti-icon-hammenu"></i>
@@ -68,10 +68,10 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onAddUpdateClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
