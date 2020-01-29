@@ -80,7 +80,7 @@
   "DataSaved":"Data Saved",
   "DataAlreadySaved":"Data Already Saved",
   "PickedAllTask":"You have picked all the tasks, click Submit to process.",
-  "NoRecord":"No record saved to submit.",
+  "NoRecord":"No record added.",
 
   "PT_ShipmentList": "Shipment List",
   "PT_ShipmentId": "Shipment Id",

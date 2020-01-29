@@ -75,8 +75,8 @@ export class PickTaskService {
   }
 
   SubmitPickList(oSubmitPOLots: any): Observable<any> {
-    var jObject = { GoodsReceiptToken: JSON.stringify(oSubmitPOLots) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/SubmitPickList", jObject, this.commonService.httpOptions);
+    var jObject = { Shipment: JSON.stringify(oSubmitPOLots) };    
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/SubmitPickList", jObject, this.commonService.httpOptions);
   }
 
   
