@@ -108,17 +108,18 @@ export class SigninComponent implements OnInit {
     getPSURL() {
         //    localStorage.setItem("PSURLFORADMIN", "http://139.144.10.220/optiproadmin/");
         // localStorage.setItem("PSURLFORADMIN", "http://172.16.6.140/OptiProAdmin/");
-        this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
-        this.signinService.getPSURL(this.config_params.service_url).subscribe(
-            data => {
-                if (data != null) {
-                    localStorage.setItem("PSURLFORADMIN", data);
-                }
-            },
-            error => {
-                this.toastr.error('', 'There is some error to connect with server', error);
-                this.showLoader = false;
-            });
+
+        // this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
+        // this.signinService.getPSURL(this.config_params.service_url).subscribe(
+        //     data => {
+        //         if (data != null) {
+        //             localStorage.setItem("PSURLFORADMIN", data);
+        //         }
+        //     },
+        //     error => {
+        //         this.toastr.error('', 'There is some error to connect with server', error);
+        //         this.showLoader = false;
+        //     });
 
 
     }
@@ -133,26 +134,27 @@ export class SigninComponent implements OnInit {
     * Function for login
     */
     public async login() {
-       this.isCompleteLoginVisible = true;
+      // this.isCompleteLoginVisible = true;
 
-        // window.localStorage.setItem('IsMenuLoaded', 'false');
-        // if (this.userName == "" || this.password == "") {
-        //     this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
-        //     return true;
-        // }
+        window.localStorage.setItem('IsMenuLoaded', 'false');
+        if (this.userName == "" || this.password == "") {
+            this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
+            return true;
+        }
 
-        // this.showLoader = true;
-        // if (!this.isCompleteLoginVisible) {
-        //     this.validateUserLogin();
-        // } else {
-        //     this.selectedItem = document.getElementById("compId").innerText.trim();
-        //     if (this.validateFields()) {
-        //         this.showLoader = false;
-        //         return;
-        //     }
+        this.showLoader = true;
+        if (!this.isCompleteLoginVisible) {
+            this.validateUserLogin();
+        } 
+        else {
+            this.selectedItem = document.getElementById("compId").innerText.trim();
+            if (this.validateFields()) {
+                this.showLoader = false;
+                return;
+            }
         //    this.getLicenseData();
 
-            localStorage.setItem("CompID", "DEVSCHEDULING");
+            localStorage.setItem("CompID", this.selectedItem);
             localStorage.setItem("whseId", "01");
             localStorage.setItem("UserId", this.userName);
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
@@ -160,7 +162,7 @@ export class SigninComponent implements OnInit {
             localStorage.setItem("DecimalPrecision", "2");
             localStorage.setItem("DecimalSeparator", ".");
             this.router.navigateByUrl('home/dashboard'); 
-     //   }
+       }
     }
 
     private validateUserLogin() {

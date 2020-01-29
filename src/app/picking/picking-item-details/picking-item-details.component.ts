@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PickTaskService } from '../../services/picktask.service';
 import { Commonservice } from '../../services/commonservice.service';
-import { ToastrService } from '../../../../node_modules/ngx-toastr';
-import { TranslateService, LangChangeEvent } from '../../../../node_modules/@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { PickTaskModel } from '../../models/PickTaskModel';
+import { BtchNoneModel } from '../../models/BtchNoneModel';
 
 @Component({
   selector: 'app-picking-item-details',
@@ -57,11 +58,16 @@ export class PickingItemDetailsComponent implements OnInit {
   threeSteps: boolean = true;
   pickTaskName: string;
   openQty: number;
-  pickQty: number = 0; index = 0;
+  totalpickQty: number = 0;
+  pickQty: number = undefined; index = 0;
   PT_Enter_Location: string;
   PT_Enter_ContBtchSer: string;
   ContBtchSerArray: string[] = [];
+  BtchNoneArray: any[] = [];
+
   OPTM_Tracking: string = 'S';
+  itemcodeLabel: string;
+  itemcodeValue: string;
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -127,6 +133,14 @@ export class PickingItemDetailsComponent implements OnInit {
     this.openQty = this.PickTaskList[index].OPTM_PLANNED_QTY;
     this.OPTM_Tracking = this.PickTaskList[index].OPTM_TRACKING;
 
+    if (this.PickTaskList[index].OPTM_LINETYPE == 1) {
+      this.itemcodeLabel = this.translate.instant("ContainerId");
+      this.itemcodeValue = this.PickTaskDetail.OPTM_WHSTASK_DTL[index].OPTM_CONTAINERID;
+    } else {
+      this.itemcodeLabel = this.translate.instant("ItemCode");
+      this.itemcodeValue = this.PickTaskList[index].OPTM_ITEMCODE;
+    }
+
     if (this.OPTM_Tracking == 'S' || this.PickTaskList[index].OPTM_LINETYPE == 1) {
       this.threeSteps = false;
       this.maxStep = 2;
@@ -140,7 +154,7 @@ export class PickingItemDetailsComponent implements OnInit {
     if (this.currentStep > 1) {
       if (this.currentStep == 3 && this.OPTM_Tracking == 'N') {
         this.currentStep = this.currentStep - 2;
-      }else{
+      } else {
         this.currentStep = this.currentStep - 1;
       }
       this.changeText(this.currentStep)
@@ -161,7 +175,7 @@ export class PickingItemDetailsComponent implements OnInit {
       }
       if (this.currentStep == 1 && this.OPTM_Tracking == 'N') {
         this.currentStep = this.currentStep + 2;
-      }else{
+      } else {
         this.currentStep = this.currentStep + 1;
       }
       this.changeText(this.currentStep)
@@ -193,9 +207,9 @@ export class PickingItemDetailsComponent implements OnInit {
             let result = this.ContBtchSerArray.find(element => element == this.PT_Enter_ContBtchSer);
             if (result == undefined) {
               this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
-              this.toastr.error('', this.translate.instant("DataSaved"));
+              // this.toastr.success('', this.translate.instant("DataSaved"));
               if (!this.threeSteps) {
-                this.pickQty = this.pickQty + 1;
+                this.totalpickQty = this.totalpickQty + 1;
                 this.PT_Enter_ContBtchSer = "";
               }
             } else {
@@ -212,12 +226,12 @@ export class PickingItemDetailsComponent implements OnInit {
             batserAdded = true;
             let result = this.ContBtchSerArray.find(element => element == this.PT_Enter_ContBtchSer);
             if (result == undefined) {
-              this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
-              this.toastr.error('', this.translate.instant("DataSaved"));
               if (!this.threeSteps) {
-                this.pickQty = this.pickQty + 1;
+                this.ContBtchSerArray.push(this.PT_Enter_ContBtchSer);
+                // this.toastr.success('', this.translate.instant("DataSaved"));
+                this.totalpickQty = this.totalpickQty + 1;
                 this.PT_Enter_ContBtchSer = "";
-              }else{
+              } else {
                 this.nextStep();
               }
             } else {
@@ -235,22 +249,57 @@ export class PickingItemDetailsComponent implements OnInit {
   }
 
   onQtyChange() {
+    if(this.pickQty != undefined){
+      let sum = 0;
+      for (var i = 0; i < this.BtchNoneArray.length; i++) {
+        sum = sum + this.BtchNoneArray[i].OPTM_Qty;
+      }
+      if(this.totalpickQty)
+      this.totalpickQty = sum + this.pickQty
+    }
+  }
+
+  conConfirmClick() {
+    let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
+    if (result == undefined) {
+      this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
+      this.currentStep = 1;
+      this.PT_Enter_Location = "";
+      this.PT_Enter_ContBtchSer = "";
+      this.pickQty = undefined;
+    } else {
+      this.toastr.error('', this.translate.instant("DataAlreadySaved"));
+    }
   }
 
   onSaveClick() {
-    if(this.ContBtchSerArray.length <= 0 && this.OPTM_Tracking != 'N'){
+    if (this.ContBtchSerArray.length <= 0 && !this.threeSteps) {
       this.toastr.error('', this.translate.instant("NoRecord"));
       return;
+    } 
+    if(this.threeSteps) {
+      if (this.BtchNoneArray.length <= 0) {
+        this.toastr.error('', this.translate.instant("NoRecord"));
+        return;
+      } else {
+        let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
+        if (result == undefined) {
+          this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
+          this.PT_Enter_Location = "";
+          this.PT_Enter_ContBtchSer = "";
+          this.pickQty = undefined;
+        }
+      }
     }
     if (localStorage.getItem("From") == "shiplist") {
       // if(this.SubmitPickTaskData.length > 0)
-    }else{
-      if(this.SubmitPickTaskData.length > 0){
+    } else {
+      if (this.SubmitPickTaskData.length > 0) {
         this.toastr.error('', this.translate.instant("DataAlreadySaved"));
         return;
       }
     }
-    
+
     this.preparePickTaskData();
     if (localStorage.getItem("From") == "shiplist") {
       if (this.index == this.PickTaskList.length - 1) {
@@ -258,17 +307,18 @@ export class PickingItemDetailsComponent implements OnInit {
         return;
       }
       this.clearFields();
-      this.index = this.index++;
+      this.index = this.index+1;
       this.setVales(this.index);
     }
+    this.currentStep = 1;
     this.toastr.success('', this.translate.instant("DataSaved"));
   }
 
 
   onSubmitClick() {
-    if(this.SubmitPickTaskData.length > 0){
+    if (this.SubmitPickTaskData.length > 0) {
       this.SubmitPickList();
-    }else{
+    } else {
       this.toastr.error('', this.translate.instant("NoRecord"));
     }
   }
@@ -285,15 +335,16 @@ export class PickingItemDetailsComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', data[0].RESULT);
             this.onBackClick();
-          }else{
-            this.SubmitPickTaskData = [];
+          } else {
+            
             this.toastr.error('', data[0].RESULT);
           }
+          this.SubmitPickTaskData = [];
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -310,10 +361,12 @@ export class PickingItemDetailsComponent implements OnInit {
 
   clearFields() {
     this.ContBtchSerArray = [];
+    this.BtchNoneArray = [];
     this.PT_Enter_ContBtchSer = "";
     this.PT_Enter_Location = "";
-    this.pickQty = 0;
-    this.SubmitPickTaskData = [];
+    this.pickQty = undefined;
+    this.totalpickQty=0;
+    // this.SubmitPickTaskData = [];
   }
 
   changeText(step) {
@@ -338,10 +391,12 @@ export class PickingItemDetailsComponent implements OnInit {
   }
 
   preparePickTaskData(): any {
-    for (var i = 0; i < this.ContBtchSerArray.length; i++) {
-      if (this.OPTM_Tracking == 'B' || this.OPTM_Tracking == 'N') {
-        this.SubmitPickTaskData.push(new PickTaskModel(this.ShipDetail.OPTM_DOCENTRY, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.PT_Enter_Location, this.ContBtchSerArray[i], this.pickQty));
-      } else {
+    if (this.OPTM_Tracking == 'B' || this.OPTM_Tracking == 'N') {
+      for (var i = 0; i < this.BtchNoneArray.length; i++) {
+        this.SubmitPickTaskData.push(new PickTaskModel(this.ShipDetail.OPTM_DOCENTRY, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.BtchNoneArray[i].OPTM_Location, this.BtchNoneArray[i].OPTM_ContBtchSer, this.BtchNoneArray[i].OPTM_Qty));
+      }
+    } else {
+      for (var i = 0; i < this.ContBtchSerArray.length; i++) {
         this.SubmitPickTaskData.push(new PickTaskModel(this.ShipDetail.OPTM_DOCENTRY, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.PT_Enter_Location, this.ContBtchSerArray[i], 1));
       }
     }
