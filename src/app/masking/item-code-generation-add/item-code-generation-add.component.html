@@ -74,7 +74,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="length" [width]="45" title="{{'Masking_Length'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <input type="number" class="form-control form-control-sm" name="lengthvalue" value={{dataItem.length}}
+                                <input type="number" class="form-control form-control-sm text-right" name="lengthvalue" value={{dataItem.length}}
                                     title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
                                     [disabled]="dataItem.isOperationDisable" id="lengthvalue">
                             </ng-template>

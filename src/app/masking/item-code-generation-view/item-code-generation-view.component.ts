@@ -58,14 +58,18 @@ export class ItemCodeGenerationViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-            this.itemCodeRowList = data;
+
             this.serviceData = data;
             this.showLookupLoader = false;
             this.lookupfor = "ItemCodeGenRowView"
-          } else {
-            this.toastr.error('', data[0].RESULT);
-          }
+
+          // if (data.length > 0) {
+          //   this.serviceData = data;
+          //   this.showLookupLoader = false;
+          //   this.lookupfor = "ItemCodeGenRowView"
+          // } else {
+          //   this.toastr.error('', data[0].RESULT);
+          // }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
