@@ -455,55 +455,54 @@
 
                              <!-- STEP 4 START -->
                             <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
-                                <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
-                                [selectable]="true">
-                                <kendo-grid-checkbox-column showSelectAll="true" [width]="30">
-                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="parent_checkbox" id="parent_checkbox1_{{rowIndex}}"  class="custom-control-input">
-                                            <label class="custom-control-label" for="parent_checkbox1_{{rowIndex}}"></label>
-                                        </div>
-                                    </ng-template>
-                                    <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                        <div class="k-form-field d-flex center-checkbox">
-                                            <input  type="checkbox"  id="chkbox2-{{idx}}" class="k-checkbox" name="columnfilter" />
-                                            <label class="k-checkbox-label empty-check" for="chkbox2-{{idx}}"></label>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-checkbox-column>
-                                <kendo-grid-column field="ProductName" title="Customer"></kendo-grid-column>
-                                <kendo-grid-column field="UnitsInStock" title="Whse"></kendo-grid-column>
-                                <div *kendoGridDetailTemplate="let dataItem">
-                                    <app-shipment-preview-list></app-shipment-preview-list>
-                                </div>
+                                <kendo-grid [data]="AllConsolidateData" [pageSize]="pageSize" [skip]="skip" #gridUser [pageable]="true"
+                                [selectable]="true"  (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
+                               
+                                <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
+                                        <ng-template kendoGridCellTemplate let-idx="rowIndex">
+                                          <input  [kendoGridSelectionCheckbox]="idx" />
+                                        </ng-template>
+                                      </kendo-grid-checkbox-column>
+                                   <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="Customer" title="{{'Customer'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="Warehouse_Code" title="{{'WHSCODE'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="Ship_To" title="{{'ShipTo'|translate}}"></kendo-grid-column>
+                               
+                                <ng-template kendoGridDetailTemplate let-dataItem>
+                                        <kendo-grid [data]="dataItem.ShipmentChildData">
+                                                <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                                <kendo-grid-column field="Item_Code" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                                <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                                
+                                        </kendo-grid>
+                                      </ng-template>
                             </kendo-grid>
+
+        
+
                             </div>
                             <!-- STEP 4 END -->
 
                             <!-- STEP 5 START -->
                             <div [ngClass]="{show:currentStep == 5}" class="wizard-content">
-                                <kendo-grid [data]="gridView" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
+                                <kendo-grid [data]="GetCreateShipMentData" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
                                 [height]="200" [selectable]="true">
-                                <kendo-grid-checkbox-column showSelectAll="true" [width]="30">
-                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="parent_checkbox" id="parent_checkbox2_{{rowIndex}}"  class="custom-control-input">
-                                            <label class="custom-control-label" for="parent_checkbox2_{{rowIndex}}"></label>
-                                        </div>
-                                    </ng-template>
-                                    <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                        <div class="k-form-field d-flex center-checkbox">
-                                            <input  type="checkbox"  id="chkbox2-{{idx}}" class="k-checkbox" name="columnfilter" />
-                                            <label class="k-checkbox-label empty-check" for="chkbox2-{{idx}}"></label>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-checkbox-column>
-                                <kendo-grid-column field="ProductName" title="Customer"></kendo-grid-column>
-                                <kendo-grid-column field="UnitsInStock" title="Whse"></kendo-grid-column>
-                                <kendo-grid-column field="UnitsOnOrder" title="Status"></kendo-grid-column>
-                                <div *kendoGridDetailTemplate="let dataItem">
-                                    <app-shipment-details-list></app-shipment-details-list>
-                                </div>
+                                    <kendo-grid-column field="OPTM_DOCENTRY" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_BPCODE" title="{{'Customer'|translate}}"></kendo-grid-column>
+                                    
+                                    <kendo-grid-column field="OPTM_SHIPTO" title="{{'ShipTo'|translate}}"></kendo-grid-column>
+                                   
+                                    <kendo-grid-column field="OPTM_WHSCODE" title="{{'WHSCODE'|translate}}"></kendo-grid-column>
+                                   
+
+                                <ng-template kendoGridDetailTemplate let-dataItem>
+                                        <kendo-grid [data]="dataItem.ShipmentChildData">
+                                                <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                                <kendo-grid-column field="OPTM_SHIPQTY" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                                <!-- <kendo-grid-column field="OPTM_SHIPQTY" title"{{'Quantity'|translate}}"></kendo-grid-column> -->
+                                          
+                                        </kendo-grid>
+                                      </ng-template>
                             </kendo-grid>
                             </div>
                             <!-- STEP 5 END -->

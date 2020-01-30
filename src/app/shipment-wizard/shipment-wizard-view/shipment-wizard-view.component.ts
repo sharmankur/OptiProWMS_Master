@@ -60,32 +60,25 @@ export class ShipmentWizardViewComponent implements OnInit {
   public Step2: boolean=false;
   public Step3: boolean=false;
   public step4: boolean=false;
+  public SELECT: boolean=false;
+  public isColumnFilter33: boolean=false;
+  public AllConsolidateData: any = [];
+  public ConsolidatedDataSelection: any = {};
+  public GetCreateShipMentData: any=[];
   ngOnInit() {
    // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
     this.HoldSelectedRow.Company = [];
     this.HoldSelectedRow.SOLines=[];
+    this.ConsolidatedDataSelection.SelectedRows=[];
+    this.ConsolidatedDataSelection.Company=[];
   }
 
   onPrevClick(){
     if(this.currentStep > 1){
       
       this.currentStep = this.currentStep - 1;
-      //if(this.currentStep===2)
-        //  {
-        //   if(this.HoldSelectedRow.SOLines.length >0)
-        //      {
-        //        for(let i=0; i <this.HoldSelectedRow.SOLines.length; i++)
-        //            {
-        //             var findex =this.gridData.findIndex(function (x) 
-        //             { 
-        //               return x.SO === this.HoldSelectedRow.SOLines[i].SO && x.LN==this.HoldSelectedRow.SOLines[i].LN
-        //             });
-        //            }
-        //            console.log(findex);
-        //       // if(this.HoldSelectedRow.SOLines[i].SO===SO && this.HoldSelectedRow.SOLines[i].LN===LN)
-        //      }
-        //  }
+      
     }    
   }
   numericOnly(event): boolean {    
@@ -101,13 +94,8 @@ export class ShipmentWizardViewComponent implements OnInit {
         {
           if(this.WareHouse !="" && this.WareHouse !=undefined)
            {
-            //  if(this.gridData === undefined)
              this.GetSalesWizardData();
-            // else {
-            //   this.currentStep = this.currentStep + 1;
-            // }
           }
-           
           else {
             this.toastr.error('', this.translate.instant("WareHouseValidation"));  
             return;
@@ -136,23 +124,73 @@ export class ShipmentWizardViewComponent implements OnInit {
              
             }
           else {
-           
             this.HoldSelectedRow.ConsolidationsBy.push({Customer:this.CHKCustomer,DueDate:this.CHKDueDate,
               Item:this.CHKItem,ShipTo:this.CHKShipto,SONO:this.CHKSOno})
               this.GetConsolidatedData();
-           
           }
 
         }
-     
+        if(this.currentStep===4)
+           {
+             if(this.ConsolidatedDataSelection.SelectedRows.length>0)
+               {
+                this.CreateShipMentData();
+               }
+                else {
+                  this.toastr.error('', this.translate.instant("GridCheckBoxValidation"));  
+                  return;
+               }
+           }
     }    
   }
 
   onStepClick(currentStep){
-    debugger
+    
     //this.currentStep = currentStep;
   }
-
+  CreateShipMentData()
+      {
+        this.ConsolidatedDataSelection.Company=[];
+         this.ConsolidatedDataSelection.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
+        this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
+          resp => {
+           
+            if (resp != undefined && resp != null) {
+               for(let i=0; i <resp.ShipmentHdr.length; i++)
+                  {
+                    resp["ShipmentHdr"][i]["ShipmentChildData"]=[]
+                  }
+               resp["ShipmentHdr"]["ShipmentChildData"]=[]
+                for(let i=0; i <resp.ShipmentHdr.length; i++)
+                    {
+                    if(resp["ShipmentHdr"][i].SELECT==="")resp["ShipmentHdr"][i].SELECT=false;
+                      for(let j=0; j <resp.ShipmentDtl.length; j++)
+                        {
+                          if(resp["ShipmentHdr"][i].OPTM_DOCENTRY===resp["ShipmentDtl"][j].OPTM_DOCENTRY)
+                            {
+                              resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
+                            }
+                        }
+                    }
+                    this.GetCreateShipMentData=resp["ShipmentHdr"];
+                    this.currentStep = this.currentStep + 1;
+              }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));  
+            }
+          },
+          error => {
+            console.log("Error:", error);
+            if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+              this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+            }
+           
+          }
+        )}
+//get step 2nd data
   GetSalesWizardData() {
     
         this.SetParameter=[];
@@ -179,20 +217,14 @@ export class ShipmentWizardViewComponent implements OnInit {
           resp => {
             if (resp != undefined && resp != null) {
               this.currentStep = this.currentStep + 1;
-              debugger
+              
               for(let i=0; i <resp.length; i++)
                   {
                     if(resp[i].SELECT==="")resp[i].SELECT=false;
                     if(resp[i].SalesUOM===null) resp[i].SalesUOM='';
                     if(resp[i].InvntryUom===null) resp[i].InvntryUom='';
                   }
-                 // if(this.gridData === undefined)
                   this.gridData = resp;
-                  // else {
-                  //   this.currentStep = this.currentStep + 1;
-                  // }
-                  
-                   
             }
             else {
               this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));  
@@ -213,23 +245,59 @@ export class ShipmentWizardViewComponent implements OnInit {
           }
         )
       }
-
+      onExpandWarehouse(event){
+        /*if(event.dataItem.selectedWarehouse == 'blank'){
+          this.MessageService.errormessage("please choose Warehouse"); 
+        }*/
+      }
+     
+  gridConsilidateDataSelectionChange(selection,Data)
+      {
+        if(Data.selectedRows.length>0)
+          {            
+            this.ConsolidatedDataSelection.SelectedRows.push(Data.selectedRows[0].dataItem)
+          }
+      else if(Data.deselectedRows.length>0)
+        {
+          let Shipment_Id=Data.deselectedRows[0].dataItem.Shipment_Id
+          let Customer=Data.deselectedRows[0].dataItem.Customer
+          for(let i=0; i <  this.ConsolidatedDataSelection.SelectedRows.length; i++)
+              {
+                if(this.ConsolidatedDataSelection.SelectedRows[i].Shipment_Id===Shipment_Id && this.ConsolidatedDataSelection.SelectedRows[i].Customer===Customer)
+                   {
+                    this.ConsolidatedDataSelection.SelectedRows.splice(i, 1);
+                   }
+              }
+        }
+        console.log(this.ConsolidatedDataSelection.SelectedRows);
+      }
   GetConsolidatedData() {
-     this.HoldSelectedRow.Company=[];
-    
+     let tempdata=[];
    //this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
-     this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:"dmahore"})
+     this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
     this.WizardService.GetSalesOrderConsolidatedData(this.HoldSelectedRow).subscribe(
       resp => {
-        // this.currentStep = this.currentStep + 1;
-        debugger
         if (resp != undefined && resp != null) {
-          this.currentStep = this.currentStep + 1;
-          // for(let i=0; i <resp.length; i++)
-          //     {
-          //       if(resp[i].SELECT==="")resp[i].SELECT=false;
-          //     }
-          //      this.gridData = resp;
+          
+        // tempdata=resp["ShipmentHdr"];
+         for(let i=0; i <resp.ShipmentHdr.length; i++)
+            {
+              resp["ShipmentHdr"][i]["ShipmentChildData"]=[]
+            }
+         resp["ShipmentHdr"]["ShipmentChildData"]=[]
+          for(let i=0; i <resp.ShipmentHdr.length; i++)
+              {
+                if(resp["ShipmentHdr"][i].SELECT==="")resp["ShipmentHdr"][i].SELECT=false;
+                for(let j=0; j <resp.ShipmentDtl.length; j++)
+                  {
+                    if(resp["ShipmentHdr"][i].Shipment_Id===resp["ShipmentDtl"][j].Shipment_Id)
+                      {
+                        resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
+                      }
+                  }
+              }
+              this.AllConsolidateData=resp["ShipmentHdr"];
+              this.currentStep = this.currentStep + 1;
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));  
@@ -275,7 +343,7 @@ export class ShipmentWizardViewComponent implements OnInit {
 
 
 GetDataForSalesOredr(fieldName) {
-  debugger
+  
   this.showLoader = true;
   this.hideLookup = false;
   this.commonservice.GetDataForSalesOrderLookup().subscribe(
@@ -348,7 +416,7 @@ GetDataForCustomer(fieldName) {
 }
 
 GetDataForWareHouse(fieldName) {
-  debugger
+  
   this.showLoader = true;
   this.hideLookup = false;
   this.commonservice.GetDataForWHSLookup().subscribe(
@@ -382,7 +450,6 @@ GetDataForWareHouse(fieldName) {
 }
 
 GetDataForItemCode(fieldName) {
-  debugger
   this.showLoader = true;
   this.hideLookup = false;
   this.commonservice.GetDataForItemCodeLookup().subscribe(
@@ -420,7 +487,7 @@ GetDataForItemCode(fieldName) {
 }
 
 getLookupValue($event) {
-  debugger
+  
   if ($event != null && $event == "close") {
     this.hideLookup = false;
     return;

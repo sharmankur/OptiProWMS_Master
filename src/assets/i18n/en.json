@@ -569,6 +569,8 @@
   "Masking_ValidateLengthBlank": "Length must be greater than zero(0).",
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
+  "ShipMentId": "ShipMent Id",
+  
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
 
