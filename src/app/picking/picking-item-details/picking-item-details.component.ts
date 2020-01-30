@@ -254,8 +254,11 @@ export class PickingItemDetailsComponent implements OnInit {
       for (var i = 0; i < this.BtchNoneArray.length; i++) {
         sum = sum + this.BtchNoneArray[i].OPTM_Qty;
       }
-      if(this.totalpickQty)
-      this.totalpickQty = sum + this.pickQty
+      if((sum + this.pickQty) <= this.openQty){
+        this.totalpickQty = sum + this.pickQty;
+      }else{
+        this.toastr.error('', this.translate.instant("Inbound_NoOpenQuantityValid"));
+      }
     }
   }
 
