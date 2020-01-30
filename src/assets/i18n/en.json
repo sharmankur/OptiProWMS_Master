@@ -90,6 +90,7 @@
   "Quantity": "Quantity",
   "PickTask": "Pick Task",
   "Pick": "Pick",
+  "ContainerId":"Container Id",
   "PT_Enter_Location":"Enter Location",
   "PT_Enter_ContBtchSer":"Enter Container Id/Batch No./Serial No.",
   "PT_Scan_To_Location":"Scan To Location",
@@ -569,6 +570,8 @@
   "Masking_ValidateLengthBlank": "Length must be greater than zero(0).",
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
+  "ShipMentId": "ShipMent Id",
+  
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
 
