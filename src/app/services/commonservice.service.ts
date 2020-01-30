@@ -662,14 +662,14 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerType", jObject, this.httpOptions);
   }
 
-  IsValidContainerType(OPTM_CONTAINER_TYPE: string): Observable<any> {
+  IsValidContainerType(OPTM_CONTAINER_TYPE: string): Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerType", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerType", jObject, this.httpOptions).toPromise();
   }
 
   GetItemCodeList(): Observable<any> {

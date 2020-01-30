@@ -72,10 +72,11 @@ export class CTRUpdateComponent implements OnInit {
     return true;
   }
 
-  onAddUpdateClick() {
+  async onAddUpdateClick() {
     if(!this.validateFields()){
       return;
     }
+
     if(this.BtnTitle == this.translate.instant("CT_Update")){
       this.UpdateContainerRelationship();
     }else{
@@ -83,11 +84,19 @@ export class CTRUpdateComponent implements OnInit {
     }
   }
 
-  InsertIntoContainerRelationship() {
+  async InsertIntoContainerRelationship() {
+    var result = await this.validateBeforeSubmit();
+    this.isValidateCalled = false;
+    console.log("validate result: " + result);
+    if (result != undefined && result == false) {
+      return;
+    }
+
     this.showLoader = true;
     this.ctrmasterService.InsertIntoContainerRelationship(this.CTR_ContainerType, this.CTR_ParentContainerType, 
-      this.CTR_ConainerPerParent, this.CTR_ConatainerPartofParent).subscribe(
+      this.CTR_ConainerPerParent, this.CTR_ConatainerPartofParent).then(
       (data: any) => {
+        console.log("inside InsertIntoContainerRelationship")
         this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -117,11 +126,19 @@ export class CTRUpdateComponent implements OnInit {
     );
   }
 
-  UpdateContainerRelationship() {
+  async UpdateContainerRelationship() {
+    var result = await this.validateBeforeSubmit();
+    this.isValidateCalled = false;
+    console.log("validate result: " + result);
+    if (result != undefined && result == false) {
+      return;
+    }
+
     this.showLoader = true;
     this.ctrmasterService.UpdateContainerRelationship(this.CTR_ContainerType, this.CTR_ParentContainerType, 
-      this.CTR_ConainerPerParent, this.CTR_ConatainerPartofParent).subscribe(
+      this.CTR_ConainerPerParent, this.CTR_ConatainerPartofParent).then(
       (data: any) => {
+        console.log("inside UpdateContainerRelationship")
         this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -151,14 +168,23 @@ export class CTRUpdateComponent implements OnInit {
     );
   }
 
-  OnContainerTypeChange(){
+  OnContainerTypeChangeBlur(){
+    if(this.isValidateCalled){
+      return;
+    }
+    this.OnContainerTypeChange();
+  }
+
+  async OnContainerTypeChange(){
     if(this.CTR_ContainerType == undefined || this.CTR_ContainerType == ""){
       return;
     }
     this.showLoader = true;
-    this.commonservice.IsValidContainerType(this.CTR_ContainerType).subscribe(
+    var result = false;
+    await this.commonservice.IsValidContainerType(this.CTR_ContainerType).then(
       (data: any) => {
         this.showLoader = false;
+        result = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -167,6 +193,7 @@ export class CTRUpdateComponent implements OnInit {
           }
           if(data.length > 0){
             this.CTR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
+            result = true;
           }else{
             this.CTR_ContainerType = "";
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -177,6 +204,7 @@ export class CTRUpdateComponent implements OnInit {
         }
       },
       error => {
+        result = false;
         this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
@@ -186,16 +214,26 @@ export class CTRUpdateComponent implements OnInit {
         }
       }
     );
+    return result;
   }
 
-  OnParentContainerTypeChange(){
+  OnParentContainerTypeChangeBlur(){
+    if(this.isValidateCalled){
+      return;
+    }
+    this.OnParentContainerTypeChange();
+  }
+
+  async OnParentContainerTypeChange(){
     if(this.CTR_ParentContainerType == undefined || this.CTR_ParentContainerType == ""){
       return;
     }
     this.showLoader = true;
-    this.commonservice.IsValidContainerType(this.CTR_ParentContainerType).subscribe(
+    var result = false;
+    await this.commonservice.IsValidContainerType(this.CTR_ParentContainerType).then(
       (data: any) => {
         this.showLoader = false;
+        result = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -204,6 +242,7 @@ export class CTRUpdateComponent implements OnInit {
           }
           if(data.length > 0){
             this.CTR_ParentContainerType = data[0].OPTM_CONTAINER_TYPE;
+            result = true;
           }else{
             this.CTR_ParentContainerType = "";
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -215,6 +254,7 @@ export class CTRUpdateComponent implements OnInit {
       },
       error => {
         this.showLoader = false;
+        result = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }
@@ -223,6 +263,7 @@ export class CTRUpdateComponent implements OnInit {
         }
       }
     );
+    return result;
   }
 
   GetDataForContainerType(fieldName) {
@@ -282,6 +323,20 @@ export class CTRUpdateComponent implements OnInit {
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
+  isValidateCalled: boolean = false;
+  async validateBeforeSubmit(): Promise<any> {
+    this.isValidateCalled = true;
+    var currentFocus = document.activeElement.id;
+    console.log("validateBeforeSubmit current focus: " + currentFocus);
+
+    if (currentFocus != undefined) {
+      if (currentFocus == "CTR_ContainerTypeScanInputField") {
+        return this.OnContainerTypeChange();
+      } else if(currentFocus == "ctrParentContainerType"){
+        return this.OnParentContainerTypeChange();
+      }
+    }
+  }
 }
 
 
