@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InboundDetailsComponent } from './inbound-details.component';
+import { CTViewComponent } from './ctview.component';
 
-describe('InboundDetailsComponent', () => {
-  let component: InboundDetailsComponent;
-  let fixture: ComponentFixture<InboundDetailsComponent>;
+describe('CTViewComponent', () => {
+  let component: CTViewComponent;
+  let fixture: ComponentFixture<CTViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InboundDetailsComponent ]
+      declarations: [ CTViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InboundDetailsComponent);
+    fixture = TestBed.createComponent(CTViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
