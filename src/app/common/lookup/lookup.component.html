@@ -36,10 +36,10 @@
             </div>
         </ng-template>
         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-            <div class="k-form-field d-flex center-checkbox">
+            <div class="custom-control custom-checkbox">
                 <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]=selectall
-                    id="chkbox-{{idx}}" class="k-checkbox" name="columnfilter" />
-                <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
+                    id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                <label class="custom-control-label" for="chkbox-{{idx}}"></label>
             </div>
         </ng-template>
     </kendo-grid-checkbox-column>
