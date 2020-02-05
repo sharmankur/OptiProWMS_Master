@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';

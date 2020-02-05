@@ -1,10 +1,6 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-
-            <!-- <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                Item Details
-            </h3> -->
             <div class="row">
                 <div class="col-12">
                     <div class="po-details-comp">
@@ -15,20 +11,17 @@
                                     <span>{{'Quantity'|translate}}: {{totalpickQty}}/{{openQty}}</span>
                                 </div>
                                 <span class="po-labels">{{itemcodeLabel}}: {{itemcodeValue}}</span>
-                                <!-- <span class="po-labels po-des">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> -->
+                                <span class="po-labels">{{Location}}: {{locationValue}}</span>
                             </span>
                         </div>
                         <div class="item-sec">
-                            <!-- <span class="po-items-icon">
-                                <i class="fa fa-rocket" aria-hidden="true"></i>
-                            </span> -->
                             <div class="item-steps">
                                 <div *ngIf="currentStep == 1" class="item-input-section">
-                                    <input type="text" placeholder="{{'PT_Enter_Location'|translate}}" (blur)="onLocationChange()" name="PT_Enter_Location" [(ngModel)]="PT_Enter_Location">
+                                    <input #focusOnLocation type="text" placeholder="{{'PT_Enter_Location'|translate}}" (blur)="onLocationChange()" name="PT_Enter_Location" [(ngModel)]="PT_Enter_Location">
                                     <i class="k-icon k-i-group-box" aria-hidden="true"></i>
                                 </div>
                                 <div *ngIf="currentStep == 2" class="item-input-section">
-                                    <input type="text" placeholder="{{'PT_Enter_ContBtchSer'|translate}}" (blur)="onLotChange()" name="PT_Enter_ContBtchSer"
+                                    <input #focusOnSerNo type="text" placeholder="{{'PT_Enter_ContBtchSer'|translate}}" (blur)="onLotChange()" name="PT_Enter_ContBtchSer"
                                         [(ngModel)]="PT_Enter_ContBtchSer">
                                     <i class="k-icon k-i-group-box" aria-hidden="true"></i>
                                 </div>
@@ -47,11 +40,6 @@
                                     <i *ngIf="currentStep > 1" (click)="prevStep()" class="k-icon k-i-arrow-chevron-left" aria-hidden="true"></i>
                                     <i *ngIf="currentStep != maxStep" (click)="nextStep()" class="k-icon k-i-arrow-chevron-right" aria-hidden="true"></i>
                                   
-                                    <!-- <i *ngIf="currentStep == 3"  (click)="conConfirmClick('/po-order-details')" class="opti-icon-arrow-back"></i> -->
-
-                                    <button *ngIf="currentStep == 3" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="conConfirmClick()">
-                                        Add More</button>
-
                                     <i *ngIf="currentStep == maxStep" (click)="onSaveClick('/po-order-details')" class="k-icon k-i-save" aria-hidden="true"></i>
                                     <div class="scan-text">{{currentStepText}}</div>
                                 </div>
@@ -61,12 +49,7 @@
                                 <span [ngClass]="{active:currentStep == 2}" class="step"></span>
                                 <span *ngIf="threeSteps" [ngClass]="{active:currentStep == 3}" class="step"></span>
                             </div>
-
-
                         </div>
-                        <!-- <div class="option-menu-left" (click)="onNavClick('/po-order-details')">
-                            <i class="fa fa-angle-left" aria-hidden="true"></i>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -74,18 +57,11 @@
 
         </div>
         <div class="fix-footer-btnBar">
-            <!-- <div class="col-sm-12 col-12">
-                    <hr />
-                </div> -->
             <div class="col-sm-12 col-12">
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
                     type="button" (click)="onBackClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <!-- <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
-                    type="button">
-                    <i class="opti-icon-arrow-next"></i></button> -->
-
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onSubmitClick()">
                     <span class="k-icon k-i-check" role="presentation"></span>Submit</button>
             </div>

@@ -8,14 +8,13 @@
             <div class="row pick-list-row">
                 <div class="col-12 pick-list-col">
                     <div class="new-custom-grid">
-                        <kendo-grid  [data]="ShipmentList" (cellClick)="onShipmentSelection($event)" [pageSize]="pageSize"
-                            [skip]="skip" [pageable]="true">
+                        <kendo-grid [data]="ShipmentList" (cellClick)="onShipmentSelection($event)" [pageSize]="pageSize" [skip]="skip" [pageable]="true">
                             <kendo-grid-column [media]="mobileMedia" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <dl class="grid-mobile-card">
                                         <button class="task-btn" (click)="showPickTaskList(dataItem)">
                                             <span class=" k-icon k-i-track-changes"></span>
-                                        </button>                                        
+                                        </button>
                                         <div class="di-list">
                                             <dt>{{'PT_ShipmentId'|translate}}</dt>
                                             <dd>{{ dataItem.OPTM_DOCENTRY}}</dd>
@@ -35,13 +34,20 @@
                                     </dl>
                                 </ng-template>
                             </kendo-grid-column>
-                             <kendo-grid-column [media]="desktopMedia" field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}">  
+                            <kendo-grid-column [media]="desktopMedia" field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}">
                             </kendo-grid-column>
                             <kendo-grid-column [media]="desktopMedia" field="OPTM_BPCODE" title="{{'PT_Customer'|translate}}">
                             </kendo-grid-column>
                             <kendo-grid-column [media]="desktopMedia" field="OPTM_SHIPTO" title="{{'PT_Ship_To'|translate}}">
                             </kendo-grid-column>
                             <kendo-grid-column [media]="desktopMedia" field="OPTM_WHSCODE" title="{{'PT_Warehouse'|translate}}">
+                            </kendo-grid-column>
+                            <kendo-grid-column [media]="desktopMedia" title="{{'Action'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <button type="button" class="btn btn-danger k-button btn-sm mr-10 " (click)="showPickTaskList(dataItem)">
+                                            <i class=" k-icon k-i-track-changes"></i>
+                                    </button>                                    
+                                </ng-template>
                             </kendo-grid-column>
                         </kendo-grid>
                     </div>
@@ -51,13 +57,7 @@
 
         </div>
         <div class="fix-footer-btnBar">
-            <!-- <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
-                    <i class="opti-icon-arrow-back"></i>
-                </button>
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
-                    <i class="opti-icon-arrow-next"></i></button>
-            </div> -->
+
         </div>
     </form>
 
