@@ -102,8 +102,8 @@ export class CommonLookupComponent implements OnInit {
     if(this.serviceData != undefined && this.serviceData.length>= this.lookupPageSize){
         this.lookupPagable = true;
     }
-    if (this.lookupfor == "toWhsList" || this.lookupfor == "fromWhsList") {
-      this.showToWhsList();
+    if (this.lookupfor == "ShipmentList") {
+      this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
     } else if (this.lookupfor == "BatchNoList" || this.lookupfor == "BatchNoList2") {
@@ -321,20 +321,38 @@ export class CommonLookupComponent implements OnInit {
 
   
 
-  showToWhsList() {
+  showShipmentList() {
     this.table_head = [
       {
-        field: 'WHSCODE',
-        title: this.translate.instant("WhseCode"),
+        field: 'OPTM_DOCENTRY',
+        title: this.translate.instant("PT_ShipmentId"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'WHSName',
-        title: this.translate.instant("WhseName"),
+        field: 'OPTM_BPCODE',
+        title: this.translate.instant("CustomerCode"),
         type: 'text',
         width: '100'
       },
+      {
+        field: 'OPTM_SHIPTO',
+        title: this.translate.instant("Ship_To_Code"),
+        type: 'text',
+        width: '100'
+      },
+      // {
+      //   field: 'OPTM_BPCODE',
+      //   title: this.translate.instant("CustomerCode"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_BPCODE',
+      //   title: this.translate.instant("CustomerCode"),
+      //   type: 'text',
+      //   width: '100'
+      // },
     ];
     this.lookupTitle = this.translate.instant("WarehouseList");
     if (this.serviceData !== undefined) {

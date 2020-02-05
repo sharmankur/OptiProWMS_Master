@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InboundPolistComponent } from './inbound-polist.component';
+import { CTUpdateComponent } from './ctupdate.component';
 
-describe('InboundPolistComponent', () => {
-  let component: InboundPolistComponent;
-  let fixture: ComponentFixture<InboundPolistComponent>;
+describe('CTUpdateComponent', () => {
+  let component: CTUpdateComponent;
+  let fixture: ComponentFixture<CTUpdateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InboundPolistComponent ]
+      declarations: [ CTUpdateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InboundPolistComponent);
+    fixture = TestBed.createComponent(CTUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

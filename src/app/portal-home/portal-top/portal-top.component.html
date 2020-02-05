@@ -21,7 +21,7 @@
                             <li class="opti_icon-spacing opti_user-profile position-relative" dropdown>
                                 <a dropdownToggle class="dropdown-toggle">
                                     <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30" height="30" />
-                                    <span>{{DBName}}</span>
+                                    <!-- <span>{{DBName}}</span> -->
                                 </a>
                                 <ul class="dropdown-menu opti_user-profile-drop-down" *dropdownMenu>
                                   
@@ -29,7 +29,12 @@
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 pl-2">
-                                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30" height="30" /> {{loggedInUserName}}
+                                                    <div class="user-list-details">
+                                                        <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30" height="30" /> 
+                                                        <div class="name"> {{loggedInUserName}}</div>
+                                                        <div>{{DBName}}</div>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -105,9 +110,10 @@
             <img src="assets/images/common/close-black.svg" width="15" />
         </button>
         <p></p>
-        <p>
-            <img src="assets/images/logo/large-logo-old.png" alt="Large Logo" class="opti_large-logo" />
-        </p>
+        <h4>
+            Shipping Solution
+            <!-- <img src="assets/images/logo/large-logo-old.png" alt="Large Logo" class="opti_large-logo" /> -->
+        </h4>
         <p>{{appVersion}}</p>
         <p>{{'Dashboard_CopyWrt_Msg'|translate}}</p>
         <p><a href="http://www.optiproerp.com">www.optiproerp.com</a></p>

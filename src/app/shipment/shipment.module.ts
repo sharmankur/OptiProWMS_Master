@@ -5,32 +5,26 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { FormsModule } from '@angular/forms';
 import { TrnaslateLazyModule } from '../../translate-lazy.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { InboundRoutingModule } from './inbound-routing.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { CTUpdateComponent } from './ctupdate/ctupdate.component';
-import { CTViewComponent } from './ctview/ctview.component';
-import { CTMasterComponent } from './ctmaster.component';
-
+import { ShipmentComponent } from './shipment.component';
+import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
+import { ShipmentRoutingModule } from './shipment-routing.module';
 
 @NgModule({
-  declarations: [CTViewComponent, CTMasterComponent, CTUpdateComponent],
+  declarations: [ShipmentComponent, ShipmentViewComponent],
   imports: [
     CommonModule,
     GridModule,
-    SharedModule,
-    
+    SharedModule,    
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,
-
-    InboundRoutingModule,
+    ShipmentRoutingModule,
     DropDownsModule,
     DateInputsModule
   ],
-  providers: [ 
-    CTMasterComponent
-  ],
-  exports: [CTViewComponent, CTMasterComponent, CTUpdateComponent]
+  providers: [],
+  exports: []
 })
-export class InboundModule { }
+export class ShipmentModule { }
