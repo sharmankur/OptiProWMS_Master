@@ -165,4 +165,21 @@ export class CommonData {
     }
 
     public excludeSpecialCharRegex = /[{}*!^=<>?|/(\\)&#@%]/;
+
+    container_creation_purpose_string_dropdown() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "Value": 1, "Name": "Shipping" },
+            { "Value": 2, "Name": "Internal" }
+        ];
+    }
+
+    container_creation_create_mode_string_dropdown() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "Value": 1, "Name": "Auto Rule Based" },
+            { "Value": 2, "Name": "Manual Rule Based" },
+            { "Value": 3, "Name": "Manual" }
+        ];
+    }
 }

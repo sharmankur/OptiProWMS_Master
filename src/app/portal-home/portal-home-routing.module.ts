@@ -39,9 +39,11 @@ const routes: Routes = [
       { path:'palletize', component:PalletizeComponent },
       { path:'dockdoor', loadChildren:"../dock-door/dock-door.module#DockDoorModule"},
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
-      { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
+      // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
+      { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
+      { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
     ]
     
   }

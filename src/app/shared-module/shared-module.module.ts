@@ -14,6 +14,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { InputDialogComponent } from '../common/input-dialog/input-dialog.component';
 import { StatePersistingServiceService } from '../services/state-persisting-service.service';
 import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
+import { InputContainerCodeComponent } from '../common/input-container-code/input-container-code.component';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -21,10 +22,10 @@ import { CommonLookupComponent } from '../common/common-lookup/common-lookup.com
     DialogsModule,PdfViewerModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe, InputDialogComponent ],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent],
+    PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, InputContainerCodeComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent ]
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })
 export class SharedModule { }
