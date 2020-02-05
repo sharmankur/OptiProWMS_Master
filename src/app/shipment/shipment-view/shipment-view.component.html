@@ -7,7 +7,319 @@
             </h3>
             <div class="row">
                 <div class="col-12">
-                    Shipment
+                    <!-- Shipment From -->
+                    <div class="shipment-form">
+                        <!-- row start -->
+                        <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="ShipmentID" class="col-sm-3 col-form-label">Shipment ID</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='ShipmentID'
+                                            id="ShipmentID">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="WarehouseCode" class="col-sm-3 col-form-label">Warehouse Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='WarehouseCode'
+                                            id="WarehouseCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                        <!-- row start -->
+                        <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="ScheduleDatetime" class="col-sm-3 col-form-label">Schedule Datetime</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='ScheduleDatetime'
+                                            id="ScheduleDatetime">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="CustomerCode" class="col-sm-3 col-form-label">Customer Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='CustomerCode'
+                                            id="CustomerCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                        <!-- row start -->
+                        <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="ShipStageBin" class="col-sm-3 col-form-label">Ship Stage Bin</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='ShipStageBin'
+                                            id="ShipStageBin">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="DockDoor" class="col-sm-3 col-form-label">Dock Door</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='DockDoor'
+                                            id="DockDoor">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                          <!-- row start -->
+                          <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="ShipToCode" class="col-sm-3 col-form-label">Ship To Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='ShipToCode'
+                                            id="ShipToCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="Status" class="col-sm-3 col-form-label">Status</label>
+                                    <div class="col-sm-9">
+                                      
+                                            <select class="form-control form-control-sm" name='Status'
+                                            id="Status">
+                                                <option></option>
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                         <!-- row start -->
+                         <div class="row">
+                              <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="CarrierCode" class="col-sm-3 col-form-label">Carrier Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='CarrierCode'
+                                            id="CarrierCode">                                         
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">                                   
+                                    <div class="col-sm-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="UseContainer" class="custom-control-input" name="UseContainer" />
+                                            <label class="custom-control-label" for="UseContainer">Use Container</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                           
+                        </div>
+                        <!-- row end -->
+
+                         <!-- row start -->
+                         <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="ReturnOrderRef" class="col-sm-3 col-form-label">Return Order Ref</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='ReturnOrderRef'
+                                            id="ReturnOrderRef">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="BOLNumber" class="col-sm-3 col-form-label">BOL Number</label>
+                                    <div class="col-sm-9">                                      
+                                            <input type="text" class="form-control form-control-sm" name='BOLNumber'
+                                            id="BOLNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                          <!-- row start -->
+                          <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="VehicleNumber" class="col-sm-3 col-form-label">Vehicle Number</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='VehicleNumber'
+                                            id="VehicleNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                    </div>
+                    <!--/ Shipment Form  -->
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <!-- Shipment Lines -->
+                    <div class="card shipment-widget-box">
+                        <h5 class="card-header">Shipment Lines</h5>
+                        <div class="card-body">                    
+                            <kendo-grid [data]="gridData"
+                            [resizable]="true" 
+                            [pageSize]="pageSize" 
+                            [skip]="skip" 
+                            [pageable]="true">                            
+                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
+                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
+                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
+                               <kendo-grid-column field="Quantity" title="Quantity"></kendo-grid-column>
+                               <kendo-grid-column field="QuantityFulFill" title="Quantity FulFill"></kendo-grid-column>
+                           </kendo-grid>
+                        </div>
+                    </div>
+                    <!--/ Shipment Lines -->
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                     <!-- Sales Order Details -->
+                     <div class="card shipment-widget-box">
+                        <h5 class="card-header">Sales Order Details</h5>
+                        <div class="card-body">                    
+                            <kendo-grid [data]="gridData"
+                            [resizable]="true" 
+                            [pageSize]="pageSize" 
+                            [skip]="skip" 
+                            [pageable]="true">      
+                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
+                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
+                               <kendo-grid-column field="SoNumber" title="So Number"></kendo-grid-column>
+                               <kendo-grid-column field="SoLine" title="So Line"></kendo-grid-column>
+                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
+                               <kendo-grid-column field="Quantity" title="Quantity"></kendo-grid-column>
+                           </kendo-grid>
+                        </div>
+                    </div>
+                    <!--/ Sales Order Details -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <!-- Shipment Lines -->
+                    <div class="card shipment-widget-box">
+                        <h5 class="card-header">Shipment Containers</h5>
+                        <div class="card-body">                    
+                            <kendo-grid [data]="gridData"
+                            [resizable]="true" 
+                            [pageSize]="pageSize" 
+                            [skip]="skip" 
+                            [pageable]="true">     
+                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerCode" title="Container Code"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerType" title="Container Type"></kendo-grid-column>
+                               <kendo-grid-column field="ParentContainerId" title="Parent Container Id"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerStatus" title="Container Status"></kendo-grid-column>
+                               <kendo-grid-column field="ShipEligible" title="Ship Eligible"></kendo-grid-column>
+                               <kendo-grid-column field="PackedForShipment" title="Packed for shipment"></kendo-grid-column>
+                               <kendo-grid-column field="WarehouseCode" title="Warehouse Code"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerBin" title="Container Bin"></kendo-grid-column>
+                               <kendo-grid-column field="Weight" title="Weight"></kendo-grid-column>
+                               <kendo-grid-column field="WeightUOM" title="Weight UOM"></kendo-grid-column>
+                               <kendo-grid-column field="Volume" title="Volume"></kendo-grid-column>
+                               <kendo-grid-column field="VolumeUOM" title="Volume UOM"></kendo-grid-column>
+                           </kendo-grid>
+                        </div>
+                    </div>
+                    <!--/ Shipment Lines -->
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                     <!-- Sales Order Details -->
+                     <div class="card shipment-widget-box">
+                        <h5 class="card-header">Container Items</h5>
+                        <div class="card-body">                    
+                            <kendo-grid [data]="gridData"
+                            [resizable]="true" 
+                            [pageSize]="pageSize" 
+                            [skip]="skip" 
+                            [pageable]="true">                         
+                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
+                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
+                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
+                               <kendo-grid-column field="PartQty" title="Part Qty"></kendo-grid-column>
+                               <kendo-grid-column field="UOM" title="UOM"></kendo-grid-column>
+                               <kendo-grid-column field="Weight" title="Weight"></kendo-grid-column>
+                               <kendo-grid-column field="WeightUOM" title="Weight UOM"></kendo-grid-column>
+                               <kendo-grid-column field="Volume" title="Volume"></kendo-grid-column>
+                               <kendo-grid-column field="VolumeUOM" title="Volume UOM"></kendo-grid-column>
+                           </kendo-grid>
+                        </div>
+                    </div>
+                    <!--/ Sales Order Details -->
+                </div>
+            </div>
+            <div class="row">              
+                <div class="col-12">
+                     <!-- Sales Order Details -->
+                     <div class="card shipment-widget-box">
+                        <h5 class="card-header">Shipment Line Details</h5>
+                        <div class="card-body">                    
+                            <kendo-grid [data]="gridData"
+                            [resizable]="true" 
+                            [pageSize]="pageSize" 
+                            [skip]="skip" 
+                            [pageable]="true">                            
+                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
+                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
+                               <kendo-grid-column field="LineID" title="Line ID"></kendo-grid-column>
+                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
+                               <kendo-grid-column field="BinCode" title="Bin Code"></kendo-grid-column>
+                               <kendo-grid-column field="BTCH" title="BTCH SR Number"></kendo-grid-column>
+                               <kendo-grid-column field="Quantity" title="Quantity"></kendo-grid-column>
+                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
+                           </kendo-grid>
+                        </div>
+                    </div>
+                    <!--/ Sales Order Details -->
                 </div>
             </div>
 
@@ -18,8 +330,7 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
-                    type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
 
