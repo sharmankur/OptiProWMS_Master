@@ -40,6 +40,7 @@ const routes: Routes = [
       { path:'dockdoor', loadChildren:"../dock-door/dock-door.module#DockDoorModule"},
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
       { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
+      { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},      
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
     ]

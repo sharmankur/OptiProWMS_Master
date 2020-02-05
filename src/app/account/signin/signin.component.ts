@@ -133,37 +133,38 @@ export class SigninComponent implements OnInit {
     /**
     * Function for login
     */
-    public async login() {
-      // this.isCompleteLoginVisible = true;
+   public async login() {
+    // this.isCompleteLoginVisible = true;
 
-        window.localStorage.setItem('IsMenuLoaded', 'false');
-        if (this.userName == "" || this.password == "") {
-            this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
-            return true;
-        }
+      // window.localStorage.setItem('IsMenuLoaded', 'false');
+      // if (this.userName == "" || this.password == "") {
+      //     this.toastr.error('', this.translate.instant("Login_UnPwdBlankErrorMsg"), this.commonService.toast_config.iconClasses.error);
+      //     return true;
+      // }
 
-        this.showLoader = true;
-        if (!this.isCompleteLoginVisible) {
-            this.validateUserLogin();
-        } 
-        else {
-            this.selectedItem = document.getElementById("compId").innerText.trim();
-            if (this.validateFields()) {
-                this.showLoader = false;
-                return;
-            }
-        //    this.getLicenseData();
+      // this.showLoader = true;
+      // if (!this.isCompleteLoginVisible) {
+      //     this.validateUserLogin();
+      // } 
+      // else {
+      //     this.selectedItem = document.getElementById("compId").innerText.trim();
+      //     if (this.validateFields()) {
+      //         this.showLoader = false;
+      //         return;
+      //     }
+      //    this.getLicenseData();
 
-            localStorage.setItem("CompID", this.selectedItem);
-            localStorage.setItem("whseId", "01");
-            localStorage.setItem("UserId", this.userName);
-            localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
+          localStorage.setItem("CompID", "DEVSCHEDULING");
+          localStorage.setItem("whseId", "01");
+          localStorage.setItem("UserId", this.userName);
+          localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
 
-            localStorage.setItem("DecimalPrecision", "2");
-            localStorage.setItem("DecimalSeparator", ".");
-            this.router.navigateByUrl('home/dashboard'); 
-       }
-    }
+          localStorage.setItem("DecimalPrecision", "2");
+          localStorage.setItem("DecimalSeparator", ".");
+          this.router.navigateByUrl('home/dashboard'); 
+  //   }
+  }
+
 
     private validateUserLogin() {
         //alert('validateUserLogin: ');

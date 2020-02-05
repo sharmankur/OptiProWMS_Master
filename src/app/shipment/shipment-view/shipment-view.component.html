@@ -1,0 +1,36 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                Shipment
+            </h3>
+            <div class="row">
+                <div class="col-12">
+                    Shipment
+                </div>
+            </div>
+
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <!-- <div class="col-sm-12 col-12">
+                    <hr />
+                </div> -->
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                    type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>
