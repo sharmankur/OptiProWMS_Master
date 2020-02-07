@@ -147,7 +147,7 @@ export class CTRUpdateComponent implements OnInit {
             return;
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.ctrmainComponent.ctrComponent = 1;
           }else{
             this.toastr.error('', data[0].RESULT);
@@ -279,6 +279,12 @@ export class CTRUpdateComponent implements OnInit {
             return;
           }
           this.hideLookup = false;
+          for(var i=0; i<data.length ;i++){
+            data[i].OPTM_LENGTH = data[i].OPTM_LENGTH.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_WIDTH = data[i].OPTM_WIDTH.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_HEIGHT = data[i].OPTM_HEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            data[i].OPTM_MAXWEIGHT = data[i].OPTM_MAXWEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }          
           this.serviceData = data;
           if(fieldName == "CT"){
             this.lookupfor = "CTList";

@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class CarrierUpdateComponent implements OnInit {
 
-  carrierId: string;
-  carrierDesc: string;
+  carrierId: string = "";
+  carrierDesc: string = "";
   DD_ROW: any;
   BtnTitle: string;
   isUpdate: boolean = false;
@@ -135,5 +135,9 @@ export class CarrierUpdateComponent implements OnInit {
         }
       }
     );
+  }
+
+  onCarrierIdChangeBlur(){
+    
   }
 }

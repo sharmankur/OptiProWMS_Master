@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InboundPolistComponent } from './inbound-polist.component';
+import { CreateContainerComponent } from './create-container.component';
 
-describe('InboundPolistComponent', () => {
-  let component: InboundPolistComponent;
-  let fixture: ComponentFixture<InboundPolistComponent>;
+describe('CreateContainerComponent', () => {
+  let component: CreateContainerComponent;
+  let fixture: ComponentFixture<CreateContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InboundPolistComponent ]
+      declarations: [ CreateContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InboundPolistComponent);
+    fixture = TestBed.createComponent(CreateContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

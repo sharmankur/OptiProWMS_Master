@@ -102,8 +102,8 @@ export class CommonLookupComponent implements OnInit {
     if(this.serviceData != undefined && this.serviceData.length>= this.lookupPageSize){
         this.lookupPagable = true;
     }
-    if (this.lookupfor == "toWhsList" || this.lookupfor == "fromWhsList") {
-      this.showToWhsList();
+    if (this.lookupfor == "ShipmentList") {
+      this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
     } else if (this.lookupfor == "BatchNoList" || this.lookupfor == "BatchNoList2") {
@@ -191,8 +191,56 @@ export class CommonLookupComponent implements OnInit {
       this.showLookupWHSList();
       
     }
+    else if (this.lookupfor == "CARList") {
+      this.showCARList();
+    }
+    else if (this.lookupfor == "BinList") {
+      this.showBinNoList();
+    }
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  showCARList() {
+    this.table_head = [
+      {
+        field: 'OPTM_RULEID',
+        title: this.translate.instant("CAR_CPackRule"),
+        headerClass: 'text-center',
+        class: 'text-right',
+        type: 'numeric',
+        width: '150'
+      },
+      {
+        field: 'OPTM_CONTTYPE',
+        title: this.translate.instant("CT_ContainerType"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+
+      {
+        field: 'OPTM_PACKTYPE',
+        title: this.translate.instant("CAR_PackType"),
+        headerClass: 'text-center',
+        class: 'text-right',
+        type: 'numeric',
+        width: '150'
+      },
+      {
+        field: 'OPTM_ADD_TOCONT',
+        title: this.translate.instant("CAR_AddPartsToContainer"),
+        headerClass: 'text-center',
+        type: 'boolean',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("CT_AutoPackRule");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
   showLookupWHSList() {
     this.table_head = [
@@ -273,20 +321,38 @@ export class CommonLookupComponent implements OnInit {
 
   
 
-  showToWhsList() {
+  showShipmentList() {
     this.table_head = [
       {
-        field: 'WHSCODE',
-        title: this.translate.instant("WhseCode"),
+        field: 'OPTM_DOCENTRY',
+        title: this.translate.instant("PT_ShipmentId"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'WHSName',
-        title: this.translate.instant("WhseName"),
+        field: 'OPTM_BPCODE',
+        title: this.translate.instant("CustomerCode"),
         type: 'text',
         width: '100'
       },
+      {
+        field: 'OPTM_SHIPTO',
+        title: this.translate.instant("Ship_To_Code"),
+        type: 'text',
+        width: '100'
+      },
+      // {
+      //   field: 'OPTM_BPCODE',
+      //   title: this.translate.instant("CustomerCode"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_BPCODE',
+      //   title: this.translate.instant("CustomerCode"),
+      //   type: 'text',
+      //   width: '100'
+      // },
     ];
     this.lookupTitle = this.translate.instant("WarehouseList");
     if (this.serviceData !== undefined) {
@@ -836,6 +902,23 @@ export class CommonLookupComponent implements OnInit {
     this.table_head = [
       {
         field: 'BINNO',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("LookupTitle_BinNoList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showBinNoList() {
+    this.table_head = [
+      {
+        field: 'BinCode',
         title: this.translate.instant("BinNo"),
         type: 'text',
         width: '100'

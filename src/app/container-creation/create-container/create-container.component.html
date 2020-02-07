@@ -1,0 +1,499 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'CreateContainer'|translate}}
+            </h3>
+
+            <!-- Row 1 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Purpose'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
+                                            textField="Name" valueField="Value" id="purpose" name="purpose" [(ngModel)]="defaultPurpose"
+                                            #selectedvalue (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Login_Warehouse'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Login_Warehouse'|translate}}"
+                                        name="whse" [(ngModel)]="whse" (blur)="onWhseChange()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
+                                            textField="Name" valueField="Value" id="createMode" name="createMode"
+                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'BinCode'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="binNo" placeholder="{{'BinCode'|translate}}"
+                                        name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerType'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="containerTypeId"
+                                        placeholder="{{'ContainerType'|translate}}" name="containerType" [(ngModel)]="containerType"
+                                        (blur)="onContainerTypeChange()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <div class="col-sm-4 ml-5">
+                            <!-- col start -->
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerId'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" name='containerId'
+                                                [(ngModel)]="containerId" id="containerId" disabled>
+                                            <input type="text" class="form-control form-control-sm ml-1" name='containerCode'
+                                                [(ngModel)]="containerCode" id="containerCode" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                        </div>
+
+                        <!-- <div class="col-sm-4">
+                            
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
+                                        placeholder="{{'AutoPackRule'|translate}}" name="autoPackRule" [(ngModel)]="autoPackRule"
+                                        (blur)="onAutoPackRuleChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name='CustomerTo'
+                                            [(ngModel)]="CustomerTo" id="CustomerTo" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name='noOfPackToGen'
+                                            [(ngModel)]="noOfPackToGen" id="noOfPackToGen" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Length'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm" name='width'
+                                                [(ngModel)]="length" id="length" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 6 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoCloseWhenFull'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="opti_input-group-checkbox">
+                                        <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull'
+                                            class="k-checkbox" (change)="onCheckChange()" />
+                                        <label class="k-checkbox-label empty-check" for="autoCloseWhenFull" ></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Width'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm" name='width'
+                                                [(ngModel)]="width" id="width" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 7 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control form-control-sm" name='CustomerTo'
+                                            [(ngModel)]="CustomerTo" id="CustomerTo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Heigth'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm" name='heigth'
+                                                [(ngModel)]="heigth" id="heigth" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 8 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <!-- nothing to code -->
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'MaxWeigth'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm" name="maxWeigth"
+                                                id="maxWeigth" [(ngModel)]="maxWeigth" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 9 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <!-- nothing to code -->
+                        </div>
+                        <!-- col end -->
+
+                        <!-- col start -->
+                        <div class="col-sm-4 ml-5">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control form-control-sm" name='CustomerTo'
+                                            [(ngModel)]="CustomerTo" id="CustomerTo" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <h4>{{'Other items to be included in container'|translate}}</h4>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="opti_input-group-checkbox">
+                                    <input type="checkbox" id="fromContainer" name='fromContainer'
+                                        class="k-checkbox" checked />
+                                    <label class="k-checkbox-label empty-check">{{'FromContainer'|translate}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="border-bottom mb-2"></div> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <kendo-grid class="no-shadow" [data]="fromContainerDetails" [resizable]="true" [sortable]="true"
+                            [selectable]="true" #gridItem>
+                            <!-- grid for mobile start -->
+                            <kendo-grid-column media="(max-width: 767px)" title="{{'List'|translate}}" class="opti_mobile-grid-td">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <dl class="opti_mobile_grid_dl">
+                                        <dt>{{dataItem.rowindex}}</dt>
+                                        <dd>{{dataItem.stringtype}}</dd>
+                                        <dt>{{dataItem.string}}</dt>
+                                        <dd>{{dataItem.length}}</dd>
+                                        <dd>{{dataItem.operations}}</dd>
+                                        <dd></dd>
+                                        <dd></dd>
+                                    </dl>
+                                    <dl class="opti_mobile_grid_dl">
+                                        <dt>{{'#'}}</dt>
+                                        <dt>{{'ItemCode'|translate}}</dt>
+                                        <dd>{{'Quantity'|translate}}</dd>
+                                        <dt>{{'Container'|translate}}</dt>
+                                        <dd>{{'AvailableQty'|translate}}</dd>
+                                        <dd>{{'InvQty'|translate}}</dd>
+                                        <dd>{{'BinNo'|translate}}</dd>
+                                    </dl>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!-- grid for mobile end -->
+
+                            <kendo-grid-column media="(min-width: 768px)" field="rowindex" [width]="45" title="{{'ItemCode'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                    <input type="text" class="form-control form-control-sm" id="itemCode" placeholder="{{'ItemCode'|translate}}"
+                                        name="itemCode" [(ngModel)]="itemCode">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getItemCodeList()">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="stringtype" [width]="45" title="{{'Quantity'|translate}}"
+                                headerClass="text-center" class="text-right">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                    <input type="text" class="form-control form-control-sm" name='CustomerTo'
+                                        [(ngModel)]="CustomerTo" id="CustomerTo" class="text-right">
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Container'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <input type="text" class="form-control form-control-sm" name="stringtxt" value={{dataItem.string}}
+                                        title="{{dataItem.string}}" #stringtxtvalue (blur)="onStringChange(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                        [disabled]="dataItem.stringtype == 3" id="stringtxt">
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="length" [width]="45" title="{{'AvailableQty'|translate}}"
+                                headerClass="text-center">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
+                                        value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                        [disabled]="dataItem.isOperationDisable" id="lengthvalue">
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'InvQty'|translate}}"
+                                headerClass="text-center">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
+                                        value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
+                                        [disabled]="dataItem.isOperationDisable" id="lengthvalue">
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'BinNo'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <kendo-dropdownlist class="form-control" name="operation" [data]="operations"
+                                        [valuePrimitive]="true" [value]="dataItem.operations" textField="Name"
+                                        valueField="value" #selectedvalue [disabled]="dataItem.isOperationDisable"
+                                        (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <!-- <kendo-grid-column media="(min-width: 768px)" [width]="45">
+                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick(dataItem.rowindex)">
+                                            <span class="k-icon k-i-delete" role="presentation"></span>
+                                        </button>
+                                    </ng-template>
+                                </kendo-grid-column> -->
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick()">
+                    {{'ScanCreate'|translate}}
+                </button>
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick()">
+                    {{'Create'|translate}}
+                </button>
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
+                    {{'Login_Reset'|translate}}
+                </button>
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
+                    {{'PrintLabel'|translate}}
+                </button>
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
+                    {{'ContainerOperation'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<span *ngIf="showLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>
+
+<span *ngIf="showInputDialogFlag">
+    <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
+</span>

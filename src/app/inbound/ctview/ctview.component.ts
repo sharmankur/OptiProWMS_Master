@@ -4,15 +4,14 @@ import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { InboundMasterComponent } from '../inbound-master.component';
-import { StatePersistingServiceService } from '../../services/state-persisting-service.service';
+import { CTMasterComponent } from '../ctmaster.component';
 
 @Component({
-  selector: 'app-inbound-details',
-  templateUrl: './inbound-details.component.html',
-  styleUrls: ['./inbound-details.component.scss']
+  selector: 'app-ctview',
+  templateUrl: './ctview.component.html',
+  styleUrls: ['./ctview.component.scss']
 })
-export class InboundDetailsComponent implements OnInit {
+export class CTViewComponent implements OnInit {
 
   showLookupLoader: boolean = true;
   serviceData: any[];
@@ -21,7 +20,7 @@ export class InboundDetailsComponent implements OnInit {
   
 
   constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
-    private inboundMasterComponent: InboundMasterComponent, private persistingService: StatePersistingServiceService) {
+    private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);

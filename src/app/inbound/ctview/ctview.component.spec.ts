@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InboundGRPOComponent } from './inbound-grpo.component';
+import { CTViewComponent } from './ctview.component';
 
-describe('InboundGRPOComponent', () => {
-  let component: InboundGRPOComponent;
-  let fixture: ComponentFixture<InboundGRPOComponent>;
+describe('CTViewComponent', () => {
+  let component: CTViewComponent;
+  let fixture: ComponentFixture<CTViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InboundGRPOComponent ]
+      declarations: [ CTViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InboundGRPOComponent);
+    fixture = TestBed.createComponent(CTViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -104,6 +104,21 @@
   "PT_TaskType": "Task Type",
   "Task Id": "Task Id",
   "PT_PlanDate":"Plan Date",
+  "Action": "Action",
+  "WHSCODE":"Warehouse Code",
+  "Schedule_Datetime": "Schedule Datetime",
+  "CustomerCode": "Customer Code",
+  "Ship_Stage_Bin":"Ship Stage Bin",
+  "Ship_To_Code":"Ship To Code",
+  "Use_Container": "Use Container",
+  "Return_Order_Ref":"Return Order Ref",
+  "BOL_Number":"BOL Number",
+  "VehicleNumber":"Vehicle Number",
+  "Shipment_Lines":"Shipment Lines",
+  "SalesOrderDetails":"Sales Order Details",
+  "ShipmentContainers":"Shipment Containers",
+  "ContainerItems": "Container Items",
+  "ShipmentLineDetails":"Shipment Line Details",
 
   
   "3":"Dashboard",
@@ -239,7 +254,7 @@
 
   "11":"Common",
   "MfrBatch": "Mfr Batch",
-  "CustomerCode": "Customer Code",
+  
   "MeterialCanNotBeZero": "Issue material quantity cannot be 0.",
   "CustomerList": "Customer list",
   "SalesOrderList": "Sales order list",
@@ -484,7 +499,7 @@
   "Plt_TransferErrMsg": "System is facing problem in transfer operation. Please try again.",
  
   "Dock_Door": "Dock Door",
-  
+
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
   
@@ -492,6 +507,7 @@
   "DropdownMenu_Wizard": "Wizard",
   "DropdownMenu_Shipment": "Shipment",
   "DropdownMenu_Carrier": "Carrier",
+  "DropdownMenu_CarrierCode": "Carrier Code",
  
   "Shipment_Wizard": "Shipment Wizard",
   "SO_From": "Sales Order From",
@@ -541,7 +557,7 @@
   "DueDate":"Due Date",
   "Select":"Select",
   "SalesOrderEntry": "Sales Order Entry",
-  "WHSCODE":"Warehouse Code",
+
   "WHSName":"Warehouse Name",
   "ItmName":"Item Name",
  
@@ -574,6 +590,37 @@
   
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
+  "ContainerCreation": "Container Creation",
+  "CreateContainer": "Create Ship Container",
+  "Operation": "Operation#",
+  "CreateMode": "Create Mode",
+  "Task": "Task",
+  "WO": "WO#",
+  "ProducedQty": "Produced Quantity",
+  "ItemPackQty": "Item Pack Quantity",
+  "PassedQty": "Passed Quantity",
+  "RejectQty": "Reject Quantity",
+  "NoOfPackToGen": "No of Pack To Generate",
+  "NCQty": "NC Quantity",
+  "AutoCloseWhenFull": "Auto Close When Full",
+  "MaxWeigth": "Max Weigth",
+  "SONumber": "SO Number",
+  "ContainerWeigth": "Container Weigth",
+  "AutoPackRule": "Auto Pack Rule",
+  "InvQty": "Inv Quantity",
+  "Create": "Create",
+  "PrintLabel": "Print Label",
+  "ContainerOperation": "Container Operation",
+  "ScanCreate": "Scan and Create",
+  "FromContainer": "From Container",
+  "SelectContainerMsg": "Please select container type",
+  "SelectAutoPackMsg": "Please select auto pack rule",
+  "SelectWhseMsg": "Please select warehouse",
+  "SelectBinCodeMsg": "Please select bin code",
+  "ContainerCode": "Container Code",
+  "ConfirmContainerCode": "Confirm Container Code",
+  "ContainerCodeBlankMsg": "Container code can not blank.",
+  "CodeGenSuccessMsg": "Code generated successfully.",
 
   "Dummy": "Dummy"
 }

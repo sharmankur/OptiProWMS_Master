@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CTMasterComponent } from './ctmaster.component';
-
-// const routes: Routes = [];
+import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
 
 const routes: Routes = [
-  { path: '', component: CTMasterComponent}
+  { path: '', component: ShipmentViewComponent}  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class InboundRoutingModule { }
+export class ShipmentRoutingModule { }

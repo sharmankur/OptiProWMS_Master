@@ -1,19 +1,17 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { InboundService } from '../../services/inbound.service';
 import { Commonservice } from '../../services/commonservice.service';
-import { InboundMasterComponent } from '../inbound-master.component';
+import { CTMasterComponent } from '../ctmaster.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { InventoryTransferService } from '../../services/inventory-transfer.service';
-import { StatePersistingServiceService } from '../../services/state-persisting-service.service';
 
 @Component({
-  selector: 'app-inbound-polist',
-  templateUrl: './inbound-polist.component.html',
-  styleUrls: ['./inbound-polist.component.scss']
+  selector: 'app-ctupdate',
+  templateUrl: './ctupdate.component.html',
+  styleUrls: ['./ctupdate.component.scss']
 })
-export class InboundPolistComponent implements OnInit {
+export class CTUpdateComponent implements OnInit {
   CT_Description: string;
   CT_Length: string;
   CT_Width: string;
@@ -26,7 +24,7 @@ export class InboundPolistComponent implements OnInit {
   isUpdate: boolean = false;
 
   constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
-    private inboundMasterComponent: InboundMasterComponent) {
+    private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -139,7 +137,7 @@ export class InboundPolistComponent implements OnInit {
             return;
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.success('', data[0].RESULT);
             this.inboundMasterComponent.inboundComponent = 1;
           }else{
             this.toastr.error('', data[0].RESULT);
