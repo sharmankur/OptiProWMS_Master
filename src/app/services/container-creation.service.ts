@@ -120,4 +120,34 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetOtherItemsFromContDTL", jObject, this.commonService.httpOptions);
   }
+
+  GetOpenSONumber(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetOpenSONumber", jObject, this.commonService.httpOptions);
+  }
+
+  IsValidWhseCode(whse: string): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WhsCode: whse
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWhseCode", jObject, this.commonService.httpOptions).toPromise();
+  }
+
+  IsValidBinCode(whse: string, binCode: string): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WhsCode: whse,
+        BinCode: binCode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.commonService.httpOptions).toPromise();
+  }
 }

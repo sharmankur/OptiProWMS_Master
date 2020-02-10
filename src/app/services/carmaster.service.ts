@@ -25,7 +25,7 @@ export class CARMasterService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.commonService.httpOptions);
   }
 
-  IsValidContainerAutoRule(OPTM_RULEID: number, OPTM_CONTTYPE: string, OPTM_PACKTYPE: number): Observable<any> {
+  IsValidContainerAutoRule(OPTM_RULEID: number, OPTM_CONTTYPE: string, OPTM_PACKTYPE: number): Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -34,7 +34,7 @@ export class CARMasterService {
         OPTM_PACKTYPE: OPTM_PACKTYPE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerAutoRule", jObject, this.commonService.httpOptions).toPromise();
   }
   
   InsertIntoContainerAutoRule(oShipmentAutoRule: any): Observable<any> {

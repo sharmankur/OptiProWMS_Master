@@ -46,6 +46,13 @@ export class InputContainerCodeComponent implements OnInit {
         return
       }
       this.getContainerCode();
+    } else if (status == "cancel" || status == "no") {
+      this.isYesClick.emit({
+        Status: "no",
+        From: this.fromWhere,
+        ContainerCode: ""
+      });
+      this.opened = false;
     }
 
     // this.isYesClick.emit({
@@ -85,7 +92,9 @@ export class InputContainerCodeComponent implements OnInit {
             return;
           }
 
-          if(data != null && data.length == 1){
+          if(data == null || data.length == 0){
+            this.toastr.error('', this.translate.instant("Code not generated."));
+          } else if(data != null && data.length == 1){
             this.isYesClick.emit({
               Status: "yes",
               From: this.fromWhere,
@@ -93,7 +102,7 @@ export class InputContainerCodeComponent implements OnInit {
             });
             this.opened = false;
           } else {
-            this.toastr.error('', this.translate.instant("Code not generated."));
+            this.toastr.error('', this.translate.instant("Code already exist."));
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

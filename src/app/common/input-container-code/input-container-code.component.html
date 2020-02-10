@@ -5,6 +5,14 @@
     <div class="px-3">
         <div class="form-group row">
             <div class="input-group input-group-sm">
+                <input type="text" id="parentContainerType" name="parentContainerType" class="form-control form-control-sm"
+                    [(ngModel)]="parentContainerType" placeholder="{{'Parent Container Code'}}">
+                <input type="text" id="count" name="count" class="form-control form-control-sm ml-1"
+                    [(ngModel)]="count" placeholder="{{'Count'}}">
+            </div>
+        </div>
+        <div class="form-group row mt-2">
+            <div class="input-group input-group-sm">
                 <input type="text" id="containerCode" name="containerCode" class="form-control form-control-sm"
                     [(ngModel)]="containerCode" placeholder="{{'Container Code'}}">
             </div>
