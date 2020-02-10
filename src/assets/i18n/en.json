@@ -22,8 +22,17 @@
   "Login_licenseFailed": "License failed",
   
   "2":"Home -> Left side Menus",
+  "Setup": "Setup",
+  "Transaction_Step_Setup": "Transaction Step Setup",
+  "Document_Numbering": "Document Numbering",
+
+  "Transactions": "Transactions",
+
+  "Maintenance": "Maintenance",
+  "Container_Maintenance": "Container Maintenance",
+  "Container_List": "Container List",
+
   "ContainerType": "Container Type",
-  "ContainerCode": "Container Code",
   "ContainerTypeRelation": "Container Type Relation",
   "ContainerAutoRule": "Container Auto Rule",
   "WarehouseTransfer": "Warehouse Transfer",
