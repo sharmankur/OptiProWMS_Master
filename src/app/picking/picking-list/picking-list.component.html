@@ -18,16 +18,14 @@
                                         <div class="di-list">
                                             <dt>{{'PT_ShipmentId'|translate}}</dt>
                                             <dd>{{ dataItem.OPTM_DOCENTRY}}</dd>
-                                        </div>
-                                        <div class="di-list">
+                                        
                                             <dt>{{'PT_Customer'|translate}}</dt>
                                             <dd>{{ dataItem.OPTM_BPCODE}}</dd>
                                         </div>
                                         <div class="di-list">
                                             <dt>{{'PT_Ship_To'|translate}}</dt>
                                             <dd>{{ dataItem.OPTM_SHIPTO}}</dd>
-                                        </div>
-                                        <div class="di-list">
+                                        
                                             <dt>{{'PT_Warehouse'|translate}}</dt>
                                             <dd>{{ dataItem.OPTM_WHSCODE}}</dd>
                                         </div>
@@ -42,7 +40,7 @@
                             </kendo-grid-column>
                             <kendo-grid-column [media]="desktopMedia" field="OPTM_WHSCODE" title="{{'PT_Warehouse'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column [media]="desktopMedia" title="{{'Action'|translate}}">
+                            <kendo-grid-column [media]="desktopMedia" title="Pick Detail">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <button type="button" class="btn btn-danger k-button btn-sm mr-10 " (click)="showPickTaskList(dataItem)">
                                             <i class=" k-icon k-i-track-changes"></i>
