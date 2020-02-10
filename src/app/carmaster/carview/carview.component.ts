@@ -157,7 +157,7 @@ export class CARViewComponent implements OnInit {
 
   IsValidContainerAutoRule(ruleId, ContType, PT) {
     this.showLoader = true;
-    this.carmasterService.IsValidContainerAutoRule(ruleId, ContType, PT).subscribe(
+    this.carmasterService.IsValidContainerAutoRule(ruleId, ContType, PT).then(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

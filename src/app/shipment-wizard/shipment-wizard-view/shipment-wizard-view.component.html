@@ -395,15 +395,26 @@
                                         </ng-template>
                                       </kendo-grid-checkbox-column>
                                     <kendo-grid-column width="100" field="CUSTOMER" title="{{'Customer'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="SODocNum" class="grid-right-align-column" width="80" title="{{'SalesOrder'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="SODocEntry" class="grid-right-align-column" width="110" title="{{'SalesOrderEntry'|translate}}"></kendo-grid-column>
+                                    <!-- <kendo-grid-column field="SODocNum" class="grid-right-align-column" width="80" title="{{'SalesOrder'|translate}}"></kendo-grid-column> -->
+  
+                                    <kendo-grid-column field="SODocEntry" editor="numeric" class="grid-right-align-column" width="110" title="{{'SalesOrderEntry'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="LN" width="40" title="{{'LN'|translate}}" class="grid-right-align-column"></kendo-grid-column>
                                     <kendo-grid-column field="ITEMKEY" width="120" title="{{'ItemKey'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="ItemCode" width="120" title="{{'GrdItemCode'|translate}}"></kendo-grid-column>
                                    
                                     <kendo-grid-column field="SalesUOM" width="100" title="{{'UOM'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="SalesOrderQty" width="80" class="grid-right-align-column"   title="{{'OrderQty'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="SalesOpenQty" width="80"  class="grid-right-align-column"  title="{{'OpnQty'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column  width="80"  class="grid-right-align-column"  title="{{'OpnQty'|translate}}">
+                                            <ng-template kendoGridCellTemplate let-dataItem let-companyRowIndex="rowIndex">
+                                                <!-- The first focusable element will be focused when pressing Enter on the cell -->
+                                                <!-- <input type="text" kendoGridFocusable [value]="dataItem.SODocEntry" /> -->
+                                                <input type="text"  class="form-control form-control-sm" [value]="dataItem.SalesOpenQty" 
+                                                  
+                                                (change)="ChangeSalesQty($event,dataItem,companyRowIndex)"> 
+                                               
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                    <!-- <kendo-grid-column field="SalesOpenQty" width="80"  class="grid-right-align-column"  title="{{'OpnQty'|translate}}"></kendo-grid-column> -->
                                     <kendo-grid-column field="InvntryUom" width="80" title="{{'InvUOM'|translate}}"  ></kendo-grid-column>
                                     <kendo-grid-column field="SalesOpnQtyInVUOM" width="140" class="grid-right-align-column" title="{{'OpnQtyInInvUOM'|translate}}">
                                     </kendo-grid-column>
@@ -455,7 +466,9 @@
 
                              <!-- STEP 4 START -->
                             <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
-                                <kendo-grid [data]="AllConsolidateData" [pageSize]="pageSize" [skip]="skip" #gridUser [pageable]="true"
+                                <kendo-grid [data]="AllConsolidateData" 
+                                
+                                [pageSize]="pageSize" [skip]="skip" #gridUser [pageable]="true"
                                 [selectable]="true"  (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
                                
                                 <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
@@ -463,6 +476,7 @@
                                           <input  [kendoGridSelectionCheckbox]="idx" />
                                         </ng-template>
                                       </kendo-grid-checkbox-column>
+                                     
                                    <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="Customer" title="{{'Customer'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="Warehouse_Code" title="{{'WHSCODE'|translate}}"></kendo-grid-column>

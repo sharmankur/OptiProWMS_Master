@@ -727,4 +727,32 @@ export class Commonservice {
     let customizationDetails = new CustomizationDetails(true, false);
     localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
+
+  GetDataForContainerAutoRule(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
+  }
+
+  GetWhseCode(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetWhseCode", jObject, this.httpOptions);
+  }
+
+  GetBinCode(whse: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WHSECODE: whse
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetBinCode", jObject, this.httpOptions);
+  }
 }

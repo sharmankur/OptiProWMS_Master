@@ -322,8 +322,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   gridUserSelectionChange(gridUser, selection) {
     if(selection.selectedRows.length>0)
       {
-        // this.HoldSelectedRow = {};
-        // this.HoldSelectedRow.ABC = [];
+        debugger
          this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
       }
       else if(selection.deselectedRows.length>0)
@@ -340,8 +339,10 @@ export class ShipmentWizardViewComponent implements OnInit {
         }
 }
 
-
-
+ChangeSalesQty(event,dataItem,companyRowIndex)
+ {
+    dataItem.SalesOpenQty=event.target.value
+ }
 GetDataForSalesOredr(fieldName) {
   
   this.showLoader = true;
