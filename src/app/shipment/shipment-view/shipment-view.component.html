@@ -16,8 +16,7 @@
                                 <div class="form-group row">
                                     <label for="ShipmentID" class="col-sm-3 col-form-label">{{'PT_ShipmentId'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID
-                                            id="ShipmentID">
+                                        <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID">
                                     </div>
                                 </div>
                             </div>
@@ -27,8 +26,7 @@
                                 <div class="form-group row">
                                     <label for="WarehouseCode" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='WarehouseCode' [(ngModel)]=ShipmentID
-                                            id="WarehouseCode">
+                                        <input type="text" class="form-control form-control-sm" name='WarehouseCode' [(ngModel)]=WarehouseCode id="WarehouseCode">
                                     </div>
                                 </div>
                             </div>
@@ -43,8 +41,7 @@
                                 <div class="form-group row">
                                     <label for="ScheduleDatetime" class="col-sm-3 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ScheduleDatetime' [(ngModel)]=ShipmentID
-                                            id="ScheduleDatetime">
+                                        <input type="text" class="form-control form-control-sm" name='ScheduleDatetime' [(ngModel)]=ScheduleDatetime id="ScheduleDatetime">
                                     </div>
                                 </div>
                             </div>
@@ -54,8 +51,7 @@
                                 <div class="form-group row">
                                     <label for="CustomerCode" class="col-sm-3 col-form-label">{{'CustomerCode'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=ShipmentID
-                                            id="CustomerCode">
+                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=CustomerCode id="CustomerCode">
                                     </div>
                                 </div>
                             </div>
@@ -69,10 +65,9 @@
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="ShipStageBin" class="col-sm-3 col-form-label">
-                                            {{'Ship_Stage_Bin'|translate}}</label>
+                                        {{'Ship_Stage_Bin'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ShipStageBin' [(ngModel)]=ShipmentID
-                                            id="ShipStageBin">
+                                        <input type="text" class="form-control form-control-sm" name='ShipStageBin' [(ngModel)]=ShipStageBin id="ShipStageBin">
                                     </div>
                                 </div>
                             </div>
@@ -82,8 +77,7 @@
                                 <div class="form-group row">
                                     <label for="DockDoor" class="col-sm-3 col-form-label">{{'Dock_Door'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=ShipmentID
-                                            id="DockDoor">
+                                        <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor">
                                     </div>
                                 </div>
                             </div>
@@ -91,15 +85,14 @@
                         </div>
                         <!-- row end -->
 
-                          <!-- row start -->
-                          <div class="row">
+                        <!-- row start -->
+                        <div class="row">
                             <!-- col start -->
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="ShipToCode" class="col-sm-3 col-form-label">{{'Ship_To_Code'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ShipToCode' [(ngModel)]=ShipmentID
-                                            id="ShipToCode">
+                                        <input type="text" class="form-control form-control-sm" name='ShipToCode' [(ngModel)]=ShipToCode id="ShipToCode">
                                     </div>
                                 </div>
                             </div>
@@ -109,11 +102,10 @@
                                 <div class="form-group row">
                                     <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
                                     <div class="col-sm-9">
-                                      
-                                            <select class="form-control form-control-sm" name='Status'
-                                            id="Status">
-                                                <option></option>
-                                            </select>
+
+                                        <select class="form-control form-control-sm" name='Status' [(ngModel)]=Status id="Status">
+                                            <option></option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -121,15 +113,14 @@
                         </div>
                         <!-- row end -->
 
-                         <!-- row start -->
-                         <div class="row">
-                              <!-- col start -->
+                        <!-- row start -->
+                        <div class="row">
+                            <!-- col start -->
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="CarrierCode" class="col-sm-3 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=ShipmentID
-                                            id="CarrierCode">                                         
+                                        <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode">
                                     </div>
                                 </div>
                             </div>
@@ -137,29 +128,28 @@
 
                             <!-- col start -->
                             <div class="col-sm-6">
-                                <div class="form-group row">                                   
+                                <div class="form-group row">
                                     <div class="col-sm-12">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="UseContainer" class="custom-control-input" name="UseContainer" />
+                                            <input type="checkbox" id="UseContainer" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
                                             <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
-                           
+
                         </div>
                         <!-- row end -->
 
-                         <!-- row start -->
-                         <div class="row">
+                        <!-- row start -->
+                        <div class="row">
                             <!-- col start -->
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="ReturnOrderRef" class="col-sm-3 col-form-label">{{'Return_Order_Ref'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ReturnOrderRef' [(ngModel)]=ShipmentID
-                                            id="ReturnOrderRef">
+                                        <input type="text" class="form-control form-control-sm" name='ReturnOrderRef' [(ngModel)]=ReturnOrderRef id="ReturnOrderRef">
                                     </div>
                                 </div>
                             </div>
@@ -168,9 +158,8 @@
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="BOLNumber" class="col-sm-3 col-form-label">{{'BOL_Number'|translate}}</label>
-                                    <div class="col-sm-9">                                      
-                                            <input type="text" class="form-control form-control-sm" name='BOLNumber' [(ngModel)]=ShipmentID
-                                            id="BOLNumber">
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-sm" name='BOLNumber' [(ngModel)]=BOLNumber id="BOLNumber">
                                     </div>
                                 </div>
                             </div>
@@ -178,15 +167,14 @@
                         </div>
                         <!-- row end -->
 
-                          <!-- row start -->
-                          <div class="row">
+                        <!-- row start -->
+                        <div class="row">
                             <!-- col start -->
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="VehicleNumber" class="col-sm-3 col-form-label">{{'VehicleNumber'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=ShipmentID
-                                            id="VehicleNumber">
+                                        <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=VehicleNumber id="VehicleNumber">
                                     </div>
                                 </div>
                             </div>
@@ -204,39 +192,32 @@
                     <!-- Shipment Lines -->
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'Shipment_Lines'|translate}}</h5>
-                        <div class="card-body">                    
-                            <kendo-grid [data]="gridData"
-                            [resizable]="true" 
-                            [pageSize]="pageSize" 
-                            [skip]="skip" 
-                            [pageable]="true">                            
-                               <kendo-grid-column field="ShipmentID" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
-                               <kendo-grid-column field="ShipmentLine" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
-                               <kendo-grid-column field="ItemCode" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
-                               <kendo-grid-column field="Quantity" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
-                               <kendo-grid-column field="QuantityFulFill" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
-                           </kendo-grid>
+                        <div class="card-body">
+                            <kendo-grid [data]="shipmentLines" [resizable]="true" [height]="200" [pageSize]="pageSize" [skip]="skip" [pageable]="false">
+                                <kendo-grid-column field="OPTM_DOCENTRY" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPQTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Quantity_Fulfilled'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
+                            </kendo-grid>
                         </div>
                     </div>
                     <!--/ Shipment Lines -->
                 </div>
                 <div class="col-sm-6 col-xs-12">
-                     <!-- Sales Order Details -->
-                     <div class="card shipment-widget-box">
+                    <!-- Sales Order Details -->
+                    <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'SalesOrderDetails'|translate}}</h5>
-                        <div class="card-body">                    
-                            <kendo-grid [data]="gridData"
-                            [resizable]="true" 
-                            [pageSize]="pageSize" 
-                            [skip]="skip" 
-                            [pageable]="true">      
-                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
-                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
-                               <kendo-grid-column field="SoNumber" title="So Number"></kendo-grid-column>
-                               <kendo-grid-column field="SoLine" title="So Line"></kendo-grid-column>
-                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
-                               <kendo-grid-column field="Quantity" title="Quantity"></kendo-grid-column>
-                           </kendo-grid>
+                        <div class="card-body">
+                            <kendo-grid [data]="SODetails" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
+                                <kendo-grid-column field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_DTLLINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="90"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SONO" class="text-right" width="75" title="{{'SONumber'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SOLINENO" title="{{'SOLine'|translate}}" class="text-right" width="50"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SOLINEQTY" title="{{'Quantity'|translate}}" class="text-right" width="60"></kendo-grid-column>
+                            </kendo-grid>
                         </div>
                     </div>
                     <!--/ Sales Order Details -->
@@ -247,77 +228,65 @@
                     <!-- Shipment Lines -->
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
-                        <div class="card-body">                    
-                            <kendo-grid [data]="gridData"
-                            [resizable]="true" 
-                            [pageSize]="pageSize" 
-                            [skip]="skip" 
-                            [pageable]="true">     
-                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerCode" title="Container Code"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerType" title="Container Type"></kendo-grid-column>
-                               <kendo-grid-column field="ParentContainerId" title="Parent Container Id"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerStatus" title="Container Status"></kendo-grid-column>
-                               <kendo-grid-column field="ShipEligible" title="Ship Eligible"></kendo-grid-column>
-                               <kendo-grid-column field="PackedForShipment" title="Packed for shipment"></kendo-grid-column>
-                               <kendo-grid-column field="WarehouseCode" title="Warehouse Code"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerBin" title="Container Bin"></kendo-grid-column>
-                               <kendo-grid-column field="Weight" title="Weight"></kendo-grid-column>
-                               <kendo-grid-column field="WeightUOM" title="Weight UOM"></kendo-grid-column>
-                               <kendo-grid-column field="Volume" title="Volume"></kendo-grid-column>
-                               <kendo-grid-column field="VolumeUOM" title="Volume UOM"></kendo-grid-column>
-                           </kendo-grid>
+                        <div class="card-body">
+                            <kendo-grid [data]="gridData" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
+                                <kendo-grid-column field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerID" title="{{'ContainerId'|translate}}" width="75" class="text-right"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerCode" title="{{'ContainerCode'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerType" title="{{'ContainerType'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ParentContainerId" title="{{'Parent_CId'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerStatus" title="{{'ContainerStatus'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ShipEligible" title="{{'ShipEligible'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="PackedForShipment" title="{{'PackedForShipment'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="WarehouseCode" title="{{'WarehouseCode'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerBin" title="{{'ContainerBin'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="Weight" title="{{'Weight'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="WeightUOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="Volume" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="VolumeUOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
+                            </kendo-grid>
                         </div>
                     </div>
                     <!--/ Shipment Lines -->
                 </div>
                 <div class="col-sm-6 col-xs-12">
-                     <!-- Sales Order Details -->
-                     <div class="card shipment-widget-box">
+                    <!-- Sales Order Details -->
+                    <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
-                        <div class="card-body">                    
-                            <kendo-grid [data]="gridData"
-                            [resizable]="true" 
-                            [pageSize]="pageSize" 
-                            [skip]="skip" 
-                            [pageable]="true">                         
-                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
-                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
-                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
-                               <kendo-grid-column field="PartQty" title="Part Qty"></kendo-grid-column>
-                               <kendo-grid-column field="UOM" title="UOM"></kendo-grid-column>
-                               <kendo-grid-column field="Weight" title="Weight"></kendo-grid-column>
-                               <kendo-grid-column field="WeightUOM" title="Weight UOM"></kendo-grid-column>
-                               <kendo-grid-column field="Volume" title="Volume"></kendo-grid-column>
-                               <kendo-grid-column field="VolumeUOM" title="Volume UOM"></kendo-grid-column>
-                           </kendo-grid>
+                        <div class="card-body">
+                            <kendo-grid [data]="gridData" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
+                                <kendo-grid-column field="ShipmentID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ShipmentLine" title="{{'Shipment_Lines'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerID" title="{{'ContainerId'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="ItemCode" title="{{'ItemCode'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="PartQty" title="{{'PartQty'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="Weight" title="{{'Weight'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="WeightUOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="Volume" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="VolumeUOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
+                            </kendo-grid>
                         </div>
                     </div>
                     <!--/ Sales Order Details -->
                 </div>
             </div>
-            <div class="row">              
+            <div class="row">
                 <div class="col-12">
-                     <!-- Sales Order Details -->
-                     <div class="card shipment-widget-box">
+                    <!-- Sales Order Details -->
+                    <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
-                        <div class="card-body">                    
-                            <kendo-grid [data]="gridData"
-                            [resizable]="true" 
-                            [pageSize]="pageSize" 
-                            [skip]="skip" 
-                            [pageable]="true">                            
-                               <kendo-grid-column field="ShipmentID" title="Shipment ID"></kendo-grid-column>
-                               <kendo-grid-column field="ShipmentLine" title="Shipment Line"></kendo-grid-column>
-                               <kendo-grid-column field="LineID" title="Line ID"></kendo-grid-column>
-                               <kendo-grid-column field="ItemCode" title="Item Code"></kendo-grid-column>
-                               <kendo-grid-column field="BinCode" title="Bin Code"></kendo-grid-column>
-                               <kendo-grid-column field="BTCH" title="BTCH SR Number"></kendo-grid-column>
-                               <kendo-grid-column field="Quantity" title="Quantity"></kendo-grid-column>
-                               <kendo-grid-column field="ContainerID" title="Container ID"></kendo-grid-column>
-                           </kendo-grid>
+                        <div class="card-body">
+                            <kendo-grid [data]="gridData" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
+                                <kendo-grid-column field="OPTM_DOCENTRY" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="LineID" width="95" title="{{'LineID'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="ItemCode" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="BinCode" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="BTCH" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="Quantity" width="95" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="ContainerID" width="95" title="{{'ContainerId'|translate}}"></kendo-grid-column>
+                            </kendo-grid>
                         </div>
                     </div>
                     <!--/ Sales Order Details -->
@@ -335,7 +304,25 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
 
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Schedule'|translate}}</button>
 
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Containers'|translate}}</button>
+
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Stage_Unstage'|translate}}</button>
+
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Customer_Return'|translate}}</button>
+
+
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Accept_Return'|translate}}</button>
+
+
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Cancel_Unassign'|translate}}</button>
             </div>
         </div>
     </form>
@@ -343,8 +330,8 @@
 </div>
 
 <span [hidden]="hideLookup">
-        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
-    </span>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (lookupkey)="getlookupSelectedItem($event)"></app-common-lookup>
+</span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>

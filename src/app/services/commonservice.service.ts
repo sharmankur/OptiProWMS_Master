@@ -7,6 +7,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { PalletOperationType } from '../enums/PalletEnums';
+import { CustomizationDetails } from '../models/CustomizationDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -712,6 +713,19 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetWHSELookup", jObject, this.httpOptions);
+  }
+
+  getCustomizationDetail(): any{
+    let customizationDetail = localStorage.getItem("CustomizationDetail");
+    if(customizationDetail != undefined){
+      return JSON.parse(customizationDetail);
+    }
+    return null;
+  }
+
+  setCustomizeInfo(){
+    let customizationDetails = new CustomizationDetails(true, false);
+    localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
 
   GetDataForContainerAutoRule(): Observable<any> {

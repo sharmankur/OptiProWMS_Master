@@ -1,22 +1,10 @@
-import { Component, OnInit, setTestabilityGetter, Input, Output, EventEmitter, ElementRef, ViewChild, HostListener } from '@angular/core';
-// import { CommonService } from '../../../services/common.service';
-// import * as XLSX from 'ts-xlsx';
-// import { FeaturemodelService } from '../../../services/featuremodel.service';
-// import { ModelbomService } from '../../../services/modelbom.service';
-// import { CommonData, ColumnSetting } from "../../../models/CommonData";
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 import { Router } from '@angular/router';
-import * as $ from 'jquery';
 import 'bootstrap';
 import { ColumnSetting } from '../../models/CommonData';
-import { OutboundData } from '../../models/outbound/outbound-data';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { GridComponent } from '@progress/kendo-angular-grid';
-import { UIHelper } from '../../helpers/ui.helpers';
 import { State } from '@progress/kendo-data-query';
-import { CommonConstants } from '../../const/common-constants';
-// import { UIHelper } from '../../../helpers/ui.helpers';
-// import { Http, ResponseContentType } from '@angular/http';
 
 @Component({
   selector: 'app-common-lookup',
@@ -53,7 +41,7 @@ export class CommonLookupComponent implements OnInit {
 
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
-  constructor(private toastr: ToastrService, private translate: TranslateService, private router: Router) {
+  constructor(private translate: TranslateService, private router: Router) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -119,8 +107,8 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "RecvBinList") {
       this.showRecvBinList();
     }
-    else if (this.lookupfor == "VendorList") {
-      this.showVendorList();
+    else if (this.lookupfor == "PickItemBtchSer") {
+      this.showPickItemBtchSerList();
     }
     else if (this.lookupfor == "POList") {
       this.showPOList();
@@ -341,20 +329,8 @@ export class CommonLookupComponent implements OnInit {
         type: 'text',
         width: '100'
       },
-      // {
-      //   field: 'OPTM_BPCODE',
-      //   title: this.translate.instant("CustomerCode"),
-      //   type: 'text',
-      //   width: '100'
-      // },
-      // {
-      //   field: 'OPTM_BPCODE',
-      //   title: this.translate.instant("CustomerCode"),
-      //   type: 'text',
-      //   width: '100'
-      // },
     ];
-    this.lookupTitle = this.translate.instant("WarehouseList");
+    this.lookupTitle = this.translate.instant("PickList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -630,22 +606,35 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showVendorList() {
+  showPickItemBtchSerList() {
     this.table_head = [
+      // {
+      //   field: 'OPTM_TASKID',
+      //   title: this.translate.instant("VendorCode"),
+      //   type: 'text',
+      //   width: '100'
+      // },
       {
-        field: 'CARDCODE',
-        title: this.translate.instant("VendorCode"),
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'CARDNAME',
-        title: this.translate.instant("Inbound_VendorName"),
+        field: 'OPTM_BTCHSER',
+        title: this.translate.instant("BatchSerial_No"),
         type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_QTY',
+        title: this.translate.instant("Quantity"),
+        type: 'numeric',
+        class: 'text-right',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("VendorList");
+    this.lookupTitle = this.translate.instant("ItemDetail");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -843,11 +832,8 @@ export class CommonLookupComponent implements OnInit {
   on_item_select(selection) {
     if (!this.showSelection) {
       const lookup_key = selection.selectedRows[0].dataItem;
-      //console.log("lookup_key - " + lookup_key);
-      // console.log(lookup_key);
       this.lookupkey.emit(lookup_key);
       this.lookupvalue.emit(Object.values(lookup_key));
-      //  console.log(selection);
       selection.selectedRows = [];
       selection.index = 0;
       selection.selected = false;

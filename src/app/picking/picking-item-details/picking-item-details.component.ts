@@ -52,6 +52,10 @@ export class PickingItemDetailsComponent implements OnInit {
   shipmentno: string;
   PickTaskList: any[] = [];
   SubmitPickTaskData: any[] = [];
+  showbtchser: any[] = [];
+  hideLookup = true;
+  lookupfor: string;
+  serviceData: any[]=[];
   PickTaskDetail: any;
   showLookupLoader: boolean = true;
   showLoader: boolean = false;
@@ -69,9 +73,13 @@ export class PickingItemDetailsComponent implements OnInit {
   OPTM_Tracking: string = 'S';
   itemcodeLabel: string;
   itemcodeValue: string;
-  @ViewChild('focusOnSerNo',{static:false}) focusOnSerNo;
-  @ViewChild('focusOnLocation',{static:false}) focusOnLocation;
-  
+  showLocation: boolean;
+  ShipmentList: any[] = [];
+  totalPickTask: Number;
+  dialogOpened: boolean = false;
+  @ViewChild('focusOnSerNo', { static: false }) focusOnSerNo;
+  @ViewChild('focusOnLocation', { static: false }) focusOnLocation;
+
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -90,6 +98,7 @@ export class PickingItemDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.ShipDetail = JSON.parse(localStorage.getItem("ShipDetail"));
+    this.ShipmentList[0] = this.ShipDetail;
     this.shipmentno = this.translate.instant("PT_ShipmentId") + " " + this.ShipDetail.OPTM_DOCENTRY;
     if (localStorage.getItem("TaskDetail") == "" || localStorage.getItem("TaskDetail") == undefined) {
       this.getPickTaskList(this.ShipDetail.OPTM_DOCENTRY);
@@ -98,6 +107,15 @@ export class PickingItemDetailsComponent implements OnInit {
       this.PickTaskList = this.PickTaskDetail.OPTM_WHSTASKLIST;
       this.index = Number(localStorage.getItem("PickItemIndex"));
       this.setVales(this.index);
+    }
+    let customizationDetail = this.commonservice.getCustomizationDetail();
+    this.hideShowFields(customizationDetail);
+  }
+
+  hideShowFields(customizationDetail) {
+    this.showLocation = customizationDetail.PickTaskLocation;
+    if (!this.showLocation) {
+      this.nextStep();
     }
   }
 
@@ -152,11 +170,12 @@ export class PickingItemDetailsComponent implements OnInit {
       this.threeSteps = true;
       this.maxStep = 3;
     }
-    if(this.currentStep == 1){
-      setTimeout(()=>{
+    if (this.currentStep == 1) {
+      setTimeout(() => {
         this.focusOnLocation.nativeElement.focus();
       }, 500)
     }
+    this.totalPickTask = this.PickTaskList.length;
   }
 
   prevStep() {
@@ -172,7 +191,7 @@ export class PickingItemDetailsComponent implements OnInit {
 
   nextStep() {
     if (this.currentStep < this.maxStep) {
-      if (this.currentStep == 1 && (this.PT_Enter_Location == undefined || this.PT_Enter_Location == "")) {
+      if (this.currentStep == 1 && this.showLocation && (this.PT_Enter_Location == undefined || this.PT_Enter_Location == "")) {
         this.toastr.error('', this.translate.instant("PT_Location_blank"));
         return;
       } else if (this.currentStep == 2 && (this.PT_Enter_ContBtchSer == undefined || this.PT_Enter_ContBtchSer == "")) {
@@ -187,8 +206,8 @@ export class PickingItemDetailsComponent implements OnInit {
       } else {
         this.currentStep = this.currentStep + 1;
       }
-      if(this.currentStep == 2){
-        setTimeout(()=>{
+      if (this.currentStep == 2) {
+        setTimeout(() => {
           this.focusOnSerNo.nativeElement.focus();
         }, 500)
       }
@@ -261,65 +280,77 @@ export class PickingItemDetailsComponent implements OnInit {
       this.toastr.error('', this.translate.instant("PT_ContBtchSer_not_match"));
       this.PT_Enter_ContBtchSer = "";
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       this.focusOnSerNo.nativeElement.focus();
     }, 500)
   }
 
   onQtyChange() {
-    if(this.pickQty != undefined){
-      let sum = 0;
-      for (var i = 0; i < this.BtchNoneArray.length; i++) {
-        sum = sum + this.BtchNoneArray[i].OPTM_Qty;
-      }
-      if((sum + this.pickQty) <= this.openQty){
-        this.totalpickQty = sum + this.pickQty;
-      }else{
-        this.toastr.error('', this.translate.instant("Inbound_NoOpenQuantityValid"));
-        this.pickQty = undefined;
-      }
-    }
+    // if (this.pickQty != undefined) {
+    //   let sum = 0;
+    //   for (var i = 0; i < this.BtchNoneArray.length; i++) {
+    //     sum = sum + this.BtchNoneArray[i].OPTM_Qty;
+    //   }
+    //   if ((sum + this.pickQty) <= this.openQty) {
+    //     this.totalpickQty = sum + this.pickQty;
+    //   } else {
+    //     this.toastr.error('', this.translate.instant("Inbound_NoOpenQuantityValid"));
+    //     this.pickQty = undefined;
+    //   }
+    // }
   }
 
-  conConfirmClick() {
-    let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
-    if (result == undefined) {
-      this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
-      this.currentStep = 1;
-      this.PT_Enter_Location = "";
-      this.PT_Enter_ContBtchSer = "";
-      this.pickQty = undefined;
-    } else {
-      this.toastr.error('', this.translate.instant("DataAlreadySaved"));
-    }
-  }
+  // conConfirmClick() {
+  //   let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
+  //   if (result == undefined) {
+  //     this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
+  //     this.currentStep = 1;
+  //     this.PT_Enter_Location = "";
+  //     this.PT_Enter_ContBtchSer = "";
+  //     this.pickQty = undefined;
+  //   } else {
+  //     this.toastr.error('', this.translate.instant("DataAlreadySaved"));
+  //   }
+  // }
 
   onSaveClick() {
     if (this.ContBtchSerArray.length <= 0 && !this.threeSteps) {
       this.toastr.error('', this.translate.instant("NoRecord"));
       return;
-    } 
-    if(this.threeSteps) {
-      // if (this.BtchNoneArray.length <= 0) {
-      //   this.toastr.error('', this.translate.instant("NoRecord"));
-      //   return;
-      // } else {
-        let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
-        if (result == undefined) {
-          this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
-        }else {
-          this.toastr.error('', this.translate.instant("DataAlreadySaved"));
-        }
-        this.PT_Enter_Location = "";
-        this.PT_Enter_ContBtchSer = "";
-        this.pickQty = undefined;
+    }
+    if (this.threeSteps) {
 
-        if(Number(this.totalpickQty) != Number(this.openQty)){
-          this.currentStep = 1;
+      if (this.pickQty != undefined || this.pickQty != 0) {
+        let sum = 0;
+        for (var i = 0; i < this.BtchNoneArray.length; i++) {
+          sum = sum + this.BtchNoneArray[i].OPTM_Qty;
+        }
+        if ((sum + this.pickQty) <= this.openQty) {
+          this.totalpickQty = sum + this.pickQty;
+        } else {
+          this.toastr.error('', this.translate.instant("Inbound_NoOpenQuantityValid"));
+          this.pickQty = undefined;
           return;
         }
-        
-      // }
+      } else {
+        this.toastr.error('', this.translate.instant("ProdReceipt_QtyGraterThenZero"));
+        return;
+      }
+
+      let result = this.BtchNoneArray.find(element => element.PT_Enter_ContBtchSer == this.PT_Enter_ContBtchSer);
+      if (result == undefined) {
+        this.BtchNoneArray.push(new BtchNoneModel(this.PT_Enter_Location, this.PT_Enter_ContBtchSer, this.pickQty));
+      } else {
+        this.toastr.error('', this.translate.instant("DataAlreadySaved"));
+      }
+      this.PT_Enter_Location = "";
+      this.PT_Enter_ContBtchSer = "";
+      this.pickQty = undefined;
+
+      if (Number(this.totalpickQty) != Number(this.openQty)) {
+        this.currentStep = 1;
+        return;
+      }
     }
     if (localStorage.getItem("From") == "shiplist") {
       // if(this.SubmitPickTaskData.length > 0)
@@ -337,7 +368,7 @@ export class PickingItemDetailsComponent implements OnInit {
         return;
       }
       this.clearFields();
-      this.index = this.index+1;
+      this.index = this.index + 1;
       this.setVales(this.index);
     }
     this.currentStep = 1;
@@ -369,7 +400,7 @@ export class PickingItemDetailsComponent implements OnInit {
             this.toastr.success('', data[0].RESULT);
             this.onBackClick();
           } else {
-            
+
             this.toastr.error('', data[0].RESULT);
           }
           this.SubmitPickTaskData = [];
@@ -395,7 +426,7 @@ export class PickingItemDetailsComponent implements OnInit {
     this.PT_Enter_ContBtchSer = "";
     this.PT_Enter_Location = "";
     this.pickQty = undefined;
-    this.totalpickQty=0;
+    this.totalpickQty = 0;
     // this.SubmitPickTaskData = [];
   }
 
@@ -430,5 +461,25 @@ export class PickingItemDetailsComponent implements OnInit {
         this.SubmitPickTaskData.push(new PickTaskModel(this.ShipDetail.OPTM_DOCENTRY, this.PickTaskList[this.index].OPTM_TASKID, this.PickTaskList[this.index].OPTM_PICK_WHSE, this.PT_Enter_Location, this.ContBtchSerArray[i], 1));
       }
     }
+  }
+
+  ShowBatchSerials(): any {
+    this.showbtchser = [];
+    for (var i = 0; i < this.PickTaskDetail.OPTM_WHSTASK_BTCHSER.length; i++) {
+      if(this.PickTaskDetail.OPTM_WHSTASK_BTCHSER[i].OPTM_TASKID == this.pickTaskName){
+        this.showbtchser.push(this.PickTaskDetail.OPTM_WHSTASK_BTCHSER[i]);
+      }
+    }
+    if(this.showbtchser.length > 0){
+      this.hideLookup = false;
+      this.serviceData = this.showbtchser;
+      this.lookupfor = "PickItemBtchSer";
+    }
+  }
+
+  showPickTaskList(row) {
+    // localStorage.setItem("ShipDetail", JSON.stringify(row));
+    // this.router.navigate(['home/picking/picking-item-list']);
+    this.dialogOpened = true;
   }
 }

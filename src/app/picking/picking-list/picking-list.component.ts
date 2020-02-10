@@ -62,6 +62,7 @@ export class PickingListComponent implements OnInit {
   ngOnInit() {
     this.picktaskService.clearLocaStorage();
     this.getShipmentList()
+    this.commonservice.setCustomizeInfo();
   }
 
   onShipmentSelection(row) {
@@ -109,4 +110,7 @@ export class PickingListComponent implements OnInit {
   }
 
 
+  ShowBatchSerials(){
+    
+  }
 }

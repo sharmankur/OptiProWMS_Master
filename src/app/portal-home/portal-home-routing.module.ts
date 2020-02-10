@@ -14,7 +14,6 @@ import { PalletizeComponent } from '../palletization/palletize/palletize.compone
 import { InventoryTransferbyITRMasterComponent } from '../inventory-transfer/inventory-transferby-itrmaster/inventory-transferby-itrmaster.component';
 import { ITRLIstComponent } from '../inventory-transfer/itrlist/itrlist.component';
 
-
 const routes: Routes = [
 
   {
@@ -45,7 +44,7 @@ const routes: Routes = [
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
-      { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
+      { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" }     
     ]
     
   }
