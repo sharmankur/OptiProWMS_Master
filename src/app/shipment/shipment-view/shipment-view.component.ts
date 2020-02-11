@@ -119,6 +119,10 @@ export class ShipmentViewComponent implements OnInit {
     // this.BOLNumber = OPTM_SHPMNT_HDR.OPTM_BPCODE;
   }
 
+  onCancelClick() {
+    this.router.navigate(['home/dashboard']);
+  }
+
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
       this.ShipmentID = event.OPTM_DOCENTRY
@@ -207,6 +211,67 @@ export class ShipmentViewComponent implements OnInit {
           }else{
             this.toastr.error('', data[0].RESULT);
           }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetDataForDockDoor() {
+    this.showLoader = true;
+    this.commonservice.GetDataForDockDoor().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookupLoader = false;
+          this.serviceData = data;
+          this.lookupfor = "DDList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+
+  GetDataForCarrier() {
+    this.showLoader = true;
+    this.commonservice.GetDataForCarrier().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookupLoader = false;
+          this.serviceData = data;
+          this.lookupfor = "CarrierList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

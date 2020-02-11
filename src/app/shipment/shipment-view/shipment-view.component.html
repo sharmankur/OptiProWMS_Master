@@ -1,7 +1,6 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 Shipment
             </h3>
@@ -16,7 +15,7 @@
                                 <div class="form-group row">
                                     <label for="ShipmentID" class="col-sm-3 col-form-label">{{'PT_ShipmentId'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID">
+                                        <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID" [disabled]=true>
                                     </div>
                                 </div>
                             </div>
@@ -26,7 +25,8 @@
                                 <div class="form-group row">
                                     <label for="WarehouseCode" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='WarehouseCode' [(ngModel)]=WarehouseCode id="WarehouseCode">
+                                        <input type="text" class="form-control form-control-sm" name='WarehouseCode' [(ngModel)]=WarehouseCode id="WarehouseCode"
+                                            [disabled]=true>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 <div class="form-group row">
                                     <label for="CustomerCode" class="col-sm-3 col-form-label">{{'CustomerCode'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=CustomerCode id="CustomerCode">
+                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=CustomerCode [disabled]=true id="CustomerCode">
                                     </div>
                                 </div>
                             </div>
@@ -78,6 +78,11 @@
                                     <label for="DockDoor" class="col-sm-3 col-form-label">{{'Dock_Door'|translate}}</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor">
+                                        <div class="input-group-append">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
+                                                <i class="opti-icon-hammenu"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +107,6 @@
                                 <div class="form-group row">
                                     <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
                                     <div class="col-sm-9">
-
                                         <select class="form-control form-control-sm" name='Status' [(ngModel)]=Status id="Status">
                                             <option></option>
                                         </select>
@@ -121,6 +125,9 @@
                                     <label for="CarrierCode" class="col-sm-3 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

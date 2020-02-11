@@ -32,6 +32,11 @@
   "Container_Maintenance": "Container Maintenance",
   "Container_List": "Container List",
 
+  "WhsUGMapping": "Whs-UG Mapping",
+  "Bin_Rules": "Bin Rules",
+  "Warehouse_Bin_Layout": "Warehouse Bin Layout",
+  "Container_Groups": "Container Groups",
+  "Configuration_Paramter": "Configuration Paramter",
   "ContainerType": "Container Type",
   "ContainerTypeRelation": "Container Type Relation",
   "ContainerAutoRule": "Container Auto Rule",
@@ -110,8 +115,7 @@
   "Quantity": "Quantity",
   "Quantity_Fulfilled": "Quantity Fulfilled",
   "Line_status": "Line Status",
-  "PickTask": "Pick Task",
-  "Pick": "Pick",
+
   "ContainerId":"Container Id",
   "LineID": "Line Id",
   "PT_Enter_Location":"Enter Location",

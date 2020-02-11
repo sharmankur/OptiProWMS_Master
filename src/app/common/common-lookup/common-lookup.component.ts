@@ -330,7 +330,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
     ];
-    this.lookupTitle = this.translate.instant("PickList");
+    this.lookupTitle = this.translate.instant("PT_ShipmentList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
