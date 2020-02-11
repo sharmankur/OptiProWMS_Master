@@ -63,6 +63,30 @@
                     <span class="text">{{'DropdownMenu_Masters'|translate}}</span>
                 </a>
                 <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="WBL" role="menuitem" (click)="listClick($event, 'warehousebinlayout')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 503.322 503.322" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'Warehouse_Bin_Layout'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="BR" role="menuitem" (click)="listClick($event, 'binrules')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 503.322 503.322" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'Bin_Rules'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="WUM" role="menuitem" (click)="listClick($event, 'whs-ug-mapping')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 503.322 503.322" class="icon">
+                                <use xlink:href="#inbound"></use>
+                            </svg>
+                            <span class="text">{{'WhsUGMapping'|translate}}</span>
+                        </a>
+                    </li>
                     <li id="CT" role="menuitem" (click)="listClick($event, 'containertype')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 503.322 503.322" class="icon">
@@ -87,6 +111,14 @@
                             <span class="text">{{'ContainerAutoRule'|translate}}</span>
                         </a>
                     </li>
+                    <li id="CG" role="menuitem" (click)="listClick($event, 'containergroup')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'Container_Groups'|translate}}</span>
+                        </a>
+                    </li>
                     <li id="DCKDOR" role="menuitem" (click)="listClick($event, 'dockdoor')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 8500 6050" class="icon">
@@ -103,6 +135,14 @@
                             <span class="text">{{'DropdownMenu_Carrier'|translate}}</span>
                         </a>
                     </li>
+                    <li id="CP" role="menuitem" (click)="listClick($event, 'Configuration_Paramter')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 8500 6050" class="icon">
+                                <use xlink:href="#outbound"></use>
+                            </svg>
+                            <span class="text">{{'Configuration_Paramter'|translate}}</span>
+                        </a>
+                    </li>
                     <li id="MASKING" role="menuitem" (click)="listClick($event, 'masking')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 8500 6050" class="icon">
@@ -113,7 +153,6 @@
                     </li>
                 </ul>
             </li>
-
 
             <li class="dropdown" dropdown id="TRANSACTIONS">
                 <a dropdownToggle class="dropdown-toggle">
@@ -132,14 +171,14 @@
                         </a>
                     </li>
 
-                    <li id="TSS" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
+                    <!-- <li id="TSS" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 503.322 503.322" class="icon">
                                 <use xlink:href="#inbound"></use>
                             </svg>
                             <span class="text">Scan & Create container</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li id="SHIPMENTWIZARD" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}"
                         [ngStyle]="{'display':'flex'}">
                         <a>
@@ -156,7 +195,7 @@
                             <svg viewBox="0 0 8500 6050" class="icon">
                                 <use xlink:href="#outbound"></use>
                             </svg>
-                            <span class="text">Generate Picklist for Shipments</span>
+                            <span class="text">Generate Picklist Shipments</span>
                         </a>
                     </li>
                 </ul>
