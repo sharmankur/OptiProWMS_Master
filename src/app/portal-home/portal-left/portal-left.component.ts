@@ -45,7 +45,7 @@ export class PortalLeftComponent implements OnInit {
         this.selectedThemeColor = data;
       }
     );
-  //  this.getAllMenus();
+   this.getAllMenus();
     this.commonService.setCustomizeInfo();
 
     UIHelper.manageNavigationPanel(document.getElementById('sidebarCollapse-alt'));
@@ -60,8 +60,6 @@ export class PortalLeftComponent implements OnInit {
           this.displayMenuOptions(data.Modules);
           this.allOptionMenus = data.Modules
         }
-          
-        window.localStorage.setItem('IsMenuLoaded', 'true');
       },
       error => {
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {

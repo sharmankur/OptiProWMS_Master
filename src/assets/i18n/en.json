@@ -22,8 +22,17 @@
   "Login_licenseFailed": "License failed",
   
   "2":"Home -> Left side Menus",
+  "Setup": "Setup",
+  "Transaction_Step_Setup": "Transaction Step Setup",
+  "Document_Numbering": "Document Numbering",
+
+  "Transactions": "Transactions",
+
+  "Maintenance": "Maintenance",
+  "Container_Maintenance": "Container Maintenance",
+  "Container_List": "Container List",
+
   "ContainerType": "Container Type",
-  "ContainerCode": "Container Code",
   "ContainerTypeRelation": "Container Type Relation",
   "ContainerAutoRule": "Container Auto Rule",
   "WarehouseTransfer": "Warehouse Transfer",
@@ -646,5 +655,36 @@
   "Cancel_Unassign": "Cancel And Unassign",
   "PartQty": "Part Qty",
   "BTCH_Number": "Batch Serial Number",
-  "Dummy": "Dummy"
+  "Dummy": "Dummy",
+
+  "Container_Code": "Container Code",
+  "Contains_Item": "Contains Item",
+  "Select_Shipment": "Select Shipment",
+  "Purpose": "Ship/Internal",
+  "Warehouse": "Warehouse",
+  "Assign_to_shipment": "Assign to shipment",
+  "Remove_from_shipment": "Remove from shipment",
+  "Container_Type": "Container Type",
+  "Shipment_Id": "Shipment Id",
+  "Return_by_customer": "Returned by customer",
+  "Inv_Post_Status": "Inv Post Status",
+  "Set_Damaged": "Set Damaged",
+  "Close_Container": "Close Container",
+  "Query" : "Query",
+  "Post_To_Inventory": "Post To Inventory",
+  "Container_Items": "Container Items",
+  "Container_Id": "Container Id",
+  "Wt_of_Items": "Wt of Items",
+  "Wt_UOM": "Wt UOM",
+  "Item_Volume": "Item Volume",
+  "Volume_UOM": "Volume UOM",
+  "Container_Wt": "Container Wt",
+  "Vol_UOM": "Vol UOM",
+  "Parent_Cont": "Parent Container",
+  "Picked": "Picked",
+  "Cont_Bin": "Container Bin",
+  "Built_In_Process": "Built In Process",
+  "DateTime": "Date And Time",
+  "Shipment_Line": "Shipment Line"
+  
 }
