@@ -815,4 +815,14 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetInventoryData", jObject, this.httpOptions);
   }
+  
+  IsValidWhseCode(whse: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WhsCode: whse
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWhseCode", jObject, this.httpOptions);
+  }
 }

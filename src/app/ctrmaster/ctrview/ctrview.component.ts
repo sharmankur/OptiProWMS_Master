@@ -31,8 +31,8 @@ export class CTRViewComponent implements OnInit {
     this.getContainerRelationship();
   }
 
-  
-getContainerRelationship() {
+
+  getContainerRelationship() {
     this.showLoader = true;
     this.ctrmasterService.GetDataForContainerRelationship().subscribe(
       (data: any) => {
@@ -44,7 +44,7 @@ getContainerRelationship() {
             return;
           }
           this.showLookupLoader = false;
-          for(var i=0; i<data.length ;i++){
+          for (var i = 0; i < data.length; i++) {
             data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
             data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }
@@ -83,39 +83,31 @@ getContainerRelationship() {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
+  OnAddClick() {
     localStorage.setItem("CTR_ROW", "");
     localStorage.setItem("Action", "");
     this.ctrmainComponent.ctrComponent = 2;
   }
 
-  OnDeleteSelected(event){
-    if(event.length <= 0){
-      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
-      return;
-    }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({       
-        OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
-        OPTM_CONTTYPE: event[i].OPTM_PARENT_CONTTYPE,
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteFromContainerRelationship(ddDeleteArry);
+  OnDeleteSelected(event) {
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTAINER_TYPE: event[0],
-        OPTM_PARENT_CONTTYPE: event[1],
-      });
-    this.DeleteFromContainerRelationship(ddDeleteArry);
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  DeleteFromContainerRelationship(ddDeleteArry){
+  DeleteFromContainerRelationship(ddDeleteArry) {
     this.showLoader = true;
     this.ctrmasterService.DeleteFromContainerRelationship(ddDeleteArry).subscribe(
       (data: any) => {
@@ -126,9 +118,9 @@ getContainerRelationship() {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.getContainerRelationship();
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -145,5 +137,57 @@ getContainerRelationship() {
         }
       }
     );
+  }
+
+
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any[] = [];
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("Delete"):
+          var ddDeleteArry: any[] = [];
+          ddDeleteArry.push({
+            CompanyDBId: localStorage.getItem("CompID"),
+            OPTM_CONTAINER_TYPE: this.event[0],
+            OPTM_PARENT_CONTTYPE: this.event[1],
+          });
+          this.DeleteFromContainerRelationship(ddDeleteArry);
+          break;
+        case ("DeleteSelected"):
+          if (this.event.length <= 0) {
+            this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+            return;
+          }
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              OPTM_CONTAINER_TYPE: this.event[i].OPTM_CONTAINER_TYPE,
+              OPTM_PARENT_CONTTYPE: this.event[i].OPTM_PARENT_CONTTYPE,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteFromContainerRelationship(ddDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
 }

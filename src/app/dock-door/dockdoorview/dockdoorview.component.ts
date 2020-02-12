@@ -19,7 +19,7 @@ export class DockdoorviewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
 
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService, private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) { 
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private ddmainComponent: DockdoormainComponent, private ddService: DockdoorService, private router: Router) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -72,42 +72,36 @@ export class DockdoorviewComponent implements OnInit {
     localStorage.setItem("Action", "copy");
     this.ddmainComponent.ddComponent = 2;
   }
-  
+
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
+  OnAddClick() {
     localStorage.setItem("DD_ROW", "");
     localStorage.setItem("Action", "");
     this.ddmainComponent.ddComponent = 2;
   }
 
-  OnDeleteSelected(event){
-    if(event.length <= 0){
-      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
-      return;
-    }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[i].OPTM_DOCKDOORID,
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteFromDockDoor(ddDeleteArry);
+  OnDeleteSelected(event) {
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[0],
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    this.DeleteFromDockDoor(ddDeleteArry);
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  DeleteFromDockDoor(ddDeleteArry){
+  DeleteFromDockDoor(ddDeleteArry) {
     this.showLoader = true;
     this.ddService.DeleteFromDockDoor(ddDeleteArry).subscribe(
       (data: any) => {
@@ -118,9 +112,9 @@ export class DockdoorviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataForDockDoor();
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -137,5 +131,53 @@ export class DockdoorviewComponent implements OnInit {
         }
       }
     );
+  }
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any[] = [];
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("Delete"):
+          var ddDeleteArry: any[] = [];
+          ddDeleteArry.push({
+            OPTM_DOCKDOORID: this.event[0],
+            CompanyDBId: localStorage.getItem("CompID")
+          });
+          this.DeleteFromDockDoor(ddDeleteArry);
+          break;
+        case ("DeleteSelected"):
+          if (this.event.length <= 0) {
+            this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+            return;
+          }
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              OPTM_DOCKDOORID: this.event[i].OPTM_DOCKDOORID,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteFromDockDoor(ddDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
 }

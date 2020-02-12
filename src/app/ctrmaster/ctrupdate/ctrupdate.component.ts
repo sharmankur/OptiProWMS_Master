@@ -69,6 +69,14 @@ export class CTRUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CTR_ParentContainerType_Blank_Msg"));
       return false;
     }
+    else if(this.CTR_ConainerPerParent == "NaN" || this.CTR_ConainerPerParent == undefined || Number(this.CTR_ConainerPerParent) <= 0 ){
+      this.toastr.error('', this.translate.instant("CPPErrMsg"));
+      return false;
+    }
+    else if(this.CTR_ConatainerPartofParent == "NaN" || this.CTR_ConatainerPartofParent == undefined || Number(this.CTR_ConatainerPartofParent) <= 0 ){
+      this.toastr.error('', this.translate.instant("CPofPErrMsg"));
+      return false;
+    }
     return true;
   }
 

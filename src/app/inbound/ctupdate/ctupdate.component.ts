@@ -38,8 +38,8 @@ export class CTUpdateComponent implements OnInit {
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
       this.CT_ContainerType = this.CT_ROW[0];
       this.CT_Description = this.CT_ROW[1];
-      this.CT_Width = this.CT_ROW[2];
-      this.CT_Length = this.CT_ROW[3];
+      this.CT_Length = this.CT_ROW[2];
+      this.CT_Width = this.CT_ROW[3];
       this.CT_Height = this.CT_ROW[4];
       this.CT_Max_Width = this.CT_ROW[5];
       if(localStorage.getItem("Action") == "copy"){
@@ -75,6 +75,22 @@ export class CTUpdateComponent implements OnInit {
     if(this.CT_ContainerType == '' || this.CT_ContainerType == undefined){
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
       return false;
+    }
+    else if(this.CT_Length == "NaN" || this.CT_Length == undefined || Number(this.CT_Length) <= 0 ){
+      this.toastr.error('', this.translate.instant("CTLengthMsg"));
+      return false;
+    }
+    else if(this.CT_Width == "NaN" || this.CT_Width == undefined || Number(this.CT_Width) <= 0 ){
+      this.toastr.error('', this.translate.instant("CTwidthMsg"));
+      return false;
+    }
+    else if(this.CT_Height == "NaN" || this.CT_Height == undefined || Number(this.CT_Height) <= 0 ){
+      this.toastr.error('', this.translate.instant("CTHeightMsg"));
+      return false;
+    }
+    else if(this.CT_Max_Width == "NaN" || this.CT_Max_Width == undefined || 
+    (Number(this.CT_Max_Width) <= 0)){
+      this.CT_Max_Width = "0";
     }
     return true;
   }
