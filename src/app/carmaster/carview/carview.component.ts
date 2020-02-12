@@ -92,31 +92,21 @@ export class CARViewComponent implements OnInit {
   }
 
   OnDeleteSelected(event){
-    if(event.length <= 0){
-      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
-      return;
-    }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({       
-        OPTM_RULEID: event[i].OPTM_RULEID,
-        OPTM_CONTTYPE: event[i].OPTM_CONTTYPE,
-        OPTM_CONTUSE: event[i].OPTM_CONTUSE,     
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteFromContainerAutoRule(ddDeleteArry);
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
   onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_RULEID: event[0],
-        OPTM_CONTTYPE: event[1],
-        OPTM_CONTUSE: event[2]       
-      });
-    this.DeleteFromContainerAutoRule(ddDeleteArry);
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
   
   DeleteFromContainerAutoRule(ddDeleteArry) {
@@ -178,5 +168,58 @@ export class CARViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any[] = [];
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("Delete"):
+        var ddDeleteArry: any[] = [];
+        ddDeleteArry.push({
+          CompanyDBId: localStorage.getItem("CompID"),
+          OPTM_RULEID: this.event[0],
+          OPTM_CONTTYPE: this.event[1],
+          OPTM_CONTUSE: this.event[2]       
+        });
+      this.DeleteFromContainerAutoRule(ddDeleteArry);
+          break;
+        case ("DeleteSelected"):
+        if(this.event.length <= 0){
+          this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+          return;
+        }
+        var ddDeleteArry: any[] = [];
+        for(var i=0; i<this.event.length; i++){
+          ddDeleteArry.push({       
+            OPTM_RULEID: this.event[i].OPTM_RULEID,
+            OPTM_CONTTYPE: this.event[i].OPTM_CONTTYPE,
+            OPTM_CONTUSE: this.event[i].OPTM_CONTUSE,     
+            CompanyDBId: localStorage.getItem("CompID")
+          });
+        }
+        this.DeleteFromContainerAutoRule(ddDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
 }

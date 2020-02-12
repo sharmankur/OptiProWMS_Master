@@ -33,3 +33,8 @@
       <div class="opti_loader full-section" *ngIf="showLoader">
         <div class="opti_spinner"></div>
       </div>
+
+      <span *ngIf="showConfirmDialog">
+            <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+                (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+        </span>      

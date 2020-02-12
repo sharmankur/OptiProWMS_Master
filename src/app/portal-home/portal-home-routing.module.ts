@@ -42,7 +42,7 @@ const routes: Routes = [
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},    
-      { path: 'maintenance', loadChildren: "../shipment/shipment.module#ShipmentModule" },  
+      { path: 'shipment', loadChildren: "../shipment/shipment.module#ShipmentModule" },  
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
