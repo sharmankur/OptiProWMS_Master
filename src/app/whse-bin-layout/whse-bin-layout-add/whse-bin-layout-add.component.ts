@@ -300,11 +300,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
   shipmentModel: any = {};
   prepareSaveData() {
-    this.shipmentModel.WarehouseMaster = [];
-    this.shipmentModel.WarehouseZone = [];
-    this.shipmentModel.WarehouseBinRange = [];
+    this.shipmentModel.OPTM_SHP_WHSE_SETUP = [];
+    this.shipmentModel.OPTM_SHP_WHSE_ZONES = [];
+    this.shipmentModel.OPTM_SHP_WHSE_BINS = [];
 
-    this.shipmentModel.WarehouseMaster.push({
+    this.shipmentModel.OPTM_SHP_WHSE_SETUP.push({
       OPTM_WHSCODE: this.whseCode,
       OPTM_WHSDESC: "",
       OPTM_BIN_ENABLE: true,
@@ -321,7 +321,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     });
 
     for (var i = 0; i < this.whseZoneList.length; i++) {
-      this.shipmentModel.WarehouseZone.push({
+      this.shipmentModel.OPTM_SHP_WHSE_ZONES.push({
         OPTM_WHSCODE: this.whseZoneList[i].WhseCode,
         OPTM_WHSZONE: this.whseZoneList[i].ZoneCode,
         OPTM_ZONETYPE: this.whseZoneList[i].ZoneType,
@@ -332,7 +332,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
 
     for (var i = 0; i < this.whseRangeList.length; i++) {
-      this.shipmentModel.WarehouseBinRange.push({
+      this.shipmentModel.OPTM_SHP_WHSE_BINS.push({
         OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
         OPTM_BIN_RANGE: this.whseRangeList[i].BinRange,
         OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
@@ -343,8 +343,54 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
   }
 
-  onAddUpdateClick(event){
-    if(this.isUpdate){
+  onAddUpdateClick() {
+    if (this.whseCode == undefined || this.whseCode == '') {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return;
+    } else if (this.WIP_FG_StageBin == undefined || this.WIP_FG_StageBin == '') {
+      this.toastr.error('', this.translate.instant("WIP_FG_StageBinMsg"));
+      return;
+    } else if (this.WIP_RM_StageBin == undefined || this.WIP_RM_StageBin == '') {
+      this.toastr.error('', this.translate.instant("WIP_RM_StageBinMSg"));
+      return;
+    } else if (this.TransferOutBin == undefined || this.TransferOutBin == '') {
+      this.toastr.error('', this.translate.instant("TransferOutBinMsg"));
+      return;
+    } else if (this.TransferInBin == undefined || this.TransferInBin == '') {
+      this.toastr.error('', this.translate.instant("TransferInBinMsg"));
+      return;
+    } else if (this.Ship_StageBin == undefined || this.Ship_StageBin == '') {
+      this.toastr.error('', this.translate.instant("Ship_StageBinMsg"));
+      return;
+    }
+
+    for (var i = 0; i < this.whseZoneList.length; i++) {
+      if (this.whseZoneList[i].FromBin == undefined || this.whseZoneList[i].FromBin == '') {
+        this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
+        return;
+      }
+      if (this.whseZoneList[i].ToBin == undefined || this.whseZoneList[i].ToBin == '') {
+        this.toastr.error('', this.translate.instant("ZoneToBinCannotBlankMsg"));
+        return;
+      }
+    }
+
+    for (var i = 0; i < this.whseRangeList.length; i++) {
+      if (this.whseRangeList[i].FromBin == undefined || this.whseRangeList[i].FromBin == '') {
+        this.toastr.error('', this.translate.instant("RangeFromBinCannotBlankMsg"));
+        return;
+      }
+      if (this.whseRangeList[i].ToBin == undefined || this.whseRangeList[i].ToBin == '') {
+        this.toastr.error('', this.translate.instant("RangeToBinCannotBlankMsg"));
+        return;
+      }
+      if (this.whseRangeList[i].BinRange == undefined || this.whseRangeList[i].BinRange == '') {
+        this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
+        return;
+      }
+    }
+
+    if (this.isUpdate) {
       this.update();
     } else {
       this.onAdd();
@@ -363,7 +409,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == "Data Saved"){
+          if (data[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("PhyCount_DataSavedSuccessfully"));
             this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
@@ -397,7 +443,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == "Data Saved"){
+          if (data[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("PhyCount_DataSavedSuccessfully"));
             this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
@@ -444,7 +490,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
   }
 
-  getWhseMasterDetails(whse){
+  getWhseMasterDetails(whse) {
     this.whseService.IsValidWareHouseMaster(whse).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -462,7 +508,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
           this.TransferOutBin = data.OPTM_SHP_WHSE_SETUP[0].OPTM_DEF_TRANS_OUT_BIN
           this.TransferInBin = data.OPTM_SHP_WHSE_SETUP[0].OPTM_DEF_TRANS_IN_BIN
 
-          for(var i=0;i<data.OPTM_SHP_WHSE_ZONES.length;i++){
+          for (var i = 0; i < data.OPTM_SHP_WHSE_ZONES.length; i++) {
             this.whseZoneList.push({
               WhseCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSCODE,
               ZoneCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE,
@@ -472,7 +518,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             })
           }
 
-          for(var i=0;i<data.OPTM_SHP_WHSE_BINS.length;i++){
+          for (var i = 0; i < data.OPTM_SHP_WHSE_BINS.length; i++) {
             this.whseRangeList.push({
               BinRange: data.OPTM_SHP_WHSE_BINS[i].OPTM_BIN_RANGE,
               FromBin: data.OPTM_SHP_WHSE_BINS[i].OPTM_FROM_BIN,
@@ -480,7 +526,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             })
           }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {

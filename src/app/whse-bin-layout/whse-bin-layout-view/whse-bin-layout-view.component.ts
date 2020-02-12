@@ -101,9 +101,7 @@ export class WhseBinLayoutViewComponent implements OnInit {
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({       
-        OPTM_RULEID: event[i].OPTM_RULEID,
-        OPTM_CONTTYPE: event[i].OPTM_CONTTYPE,
-        OPTM_PACKTYPE: event[i].OPTM_PACKTYPE,     
+        OPTM_WHSCODE: event[i].OPTM_WHSCODE,
         CompanyDBId: localStorage.getItem("CompID")
       });
     }
@@ -130,11 +128,11 @@ export class WhseBinLayoutViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          // if(data[0].RESULT == this.translate.instant("DataSaved")){
             this.GetDataWareHouseMaster();
-          }else{
-            this.toastr.error('', data[0].RESULT);
-          }
+          // }else{
+          //   this.toastr.error('', data[0].RESULT);
+          // }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

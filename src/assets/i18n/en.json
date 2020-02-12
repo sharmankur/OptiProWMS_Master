@@ -719,6 +719,17 @@
   "ContainerGroupingList": "Container Group Code List",
   "InvalidGroupCode": "Invalid Group Code",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
+  "ZoneToBinCannotBlankMsg": "To bin cannot be blank in zone list.",
+  "ZoneFromBinCannotBlankMsg": "From bin cannot be blank in zone list.",
+  "RangeFromBinCannotBlankMsg": "From bin cannot be blank in bin range list.",
+  "RangeToBinCannotBlankMsg": "To bin cannot be blank in bin range list.",
+  "WIP_FG_StageBinMsg": "WIP FG stage bin cannot blank",
+  "WIP_RM_StageBinMsg": "WIP RM stage bin cannot blank",
+  "TransferOutBinMsg": "Transfer out bin cannot blank",
+  "TransferInBinMsg": "Transfer in bin cannot blank",
+  "Ship_StageBinMsg": "Ship stage Bin cannot blank",
+  "RangeCannotBlankMsg": "Bin range cannot blank",
+  "CT_AutoPackRule": "Auto Pack Rule",
   
   "Dummy": "Dummy"
   
