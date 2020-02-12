@@ -136,7 +136,7 @@ export class CTViewComponent implements OnInit {
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({       
-        OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
+        OPTM_CONTAINER_TYPE: event[i].OPTM_CONTAINER_TYPE,
         CompanyDBId: localStorage.getItem("CompID")
       });
     }

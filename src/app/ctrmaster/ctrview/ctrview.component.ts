@@ -97,8 +97,8 @@ getContainerRelationship() {
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({       
-        OPTM_RULEID: event[i].OPTM_CONTAINER_TYPE,
-        OPTM_CONTTYPE: event[i].OPTM_PARENT_CONTTYPE,
+        OPTM_CONTAINER_TYPE: event[i].OPTM_CONTAINER_TYPE,
+        OPTM_PARENT_CONTTYPE: event[i].OPTM_PARENT_CONTTYPE,
         CompanyDBId: localStorage.getItem("CompID")
       });
     }

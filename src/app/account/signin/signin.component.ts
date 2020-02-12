@@ -325,7 +325,7 @@ export class SigninComponent implements OnInit {
         for (var i = 0; i < this.companyName.length; i++) {
             if (this.getCookie('CompID') == this.companyName[i]) {
                 this.selectedItem = this.companyName[i];
-                this.setWarehouseList();
+            //    this.setWarehouseList();
             }
         }
     }

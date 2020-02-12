@@ -171,6 +171,41 @@ export class DockdoorupdateComponent implements OnInit {
     );
   }
 
+  IsValidWhseCode() {
+    this.showLoader = true;
+    this.commonservice.IsValidWhseCode(this.WHSCODE).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length > 0){
+            this.WHSCODE = data[0].WhsCode;
+          }else{
+            this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+            this.WHSCODE = "";
+          }
+          
+        } else {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.WHSCODE = "";
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
