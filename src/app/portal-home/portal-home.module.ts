@@ -32,6 +32,8 @@ import { DockDoorModule } from '../dock-door/dock-door.module';
 import { MaskingModule } from '../masking/masking.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarrierModule } from '../carrier/carrier.module';
+import { WhsUGMappingModule } from '../whs-ugmapping/whs-ugmapping.module';
+import { ContainerGroupModule } from '../container-group/container-group.module';
 import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
 
 @NgModule({
@@ -63,6 +65,8 @@ import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
     PalletizationModule,
     MaskingModule,
     CarrierModule,
+    WhsUGMappingModule,
+    ContainerGroupModule,
     WhseBinLayoutModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],

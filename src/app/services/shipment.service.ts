@@ -25,24 +25,37 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.commonService.httpOptions);
   }
 
-  GetDataBasedOnShipmentId(OPTM_DOCENTRY: string): Observable<any> {
+  GetDataBasedOnShipmentId(OPTM_SHIPMENTID: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_DOCENTRY: OPTM_DOCENTRY
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
   }
   
-  InsertIntoContainerAutoRule(oShipmentAutoRule: any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerAutoRule", jObject, this.commonService.httpOptions);
+  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID,
+        OPTM_CARRIER: OPTM_CARRIER,
+        OPTM_SCH_DATETIME: OPTM_SCH_DATETIME,
+        OPTM_DOCKDOORID: OPTM_DOCKDOORID
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/ScheduleShipment", jObject, this.commonService.httpOptions);
   }
 
-  UpdateContainerAutoRule(oShipmentAutoRule: any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerAutoRule", jObject, this.commonService.httpOptions);
+  StageORUnstageShipment(OPTM_SHIPMENTID: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/StageORUnstageShipment", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromContainerAutoRule(ddDeleteArry: any[]): Observable<any> {

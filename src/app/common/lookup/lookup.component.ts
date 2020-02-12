@@ -140,6 +140,9 @@ export class LookupComponent implements OnInit {
     } else if(this.lookupfor == "SOList"){
       this.showOutSOList();
     }
+    else if(this.lookupfor == "ContnrGroup"){
+      this.ContainerGroupListView();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -523,8 +526,8 @@ export class LookupComponent implements OnInit {
       },
 
       {
-        field: 'OPTM_PACKTYPE',
-        title: this.translate.instant("CAR_PackType"),
+        field: 'OPTM_CONTUSE',
+        title: this.translate.instant("Container_Use"),
         headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
@@ -549,6 +552,13 @@ export class LookupComponent implements OnInit {
 
   showDDList() {
     this.table_head = [
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("WHSCODE"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
       {
         field: 'OPTM_DOCKDOORID',
         title: this.translate.instant("DD_ID"),
@@ -928,6 +938,29 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CARRIERID',
         title: this.translate.instant("Carrier_CarrierId"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ContainerGroupListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_GROUP',
+        title: this.translate.instant("Container_Group"),
         type: 'text',
         width: '200'
       },

@@ -9,6 +9,7 @@ import { CommandName } from 'selenium-webdriver';
 import { CommonConstants } from '../../const/common-constants';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { CustomizationDetails } from '../../models/CustomizationDetails';
 
 @Component({
   selector: 'app-portal-left',
@@ -44,12 +45,12 @@ export class PortalLeftComponent implements OnInit {
         this.selectedThemeColor = data;
       }
     );
-  //  this.getAllMenus();
+   this.getAllMenus();
+    this.commonService.setCustomizeInfo();
 
     UIHelper.manageNavigationPanel(document.getElementById('sidebarCollapse-alt'));
   }
-
-
+  
   getAllMenus() {
     let menuLoaded = window.localStorage.getItem('IsMenuLoaded');
     //  if(!menuLoaded){
@@ -59,8 +60,6 @@ export class PortalLeftComponent implements OnInit {
           this.displayMenuOptions(data.Modules);
           this.allOptionMenus = data.Modules
         }
-          
-        window.localStorage.setItem('IsMenuLoaded', 'true');
       },
       error => {
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
