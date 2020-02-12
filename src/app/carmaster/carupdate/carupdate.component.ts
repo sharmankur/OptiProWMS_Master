@@ -19,14 +19,14 @@ export class CARUpdateComponent implements OnInit {
   CAR_ItemCode: string;
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
-  CAR_PackType = "Single Item";
+  CAR_PackType = "Shipping";
   lookupfor: string;
   BtnTitle: string;
 
   CTR_ROW: any;
   serviceData: any[];
   public autoRuleArray: AutoRuleModel[] = [];
-  PackTypeList: any[] = ["Single Item", "Multiple Items"];
+  PackTypeList: any[] = ["Shipping", "Internal", "Both"];
 
   CAR_AddPartsToContainer: boolean = false;
   showLoader: boolean = false;
@@ -57,9 +57,11 @@ export class CARUpdateComponent implements OnInit {
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       }      
       if (this.CTR_ROW[2] == 1) {
-        this.CAR_PackType = "Single Item";
-      } else {
-        this.CAR_PackType = "Multiple Items";
+        this.CAR_PackType = this.PackTypeList[0];
+      } else if (this.CTR_ROW[2] == 2) {
+        this.CAR_PackType = this.PackTypeList[1];
+      }else{
+        this.CAR_PackType = this.PackTypeList[2];
       }
       if (this.CTR_ROW[3] == 'Yes') {
         this.CAR_AddPartsToContainer = true;
@@ -207,17 +209,13 @@ export class CARUpdateComponent implements OnInit {
   }
 
   prepareUpdateContainerAutoRule(oSubmitPOLotsObj: any): any {
-    // oSubmitPOLotsObj = this.manageRecords(oSubmitPOLotsObj);
-    // if (localStorage.getItem("Line") == null || localStorage.getItem("Line") == undefined ||
-    //   localStorage.getItem("Line") == "") {
-    //   localStorage.setItem("Line", "0");
-    // }
-
     let packtype = 1;
-    if (this.CAR_PackType == "Single Item") {
+    if (this.CAR_PackType == this.PackTypeList[0]) {
       packtype = 1;
-    } else {
+    } else if (this.CAR_PackType == this.PackTypeList[1]) {
       packtype = 2;
+    }else{
+      packtype = 3;
     }
 
     let addPartToCont = 'N'
@@ -229,7 +227,7 @@ export class CARUpdateComponent implements OnInit {
       OPTM_RULEID: this.CAR_CPackRule,
       OPTM_CONTTYPE: this.CAR_ContainerType,
       CompanyDBId: localStorage.getItem("CompID"),
-      OPTM_PACKTYPE: packtype,
+      OPTM_CONTUSE: packtype,
       OPTM_ADD_TOCONT: addPartToCont,
       OPTM_MODIFIEDBY: localStorage.getItem("UserId")
     });
@@ -254,10 +252,12 @@ export class CARUpdateComponent implements OnInit {
     // }
 
     let packtype = 1;
-    if (this.CAR_PackType == "Single Item") {
+    if (this.CAR_PackType == this.PackTypeList[0]) {
       packtype = 1;
-    } else {
+    } else if (this.CAR_PackType == this.PackTypeList[1]) {
       packtype = 2;
+    }else{
+      packtype = 3;
     }
 
     let addPartToCont = 'N'
@@ -269,7 +269,7 @@ export class CARUpdateComponent implements OnInit {
       OPTM_RULEID: this.CAR_CPackRule,
       OPTM_CONTTYPE: this.CAR_ContainerType,
       CompanyDBId: localStorage.getItem("CompID"),
-      OPTM_PACKTYPE: packtype,
+      OPTM_CONTUSE: packtype,
       OPTM_ADD_TOCONT: addPartToCont,
       OPTM_CREATEDBY: localStorage.getItem("UserId")
     });
@@ -418,13 +418,13 @@ export class CARUpdateComponent implements OnInit {
 
 
   AddRow() {
-    if (this.CAR_PackType == "Single Item") {
-      if (this.autoRuleArray.length >= 1) {
-        return;
-      }
-    } else {
+    // if (this.CAR_PackType == "Single Item") {
+    //   if (this.autoRuleArray.length >= 1) {
+    //     return;
+    //   }
+    // } else {
 
-    }
+    // }
     this.autoRuleArray.push(new AutoRuleModel("", 0, "0", "0"));
   }
 

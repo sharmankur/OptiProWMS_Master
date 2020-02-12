@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import 'bootstrap';
 import { ColumnSetting } from '../../models/CommonData';
@@ -82,13 +82,13 @@ export class CommonLookupComponent implements OnInit {
     this.clearFilters()
   }
   ngOnInit() {
-    
+
   }
 
   async ngOnChanges(): Promise<void> {
 
-    if(this.serviceData != undefined && this.serviceData.length>= this.lookupPageSize){
-        this.lookupPagable = true;
+    if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
+      this.lookupPagable = true;
     }
     if (this.lookupfor == "ShipmentList") {
       this.showShipmentList();
@@ -110,8 +110,8 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if (this.lookupfor == "POList") {
-      this.showPOList();
+    else if(this.lookupfor == "CarrierList"){
+      this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
       this.showPOItemList();
@@ -143,18 +143,18 @@ export class CommonLookupComponent implements OnInit {
       this.ShowPhyCntInnerItemList();
     } else if (this.lookupfor == "ShowBatachSerList") {
       this.ShowBatachSerList();
-    } else if(this.lookupfor == "PIOrderList"){
+    } else if (this.lookupfor == "PIOrderList") {
       this.orderList();
-    } else if(this.lookupfor == "PalletList"){
+    } else if (this.lookupfor == "PalletList") {
       this.palletList();
-    } else if(this.lookupfor == "ITRList"){
+    } else if (this.lookupfor == "ITRList") {
       this.showITRList();
     }
-    else if(this.lookupfor == "SerialNoFrom"){
+    else if (this.lookupfor == "SerialNoFrom") {
       this.showSrNoList("From");
       //this.showITRList();
     }
-    else if(this.lookupfor == "SerialNoTo"){
+    else if (this.lookupfor == "SerialNoTo") {
       this.showSrNoList("To");
       //this.showITRList();
     }
@@ -165,9 +165,9 @@ export class CommonLookupComponent implements OnInit {
       this.showLookupCustomerList("To");      
     }
 
-    else if(this.lookupfor == "ItemFrom"){
+    else if (this.lookupfor == "ItemFrom") {
       this.showItemList("From");
-      
+
     }
     else if(this.lookupfor == "ItemTo"){
       this.showItemList("To");      
@@ -180,9 +180,110 @@ export class CommonLookupComponent implements OnInit {
     }
     else if (this.lookupfor == "BinList") {
       this.showBinNoList();
+    }  else if(this.lookupfor == "SOList"){
+      this.showOutSOListNew();
+    } else if(this.lookupfor == "GroupCodeList"){
+      this.showContainerGroupCodeList();
+    } else if (this.lookupfor == "DDList") {
+      this.showDDList();
     }
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  showContainerGroupCodeList(){
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_GROUP',
+        title: this.translate.instant("ContainerGroupingCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'date',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ContainerGroupingList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  
+  showOutSOListNew() {
+    this.table_head = [
+      {
+        field: 'DocEntry',
+        title: 'SO#',
+        type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'DocNum',
+        title: 'Doc Num',
+        type: 'date',
+        width: '100'
+      }
+    ];
+
+    this.lookupTitle = this.translate.instant("SalesOrderList");
+	if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  CarrierListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_CARRIERID',
+        title: this.translate.instant("Carrier_CarrierId"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showDDList() {
+    this.table_head = [
+      {
+        field: 'OPTM_DOCKDOORID',
+        title: this.translate.instant("DD_ID"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("DD_DESC"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Dock_Door");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
 
   showCARList() {
@@ -241,7 +342,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-   
+
     this.lookupTitle = this.translate.instant("LookupWareHouseFrm");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
@@ -265,10 +366,10 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
     ];
-    if(value==='From')
-    this.lookupTitle = this.translate.instant("LookupCustomerFrm");
-    else 
-    this.lookupTitle = this.translate.instant("LookupCustomerTo");
+    if (value === 'From')
+      this.lookupTitle = this.translate.instant("LookupCustomerFrm");
+    else
+      this.lookupTitle = this.translate.instant("LookupCustomerTo");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -292,10 +393,10 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
     ];
-    if(value==='From')
-    this.lookupTitle = this.translate.instant("LookupItemFrm");
-    else 
-    this.lookupTitle = this.translate.instant("LookupItemTo");
+    if (value === 'From')
+      this.lookupTitle = this.translate.instant("LookupItemFrm");
+    else
+      this.lookupTitle = this.translate.instant("LookupItemTo");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -303,12 +404,12 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  
+
 
   showShipmentList() {
     this.table_head = [
       {
-        field: 'OPTM_DOCENTRY',
+        field: 'OPTM_SHIPMENTID',
         title: this.translate.instant("PT_ShipmentId"),
         type: 'text',
         width: '100'
@@ -336,13 +437,13 @@ export class CommonLookupComponent implements OnInit {
 
   showAvaliableItems() {
     this.pagesize = 5;
-    if(this.serviceData.length>this.pagesize){
+    if (this.serviceData.length > this.pagesize) {
       this.pagable = true;
-    }else{
+    } else {
       this.pagable = false;
     }
-    
-    
+
+
     this.showSelection = true;
     this.selectedValues = [];
     this.table_head = [
@@ -375,7 +476,7 @@ export class CommonLookupComponent implements OnInit {
       if (len > 0) {
         //  console.log('ServiceData', this.serviceData);
         var tempData: any;
-        for(var i=0;i<len;i++){
+        for (var i = 0; i < len; i++) {
           var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.serviceData[i].TOTALQTY = qty;
         }
@@ -674,7 +775,7 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("DelDate"),
         type: 'date',
         width: '100'
-       }//,
+      }//,
       // {
       //   field: 'CardCode',
       //   title: this.translate.instant("VendorCode"),
@@ -841,34 +942,34 @@ export class CommonLookupComponent implements OnInit {
   showLotsList() {
     var titleValue = this.translate.instant("BatchNo");
     if (this.serviceData !== undefined && this.serviceData.length > 0) {
-        if("S" == this.serviceData[0].TRACKING){
-          titleValue = this.translate.instant("SerialNo");
-        } else if("N" == this.serviceData[0].TRACKING){
-          titleValue = this.serviceData[0].TRACKING;
-        }
+      if ("S" == this.serviceData[0].TRACKING) {
+        titleValue = this.translate.instant("SerialNo");
+      } else if ("N" == this.serviceData[0].TRACKING) {
+        titleValue = this.serviceData[0].TRACKING;
+      }
     }
     this.table_head = [
-        {
-          field: 'LOTNO',
-          title: titleValue,
-          type: 'text',
-          width: '100'
-        },
-        {
-          field: 'ITEMCODE',
-          title: this.translate.instant("ItemCode"),
-          type: 'text',
-          width: '100'
-        },
-        {
-          field: 'BINNO',
-          title: this.translate.instant("BinNo"),
-          type: 'text',
-          width: '100'
-        }
-      ];
-    
-    if("N" == titleValue){
+      {
+        field: 'LOTNO',
+        title: titleValue,
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+
+    if ("N" == titleValue) {
       this.table_head.splice(0, 1);
     }
 
@@ -966,12 +1067,12 @@ export class CommonLookupComponent implements OnInit {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
       this.selectedValues.push(servivceItem);
-    } 
+    }
     else {
       // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
       var temp = this.selectedValues.splice(index, 1);
-     this.selectedValues = this.selectedValues;
-     //console.log("selectedValues.size", this.selectedValues.length);
+      this.selectedValues = this.selectedValues;
+      //console.log("selectedValues.size", this.selectedValues.length);
     }
   }
 
@@ -999,7 +1100,7 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showITRList(){
+  showITRList() {
     this.table_head = [
       {
         field: 'DocNum',
@@ -1015,8 +1116,8 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
-  showSrNoList(value){
-    
+  showSrNoList(value) {
+
     this.table_head = [
       {
         field: 'SODocNum',
@@ -1031,10 +1132,10 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-    if(value==="From")
-    this.lookupTitle = this.translate.instant("SrNoTitleFrom");
-    else 
-    this.lookupTitle = this.translate.instant("SrNoTitleTo");
+    if (value === "From")
+      this.lookupTitle = this.translate.instant("SrNoTitleFrom");
+    else
+      this.lookupTitle = this.translate.instant("SrNoTitleTo");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -1044,7 +1145,7 @@ export class CommonLookupComponent implements OnInit {
 
   Done() {
     this.lookupkey.emit(this.selectedValues);
-    this.dialogOpened = false; 
+    this.dialogOpened = false;
   }
 
 

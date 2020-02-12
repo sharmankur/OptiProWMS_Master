@@ -34,7 +34,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarrierModule } from '../carrier/carrier.module';
 import { WhsUGMappingModule } from '../whs-ugmapping/whs-ugmapping.module';
 import { ContainerGroupModule } from '../container-group/container-group.module';
-
+import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
 
 @NgModule({
   imports: [
@@ -66,7 +66,8 @@ import { ContainerGroupModule } from '../container-group/container-group.module'
     MaskingModule,
     CarrierModule,
     WhsUGMappingModule,
-    ContainerGroupModule
+    ContainerGroupModule,
+    WhseBinLayoutModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
   providers:[DashboardComponent ]

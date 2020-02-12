@@ -47,7 +47,8 @@ const routes: Routes = [
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
-      { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"}           
+      { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"},     
+      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" }
     ]
     
   }

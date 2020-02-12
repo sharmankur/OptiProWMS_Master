@@ -4,6 +4,7 @@ import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { CommonData } from '../../models/CommonData';
 
 @Component({
   selector: 'app-shipment-view',
@@ -34,6 +35,8 @@ export class ShipmentViewComponent implements OnInit {
   VehicleNumber: string;
   shipmentLines: any[] = [];
   SODetails: any[] = [];
+  commonData: any = new CommonData();
+  shiment_status_array: any[] = [];
   showContainerShipmentScreen: boolean = false;
 
 
@@ -47,6 +50,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.shiment_status_array = this.commonData.shiment_status_array();
     this.GetShipmentIdForShipment();
   }
 
@@ -125,43 +129,33 @@ export class ShipmentViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  getValue(OPTM_STATUS): string{
+    return this.shiment_status_array[Number(OPTM_STATUS)].Name;
+  }
+  
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
-      this.ShipmentID = event.OPTM_DOCENTRY
+      this.ShipmentID = event.OPTM_SHIPMENTID
       this.CustomerCode = event.OPTM_BPCODE
       this.WarehouseCode = event.OPTM_WHSCODE;
       this.ScheduleDatetime = event.OPTM_PICKUPDATETIME;
       this.ShipStageBin = event.OPTM_BINCODE;
       this.DockDoor = event.OPTM_DOCKDOORID;
       this.ShipToCode = event.OPTM_SHIPTO;
-      this.Status = event.OPTM_STATUS;
+      this.Status = this.getValue(event.OPTM_STATUS);
+      
       this.CarrierCode = event.OPTM_CARRIER;
       // this.ReturnOrderRef = event.OPTM_BPCODE;
       // this.UseContainer = event.OPTM_BPCODE;
       // this.BOLNumber = event.OPTM_BPCODE;
       this.VehicleNumber = event.OPTM_VEHICLENO;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
+    } else if (this.lookupfor == "DDList") {
+      this.DockDoor = event.OPTM_DOCKDOORID
+    } else if (this.lookupfor == "CarrierList") {
+      this.CarrierCode = event.OPTM_CARRIERID
     }
   }
-
-  // getLookupValue(event) {
-  //   if (this.lookupfor == "ShipmentList") {
-  //     this.ShipmentID = event[1];
-  //     this.CustomerCode = event[2];
-  //     this.WarehouseCode = event[0];
-  //     this.ScheduleDatetime = event[0];
-  //     this.ShipStageBin = event[0];
-  //     this.DockDoor = event[0];
-  //     this.ShipToCode = event[0];
-  //     this.Status = event[3];
-  //     this.CarrierCode = event[0];
-  //     this.ReturnOrderRef = event[0];
-  //     this.UseContainer = event[0];
-  //     this.BOLNumber = event[0];
-  //     this.VehicleNumber = event[0];
-  //   }
-
-  // }
 
   OnContainerBtnClick () {
     this.showContainerShipmentScreen = true;
@@ -171,34 +165,35 @@ export class ShipmentViewComponent implements OnInit {
 
   onScheduleClick() {
     this.showLoader = true;
-    this.shipmentService.ScheduleShipment(this.ShipmentID).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
+    this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime,
+      this.DockDoor).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            if (data[0].RESULT == this.translate.instant("DataSaved")) {
+              // this.toastr.success('', data[0].RESULT);
+            } else {
+              this.toastr.error('', data[0].RESULT);
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
-            // this.toastr.success('', data[0].RESULT);
-          }else{
-            this.toastr.error('', data[0].RESULT);
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
           }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          else {
+            this.toastr.error('', error);
+          }
         }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
   }
 
 
@@ -213,9 +208,9 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             // this.toastr.success('', data[0].RESULT);
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -248,6 +243,7 @@ export class ShipmentViewComponent implements OnInit {
           this.showLookupLoader = false;
           this.serviceData = data;
           this.lookupfor = "DDList";
+          this.hideLookup = false;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -279,6 +275,7 @@ export class ShipmentViewComponent implements OnInit {
           this.showLookupLoader = false;
           this.serviceData = data;
           this.lookupfor = "CarrierList";
+          this.hideLookup = false;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -294,5 +291,5 @@ export class ShipmentViewComponent implements OnInit {
       }
     );
   }
-  
+
 }

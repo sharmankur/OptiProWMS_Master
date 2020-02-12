@@ -15,12 +15,13 @@ export class DockdoorService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
    }
 
-   InsertIntoDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC:string): Observable<any> {
+   InsertIntoDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC:string, OPTM_WHSE: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_DOCKDOORID: OPTM_DOCKDOORID,
         OPTM_DESC: OPTM_DESC,
+        OPTM_WHSE: OPTM_WHSE,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
@@ -36,12 +37,13 @@ export class DockdoorService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions);
   }
 
-  UpdateDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC:string): Observable<any> {
+  UpdateDockDoor(OPTM_DOCKDOORID: string, OPTM_DESC:string, OPTM_WHSE: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_DOCKDOORID: OPTM_DOCKDOORID,
         OPTM_DESC: OPTM_DESC,
+        OPTM_WHSE: OPTM_WHSE,
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
