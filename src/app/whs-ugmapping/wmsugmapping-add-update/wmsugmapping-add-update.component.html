@@ -1,35 +1,86 @@
 <div class="opti_container position-relative bg-white rounded">
 
 
-    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-        <div class="opti_container_inner" >
-  
-            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                {{'Whs_User_GroupMapping'|translate}}
-            </h3>
-  
-        <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (deleteClick)="onDeleteRowClick($event)" 
-            (deleteSelectedItems)="OnDeleteSelected($event)" (copyItem)="onCopyItemClick($event)"></app-lookup>
-            
-        </div>
-        <div class="fix-footer-btnBar">
-  
-            <div class="col-sm-12 col-12">
-                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
-                            <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                            {{'Cancel'|translate}}</button>
-                <!-- <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnDeleteSelected()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                    {{'CT_DeleteAll'|translate}}</button> -->
-                <button  class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
-  
+  <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+      <div class="opti_container_inner" >
+
+          <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+              {{'Whs_User_GroupMapping'|translate}}
+          </h3>
+ <!-- row start -->
+ <div class="row">
+    <!-- col start -->
+    <div class="col-sm-6">
+        <div class="form-group row">
+            <label for="CustomerFrom"
+                class="col-sm-3 col-form-label">{{'Customer_From'|translate}}</label>
+            <div class="col-sm-9">
+
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control form-control-sm"
+                name='CustomerFrom'
+                [(ngModel)]="CustomerFrom" id="CustomerFrom">
+                    <div class="input-group-append has-seprate-btn">
+                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustFrom')" [disabled]=isUpdate>
+                            <i class="opti-icon-hammenu"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </form> 
-  
-  </div>
-  
-  <div class="opti_loader full-section" *ngIf="showLoader">
-    <div class="opti_spinner"></div>
-  </div>
+    </div>
+
+
+     <!-- col start -->
+     <div class="col-sm-6">
+        <div class="form-group row">
+            <label for="CustomerTo"
+                class="col-sm-3 col-form-label">{{'LineID'|translate}}</label>
+            <div class="col-sm-9">
+
+                
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control form-control-sm"
+                    name='lineId'
+                    [(ngModel)]="lineId" id="lineId">
+                    <div class="input-group-append has-seprate-btn">
+                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
+                            <i class="opti-icon-hammenu"></i>
+                        </button>
+                    </div>
+                </div>
+
+              
+            </div>
+        </div>
+    </div>
+    <!-- col end -->
+    </div>
+
+
+
+          <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (deleteClick)="onDeleteRowClick($event)" 
+          (deleteSelectedItems)="OnDeleteSelected($event)" (copyItem)="onCopyItemClick($event)"></app-lookup>
+          
+      </div>
+      <div class="fix-footer-btnBar">
+
+          <div class="col-sm-12 col-12">
+                  <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
+                          <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                          {{'Cancel'|translate}}</button>
+              <!-- <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnDeleteSelected()">
+                  <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                  {{'CT_DeleteAll'|translate}}</button> -->
+              <button  class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                  <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
+
+          </div>
+      </div>
+  </form> 
+
+</div>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+  <div class="opti_spinner"></div>
+</div>
