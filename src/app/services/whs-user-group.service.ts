@@ -24,7 +24,7 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions);
   }
 
-  isValidWHS(): Observable<any> {
+  isValidWHS(whsCode:String): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID")       

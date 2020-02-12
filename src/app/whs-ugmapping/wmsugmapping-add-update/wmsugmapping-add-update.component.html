@@ -12,11 +12,11 @@
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'WarehouseCode'|translate}}</label>
+                        <label for="whsCode" class="col-sm-3 col-form-label">{{'WarehouseCode'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="WhsCode" id="CustomerFrom">
+                                    [(ngModel)]="WhsCode" id="whsCode">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetDataForWhsCode()">
@@ -31,22 +31,12 @@
 
                 <!-- col start -->
                 <div class="col-sm-6">
-                    <div class="form-group row">
-                        <label for="CustomerTo"
-                            class="col-sm-3 col-form-label">{{'WhsUserGroup_WHS_ZONE'|translate}}</label>
-                        <div class="col-sm-9">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='lineId'
-                                    [(ngModel)]="lineId" id="lineId">
-                                <div class="input-group-append has-seprate-btn">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
-                                        <i class="opti-icon-hammenu"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- <div class="form-group ">
+                        <div class="col-sm-9"> -->
+                            <input type="text" class="form-control form-control-sm" name='whsDesc' [(ngModel)]="WhsDesc"
+                                id="whsDesc" [disabled]=true  placeholder="{{'WHSName'|translate}}" />
+                        <!-- </div> -->
+                    <!-- </div> -->
                 </div>
                 <!-- col end -->
             </div>
@@ -54,12 +44,34 @@
 
 
 
-             <!-- row2 start -->
-             <div class="row">
+            <!-- row2 start -->
+            <div class="row">
+                        
+  <!-- col start -->
+  <div class="col-sm-6">
+    <div class="form-group row">
+        <label for="CustomerTo"
+            class="col-sm-3 col-form-label">{{'WhsUserGroup_WHS_ZONE'|translate}}</label>
+        <div class="col-sm-9">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" name='lineId'
+                    [(ngModel)]="lineId" id="lineId">
+                <div class="input-group-append has-seprate-btn">
+                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                        (mousedown)="GetDataForCustomer('CustTo')" >
+                        <i class="opti-icon-hammenu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- col end -->
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
+                        <label for="CustomerFrom"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='WhsCode'
@@ -76,8 +88,16 @@
                 </div>
                 <!-- col end -->
 
-                <!-- col start -->
-                <div class="col-sm-6">
+               
+            </div>
+            <!-- row end -->
+
+
+            <!-- row start -->
+            <div class="row">
+                
+                 <!-- col start -->
+                 <div class="col-sm-6">
                     <div class="form-group row">
                         <label for="CustomerTo"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_UserGroup_Picking'|translate}}</label>
@@ -87,7 +107,7 @@
                                     [(ngModel)]="lineId" id="lineId">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
+                                        (mousedown)="GetDataForCustomer('CustTo')" >
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -96,16 +116,12 @@
                     </div>
                 </div>
                 <!-- col end -->
-            </div>
-            <!-- row end -->
-
-
-             <!-- row start -->
-             <div class="row">
                 <!-- col start -->
+
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Packing'|translate}}</label>
+                        <label for="CustomerFrom"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Packing'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='WhsCode'
@@ -122,8 +138,16 @@
                 </div>
                 <!-- col end -->
 
-                <!-- col start -->
-                <div class="col-sm-6">
+             
+            </div>
+            <!-- row end -->
+
+
+
+            <!-- row start -->
+            <div class="row">
+                   <!-- col start -->
+                   <div class="col-sm-6">
                     <div class="form-group row">
                         <label for="CustomerTo"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Putaway'|translate}}</label>
@@ -142,17 +166,11 @@
                     </div>
                 </div>
                 <!-- col end -->
-            </div>
-            <!-- row end -->
-
-
-
-               <!-- row start -->
-               <div class="row">
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Receiving'|translate}}</label>
+                        <label for="CustomerFrom"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Receiving'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='WhsCode'
@@ -169,8 +187,15 @@
                 </div>
                 <!-- col end -->
 
-                <!-- col start -->
-                <div class="col-sm-6">
+               
+            </div>
+            <!-- row end -->
+
+
+            <!-- row start -->
+            <div class="row">
+                 <!-- col start -->
+                 <div class="col-sm-6">
                     <div class="form-group row">
                         <label for="CustomerTo"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Shipping'|translate}}</label>
@@ -189,16 +214,11 @@
                     </div>
                 </div>
                 <!-- col end -->
-            </div>
-            <!-- row end -->
-
-
-             <!-- row start -->
-             <div class="row">
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Returns'|translate}}</label>
+                        <label for="CustomerFrom"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Returns'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='WhsCode'
@@ -215,28 +235,34 @@
                 </div>
                 <!-- col end -->
 
-                <!-- col start -->
-                <div class="col-sm-6">
-                    <div class="form-group row">
-                        <label for="CustomerTo"
-                            class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Move'|translate}}</label>
-                        <div class="col-sm-9">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='lineId'
-                                    [(ngModel)]="lineId" id="lineId">
-                                <div class="input-group-append has-seprate-btn">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
-                                        <i class="opti-icon-hammenu"></i>
-                                    </button>
-                                </div>
+                
+            </div>
+            <!-- row end -->
+
+            
+            <!-- row start -->
+            <div class="row">
+            <!-- col start -->
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label for="CustomerTo"
+                        class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Move'|translate}}</label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" name='lineId'
+                                [(ngModel)]="lineId" id="lineId">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
+                                    <i class="opti-icon-hammenu"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- col end -->
             </div>
-            <!-- row end -->
+            <!-- col end -->
+            </div>
 
             <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
                 (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
@@ -250,9 +276,7 @@
                     (click)="OnCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <!-- <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnDeleteSelected()">
-                  <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                  {{'CT_DeleteAll'|translate}}</button> -->
+               
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
             </div>
