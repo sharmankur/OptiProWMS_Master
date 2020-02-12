@@ -689,6 +689,9 @@
   "Cont_Bin": "Container Bin",
   "Built_In_Process": "Built In Process",
   "DateTime": "Date And Time",
-  "Shipment_Line": "Shipment Line"
+  "Shipment_Line": "Shipment Line",
+  
+  "Container_Group": "Container Group",
+  "ContnrGrpd_Blank_Msg":"Container Group can't be blank"
   
 }
