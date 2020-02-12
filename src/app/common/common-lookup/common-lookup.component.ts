@@ -196,9 +196,61 @@ export class CommonLookupComponent implements OnInit {
     }
     else if (this.lookupfor == "BinList") {
       this.showBinNoList();
+    } else if(this.lookupfor == "SOList"){
+      this.showOutSOListNew();
+    } else if(this.lookupfor == "GroupCodeList"){
+      this.showContainerGroupCodeList();
     }
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  showContainerGroupCodeList(){
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_GROUP',
+        title: this.translate.instant("ContainerGroupingCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'date',
+        width: '100'
+      }
+    ];
+
+    this.lookupTitle = this.translate.instant("ContainerGroupingList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showOutSOListNew() {
+    this.table_head = [
+      {
+        field: 'DocEntry',
+        title: 'SO#',
+        type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'DocNum',
+        title: 'Doc Num',
+        type: 'date',
+        width: '100'
+      }
+    ];
+
+    this.lookupTitle = this.translate.instant("SalesOrderList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
 
   showCARList() {

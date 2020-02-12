@@ -135,10 +135,39 @@ export class LookupComponent implements OnInit {
     }
     else if(this.lookupfor == "CarrierList"){
       this.CarrierListView();
+    } else if(this.lookupfor == "WhseBinLayoutList"){
+      this.showWhseBinLayoutList();
+    } else if(this.lookupfor == "SOList"){
+      this.showOutSOList();
     }
 
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  showWhseBinLayoutList(){
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Warehouse"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_WHSDESC',
+        title: this.translate.instant("CT_Description"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("WarehouseBinLayout");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
 
   showToWhsList() {
