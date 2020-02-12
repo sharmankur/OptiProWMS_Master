@@ -46,7 +46,7 @@ export class InputContainerCodeComponent implements OnInit {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
         return
       }
-      this.getContainerCode();
+      this.GenerateShipContainer();
     } else if (status == "cancel" || status == "no") {
       this.isYesClick.emit({
         Status: "no",
@@ -80,12 +80,12 @@ export class InputContainerCodeComponent implements OnInit {
     // }
   }
 
-  getContainerCode() {
+  GenerateShipContainer() {
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID = "";
 
     this.showLoader = true;
-    this.containerCreationService.getContainerCode(this.oSaveModel).subscribe(
+    this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

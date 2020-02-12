@@ -306,7 +306,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
     this.shipmentModel.OPTM_SHP_WHSE_SETUP.push({
       OPTM_WHSCODE: this.whseCode,
-      OPTM_WHSDESC: "",
+      OPTM_WHSDESC: this.whseDescr,
       OPTM_BIN_ENABLE: true,
       OPTM_DEF_SHP_STAGE_BIN: this.Ship_StageBin,
       OPTM_DEF_WIP_FG_STAGE_BIN: this.WIP_FG_StageBin,
@@ -541,21 +541,15 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
   }
 
-  onBinChange() {
-    var bin = "";
-    if (this.WIP_FG_StageBin == undefined || this.WIP_FG_StageBin == "") {
+  onBinChange(from, event) {
+    var bin = event.value
+
+    if (this.whseCode == undefined || this.whseCode == "") {
+      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
       return;
     }
-    if (this.WIP_RM_StageBin == undefined || this.WIP_RM_StageBin == "") {
-      return;
-    }
-    if (this.TransferOutBin == undefined || this.TransferOutBin == "") {
-      return;
-    }
-    if (this.TransferInBin == undefined || this.TransferInBin == "") {
-      return;
-    }
-    if (this.Ship_StageBin == undefined || this.Ship_StageBin == "") {
+
+    if (bin == undefined || bin == "") {
       return;
     }
 
@@ -569,13 +563,46 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
             return;
           }
-        // if (resp.length == 0) {
-        //   this.toastr.error('', this.translate.instant("INVALIDBIN"));
-        //   this.binNo = ''
-        // }
-        // else {
-        //   this.binNo = resp[0].BinCode
-        // }
+        if (resp.length == 0) {
+          //this.toastr.error('', this.translate.instant("INVALIDBIN"));
+          if ("WIP_FG_StageBin" == from) {
+            this.toastr.error('', this.translate.instant("WIP_FG_StageBinValid"));
+            this.WIP_FG_StageBin = ""
+          }
+          if ("WIP_RM_StageBin" == from) {
+            this.toastr.error('', this.translate.instant("WIP_RM_StageBinValid"));
+            this.WIP_RM_StageBin = ""
+          }
+          if ("TransferOutBin" == from) {
+            this.toastr.error('', this.translate.instant("TransferOutBinValid"));
+            this.TransferOutBin = ""
+          }
+          if ("TransferInBin" == from) {
+            this.toastr.error('', this.translate.instant("TransferInBinValid"));
+            this.TransferInBin = ""
+          }
+          if ("Ship_StageBin" == from) {
+            this.toastr.error('', this.translate.instant("Ship_StageBinValid"));
+            this.Ship_StageBin = ""
+          }
+        } else {
+          if ("WIP_FG_StageBin" == from) {
+            this.WIP_FG_StageBin = resp[0].BinCode
+          }
+          if ("WIP_RM_StageBin" == from) {
+            this.WIP_RM_StageBin = resp[0].BinCode
+          }
+          if ("TransferOutBin" == from) {
+            this.TransferOutBin = resp[0].BinCode
+          }
+          if ("TransferInBin" == from) {
+            this.TransferInBin = resp[0].BinCode
+          }
+          if ("Ship_StageBin" == from) {
+            this.Ship_StageBin = resp[0].BinCode
+          }
+        }
+
         result = true;
       },
       error => {

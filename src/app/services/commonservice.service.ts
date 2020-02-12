@@ -803,4 +803,16 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.httpOptions);
   }
+
+  GetInventoryData(whse: string, binCode: string, ruleId: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WHSECODE: whse,
+        BINCODE: binCode,
+        RULEID: ruleId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetInventoryData", jObject, this.httpOptions);
+  }
 }

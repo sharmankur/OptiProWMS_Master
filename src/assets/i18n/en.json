@@ -737,9 +737,15 @@
   "WIP_RM_StageBinMsg": "WIP RM stage bin cannot blank",
   "TransferOutBinMsg": "Transfer out bin cannot blank",
   "TransferInBinMsg": "Transfer in bin cannot blank",
-  "Ship_StageBinMsg": "Ship stage Bin cannot blank",
+  "Ship_StageBinMsg": "Ship stage bin cannot blank",
   "RangeCannotBlankMsg": "Bin range cannot blank",
   "CT_AutoPackRule": "Auto Pack Rule",
+  "ITEMQtyValidMSG": "Quantity cannot greater than available quantity",
+  "WIP_FG_StageBinValid": "Invalid WIP FG stage bin",
+  "WIP_RM_StageBinValid": "Invalid WIP RM stage bin",
+  "TransferOutBinValid": "Invalid Transfer out bin",
+  "TransferInBinValid": "Invalid Transfer in bin",
+  "Ship_StageBinValid": "Invalid Ship stage Bin cannot blank",
   
   "Dummy": "Dummy"
   
