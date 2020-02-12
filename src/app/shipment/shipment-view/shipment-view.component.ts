@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CommonData } from '../../models/CommonData';
+
 @Component({
   selector: 'app-shipment-view',
   templateUrl: './shipment-view.component.html',
@@ -36,6 +37,7 @@ export class ShipmentViewComponent implements OnInit {
   SODetails: any[] = [];
   commonData: any = new CommonData();
   shiment_status_array: any[] = [];
+  showContainerShipmentScreen: boolean = false;
 
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
@@ -154,6 +156,12 @@ export class ShipmentViewComponent implements OnInit {
       this.CarrierCode = event.OPTM_CARRIERID
     }
   }
+
+  OnContainerBtnClick () {
+    this.showContainerShipmentScreen = true;
+    this.router.navigate(['home/maintenance/container']);
+  }
+
 
   onScheduleClick() {
     this.showLoader = true;

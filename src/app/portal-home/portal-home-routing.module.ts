@@ -14,7 +14,6 @@ import { PalletizeComponent } from '../palletization/palletize/palletize.compone
 import { InventoryTransferbyITRMasterComponent } from '../inventory-transfer/inventory-transferby-itrmaster/inventory-transferby-itrmaster.component';
 import { ITRLIstComponent } from '../inventory-transfer/itrlist/itrlist.component';
 
-
 const routes: Routes = [
 
   {
@@ -41,11 +40,13 @@ const routes: Routes = [
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
-      { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},      
+      // { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},    
+      { path: 'maintenance', loadChildren: "../shipment/shipment.module#ShipmentModule" },  
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
+      { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"}           
     ]
     
   }

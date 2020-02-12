@@ -136,6 +136,9 @@ export class LookupComponent implements OnInit {
     else if(this.lookupfor == "CarrierList"){
       this.CarrierListView();
     }
+    else if(this.lookupfor == "ContnrGroup"){
+      this.ContainerGroupListView();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -906,6 +909,29 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CARRIERID',
         title: this.translate.instant("Carrier_CarrierId"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ContainerGroupListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_GROUP',
+        title: this.translate.instant("Container_Group"),
         type: 'text',
         width: '200'
       },

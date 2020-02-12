@@ -158,26 +158,22 @@ export class CommonLookupComponent implements OnInit {
       this.showSrNoList("To");
       //this.showITRList();
     }
-    else if (this.lookupfor == "CustomerFrom") {
-      this.showLookupCustomerList("From");
-
+    else if(this.lookupfor == "CustomerFrom"){
+      this.showLookupCustomerList("From");      
     }
-    else if (this.lookupfor == "CustomerTo") {
-      this.showLookupCustomerList("To");
-
+    else if(this.lookupfor == "CustomerTo"){
+      this.showLookupCustomerList("To");      
     }
 
     else if (this.lookupfor == "ItemFrom") {
       this.showItemList("From");
 
     }
-    else if (this.lookupfor == "ItemTo") {
-      this.showItemList("To");
-
+    else if(this.lookupfor == "ItemTo"){
+      this.showItemList("To");      
     }
-    else if (this.lookupfor == "WareHouse") {
-      this.showLookupWHSList();
-
+    else if(this.lookupfor == "WareHouse"){
+      this.showLookupWHSList();      
     }
     else if (this.lookupfor == "CARList") {
       this.showCARList();

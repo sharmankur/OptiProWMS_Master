@@ -32,6 +32,7 @@ import { DockDoorModule } from '../dock-door/dock-door.module';
 import { MaskingModule } from '../masking/masking.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarrierModule } from '../carrier/carrier.module';
+import { ContainerGroupModule } from '../container-group/container-group.module';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { CarrierModule } from '../carrier/carrier.module';
     InventoryTransferModule,
     PalletizationModule,
     MaskingModule,
-    CarrierModule
+    CarrierModule,
+    ContainerGroupModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
   providers:[DashboardComponent ]
