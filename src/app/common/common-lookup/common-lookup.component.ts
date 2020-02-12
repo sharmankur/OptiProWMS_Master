@@ -159,12 +159,10 @@ export class CommonLookupComponent implements OnInit {
       //this.showITRList();
     }
     else if(this.lookupfor == "CustomerFrom"){
-      this.showLookupCustomerList("From");
-      
+      this.showLookupCustomerList("From");      
     }
     else if(this.lookupfor == "CustomerTo"){
-      this.showLookupCustomerList("To");
-      
+      this.showLookupCustomerList("To");      
     }
 
     else if(this.lookupfor == "ItemFrom"){
@@ -172,12 +170,10 @@ export class CommonLookupComponent implements OnInit {
       
     }
     else if(this.lookupfor == "ItemTo"){
-      this.showItemList("To");
-      
+      this.showItemList("To");      
     }
     else if(this.lookupfor == "WareHouse"){
-      this.showLookupWHSList();
-      
+      this.showLookupWHSList();      
     }
     else if (this.lookupfor == "CARList") {
       this.showCARList();

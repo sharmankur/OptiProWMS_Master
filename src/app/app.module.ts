@@ -17,9 +17,6 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './common/landing/landing.component';
 import { OutboundModule } from './outbound/outbound.module';
 
-
-
-
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -27,12 +24,11 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent
+    LandingComponent     
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, 
-   
+    AppRoutingModule,    
     BrowserAnimationsModule,
     HttpClientModule, 
     ToastrModule.forRoot(), 
@@ -50,8 +46,7 @@ export function createTranslateLoader(http: HttpClient) {
     DialogsModule,
     OutboundModule,
     InputsModule,
-    DateInputsModule,
-   
+    DateInputsModule,  
     
   ],
   providers: [],
