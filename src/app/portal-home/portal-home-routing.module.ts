@@ -37,6 +37,7 @@ const routes: Routes = [
       { path:'depalletize', component:DepalletizeComponent },
       { path:'palletize', component:PalletizeComponent },
       { path:'dockdoor', loadChildren:"../dock-door/dock-door.module#DockDoorModule"},
+      { path:'whsUGMapping', loadChildren:"../whs-ugmapping/whs-ugmapping.module#WhsUGMappingModule"},
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},

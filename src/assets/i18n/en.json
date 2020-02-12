@@ -662,7 +662,7 @@
   "Cancel_Unassign": "Cancel And Unassign",
   "PartQty": "Part Qty",
   "BTCH_Number": "Batch Serial Number",
-  "Dummy": "Dummy",
+  "Whs_User_GroupMapping": "Warehouse User Group Mapping",
 
   "Container_Code": "Container Code",
   "Contains_Item": "Contains Item",
@@ -693,8 +693,8 @@
   "Built_In_Process": "Built In Process",
   "DateTime": "Date And Time",
   "Shipment_Line": "Shipment Line",
-  
   "Container_Group": "Container Group",
-  "ContnrGrpd_Blank_Msg":"Container Group can't be blank"
+  "ContnrGrpd_Blank_Msg":"Container Group can't be blank",
+  "Dummy": "Dummy"
   
 }
