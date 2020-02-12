@@ -67,7 +67,7 @@
                                     <label for="ShipStageBin" class="col-sm-3 col-form-label">
                                         {{'Ship_Stage_Bin'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='ShipStageBin' [(ngModel)]=ShipStageBin id="ShipStageBin">
+                                        <input type="text" class="form-control form-control-sm" name='ShipStageBin' [(ngModel)]=ShipStageBin id="ShipStageBin" [disabled]=true>
                                     </div>
                                 </div>
                             </div>
@@ -107,9 +107,12 @@
                                 <div class="form-group row">
                                     <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control form-control-sm" name='Status' [(ngModel)]=Status id="Status">
+                                        <!-- <select class="form-control form-control-sm" name='Status' [(ngModel)]=Status id="Status">
                                             <option></option>
-                                        </select>
+                                        </select> -->
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array"
+                                            textField="Name" valueField="Value" id="Status" name="Status"
+                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
@@ -201,12 +204,12 @@
                         <h5 class="card-header">{{'Shipment_Lines'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="shipmentLines" [resizable]="true" [height]="200" [pageSize]="pageSize" [skip]="skip" [pageable]="false">
-                                <kendo-grid-column field="OPTM_DOCENTRY" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPQTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Quantity_Fulfilled'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
                             </kendo-grid>
                         </div>
                     </div>
@@ -218,7 +221,7 @@
                         <h5 class="card-header">{{'SalesOrderDetails'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="SODetails" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
-                                <kendo-grid-column field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_DTLLINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="90"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SONO" class="text-right" width="75" title="{{'SONumber'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SOLINENO" title="{{'SOLine'|translate}}" class="text-right" width="50"></kendo-grid-column>
@@ -237,7 +240,7 @@
                         <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="gridData" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
-                                <kendo-grid-column field="OPTM_DOCENTRY" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
                                 <kendo-grid-column field="ContainerID" title="{{'ContainerId'|translate}}" width="75" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="ContainerCode" title="{{'ContainerCode'|translate}}" width="75"></kendo-grid-column>
                                 <kendo-grid-column field="ContainerType" title="{{'ContainerType'|translate}}" width="75"></kendo-grid-column>
@@ -285,7 +288,7 @@
                         <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="gridData" [resizable]="true" [pageSize]="pageSize" [skip]="skip" [height]="200" [pageable]="false">
-                                <kendo-grid-column field="OPTM_DOCENTRY" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="LineID" width="95" title="{{'LineID'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="ItemCode" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>

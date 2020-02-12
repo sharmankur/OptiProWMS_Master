@@ -61,7 +61,7 @@ export class DockdoorviewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getlookupSelectedItem(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.ddmainComponent.ddComponent = 2;

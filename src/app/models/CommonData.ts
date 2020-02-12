@@ -174,6 +174,15 @@ export class CommonData {
         ];
     }
 
+    container_use_array() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "Value": 1, "Name": "Shipping" },
+            { "Value": 2, "Name": "Internal" },
+            { "Value": 3, "Name": "Both" }
+        ];
+    }
+
     container_creation_create_mode_string_dropdown() {
         // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
@@ -182,4 +191,24 @@ export class CommonData {
             { "Value": 3, "Name": "Manual" }
         ];
     }
+
+    shiment_status_array() {
+        return [
+            { "Value": 1, "Name": "New" },
+            { "Value": 2, "Name": "Scheduled" },
+            { "Value": 3, "Name": "Part Fulfilled" },
+            { "Value": 4, "Name": "Fulfilled" },
+            { "Value": 5, "Name": "Picking" },
+            { "Value": 6, "Name": "Picked" },
+            { "Value": 7, "Name": "Ship Staged" },
+            { "Value": 8, "Name": "Unstaged" },
+            { "Value": 9, "Name": "Loaded on truck" },
+            { "Value": 10, "Name": "Shipped" },
+            { "Value": 11, "Name": "Part Returned" },
+            { "Value": 12, "Name": "Returned" },
+            { "Value": 13, "Name": "Return Accepted" },
+            { "Value": 14, "Name": "Cancelled" }
+        ];
+    }
+
 }

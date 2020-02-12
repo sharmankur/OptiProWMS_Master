@@ -85,6 +85,8 @@
 
   "CAR_CPackRule":"Container Pack Rule", 
   "CAR_PackType":"Pack Type", 
+  "Container_Use":"Container Use", 
+  "BatchSerial_List": "Batch/Serial List",
   "CAR_PartsPerContainer":"Parts Per Container", 
   "CAR_ItemCode":"Item Code", 
   "CAR_AddPartsToContainer":"Add Parts To Container", 
@@ -553,6 +555,7 @@
   "Item_From": "Item From",
   "Item_To": "Item To",
   "Whse": "Whse",
+  "Whs_blank_msg": "Warehouse code can't be blank.",
   "WareHouseValidation": "Enter Warehouse",
   "CheckBoxValidation": "Check atleast one option",
   "GridCheckBoxValidation": "Check atleast one option inside grid",

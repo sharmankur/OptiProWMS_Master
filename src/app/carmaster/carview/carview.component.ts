@@ -101,7 +101,7 @@ export class CARViewComponent implements OnInit {
       ddDeleteArry.push({       
         OPTM_RULEID: event[i].OPTM_RULEID,
         OPTM_CONTTYPE: event[i].OPTM_CONTTYPE,
-        OPTM_PACKTYPE: event[i].OPTM_PACKTYPE,     
+        OPTM_CONTUSE: event[i].OPTM_CONTUSE,     
         CompanyDBId: localStorage.getItem("CompID")
       });
     }
@@ -114,14 +114,10 @@ export class CARViewComponent implements OnInit {
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_RULEID: event[0],
         OPTM_CONTTYPE: event[1],
-        OPTM_PACKTYPE: event[2]       
+        OPTM_CONTUSE: event[2]       
       });
     this.DeleteFromContainerAutoRule(ddDeleteArry);
   }
-
-  // onDeleteRowClick(event){
-  //   this.DeleteFromContainerAutoRule(event[0], event[1], event[2]);
-  // }
   
   DeleteFromContainerAutoRule(ddDeleteArry) {
     this.showLoader = true;

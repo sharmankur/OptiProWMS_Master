@@ -494,8 +494,8 @@ export class LookupComponent implements OnInit {
       },
 
       {
-        field: 'OPTM_PACKTYPE',
-        title: this.translate.instant("CAR_PackType"),
+        field: 'OPTM_CONTUSE',
+        title: this.translate.instant("Container_Use"),
         headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
@@ -520,6 +520,13 @@ export class LookupComponent implements OnInit {
 
   showDDList() {
     this.table_head = [
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("WHSCODE"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
       {
         field: 'OPTM_DOCKDOORID',
         title: this.translate.instant("DD_ID"),

@@ -31,7 +31,7 @@ export class CARMasterService {
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_RULEID: OPTM_RULEID,
         OPTM_CONTTYPE: OPTM_CONTTYPE,
-        OPTM_PACKTYPE: OPTM_PACKTYPE
+        OPTM_CONTUSE: OPTM_PACKTYPE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerAutoRule", jObject, this.commonService.httpOptions).toPromise();
