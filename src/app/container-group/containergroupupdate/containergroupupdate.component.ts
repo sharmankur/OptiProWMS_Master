@@ -31,14 +31,14 @@ export class ContainergroupupdateComponent implements OnInit {
       this.CG_DESC = this.CG_ROW[1];
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_ACG");
+        this.BtnTitle = this.translate.instant("CT_Add");
       }else{
         this.isUpdate = true;
         this.BtnTitle = this.translate.instant("CT_Update");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_ACG");
+      this.BtnTitle = this.translate.instant("CT_Add");
     }
   }
 

@@ -18,8 +18,8 @@ export class CarrierViewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
 
-  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, 
-    private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) { 
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
+    private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -72,42 +72,36 @@ export class CarrierViewComponent implements OnInit {
     localStorage.setItem("Action", "copy");
     this.carrierMainComponent.carrierComponent = 2;
   }
-  
+
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
+  OnAddClick() {
     localStorage.setItem("DD_ROW", "");
     localStorage.setItem("Action", "");
     this.carrierMainComponent.carrierComponent = 2;
   }
 
-  OnDeleteSelected(event){
-    if(event.length <= 0){
-      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
-      return;
-    }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({
-        OPTM_CARRIERID: event[i].OPTM_CARRIERID,
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteFromCarrier(ddDeleteArry);
+  OnDeleteSelected(event) {
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        OPTM_CARRIERID: event[0],
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    this.DeleteFromCarrier(ddDeleteArry);
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  DeleteFromCarrier(ddDeleteArry){
+  DeleteFromCarrier(ddDeleteArry) {
     this.showLoader = true;
     this.carrierService.DeleteFromCarrier(ddDeleteArry).subscribe(
       (data: any) => {
@@ -118,10 +112,10 @@ export class CarrierViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataForDockDoor();
             this.toastr.success('', this.translate.instant("Masking_RowDeletedMsg"));
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -138,5 +132,53 @@ export class CarrierViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any[] = [];
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("Delete"):
+          var ddDeleteArry: any[] = [];
+          ddDeleteArry.push({
+            OPTM_CARRIERID: this.event[0],
+            CompanyDBId: localStorage.getItem("CompID")
+          });
+          this.DeleteFromCarrier(ddDeleteArry);
+          break;
+        case ("DeleteSelected"):
+          if (this.event.length <= 0) {
+            this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+            return;
+          }
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              OPTM_CARRIERID: this.event[i].OPTM_CARRIERID,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteFromCarrier(ddDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
 }

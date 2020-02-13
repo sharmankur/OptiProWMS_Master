@@ -50,7 +50,7 @@ export class CarrierUpdateComponent implements OnInit {
 
   validateFields(): boolean {
     if (this.carrierId == '' || this.carrierId == undefined) {
-      this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
+      this.toastr.error('', this.translate.instant("CarrierIdbalnkMsg"));
       return false;
     }
     return true;

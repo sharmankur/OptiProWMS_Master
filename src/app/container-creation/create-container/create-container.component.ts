@@ -26,7 +26,7 @@ export class CreateContainerComponent implements OnInit {
   createModeArray: any = [];
   defaultPurpose: any;
   defaultCreateMode: any;
-  autoPackRule: any = 0;
+  autoPackRule: any;
   length: number = 0;
   width: number = 0;
   height: number = 0;
@@ -206,6 +206,7 @@ export class CreateContainerComponent implements OnInit {
         }
       } else if (this.lookupfor == "CARList") {
         this.autoPackRule = $event[0];
+        this.autoRuleId = $event[0];
         this.packType = $event[2];
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
       } else if (this.lookupfor == "WareHouse") {
@@ -213,6 +214,7 @@ export class CreateContainerComponent implements OnInit {
         this.binNo = "";
       } else if (this.lookupfor == "BinList") {
         this.binNo = $event[0];
+        this.GetInventoryData();
       } else if (this.lookupfor == "SOList") {
         this.soNumber = $event[0];
       } else if (this.lookupfor == "GroupCodeList") {
@@ -257,7 +259,7 @@ export class CreateContainerComponent implements OnInit {
     this.serviceData = []
     this.containerType = "";
     this.createMode = 0;
-    this.autoPackRule = 0;
+    this.autoPackRule = '';
     this.length = 0;
     this.width = 0;
     this.height = 0;
@@ -293,6 +295,13 @@ export class CreateContainerComponent implements OnInit {
     if (this.binNo == undefined || this.binNo == "") {
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return;
+    }
+
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
+        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+        return;
+      }
     }
 
     this.prepareSaveModel(this.autoPackRule, this.containerId,
@@ -388,7 +397,7 @@ export class CreateContainerComponent implements OnInit {
         OPTM_QUANTITY: this.fromContainerDetails[i].OPTM_PARTS_PERCONT,
         OPTM_CONTAINER: "",
         OPTM_AVLQUANTITY: 0,
-        OPTM_INVQUANTITY: this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT,
+        OPTM_INVQUANTITY: 0,
         OPTM_BIN: ''
       });
     }
@@ -409,6 +418,13 @@ export class CreateContainerComponent implements OnInit {
     if (this.binNo == undefined || this.binNo == "") {
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return;
+    }
+
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
+        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+        return;
+      }
     }
 
     this.prepareSaveModel(this.autoPackRule, this.containerId,
@@ -656,8 +672,14 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL;
+          for (var j = 0; j < this.fromContainerDetails.length; j++) {
+            this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0;
+          }
           result = true;
           localStorage.setItem("CAR_Grid_Data", JSON.stringify(data));
+          if (this.binNo != undefined && this.binNo != '') {
+            this.GetInventoryData();
+          }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -845,6 +867,43 @@ export class CreateContainerComponent implements OnInit {
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetInventoryData() {
+    this.showLoader = true;
+    this.commonservice.GetInventoryData(this.whse, this.binNo, this.autoPackRule).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          for (var j = 0; j < this.fromContainerDetails.length; j++) {
+            this.fromContainerDetails[j].BinCode = ""
+            this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
+            for (var i = 0; i < data.ItemWiseInventory.length; i++) {
+              if (data.ItemWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
+                this.fromContainerDetails[j].BinCode = data.ItemWiseInventory[i].BinCode
+                this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.ItemWiseInventory[i].Quantity
+              }
+            }
+          }
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {

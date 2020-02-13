@@ -16,10 +16,10 @@
                                     <label for="whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Warehouse'|translate}}"
-                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChangeBlur()">
+                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChangeBlur()" [disabled]="isUpdate">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (mousedown)="GetWhseCode()">
+                                                (mousedown)="GetWhseCode()" [disabled]="isUpdate">
                                                 <i class="opti-icon-hammenu"></i>
                                             </button>
                                         </div>
@@ -46,7 +46,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="WIP_FG_StageBin"
                                             placeholder="{{'DefaultWIP_FG_StageBin'|translate}}" name="WIP_FG_StageBin"
-                                            [(ngModel)]="WIP_FG_StageBin" (blur)="onBinChange('WIP_FG_StageBin')">
+                                            [(ngModel)]="WIP_FG_StageBin" (blur)="onBinChange('WIP_FG_StageBin', fgstageBin)" #fgstageBin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('WIP_FG_StageBin')">
@@ -63,7 +63,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="WIP_RM_StageBin"
                                             placeholder="{{'DefaultWIP_RM_StageBin'|translate}}" name="WIP_RM_StageBin"
-                                            [(ngModel)]="WIP_RM_StageBin" (blur)="onBinChange()">
+                                            [(ngModel)]="WIP_RM_StageBin" (blur)="onBinChange('WIP_RM_StageBin', rmstagebin)" #rmstagebin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('WIP_RM_StageBin')">
@@ -83,7 +83,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="TransferOutBin"
                                             placeholder="{{'DefaultTransferOutBin'|translate}}" name="TransferOutBin"
-                                            [(ngModel)]="TransferOutBin" (blur)="onWhseChangeBlur()">
+                                            [(ngModel)]="TransferOutBin" (blur)="onBinChange('TransferOutBin', transout)" #transout>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('TransferOutBin')">
@@ -100,7 +100,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="TransferInBin"
                                             placeholder="{{'DefaultTransferInBin'|translate}}" name="TransferInBin"
-                                            [(ngModel)]="TransferInBin" (blur)="onWhseChangeBlur()">
+                                            [(ngModel)]="TransferInBin" (blur)="onBinChange('TransferInBin', tansin)" #tansin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('TransferInBin')">
@@ -120,7 +120,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="Ship_StageBin"
                                             placeholder="{{'DefaultShip_StageBin'|translate}}" name="Ship_StageBin"
-                                            [(ngModel)]="Ship_StageBin" (blur)="onWhseChangeBlur()">
+                                            [(ngModel)]="Ship_StageBin" (blur)="onBinChange('Ship_StageBin', stagebin)" #stagebin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('Ship_StageBin')">

@@ -121,7 +121,7 @@
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control form-control-sm" name='containerId'
-                                                [(ngModel)]="containerId" id="containerId" disabled>
+                                                [(ngModel)]="containerId" id="containerId">
                                             <input type="text" class="form-control form-control-sm ml-1" name='containerCode'
                                                 [(ngModel)]="containerCode" id="containerCode" disabled>
                                         </div>
@@ -470,8 +470,8 @@
                                         [disabled]="dataItem.stringtype == 3" id="stringtxt">
                                 </ng-template> -->
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'AvailableQty'|translate}}"
-                                headerClass="text-center">
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'AvailableQty'|translate}}"
+                                headerClass="text-center" class="text-right">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
                                         value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
@@ -479,14 +479,14 @@
                                 </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'InvQty'|translate}}"
-                                headerClass="text-center">
+                                headerClass="text-center" class="text-right">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
                                         value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
                                         [disabled]="dataItem.isOperationDisable" id="lengthvalue">
                                 </ng-template> -->
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'BinNo'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <kendo-dropdownlist class="form-control" name="operation" [data]="operations"
                                         [valuePrimitive]="true" [value]="dataItem.operations" textField="Name"
@@ -494,13 +494,13 @@
                                         (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
                                 </ng-template> -->
                             </kendo-grid-column>
-                            <!-- <kendo-grid-column media="(min-width: 768px)" [width]="45">
+                            <kendo-grid-column media="(min-width: 768px)" [width]="45">
                                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick(dataItem.rowindex)">
-                                            <span class="k-icon k-i-delete" role="presentation"></span>
+                                            <span class="k-icon k-i-check" role="presentation"></span>
                                         </button>
                                     </ng-template>
-                                </kendo-grid-column> -->
+                                </kendo-grid-column>
                         </kendo-grid>
                     </div>
                 </div>
