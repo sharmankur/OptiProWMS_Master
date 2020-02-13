@@ -722,14 +722,19 @@
   "WarehouseBinRanges": "Warehouse Bin Ranges",
   "BinRange": "Bin Range",
   "FromBinCode": "From Bin No.",
-  "ToBinCode": "To Bin No",
+  "ToBinCode": "To Bin No.",
   "WhseZoneType": "Zone Type",
   "WhseZoneCode": "Zone Code",
   "BinEnable": "Bin Enable",
   "ContainerGroupingList": "Container Group Code List",
   "InvalidGroupCode": "Invalid Group Code",
+  "GroupCode": "Group Code",
+  "GroupList": "Group List",
+  "UserGroupList": "User Group List",
+  "WhsZone": "Warehouse Zone",
+  "CreatedDate": "Created Date",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
-  
+  "SelectWhsCodeFirst": "Please select Wareshouse code first",
   "Dummy": "Dummy"
   
 }

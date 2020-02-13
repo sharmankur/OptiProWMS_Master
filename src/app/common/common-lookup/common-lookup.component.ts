@@ -186,6 +186,12 @@ export class CommonLookupComponent implements OnInit {
       this.showContainerGroupCodeList();
     } else if (this.lookupfor == "DDList") {
       this.showDDList();
+    } else if (this.lookupfor == "GroupCode") {
+      this.showGroupCodeList();
+    }else if (this.lookupfor == "BinRangeList") {
+      this.showBinRangeList();
+    }else if(this.lookupfor == "WhsZoneList"){
+      this.showBinRangeList();
     }
     this.clearFilters();
     this.isColumnFilter = false
@@ -279,6 +285,94 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("Dock_Door");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  showGroupCodeList() {
+    this.table_head = [
+      {
+        field: 'OPTM_GROUPCODE',
+        title: this.translate.instant("GroupCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("GroupList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showBinRangeList() {
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_BIN_RANGE',
+        title: this.translate.instant("WhsUserGroup_Bin_Range"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_FROM_BIN',
+        title: this.translate.instant("FromBinCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },{
+        field: 'OPTM_TO_BIN',
+        title: this.translate.instant("ToBinCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BinRange");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showWhsZoneList() {
+
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_WHSZONE',
+        title: this.translate.instant("WhsZone"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_ZONETYPE',
+        title: this.translate.instant("WhseZoneType"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BinRange");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
