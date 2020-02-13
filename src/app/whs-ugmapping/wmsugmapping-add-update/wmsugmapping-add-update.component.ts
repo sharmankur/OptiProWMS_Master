@@ -36,6 +36,8 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
   binRange: any='';
   whsZone: any='';
   isValidateCalled: boolean = false;
+
+  forUpdate: boolean = false;
   constructor(private translate: TranslateService,private commonservice: Commonservice,
      private toastr: ToastrService,  private router: Router, private userGroupMappingService: WhsUserGroupService,
      private containerCreationService: ContainerCreationService) { 
@@ -106,7 +108,8 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whsCode = ''
         } else {
-          this.whsCode = resp[0].WhsCode
+          this.whsCode = resp[0].WhsCode;
+          this.whsName = resp[0].WhsName;
         }
         result = true;
       },
@@ -175,7 +178,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     }
     this.showLookup = false;
     var result = false;
-    await this.userGroupMappingService.isValidBinRange(this.whsCode).then(
+    await this.userGroupMappingService.isValidBinRange(this.whsCode,this.binRange).then(
       resp => {
         this.showLookup = false;
         if (resp != null && resp != undefined)
@@ -184,10 +187,10 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
             return;
           }
         if (resp.length == 0) {
-          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
-          this.whsCode = ''
+          this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
+          this.binRange = ''
         } else {
-          this.whsCode = resp[0].WhsCode
+          this.binRange = resp[0]
         }
         result = true;
       },
@@ -239,7 +242,20 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     );
   }
 
-
+  requiredFieldValidation(): boolean{
+    if(this.whsCode==undefined && this.whsCode==null || this.whsCode==""){
+      this.toastr.error('', this.translate.instant("SelectWhsCode"));
+     return false;
+    }
+    if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
+      this.toastr.error('', this.translate.instant("SelectWhsZone"));
+     return false;
+    }
+    if(this.binRange==undefined && this.binRange==null || this.binRange==""){
+      this.toastr.error('', this.translate.instant("SelectBinRange"));
+     return false;
+    }
+  }
 
   onWhsZoneBlur() {
     if (this.isValidateCalled) {
@@ -259,7 +275,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     }
     this.showLookup = false;
     var result = false;
-    await this.userGroupMappingService.isValidBinRange(this.whsCode).then(
+    await this.userGroupMappingService.isValidWHSZone(this.whsCode,this.whsZone).then(
       resp => {
         this.showLookup = false;
         if (resp != null && resp != undefined)
@@ -268,10 +284,10 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
             return;
           }
         if (resp.length == 0) {
-          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.toastr.error('', this.translate.instant("InvalidWhsZoneErrorMsg"));
           this.whsZone = ''
         } else {
-          this.whsZone = resp[0].WhsCode
+          this.whsZone = resp[0]
         }
         result = true;
       },
@@ -345,10 +361,11 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
             return;
           }
         if (resp.length == 0) {
-          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
-          this.whsCode = ''
+          this.resetGroupValueByIndex(index);
         } else {
-          this.whsCode = resp[0].WhsCode
+          // assign value.
+          this.assignValueForGroup(index,resp[0].OPTM_GROUPCODE);
+          
         }
         result = true;
       },
@@ -399,6 +416,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
         }
         break;
     }
+    return true;
   }
 
 
@@ -433,17 +451,49 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       case 1:
         return this.pickingGroup;
       case 2:
-        this.packingGroup;
+        return this.packingGroup;
       case 3:
-        this.putAwayGroup;
+        return this.putAwayGroup;
       case 4:
-        this.receivingGroup;
+        return this.receivingGroup;
       case 5:
-        this.shippingGroup;
+        return this.shippingGroup;
       case 6:
-        this.returnGroup;
+        return this.returnGroup;
       case 7:
-        this.moveGroup;
+        return this.moveGroup;
+    }
+  }
+  public resetGroupValueByIndex(index: Number):any{
+    switch (index) {
+      case 1:
+        this.pickingGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidPickingGroupErrorMsg"));
+        break;
+      case 2:
+        this.packingGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidPackingGroupErrorMsg"));
+        break;
+      case 3:
+        this.putAwayGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidPutawayGroupErrorMsg"));
+        break;
+      case 4:
+        this.receivingGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidReceivingGroupErrorMsg"));
+        break;
+      case 5:
+        this.shippingGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidShippingGroupErrorMsg"));
+        break;
+      case 6:
+        this.returnGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidReturnsGroupErrorMsg"));
+        break;
+      case 7:
+        this.moveGroup ="";
+        this.toastr.error('', this.translate.instant("InvalidMoveGroupErrorMsg"));
+        break;
     }
   }
 
@@ -458,15 +508,77 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       }else if(this.lookupfor == "GroupCode"){
         this.assignValueForGroup(this.forWhich,$event[0]);
       } else if(this.lookupfor == "BinRangeList"){
-        this.binRange = $event[0];
+        this.binRange = $event[1];
       } else if(this.lookupfor== "WhsZoneList"){
-        this.whsZone = $event[0];
+        this.whsZone = $event[1];
       }
     }
 
+    getGridItemClick($event){
+      this.whsCode = $event[0];
+      this.whsZone = $event[1];
+      this.binRange = $event[2];
+      this.pickingGroup = $event[3];
+      this.packingGroup = $event[4];
+      this.putAwayGroup = $event[5];
+      this.receivingGroup = $event[6];
+      this.shippingGroup = $event[7];
+      this.returnGroup = $event[8];
+      this.moveGroup = $event[9];
+      this.forUpdate =true;
+      console.log("list Items:", this.groupData.length);
+      this.groupDataFor = "groupData"
+      this.groupData = this.groupData;
+          this.GetDataForWarehouseUserGroupList();
+     // this.onUpdateClick();
+    }
+
+   onUpdateClick(){
+     // validation code will be here
+     if(!this.requiredFieldValidation)return;
+    this.showLoader = true;
+    this.userGroupMappingService.updateWhsUserGroup(this.whsCode,this.whsZone,this.binRange,
+      this.pickingGroup,this.packingGroup,this.putAwayGroup,
+      this.receivingGroup,this.shippingGroup,this.returnGroup,this.moveGroup).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          } 
+          if(data.length>0 && data[0].RESULT=="Data Saved"){
+            
+            this.toastr.success('', this.translate.instant("UpdatedSuccessfullyErrorMsg"));
+            this.resetForm(1);
+            this.GetDataForWarehouseUserGroupList();
+          }else{
+            //something went wrong
+          //  this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"))
+          }
+         
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );  
+   }
+
+
+
     OnAddClick(){
     // validate all fields.
-
+    if(!this.requiredFieldValidation)return;
     this.showLoader = true;
     this.userGroupMappingService.addWhsUserGroup(this.whsCode,this.whsZone,this.binRange,
       this.pickingGroup,this.packingGroup,this.putAwayGroup,
@@ -479,7 +591,13 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           } 
-          this.GetDataForWarehouseUserGroupList();
+          if(data.length>0 && data[0].RESULT=="Data Saved"){
+            
+            this.toastr.success('', this.translate.instant("AddedSuccessfullyErrorMsg"));
+            this.resetForm(1);
+            this.GetDataForWarehouseUserGroupList();
+          }else{
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -527,7 +645,24 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     }
 
 
-
+   resetForm(afterWhich:Number){
+     if(afterWhich==1){
+       this.forUpdate = false;
+     }else{
+      this.forUpdate = true;
+     }
+    this.whsCode  ='';
+    this.whsName='';
+    this.pickingGroup='';
+    this.packingGroup='';
+    this.putAwayGroup='';
+    this.receivingGroup='';
+    this.shippingGroup='';
+    this.returnGroup='';
+    this.moveGroup='';
+    this.binRange='';
+    this.whsZone='';
+   }
 
 
 
@@ -545,19 +680,14 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
   onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[0],
-        CompanyDBId: localStorage.getItem("CompID")
-      });
+    var whsCode = event[0];
+    var whsZone = event[1];
+    var whsBinRange = event[2];
+    this.deleteUserGroupListRow(whsCode,whsZone,whsBinRange);
     //this.DeleteFromDockDoor(ddDeleteArry);
   }
 
-  onCopyItemClick(event) {
-    localStorage.setItem("DD_ROW", JSON.stringify(event));
-    localStorage.setItem("Action", "copy");
-    //this.ddmainComponent.ddComponent = 2;
-  }
+ 
   
   OnDeleteSelected(event){
     if(event.length <= 0){
@@ -567,10 +697,99 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     var ddDeleteArry: any[] = [];
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({
-        OPTM_DOCKDOORID: event[i].OPTM_DOCKDOORID,
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: event[i].OPTM_WHSCODE,
+        OPTM_WHSEZONE: event[i].OPTM_WHSEZONE,
+        OPTM_BINRANGE: event[i].OPTM_BINRANGE,
       });
     }
+    this.deleteMultipleRows(ddDeleteArry);
     //this.DeleteFromDockDoor(ddDeleteArry);
+  }
+  onCopyItemClick(event) {
+    localStorage.setItem("DD_ROW", JSON.stringify(event));
+    localStorage.setItem("Action", "copy");
+    //this.ddmainComponent.ddComponent = 2;
+  }
+
+  deleteUserGroupListRow(whsCode:String, whsZone:String, binRange:String) {
+    this.showLoader = true;
+    this.userGroupMappingService.DeleteUserGroup(whsCode,whsZone,binRange).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+        
+        
+          if(data.length>0 && data[0].RESULT=="Data Saved"){
+            this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
+            this.resetForm(1);
+            this.groupData = [];
+            this.groupDataFor = ''
+            this.GetDataForWarehouseUserGroupList();
+          }else{
+          }
+        
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  deleteMultipleRows(data:any) {
+    this.showLoader = true;
+    this.userGroupMappingService.DeleteMultipleUserGroup(data).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+        
+        
+          if(data.length>0 && data[0].RESULT=="Data Saved"){
+            this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
+            this.resetForm(1);
+            this.groupData = [];
+            this.groupDataFor = ''
+            this.GetDataForWarehouseUserGroupList();
+          }else{
+            if(data.length>0 && data[0].RESULT=="Data Not Saved"){
+              this.toastr.error('', this.translate.instant("UnableToDeleteErrorMsg"));
+            }
+          }
+        
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 }

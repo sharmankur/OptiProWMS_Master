@@ -191,7 +191,7 @@ export class CommonLookupComponent implements OnInit {
     }else if (this.lookupfor == "BinRangeList") {
       this.showBinRangeList();
     }else if(this.lookupfor == "WhsZoneList"){
-      this.showBinRangeList();
+      this.showWhsZoneList();
     }
     this.clearFilters();
     this.isColumnFilter = false

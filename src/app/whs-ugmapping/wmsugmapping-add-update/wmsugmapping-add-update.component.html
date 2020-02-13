@@ -2,11 +2,12 @@
 
 
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-        <div class="opti_container_inner">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Whs_User_GroupMapping'|translate}}
             </h3>
+            <div>
             <!-- row1 start -->
             <div class="row">
                 <!-- col start -->
@@ -47,7 +48,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsZone'
-                                    [(ngModel)]="whsZone" id="whsZone" (blur)="OnWhsZoneChange()">
+                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetDataForWhsZone()">
@@ -66,8 +67,8 @@
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="binRange" id="binRange"  (blur)="OnBinRangeChange()">
+                                <input type="text" class="form-control form-control-sm" name='binrange'
+                                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetBinRange()">
@@ -253,12 +254,16 @@
                 </div>
                 <!-- col end -->
             </div>
-
-            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getLookupValue($event)"
+        </div>
+            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
                 (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
                 (copyItem)="onCopyItemClick($event)"></app-lookup>
 
         </div>
+
+
+        
+
         <div class="fix-footer-btnBar">
 
             <div class="col-sm-12 col-12">
@@ -267,8 +272,11 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
 
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
+
+                    <button *ngIf="forUpdate==true" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onUpdateClick()">
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
             </div>
         </div>
     </form>

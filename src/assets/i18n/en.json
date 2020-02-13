@@ -759,7 +759,23 @@
   "TransferOutBinValid": "Invalid Transfer out bin",
   "TransferInBinValid": "Invalid Transfer in bin",
   "Ship_StageBinValid": "Invalid Ship stage Bin cannot blank",
-  
+  "InvalidWhsZoneErrorMsg": "Invalid warehouse Zone",
+  "InvalidBinRangeErrorMsg": "Invalid Bin Range",
+  "InvalidPickingGroupErrorMsg": "Invalid Picking Group",
+  "InvalidPackingGroupErrorMsg": "Invalid Packing Group",
+  "InvalidPutawayGroupErrorMsg": "Invalid Putaway Group",
+  "InvalidReceivingGroupErrorMsg": "Invalid Receiving Group",
+  "InvalidShippingGroupErrorMsg": "Invalid Shipping Group",
+  "InvalidMoveGroupErrorMsg": "Invalid Move Group",
+  "InvalidReturnsGroupErrorMsg": "Invalid Returns Group",
+  "DeletedSuccessfullyErrorMsg": "Deleted Successfully!",
+  "UpdatedSuccessfullyErrorMsg": "Updated Successfully!",
+  "AddedSuccessfullyErrorMsg": "Added Successfully!",
+  "SelectBinRange": "Please select Bin Range",
+  "SelectWhsCode": "Please select Wareshouse Code",
+  "SelectWhsZone": "Please select Wareshouse Zone",
+  "UnableToDeleteErrorMsg": "Unable to delete!",
   "Dummy": "Dummy"
+
   
 }

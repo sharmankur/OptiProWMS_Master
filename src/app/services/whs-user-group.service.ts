@@ -23,7 +23,7 @@ export class WhsUserGroupService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions);
   }
-
+ 
   isValidWHS(whsCode:String): Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -43,10 +43,13 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForWarehouseZone", jObject, this.commonService.httpOptions);
   }
 
-  isValidWHSZone(whsZone:String): Promise<any> {
+  isValidWHSZone(whsCode:String, whsZone:String): Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")       
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE:  whsCode,
+        OPTM_WHSZONE: whsZone
+
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWarehouseZone", jObject, this.commonService.httpOptions).toPromise();
@@ -62,10 +65,12 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForBinRange", jObject, this.commonService.httpOptions);
   }
 
-  isValidBinRange(whsCode:String): Promise<any> {
+  isValidBinRange(whsCode:String,binRange:String): Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")       
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE:whsCode,
+        OPTM_BIN_RANGE: binRange
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinRange", jObject, this.commonService.httpOptions).toPromise();
@@ -82,10 +87,12 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForUserGroup", jObject, this.commonService.httpOptions);
   }
 
-  isValidGroup(whsCode:String):Promise<any> {
+  isValidGroup(userGroup:String):Promise<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")       
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_TENANTKEY: "T21",  
+        OPTM_GROUPCODE: userGroup     
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidUserGroup", jObject, this.commonService.httpOptions).toPromise();
@@ -123,11 +130,20 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
 
-  DeleteUserGroup(): Observable<any> {
+  DeleteUserGroup(whsCode:String,whsZone:String,whsBinRange:String): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE:whsCode,
+        OPTM_WHSEZONE:whsZone,
+        OPTM_BINRANGE:whsBinRange
       }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
+  }
+  DeleteMultipleUserGroup(data:any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify(data)
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
