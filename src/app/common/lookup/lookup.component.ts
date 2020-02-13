@@ -139,6 +139,9 @@ export class LookupComponent implements OnInit {
     else if(this.lookupfor == "ContnrGroup"){
       this.ContainerGroupListView();
     }
+    else if(this.lookupfor == "ContainsItem"){
+      this.ContainsItemListView();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -936,6 +939,24 @@ export class LookupComponent implements OnInit {
       },
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ContainsItemListView() {
+
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '200'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Contains_Item");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

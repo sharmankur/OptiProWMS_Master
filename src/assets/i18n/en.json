@@ -692,6 +692,7 @@
   "Shipment_Line": "Shipment Line",
   
   "Container_Group": "Container Group",
-  "ContnrGrpd_Blank_Msg":"Container Group can't be blank"
+  "ContnrGrpd_Blank_Msg":"Container Group can't be blank",
+  "Container_BatchSerial"  : "Container Batch Serial"
   
 }

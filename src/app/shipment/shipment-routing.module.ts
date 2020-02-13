@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
 import { ContainerShipmentComponent } from './container-shipment/container-shipment.component';
 import { ShipmentComponent } from './shipment.component';
+import { ContainerBatchserialComponent } from './container-batchserial/container-batchserial.component';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'shipment', pathMatch: 'full' },
       { path: 'shipment', component: ShipmentViewComponent} ,
-    { path: 'container', component: ContainerShipmentComponent} ,
+      { path: 'container', component: ContainerShipmentComponent} , 
+      { path: 'contnrbatchserial', component: ContainerBatchserialComponent} 
   ]  
 }
 ];

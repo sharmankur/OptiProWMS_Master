@@ -165,6 +165,7 @@ export class ShipmentViewComponent implements OnInit {
 
   OnContainerBtnClick () {
     this.showContainerShipmentScreen = true;
+    localStorage.setItem("ShipmentID", this.ShipmentID);
     this.router.navigate(['home/maintenance/container']);
   }
 
