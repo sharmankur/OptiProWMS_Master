@@ -76,7 +76,7 @@
   "CTR_Parent_CT":"Parent Container Type", 
   "Parent_CId":"Parent Container Id", 
   "ContainerStatus": "Container Status",
-  "PackedForShipment": "Packed For Shipment",
+  "PickedForShipment": "Picked For Shipment",
 
   "ShipEligible": "Ship Eligible",
   "CTRContainersPerParent":"Containers Per Parent", 
@@ -529,7 +529,8 @@
   "Plt_TransferErrMsg": "System is facing problem in transfer operation. Please try again.",
  
   "Dock_Door": "Dock Door",
-
+  "InvalidDock_Door": "Invalid Dock Door Id.",
+  "Invalid_Carrier_code": "Invalid Carrier Code",
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
   
@@ -618,7 +619,7 @@
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
   "ShipMentId": "Shipment Id",
-  
+  "ScheduleTimeBlank": "Schedule Time can't be blank.",
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
@@ -754,6 +755,8 @@
   "TransferOutBinValid": "Invalid Transfer out bin",
   "TransferInBinValid": "Invalid Transfer in bin",
   "Ship_StageBinValid": "Invalid Ship stage Bin cannot blank",
+  
+  "GeneratePickTask":"Generate Pick Task for Shipment",
   
   "Dummy": "Dummy"
   

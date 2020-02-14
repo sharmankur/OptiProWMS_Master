@@ -825,4 +825,25 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWhseCode", jObject, this.httpOptions);
   }
+
+  IsValidDockDoor(OPTM_DOCKDOORID: string, whse: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
+        OPTM_WHSE: whse
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidDockDoor", jObject, this.httpOptions);
+  }
+
+  IsValidCarrier(OPTM_CARRIERID: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CARRIERID: OPTM_CARRIERID
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCarrier", jObject, this.httpOptions);
+  }
 }
