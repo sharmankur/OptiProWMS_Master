@@ -724,18 +724,23 @@
   "WarehouseBinRanges": "Warehouse Bin Ranges",
   "BinRange": "Bin Range",
   "FromBinCode": "From Bin No.",
-  "ToBinCode": "To Bin No",
+  "ToBinCode": "To Bin No.",
   "WhseZoneType": "Zone Type",
   "WhseZoneCode": "Zone Code",
   "BinEnable": "Bin Enable",
   "ContainerGroupingList": "Container Group Code List",
   "InvalidGroupCode": "Invalid Group Code",
+  "GroupCode": "Group Code",
+  "GroupList": "Group List",
+  "UserGroupList": "User Group List",
+  "WhsZone": "Warehouse Zone",
+  "CreatedDate": "Created Date",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
+  "SelectWhsCodeFirst": "Please select Wareshouse code first",
 
   "CTLengthMsg": "Container length should be greater than 0.",
   "CTwidthMsg": "Container width should be greater than 0.",
   "CTHeightMsg": "Container height should be greater than 0.",
-
   "CPPErrMsg": "Containers per parent should be greater than 0.",
   "CPofPErrMsg": "Container part of parent should be greater than 0.",
   "ZoneToBinCannotBlankMsg": "To bin cannot be blank in zone list.",
@@ -755,9 +760,24 @@
   "TransferOutBinValid": "Invalid Transfer out bin",
   "TransferInBinValid": "Invalid Transfer in bin",
   "Ship_StageBinValid": "Invalid Ship stage Bin cannot blank",
-  
   "GeneratePickTask":"Generate Pick Task for Shipment",
-  
+  "InvalidWhsZoneErrorMsg": "Invalid warehouse Zone",
+  "InvalidBinRangeErrorMsg": "Invalid Bin Range",
+  "InvalidPickingGroupErrorMsg": "Invalid Picking Group",
+  "InvalidPackingGroupErrorMsg": "Invalid Packing Group",
+  "InvalidPutawayGroupErrorMsg": "Invalid Putaway Group",
+  "InvalidReceivingGroupErrorMsg": "Invalid Receiving Group",
+  "InvalidShippingGroupErrorMsg": "Invalid Shipping Group",
+  "InvalidMoveGroupErrorMsg": "Invalid Move Group",
+  "InvalidReturnsGroupErrorMsg": "Invalid Returns Group",
+  "DeletedSuccessfullyErrorMsg": "Deleted Successfully!",
+  "UpdatedSuccessfullyErrorMsg": "Updated Successfully!",
+  "AddedSuccessfullyErrorMsg": "Added Successfully!",
+  "SelectBinRange": "Please select Bin Range",
+  "SelectWhsCode": "Please select Wareshouse Code",
+  "SelectWhsZone": "Please select Wareshouse Zone",
+  "UnableToDeleteErrorMsg": "Unable to delete!",
   "Dummy": "Dummy"
+
   
 }
