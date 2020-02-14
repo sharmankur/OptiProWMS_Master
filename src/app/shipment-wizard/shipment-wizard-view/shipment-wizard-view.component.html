@@ -399,7 +399,7 @@
   
                                     <kendo-grid-column field="SODocEntry" editor="numeric" class="grid-right-align-column" width="110" title="{{'SalesOrderEntry'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="LN" width="40" title="{{'LN'|translate}}" class="grid-right-align-column"></kendo-grid-column>
-                                    <kendo-grid-column field="ITEMKEY" width="120" title="{{'ItemKey'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="ITEMKEY" width="120" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="ItemCode" width="120" title="{{'GrdItemCode'|translate}}"></kendo-grid-column>
                                    
                                     <kendo-grid-column field="SalesUOM" width="100" title="{{'UOM'|translate}}"></kendo-grid-column>
@@ -447,7 +447,7 @@
                                     </div>
                                     <div class="k-form-field d-flex mrb-5">
                                         <input type="checkbox"  id="Item" [(ngModel)]="CHKItem"  class="k-checkbox" name="Item" />
-                                        <label class="k-checkbox-label" for="Item">"{{'ItemKey'|translate}}"</label>
+                                        <label class="k-checkbox-label" for="Item">"{{'ItemCode'|translate}}"</label>
                                     </div>
                                     <div class="k-form-field d-flex mrb-5">
                                         <input type="checkbox" [(ngModel)]="CHKSOno"   id="SOno"  class="k-checkbox" name="SOno" />
@@ -477,14 +477,14 @@
                                         </ng-template>
                                       </kendo-grid-checkbox-column>
                                      
-                                   <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                   <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="Customer" title="{{'Customer'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="Warehouse_Code" title="{{'WHSCODE'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="Ship_To" title="{{'ShipTo'|translate}}"></kendo-grid-column>
                                
                                 <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
-                                                <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                                <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                                 <kendo-grid-column field="Item_Code" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                                 <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                                 
@@ -501,7 +501,7 @@
                             <div [ngClass]="{show:currentStep == 5}" class="wizard-content">
                                 <kendo-grid [data]="GetCreateShipMentData" [pageSize]="pageSize" [skip]="skip" [pageable]="true"
                                 [height]="200" [selectable]="true">
-                                    <kendo-grid-column field="OPTM_DOCENTRY" title="{{'ShipMentId'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BPCODE" title="{{'Customer'|translate}}"></kendo-grid-column>
                                     
                                     <kendo-grid-column field="OPTM_SHIPTO" title="{{'ShipTo'|translate}}"></kendo-grid-column>
@@ -512,7 +512,7 @@
                                 <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
                                                 <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                                <kendo-grid-column field="OPTM_SHIPQTY" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                                <kendo-grid-column field="OPTM_QTY" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                                 <!-- <kendo-grid-column field="OPTM_SHIPQTY" title"{{'Quantity'|translate}}"></kendo-grid-column> -->
                                           
                                         </kendo-grid>

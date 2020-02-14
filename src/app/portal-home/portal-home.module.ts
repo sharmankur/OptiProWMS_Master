@@ -38,6 +38,8 @@ import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
 import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
 import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
 import { ShipmentModule } from '../shipment/shipment.module';
+import { GeneratePickComponent } from 'src/app/shipment-wizard/generate-pick/generate-pick.component';
+import { DateInputsModule } from '../../../node_modules/@progress/kendo-angular-dateinputs';
 
 @NgModule({
   imports: [
@@ -71,11 +73,13 @@ import { ShipmentModule } from '../shipment/shipment.module';
     WhsUGMappingModule,
     ContainerGroupModule,
     WhseBinLayoutModule,
-    ShipmentModule
+    ShipmentModule,
+    DateInputsModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
-    ContainerShipmentComponent,ContainerBatchserialComponent],
-  providers:[DashboardComponent ]
+    ContainerShipmentComponent,ContainerBatchserialComponent,GeneratePickComponent],
+  providers:[DashboardComponent , GeneratePickComponent ]
+
 })
 export class PortalHomeModule { }
  
