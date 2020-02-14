@@ -24,7 +24,8 @@ export class InputContainerCodeComponent implements OnInit {
   showLookup: boolean = true;
   lookupfor: string;
   containerCode: string = "";
-  
+  parentContainerCode: string = "";
+  count: any = 0;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router) { }
@@ -45,12 +46,14 @@ export class InputContainerCodeComponent implements OnInit {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
         return
       }
-      this.getContainerCode();
+      this.GenerateShipContainer();
     } else if (status == "cancel" || status == "no") {
       this.isYesClick.emit({
         Status: "no",
         From: this.fromWhere,
-        ContainerCode: ""
+        ContainerCode: "",
+        ParentContainerCode: "",
+        Count: 0
       });
       this.opened = false;
     }
@@ -77,12 +80,12 @@ export class InputContainerCodeComponent implements OnInit {
     // }
   }
 
-  getContainerCode() {
+  GenerateShipContainer() {
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID = this.containerCode;
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID = "";
 
     this.showLoader = true;
-    this.containerCreationService.getContainerCode(this.oSaveModel).subscribe(
+    this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -98,7 +101,10 @@ export class InputContainerCodeComponent implements OnInit {
             this.isYesClick.emit({
               Status: "yes",
               From: this.fromWhere,
-              ContainerCode: this.containerCode
+              ContainerId: data[0].OPTM_CONTAINERID,
+              ParentContainerCode: this.parentContainerCode,
+              ContainerCode: this.containerCode,
+              Count: this.count
             });
             this.opened = false;
           } else {

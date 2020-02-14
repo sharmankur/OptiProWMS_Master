@@ -15,6 +15,7 @@ import { ContainerShipmentService } from 'src/app/services/container-shipment.se
 export class ContainerShipmentComponent implements OnInit {
 
   @Input() ShipId: any;
+ // ShipId: any='';
   ContainerCodeId: any='';
   purposeArray: any = [];
   PurposeId: any;
@@ -54,19 +55,20 @@ export class ContainerShipmentComponent implements OnInit {
     this.PurposeValue = this.PurposeId.Value; 
     this.shipeligible = "Y";   
 
-    this.SelectedShipmentId = localStorage.getItem("ShipmentID");
-    this.SelectedShipmentId = '17'
+    //this.SelectedShipmentId = localStorage.getItem("ShipmentID");
+    //this.SelectedShipmentId = '17'
+    this.SelectedShipmentId  = this.ShipId;
     if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
       this.IsShipment = true;
       this.InvPostStatusId = this.InvPostStatusArray[1];
-      this.InvPostStatusValue = this.InvPostStatusId.Value;
-      this.fillDataInGridWithShipment();      
+      this.InvPostStatusValue = this.InvPostStatusId.Value;         
     }
     else{
       this.IsShipment = false;
       this.InvPostStatusId = this.InvPostStatusArray[0];
       this.InvPostStatusValue = this.InvPostStatusId.Value;
-    }   
+    } 
+    this.fillDataInGridWithShipment();    
   }
 
   fillDataInGridWithShipment() {    
@@ -187,10 +189,15 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookup = true;
-          this.serviceData = data;         
-
-          this.lookupfor = "BinList";
+          if(data.length > 0){
+            this.showLookup = true;
+            this.serviceData = data;
+            this.lookupfor = "BinList";
+          }
+          else{
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+          
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -356,6 +363,39 @@ export class ContainerShipmentComponent implements OnInit {
     return result;
   }
 
+  onContainsItemChange() {
+    this.showLoader = true;
+    this.containerShipmentService.IsValidContainsItemCode(this.ContainsItemID, this.IsShipment, this.SelectedShipmentId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length == 0){
+            this.toastr.error('', this.translate.instant("Invalid Item"));
+            this.ContainsItemID = ''
+          } else {
+            this.ContainsItemID = data[0].OPTM_ITEMCODE
+          }          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   selectContainerRowChange (isCheck,dataitem,idx){
     if(isCheck){
       this.ContainerItems[idx].Selected = true; 
@@ -388,6 +428,10 @@ export class ContainerShipmentComponent implements OnInit {
       }
       
      }
+  }
+
+  onArrowBtnClick() {
+    this.router.navigate(['home/shipment']);
   }
 
   onCancelClick () {

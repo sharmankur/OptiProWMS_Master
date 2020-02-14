@@ -13,6 +13,8 @@ import { DepalletizeComponent } from '../palletization/depalletize/depalletize.c
 import { PalletizeComponent } from '../palletization/palletize/palletize.component';
 import { InventoryTransferbyITRMasterComponent } from '../inventory-transfer/inventory-transferby-itrmaster/inventory-transferby-itrmaster.component';
 import { ITRLIstComponent } from '../inventory-transfer/itrlist/itrlist.component';
+import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
+import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
 
 const routes: Routes = [
 
@@ -37,16 +39,21 @@ const routes: Routes = [
       { path:'depalletize', component:DepalletizeComponent },
       { path:'palletize', component:PalletizeComponent },
       { path:'dockdoor', loadChildren:"../dock-door/dock-door.module#DockDoorModule"},
+      { path:'whsUGMapping', loadChildren:"../whs-ugmapping/whs-ugmapping.module#WhsUGMappingModule"},
       { path:'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
       // { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},    
-      { path: 'maintenance', loadChildren: "../shipment/shipment.module#ShipmentModule" },  
+      { path: 'shipment', loadChildren: "../shipment/shipment.module#ShipmentModule" },  
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
-      { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"}           
+      { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"},     
+      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
+      { path: 'Container_List', component: ContainerShipmentComponent } ,
+      { path: 'BatchSerial_List', component: ContainerBatchserialComponent } 
+      
     ]
     
   }

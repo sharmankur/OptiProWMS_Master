@@ -29,6 +29,7 @@ export class LookupComponent implements OnInit {
   @Output() deleteClick = new EventEmitter();
   @Output() deleteSelectedItems = new EventEmitter();
   @Output() copyItem = new EventEmitter();
+  @Output() copyItemKey = new EventEmitter();
   @Output() lookupkey = new EventEmitter();
   @Input() ruleselected: any;
   myInputVariable: ElementRef;
@@ -135,16 +136,45 @@ export class LookupComponent implements OnInit {
     }
     else if(this.lookupfor == "CarrierList"){
       this.CarrierListView();
+    } else if(this.lookupfor == "WhseBinLayoutList"){
+      this.showWhseBinLayoutList();
+    } else if(this.lookupfor == "SOList"){
+      this.showOutSOList();
     }
     else if(this.lookupfor == "ContnrGroup"){
       this.ContainerGroupListView();
-    }
-    else if(this.lookupfor == "ContainsItem"){
-      this.ContainsItemListView();
-    }
+    }   
+    else if(this.lookupfor == "groupData"){
+      this.UserGroupMappingListView();
+    }    
 
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  showWhseBinLayoutList(){
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Warehouse"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_WHSDESC',
+        title: this.translate.instant("CT_Description"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("WarehouseBinLayout");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
 
   showToWhsList() {
@@ -500,8 +530,8 @@ export class LookupComponent implements OnInit {
       },
 
       {
-        field: 'OPTM_PACKTYPE',
-        title: this.translate.instant("CAR_PackType"),
+        field: 'OPTM_CONTUSE',
+        title: this.translate.instant("Container_Use"),
         headerClass: 'text-center',
         class: 'text-right',
         type: 'numeric',
@@ -526,6 +556,13 @@ export class LookupComponent implements OnInit {
 
   showDDList() {
     this.table_head = [
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("WHSCODE"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
       {
         field: 'OPTM_DOCKDOORID',
         title: this.translate.instant("DD_ID"),
@@ -753,22 +790,23 @@ export class LookupComponent implements OnInit {
   }
 
   onEditClick(lookup_key) {
-    this.lookupkey.emit(lookup_key);
+    // this.lookupkey.emit(lookup_key);
     this.lookupvalue.emit(Object.values(lookup_key));
   }
 
   onDeleteRowClick(lookup_key) {
-    this.lookupkey.emit(lookup_key);
+    // this.lookupkey.emit(lookup_key);
     this.deleteClick.emit(Object.values(lookup_key));
   }
 
   onCopyClick(lookup_key) {
     this.lookupkey.emit(lookup_key);
     this.copyItem.emit(Object.values(lookup_key));
+    this.copyItemKey.emit(lookup_key);
   }
 
   onSelectedDeleteRowClick(lookup_key) {
-    this.lookupkey.emit(this.selectedValues);
+   // this.lookupkey.emit(this.selectedValues);
     this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
 
@@ -946,8 +984,86 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  ContainsItemListView() {
 
+  UserGroupMappingListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSEZONE',
+        title: this.translate.instant("WhsUserGroup_WHS_ZONE"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_BINRANGE',
+        title: this.translate.instant("WhsUserGroup_Bin_Range"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PICKING',
+        title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PACKING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PUTAWAY',
+        title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_RECEIVING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_SHIPPING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_RETURNS',
+        title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_MOVE',
+        title: this.translate.instant("WhsUserGroup_User_Group_Move"),
+        type: 'text',
+        width: '100'
+      }
+      // },
+      // {
+      //   field: 'OPTM_CREATEDATE',
+      //   title: this.translate.instant("CreatedDate"),
+      //   type: 'date',
+      //   width: '200'
+      // }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ContainsItemListView() {
     this.table_head = [
       {
         field: 'OPTM_ITEMCODE',
@@ -956,7 +1072,7 @@ export class LookupComponent implements OnInit {
         width: '200'
       }
     ];
-    this.lookupTitle = this.translate.instant("Contains_Item");
+    this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

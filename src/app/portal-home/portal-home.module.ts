@@ -32,7 +32,12 @@ import { DockDoorModule } from '../dock-door/dock-door.module';
 import { MaskingModule } from '../masking/masking.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarrierModule } from '../carrier/carrier.module';
+import { WhsUGMappingModule } from '../whs-ugmapping/whs-ugmapping.module';
 import { ContainerGroupModule } from '../container-group/container-group.module';
+import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
+import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
+import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
+import { ShipmentModule } from '../shipment/shipment.module';
 
 @NgModule({
   imports: [
@@ -63,9 +68,13 @@ import { ContainerGroupModule } from '../container-group/container-group.module'
     PalletizationModule,
     MaskingModule,
     CarrierModule,
-    ContainerGroupModule
+    WhsUGMappingModule,
+    ContainerGroupModule,
+    WhseBinLayoutModule,
+    ShipmentModule
   ],
-  declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
+  declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
+    ContainerShipmentComponent,ContainerBatchserialComponent],
   providers:[DashboardComponent ]
 })
 export class PortalHomeModule { }

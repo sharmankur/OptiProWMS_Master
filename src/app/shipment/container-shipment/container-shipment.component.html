@@ -26,7 +26,7 @@
                         <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
                           <div class="input-group col-sm-7">
                              <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
-                             id="ContainsItemID" disabled>
+                             id="ContainsItemID" (blur)="onContainsItemChange()">
                            </div>
                            <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem()">
@@ -257,7 +257,7 @@
 
             <div class="fix-footer-btnBar">
                 <div class="col-sm-12 col-12">
-                       <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment">
+                       <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
                         <i class="opti-icon-arrow-back"></i>
                         </button>
                         <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
@@ -290,4 +290,6 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+
+
     

@@ -1,75 +1,76 @@
-
 <div class="opti_container position-relative bg-white rounded">
-  <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-      <div class="opti_container_inner">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner">
 
-          <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-              {{'Dock_Door'|translate}}
-          </h3>
-          <div class="row">
-              <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Dock_Door'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
 
-                  <div class="form-group row">
-                      <label for="inputPassword" class="col-sm-3 col-form-label">{{'DD_ID'|translate}}</label>
-                      <div class="col-sm-9">
-                          <div class="input-group input-group-sm">
-                              <input type="text" class="form-control form-control-sm" name="DD_ID" [(ngModel)]="DD_ID" placeholder="{{'DD_ID'|translate}}"
-                                  (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
-                              <!-- <div class="input-group-append">
-                                  <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDIDLookupClick()" >
-                                      <i class="opti-icon-hammenu"></i>
-                                  </button>
-                              </div>
-                              <div class="ml-1 d-flex">
-                                  <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                      <i class="opti-icon-qr-code fs-24"></i>
-                                  </button>
-                          </div> -->
-                      </div>
-                  </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label">{{'DD_DESC'|translate}}</label>
-                    <div class="col-sm-9">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}">
-                            <!-- <div class="input-group-append">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDDescLookupClick()" [disabled]=showGRPOGridAndBtn>
-                                    <i class="opti-icon-hammenu"></i>
-                                </button>
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="WHSCODE" [(ngModel)]="WHSCODE" placeholder="{{'WHSCODE'|translate}}"
+                                    (blur)="IsValidWhseCode()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onWhsLookupClick()" [disabled]=isUpdate >
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
+                                <!-- <div class="ml-1 d-flex">
+                                    <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
+                                        <i class="opti-icon-qr-code fs-24"></i>
+                                    </button>
+                                </div> -->
                             </div>
-                            <div class="ml-1 d-flex">
-                                <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                    <i class="opti-icon-qr-code fs-24"></i>
-                                </button>
-                        </div> -->
+                        </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'DD_ID'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="DD_ID" [(ngModel)]="DD_ID" placeholder="{{'DD_ID'|translate}}"
+                                    (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'DD_DESC'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                </div>
-                 
-              </div>
-          </div>
+            </div>
 
 
-      </div>
-      <div class="fix-footer-btnBar">
-          <div class="col-sm-12 col-12">
-              <hr />
-          </div>
-          <div class="col-sm-12 col-12">
-                  <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
-                          <i class="opti-icon-arrow-back"></i>
-                      </button>
-              <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
-                  <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
-
-            
-          </div>
-      </div>
-  </form> 
-
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <hr />
+            </div>
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+            </div>
+        </div>
+    </form>
 </div>
+
+<span [hidden]="hideLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
 <div class="opti_loader full-section" *ngIf="showLoader">
-  <div class="opti_spinner"></div>
+    <div class="opti_spinner"></div>
 </div>

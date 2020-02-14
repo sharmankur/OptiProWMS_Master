@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group row">
                         <label label for="inputPassword" class="col-sm-3 col-form-label">
-                            <span class="opti_form-label">{{'CAR_PackType'|translate}}</span>
+                            <span class="opti_form-label">{{'Container_Use'|translate}}</span>
                         </label>
                         <div class="col-sm-9">
                             <kendo-dropdownlist [data]="PackTypeList" id="CAR_PackType" 
@@ -162,7 +162,7 @@
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="OnAddUpdateClick()">
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>

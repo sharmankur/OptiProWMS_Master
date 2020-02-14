@@ -45,5 +45,18 @@ export class ContainerShipmentService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
   }
+
+  IsValidContainsItemCode(ItemCode:string, IsShipment:boolean, ShipmentId:string){
+
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ItemCode: ItemCode,
+        IsShipment: IsShipment,
+        ShipmentId: ShipmentId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/IsValidContainsItemCode", jObject, this.commonService.httpOptions);
+  }
   
 }
