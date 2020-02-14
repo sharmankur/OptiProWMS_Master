@@ -313,6 +313,7 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  //#region "Dock Door"
   GetDataForDockDoor() {
     this.showLoader = true;
     this.commonservice.GetDataForDockDoor().subscribe(
@@ -377,7 +378,8 @@ export class ShipmentViewComponent implements OnInit {
       }
     );
   }
-
+  //#endregion
+  //#region "Carrier Code"
   GetDataForCarrier() {
     this.showLoader = true;
     this.commonservice.GetDataForCarrier().subscribe(
@@ -442,5 +444,5 @@ export class ShipmentViewComponent implements OnInit {
       }
     );
   }
-
+  //#endregion
 }

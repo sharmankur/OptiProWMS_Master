@@ -37,8 +37,6 @@ export class CommonLookupComponent implements OnInit {
   showSelection: boolean = false;
   selectedValues: Array<any> = [];
   public mySelection: number[] = [];
-
-
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
   constructor(private translate: TranslateService, private router: Router) {
@@ -110,7 +108,7 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if(this.lookupfor == "CarrierList"){
+    else if(this.lookupfor == "CarrierList"||this.lookupfor == "CCFrom"||this.lookupfor == "CCTo"){
       this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
@@ -184,7 +182,7 @@ export class CommonLookupComponent implements OnInit {
       this.showOutSOListNew();
     } else if(this.lookupfor == "GroupCodeList"){
       this.showContainerGroupCodeList();
-    } else if (this.lookupfor == "DDList") {
+    } else if (this.lookupfor == "DDList"||this.lookupfor == "DDFrom"||this.lookupfor == "DDTo") {
       this.showDDList();
     } else if (this.lookupfor == "GroupCode") {
       this.showGroupCodeList();

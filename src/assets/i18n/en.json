@@ -136,6 +136,8 @@
   "Action": "Action",
   "WHSCODE":"Warehouse Code",
   "Schedule_Datetime": "Schedule Datetime",
+  "Schedule_DatetimeFrom": "Sch Datetime From",
+  "Schedule_DatetimeTo": "Sch Datetime To",
   "CustomerCode": "Customer Code",
   "Ship_Stage_Bin":"Ship Stage Bin",
   "Ship_To_Code":"Ship To Code",
@@ -529,6 +531,8 @@
   "Plt_TransferErrMsg": "System is facing problem in transfer operation. Please try again.",
  
   "Dock_Door": "Dock Door",
+  "Dock_DoorFrom": "Dock Door From",
+  "Dock_DoorTo": "Dock Door To",
   "InvalidDock_Door": "Invalid Dock Door Id.",
   "Invalid_Carrier_code": "Invalid Carrier Code",
   "DD_ID": "Dock Door Id",
@@ -539,6 +543,8 @@
   "DropdownMenu_Shipment": "Shipment",
   "DropdownMenu_Carrier": "Carrier",
   "DropdownMenu_CarrierCode": "Carrier Code",
+  "CarrierCodeFrom": "Carrier Code From",
+  "CarrierCodeTo": "Carrier Code To",
  
   "Shipment_Wizard": "Shipment Wizard",
   "SO_From": "Sales Order From",
@@ -547,8 +553,8 @@
   "Due_Date_From": "Due Date From",
   "Customer_From": "Customer From",
   "Customer_To": "Customer To",
-  "Ship_To": "Ship To",
-  "Ship_From": "Ship From",
+  "Ship_To": "ShipToCode To",
+  "Ship_From": "ShipToCode From",
   "Open_Qty_From": "Open Qty From",
   "Open_Qty_To": "Open Qty To",
   "No_of_Open_Lines_From": "No of open lines from",
@@ -777,6 +783,10 @@
   "SelectWhsCode": "Please select Wareshouse Code",
   "SelectWhsZone": "Please select Wareshouse Zone",
   "UnableToDeleteErrorMsg": "Unable to delete!",
+  "PickContainer": "Pick Containers",
+  "TaskPlanDT": "Task Plan DateTime",
+  "Priority": "Priority",
+  "Generate": "Generate",
   "Dummy": "Dummy"
 
   

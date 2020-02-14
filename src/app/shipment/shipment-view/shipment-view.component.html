@@ -112,9 +112,6 @@
                                 <div class="form-group row">
                                     <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <!-- <select class="form-control form-control-sm" name='Status' [(ngModel)]=Status id="Status">
-                                            <option></option>
-                                        </select> -->
                                         <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" 
                                             id="Status" name="Status" [disabled]=true [(ngModel)]="Status" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
                                     </div>
@@ -155,7 +152,6 @@
                                 </div>
                             </div>
                             <!-- col end -->
-
                         </div>
                         <!-- row end -->
 
@@ -198,10 +194,8 @@
                             <!-- col end -->
                         </div>
                         <!-- row end -->
-
                     </div>
                     <!--/ Shipment Form  -->
-
                 </div>
             </div>
             <div class="row">
