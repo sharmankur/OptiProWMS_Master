@@ -45,8 +45,7 @@
                                     </div> -->
 
                                     <div class="col-sm-9">
-                                        <kendo-datepicker name="ScheduleDatetime" [(ngModel)]=ScheduleDatetime
-                                         ></kendo-datepicker>
+                                        <kendo-datepicker name="ScheduleDatetime" [(ngModel)]=ScheduleDatetime></kendo-datepicker>
                                     </div>
                                 </div>
                             </div>
@@ -82,11 +81,13 @@
                                 <div class="form-group row">
                                     <label for="DockDoor" class="col-sm-3 col-form-label">{{'Dock_Door'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor" (blur)="IsValidDockDoor()">
-                                        <div class="input-group-append">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
-                                                <i class="opti-icon-hammenu"></i>
-                                            </button>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor" (blur)="IsValidDockDoor()">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
+                                                    <i class="opti-icon-hammenu"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -112,8 +113,8 @@
                                 <div class="form-group row">
                                     <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" 
-                                            id="Status" name="Status" [disabled]=true [(ngModel)]="Status" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" id="Status" name="Status" [disabled]=true
+                                            [(ngModel)]="Status" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
@@ -128,11 +129,14 @@
                                 <div class="form-group row">
                                     <label for="CarrierCode" class="col-sm-3 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode"
-                                        (blur)="IsValidCarrier()">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
-                                            <i class="opti-icon-hammenu"></i>
-                                        </button>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode" (blur)="IsValidCarrier()">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
+                                                    <i class="opti-icon-hammenu"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -143,9 +147,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="UseContainer" 
-                                            (change)="onCheckChange()"
-                                            class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
                                             <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
                                         </div>
                                     </div>
@@ -204,8 +206,8 @@
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'Shipment_Lines'|translate}}</h5>
                         <div class="card-body">
-                            <kendo-grid [data]="shipmentLines" [selectable]="true" [resizable]="true" [height]="gridheight" [pageSize]="pageSize1" [skip]="skip" [pageable]="pagable1"
-                            (selectionChange)="onRowSelection($event)">
+                            <kendo-grid [data]="shipmentLines" [selectable]="true" [resizable]="true" [height]="gridheight" [pageSize]="pageSize1" [skip]="skip"
+                                [pageable]="pagable1" (selectionChange)="onRowSelection($event)">
                                 <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
@@ -322,7 +324,8 @@
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{btnText}}</button>
 
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onStageORUnstageShipmentClick()" [disabled]=isStageDiabled>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onStageORUnstageShipmentClick()"
+                    [disabled]=isStageDiabled>
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Stage_Unstage'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">

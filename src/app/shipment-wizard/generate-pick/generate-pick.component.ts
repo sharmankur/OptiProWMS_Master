@@ -350,7 +350,6 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
-
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
@@ -390,4 +389,10 @@ export class GeneratePickComponent implements OnInit {
       this.WareHouse = $event[0];
     }
   }
+
+  //#region "validation"
+  ValidateFields(){
+    
+  }
+  //#endregion
 }
