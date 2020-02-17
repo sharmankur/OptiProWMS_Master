@@ -83,7 +83,7 @@ export class SigninComponent implements OnInit {
         element.className = "";
         element.classList.add("opti_body-login");
         element.classList.add("opti_account-module");
-        //localStorage.setItem("service_url","http://172.16.6.134/OptiProWMS/");
+        console.log('service_url:   '+ localStorage.getItem("service_url") );
         if (localStorage.getItem("service_url") != null && localStorage.getItem("service_url") != undefined
             && localStorage.getItem("service_url") != "") {
 
@@ -94,6 +94,7 @@ export class SigninComponent implements OnInit {
             // alert("serviceURL null:"+JSON.stringify(url));
             this.httpClientSer.get('./assets/config.json').subscribe(
                 data => {
+                    console.log('service_url after fetch:   '+ data[0]);
                     sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
                     this.getPSURL();
                 },

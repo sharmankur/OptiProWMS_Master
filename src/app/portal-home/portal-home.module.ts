@@ -35,6 +35,11 @@ import { CarrierModule } from '../carrier/carrier.module';
 import { WhsUGMappingModule } from '../whs-ugmapping/whs-ugmapping.module';
 import { ContainerGroupModule } from '../container-group/container-group.module';
 import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
+import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
+import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
+import { ShipmentModule } from '../shipment/shipment.module';
+import { GeneratePickComponent } from 'src/app/shipment-wizard/generate-pick/generate-pick.component';
+import { DateInputsModule } from '../../../node_modules/@progress/kendo-angular-dateinputs';
 
 @NgModule({
   imports: [
@@ -67,10 +72,14 @@ import { WhseBinLayoutModule } from '../whse-bin-layout/whse-bin-layout.module';
     CarrierModule,
     WhsUGMappingModule,
     ContainerGroupModule,
-    WhseBinLayoutModule
+    WhseBinLayoutModule,
+    ShipmentModule,
+    DateInputsModule
   ],
-  declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent],
-  providers:[DashboardComponent ]
+  declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
+    ContainerShipmentComponent,ContainerBatchserialComponent,GeneratePickComponent],
+  providers:[DashboardComponent , GeneratePickComponent ]
+
 })
 export class PortalHomeModule { }
  

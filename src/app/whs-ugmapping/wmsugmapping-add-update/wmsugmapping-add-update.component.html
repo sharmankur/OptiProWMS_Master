@@ -2,11 +2,12 @@
 
 
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-        <div class="opti_container_inner">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Whs_User_GroupMapping'|translate}}
             </h3>
+            <div>
             <!-- row1 start -->
             <div class="row">
                 <!-- col start -->
@@ -15,11 +16,11 @@
                         <label for="whsCode" class="col-sm-3 col-form-label">{{'WarehouseCode'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="WhsCode" id="whsCode">
+                                <input type="text" class="form-control form-control-sm" name='whsCode'
+                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsCode()">
+                                        (mousedown)="GetWhseCode()">
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -31,51 +32,43 @@
 
                 <!-- col start -->
                 <div class="col-sm-6">
-                    <!-- <div class="form-group ">
-                        <div class="col-sm-9"> -->
-                            <input type="text" class="form-control form-control-sm" name='whsDesc' [(ngModel)]="WhsDesc"
-                                id="whsDesc" [disabled]=true  placeholder="{{'WHSName'|translate}}" />
-                        <!-- </div> -->
-                    <!-- </div> -->
+                    <input type="text" class="form-control form-control-sm" name='whsname' [(ngModel)]="whsName"
+                        id="whsName" [disabled]=true placeholder="{{'WHSName'|translate}}" />
                 </div>
                 <!-- col end -->
             </div>
             <!-- row1 end -->
-
-
-
             <!-- row2 start -->
             <div class="row">
-                        
-  <!-- col start -->
-  <div class="col-sm-6">
-    <div class="form-group row">
-        <label for="CustomerTo"
-            class="col-sm-3 col-form-label">{{'WhsUserGroup_WHS_ZONE'|translate}}</label>
-        <div class="col-sm-9">
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control form-control-sm" name='lineId'
-                    [(ngModel)]="lineId" id="lineId">
-                <div class="input-group-append has-seprate-btn">
-                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                        (mousedown)="GetDataForCustomer('CustTo')" >
-                        <i class="opti-icon-hammenu"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- col end -->
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom"
+                        <label for="whsZone"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_WHS_ZONE'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name='whsZone'
+                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                        (mousedown)="GetDataForWhsZone()">
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                <!-- col start -->
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="binRange"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="binRange" id="binRange">
+                                <input type="text" class="form-control form-control-sm" name='binrange'
+                                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetBinRange()">
@@ -87,27 +80,25 @@
                     </div>
                 </div>
                 <!-- col end -->
-
-               
             </div>
             <!-- row end -->
 
 
             <!-- row start -->
             <div class="row">
-                
-                 <!-- col start -->
-                 <div class="col-sm-6">
+
+                <!-- col start -->
+                <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerTo"
+                        <label for="pickingGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_UserGroup_Picking'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='lineId'
-                                    [(ngModel)]="lineId" id="lineId">
+                                <input type="text" class="form-control form-control-sm" name='pickingGroup'
+                                    [(ngModel)]="pickingGroup" id="pickingGroup" (blur)="onAllGroupCodeBlur(1)">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" >
+                                        (mousedown)="GetDataForAllGroup(1)">
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -120,15 +111,15 @@
 
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom"
+                        <label for="packingGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Packing'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="WhsCode" id="CustomerFrom">
+                                <input type="text" class="form-control form-control-sm" name='packingGroup'
+                                    [(ngModel)]="packingGroup" id="packingGroup"(blur)="onAllGroupCodeBlur(2)">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsCode()">
+                                        (mousedown)="GetDataForAllGroup(2)">
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -138,7 +129,7 @@
                 </div>
                 <!-- col end -->
 
-             
+
             </div>
             <!-- row end -->
 
@@ -146,18 +137,18 @@
 
             <!-- row start -->
             <div class="row">
-                   <!-- col start -->
-                   <div class="col-sm-6">
+                <!-- col start -->
+                <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerTo"
+                        <label for="putAwayGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Putaway'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='lineId'
-                                    [(ngModel)]="lineId" id="lineId">
+                                <input type="text" class="form-control form-control-sm" name='putAwayGroup'
+                                    [(ngModel)]="putAwayGroup" id="putAwayGroup" (blur)="onAllGroupCodeBlur(3)">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
+                                        (mousedown)="GetDataForAllGroup(3)" >
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -169,15 +160,15 @@
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom"
+                        <label for="receivingGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Receiving'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="WhsCode" id="CustomerFrom">
+                                <input type="text" class="form-control form-control-sm" name='receivingGroup'
+                                    [(ngModel)]="receivingGroup" id="receivingGroup" (blur)="onAllGroupCodeBlur(4)">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsCode()">
+                                        (mousedown)="GetDataForAllGroup(4)">
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -187,25 +178,25 @@
                 </div>
                 <!-- col end -->
 
-               
+
             </div>
             <!-- row end -->
 
 
             <!-- row start -->
             <div class="row">
-                 <!-- col start -->
-                 <div class="col-sm-6">
+                <!-- col start -->
+                <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerTo"
+                        <label for="shippingGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Shipping'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='lineId'
-                                    [(ngModel)]="lineId" id="lineId">
+                                <input type="text" class="form-control form-control-sm" name='shippingGroup'
+                                    [(ngModel)]="shippingGroup" id="shippingGroup" (blur)="onAllGroupCodeBlur(5)">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
+                                        (mousedown)="GetDataForAllGroup(5)" >
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -217,15 +208,15 @@
                 <!-- col start -->
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label for="CustomerFrom"
+                        <label for="returnGroup"
                             class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Returns'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='WhsCode'
-                                    [(ngModel)]="WhsCode" id="CustomerFrom">
+                                <input type="text" class="form-control form-control-sm" name='returnGroup' (blur)="onAllGroupCodeBlur(6)"
+                                    [(ngModel)]="returnGroup" id="returnGroup">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsCode()">
+                                        (mousedown)="GetDataForAllGroup(6)">
                                         <i class="opti-icon-hammenu"></i>
                                     </button>
                                 </div>
@@ -235,40 +226,44 @@
                 </div>
                 <!-- col end -->
 
-                
+
             </div>
             <!-- row end -->
 
-            
+
             <!-- row start -->
             <div class="row">
-            <!-- col start -->
-            <div class="col-sm-6">
-                <div class="form-group row">
-                    <label for="CustomerTo"
-                        class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Move'|translate}}</label>
-                    <div class="col-sm-9">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm" name='lineId'
-                                [(ngModel)]="lineId" id="lineId">
-                            <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                    (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
-                                    <i class="opti-icon-hammenu"></i>
-                                </button>
+                <!-- col start -->
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label for="moveGroup"
+                            class="col-sm-3 col-form-label">{{'WhsUserGroup_User_Group_Move'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name='moveGroup'
+                                    [(ngModel)]="moveGroup" id="moveGroup" (blur)="onAllGroupCodeBlur(7)">
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                        (mousedown)="GetDataForAllGroup(7)" >
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- col end -->
             </div>
-            <!-- col end -->
-            </div>
-
-            <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
+        </div>
+            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
                 (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
                 (copyItem)="onCopyItemClick($event)"></app-lookup>
 
         </div>
+
+
+        
+
         <div class="fix-footer-btnBar">
 
             <div class="col-sm-12 col-12">
@@ -276,14 +271,20 @@
                     (click)="OnCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-               
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+
+                <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
+
+                    <button *ngIf="forUpdate==true" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onUpdateClick()">
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
             </div>
         </div>
     </form>
 
 </div>
+<span *ngIf="showLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>

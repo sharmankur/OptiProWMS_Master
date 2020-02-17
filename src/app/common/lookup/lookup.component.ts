@@ -143,7 +143,10 @@ export class LookupComponent implements OnInit {
     }
     else if(this.lookupfor == "ContnrGroup"){
       this.ContainerGroupListView();
-    }
+    }   
+    else if(this.lookupfor == "groupData"){
+      this.UserGroupMappingListView();
+    }    
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -972,6 +975,102 @@ export class LookupComponent implements OnInit {
         type: 'text',
         width: '200'
       },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+
+  UserGroupMappingListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSEZONE',
+        title: this.translate.instant("WhsUserGroup_WHS_ZONE"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_BINRANGE',
+        title: this.translate.instant("WhsUserGroup_Bin_Range"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PICKING',
+        title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PACKING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_PUTAWAY',
+        title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_RECEIVING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_SHIPPING',
+        title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_RETURNS',
+        title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_USRGRP_MOVE',
+        title: this.translate.instant("WhsUserGroup_User_Group_Move"),
+        type: 'text',
+        width: '100'
+      }
+      // },
+      // {
+      //   field: 'OPTM_CREATEDATE',
+      //   title: this.translate.instant("CreatedDate"),
+      //   type: 'date',
+      //   width: '200'
+      // }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  ContainsItemListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '200'
+      }
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {

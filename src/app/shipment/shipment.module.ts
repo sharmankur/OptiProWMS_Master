@@ -10,10 +10,9 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ShipmentComponent } from './shipment.component';
 import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
 import { ShipmentRoutingModule } from './shipment-routing.module';
-import { ContainerShipmentComponent } from './container-shipment/container-shipment.component';
 
 @NgModule({
-  declarations: [ShipmentComponent, ShipmentViewComponent, ContainerShipmentComponent],
+  declarations: [ShipmentComponent, ShipmentViewComponent],
   imports: [
     CommonModule,
     GridModule,

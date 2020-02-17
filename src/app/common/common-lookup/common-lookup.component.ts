@@ -37,8 +37,6 @@ export class CommonLookupComponent implements OnInit {
   showSelection: boolean = false;
   selectedValues: Array<any> = [];
   public mySelection: number[] = [];
-
-
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
   constructor(private translate: TranslateService, private router: Router) {
@@ -110,7 +108,7 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if(this.lookupfor == "CarrierList"){
+    else if(this.lookupfor == "CarrierList"||this.lookupfor == "CCFrom"||this.lookupfor == "CCTo"){
       this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
@@ -184,11 +182,21 @@ export class CommonLookupComponent implements OnInit {
       this.showOutSOListNew();
     } else if(this.lookupfor == "GroupCodeList"){
       this.showContainerGroupCodeList();
-    } else if (this.lookupfor == "DDList") {
+    } else if (this.lookupfor == "DDList"||this.lookupfor == "DDFrom"||this.lookupfor == "DDTo") {
       this.showDDList();
+    } else if (this.lookupfor == "GroupCode") {
+      this.showGroupCodeList();
+    }else if (this.lookupfor == "BinRangeList") {
+      this.showBinRangeList();
+    }else if(this.lookupfor == "WhsZoneList"){
+      this.showWhsZoneList();
+    }
+    else if(this.lookupfor == "ContainsItem"){
+      this.ContainsItemListView();
     } else if(this.lookupfor == "BatchSerialList"){
       this.showBatchSerialItems();
     }
+    
     this.clearFilters();
     this.isColumnFilter = false
   }
@@ -281,6 +289,94 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("Dock_Door");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  showGroupCodeList() {
+    this.table_head = [
+      {
+        field: 'OPTM_GROUPCODE',
+        title: this.translate.instant("GroupCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("GroupList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showBinRangeList() {
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_BIN_RANGE',
+        title: this.translate.instant("WhsUserGroup_Bin_Range"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_FROM_BIN',
+        title: this.translate.instant("FromBinCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },{
+        field: 'OPTM_TO_BIN',
+        title: this.translate.instant("ToBinCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BinRange");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showWhsZoneList() {
+
+    this.table_head = [
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("WarehouseCode"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_WHSZONE',
+        title: this.translate.instant("WhsZone"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_ZONETYPE',
+        title: this.translate.instant("WhseZoneType"),
+        headerClass: 'text-center',
+        type: 'text',
+        width: '150'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BinRange");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -1118,6 +1214,22 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
+  ContainsItemListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '200'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
 
   onCheckboxClick(checked: any, index: number) {
 
