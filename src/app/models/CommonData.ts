@@ -231,4 +231,22 @@ export class CommonData {
         ];
     }
 
+    Container_Operation_Add_Items() {
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 3, "Name": "Query" },
+            { "Value": 4, "Name": "Delete Item" },
+            { "Value": 5, "Name": "Delete All Items" }           
+        ];
+    }
+
+    Container_Operation_Add_Container() {
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 4, "Name": "Delete All" }           
+        ];
+    }
+
 }

@@ -28,16 +28,17 @@
             </form>
 
         </ng-template>
-        <kendo-grid-checkbox-column *ngIf="showSelection==true" title="Select" [width]="25">
+        <kendo-grid-checkbox-column *ngIf="showSelection==true" title="Select" [width]="50">
             <ng-template  kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                <div class="k-form-field d-flex center-checkbox">
+                <div class="custom-control custom-checkbox">
                     <input #chkSelection type="checkbox" [disabled]='di.OldData' [checked]='di.OldData' (change)="onCheckboxClick(chkSelection.checked,idx)" id="chkbox-{{idx}}" class="k-checkbox"
                         name="columnfilter" />
                         
-                    <label class="k-checkbox-label" for="chkbox-{{idx}}"></label>
+                    <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
                 </div>
             </ng-template>
         </kendo-grid-checkbox-column>
+
         <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}" title="{{column.title}}" filter="{{column.type}}"
             format="{{column.format}}" width="{{column.width}}" minResizableWidth="{{column.width}}" headerClass={{column.headerClass}} class={{column.class}}></kendo-grid-column>
     </kendo-grid>
