@@ -32,6 +32,10 @@ export class WhseBinLayoutAddComponent implements OnInit {
   TransferOutBin: string = '';
   TransferInBin: string = '';
   Ship_StageBin: string = '';
+  zonePageSize: number = 10;
+  zonePageable: boolean = false;
+  rangePageSize: number = 10;
+  rangePageable: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private carmasterService: CARMasterService,
@@ -76,8 +80,16 @@ export class WhseBinLayoutAddComponent implements OnInit {
     console.log("onDeleteClick rowindex: " + rowindex)
     if (type == "zone") {
       this.whseZoneList.splice(rowindex, 1);
+      this.zonePageable = false;
+      if(this.whseZoneList.length > 10){
+        this.zonePageable = true;
+      }
     } else {
       this.whseRangeList.splice(rowindex, 1);
+      this.rangePageable = false;
+      if(this.whseRangeList.length > 10){
+        this.rangePageable = true;
+      }
     }
   }
 
@@ -289,12 +301,21 @@ export class WhseBinLayoutAddComponent implements OnInit {
         FromBin: "",
         ToBin: ""
       })
+
+      this.zonePageable = false;
+      if(this.whseZoneList.length > 10){
+        this.zonePageable = true;
+      }
     } else if (event == "range") {
       this.whseRangeList.push({
         BinRange: "",
         FromBin: "",
         ToBin: ""
       })
+      this.rangePageable = false;
+      if(this.whseRangeList.length > 10){
+        this.rangePageable = true;
+      }
     }
   }
 

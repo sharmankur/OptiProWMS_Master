@@ -193,7 +193,10 @@ export class CommonLookupComponent implements OnInit {
     }
     else if(this.lookupfor == "ContainsItem"){
       this.ContainsItemListView();
-    }    
+    } else if(this.lookupfor == "BatchSerialList"){
+      this.showBatchSerialItems();
+    }
+    
     this.clearFilters();
     this.isColumnFilter = false
   }
@@ -566,6 +569,61 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("AvaliableMeterial");
+    if (this.serviceData !== undefined) {
+      var len = this.serviceData.length;
+      if (len > 0) {
+        //  console.log('ServiceData', this.serviceData);
+        var tempData: any;
+        for (var i = 0; i < len; i++) {
+          var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.serviceData[i].TOTALQTY = qty;
+        }
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showBatchSerialItems() {
+    this.pagesize = 5;
+    if (this.serviceData.length > this.pagesize) {
+      this.pagable = true;
+    } else {
+      this.pagable = false;
+    }
+
+    this.showSelection = true;
+    this.selectedValues = [];
+    this.table_head = [
+
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'LOTNO',
+        title: this.translate.instant("BatchSerial_No"),
+        type: 'text',
+        width: '100'
+      },
+
+      {
+        field: 'BinCode',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'Quantity',
+        headerClass: 'text-right',
+        class: 'text-right',
+        title: this.translate.instant("AvailableQty"),
+        type: 'numeric',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BatchSerialList");
     if (this.serviceData !== undefined) {
       var len = this.serviceData.length;
       if (len > 0) {

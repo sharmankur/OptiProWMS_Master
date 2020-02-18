@@ -82,7 +82,7 @@ export class InputContainerCodeComponent implements OnInit {
 
   GenerateShipContainer() {
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID = "";
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
 
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
@@ -101,7 +101,7 @@ export class InputContainerCodeComponent implements OnInit {
             this.isYesClick.emit({
               Status: "yes",
               From: this.fromWhere,
-              ContainerId: data[0].OPTM_CONTAINERID,
+              // ContainerId: data[0].OPTM_CONTAINERID,
               ParentContainerCode: this.parentContainerCode,
               ContainerCode: this.containerCode,
               Count: this.count

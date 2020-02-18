@@ -222,14 +222,14 @@ export class CommonData {
             { "Value": 6, "Name": "Shipped" },
             { "Value": 7, "Name": "Returned" },
             { "Value": 8, "Name": "Damaged" },
-            { "Value": 9, "Name": "Cancelled" }          
+            { "Value": 9, "Name": "Cancelled" }
         ];
     }
 
     Container_Shipment_Inv_Status_DropDown() {
         return [
             { "Value": 1, "Name": "Pending" },
-            { "Value": 2, "Name": "Posted" }           
+            { "Value": 2, "Name": "Posted" }
         ];
     }
 
@@ -253,6 +253,16 @@ export class CommonData {
             { "Value": 2, "Name": "Part Fulfilled" },
             { "Value": 3, "Name": "Fulfilled" },
             { "Value": 4, "Name": "Cancelled" }
+        ];
+    }
+
+    Container_Operation_Add_Items() {
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 3, "Name": "Query" },
+            { "Value": 4, "Name": "Delete Item" },
+            { "Value": 5, "Name": "Delete All Items" }
         ];
     }
 }

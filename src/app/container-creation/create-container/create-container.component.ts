@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonData } from 'src/app/models/CommonData';
 import { CARMasterService } from 'src/app/services/carmaster.service';
+import { CcmainComponent } from '../ccmain/ccmain.component';
 
 @Component({
   selector: 'app-create-container',
@@ -14,6 +15,7 @@ import { CARMasterService } from 'src/app/services/carmaster.service';
 })
 export class CreateContainerComponent implements OnInit {
 
+  showOtherLookup: boolean = false;
   showLookup: boolean = false;
   serviceData: any[];
   lookupfor: string;
@@ -45,14 +47,19 @@ export class CreateContainerComponent implements OnInit {
   itemPackQty: number = 0;
   action: string = "";
   fromContainerDetails: any = [];
-  purpose: string = "";
+  purpose: string = "Y";
   noOfPackToGen: number = 1;
   oSaveModel: any = {};
   fromType: string = "";
   soNumber: string = "";
   packType: number = 0
+  batchSerialData: any = [];
+  lookupData: any = [];
+  selectedBatchSerial: any = [];
+
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
-    private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService) {
+    private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
+    private ccmain: CcmainComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -62,12 +69,15 @@ export class CreateContainerComponent implements OnInit {
 
   ngOnInit() {
     console.log("ngOnInit");
+    localStorage.setItem("ContainerOperationData", "");
+    this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
     this.defaultPurpose = this.purposeArray[0];
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
+    this.GetContainerNumber();
   }
 
 
@@ -180,9 +190,12 @@ export class CreateContainerComponent implements OnInit {
 
   onCancelClick() {
     this.router.navigate(['home/dashboard']);
+    localStorage.setItem("ContainerOperationData", "");
   }
 
   getLookupValue($event) {
+    this.showOtherLookup = false;
+    this.showLookup = false;
     if ($event != null && $event == "close") {
       //nothing to do
       return;
@@ -275,33 +288,15 @@ export class CreateContainerComponent implements OnInit {
     this.action = "";
     this.parentContainerCode = "";
     this.fromContainerDetails = [];
-    this.purpose = "";
+    this.purpose = "Y";
     this.noOfPackToGen = 1;
+    this.selectedBatchSerial = [];
+    this.oSaveModel = [];
   }
 
   onScanAndCreateClick() {
-    if (this.containerType == undefined || this.containerType == "") {
-      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+    if (!this.validateFields()) {
       return;
-    }
-    if (this.whse == undefined || this.whse == "") {
-      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
-      return;
-    }
-    if (this.autoPackRule == undefined || this.autoPackRule == "") {
-      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
-      return;
-    }
-    if (this.binNo == undefined || this.binNo == "") {
-      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
-      return;
-    }
-
-    for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
-        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
-        return;
-      }
     }
 
     this.prepareSaveModel(this.autoPackRule, this.containerId,
@@ -332,11 +327,13 @@ export class CreateContainerComponent implements OnInit {
     if ($event.Status == "yes") {
       switch ($event.From) {
         case ("ScanAndCreate"):
-          this.containerId = $event.ContainerId;
+          // this.containerId = $event.ContainerId;
           this.containerCode = $event.ContainerCode;
           this.parentContainerCode = $event.ParentContainerCode;
           this.count = $event.Count;
-          this.toastr.success('', this.translate.instant("CodeGenSuccessMsg"));
+          this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+          this.selectedBatchSerial = [];
+          this.GetContainerNumber();
           break
       }
     }
@@ -352,13 +349,21 @@ export class CreateContainerComponent implements OnInit {
     // var oSaveModel: any = {};
     this.oSaveModel.HeaderTableBindingData = [];
     this.oSaveModel.OtherItemsDTL = [];
+    this.oSaveModel.OtherBtchSerDTL = [];
+
+    var purps = ""
+    if (this.purpose == "shipping") {
+      purps = "Y"
+    } else {
+      purps = "N"
+    }
 
     //Push data of header table into BatchSerial model
     this.oSaveModel.HeaderTableBindingData.push({
       OPTM_SONO: this.soNumber,
       OPTM_CONTAINERID: containerId,
       OPTM_CONTTYPE: containerType,
-      OPTM_CONTCODE: containerCode,
+      OPTM_CONTAINERCODE: containerCode,
       OPTM_WEIGHT: wieght,
       OPTM_AUTOCLOSE_ONFULL: 'Y',
       OPTM_AUTORULEID: 1,
@@ -369,7 +374,6 @@ export class CreateContainerComponent implements OnInit {
       Length: length,
       Width: width,
       Height: height,
-      ContainerWeight: "" + containerWeight,
       ItemCode: "",
       NoOfPacks: "1",
       OPTM_TASKID: 1,
@@ -379,18 +383,11 @@ export class CreateContainerComponent implements OnInit {
       GUID: localStorage.getItem("GUID"),
       Action: "",
       OPTM_PARENTCODE: parentCode,
-      OPTM_GROUP_CODE: this.containerGroupCode,
-      OPTM_CREATEMODE: createMode
+      OPTM_GROUP_CODE: containerCode,
+      OPTM_CREATEMODE: createMode,
+      OPTM_PERPOSE: purps
     });
 
-    // this.oSaveModel.OtherItemsDTL.push({
-    //   OPTM_ItemCode: "",
-    //   OPTM_QUANTITY: 1,
-    //   OPTM_CONTAINER: "",
-    //   OPTM_AVLQUANTITY: 1,
-    //   OPTM_INVQUANTITY: 1,
-    //   OPTM_BIN: ''
-    // });
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
       this.oSaveModel.OtherItemsDTL.push({
         OPTM_ITEMCODE: this.fromContainerDetails[i].OPTM_ITEMCODE,
@@ -398,39 +395,28 @@ export class CreateContainerComponent implements OnInit {
         OPTM_CONTAINER: "",
         OPTM_AVLQUANTITY: 0,
         OPTM_INVQUANTITY: 0,
-        OPTM_BIN: ''
+        OPTM_BIN: '',
+      });
+    }
+
+    for (var i = 0; i < this.selectedBatchSerial.length; i++) {
+      this.oSaveModel.OtherBtchSerDTL.push({
+        OPTM_BTCHSER: this.selectedBatchSerial[i].LOTNO,
+        OPTM_QUANTITY: this.selectedBatchSerial[i].Quantity,
+        OPTM_ITEMCODE: this.selectedBatchSerial[i].ITEMCODE
       });
     }
   }
-  onCreateClick(event) {
-    if (this.containerType == undefined || this.containerType == "") {
-      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
-      return;
-    }
-    if (this.whse == undefined || this.whse == "") {
-      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
-      return;
-    }
-    if (this.autoPackRule == undefined || this.autoPackRule == "") {
-      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
-      return;
-    }
-    if (this.binNo == undefined || this.binNo == "") {
-      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
-      return;
-    }
 
-    for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
-        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
-        return;
-      }
+  onCreateClick(event) {
+    if (!this.validateFields()) {
+      return;
     }
 
     this.prepareSaveModel(this.autoPackRule, this.containerId,
       this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,
       localStorage.getItem("UserId"), "", this.itemCode, this.action, "", this.itemPackQty,
-      this.width, this.height, this.containerWeigth, this.createMode, "");
+      this.width, this.height, this.containerWeigth, this.createMode, this.containerCode);
 
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
@@ -443,8 +429,14 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
 
+          if (data.length == 1) {
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+            // this.onResetClick();
+            this.selectedBatchSerial = [];
+            this.GetContainerNumber();
+          }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -459,11 +451,44 @@ export class CreateContainerComponent implements OnInit {
     );
   }
 
+  validateFields() {
+    if (this.containerType == undefined || this.containerType == "") {
+      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+      return false;
+    }
+    if (this.whse == undefined || this.whse == "") {
+      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
+      return false;
+    }
+    if (this.autoPackRule == undefined || this.autoPackRule == "") {
+      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+      return false;
+    }
+    if (this.binNo == undefined || this.binNo == "") {
+      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
+      return false;
+    }
+
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
+        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   onCheckChange() {
     this.autoClose = !this.autoClose;
   }
 
   getAutoPackRule() {
+    if (this.containerType == undefined || this.containerType == "") {
+      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+      return;
+    }
+
     this.showLoader = true;
     this.commonservice.GetDataForContainerAutoRule().subscribe(
       (data: any) => {
@@ -614,33 +639,36 @@ export class CreateContainerComponent implements OnInit {
   //   );
   // }
 
-  GetOtherItemsFromContDTL() {
-    this.showLoader = true;
-    this.containerCreationService.GetOtherItemsFromContDTL("", this.whse).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          this.fromContainerDetails = data;
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-  }
+  // GetOtherItemsFromContDTL() {
+  //   this.showLoader = true;
+  //   this.containerCreationService.GetOtherItemsFromContDTL("", this.whse).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         this.fromContainerDetails = data;
+  //         for (var j = 0; j < this.fromContainerDetails.length; j++) {
+  //           this.fromContainerDetails[j].QuantityToAdd = 0;
+  //         }
+  //       } else {
+  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
 
   onPurposeSelectChange(event) {
     console.log(event);
@@ -671,10 +699,13 @@ export class CreateContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.selectedBatchSerial = [];
           this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL;
           for (var j = 0; j < this.fromContainerDetails.length; j++) {
             this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0;
+            this.fromContainerDetails[j].QuantityToAdd = 0;
           }
+
           result = true;
           localStorage.setItem("CAR_Grid_Data", JSON.stringify(data));
           if (this.binNo != undefined && this.binNo != '') {
@@ -892,15 +923,48 @@ export class CreateContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          for (var j = 0; j < this.fromContainerDetails.length; j++) {
-            this.fromContainerDetails[j].BinCode = ""
-            this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
-            for (var i = 0; i < data.ItemWiseInventory.length; i++) {
-              if (data.ItemWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
-                this.fromContainerDetails[j].BinCode = data.ItemWiseInventory[i].BinCode
-                this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.ItemWiseInventory[i].Quantity
+          if (data.ItemWiseInventory != null && data.ItemWiseInventory != undefined) {
+            for (var j = 0; j < this.fromContainerDetails.length; j++) {
+              this.fromContainerDetails[j].BinCode = ""
+              this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
+              for (var i = 0; i < data.ItemWiseInventory.length; i++) {
+                if (data.ItemWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
+                  this.fromContainerDetails[j].BinCode = data.ItemWiseInventory[i].BinCode
+                  this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.ItemWiseInventory[i].Quantity
+                }
               }
             }
+          }
+          this.batchSerialData = data.BatchWiseInventory;
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetContainerNumber() {
+    this.showLoader = true;
+    this.containerCreationService.GetContainerNumber().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.containerId = data[0].RESULT;
           }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -916,6 +980,107 @@ export class CreateContainerComponent implements OnInit {
         }
       }
     );
+  }
+
+  onContainerOperationClick() {
+    if (this.containerType == undefined || this.containerType == "") {
+      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+      return;
+    }
+    if (this.whse == undefined || this.whse == "") {
+      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
+      return;
+    }
+    if (this.autoPackRule == undefined || this.autoPackRule == "") {
+      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+      return;
+    }
+    if (this.binNo == undefined || this.binNo == "") {
+      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
+      return;
+    }
+
+    // for (var i = 0; i < this.fromContainerDetails.length; i++) {
+    //   if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
+    //     this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+    //     return;
+    //   }
+    // }
+
+    this.ccmain.ccComponent = 2;
+    this.prepareSaveModel(this.autoPackRule, this.containerId,
+      this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,
+      localStorage.getItem("UserId"), "", this.itemCode, this.action, "", this.itemPackQty,
+      this.width, this.height, this.containerWeigth, this.createMode, this.containerCode);
+
+    localStorage.setItem("ContainerOperationData", JSON.stringify(this.oSaveModel))
+  }
+
+  onQtyChange(event, index) {
+    console.log("onQtyChange index: " + index);
+    if(event !=undefined){
+      var qty = Number(event)
+      for (var i = 0; i < this.fromContainerDetails.length; i++) {
+        if (i == index) {
+          this.fromContainerDetails[i].QuantityToAdd = qty;
+        }
+      }
+    }
+  }
+
+  onShowBSClick(event, index) {
+    console.log("onShowBSClick index: " + index);
+    
+    if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
+      this.lookupData = [];
+      var isChecked = false;
+      for (var i = 0; i < this.selectedBatchSerial.length; i++) {
+        if (this.selectedBatchSerial[i].ITEMCODE == this.batchSerialData[i].ITEMCODE) {
+          isChecked = true;
+        }
+      }
+
+      for (var i = 0; i < this.batchSerialData.length; i++) {
+        if (event.OPTM_ITEMCODE == this.batchSerialData[i].ITEMCODE) {
+          this.batchSerialData[i].OldData = isChecked;
+          this.lookupData.push(this.batchSerialData[i]);
+        }
+      }
+
+      this.lookupfor = "BatchSerialList";
+      this.showLookup = false;
+      this.showOtherLookup = true;
+    }
+  }
+
+  getLookupKey($event, gridSelected) {
+    console.log("getLookupKey key");
+    this.showOtherLookup = false;
+    this.showLookup = false;
+    var itemcode = $event[0].ITEMCODE;
+    if (!this.checkItemAlreadyExist(this.selectedBatchSerial, itemcode)) {
+      var sumQty = 0;
+      for (var i = 0; i < $event.length; i++) {
+        sumQty = sumQty + $event[i].Quantity;
+        this.selectedBatchSerial.push($event[i]);
+      }
+
+      for (var i = 0; i < this.fromContainerDetails.length; i++) {
+        if (this.fromContainerDetails[i].OPTM_ITEMCODE == itemcode) {
+          this.fromContainerDetails[i].QuantityToAdd = sumQty;
+        }
+      }
+      console.log("getLookupKey sumQty: " + sumQty);
+    }
+  }
+
+  checkItemAlreadyExist(list: any, item: any) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].ITEMCODE == item) {
+        return true;
+      }
+    }
+    return false;
   }
 
   isValidateCalled: boolean = false;
@@ -939,4 +1104,6 @@ export class CreateContainerComponent implements OnInit {
 
     }
   }
+
+
 }

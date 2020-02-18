@@ -205,7 +205,21 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
 
 
 
-
+  requiredFieldValidation(): boolean{
+    if(this.whsCode==undefined && this.whsCode==null || this.whsCode==""){
+      this.toastr.error('', this.translate.instant("SelectWhsCode"));
+     return false;
+    }
+    // if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
+    //   this.toastr.error('', this.translate.instant("SelectWhsZone"));
+    //  return false;
+    // }
+    if(this.binRange==undefined && this.binRange==null || this.binRange==""){
+      this.toastr.error('', this.translate.instant("SelectBinRange"));
+     return false;
+    }
+    return true;
+  }
 
  
   GetDataForWhsZone() { 
@@ -242,20 +256,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     );
   }
 
-  requiredFieldValidation(): boolean{
-    if(this.whsCode==undefined && this.whsCode==null || this.whsCode==""){
-      this.toastr.error('', this.translate.instant("SelectWhsCode"));
-     return false;
-    }
-    if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
-      this.toastr.error('', this.translate.instant("SelectWhsZone"));
-     return false;
-    }
-    if(this.binRange==undefined && this.binRange==null || this.binRange==""){
-      this.toastr.error('', this.translate.instant("SelectBinRange"));
-     return false;
-    }
-  }
+ 
 
   onWhsZoneBlur() {
     if (this.isValidateCalled) {
@@ -505,6 +506,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     else  if (this.lookupfor == "WareHouse") {
         this.whsCode = $event[0];
         this.whsName = $event[1];
+        this.whsZone = ""
       }else if(this.lookupfor == "GroupCode"){
         this.assignValueForGroup(this.forWhich,$event[0]);
       } else if(this.lookupfor == "BinRangeList"){
@@ -535,7 +537,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
 
    onUpdateClick(){
      // validation code will be here
-     if(!this.requiredFieldValidation)return;
+     if(!this.requiredFieldValidation())return;
     this.showLoader = true;
     this.userGroupMappingService.updateWhsUserGroup(this.whsCode,this.whsZone,this.binRange,
       this.pickingGroup,this.packingGroup,this.putAwayGroup,
@@ -578,7 +580,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
 
     OnAddClick(){
     // validate all fields.
-    if(!this.requiredFieldValidation)return;
+    if(!this.requiredFieldValidation())return;
     this.showLoader = true;
     this.userGroupMappingService.addWhsUserGroup(this.whsCode,this.whsZone,this.binRange,
       this.pickingGroup,this.packingGroup,this.putAwayGroup,
@@ -591,12 +593,16 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           } 
-          if(data.length>0 && data[0].RESULT=="Data Saved"){
-            
+          if (data.length > 0 && data[0].RESULT == "Data Saved") {
+
             this.toastr.success('', this.translate.instant("AddedSuccessfullyErrorMsg"));
             this.resetForm(1);
             this.GetDataForWarehouseUserGroupList();
-          }else{
+          } else if (data.length > 0 && data[0].RESULT == "Data Already Exists") {
+            this.toastr.success('', this.translate.instant("UserGroupAlreadyExists"));
+
+          } else {
+
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -666,16 +672,6 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-
-
-
-
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
@@ -706,9 +702,24 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     this.deleteMultipleRows(ddDeleteArry);
     //this.DeleteFromDockDoor(ddDeleteArry);
   }
-  onCopyItemClick(event) {
-    localStorage.setItem("DD_ROW", JSON.stringify(event));
-    localStorage.setItem("Action", "copy");
+  onCopyItemClick($event) {
+
+    this.whsCode = $event[0];
+    this.whsZone = $event[1];
+    this.binRange = $event[2];
+    this.pickingGroup = $event[3];
+    this.packingGroup = $event[4];
+    this.putAwayGroup = $event[5];
+    this.receivingGroup = $event[6];
+    this.shippingGroup = $event[7];
+    this.returnGroup = $event[8];
+    this.moveGroup = $event[9];
+    this.forUpdate =false;
+    console.log("list Items:", this.groupData.length);
+    // this.groupDataFor = "groupData"
+    // this.groupData = this.groupData;
+    //     this.GetDataForWarehouseUserGroupList();
+
     //this.ddmainComponent.ddComponent = 2;
   }
 
