@@ -1,0 +1,175 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Bin_Rules'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+
+                    <!-- <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'BinRuleWhsRule'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'BinRuleWhsRule'|translate}}"
+                                    [disabled]=true>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                        <label label for="purpose" class="col-sm-3 col-form-label">
+                            <span class="opti_form-label">{{'BinRuleRuleType'|translate}}</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <kendo-dropdownlist [data]="PurposeList" id="ruleType" 
+                            (change) = "updateDropDown(display_name, VendorLot.value, rowIndex)"
+                            name="ruleType" [(ngModel)]="ruleType" >
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label label for="purpose" class="col-sm-3 col-form-label">
+                            <span class="opti_form-label">{{'BinRulePurpose'|translate}}</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <kendo-dropdownlist [data]="PurposeList" id="purpose" 
+                            (change) = "updateDropDown(display_name, VendorLot.value, rowIndex)"
+                            name="purpose" [(ngModel)]="purpose" >
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="whsCode" class="col-sm-3 col-form-label">{{'WarehouseCode'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name='whsCode'
+                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()">
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                        (mousedown)="GetWhseCode()">
+                                        <i class="opti-icon-hammenu"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="whsZone"
+                        class="col-sm-3 col-form-label">{{'WhsUserGroup_WHS_ZONE'|translate}}</label>
+                    <div class="col-sm-9">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" name='whsZone'
+                                [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="GetDataForWhsZone()">
+                                    <i class="opti-icon-hammenu"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <kendo-grid class="no-shadow" [data]="binRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
+                        #gridItem>
+                       <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHS_RULE" headerClass="text-right" class="text-center" [width]="18" title="{{'BinRuleWhsRule'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_WHS_RULE" value={{dataItem.OPTM_WHS_RULE}} id="display_name"
+                                    #display_name (change)="updateMinfill(display_name, display_name.value, idx)" [disabled]=true>
+                            </ng-template>
+                        </kendo-grid-column> -->
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_STORAGE_FROM_BIN" [width]="18" title="{{'BinRuleFromBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_FROM_BIN" value={{dataItem.OPTM_STORAGE_FROM_BIN}} id="storage_from_bin"
+                                        min="0" #storage_from_bin >
+                                    <div class="input-group-append">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,1)">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_STORAGE_TO_BIN" [width]="18" title="{{'BinRuleToBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_TO_BIN" value={{dataItem.OPTM_STORAGE_TO_BIN}} id="storage_to_bin"
+                                        min="0" #storage_to_bin >
+                                    <div class="input-group-append">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,2)">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PUTWAY_STAGE_BIN" [width]="18" title="{{'BinRulePutawayBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PUTWAY_STAGE_BIN" value={{dataItem.OPTM_PUTWAY_STAGE_BIN}} id="putaway_stage_bin"
+                                        min="0" #putaway_stage_bin >
+                                    <div class="input-group-append">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,3)">
+                                            <i class="opti-icon-hammenu"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="deleteRow(rowIndex, gridItem)">
+                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_LINEID" [width]="18" title="{{'LineID'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_LINEID" value={{dataItem.OPTM_LINEID}}
+                                    id="lineId" min="0" #lineId (change)="updateLineId(lineId, lineId.value, idx)">
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <hr />
+            </div>
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- <span [hidden]="hideLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span> -->
+<span *ngIf="showLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>

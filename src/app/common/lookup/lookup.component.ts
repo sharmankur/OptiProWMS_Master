@@ -143,8 +143,10 @@ export class LookupComponent implements OnInit {
     }
     else if(this.lookupfor == "ContnrGroup"){
       this.ContainerGroupListView();
-    }if(this.lookupfor == "groupData"){
+    }else if(this.lookupfor == "groupData"){
       this.UserGroupMappingListView();
+    } else if(this.lookupfor == "BinRuleList"){
+      this.binRuleListView();
     }
     
 
@@ -962,6 +964,65 @@ export class LookupComponent implements OnInit {
   }
 
   ContainerGroupListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINER_GROUP',
+        title: this.translate.instant("Container_Group"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_DESC',
+        title: this.translate.instant("CT_Description"),
+        type: 'text',
+        width: '200'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  binRuleListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_WHS_RULE',
+        title: this.translate.instant("BinRuleId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_RULE_TYPE_Text',
+        title: this.translate.instant("BinRuleRuleType"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_PURPOSE_Text',
+        title: this.translate.instant("BinRulePurpose"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHS_ZONE',
+        title: this.translate.instant("WhsUserGroup_WHS_ZONE"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Bin_Rules");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+
+  ListView() {
     this.table_head = [
       {
         field: 'OPTM_CONTAINER_GROUP',

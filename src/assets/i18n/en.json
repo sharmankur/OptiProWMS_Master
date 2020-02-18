@@ -775,6 +775,18 @@
   "SelectWhsCode": "Please select Wareshouse Code",
   "SelectWhsZone": "Please select Wareshouse Zone",
   "UnableToDeleteErrorMsg": "Unable to delete!",
+  "BinRuleWhsRule": "Warehouse Rule",
+  "BinRuleRuleType": "Rule type",
+  "BinRulePurpose": "Purpose",
+  "BinRuleId": "Rule Id",
+  "BinRuleFromBin": "Storage From Bin",
+  "BinRuleToBin": "Storage To Bin",
+  "BinRulePutawayBin": "Putaway Stage Bin",
+  "BinRuleSelectPurpose": "Please select Purpose",
+  "BinRuleSelectRuleType": "Please select Rule type",
+  "BinRule_FromBinMsg": "Item detail From bin can't be blank",
+  "BinRule_ToBinMsg": "Item detail To bin can't be blank",
+  "UserGroupAlreadyExists": "Record already exists.",
   "Dummy": "Dummy"
 
   
