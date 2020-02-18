@@ -7,6 +7,7 @@ import { ContainerCreationService } from 'src/app/services/container-creation.se
 import { CARMasterService } from 'src/app/services/carmaster.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonData } from 'src/app/models/CommonData';
+import { ɵAnimationRendererFactory } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-container-operation',
@@ -38,7 +39,10 @@ export class ContainerOperationComponent implements OnInit {
   packingRule: string;
   containerUsage: string;
   itemCode: string;
-  addedContainerId: string;
+  childContainerId: string;
+  itemQty: any;
+  containerCode: string;
+  itemBatchSr: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -65,8 +69,9 @@ export class ContainerOperationComponent implements OnInit {
     this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
     this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
     this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
+    this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
     this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
-    this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
+    this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
     this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
     this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
     this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
@@ -85,10 +90,12 @@ export class ContainerOperationComponent implements OnInit {
 
   onAddContOpnSelectChange($event) {
     this.addContBtnText = $event.Name;
+    this.addContOpn = $event.Name;
   }
 
   onAddItemOpnSelectChange($event) {
     this.addItemBtnText = $event.Name;
+    this.addItemOpn = $event.Name;
   }
 
   onBatchSrlChange($event) {
@@ -101,7 +108,7 @@ export class ContainerOperationComponent implements OnInit {
 
   getItemCode() {
     this.showLoader = true;
-    this.commonservice.GetItemCodeList().subscribe(
+    this.containerCreationService.GetSelectesdRuleItem(this.packingRule).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -112,7 +119,7 @@ export class ContainerOperationComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
-          this.lookupfor = "ItemsList";
+          this.lookupfor = "ItemsListByRuleId";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -160,15 +167,134 @@ export class ContainerOperationComponent implements OnInit {
     );
   }
 
+  addItemToContainer() {
+    this.showLoader = true;
+    this.containerCreationService.InsertItemInContainer(this.containerId, this.containerType, 
+      this.itemCode, this.packingRule, this.partPerQty, this.fillPerQty, true,
+      this.addItemOpn, this.itemQty).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if(this.addItemOpn == "Add"){
+            this.toastr.success('', this.translate.instant("ItemAddedSuccessMsg"));
+            this.itemCode = "";
+            this.itemQty = 0;
+            this.itemBatchSr = "";
+          } else if(this.addItemOpn == "Remove"){
+            this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
+          } else if(this.addItemOpn == "Query"){
+
+          } else if(this.addItemOpn == "Delete Item"){
+            this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+          } else if(this.addItemOpn == "Delete All Items"){
+            this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+          } else {
+
+          }
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  addContainerToContainer() {
+    this.showLoader = true;
+    this.containerCreationService.InsertContainerinContainer(this.containerId, this.childContainerId, this.addContOpn).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(this.addItemOpn == "Add"){
+            this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+            this.itemCode = "";
+            this.itemQty = 0;
+            this.itemBatchSr = "";
+          } else if(this.addItemOpn == "Remove"){
+            this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+          } else if(this.addItemOpn == "Delete All"){
+            this.toastr.success('', this.translate.instant("ContainerDeletedSuccessMsg"));
+          } else {
+
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  ruleID: any;
+  partPerQty: any;
+  fillPerQty: any;
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       this.showLookup = false;
       return;
     }
-    else if (this.lookupfor == "ItemsList") {
-      this.itemCode = $event[0];
-    } else if(this.lookupfor == "Container") {
-      this.addedContainerId = ""
+    else if (this.lookupfor == "ItemsListByRuleId") {
+      this.ruleID = $event[0];
+      this.itemCode = $event[1];
+      this.partPerQty =  $event[2];
+      this.fillPerQty =  $event[3];
+    } else if(this.lookupfor == "ContainerIdList") {
+      this.childContainerId = $event[0];
     }
+  }
+
+  GetAllContainer() {
+    this.showLoader = true;
+    this.containerCreationService.GetAllContainer().subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ContainerIdList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 }

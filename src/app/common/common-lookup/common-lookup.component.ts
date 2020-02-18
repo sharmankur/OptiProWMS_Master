@@ -195,12 +195,63 @@ export class CommonLookupComponent implements OnInit {
       this.ContainsItemListView();
     } else if(this.lookupfor == "BatchSerialList"){
       this.showBatchSerialItems();
+    } else if(this.lookupfor == "ItemsListByRuleId"){
+      this.showItemCodeListByRuleId();
+    } else if(this.lookupfor == "ContainerIdList"){
+      this.showContainerIdList();
     }
     
     this.clearFilters();
     this.isColumnFilter = false
   }
 
+  showContainerIdList(){
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINERID',
+        title: this.translate.instant("ContainerId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONTCODE',
+        title: this.translate.instant("ContainerCode"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Container_List");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showItemCodeListByRuleId() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      }
+      // ,
+      // {
+      //   field: 'ItemName',
+      //   title: this.translate.instant("ItemName"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  
   showContainerGroupCodeList(){
     this.table_head = [
       {

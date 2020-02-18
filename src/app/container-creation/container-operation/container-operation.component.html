@@ -60,10 +60,10 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="containerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                                    <label for="containerCode" class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerId"
-                                            placeholder="{{'ContainerId'|translate}}" name="containerId" [(ngModel)]="containerId"
+                                        <input type="text" class="form-control form-control-sm" id="containerCode"
+                                            placeholder="{{'ContainerCode'|translate}}" name="containerCode" [(ngModel)]="containerCode"
                                             disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -184,10 +184,10 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="qty" class="col-sm-4 col-form-label">{{'Quantity'|translate}}</label>
+                        <label for="itemQty" class="col-sm-4 col-form-label">{{'Quantity'|translate}}</label>
                         <div class="input-group col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="qty" placeholder="{{'Quantity'|translate}}"
-                                name="qty" [(ngModel)]="qty">
+                            <input type="text" class="form-control form-control-sm" id="itemQty" placeholder="{{'Quantity'|translate}}"
+                                name="itemQty" [(ngModel)]="itemQty">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -203,7 +203,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label"></label>
                         <div class="input-group col-sm-8">
-                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
+                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="addItemToContainer()">
                                 <span role="presentation"></span> {{addItemBtnText}}</button>
                         </div>
                     </div>
@@ -230,12 +230,12 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addedContainerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                        <label for="childContainerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
                         <div class="input-group col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="addedContainerId" placeholder="{{'ContainerId'|translate}}"
-                                name="addedContainerId" [(ngModel)]="addedContainerId">
+                            <input type="text" class="form-control form-control-sm" id="childContainerId" placeholder="{{'ContainerId'|translate}}"
+                                name="childContainerId" [(ngModel)]="childContainerId">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="getContainerIdList()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer()">
                                     <i class="opti-icon-hammenu"></i>
                                 </button>
                             </div>
@@ -264,7 +264,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label"></label>
                         <div class="input-group col-sm-8">
-                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
+                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="addContainerToContainer()">
                                 <span role="presentation"></span> {{addContBtnText}}</button>
                         </div>
                     </div>

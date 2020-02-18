@@ -327,7 +327,7 @@ export class CreateContainerComponent implements OnInit {
     if ($event.Status == "yes") {
       switch ($event.From) {
         case ("ScanAndCreate"):
-          // this.containerId = $event.ContainerId;
+          this.containerId = $event.ContainerId;
           this.containerCode = $event.ContainerCode;
           this.parentContainerCode = $event.ParentContainerCode;
           this.count = $event.Count;
@@ -366,7 +366,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_CONTAINERCODE: containerCode,
       OPTM_WEIGHT: wieght,
       OPTM_AUTOCLOSE_ONFULL: 'Y',
-      OPTM_AUTORULEID: 1,
+      OPTM_AUTORULEID: autoRuleId,
       OPTM_WHSE: whse,
       OPTM_BIN: binNo,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
@@ -383,7 +383,7 @@ export class CreateContainerComponent implements OnInit {
       GUID: localStorage.getItem("GUID"),
       Action: "",
       OPTM_PARENTCODE: parentCode,
-      OPTM_GROUP_CODE: containerCode,
+      OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
       OPTM_PERPOSE: purps
     });
@@ -432,6 +432,7 @@ export class CreateContainerComponent implements OnInit {
           if (data.length == 1) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             // this.onResetClick();
+            this.containerId = data[0].OPTM_CONTAINERID;
             this.selectedBatchSerial = [];
             this.GetContainerNumber();
           }
@@ -964,7 +965,7 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.containerId = data[0].RESULT;
+            this.containerCode = data[0].RESULT;
           }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -1018,7 +1019,7 @@ export class CreateContainerComponent implements OnInit {
 
   onQtyChange(event, index) {
     console.log("onQtyChange index: " + index);
-    if(event !=undefined){
+    if (event != undefined) {
       var qty = Number(event)
       for (var i = 0; i < this.fromContainerDetails.length; i++) {
         if (i == index) {
@@ -1030,16 +1031,11 @@ export class CreateContainerComponent implements OnInit {
 
   onShowBSClick(event, index) {
     console.log("onShowBSClick index: " + index);
-    
+
     if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
       this.lookupData = [];
       var isChecked = false;
-      for (var i = 0; i < this.selectedBatchSerial.length; i++) {
-        if (this.selectedBatchSerial[i].ITEMCODE == this.batchSerialData[i].ITEMCODE) {
-          isChecked = true;
-        }
-      }
-
+      // Filter according to ITEMCODE
       for (var i = 0; i < this.batchSerialData.length; i++) {
         if (event.OPTM_ITEMCODE == this.batchSerialData[i].ITEMCODE) {
           this.batchSerialData[i].OldData = isChecked;
@@ -1047,36 +1043,58 @@ export class CreateContainerComponent implements OnInit {
         }
       }
 
-      this.lookupfor = "BatchSerialList";
-      this.showLookup = false;
-      this.showOtherLookup = true;
+      for (var i = 0; i < this.lookupData.length; i++) {
+        for (var j = 0; j < this.selectedBatchSerial.length; j++) {
+          if (this.lookupData[i].ITEMCODE == this.selectedBatchSerial[j].ITEMCODE && this.lookupData[i].LOTNO == this.selectedBatchSerial[j].LOTNO) {
+            this.lookupData[i].OldData = true;
+          }
+          // else {
+          //   this.lookupData[i].OldData = false;
+          // }
+        }
+      }
     }
+
+    this.lookupfor = "BatchSerialList";
+    this.showLookup = false;
+    this.showOtherLookup = true;
   }
 
   getLookupKey($event, gridSelected) {
     console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
-    var itemcode = $event[0].ITEMCODE;
-    if (!this.checkItemAlreadyExist(this.selectedBatchSerial, itemcode)) {
-      var sumQty = 0;
-      for (var i = 0; i < $event.length; i++) {
-        sumQty = sumQty + $event[i].Quantity;
+    var code = $event[0].ITEMCODE;
+    //Add item in selectedBatchSerial list it is not exist. 
+    for (var i = 0; i < $event.length; i++) {
+      var itemcode = $event[i].ITEMCODE;
+      var batchSrl = $event[i].LOTNO;
+      var alreadyExist = this.checkItemAlreadyExist(this.selectedBatchSerial, itemcode, batchSrl);
+      if (!alreadyExist) {
         this.selectedBatchSerial.push($event[i]);
       }
-
-      for (var i = 0; i < this.fromContainerDetails.length; i++) {
-        if (this.fromContainerDetails[i].OPTM_ITEMCODE == itemcode) {
-          this.fromContainerDetails[i].QuantityToAdd = sumQty;
-        }
-      }
-      console.log("getLookupKey sumQty: " + sumQty);
     }
+
+    // Calcaulate sum of all itemcode.
+    var sumQty = 0;
+    for (var i = 0; i < this.selectedBatchSerial.length; i++) {
+      if (this.selectedBatchSerial[i].ITEMCODE == code) {
+        sumQty = sumQty + this.selectedBatchSerial[i].Quantity;
+      }
+    }
+
+    // Update grid details list by sum of qty
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      if (this.fromContainerDetails[i].OPTM_ITEMCODE == code) {
+        this.fromContainerDetails[i].QuantityToAdd = sumQty;
+      }
+    }
+    console.log("getLookupKey sumQty: " + sumQty);
   }
 
-  checkItemAlreadyExist(list: any, item: any) {
+  checkItemAlreadyExist(list: any, item: any, batchSrl: any) {
     for (var i = 0; i < list.length; i++) {
-      if (list[i].ITEMCODE == item) {
+      if (list[i].ITEMCODE == item && list[i].LOTNO == batchSrl) {
         return true;
       }
     }

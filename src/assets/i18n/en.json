@@ -800,6 +800,13 @@
   "Generate": "Generate",
   "Container_BatchSerial"  : "Container Batch Serial" ,
   "Batch_Serial": "Batch/Serial",
+  "ItemAddedSuccessMsg": "Item added successfully",
+  "ItemRemovedSuccessMsg": "Item removed successfully",
+  "ItemDeletedSuccessMsg": "Item deleted successfully",
+  
+  "ContainerAddedSuccessMsg": "Container added successfully",
+  "ContainerRemovedSuccessMsg": "Container removed successfully",
+  "ContainerDeletedSuccessMsg": "Container deleted successfully",
 
   "Dummy": "Dummy"
   

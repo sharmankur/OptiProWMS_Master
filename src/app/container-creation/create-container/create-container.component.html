@@ -116,12 +116,12 @@
                         <div class="col-sm-5 ml-5">
                             <!-- col start -->
                             <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerId'|translate}}</label>
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name='containerId'
-                                                [(ngModel)]="containerId" id="containerId" disabled>
+                                            <!-- <input type="text" class="form-control form-control-sm" name='containerId'
+                                                [(ngModel)]="containerId" id="containerId" disabled> -->
                                             <input type="text" class="form-control form-control-sm ml-1" name='containerCode'
                                                 [(ngModel)]="containerCode" id="containerCode" disabled>
                                         </div>
@@ -464,11 +464,11 @@
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}">
-                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <input type="number" class="form-control form-control-sm text-right" name="qtyToAdd" value={{dataItem.QuantityToAdd}}
                                         #qtyvalue (blur)="onQtyChange(qtyvalue.value, rowIndex)" id="qtyToAdd"
                                         [(ngModel)]="QuantityToAdd">
-                                </ng-template>
+                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" [width]="45">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -503,7 +503,7 @@
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
                     {{'PrintLabel'|translate}}
                 </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()" [disabled]="containerId == ''">
                     {{'ContainerOperation'|translate}}
                 </button>
             </div>
