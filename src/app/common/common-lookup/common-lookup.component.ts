@@ -114,8 +114,8 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "POItemList") {
       this.showPOItemList();
     }
-    else if (this.lookupfor == "out-customer") {
-      this.showCustomerList();
+    else if (this.lookupfor == "ShipFrom" || this.lookupfor == "ShipTo") {
+      this.showShiptoCodeList();
     }
     else if (this.lookupfor == "out-items") {
       this.showAvaliableItems();
@@ -880,25 +880,21 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showCustomerList() {
-
+  showShiptoCodeList() {
     this.table_head = [
       {
-        title: this.translate.instant("CustomerCode"),
-        field: 'CUSTOMER CODE',
+        title: this.translate.instant("ShipTo"),
+        field: 'Address',
         type: 'text',
         width: '100'
       },
-
       {
         title: this.translate.instant("Outbound_CustomerName"),
-        field: 'CUSTOMER NAME',
+        field: 'CardCode',
         type: 'text',
         width: '100'
       }
-
     ];
-
     this.lookupTitle = this.translate.instant("CustomerList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
