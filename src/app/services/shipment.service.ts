@@ -42,17 +42,20 @@ export class ShipmentService {
         OPTM_SHIPMENTID: OPTM_SHIPMENTID,
         OPTM_CARRIER: OPTM_CARRIER,
         OPTM_SCH_DATETIME: OPTM_SCH_DATETIME,
-        OPTM_DOCKDOORID: OPTM_DOCKDOORID
+        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
+        OPTM_USERNAME: localStorage.getItem("UserId")
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/ScheduleShipment", jObject, this.commonService.httpOptions);
   }
 
-  StageORUnstageShipment(OPTM_SHIPMENTID: any): Observable<any> {
+  StageORUnstageShipment(OPTM_SHIPMENTID: any, OPTM_STATUS: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID,
+        OPTM_STATUS: OPTM_STATUS,
+        OPTM_USERNAME: localStorage.getItem("UserId")
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/StageORUnstageShipment", jObject, this.commonService.httpOptions);

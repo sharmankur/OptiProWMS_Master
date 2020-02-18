@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
-import { ContainerShipmentComponent } from './container-shipment/container-shipment.component';
 import { ShipmentComponent } from './shipment.component';
 
 const routes: Routes = [
@@ -10,7 +9,9 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'shipment', pathMatch: 'full' },
       { path: 'shipment', component: ShipmentViewComponent} ,
-    { path: 'container', component: ContainerShipmentComponent} ,
+     // { path: 'container', component: ContainerShipmentComponent} , 
+    //  { path: 'Container_List', component: ContainerShipmentComponent} ,
+   //   { path: 'BatchSerial_List', component: ContainerBatchserialComponent} 
   ]  
 }
 ];

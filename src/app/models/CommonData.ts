@@ -19,6 +19,7 @@ export class CommonData {
     public adminDBName: string = "OPTIPROADMIN";
     public href: any = window.location.href;
     public application_path = this.get_current_url();
+    public commonGridPageSize = 10;
 
     public get_current_url() {
         let temp: any = this.href.substring(0, this.href.lastIndexOf('/'));
@@ -208,27 +209,60 @@ export class CommonData {
             { "Value": 12, "Name": "Returned" },
             { "Value": 13, "Name": "Return Accepted" },
             { "Value": 14, "Name": "Cancelled" }
-    // Container_Shipment_Status_DropDown() {
-    //     // let language = JSON.parse(sessionStorage.getItem('current_lang'));
-    //     return [
-    //         { "Value": 1, "Name": "New" },
-    //         { "Value": 2, "Name": "Open" },
-    //         { "Value": 3, "Name": "Closed" },
-    //         { "Value": 4, "Name": "Reopened" },
-    //         { "Value": 5, "Name": "Assigned" },
-    //         { "Value": 6, "Name": "Shipped" },
-    //         { "Value": 7, "Name": "Returned" },
-    //         { "Value": 8, "Name": "Damaged" },
-    //         { "Value": 9, "Name": "Cancelled" }
+        ];
+    }
+
+    Container_Status_DropDown() {
+        return [
+            { "Value": 1, "Name": "New" },
+            { "Value": 2, "Name": "Open" },
+            { "Value": 3, "Name": "Closed" },
+            { "Value": 4, "Name": "Reopened" },
+            { "Value": 5, "Name": "Assigned" },
+            { "Value": 6, "Name": "Shipped" },
+            { "Value": 7, "Name": "Returned" },
+            { "Value": 8, "Name": "Damaged" },
+            { "Value": 9, "Name": "Cancelled" }
         ];
     }
 
     Container_Shipment_Inv_Status_DropDown() {
-        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
             { "Value": 1, "Name": "Pending" },
-            { "Value": 2, "Name": "Posted" }           
+            { "Value": 2, "Name": "Posted" }
         ];
     }
 
+    Container_Shipment_Status_DropDown() {
+        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "Value": 1, "Name": "New" },
+            { "Value": 2, "Name": "Open" },
+            { "Value": 3, "Name": "Closed" },
+            { "Value": 4, "Name": "Reopened" },
+            { "Value": 5, "Name": "Assigned" },
+            { "Value": 6, "Name": "Shipped" },
+            { "Value": 7, "Name": "Returned" },
+            { "Value": 8, "Name": "Damaged" },
+            { "Value": 9, "Name": "Cancelled" }
+        ];
+    }
+
+    Container_Operation_Add_Items() {
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 3, "Name": "Query" },
+            { "Value": 4, "Name": "Delete Item" },
+            { "Value": 5, "Name": "Delete All Items" }
+        ];
+    }
+
+    Container_Operation_Add_Container() {
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 4, "Name": "Delete All" }
+        ];
+    }
 }

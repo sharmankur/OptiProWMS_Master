@@ -37,8 +37,6 @@ export class CommonLookupComponent implements OnInit {
   showSelection: boolean = false;
   selectedValues: Array<any> = [];
   public mySelection: number[] = [];
-
-
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
   constructor(private translate: TranslateService, private router: Router) {
@@ -110,7 +108,7 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if(this.lookupfor == "CarrierList"){
+    else if(this.lookupfor == "CarrierList"||this.lookupfor == "CCFrom"||this.lookupfor == "CCTo"){
       this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
@@ -184,7 +182,7 @@ export class CommonLookupComponent implements OnInit {
       this.showOutSOListNew();
     } else if(this.lookupfor == "GroupCodeList"){
       this.showContainerGroupCodeList();
-    } else if (this.lookupfor == "DDList") {
+    } else if (this.lookupfor == "DDList"||this.lookupfor == "DDFrom"||this.lookupfor == "DDTo") {
       this.showDDList();
     } else if (this.lookupfor == "GroupCode") {
       this.showGroupCodeList();
@@ -193,6 +191,12 @@ export class CommonLookupComponent implements OnInit {
     }else if(this.lookupfor == "WhsZoneList"){
       this.showWhsZoneList();
     }
+    else if(this.lookupfor == "ContainsItem"){
+      this.ContainsItemListView();
+    } else if(this.lookupfor == "BatchSerialList"){
+      this.showBatchSerialItems();
+    }
+    
     this.clearFilters();
     this.isColumnFilter = false
   }
@@ -565,6 +569,61 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("AvaliableMeterial");
+    if (this.serviceData !== undefined) {
+      var len = this.serviceData.length;
+      if (len > 0) {
+        //  console.log('ServiceData', this.serviceData);
+        var tempData: any;
+        for (var i = 0; i < len; i++) {
+          var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.serviceData[i].TOTALQTY = qty;
+        }
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showBatchSerialItems() {
+    this.pagesize = 5;
+    if (this.serviceData.length > this.pagesize) {
+      this.pagable = true;
+    } else {
+      this.pagable = false;
+    }
+
+    this.showSelection = true;
+    this.selectedValues = [];
+    this.table_head = [
+
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'LOTNO',
+        title: this.translate.instant("BatchSerial_No"),
+        type: 'text',
+        width: '100'
+      },
+
+      {
+        field: 'BinCode',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'Quantity',
+        headerClass: 'text-right',
+        class: 'text-right',
+        title: this.translate.instant("AvailableQty"),
+        type: 'numeric',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BatchSerialList");
     if (this.serviceData !== undefined) {
       var len = this.serviceData.length;
       if (len > 0) {
@@ -1155,6 +1214,22 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
+  ContainsItemListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '200'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
 
   onCheckboxClick(checked: any, index: number) {
 

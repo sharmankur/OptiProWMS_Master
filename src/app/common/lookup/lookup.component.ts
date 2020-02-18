@@ -1124,6 +1124,23 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  ContainsItemListView() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '200'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
   on_Selectall_checkbox_checked(checkedvalue) {
     var isExist = 0;
     // this.CheckedData = []
