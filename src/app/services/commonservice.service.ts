@@ -846,4 +846,13 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCarrier", jObject, this.httpOptions);
   }
+
+  GetShipToAddress(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
+  }
 }

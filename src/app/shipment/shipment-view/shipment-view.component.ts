@@ -41,6 +41,7 @@ export class ShipmentViewComponent implements OnInit {
   commonData: any = new CommonData();
   shiment_status_array: any[] = [];
   Container_status_array: any[] = [];
+  shiment_lines_status_array: any[] = [];
   showContainerShipmentScreen: boolean = false;
   gridheight = 200;
   pageSize1 = 10;
@@ -71,8 +72,12 @@ export class ShipmentViewComponent implements OnInit {
     // this.pageSize1 = this.commonData.commonGridPageSize;
     this.shiment_status_array = this.commonData.shiment_status_array();
     this.Container_status_array = this.commonData.Container_Status_DropDown();
-    this.GetShipmentIdForShipment();
-    var ShipId = '17';    
+    this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
+    
+    // this.GetShipmentIdForShipment();
+    if(localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != ""){
+      this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
+    }
   }
 
   GetShipmentIdForShipment() {
@@ -119,7 +124,7 @@ export class ShipmentViewComponent implements OnInit {
           }
           this.updateShipmentHDR(data.OPTM_SHPMNT_HDR);
           for(var i=0; i<data.OPTM_SHPMNT_DTL.length; i++){
-            data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
+            data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
           }
           this.shipmentData = data;
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
@@ -183,11 +188,16 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onCancelClick() {
+    localStorage.setItem("ShipmentID", "");
     this.router.navigate(['home/dashboard']);
   }
 
   getShipStatusValue(OPTM_STATUS): string {    
     return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
+  }
+
+  getShipLinesStatusValue(OPTM_STATUS): string {    
+    return this.shiment_lines_status_array[Number(OPTM_STATUS) - 1].Name;
   }
 
   getContStatusValue(OPTM_STATUS): string {    
@@ -197,6 +207,7 @@ export class ShipmentViewComponent implements OnInit {
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
       this.ShipmentID = event.OPTM_SHIPMENTID
+      localStorage.setItem("ShipmentID", this.ShipmentID);
       this.CustomerCode = event.OPTM_BPCODE
       this.WarehouseCode = event.OPTM_WHSCODE;
       this.ScheduleDatetime = event.OPTM_SCH_DATETIME;

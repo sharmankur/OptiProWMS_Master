@@ -234,7 +234,6 @@ export class CommonData {
     }
 
     Container_Shipment_Status_DropDown() {
-        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
             { "Value": 1, "Name": "New" },
             { "Value": 2, "Name": "Open" },
@@ -248,4 +247,12 @@ export class CommonData {
         ];
     }
 
+    Shipment_Lines_Status_DropDown() {
+        return [
+            { "Value": 1, "Name": "New" },
+            { "Value": 2, "Name": "Part Fulfilled" },
+            { "Value": 3, "Name": "Fulfilled" },
+            { "Value": 4, "Name": "Cancelled" }
+        ];
+    }
 }
