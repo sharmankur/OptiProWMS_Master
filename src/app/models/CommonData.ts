@@ -265,4 +265,12 @@ export class CommonData {
             { "Value": 5, "Name": "Delete All Items" }
         ];
     }
+
+    Container_Operation_Add_Container(){
+        return [
+            { "Value": 1, "Name": "Add" },
+            { "Value": 2, "Name": "Remove" },
+            { "Value": 3, "Name": "Delete All" }
+        ];
+    }
 }
