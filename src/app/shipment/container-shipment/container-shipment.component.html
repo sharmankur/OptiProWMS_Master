@@ -3,7 +3,7 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                 <span *ngIf="IsShipment">Container and Shipment - {{SelectedShipmentId}}</span>
+                 <span *ngIf="IsShipment">Container and Shipment : {{SelectedShipmentId}} - {{SelectedWhse}} - {{SelectedBin}} </span>
                  <span *ngIf="!IsShipment">Container and Shipment</span>
             </h3>
             <div class="row">
@@ -219,7 +219,7 @@
                                         </label>
                                     </ng-template>
                                 </kendo-grid-column>
-                                <!-- <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column> -->
+                                <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTCODE" width="100" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTTYPE" class="text-right" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
