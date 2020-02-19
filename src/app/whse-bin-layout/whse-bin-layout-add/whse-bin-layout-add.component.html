@@ -16,10 +16,10 @@
                                     <label for="whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Warehouse'|translate}}"
-                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChangeBlur()" [disabled]="isUpdate">
+                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChangeBlur()">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (click)="GetWhseCode()" [disabled]="isUpdate">
+                                                (click)="GetWhseCode()">
                                                 <i class="opti-icon-hammenu"></i>
                                             </button>
                                         </div>
@@ -139,7 +139,7 @@
             <div class="row">
                 <div class="col-sm-6 col-xs-12">
                     <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{'AddRow'|translate}}</button>
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'Masking_AddRow'|translate}}</button>
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'WarehouseZone'|translate}}</h5>
                         <div class="card-body">
@@ -217,7 +217,7 @@
                 </div>
                 <div class="col-sm-6 col-xs-12">
                     <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('range')">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{'AddRow'|translate}}</button>
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'Masking_AddRow'|translate}}</button>
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'WarehouseBinRanges'|translate}}</h5>
                         <div class="card-body">

@@ -463,7 +463,8 @@
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}"
+                                headerClass="text-center" class="text-right">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <input type="number" class="form-control form-control-sm text-right" name="qtyToAdd" value={{dataItem.QuantityToAdd}}
                                         #qtyvalue (blur)="onQtyChange(qtyvalue.value, rowIndex)" id="qtyToAdd"
@@ -503,7 +504,7 @@
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
                     {{'PrintLabel'|translate}}
                 </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()" [disabled]="containerId == ''">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
                     {{'ContainerOperation'|translate}}
                 </button>
             </div>

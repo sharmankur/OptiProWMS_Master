@@ -25,10 +25,10 @@ export class ContainerOperationComponent implements OnInit {
   addContainerOpnArr: any = [];
   defaultItemOpn: any;
   defaultContOpn: any;
-  addItemOpn: any;
-  addContOpn: any;
-  addContBtnText: string="Add";
-  addItemBtnText: string="Add";
+  addItemOpn: any = "Add";
+  addContOpn: any = "Add";
+  addContBtnText: string = "Add";
+  addItemBtnText: string = "Add";
   whseCode: string;
   oSaveModel: any;
   containerType: string;
@@ -40,7 +40,7 @@ export class ContainerOperationComponent implements OnInit {
   containerUsage: string;
   itemCode: string;
   childContainerId: string;
-  itemQty: any;
+  itemQty: any = 0;
   containerCode: string;
   itemBatchSr: any;
 
@@ -62,19 +62,20 @@ export class ContainerOperationComponent implements OnInit {
 
     this.addItemOpn = this.defaultItemOpn.Name;
     this.addContOpn = this.defaultContOpn.Name;
-    
+
     var data = localStorage.getItem("ContainerOperationData");
     this.oSaveModel = JSON.parse(data);
 
-    this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
-    this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
-    this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
-    this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
-    this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
-    this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
-    this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    // this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
+    // this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
+    // this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
+    // this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
+    // this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
+    // this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
+    // this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
+    // this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
+    // this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    this.GetParentContainer();
   }
 
   ngAfterViewInit(): void {
@@ -102,7 +103,7 @@ export class ContainerOperationComponent implements OnInit {
 
   }
 
-  onItemCodeChange(){
+  onItemCodeChange() {
 
   }
 
@@ -135,7 +136,7 @@ export class ContainerOperationComponent implements OnInit {
     );
   }
 
-  getContainerIdList(){
+  getContainerIdList() {
 
   }
 
@@ -168,52 +169,69 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   addItemToContainer() {
+    if(this.itemCode ==undefined || this.itemCode == ''){
+      this.toastr.error('', this.translate.instant("SelectItemCode"));
+      return;
+    }
+    if(this.addContOpn == "Add" && this.itemQty == 0){
+      this.toastr.error('', this.translate.instant("ItemQtyCannotZero"));
+      return;
+    }
+
     this.showLoader = true;
-    this.containerCreationService.InsertItemInContainer(this.containerId, this.containerType, 
+    this.containerCreationService.InsertItemInContainer(this.containerId, this.containerType,
       this.itemCode, this.packingRule, this.partPerQty, this.fillPerQty, true,
       this.addItemOpn, this.itemQty).subscribe(
-      data => {
-        this.showLoader = false;
-        if (data != undefined && data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
+        data => {
+          this.showLoader = false;
+          if (data != undefined && data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
 
-          if(this.addItemOpn == "Add"){
-            this.toastr.success('', this.translate.instant("ItemAddedSuccessMsg"));
-            this.itemCode = "";
-            this.itemQty = 0;
-            this.itemBatchSr = "";
-          } else if(this.addItemOpn == "Remove"){
-            this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
-          } else if(this.addItemOpn == "Query"){
-
-          } else if(this.addItemOpn == "Delete Item"){
-            this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
-          } else if(this.addItemOpn == "Delete All Items"){
-            this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+            if (data[0].RESULT == "Data Saved") {
+              if (this.addItemOpn == "Add") {
+                this.toastr.success('', this.translate.instant("ItemAddedSuccessMsg"));
+                this.itemCode = "";
+                this.itemQty = 0;
+                this.itemBatchSr = "";
+              } else if (this.addItemOpn == "Remove") {
+                this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
+              } else if (this.addItemOpn == "Query") {
+                this.itemQty = data[0].RESULT
+              } else if (this.addItemOpn == "Delete Item") {
+                this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+              } else if (this.addItemOpn == "Delete All Items") {
+                this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+              }
+            } else if (data[0].RESULT.length < 10) {
+              this.itemQty = data[0].RESULT;
+            } else {
+              this.toastr.error('', this.translate.instant(data[0].RESULT));
+            }
           } else {
-
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
-          
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        },
+        error => {
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-      },
-      error => {
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
   }
 
   addContainerToContainer() {
+    if(this.childContainerId ==undefined || this.childContainerId == ''){
+      this.toastr.error('', this.translate.instant("ChildContainerCannotBlank"));
+      return;
+    }
+
     this.showLoader = true;
     this.containerCreationService.InsertContainerinContainer(this.containerId, this.childContainerId, this.addContOpn).subscribe(
       data => {
@@ -224,17 +242,19 @@ export class ContainerOperationComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(this.addItemOpn == "Add"){
-            this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
-            this.itemCode = "";
-            this.itemQty = 0;
-            this.itemBatchSr = "";
-          } else if(this.addItemOpn == "Remove"){
-            this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
-          } else if(this.addItemOpn == "Delete All"){
-            this.toastr.success('', this.translate.instant("ContainerDeletedSuccessMsg"));
+          if (data[0].RESULT == "Data Saved") {
+            if (this.addContOpn == "Add") {
+              this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+              this.itemCode = "";
+              this.itemQty = 0;
+              this.itemBatchSr = "";
+            } else if (this.addContOpn == "Remove") {
+              this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+            } else if (this.addContOpn == "Delete All") {
+              this.toastr.success('', this.translate.instant("ContainerDeletedSuccessMsg"));
+            }
           } else {
-
+            this.toastr.error('', this.translate.instant(data[0].RESULT));
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -262,15 +282,28 @@ export class ContainerOperationComponent implements OnInit {
     else if (this.lookupfor == "ItemsListByRuleId") {
       this.ruleID = $event[0];
       this.itemCode = $event[1];
-      this.partPerQty =  $event[2];
-      this.fillPerQty =  $event[3];
-    } else if(this.lookupfor == "ContainerIdList") {
-      this.childContainerId = $event[0];
+      this.partPerQty = $event[2];
+      this.fillPerQty = $event[3];
+    } else if (this.lookupfor == "ContainerIdList") {
+      if (this.containerIdType == "parent") {
+        this.containerId = $event[0];
+        this.containerCode = $event[1];
+        this.containerType = $event[6];
+        this.containerUsage = ($event[12] == "Y") ? "Shipping" : "Internal"
+        this.packingRule = $event[14];
+        this.whseCode = $event[18];
+        this.binCode = $event[19];
+        this.containerWgt = $event[20];
+      } else {
+        this.childContainerId = $event[0];
+      }
     }
   }
 
-  GetAllContainer() {
+  containerIdType: any = "parent"
+  GetParentContainer() {
     this.showLoader = true;
+    this.containerIdType = "parent"
     this.containerCreationService.GetAllContainer().subscribe(
       data => {
         this.showLoader = false;
@@ -280,6 +313,38 @@ export class ContainerOperationComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.containerIdType = "parent"
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ContainerIdList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetAllContainer() {
+    this.showLoader = true;
+    this.containerIdType = "child"
+    this.containerCreationService.GetAllContainer().subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.containerIdType = "child"
           this.showLookup = true;
           this.serviceData = data;
           this.lookupfor = "ContainerIdList";

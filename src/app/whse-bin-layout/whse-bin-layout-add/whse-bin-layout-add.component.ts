@@ -60,8 +60,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
         this.buttonText = this.translate.instant("CT_Add");
-        // this.codekey = data[0];
-        // this.getItemCodeGenerationByCode(this.codekey);
+        this.whseCode = data[0];
+        this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
         this.buttonText = this.translate.instant("CT_Add");

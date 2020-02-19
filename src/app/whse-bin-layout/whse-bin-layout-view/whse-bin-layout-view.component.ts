@@ -78,8 +78,8 @@ export class WhseBinLayoutViewComponent implements OnInit {
 
   onCopyItemClick(event) {
     localStorage.setItem("CAR_ROW", JSON.stringify(event));  
-    localStorage.setItem("Action", "copy");  
-    // this.IsValidContainerAutoRule(event[0], event[1], event[2]);
+    localStorage.setItem("Action", "copy");
+    this.whseBintComponent.whseBinLayoutComponent = 2;
   }
 
   OnCancelClick() {

@@ -7,6 +7,25 @@
             </h3>
             <div class="row">
                 <div class="col-12">
+                    <div class="shipment-form">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="whse" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control form-control-sm" id="containerId"
+                                            placeholder="{{'ContainerId'|translate}}" name="containerId"
+                                            [(ngModel)]="containerId">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetParentContainer()">
+                                                <i class="opti-icon-hammenu"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Shipment From -->
                     <div class="shipment-form">
                         <!-- row 1 -->
@@ -63,8 +82,8 @@
                                     <label for="containerCode" class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="containerCode"
-                                            placeholder="{{'ContainerCode'|translate}}" name="containerCode" [(ngModel)]="containerCode"
-                                            disabled>
+                                            placeholder="{{'ContainerCode'|translate}}" name="containerCode"
+                                            [(ngModel)]="containerCode" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('WIP_RM_StageBin')">

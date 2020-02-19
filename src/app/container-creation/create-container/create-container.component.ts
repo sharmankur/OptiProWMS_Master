@@ -471,6 +471,13 @@ export class CreateContainerComponent implements OnInit {
     }
 
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      if (this.fromContainerDetails[i].QuantityToAdd == 0) {
+        this.toastr.error('', this.translate.instant("QuantityToAddCannotZero"));
+        return false;
+      }
+    }
+
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
       if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
         this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
         return false;
@@ -984,22 +991,22 @@ export class CreateContainerComponent implements OnInit {
   }
 
   onContainerOperationClick() {
-    if (this.containerType == undefined || this.containerType == "") {
-      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
-      return;
-    }
-    if (this.whse == undefined || this.whse == "") {
-      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
-      return;
-    }
-    if (this.autoPackRule == undefined || this.autoPackRule == "") {
-      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
-      return;
-    }
-    if (this.binNo == undefined || this.binNo == "") {
-      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
-      return;
-    }
+    // if (this.containerType == undefined || this.containerType == "") {
+    //   this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+    //   return;
+    // }
+    // if (this.whse == undefined || this.whse == "") {
+    //   this.toastr.error('', this.translate.instant("SelectWhseMsg"));
+    //   return;
+    // }
+    // if (this.autoPackRule == undefined || this.autoPackRule == "") {
+    //   this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+    //   return;
+    // }
+    // if (this.binNo == undefined || this.binNo == "") {
+    //   this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
+    //   return;
+    // }
 
     // for (var i = 0; i < this.fromContainerDetails.length; i++) {
     //   if (this.fromContainerDetails[i].OPTM_PARTS_PERCONT > this.fromContainerDetails[i].OPTM_MIN_FILLPRCNT) {
