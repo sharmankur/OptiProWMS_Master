@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Commonservice } from 'src/app/services/commonservice.service';
 import { CommonData } from 'src/app/models/CommonData';
@@ -15,7 +15,6 @@ import { ContainerBatchserialService } from 'src/app/services/container-batchser
 })
 export class ContainerBatchserialComponent implements OnInit {
 
-  @Input() ShipId: any;
   WarehouseId: any='';
   BinId: any='';
   ContainsItemID: any='';
@@ -23,17 +22,34 @@ export class ContainerBatchserialComponent implements OnInit {
   showLookup: boolean = false;
   showLoader: boolean = false;
   SelectedShipmentId: any = '';
+  SelectedWhse: any = '';
+  SelectedBin: any = '';
   IsShipment: boolean = false;
   serviceData: any[];
   ContainerBatchSerials: any = [];
+  SelectedRowsforShipmentArr = [];
   commonData: any = new CommonData();
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
 
   ngOnInit() {   
-    this.SelectedShipmentId = '17';
-   // this.fillBatchSerialDataInGrid();
+    this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
+    this.SelectedWhse = localStorage.getItem("ShipWhse"); 
+    this.SelectedBin = localStorage.getItem("ShipBin");   
+    if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
+      this.IsShipment = true;
+    }
+    else{
+      this.IsShipment = false;
+    } 
+    //this.fillBatchSerialDataInGrid();
+  }
+
+  ngOnDestroy(){
+    localStorage.setItem("ShipShipmentID", '');
+    localStorage.setItem("ShipWhse", '');
+    localStorage.setItem("ShipBin", '');
   }
 
   getContainsItem() {
@@ -227,10 +243,80 @@ export class ContainerBatchserialComponent implements OnInit {
     );
   }
 
+  onQueryBtnClick(){
+    if(this.ContainsItemID == '' || this.ContainsItemID == undefined){
+      this.toastr.error('', "Select Item Code");
+    }    
+    
+    this.fillBatchSerialDataInGrid();
+  }  
+
   fillBatchSerialDataInGrid(){
 
-    this.showLoader = true;
-    this.containerBatchserialService.fillBatchSerialDataInGrid(this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
+    //this.showLoader = true;
+    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
+      (data: any) => {
+       // this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.ContainerBatchSerials = data;   
+          for(let i =0; i<this.ContainerBatchSerials.length; i++){
+            this.ContainerBatchSerials[i].Selected = false;
+          }      
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+       // this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  selectContainerRowChange (isCheck,dataitem,idx){
+    if(isCheck){
+      this.ContainerBatchSerials[idx].Selected = true; 
+      this.SelectedRowsforShipmentArr.push(dataitem);
+    }
+    else{
+      this.ContainerBatchSerials[idx].Selected = false;
+      // var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
+      // if(index > -1)
+      // this.SelectedRowsforShipmentArr.splice(index,1);   
+     }
+  }
+
+  onAssignShipmentPress(){
+
+    if(this.SelectedRowsforShipmentArr.length == 0){
+      this.toastr.error('', "Select row");
+      return;
+    }
+
+    let oSaveData:any = {};
+    oSaveData.SelectedRows = [];
+    oSaveData.OtherData = [];
+
+    oSaveData.OtherData.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      ContnrShipmentId: this.SelectedShipmentId
+    })
+
+    for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
+      oSaveData.SelectedRows.push(this.SelectedRowsforShipmentArr[i])
+    }
+
+    this.containerBatchserialService.AssignMaterialToShipment(oSaveData).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -239,7 +325,15 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.ContainerBatchSerials = data;         
+          if(data.length > 0){
+            if(data[0].RESULT != '' && data[0].RESULT != null){
+              this.toastr.error('', data[0].RESULT);
+            }
+            else{
+              this.toastr.success('', "Materials assigned to shipment successfully");
+            }
+          }
+               
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -253,7 +347,23 @@ export class ContainerBatchserialComponent implements OnInit {
           this.toastr.error('', error);
         }
       }
-    );
+    );  
+  }
+
+  onAssignedQtyChange(value,rowindex) {
+
+    if(value == '' || value == undefined || value == null){
+      this.toastr.error('', "Enter Assign Quantity");
+      return;
+    }
+
+    if(value > this.ContainerBatchSerials[rowindex].AvailableQty){
+      this.toastr.error('', "Assigned Quantity cannot be greater than Available Quantity at row - " + rowindex);
+      return;
+    }
+    else{
+      this.ContainerBatchSerials[rowindex].QtytoAssign = value;
+    }  
   }
 
   getLookupValue($event) {

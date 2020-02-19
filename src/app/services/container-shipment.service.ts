@@ -58,5 +58,12 @@ export class ContainerShipmentService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/IsValidContainsItemCode", jObject, this.commonService.httpOptions);
   }
+
+  AssignContainerToShipment(oSaveArray:any){
+
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignContainerstoShipment", jObject, this.commonService.httpOptions);
+  }
   
 }

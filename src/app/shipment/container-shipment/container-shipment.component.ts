@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Commonservice } from 'src/app/services/commonservice.service';
 import { CommonData } from 'src/app/models/CommonData';
@@ -14,8 +14,6 @@ import { ContainerShipmentService } from 'src/app/services/container-shipment.se
 })
 export class ContainerShipmentComponent implements OnInit {
 
-  @Input() ShipId: any;
- // ShipId: any='';
   ContainerCodeId: any='';
   purposeArray: any = [];
   PurposeId: any;
@@ -37,11 +35,14 @@ export class ContainerShipmentComponent implements OnInit {
   showLookup: boolean = false;
   showLoader: boolean = false;
   SelectedShipmentId: any = '';
+  SelectedWhse: any = '';
+  SelectedBin: any = '';
   IsShipment: boolean = false;
   shipeligible: string= '';
   ContainsItemID: any='';
   SelectedRowsforShipmentArr = [];
   commonData: any = new CommonData();
+  oSaveModel: any = {};
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService) { }
@@ -49,26 +50,35 @@ export class ContainerShipmentComponent implements OnInit {
   ngOnInit() {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
-    this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
+    this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();      
 
-    this.PurposeId = this.purposeArray[0]; 
-    this.PurposeValue = this.PurposeId.Value; 
-    this.shipeligible = "Y";   
+    this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
+    this.SelectedWhse = localStorage.getItem("ShipWhse"); 
+    this.SelectedBin = localStorage.getItem("ShipBin");
 
-    //this.SelectedShipmentId = localStorage.getItem("ShipmentID");
-    //this.SelectedShipmentId = '17'
-    this.SelectedShipmentId  = this.ShipId;
     if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
       this.IsShipment = true;
       this.InvPostStatusId = this.InvPostStatusArray[1];
-      this.InvPostStatusValue = this.InvPostStatusId.Value;         
+      this.InvPostStatusValue = this.InvPostStatusId.Value;  
+      
+      this.PurposeId = this.purposeArray[0]; 
+      this.PurposeValue = this.PurposeId.Value; 
+      this.shipeligible = "Y";
+
+      this.InvPostStatusId = this.InvPostStatusArray[0];
+      this.InvPostStatusValue = this.InvPostStatusId.Value;
+
     }
     else{
       this.IsShipment = false;
-      this.InvPostStatusId = this.InvPostStatusArray[0];
-      this.InvPostStatusValue = this.InvPostStatusId.Value;
     } 
     this.fillDataInGridWithShipment();    
+  }
+
+  ngOnDestroy(){
+    localStorage.setItem("ShipShipmentID", '');
+    localStorage.setItem("ShipWhse", '');
+    localStorage.setItem("ShipBin", '');
   }
 
   fillDataInGridWithShipment() {    
@@ -399,14 +409,83 @@ export class ContainerShipmentComponent implements OnInit {
   selectContainerRowChange (isCheck,dataitem,idx){
     if(isCheck){
       this.ContainerItems[idx].Selected = true; 
-      //this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTAINERID);
+      this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTAINERID);
     }
     else{
       this.ContainerItems[idx].Selected = true;
-      // var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
-      // if(index > -1)
-      // this.SelectedRowsforShipmentArr.splice(index,1);   
+      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
+      if(index > -1)
+      this.SelectedRowsforShipmentArr.splice(index,1);   
     }
+  }
+
+  onAssignShipmentPress () {
+
+    if(this.SelectedRowsforShipmentArr.length == 0){
+      this.toastr.error('', "Select row");
+      return;
+    }
+
+    let oSaveData:any = {};
+    oSaveData.SelectedRows = [];
+    oSaveData.OtherData = [];
+
+    oSaveData.OtherData.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      ContnrShipmentId: this.SelectedShipmentId
+    })
+
+    for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
+      oSaveData.SelectedRows.push({ 
+        Container_Id: this.SelectedRowsforShipmentArr[i]
+      })
+    }
+        
+    // let tempArr = [];
+    // this.showLoader = true; 
+
+    // let map = {};
+    // map['CompanyDBId'] = localStorage.getItem("CompID");
+    // map['ContnrShipmentId']= this.SelectedShipmentId;
+    // tempArr.push(map);
+  
+    // for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
+    //   let map = {};
+    //   map['Container_Id'] = this.SelectedRowsforShipmentArr[i];
+    //   tempArr.push(map);
+    // }   
+    
+    this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length > 0){
+            if(data[0].RESULT != '' && data[0].RESULT != null){
+              this.toastr.error('', data[0].RESULT);
+            }
+            else{
+              this.toastr.success('', "Materials assigned to shipment successfully");
+            }
+          }                           
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );    
   }
 
   getLookupValue($event) {
@@ -430,7 +509,7 @@ export class ContainerShipmentComponent implements OnInit {
      }
   }
 
-  onArrowBtnClick() {
+  onArrowBtnClick() {   
     this.router.navigate(['home/shipment']);
   }
 

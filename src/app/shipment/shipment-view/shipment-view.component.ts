@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CommonData } from '../../models/CommonData';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-shipment-view',
@@ -75,6 +76,10 @@ export class ShipmentViewComponent implements OnInit {
     // this.pageSize1 = this.commonData.commonGridPageSize;
     this.shiment_status_array = this.commonData.shiment_status_array();
     this.Container_status_array = this.commonData.Container_Status_DropDown();
+    localStorage.setItem("ShipShipmentID", '');
+    localStorage.setItem("ShipWhse", '');
+    localStorage.setItem("ShipBin", '');
+    this.GetShipmentIdForShipment();    
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
 
     // this.GetShipmentIdForShipment();
@@ -272,8 +277,16 @@ export class ShipmentViewComponent implements OnInit {
   OnContainerBtnClick() {
     // alert(this.ScheduleDatetime.toLocaleDateString());
     this.showContainerShipmentScreen = true;
-    localStorage.setItem("ShipmentID", this.ShipmentID);
-    this.router.navigate(['home/Container_List']);
+    localStorage.setItem("ShipShipmentID", this.ShipmentID);
+    localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null  ? '' : this.WarehouseCode);
+    localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null  ? '' : this.ShipStageBin);
+
+    if(this.UseContainer){
+      this.router.navigate(['home/Container_List']);
+    }
+    else{
+      this.router.navigate(['home/BatchSerial_List']);
+    }   
   }
 
   GetSubmitDateFormat(EXPDATE) {
