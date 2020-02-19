@@ -664,7 +664,7 @@
 
   "Schedule": "Schedule",
   "Containers": "Containers",
-  "Stage_Unstage": "Stage Unstage",
+  "Stage_Unstage": "Stage/Unstage",
   "Customer_Return": "Customer Return",
   "Accept_Return": "Accept Return",
   "Cancel_Unassign": "Cancel And Unassign",

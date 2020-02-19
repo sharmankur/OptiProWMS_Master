@@ -252,6 +252,9 @@ export class GeneratePickComponent implements OnInit {
   }
 
   IsValidDockDoor(DockDoor) {
+    if(DockDoor == "" || DockDoor == null || DockDoor == undefined){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidDockDoor(DockDoor, this.WareHouse).subscribe(
       (data: any) => {
@@ -317,6 +320,9 @@ export class GeneratePickComponent implements OnInit {
   }
 
   IsValidCarrier(CarrierCode) {
+    if(CarrierCode == "" || CarrierCode == null || CarrierCode == undefined){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidCarrier(CarrierCode).subscribe(
       (data: any) => {
