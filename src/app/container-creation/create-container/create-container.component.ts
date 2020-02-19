@@ -292,6 +292,7 @@ export class CreateContainerComponent implements OnInit {
     this.noOfPackToGen = 1;
     this.selectedBatchSerial = [];
     this.oSaveModel = [];
+    this.containerGroupCode = ''
   }
 
   onScanAndCreateClick() {

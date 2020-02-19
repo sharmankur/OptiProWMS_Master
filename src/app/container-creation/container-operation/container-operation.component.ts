@@ -173,7 +173,7 @@ export class ContainerOperationComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectItemCode"));
       return;
     }
-    if(this.addContOpn == "Add" && this.itemQty == 0){
+    if(this.addItemOpn == "Add" && this.itemQty == 0){
       this.toastr.error('', this.translate.instant("ItemQtyCannotZero"));
       return;
     }

@@ -818,7 +818,7 @@
   "ContainerRemovedSuccessMsg": "Container removed successfully",
   "ContainerDeletedSuccessMsg": "Container deleted successfully",
   "QuantityToAddCannotZero": "Quantity to add can't be zero.",
-  "ItemQtyCannotZero": "Item quanity can't be zero",
+  "ItemQtyCannotZero": "Item quantity can't be zero",
   "ChildContainerCannotBlank": "Child container id can't be blank",
 
 
