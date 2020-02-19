@@ -8,7 +8,7 @@ import { Commonservice } from './commonservice.service';
 })
 export class MaskingService {
 
-  config_params: any = "http://localhost:57950/";
+  public config_params: any;
   logged_in_company = sessionStorage.selectedComp;
   constructor(private httpclient: HttpClient, private commonService: Commonservice) {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));

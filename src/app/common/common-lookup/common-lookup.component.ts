@@ -114,8 +114,8 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "POItemList") {
       this.showPOItemList();
     }
-    else if (this.lookupfor == "out-customer") {
-      this.showCustomerList();
+    else if (this.lookupfor == "ShipFrom" || this.lookupfor == "ShipTo") {
+      this.showShiptoCodeList();
     }
     else if (this.lookupfor == "out-items") {
       this.showAvaliableItems();
@@ -193,11 +193,65 @@ export class CommonLookupComponent implements OnInit {
     }
     else if(this.lookupfor == "ContainsItem"){
       this.ContainsItemListView();
-    }    
+    } else if(this.lookupfor == "BatchSerialList"){
+      this.showBatchSerialItems();
+    } else if(this.lookupfor == "ItemsListByRuleId"){
+      this.showItemCodeListByRuleId();
+    } else if(this.lookupfor == "ContainerIdList"){
+      this.showContainerIdList();
+    }
+    
     this.clearFilters();
     this.isColumnFilter = false
   }
 
+  showContainerIdList(){
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINERID',
+        title: this.translate.instant("ContainerId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONTCODE',
+        title: this.translate.instant("ContainerCode"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Container_List");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showItemCodeListByRuleId() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      }
+      // ,
+      // {
+      //   field: 'ItemName',
+      //   title: this.translate.instant("ItemName"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+  
   showContainerGroupCodeList(){
     this.table_head = [
       {
@@ -580,6 +634,61 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
+  showBatchSerialItems() {
+    this.pagesize = 5;
+    if (this.serviceData.length > this.pagesize) {
+      this.pagable = true;
+    } else {
+      this.pagable = false;
+    }
+
+    this.showSelection = true;
+    this.selectedValues = [];
+    this.table_head = [
+
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'LOTNO',
+        title: this.translate.instant("BatchSerial_No"),
+        type: 'text',
+        width: '100'
+      },
+
+      {
+        field: 'BinCode',
+        title: this.translate.instant("BinNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'Quantity',
+        headerClass: 'text-right',
+        class: 'text-right',
+        title: this.translate.instant("AvailableQty"),
+        type: 'numeric',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("BatchSerialList");
+    if (this.serviceData !== undefined) {
+      var len = this.serviceData.length;
+      if (len > 0) {
+        //  console.log('ServiceData', this.serviceData);
+        var tempData: any;
+        for (var i = 0; i < len; i++) {
+          var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.serviceData[i].TOTALQTY = qty;
+        }
+        this.dialogOpened = true;
+      }
+    }
+  }
+
   showContainerType() {
     this.table_head = [
       {
@@ -771,25 +880,21 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showCustomerList() {
-
+  showShiptoCodeList() {
     this.table_head = [
       {
-        title: this.translate.instant("CustomerCode"),
-        field: 'CUSTOMER CODE',
+        title: this.translate.instant("ShipTo"),
+        field: 'Address',
         type: 'text',
         width: '100'
       },
-
       {
         title: this.translate.instant("Outbound_CustomerName"),
-        field: 'CUSTOMER NAME',
+        field: 'CardCode',
         type: 'text',
         width: '100'
       }
-
     ];
-
     this.lookupTitle = this.translate.instant("CustomerList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {

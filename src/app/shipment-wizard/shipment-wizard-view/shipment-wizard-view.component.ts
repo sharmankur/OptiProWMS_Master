@@ -355,6 +355,40 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
+  GetDataForShipToCode(fieldName) {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetShipToAddress().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          // if (fieldName == "SrNO") {
+          //   this.lookupfor = "SerialNoFrom";
+          // } else if (fieldName == "SrNOTO") {
+            this.lookupfor = fieldName;
+          // }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForCustomer(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -487,6 +521,12 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "ItemTo") {
       this.ItemTo = $event[0];
+    }
+    else if (this.lookupfor == "ShipFrom") {
+      this.ShipFrom = $event[0];
+    }
+    else if (this.lookupfor == "ShipTo") {
+      this.ShipTo = $event[0];
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = $event[0];

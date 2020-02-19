@@ -116,12 +116,12 @@
                         <div class="col-sm-5 ml-5">
                             <!-- col start -->
                             <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerId'|translate}}</label>
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name='containerId'
-                                                [(ngModel)]="containerId" id="containerId">
+                                            <!-- <input type="text" class="form-control form-control-sm" name='containerId'
+                                                [(ngModel)]="containerId" id="containerId" disabled> -->
                                             <input type="text" class="form-control form-control-sm ml-1" name='containerCode'
                                                 [(ngModel)]="containerCode" id="containerCode" disabled>
                                         </div>
@@ -415,8 +415,8 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <kendo-grid class="no-shadow" [kendoGridBinding]="fromContainerDetails" [resizable]="true"
-                            [sortable]="true" [selectable]="true" #gridItem>
+                        <kendo-grid class="no-shadow" [data]="fromContainerDetails" [resizable]="true" [sortable]="true"
+                            [selectable]="true" id="gridItem" #gridItem>
                             <!-- grid for mobile start -->
                             <kendo-grid-column media="(max-width: 767px)" title="{{'List'|translate}}" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -443,64 +443,41 @@
                             <!-- grid for mobile end -->
 
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45" title="{{'ItemCode'|translate}}">
-                                <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name="ITEMCODE"
-                                            value={{dataItem.OPTM_ITEMCODE}} id="display_name" min="0" #display_name>
-                                        <div class="input-group-append">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (mousedown)="GetToBinCode(idx)">
-                                                <i class="opti-icon-hammenu"></i>
-                                            </button>
-                                        </div>
+                                        <input type="text" class="form-control form-control-sm" name="ITEMCODE" value={{dataItem.OPTM_ITEMCODE}}
+                                            id="display_name" min="0" #display_name>
                                     </div>
-                                </ng-template>
+                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Quantity'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                    <input type="text" class="form-control form-control-sm" name='CustomerTo'
-                                        [(ngModel)]="CustomerTo" id="CustomerTo" class="text-right">
-                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Container'|translate}}">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <input type="text" class="form-control form-control-sm" name="stringtxt" value={{dataItem.string}}
-                                        title="{{dataItem.string}}" #stringtxtvalue (blur)="onStringChange(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)"
-                                        [disabled]="dataItem.stringtype == 3" id="stringtxt">
-                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'AvailableQty'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
-                                        value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
-                                        [disabled]="dataItem.isOperationDisable" id="lengthvalue">
-                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'InvQty'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <input type="number" class="form-control form-control-sm text-right" name="lengthvalue"
-                                        value={{dataItem.length}} title="{{dataItem.length}}" #lengthvalue (blur)="onLengthChange(lengthvalue.value, dataItem.rowindex, dataItem.stringtype)"
-                                        [disabled]="dataItem.isOperationDisable" id="lengthvalue">
-                                </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}"
+                                headerClass="text-center" class="text-right">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <kendo-dropdownlist class="form-control" name="operation" [data]="operations"
-                                        [valuePrimitive]="true" [value]="dataItem.operations" textField="Name"
-                                        valueField="value" #selectedvalue [disabled]="dataItem.isOperationDisable"
-                                        (selectionChange)="onStringOperationsSelectChange($event, dataItem.rowindex)"></kendo-dropdownlist>
+                                    <input type="number" class="form-control form-control-sm text-right" name="qtyToAdd" value={{dataItem.QuantityToAdd}}
+                                        #qtyvalue (blur)="onQtyChange(qtyvalue.value, rowIndex)" id="qtyToAdd"
+                                        [(ngModel)]="QuantityToAdd">
                                 </ng-template> -->
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" [width]="45">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick(dataItem.rowindex)">
-                                            <span class="k-icon k-i-check" role="presentation"></span>
-                                        </button>
-                                    </ng-template>
-                                </kendo-grid-column>
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onShowBSClick(dataItem, rowIndex)">
+                                        <span class="k-icon k-i-check" role="presentation"></span>
+                                    </button>
+                                </ng-template>
+                            </kendo-grid-column>
                         </kendo-grid>
                     </div>
                 </div>
@@ -537,6 +514,10 @@
 
 <span *ngIf="showLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showLookup==false && showOtherLookup==true">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

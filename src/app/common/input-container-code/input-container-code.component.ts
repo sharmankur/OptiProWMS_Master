@@ -82,7 +82,7 @@ export class InputContainerCodeComponent implements OnInit {
 
   GenerateShipContainer() {
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID = "";
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
 
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(

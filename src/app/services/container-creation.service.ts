@@ -99,4 +99,67 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.commonService.httpOptions).toPromise();
   }
+
+  GetContainerNumber(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_FUNCTION: "shipping",
+        OPTM_OBJECT: "container"
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetContainerNumber", jObject, this.commonService.httpOptions);
+  }
+
+  InsertItemInContainer(conatinerId: any, containerType: any, itemCode: any,
+    ruleId: any, ruleQty: any, fillPer: any, binEnable: any, operation: any, itemQty: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTID: conatinerId,
+        OPTM_CONTTYPE: containerType,
+        OPTM_ITEMCODE: itemCode,
+        OPTM_RULEID: ruleId,
+        OPTM_ITEMQTY: itemQty,
+        OPTM_RULEQTY: ruleQty,
+        OPTM_FILLPER: fillPer,
+        OPTM_LIMITRULEQTY: 0,
+        OPTM_BINENABLE: binEnable,
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        OPTM_OPERATION: operation
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertItemInContainer", jObject, this.commonService.httpOptions);
+  }
+
+  InsertContainerinContainer(containerId: any, containerChildID: any, opn: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTID: containerId,
+        OPTM_CONTCHILDID: containerChildID,
+        OPTM_OPERATION: opn
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertContainerinContainer", jObject, this.commonService.httpOptions);
+  }
+
+  GetSelectesdRuleItem(ruleId: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetSelectesdRuleItem", jObject, this.commonService.httpOptions);
+  }
+
+  GetAllContainer(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
+  }
 }

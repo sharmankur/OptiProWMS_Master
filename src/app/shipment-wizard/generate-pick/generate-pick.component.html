@@ -226,9 +226,11 @@
                                                 <div class="input-group input-group-sm">
                                                     <input type="text" class="form-control form-control-sm" name="CarrierCodeFrom" id="CarrierCodeFrom" [(ngModel)]="CarrierCodeFrom"
                                                         (keypress)="numericOnly($event)">
-                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CCFrom')" [disabled]=isUpdate>
-                                                        <i class="opti-icon-hammenu"></i>
-                                                    </button>
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CCFrom')" [disabled]=isUpdate>
+                                                            <i class="opti-icon-hammenu"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,9 +244,11 @@
                                                 <div class="input-group input-group-sm">
                                                     <input type="text" class="form-control form-control-sm" name="CarrierCodeTo" id="CarrierCodeTo" [(ngModel)]="CarrierCodeTo"
                                                         (keypress)="numericOnly($event)">
-                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CCTo')" [disabled]=isUpdate>
-                                                        <i class="opti-icon-hammenu"></i>
-                                                    </button>
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CCTo')" [disabled]=isUpdate>
+                                                            <i class="opti-icon-hammenu"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

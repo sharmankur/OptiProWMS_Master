@@ -86,7 +86,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForShipToCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup().subscribe(
+    this.commonservice.GetShipToAddress().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -96,11 +96,11 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           this.serviceData = data;
-          if (fieldName == "SrNO") {
-            this.lookupfor = "SerialNoFrom";
-          } else if (fieldName == "SrNOTO") {
-            this.lookupfor = "SerialNoTo";
-          }
+          // if (fieldName == "SrNO") {
+          //   this.lookupfor = "SerialNoFrom";
+          // } else if (fieldName == "SrNOTO") {
+            this.lookupfor = fieldName;
+          // }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -350,7 +350,6 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
-
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
@@ -390,4 +389,10 @@ export class GeneratePickComponent implements OnInit {
       this.WareHouse = $event[0];
     }
   }
+
+  //#region "validation"
+  ValidateFields(){
+
+  }
+  //#endregion
 }
