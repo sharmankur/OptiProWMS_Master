@@ -63,13 +63,12 @@ export class ContainerShipmentComponent implements OnInit {
       
       this.PurposeId = this.purposeArray[0]; 
       this.PurposeValue = this.PurposeId.Value; 
-      this.shipeligible = "Y";
-
-      this.InvPostStatusId = this.InvPostStatusArray[0];
-      this.InvPostStatusValue = this.InvPostStatusId.Value;
-
+      this.shipeligible = "Y";    
     }
     else{
+      // this.InvPostStatusId = this.InvPostStatusArray[0];
+      // this.InvPostStatusValue = this.InvPostStatusId.Value;
+
       this.IsShipment = false;
     } 
     this.fillDataInGridWithShipment();    
@@ -421,6 +420,13 @@ export class ContainerShipmentComponent implements OnInit {
 
   onAssignShipmentPress () {
 
+    if(!this.IsShipment){
+      if(this.ShipmentId == "" || this.ShipmentId == undefined || this.ShipmentId == null){
+        this.toastr.error('', "Enter Shipment Id to Assign");
+        return;
+      }
+    }
+
     if(this.SelectedRowsforShipmentArr.length == 0){
       this.toastr.error('', "Select row");
       return;
@@ -430,19 +436,29 @@ export class ContainerShipmentComponent implements OnInit {
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
 
+    if(this.IsShipment){
     oSaveData.OtherData.push({
       CompanyDBId: localStorage.getItem("CompID"),
       ContnrShipmentId: this.SelectedShipmentId,
       OPTM_CREATEDBY: localStorage.getItem("UserId")
     })
+   }
+   else{
+    oSaveData.OtherData.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      ContnrShipmentId: this.ShipmentId,
+      OPTM_CREATEDBY: localStorage.getItem("UserId")
+    })
+   }
+
 
     for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
       oSaveData.SelectedRows.push({ 
-        Container_Id: this.SelectedRowsforShipmentArr[i]
+        Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i])
       })
     }
         
-    // let tempArr = [];
+     //let tempArr = [];
     // this.showLoader = true; 
 
     // let map = {};
@@ -470,7 +486,7 @@ export class ContainerShipmentComponent implements OnInit {
               this.toastr.error('', data[0].RESULT);
             }
             else{
-              this.toastr.success('', "Materials assigned to shipment successfully");
+              this.toastr.success('', "Containers assigned to shipment successfully");
             }
           }                           
         } else {
