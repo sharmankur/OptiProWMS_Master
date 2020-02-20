@@ -371,7 +371,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_WHSE: whse,
       OPTM_BIN: binNo,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
-      OPTM_MODIFIEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
       Length: length,
       Width: width,
       Height: height,
@@ -932,14 +932,16 @@ export class CreateContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.ItemWiseInventory != null && data.ItemWiseInventory != undefined) {
+          this.batchSerialData = []
+          if (data.IteWiseInventory != null && data.IteWiseInventory != undefined) {
             for (var j = 0; j < this.fromContainerDetails.length; j++) {
-              this.fromContainerDetails[j].BinCode = ""
+              this.fromContainerDetails[j].QuantityToAdd = 0
+              this.fromContainerDetails[j].BinCode = this.binNo
               this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
-              for (var i = 0; i < data.ItemWiseInventory.length; i++) {
-                if (data.ItemWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
-                  this.fromContainerDetails[j].BinCode = data.ItemWiseInventory[i].BinCode
-                  this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.ItemWiseInventory[i].Quantity
+              for (var i = 0; i < data.IteWiseInventory.length; i++) {
+                if (data.IteWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
+                  this.fromContainerDetails[j].BinCode = data.IteWiseInventory[i].BinCode
+                  // this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.IteWiseInventory[i].Quantity
                 }
               }
             }
@@ -1039,9 +1041,8 @@ export class CreateContainerComponent implements OnInit {
 
   onShowBSClick(event, index) {
     console.log("onShowBSClick index: " + index);
-
+    this.lookupData = [];
     if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
-      this.lookupData = [];
       var isChecked = false;
       // Filter according to ITEMCODE
       for (var i = 0; i < this.batchSerialData.length; i++) {
@@ -1107,6 +1108,40 @@ export class CreateContainerComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  onSONumberChange(){
+    this.showLoader = true;
+    this.containerCreationService.IsValidSONumber(this.soNumber).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.length == 0){
+            this.soNumber = ''
+            this.toastr.error('', this.translate.instant("InvalidSO"));
+          } else {
+            this.soNumber = data[0].DocEntry
+          }
+        } else {
+          this.soNumber = ''
+          this.toastr.error('', this.translate.instant("InvalidSO"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   isValidateCalled: boolean = false;

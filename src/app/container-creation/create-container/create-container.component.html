@@ -319,7 +319,7 @@
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="soNumber" placeholder="{{'SONumber'|translate}}"
-                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumbereChange()">
+                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
                                             <i class="opti-icon-hammenu"></i>
@@ -458,7 +458,7 @@
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'AvailableQty'|translate}}"
                                 headerClass="text-center" class="text-right">
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="operations" [width]="45" title="{{'InvQty'|translate}}"
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'InvQty'|translate}}"
                                 headerClass="text-center" class="text-right">
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">

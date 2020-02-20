@@ -820,7 +820,8 @@
   "QuantityToAddCannotZero": "Quantity to add can't be zero.",
   "ItemQtyCannotZero": "Item quantity can't be zero",
   "ChildContainerCannotBlank": "Child container id can't be blank",
-
+  "InvalidSO": "Invalid sales order number",
+  "InvalidContainerId": "Invalid container id",
 
   "Dummy": "Dummy"
   

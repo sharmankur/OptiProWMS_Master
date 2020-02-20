@@ -104,7 +104,36 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onItemCodeChange() {
-
+    this.showLoader = true;
+    this.containerCreationService.IsValidItemCode(this.packingRule, this.itemCode).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+            this.itemCode = ''
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          } else {
+            this.itemCode = data[0].OPTM_ITEMCODE
+          }
+        } else {
+          this.itemCode = ''
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   getItemCode() {
@@ -140,40 +169,12 @@ export class ContainerOperationComponent implements OnInit {
 
   }
 
-  onContainerIdChange() {
-    this.showLoader = true;
-    this.containerCreationService.CheckDuplicateContainerIdCreate("").subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-  }
-
   addItemToContainer() {
-    if(this.itemCode ==undefined || this.itemCode == ''){
+    if (this.itemCode == undefined || this.itemCode == '') {
       this.toastr.error('', this.translate.instant("SelectItemCode"));
       return;
     }
-    if(this.addItemOpn == "Add" && this.itemQty == 0){
+    if (this.addItemOpn == "Add" && this.itemQty == 0) {
       this.toastr.error('', this.translate.instant("ItemQtyCannotZero"));
       return;
     }
@@ -227,7 +228,7 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   addContainerToContainer() {
-    if(this.childContainerId ==undefined || this.childContainerId == ''){
+    if (this.childContainerId == undefined || this.childContainerId == '') {
       this.toastr.error('', this.translate.instant("ChildContainerCannotBlank"));
       return;
     }
@@ -353,6 +354,59 @@ export class ContainerOperationComponent implements OnInit {
         }
       },
       error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onContainerIdChange(from) {
+    var id;
+    if (from == 'parent') {
+      id = this.containerId;
+    } else {
+      id = this.childContainerId;
+    }
+    this.showLoader = true;
+    this.containerCreationService.IsValidContainerId(id).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+            if (from == 'parent') {
+              this.containerId = '';
+            } else {
+              this.childContainerId = '';
+            }
+            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+          } else {
+            this.itemCode = data[0].ITEMCODE
+            if (from == 'parent') {
+              this.containerId = data[0].OPTM_CONTAINERID;
+            } else {
+              this.childContainerId = data[0].OPTM_CONTAINERID;
+            }
+          }
+        } else {
+          if (from == 'parent') {
+            this.containerId = '';
+          } else {
+            this.childContainerId = '';
+          }
+          this.toastr.error('', this.translate.instant("InvalidContainerId"));
+        }
+      },
+      error => {
+        this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }

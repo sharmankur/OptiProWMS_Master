@@ -15,7 +15,7 @@
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="containerId"
                                             placeholder="{{'ContainerId'|translate}}" name="containerId"
-                                            [(ngModel)]="containerId">
+                                            [(ngModel)]="containerId" (blur)="onContainerIdChange('parent')">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetParentContainer()">
                                                 <i class="opti-icon-hammenu"></i>
@@ -252,7 +252,7 @@
                         <label for="childContainerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
                         <div class="input-group col-sm-8">
                             <input type="text" class="form-control form-control-sm" id="childContainerId" placeholder="{{'ContainerId'|translate}}"
-                                name="childContainerId" [(ngModel)]="childContainerId">
+                                name="childContainerId" [(ngModel)]="childContainerId" (blur)="onContainerIdChange('child')">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer()">
                                     <i class="opti-icon-hammenu"></i>
