@@ -822,6 +822,7 @@
   "ChildContainerCannotBlank": "Child container id can't be blank",
   "InvalidSO": "Invalid sales order number",
   "InvalidContainerId": "Invalid container id",
+  "AddedQtyValid": "Added quantity must be equal to quantity",
 
   "Dummy": "Dummy"
   

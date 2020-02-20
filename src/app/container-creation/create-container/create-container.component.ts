@@ -353,7 +353,7 @@ export class CreateContainerComponent implements OnInit {
     this.oSaveModel.OtherBtchSerDTL = [];
 
     var purps = ""
-    if (this.purpose == "shipping") {
+    if (this.purpose == "Shipping") {
       purps = "Y"
     } else {
       purps = "N"
@@ -366,7 +366,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_CONTTYPE: containerType,
       OPTM_CONTAINERCODE: containerCode,
       OPTM_WEIGHT: wieght,
-      OPTM_AUTOCLOSE_ONFULL: 'Y',
+      OPTM_AUTOCLOSE_ONFULL: ((this.autoClose == true) ? 'Y' : 'N'),
       OPTM_AUTORULEID: autoRuleId,
       OPTM_WHSE: whse,
       OPTM_BIN: binNo,
@@ -479,17 +479,34 @@ export class CreateContainerComponent implements OnInit {
     }
 
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
-        this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+      if (this.fromContainerDetails[i].QuantityToAdd != this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
+        this.toastr.error('', this.translate.instant("AddedQtyValid"));
         return false;
       }
+
+      if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
+        if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].AvlQty) {
+          this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+          return false;
+        }
+      }
     }
+
+    // for (var i = 0; i < this.fromContainerDetails.length; i++) {
+    //   if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
+    //     if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].AvlQty) {
+    //       this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+    //       return false;
+    //     }
+    //   }
+    // }
 
     return true;
   }
 
   onCheckChange() {
     this.autoClose = !this.autoClose;
+    console.log("onCheckChange: " + ((this.autoClose == true) ? 'Y' : 'N'))
   }
 
   getAutoPackRule() {
@@ -548,14 +565,6 @@ export class CreateContainerComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
-          // for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
-          //   if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
-          //   } else {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
-          //   }
-          // }
-
           this.lookupfor = "WareHouse";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -596,13 +605,6 @@ export class CreateContainerComponent implements OnInit {
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
-          // for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
-          //   if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
-          //   } else {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
-          //   }
-          // }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -713,6 +715,7 @@ export class CreateContainerComponent implements OnInit {
           for (var j = 0; j < this.fromContainerDetails.length; j++) {
             this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0;
             this.fromContainerDetails[j].QuantityToAdd = 0;
+            this.fromContainerDetails[j].AvlQty = 0;
           }
 
           result = true;
@@ -852,14 +855,6 @@ export class CreateContainerComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
-          // for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
-          //   if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
-          //   } else {
-          //     this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
-          //   }
-          // }
-
           this.lookupfor = "GroupCodeList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -933,15 +928,22 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.batchSerialData = []
+          // this.fromContainerDetails = []
           if (data.IteWiseInventory != null && data.IteWiseInventory != undefined) {
             for (var j = 0; j < this.fromContainerDetails.length; j++) {
               this.fromContainerDetails[j].QuantityToAdd = 0
               this.fromContainerDetails[j].BinCode = this.binNo
               this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
+              this.fromContainerDetails[j].AvlQty = 0
+              this.fromContainerDetails[j].isDesable = true
+              this.fromContainerDetails[j].OPTM_TRACKING = "B"
               for (var i = 0; i < data.IteWiseInventory.length; i++) {
                 if (data.IteWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
                   this.fromContainerDetails[j].BinCode = data.IteWiseInventory[i].BinCode
-                  // this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.IteWiseInventory[i].Quantity
+                  this.fromContainerDetails[j].AvlQty = data.IteWiseInventory[i].AvlQty
+                  this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = data.IteWiseInventory[i].Quantity
+                  this.fromContainerDetails[j].isDesable = ((data.IteWiseInventory[i].OPTM_TRACKING == "N") ? false : true)
+                  this.fromContainerDetails[j].OPTM_TRACKING = data.IteWiseInventory[i].OPTM_TRACKING
                 }
               }
             }
@@ -1053,6 +1055,7 @@ export class CreateContainerComponent implements OnInit {
       }
 
       for (var i = 0; i < this.lookupData.length; i++) {
+        this.lookupData[i].OldData = false;
         for (var j = 0; j < this.selectedBatchSerial.length; j++) {
           if (this.lookupData[i].ITEMCODE == this.selectedBatchSerial[j].ITEMCODE && this.lookupData[i].LOTNO == this.selectedBatchSerial[j].LOTNO) {
             this.lookupData[i].OldData = true;
@@ -1110,7 +1113,7 @@ export class CreateContainerComponent implements OnInit {
     return false;
   }
 
-  onSONumberChange(){
+  onSONumberChange() {
     this.showLoader = true;
     this.containerCreationService.IsValidSONumber(this.soNumber).subscribe(
       (data: any) => {
@@ -1121,7 +1124,7 @@ export class CreateContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length == 0){
+          if (data.length == 0) {
             this.soNumber = ''
             this.toastr.error('', this.translate.instant("InvalidSO"));
           } else {
