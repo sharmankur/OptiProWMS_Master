@@ -87,7 +87,7 @@
                              </div>    
                             <div class="col-sm-6">
                               <div class="form-group row">
-                                <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>  
+                                <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>  
                             </div>
                         </div>
                     </div>                    
@@ -104,7 +104,7 @@
                                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                             <label class="custom-checkbox mb-0">
                                                 <input type="checkbox" #checkedselectedvalue
-                                                    (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)">
+                                                    (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
                                                 <span class="checkbox"></span>
                                             </label>
                                         </ng-template>

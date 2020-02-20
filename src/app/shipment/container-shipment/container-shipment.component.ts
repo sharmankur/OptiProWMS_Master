@@ -80,43 +80,47 @@ export class ContainerShipmentComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
-  fillDataInGridWithShipment() {
-
+  fillDataInGridWithShipment() {   
+    this.showLoader = true; 
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
       this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment).subscribe(
-        (data: any) => {
-          if (data != undefined) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }
-            this.ContainerItems = data;
-            for (let i = 0; i < this.ContainerItems.length; i++) {
-              this.ContainerItems[i].Selected = false;
-            }
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+         this.ContainerItems = data;
+         for(let i =0; i<this.ContainerItems.length; i++){
+           this.ContainerItems[i].Selected = false;
+         }
 
-          } else {
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-          }
-        },
-        error => {
-          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-          }
-          else {
-            this.toastr.error('', error);
-          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
       );
   }
 
-  onQueryBtnClick() {
-    if (this.PurposeId.Value == '1')
-      this.shipeligible = "Y";
-    else
-      this.shipeligible = "N";
-
+  onQueryBtnClick(){
+    if(this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != ''){
+      if(this.PurposeId.Value == '1')
+        this.shipeligible = "Y";
+      else
+        this.shipeligible = "N";
+    }  
+    
     this.fillDataInGridWithShipment();
   }
 

@@ -230,6 +230,9 @@ export class ShipmentViewComponent implements OnInit {
     this.ShipToCode = OPTM_SHPMNT_HDR[0].OPTM_SHIPTO;
     this.CarrierCode = OPTM_SHPMNT_HDR[0].OPTM_CARRIER;
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
+      this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
+      this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
+      this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER="Y"?true:false;
   }
 
   onCancelClick() {
@@ -263,6 +266,9 @@ export class ShipmentViewComponent implements OnInit {
       this.ShipToCode = event.OPTM_SHIPTO;
       this.CarrierCode = event.OPTM_CARRIER;
       this.VehicleNumber = event.OPTM_VEHICLENO;
+      this.ReturnOrderRef = event.OPTM_RETURN_ORDER_REF;
+      this.BOLNumber = event.OPTM_BOLNUMBER;
+      this.UseContainer = event.OPTM_USE_CONTAINER="Y"?true:false;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
@@ -355,10 +361,10 @@ export class ShipmentViewComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
               this.GetDataBasedOnShipmentId(this.ShipmentID);
             } else {
-              this.toastr.error('', data[0].RESULT);
+              this.toastr.error('', data.OUTPUT[0].RESULT);
             }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -387,10 +393,10 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -410,7 +416,8 @@ export class ShipmentViewComponent implements OnInit {
 
   onUpdateClick() {
     this.showLoader = true;
-    this.shipmentService.updateShipment("", "").subscribe(
+    let uc = this.UseContainer == true? "Y":"N";
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -419,10 +426,11 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookupLoader = false;
-          this.serviceData = data;
-          this.lookupfor = "DDList";
-          this.hideLookup = false;
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

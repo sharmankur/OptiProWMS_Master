@@ -97,6 +97,7 @@ export class SigninComponent implements OnInit {
                     console.log('service_url after fetch:   '+ data[0]);
                     sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
                     this.getPSURL();
+                    this.signinService.loadConfig();
                 },
                 (err: HttpErrorResponse) => {
                     console.log(err.message);

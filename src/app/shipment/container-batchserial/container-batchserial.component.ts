@@ -246,17 +246,18 @@ export class ContainerBatchserialComponent implements OnInit {
   onQueryBtnClick(){
     if(this.ContainsItemID == '' || this.ContainsItemID == undefined){
       this.toastr.error('', "Select Item Code");
-    }    
-    
+      return;
+    } 
     this.fillBatchSerialDataInGrid();
   }  
 
   fillBatchSerialDataInGrid(){
 
-    //this.showLoader = true;
+    this.showLoader = true;
+
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
       (data: any) => {
-       // this.showLoader = false;
+        this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -272,7 +273,7 @@ export class ContainerBatchserialComponent implements OnInit {
         }
       },
       error => {
-       // this.showLoader = false;
+        this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }
@@ -290,9 +291,13 @@ export class ContainerBatchserialComponent implements OnInit {
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
-      // var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
-      // if(index > -1)
-      // this.SelectedRowsforShipmentArr.splice(index,1);   
+
+      for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
+        if(this.SelectedRowsforShipmentArr[i].ITEMCODE == dataitem.ITEMCODE && this.SelectedRowsforShipmentArr[i].WHSCODE == dataitem.WHSCODE &&
+          this.SelectedRowsforShipmentArr[i].BINNO == dataitem.BINNO && this.SelectedRowsforShipmentArr[i].LOTNO == dataitem.LOTNO){
+            this.SelectedRowsforShipmentArr.splice(i,1); 
+        }
+      } 
      }
   }
 
