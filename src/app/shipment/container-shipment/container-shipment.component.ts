@@ -430,7 +430,8 @@ export class ContainerShipmentComponent implements OnInit {
 
     oSaveData.OtherData.push({
       CompanyDBId: localStorage.getItem("CompID"),
-      ContnrShipmentId: this.SelectedShipmentId
+      ContnrShipmentId: this.SelectedShipmentId,
+      OPTM_CREATEDBY: localStorage.getItem("UserId")
     })
 
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
