@@ -309,7 +309,8 @@ export class ContainerBatchserialComponent implements OnInit {
 
     oSaveData.OtherData.push({
       CompanyDBId: localStorage.getItem("CompID"),
-      ContnrShipmentId: this.SelectedShipmentId
+      ContnrShipmentId: this.SelectedShipmentId,
+      OPTM_CREATEDBY: localStorage.getItem("UserId")
     })
 
     for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
@@ -352,17 +353,19 @@ export class ContainerBatchserialComponent implements OnInit {
 
   onAssignedQtyChange(value,rowindex) {
 
-    if(value == '' || value == undefined || value == null){
+    let qtyValue = parseInt(value);
+
+    if(qtyValue == 0 || qtyValue == undefined || qtyValue == null){
       this.toastr.error('', "Enter Assign Quantity");
       return;
     }
 
-    if(value > this.ContainerBatchSerials[rowindex].AvailableQty){
+    if(qtyValue > this.ContainerBatchSerials[rowindex].AvailableQty){
       this.toastr.error('', "Assigned Quantity cannot be greater than Available Quantity at row - " + rowindex);
       return;
     }
     else{
-      this.ContainerBatchSerials[rowindex].QtytoAssign = value;
+      this.ContainerBatchSerials[rowindex].QtytoAssign = qtyValue;
     }  
   }
 

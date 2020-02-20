@@ -119,7 +119,7 @@
                                     <kendo-grid-column field="QtytoAssign" width="100" class="text-right" title="Quantity to Assign">
                                       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <input type="text" fieldSize="small" name="dataItem.QtytoAssign" class="form-control form-control-sm text-right" id="AssignQtyid"
-                                        (keypress)="numberOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,idx)"
+                                        (keypress)="numberOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
                                         value={{dataItem.QtytoAssign}} #AssignQty title="Quantity to Assign" />
                                       </ng-template>
                                     </kendo-grid-column> 
