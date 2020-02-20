@@ -14,21 +14,21 @@ import { ContainerShipmentService } from 'src/app/services/container-shipment.se
 })
 export class ContainerShipmentComponent implements OnInit {
 
-  ContainerCodeId: any='';
+  ContainerCodeId: any = '';
   purposeArray: any = [];
   PurposeId: any;
-  PurposeValue: any='';
+  PurposeValue: any = '';
   statusArray: any = [];
-  StatusId: any='';
-  StatusValue : any ='';
-  WarehouseId: any='';
-  BinId: any='';
-  ContainerTypeId: any='';
+  StatusId: any = '';
+  StatusValue: any = '';
+  WarehouseId: any = '';
+  BinId: any = '';
+  ContainerTypeId: any = '';
   ContainerTypeArray: any = [];
-  ShipmentId: any='';
+  ShipmentId: any = '';
   InvPostStatusArray: any = [];
-  InvPostStatusId: any='';
-  InvPostStatusValue: any='';
+  InvPostStatusId: any = '';
+  InvPostStatusValue: any = '';
   ContainerItems: any = [];
   serviceData: any[];
   lookupfor: string;
@@ -38,90 +38,88 @@ export class ContainerShipmentComponent implements OnInit {
   SelectedWhse: any = '';
   SelectedBin: any = '';
   IsShipment: boolean = false;
-  shipeligible: string= '';
-  ContainsItemID: any='';
+  shipeligible: string = '';
+  ContainsItemID: any = '';
   SelectedRowsforShipmentArr = [];
   commonData: any = new CommonData();
   oSaveModel: any = {};
 
-  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) { }
 
   ngOnInit() {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
-    this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();      
+    this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
 
-    this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
-    this.SelectedWhse = localStorage.getItem("ShipWhse"); 
+    this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
+    this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
 
-    if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
+    if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
       this.InvPostStatusId = this.InvPostStatusArray[1];
-      this.InvPostStatusValue = this.InvPostStatusId.Value;  
-      
-      this.PurposeId = this.purposeArray[0]; 
-      this.PurposeValue = this.PurposeId.Value; 
-      this.shipeligible = "Y";
-
-      this.InvPostStatusId = this.InvPostStatusArray[0];
       this.InvPostStatusValue = this.InvPostStatusId.Value;
 
+      this.PurposeId = this.purposeArray[0];
+      this.PurposeValue = this.PurposeId.Value;
+      this.shipeligible = "Y";
     }
-    else{
+    else {
+      // this.InvPostStatusId = this.InvPostStatusArray[0];
+      // this.InvPostStatusValue = this.InvPostStatusId.Value;
       this.IsShipment = false;
-    } 
-    this.fillDataInGridWithShipment();    
+    }
+    this.fillDataInGridWithShipment();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     localStorage.setItem("ShipShipmentID", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
   }
 
-  fillDataInGridWithShipment() {    
+  fillDataInGridWithShipment() {
 
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
       this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment).subscribe(
-      (data: any) => {
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-         this.ContainerItems = data;
-         for(let i =0; i<this.ContainerItems.length; i++){
-           this.ContainerItems[i].Selected = false;
-         }
+        (data: any) => {
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            this.ContainerItems = data;
+            for (let i = 0; i < this.ContainerItems.length; i++) {
+              this.ContainerItems[i].Selected = false;
+            }
 
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-      },
-      error => {
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
   }
 
-  onQueryBtnClick(){
-    if(this.PurposeId.Value == '1')
+  onQueryBtnClick() {
+    if (this.PurposeId.Value == '1')
       this.shipeligible = "Y";
     else
       this.shipeligible = "N";
-    
-    this.fillDataInGridWithShipment();
-  }  
 
-  getContainerType(){
+    this.fillDataInGridWithShipment();
+  }
+
+  getContainerType() {
     this.ContainerTypeArray = [];
     this.containerCreationService.GetContainerType().subscribe(
       (data: any) => {
@@ -135,8 +133,8 @@ export class ContainerShipmentComponent implements OnInit {
           this.showLookup = true;
           this.serviceData = data;
           this.lookupfor = "CTList";
-          
-                 
+
+
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -152,11 +150,11 @@ export class ContainerShipmentComponent implements OnInit {
     );
   }
 
-  onPurposeSelectChange ($event) {
+  onPurposeSelectChange($event) {
     this.PurposeId = $event.Value;
   }
 
-  GetWhseCode (){
+  GetWhseCode() {
     this.commonservice.GetWhseCode().subscribe(
       (data: any) => {
         if (data != undefined) {
@@ -166,7 +164,7 @@ export class ContainerShipmentComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;          
+          this.serviceData = data;
 
           this.lookupfor = "WareHouse";
         } else {
@@ -184,7 +182,7 @@ export class ContainerShipmentComponent implements OnInit {
     );
   }
 
-  GetBinCode () {
+  GetBinCode() {
     if (this.WarehouseId == undefined || this.WarehouseId == "") {
       this.toastr.error('', this.translate.instant("SelectWhseMsg"));
       return;
@@ -199,15 +197,15 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length > 0){
+          if (data.length > 0) {
             this.showLookup = true;
             this.serviceData = data;
             this.lookupfor = "BinList";
           }
-          else{
+          else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
-          
+
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -236,7 +234,7 @@ export class ContainerShipmentComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;        
+          this.serviceData = data;
 
           this.lookupfor = "ContainsItem";
         } else {
@@ -255,12 +253,12 @@ export class ContainerShipmentComponent implements OnInit {
     );
 
   }
-  
-  onStatusChange ($event) {
+
+  onStatusChange($event) {
     this.StatusValue = $event.Value;
   }
-  
-  onInvPostStatusChange ($event) {
+
+  onInvPostStatusChange($event) {
     this.InvPostStatusValue = $event.Value;
   }
 
@@ -279,12 +277,12 @@ export class ContainerShipmentComponent implements OnInit {
 
             return;
           }
-          if(resp.length == 0){
-            this.toastr.error('', this.translate.instant("Invalid warehouse"));
-            this.WarehouseId = ''
-          } else {
-            this.WarehouseId = resp[0].WhsCode
-          }
+        if (resp.length == 0) {
+          this.toastr.error('', this.translate.instant("Invalid warehouse"));
+          this.WarehouseId = ''
+        } else {
+          this.WarehouseId = resp[0].WhsCode
+        }
         result = true;
       },
       error => {
@@ -295,7 +293,7 @@ export class ContainerShipmentComponent implements OnInit {
     );
     return result;
   }
- 
+
   async onBinChange() {
     if (this.BinId == undefined || this.BinId == "") {
       return;
@@ -311,13 +309,13 @@ export class ContainerShipmentComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
             return;
           }
-          if(resp.length == 0){
-            this.toastr.error('', this.translate.instant("Invalid Bin Code"));
-            this.BinId = ''
-          } 
-          // else {
-          //   this.binNo = resp[0].WhsCode
-          // }
+        if (resp.length == 0) {
+          this.toastr.error('', this.translate.instant("Invalid Bin Code"));
+          this.BinId = ''
+        }
+        // else {
+        //   this.binNo = resp[0].WhsCode
+        // }
         result = true;
       },
       error => {
@@ -330,7 +328,7 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   async onContainerTypeChange() {
-    
+
     if (this.ContainerTypeId == undefined || this.ContainerTypeId == "") {
       return;
     }
@@ -346,16 +344,16 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data != null && data.length >= 1) {           
-              this.ContainerTypeId = data[0].OPTM_CONTAINER_TYPE;            
-              result = true;
-          } else {            
-              this.ContainerTypeId = "";            
+          if (data != null && data.length >= 1) {
+            this.ContainerTypeId = data[0].OPTM_CONTAINER_TYPE;
+            result = true;
+          } else {
+            this.ContainerTypeId = "";
             this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
-        } else {      
-            this.ContainerTypeId = "";
-         
+        } else {
+          this.ContainerTypeId = "";
+
           this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
@@ -384,12 +382,12 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length == 0){
+          if (data.length == 0) {
             this.toastr.error('', this.translate.instant("Invalid Item"));
             this.ContainsItemID = ''
           } else {
             this.ContainsItemID = data[0].OPTM_ITEMCODE
-          }          
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -406,27 +404,27 @@ export class ContainerShipmentComponent implements OnInit {
     );
   }
 
-  selectContainerRowChange (isCheck,dataitem,idx){
-    if(isCheck){
-      this.ContainerItems[idx].Selected = true; 
+  selectContainerRowChange(isCheck, dataitem, idx) {
+    if (isCheck) {
+      this.ContainerItems[idx].Selected = true;
       this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTAINERID);
     }
-    else{
+    else {
       this.ContainerItems[idx].Selected = true;
       var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
-      if(index > -1)
-      this.SelectedRowsforShipmentArr.splice(index,1);   
+      if (index > -1)
+        this.SelectedRowsforShipmentArr.splice(index, 1);
     }
   }
 
-  onAssignShipmentPress () {
+  onAssignShipmentPress() {
 
-    if(this.SelectedRowsforShipmentArr.length == 0){
+    if (this.SelectedRowsforShipmentArr.length == 0) {
       this.toastr.error('', "Select row");
       return;
     }
 
-    let oSaveData:any = {};
+    let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
 
@@ -435,12 +433,12 @@ export class ContainerShipmentComponent implements OnInit {
       ContnrShipmentId: this.SelectedShipmentId
     })
 
-    for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
-      oSaveData.SelectedRows.push({ 
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      oSaveData.SelectedRows.push({
         Container_Id: this.SelectedRowsforShipmentArr[i]
       })
     }
-        
+
     // let tempArr = [];
     // this.showLoader = true; 
 
@@ -448,13 +446,13 @@ export class ContainerShipmentComponent implements OnInit {
     // map['CompanyDBId'] = localStorage.getItem("CompID");
     // map['ContnrShipmentId']= this.SelectedShipmentId;
     // tempArr.push(map);
-  
+
     // for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
     //   let map = {};
     //   map['Container_Id'] = this.SelectedRowsforShipmentArr[i];
     //   tempArr.push(map);
     // }   
-    
+
     this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -464,14 +462,14 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length > 0){
-            if(data[0].RESULT != '' && data[0].RESULT != null){
+          if (data.length > 0) {
+            if (data[0].RESULT != '' && data[0].RESULT != null) {
               this.toastr.error('', data[0].RESULT);
             }
-            else{
+            else {
               this.toastr.success('', "Materials assigned to shipment successfully");
             }
-          }                           
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -485,35 +483,35 @@ export class ContainerShipmentComponent implements OnInit {
           this.toastr.error('', error);
         }
       }
-    );    
+    );
   }
 
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       return;
     }
-    else {     
-       if (this.lookupfor == "WareHouse") {
+    else {
+      if (this.lookupfor == "WareHouse") {
         this.WarehouseId = $event[0];
-       } 
-    else if (this.lookupfor == "BinList") {
+      }
+      else if (this.lookupfor == "BinList") {
         this.BinId = $event[0];
       }
-      else if(this.lookupfor == "CTList") {
-        this.ContainerTypeId =  $event[0];
+      else if (this.lookupfor == "CTList") {
+        this.ContainerTypeId = $event[0];
       }
-      else if(this.lookupfor == "ContainsItem"){
-        this.ContainsItemID =  $event[0];
+      else if (this.lookupfor == "ContainsItem") {
+        this.ContainsItemID = $event[0];
       }
-      
-     }
+
+    }
   }
 
-  onArrowBtnClick() {   
+  onArrowBtnClick() {
     this.router.navigate(['home/shipment']);
   }
 
-  onCancelClick () {
+  onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
