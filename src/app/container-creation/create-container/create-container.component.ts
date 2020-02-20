@@ -371,7 +371,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_WHSE: whse,
       OPTM_BIN: binNo,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
-      OPTM_MODIFIEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
       Length: length,
       Width: width,
       Height: height,
