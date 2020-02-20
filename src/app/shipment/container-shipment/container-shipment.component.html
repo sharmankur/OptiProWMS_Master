@@ -214,7 +214,7 @@
                                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <label class="custom-checkbox mb-0">
                                             <input type="checkbox" #checkedselectedvalue
-                                                (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)">
+                                                (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
                                             <span class="checkbox"></span>
                                         </label>
                                     </ng-template>

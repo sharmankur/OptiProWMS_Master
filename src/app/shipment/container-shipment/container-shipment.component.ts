@@ -80,11 +80,12 @@ export class ContainerShipmentComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
-  fillDataInGridWithShipment() {    
-
+  fillDataInGridWithShipment() {   
+    this.showLoader = true; 
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
       this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment).subscribe(
       (data: any) => {
+        this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -101,6 +102,7 @@ export class ContainerShipmentComponent implements OnInit {
         }
       },
       error => {
+        this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }
@@ -112,10 +114,12 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   onQueryBtnClick(){
-    if(this.PurposeId.Value == '1')
-      this.shipeligible = "Y";
-    else
-      this.shipeligible = "N";
+    if(this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != ''){
+      if(this.PurposeId.Value == '1')
+        this.shipeligible = "Y";
+      else
+        this.shipeligible = "N";
+    }  
     
     this.fillDataInGridWithShipment();
   }  
