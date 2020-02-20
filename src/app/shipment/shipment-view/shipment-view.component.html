@@ -321,6 +321,9 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
 
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()" [disabled]=isScheduledDiabled>
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
+
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onScheduleClick()" [disabled]=isScheduledDiabled>
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Schedule'|translate}}</button>
 
