@@ -715,7 +715,7 @@
   "WhsUserGroup_User_Group_Move": "Move Group",
 
   "ContainerGroupingCode": "Container Grouping Code",
-  "OtherItemsTitle": "Other items to be included in container",
+  "OtherItemsTitle": "Items to be included",
   "ResetCounter": "Reset Counter",
   "ParentContCannoSame": "Container type and parent container type can not be same.",
   "BinCanNotBlankMsg": "Bin code can't be blank.",
@@ -823,6 +823,9 @@
   "InvalidSO": "Invalid sales order number",
   "InvalidContainerId": "Invalid container id",
   "AddedQtyValid": "Added quantity must be equal to quantity",
+  "AddedQtyValidMsg": "Added quantity should be less than available quantity",
+  "CheckedItemQtyValid": "Quantity can't be zero for checked item",
+  "QtyAdded": "Quantity Added",
 
   "Dummy": "Dummy"
   

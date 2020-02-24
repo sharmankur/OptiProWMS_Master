@@ -56,6 +56,8 @@ export class CreateContainerComponent implements OnInit {
   batchSerialData: any = [];
   lookupData: any = [];
   selectedBatchSerial: any = [];
+  partPerQty: any;
+  qtyAdded: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -397,6 +399,7 @@ export class CreateContainerComponent implements OnInit {
         OPTM_AVLQUANTITY: 0,
         OPTM_INVQUANTITY: 0,
         OPTM_BIN: '',
+        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING
       });
     }
 
@@ -433,6 +436,7 @@ export class CreateContainerComponent implements OnInit {
           if (data.length == 1) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             // this.onResetClick();
+            this.GetInventoryData();
             this.containerId = data[0].OPTM_CONTAINERID;
             this.selectedBatchSerial = [];
             this.GetContainerNumber();
@@ -507,6 +511,11 @@ export class CreateContainerComponent implements OnInit {
   onCheckChange() {
     this.autoClose = !this.autoClose;
     console.log("onCheckChange: " + ((this.autoClose == true) ? 'Y' : 'N'))
+  }
+
+  fromContainer: boolean = false
+  onFromContainerCheckChange(){
+    this.fromContainer = !this.fromContainer;
   }
 
   getAutoPackRule() {
@@ -1043,6 +1052,18 @@ export class CreateContainerComponent implements OnInit {
 
   onShowBSClick(event, index) {
     console.log("onShowBSClick index: " + index);
+    this.partPerQty = event.OPTM_PARTS_PERCONT
+    localStorage.setItem("PartPerQty", this.partPerQty)
+    if (this.whse == undefined || this.whse == "") {
+      this.toastr.error('', this.translate.instant("SelectWhseMsg"));
+      return false;
+    }
+    
+    if (this.binNo == undefined || this.binNo == "") {
+      this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
+      return false;
+    }
+
     this.lookupData = [];
     if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
       var isChecked = false;
@@ -1050,6 +1071,8 @@ export class CreateContainerComponent implements OnInit {
       for (var i = 0; i < this.batchSerialData.length; i++) {
         if (event.OPTM_ITEMCODE == this.batchSerialData[i].ITEMCODE) {
           this.batchSerialData[i].OldData = isChecked;
+          this.batchSerialData[i].Balance = this.batchSerialData[i].AvlQty
+          this.batchSerialData[i].QuantityToAdd = 0;
           this.lookupData.push(this.batchSerialData[i]);
         }
       }
@@ -1091,7 +1114,7 @@ export class CreateContainerComponent implements OnInit {
     var sumQty = 0;
     for (var i = 0; i < this.selectedBatchSerial.length; i++) {
       if (this.selectedBatchSerial[i].ITEMCODE == code) {
-        sumQty = sumQty + this.selectedBatchSerial[i].Quantity;
+        sumQty = sumQty + Number(""+this.selectedBatchSerial[i].QuantityToAdd);
       }
     }
 
