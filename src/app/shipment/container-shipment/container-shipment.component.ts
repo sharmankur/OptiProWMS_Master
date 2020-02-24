@@ -41,6 +41,8 @@ export class ContainerShipmentComponent implements OnInit {
   shipeligible: string = '';
   ContainsItemID: any = '';
   SelectedRowsforShipmentArr = [];
+  ShowGridPaging: boolean = false;
+  pageSize: number = Commonservice.pageSize;
   commonData: any = new CommonData();
   oSaveModel: any = {};
 
@@ -92,11 +94,16 @@ export class ContainerShipmentComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-         this.ContainerItems = data;
+          this.ContainerItems = data;
+          
+          if(this.ContainerItems.length > 10){
+            this.ShowGridPaging = true;          
+          }
+
          for(let i =0; i<this.ContainerItems.length; i++){
            this.ContainerItems[i].Selected = false;
+          // this.setContainerStatus(this.ContainerItems[i].OPTM_STATUS);
          }
-
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -112,6 +119,15 @@ export class ContainerShipmentComponent implements OnInit {
       }
       );
   }
+
+  // setContainerStatus(status) {
+
+  //   let statusArr = this.commonData.Container_Shipment_Status_DropDown();
+  //   if(statusArr){
+
+  //   }
+
+  // }
 
   onQueryBtnClick(){
     if(this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != ''){
@@ -283,7 +299,7 @@ export class ContainerShipmentComponent implements OnInit {
             return;
           }
         if (resp.length == 0) {
-          this.toastr.error('', this.translate.instant("Invalid warehouse"));
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WarehouseId = ''
         } else {
           this.WarehouseId = resp[0].WhsCode
@@ -388,7 +404,7 @@ export class ContainerShipmentComponent implements OnInit {
             return;
           }
           if (data.length == 0) {
-            this.toastr.error('', this.translate.instant("Invalid Item"));
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
             this.ContainsItemID = ''
           } else {
             this.ContainsItemID = data[0].OPTM_ITEMCODE
@@ -426,13 +442,13 @@ export class ContainerShipmentComponent implements OnInit {
 
     if(!this.IsShipment){
       if(this.ShipmentId == "" || this.ShipmentId == undefined || this.ShipmentId == null){
-        this.toastr.error('', "Enter Shipment Id to Assign");
+        this.toastr.error('', this.translate.instant("Enter_shipmentid"));
         return;
       }
     }
 
     if(this.SelectedRowsforShipmentArr.length == 0){
-      this.toastr.error('', "Select row");
+      this.toastr.error('', this.translate.instant("Select_row"));
       return;
     }
 
@@ -490,7 +506,7 @@ export class ContainerShipmentComponent implements OnInit {
               this.toastr.error('', data[0].RESULT);
             }
             else{
-              this.toastr.success('', "Containers assigned to shipment successfully");
+              this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
             }
           }
         } else {

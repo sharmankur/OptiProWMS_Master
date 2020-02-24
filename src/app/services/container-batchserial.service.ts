@@ -34,4 +34,15 @@ export class ContainerBatchserialService {
 
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignMaterialToShipment", jObject, this.commonService.httpOptions);
   }
+
+  GetItemsOpenQuantity(ContnrShipmentId:number){
+
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContnrShipmentId: ContnrShipmentId       
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/GetItemsOpenQuantity", jObject, this.commonService.httpOptions);
+  }
 }
