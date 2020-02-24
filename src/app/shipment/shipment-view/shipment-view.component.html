@@ -317,6 +317,7 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
+             
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" (click)="onCancelClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
@@ -344,6 +345,18 @@
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Cancel_Unassign'|translate}}</button>
+                    <div class="btn-group">
+                        <div class="dropdown show">
+                            <a class="btn btn-success btn-sm dropdown-toggle toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </a>                  
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </form>

@@ -12876,9 +12876,17 @@ body .k-grid td button.btn-success.k-button.k-primary.simple-btn:hover,
   background: #3e5b99;
   
 }
+.btn-success,.btn-success:hover, .btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle{
+  background: #3e5b99;
+}
 .btn-success:not(:disabled):not(.disabled):active,
-.btn-success:not(:disabled):not(.disabled):active:focus{
+.btn-success:not(:disabled):not(.disabled):active:focus,
+.btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled):active:focus,
+.btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show>.btn-success.dropdown-toggle:focus{
   box-shadow: 0 0 0 3px rgba(157, 208, 243, 0.5);
+}
+.btn-success, .btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle{
+  border: none;
 }
 .btn-danger.k-button,
 .btn-danger.k-button:hover,
