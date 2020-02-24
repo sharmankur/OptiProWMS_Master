@@ -1,6 +1,6 @@
 [
     {
-        "service_url": "http://localhost:57600/",
-        "AppVersion": "1.2.11"
+        "service_url": "http://172.16.6.140/optiproerpshipmentservice/",
+        "AppVersion": "1.2.10"
     } 
 ]    

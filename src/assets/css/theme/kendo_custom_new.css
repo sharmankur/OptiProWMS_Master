@@ -79,7 +79,7 @@ body .k-grid tbody tr:hover{
 button{
     border-color: var(--kendo-primary-color);
     background: #3e5b99;
-    border-radius: 0 !important;
+    border-radius:3px !important;
 }
 
 
@@ -12858,12 +12858,25 @@ body button.k-button, body .k-grid td button.k-button.k-primary.simple-btn{
 .btn-success.k-button, 
 body .k-grid td button.btn-success.k-button.k-primary.simple-btn,
 .btn-success.k-button:hover, 
-body .k-grid td button.btn-success.k-button.k-primary.simple-btn:hover{
+body .k-grid td button.btn-success.k-button.k-primary.simple-btn:hover,
+.btn-success.k-button:focus,.btn-success.k-button:active,
+.btn-success:not(:disabled):not(.disabled):active{
   background: #3e5b99;
+  
+}
+.btn-success:not(:disabled):not(.disabled):active,
+.btn-success:not(:disabled):not(.disabled):active:focus{
+  box-shadow: 0 0 0 3px rgba(157, 208, 243, 0.5);
 }
 .btn-danger.k-button,
-.btn-danger.k-button:hover{
+.btn-danger.k-button:hover,
+.btn-danger.k-button:focus,.btn-danger.k-button:active,
+.btn-danger:not(:disabled):not(.disabled):active{
   background: #7b7b7b;
+}
+.btn-danger:not(:disabled):not(.disabled):active,
+.btn-danger:not(:disabled):not(.disabled):active:focus{
+  box-shadow:  0 0 0 3px rgba(157, 208, 243, 0.5);
 }
 body .k-grid td button.btn-danger.k-button, 
 body .k-grid td button.btn-danger.k-button:focus,
@@ -12912,21 +12925,25 @@ body .opti_container{
 
 .form-control, body .k-dateinput-wrap .k-input, body .k-dateinput .k-dateinput-wrap .k-input{
   border: none;
-  border-bottom: 1px solid  rgba(142, 142, 142, 0.125);
+  border-bottom: 1px solid  rgba(62, 91, 153, 0.6);
   border-radius:0 !important;
   height: 26px !important;
   padding-top: 5px;
 }
+.form-control, body .k-dateinput-wrap .k-input::placeholder , body .k-dateinput .k-dateinput-wrap .k-input::placeholder 
+{
+  color: #dadada;
+}
 .k-datepicker .k-picker-wrap{
   border: none;
     box-shadow: none;
-    border-bottom: 1px solid  rgba(142, 142, 142, 0.125);
+    border-bottom: 1px solid  rgba(62, 91, 153, 0.6);
 }
 body kendo-grid .k-grid-header{
  border-radius: 0;
 }
 .dropdown-menu{
-  border-color:rgba(142, 142, 142, 0.125) !important;
+  border-color:rgba(62, 91, 153, 0.6) !important;
   box-shadow: 3px 2px 3px #e2e2e2;
 }
 .opti_mouse-pointer.opti_profile-box-setting.cursor-normal, .opti_mouse-pointer.opti_profile-box-setting.cursor-normal:hover{
