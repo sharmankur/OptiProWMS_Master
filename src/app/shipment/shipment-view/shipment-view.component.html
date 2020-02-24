@@ -15,7 +15,7 @@
                                 <div class="form-group row">
                                     <label for="ShipmentID" class="col-sm-3 col-form-label">{{'PT_ShipmentId'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
@@ -84,7 +84,7 @@
                                 <div class="form-group row">
                                     <label for="DockDoor" class="col-sm-3 col-form-label">{{'Dock_Door'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor" (blur)="IsValidDockDoor()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
@@ -132,7 +132,7 @@
                                 <div class="form-group row">
                                     <label for="CarrierCode" class="col-sm-3 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode" (blur)="IsValidCarrier()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">

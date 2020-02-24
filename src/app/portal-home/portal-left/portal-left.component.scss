@@ -23,11 +23,11 @@
                 justify-self: flex-start;
                 display: flex;
                 flex: 1;
-                font-size: 16px;
+                font-size: 14px;
                 
             }
             svg{
-                width:25px;
+                width:20px;
             }
         }
         &.dropdown {
@@ -37,7 +37,7 @@
             padding: 0;
             z-index: 0;
             & > a.dropdown-toggle{
-                padding: 12px 15px;
+                padding: 7px 15px;
 
                 &:after{
                     font-family: "OptiProErp";
@@ -86,7 +86,7 @@
                             background-color: transparent;
                         }
                         svg{
-                            width:28px
+                            width:20px
                         }
                     }
                     &:hover, &.active{
