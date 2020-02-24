@@ -28,6 +28,7 @@
             }
             svg{
                 width:20px;
+                fill: #3e5b99;
             }
         }
         &.dropdown {
@@ -86,7 +87,8 @@
                             background-color: transparent;
                         }
                         svg{
-                            width:20px
+                            width:20px;
+                            fill: #3e5b99;
                         }
                     }
                     &:hover, &.active{
