@@ -17,7 +17,8 @@ export class ContainerBatchserialComponent implements OnInit {
 
   WarehouseId: any='';
   BinId: any='';
-  ContainsItemID: any='';
+  ContainsItemDD: any= {OPTM_ITEMCODE: ''};
+  ContainsItemID: any = '';
   lookupfor: string;
   showLookup: boolean = false;
   showLoader: boolean = false;
@@ -28,12 +29,20 @@ export class ContainerBatchserialComponent implements OnInit {
   serviceData: any[];
   ContainerBatchSerials: any = [];
   SelectedRowsforShipmentArr = [];
+  ShowGridPaging: boolean = false;
+  pageSize: number = Commonservice.pageSize;
+  RowCount: number = 0;
+  SelectedQty: any = 0.00;
+  OpenQty: any = 0.00;
+  ItemOpenQtyArr : any = [];
+  ItemCodeArray: any = [];
+  TempGridData: any = [];
   commonData: any = new CommonData();
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
 
-  ngOnInit() {   
+  ngOnInit() {  
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
     this.SelectedWhse = localStorage.getItem("ShipWhse"); 
     this.SelectedBin = localStorage.getItem("ShipBin");   
@@ -43,6 +52,8 @@ export class ContainerBatchserialComponent implements OnInit {
     else{
       this.IsShipment = false;
     } 
+    this.TempGridData = [];
+    this.getContainsItem();
     //this.fillBatchSerialDataInGrid();
   }
 
@@ -51,6 +62,48 @@ export class ContainerBatchserialComponent implements OnInit {
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
   }
+
+  // getContainsItem(CallValue) {
+  //   this.showLoader = true;
+  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         if(data.length > 0){
+  //           if(CallValue == 'init'){
+  //             this.ContainsItemID = data[0].OPTM_ITEMCODE;
+  //             this.getItemsOpenQuantity();
+  //             this.fillBatchSerialDataInGrid('init');
+  //           }
+  //           else{
+  //             this.showLookup = true;
+  //             this.serviceData = data;
+  //             this.lookupfor = "ContainsItem";
+  //           }
+  //         }
+  //         else{
+  //           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //         }                  
+  //       } else {
+  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
 
   getContainsItem() {
     this.showLoader = true;
@@ -63,9 +116,16 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookup = true;
-          this.serviceData = data;
-          this.lookupfor = "ContainsItem";
+          if(data.length > 0){            
+            this.ContainsItemID = data[0].OPTM_ITEMCODE;
+            this.ContainsItemDD = data[0];
+            this.ItemCodeArray = data;
+            this.getItemsOpenQuantity();
+            this.fillBatchSerialDataInGrid('init');            
+          }
+          else{
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }                  
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -161,7 +221,7 @@ export class ContainerBatchserialComponent implements OnInit {
             return;
           }
           if(resp.length == 0){
-            this.toastr.error('', this.translate.instant("Invalid warehouse"));
+            this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WarehouseId = ''
           } else {
             this.WarehouseId = resp[0].WhsCode
@@ -193,7 +253,7 @@ export class ContainerBatchserialComponent implements OnInit {
             return;
           }
           if(resp.length == 0){
-            this.toastr.error('', this.translate.instant("Invalid Bin Code"));
+            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
             this.BinId = ''
           } 
           // else {
@@ -210,9 +270,100 @@ export class ContainerBatchserialComponent implements OnInit {
     return result;
   }
 
-  onContainsItemChange() {
+  // onContainsItemChange() {
+  //   this.showLoader = true;
+  //   this.containerShipmentService.IsValidContainsItemCode(this.ContainsItemID, this.IsShipment, this.SelectedShipmentId).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         if(data.length == 0){
+  //           this.toastr.error('', this.translate.instant("InvalidItemCode"));
+  //           this.ContainsItemID = ''
+  //         } else {
+  //           this.ContainsItemID = data[0].OPTM_ITEMCODE
+  //         }          
+  //       } else {
+  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
+
+  onItemCodeChange($event){
+    this.setDataInTempGrid();
+    this.ContainsItemID = $event.OPTM_ITEMCODE;
+    this.getDataFromTempGrid();
+   // this.fillBatchSerialDataInGrid('QueryBtn');
+  }
+
+  getDataFromTempGrid() {
+    this.ContainerBatchSerials = [];
+    var index = -1;
+    let flag = false;
+    if(this.TempGridData.length > 0){
+      for(let tempIdx=0; tempIdx<this.TempGridData.length; tempIdx++){
+         index = this.TempGridData[tempIdx].findIndex(r=>r.ITEMCODE == this.ContainsItemID);    
+         if(index > -1){
+          this.ContainerBatchSerials = this.TempGridData[tempIdx];
+          flag = true;
+         } 
+      } 
+      if(!flag){
+        this.fillBatchSerialDataInGrid('QueryBtn');
+      }     
+    }
+    else{
+      this.fillBatchSerialDataInGrid('QueryBtn');
+    }
+  }
+
+  setDataInTempGrid() {
+    var index = -1;
+    let flag = false;
+    if(this.TempGridData.length > 0){
+      for(let tempIdx=0; tempIdx<this.TempGridData.length; tempIdx++){
+         index = this.TempGridData[tempIdx].findIndex(r=>r.ITEMCODE == this.ContainsItemID);    
+         if(index > -1){
+           this.TempGridData[tempIdx] = this.ContainerBatchSerials;
+           flag = true;           
+         } 
+      }      
+      
+      if(!flag){
+        this.TempGridData.push(this.ContainerBatchSerials);
+      }     
+    }
+    else{
+      this.TempGridData.push(this.ContainerBatchSerials);
+    }
+  }
+
+  onQueryBtnClick(){
+    // if(this.ContainsItemID == '' || this.ContainsItemID == undefined){
+    //   this.toastr.error('', this.translate.instant("SelectItemCode"));
+    //   return;
+    // } 
+    this.fillBatchSerialDataInGrid('QueryBtn');
+  }  
+
+  fillBatchSerialDataInGrid(action){
+
     this.showLoader = true;
-    this.containerShipmentService.IsValidContainsItemCode(this.ContainsItemID, this.IsShipment, this.SelectedShipmentId).subscribe(
+    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -221,12 +372,28 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length == 0){
-            this.toastr.error('', this.translate.instant("Invalid Item Code"));
-            this.ContainsItemID = ''
-          } else {
-            this.ContainsItemID = data[0].OPTM_ITEMCODE
-          }          
+          this.ContainerBatchSerials = data; 
+         // this.TempGridData = data;
+          
+          if(action == 'QueryBtn'){
+            let Openqty = 0.00;   
+            let ItemCode = this.ContainsItemID;      
+            this.ItemOpenQtyArr.filter(function(value,key){
+              if(value.OPTM_ITEMCODE == ItemCode){
+                Openqty = value.OPEN_QTY;
+              }
+            }) 
+            this.OpenQty = Openqty;  
+          }
+          this.RowCount = 0;
+          this.SelectedQty = 0.00;
+          
+          if(this.ContainerBatchSerials.length > 10){
+            this.ShowGridPaging = true;          
+          }
+          for(let i =0; i<this.ContainerBatchSerials.length; i++){
+            this.ContainerBatchSerials[i].Selected = false;
+          }         
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -243,19 +410,9 @@ export class ContainerBatchserialComponent implements OnInit {
     );
   }
 
-  onQueryBtnClick(){
-    if(this.ContainsItemID == '' || this.ContainsItemID == undefined){
-      this.toastr.error('', "Select Item Code");
-      return;
-    } 
-    this.fillBatchSerialDataInGrid();
-  }  
+  getItemsOpenQuantity() {
 
-  fillBatchSerialDataInGrid(){
-
-    this.showLoader = true;
-
-    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
+    this.containerBatchserialService.GetItemsOpenQuantity(this.SelectedShipmentId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -264,10 +421,15 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.ContainerBatchSerials = data;   
-          for(let i =0; i<this.ContainerBatchSerials.length; i++){
-            this.ContainerBatchSerials[i].Selected = false;
-          }      
+          this.ItemOpenQtyArr = data;  
+          let Openqty = 0.00;  
+          let ItemCode = this.ContainsItemID;         
+          this.ItemOpenQtyArr.filter(function(value,key){
+            if(value.OPTM_ITEMCODE == ItemCode){
+              Openqty = value.OPEN_QTY;
+            }
+          }) 
+          this.OpenQty = Openqty;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -299,12 +461,30 @@ export class ContainerBatchserialComponent implements OnInit {
         }
       } 
      }
+     this.RowCount = this.SelectedRowsforShipmentArr.length;
+     let array = this.SelectedRowsforShipmentArr;
+     var sum = array. reduce(function(a, b){
+      return a + b.QtytoAssign;
+      }, 0);
+     this.SelectedQty = sum;
   }
 
   onAssignShipmentPress(){
 
     if(this.SelectedRowsforShipmentArr.length == 0){
-      this.toastr.error('', "Select row");
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+
+    for(let rowIdx=0; rowIdx<this.SelectedRowsforShipmentArr.length; rowIdx++){
+      if(this.SelectedRowsforShipmentArr[rowIdx].QtytoAssign == '' || this.SelectedRowsforShipmentArr[rowIdx].QtytoAssign == 0 || this.SelectedRowsforShipmentArr[rowIdx].QtytoAssign == undefined){
+        this.toastr.error('', this.translate.instant("Enter_Assigned_Qty"));
+        return;
+      } 
+    }
+
+    if(parseFloat(this.SelectedQty) > parseFloat(this.OpenQty)){
+      this.toastr.error('', this.translate.instant("Greater_OpenQty"));
       return;
     }
 
@@ -336,7 +516,7 @@ export class ContainerBatchserialComponent implements OnInit {
               this.toastr.error('', data[0].RESULT);
             }
             else{
-              this.toastr.success('', "Materials assigned to shipment successfully");
+              this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
             }
           }
                
@@ -358,20 +538,31 @@ export class ContainerBatchserialComponent implements OnInit {
 
   onAssignedQtyChange(value,rowindex) {
 
-    let qtyValue = parseInt(value);
-
-    if(qtyValue == 0 || qtyValue == undefined || qtyValue == null){
-      this.toastr.error('', "Enter Assign Quantity");
-      return;
+    if(value == '' || value == undefined || value == null){
+      value = 0;
     }
 
+    let qtyValue = parseInt(value);
+
+    // if(qtyValue == 0 || qtyValue == undefined || qtyValue == null){
+    //   this.toastr.error('', this.translate.instant("Enter_Assigned_Qty"));
+    //   return;
+    // }
+
     if(qtyValue > this.ContainerBatchSerials[rowindex].AvailableQty){
-      this.toastr.error('', "Assigned Quantity cannot be greater than Available Quantity at row - " + rowindex);
+      this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
+      this.ContainerBatchSerials[rowindex].QtytoAssign = 0;
       return;
     }
     else{
       this.ContainerBatchSerials[rowindex].QtytoAssign = qtyValue;
-    }  
+    } 
+
+    let array = this.SelectedRowsforShipmentArr;
+    var sum = array. reduce(function(a, b){
+     return a + b.QtytoAssign;
+     }, 0);
+    this.SelectedQty = sum;
   }
 
   getLookupValue($event) {
@@ -398,6 +589,14 @@ export class ContainerBatchserialComponent implements OnInit {
 
   onCancelClick () {
     this.router.navigate(['home/dashboard']);
+  }
+
+  numberOnly(event){
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
 }

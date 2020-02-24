@@ -79,7 +79,8 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipShipmentID", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
-    this.GetShipmentIdForShipment();    
+    localStorage.setItem("ShipQtyArr", '');
+    //this.GetShipmentIdForShipment();    
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
 
     // this.GetShipmentIdForShipment();
