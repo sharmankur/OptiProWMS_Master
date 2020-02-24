@@ -335,7 +335,7 @@
   "BatchSrBinNo": "Batch/Sr/Bin No.",
   "noOfCopies": "No. of Copies",
   "Print": "Print",
-  "BatchSerial": "Batch/Serial",
+  "BatchSerial": "Item/Ser/Batch",
   "BatchSerial_No": "Batch/Serial No.",
   "ItemSummary": "Item Summary",
   "ItemDetail": "Item Detail",

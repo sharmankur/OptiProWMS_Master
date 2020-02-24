@@ -79,11 +79,7 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipShipmentID", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
-    localStorage.setItem("ShipQtyArr", '');
-    //this.GetShipmentIdForShipment();    
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
-
-    // this.GetShipmentIdForShipment();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
       this.ShipmentID = localStorage.getItem("ShipmentID");
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
@@ -127,7 +123,6 @@ export class ShipmentViewComponent implements OnInit {
     this.showLoader = true;
     this.shipmentService.GetDataBasedOnShipmentId(ShipmentID).subscribe(
       (data: any) => {
-        this.showLoader = false;
         if (data != undefined) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -158,6 +153,7 @@ export class ShipmentViewComponent implements OnInit {
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
+        this.showLoader = false;
       },
       error => {
         this.showLoader = false;
@@ -234,6 +230,10 @@ export class ShipmentViewComponent implements OnInit {
     this.ShipToCode = OPTM_SHPMNT_HDR[0].OPTM_SHIPTO;
     this.CarrierCode = OPTM_SHPMNT_HDR[0].OPTM_CARRIER;
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
+    this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
+    this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
+    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER = "Y" ? true : false;
+    this.onCheckChange();
   }
 
   onCancelClick() {
@@ -267,6 +267,9 @@ export class ShipmentViewComponent implements OnInit {
       this.ShipToCode = event.OPTM_SHIPTO;
       this.CarrierCode = event.OPTM_CARRIER;
       this.VehicleNumber = event.OPTM_VEHICLENO;
+      this.ReturnOrderRef = event.OPTM_RETURN_ORDER_REF;
+      this.BOLNumber = event.OPTM_BOLNUMBER;
+      this.UseContainer = event.OPTM_USE_CONTAINER = "Y" ? true : false;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
@@ -279,15 +282,15 @@ export class ShipmentViewComponent implements OnInit {
     // alert(this.ScheduleDatetime.toLocaleDateString());
     this.showContainerShipmentScreen = true;
     localStorage.setItem("ShipShipmentID", this.ShipmentID);
-    localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null  ? '' : this.WarehouseCode);
-    localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null  ? '' : this.ShipStageBin);
+    localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
+    localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null ? '' : this.ShipStageBin);
 
-    if(this.UseContainer){
+    if (this.UseContainer) {
       this.router.navigate(['home/Container_List']);
     }
-    else{
+    else {
       this.router.navigate(['home/BatchSerial_List']);
-    }   
+    }
   }
 
   GetSubmitDateFormat(EXPDATE) {
@@ -359,10 +362,10 @@ export class ShipmentViewComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
               this.GetDataBasedOnShipmentId(this.ShipmentID);
             } else {
-              this.toastr.error('', data[0].RESULT);
+              this.toastr.error('', data.OUTPUT[0].RESULT);
             }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -383,6 +386,42 @@ export class ShipmentViewComponent implements OnInit {
   onStageORUnstageShipmentClick() {
     this.showLoader = true;
     this.shipmentService.StageORUnstageShipment(this.ShipmentID, this.StatusId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onUpdateClick() {
+    if (this.ShipmentID == undefined || this.ShipmentID == "") {
+      return;
+    }
+    this.showLoader = true;
+    let uc = this.UseContainer == true ? "Y" : "N";
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

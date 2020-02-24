@@ -51,7 +51,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForShipmentId(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup().subscribe(
+    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

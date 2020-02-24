@@ -11,11 +11,11 @@
                         <!-- row start -->
                         <div class="row">
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ShipmentID" class="col-sm-3 col-form-label">{{'PT_ShipmentId'|translate}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                    <label for="ShipmentID" class="col-sm-4 col-form-label">{{'PT_ShipmentId'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
@@ -28,63 +28,60 @@
                             </div>
                             <!-- col end -->
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="WarehouseCode" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="WarehouseCode" class="col-sm-4 col-form-label">{{'WHSCODE'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='WarehouseCode' [(ngModel)]=WarehouseCode id="WarehouseCode"
                                             [disabled]=true>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
-                        </div>
-                        <!-- row end -->
-
-                        <!-- row start -->
-                        <div class="row">
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ScheduleDatetime" class="col-sm-3 col-form-label">{{'Schedule_Datetime'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="ScheduleDatetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <kendo-datepicker name="ScheduleDatetime" [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}}></kendo-datepicker>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
-                            <!-- col start -->
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="CustomerCode" class="col-sm-3 col-form-label">{{'CustomerCode'|translate}}</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=CustomerCode [disabled]=true id="CustomerCode">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col end -->
                         </div>
                         <!-- row end -->
 
                         <!-- row start -->
                         <div class="row">
+                           
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ShipStageBin" class="col-sm-3 col-form-label">
+                                    <label for="CustomerCode" class="col-sm-4 col-form-label">{{'CustomerCode'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control form-control-sm" name='CustomerCode' [(ngModel)]=CustomerCode [disabled]=true id="CustomerCode">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
+                             <!-- col start -->
+                             <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="ShipStageBin" class="col-sm-4 col-form-label">
                                         {{'Ship_Stage_Bin'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='ShipStageBin' [(ngModel)]=ShipStageBin id="ShipStageBin" [disabled]=true>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="DockDoor" class="col-sm-3 col-form-label">{{'Dock_Door'|translate}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                    <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor" (blur)="IsValidDockDoor()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
@@ -99,40 +96,36 @@
                         </div>
                         <!-- row end -->
 
+
                         <!-- row start -->
                         <div class="row">
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ShipToCode" class="col-sm-3 col-form-label">{{'Ship_To_Code'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="ShipToCode" class="col-sm-4 col-form-label">{{'Ship_To_Code'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='ShipToCode' [(ngModel)]=ShipToCode id="ShipToCode" [disabled]=true>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="Status" class="col-sm-3 col-form-label">{{'Status'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="Status" class="col-sm-4 col-form-label">{{'Status'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" id="Status" name="Status" [disabled]=true
                                             [(ngModel)]="Status" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
-                        </div>
-                        <!-- row end -->
-
-                        <!-- row start -->
-                        <div class="row">
-                            <!-- col start -->
-                            <div class="col-sm-6">
+                             <!-- col start -->
+                             <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="CarrierCode" class="col-sm-3 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group input-group-sm">
+                                    <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode" (blur)="IsValidCarrier()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
@@ -144,40 +137,37 @@
                                 </div>
                             </div>
                             <!-- col end -->
-
-                            <!-- col start -->
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
-                                            <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col end -->
                         </div>
                         <!-- row end -->
 
                         <!-- row start -->
-                        <div class="row">
-                            <!-- col start -->
-                            <div class="col-sm-6">
+                        <div class="row">                          
+                             <!-- col start -->
+                             <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ReturnOrderRef" class="col-sm-3 col-form-label">{{'Return_Order_Ref'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="ReturnOrderRef" class="col-sm-4 col-form-label">{{'Return_Order_Ref'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='ReturnOrderRef' [(ngModel)]=ReturnOrderRef id="ReturnOrderRef">
                                     </div>
                                 </div>
                             </div>
                             <!-- col end -->
                             <!-- col start -->
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="BOLNumber" class="col-sm-3 col-form-label">{{'BOL_Number'|translate}}</label>
-                                    <div class="col-sm-9">
+                                    <label for="BOLNumber" class="col-sm-4 col-form-label">{{'BOL_Number'|translate}}</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='BOLNumber' [(ngModel)]=BOLNumber id="BOLNumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                             <!-- col start -->
+                             <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="VehicleNumber" class="col-sm-4 col-form-label">{{'VehicleNumber'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=VehicleNumber id="VehicleNumber">
                                     </div>
                                 </div>
                             </div>
@@ -187,12 +177,14 @@
 
                         <!-- row start -->
                         <div class="row">
-                            <!-- col start -->
-                            <div class="col-sm-6">
+                             <!-- col start -->
+                             <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="VehicleNumber" class="col-sm-3 col-form-label">{{'VehicleNumber'|translate}}</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=VehicleNumber id="VehicleNumber">
+                                    <div class="col-sm-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
+                                            <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +203,7 @@
                         <div class="card-body">
                             <kendo-grid [data]="shipmentLines" [selectable]="true" [resizable]="true" [height]="gridheight" [pageSize]="pageSize1" [skip]="skip"
                                 [pageable]="pagable1" (selectionChange)="onRowSelection($event)">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=true></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
@@ -228,7 +220,7 @@
                         <h5 class="card-header">{{'SalesOrderDetails'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="SODetails" [resizable]="true" [pageSize]="pageSize2" [skip]="skip" [height]="gridheight" [pageable]="pagable2">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=true></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_DTLLINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="90"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SONO" class="text-right" width="75" title="{{'SONumber'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SOLINENO" title="{{'SOLine'|translate}}" class="text-right" width="50"></kendo-grid-column>
@@ -247,7 +239,7 @@
                         <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=true></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="90"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}" width="90"></kendo-grid-column>
@@ -272,7 +264,7 @@
                         <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
-                                <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=true></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="75" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
@@ -295,7 +287,7 @@
                         <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
                         <div class="card-body">
                             <kendo-grid [data]="ShipmentLineDetails" [resizable]="true" [pageSize]="pageSize5" [skip]="skip" [height]="gridheight" [pageable]="pagable5">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=true></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_DTLLINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
@@ -317,9 +309,13 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
+             
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" (click)="onCancelClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
+
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()" >
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onScheduleClick()" [disabled]=isScheduledDiabled>
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Schedule'|translate}}</button>
@@ -341,6 +337,18 @@
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Cancel_Unassign'|translate}}</button>
+                    <div class="btn-group">
+                        <div class="dropdown show">
+                            <a class="btn btn-success btn-sm dropdown-toggle toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </a>                  
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </form>

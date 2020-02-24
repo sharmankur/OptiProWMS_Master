@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 // ng build --prod --base-href=/OptiProERPWMS/
-//1. ng build --base-href=/OptiProERPWMS/
+//1. ng build --base-href=/OptiProERPShipment/
 //2. add OptiProERPWMS in css path in index.html
 
 export interface ColumnSetting {

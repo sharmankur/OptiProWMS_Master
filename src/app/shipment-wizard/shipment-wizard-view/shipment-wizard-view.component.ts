@@ -17,6 +17,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
+  UseContainer: boolean=false; 
   constructor(private WizardService: ShipmentWizardService, private router: Router, private commonservice: Commonservice,
     private toastr: ToastrService, private translate: TranslateService) { }
   // GRID VAIRABLE
@@ -65,6 +66,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   public AllConsolidateData: any = [];
   public ConsolidatedDataSelection: any = {};
   public GetCreateShipMentData: any = [];
+  dateFormat: string;
+
   ngOnInit() {
     // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
@@ -72,15 +75,15 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.HoldSelectedRow.SOLines = [];
     this.ConsolidatedDataSelection.SelectedRows = [];
     this.ConsolidatedDataSelection.Company = [];
+    this.dateFormat = localStorage.getItem("DATEFORMAT");
   }
 
   onPrevClick() {
     if (this.currentStep > 1) {
-
       this.currentStep = this.currentStep - 1;
-
     }
   }
+
   numericOnly(event): boolean {
     let patt = /^([0-9])$/;
     let result = patt.test(event.key);
@@ -109,7 +112,6 @@ export class ShipmentWizardViewComponent implements OnInit {
           this.toastr.error('', this.translate.instant("GridCheckBoxValidation"));
           return;
         }
-
       }
       if (this.currentStep === 3) {
         if (this.CHKCustomer === false && this.CHKDueDate === false && this.CHKItem === false && this.CHKShipto === false &&
@@ -125,7 +127,6 @@ export class ShipmentWizardViewComponent implements OnInit {
           })
           this.GetConsolidatedData();
         }
-
       }
       if (this.currentStep === 4) {
         if (this.ConsolidatedDataSelection.SelectedRows.length > 0) {
@@ -323,7 +324,7 @@ export class ShipmentWizardViewComponent implements OnInit {
 
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup().subscribe(
+    this.commonservice.GetDataForSalesOrderLookup(this.UseContainer).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
