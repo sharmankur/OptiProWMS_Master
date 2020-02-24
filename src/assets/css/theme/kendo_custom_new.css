@@ -13002,7 +13002,9 @@ body kendo-grid .k-grid-header{
   line-height: 16px;
   font-size: 14px;
 }
-
+.dropdown-item.nav-active{
+  background: #f3f8ff;
+}
 @media only screen and (min-width: 768) {
   .k-grid .k-alt {
     color: #292b2c;
