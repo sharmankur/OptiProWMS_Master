@@ -230,9 +230,10 @@ export class ShipmentViewComponent implements OnInit {
     this.ShipToCode = OPTM_SHPMNT_HDR[0].OPTM_SHIPTO;
     this.CarrierCode = OPTM_SHPMNT_HDR[0].OPTM_CARRIER;
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
-      this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
-      this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
-      this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER="Y"?true:false;
+    this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
+    this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
+    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER = "Y" ? true : false;
+    this.onCheckChange();
   }
 
   onCancelClick() {
@@ -268,7 +269,7 @@ export class ShipmentViewComponent implements OnInit {
       this.VehicleNumber = event.OPTM_VEHICLENO;
       this.ReturnOrderRef = event.OPTM_RETURN_ORDER_REF;
       this.BOLNumber = event.OPTM_BOLNUMBER;
-      this.UseContainer = event.OPTM_USE_CONTAINER="Y"?true:false;
+      this.UseContainer = event.OPTM_USE_CONTAINER = "Y" ? true : false;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
@@ -281,15 +282,15 @@ export class ShipmentViewComponent implements OnInit {
     // alert(this.ScheduleDatetime.toLocaleDateString());
     this.showContainerShipmentScreen = true;
     localStorage.setItem("ShipShipmentID", this.ShipmentID);
-    localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null  ? '' : this.WarehouseCode);
-    localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null  ? '' : this.ShipStageBin);
+    localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
+    localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null ? '' : this.ShipStageBin);
 
-    if(this.UseContainer){
+    if (this.UseContainer) {
       this.router.navigate(['home/Container_List']);
     }
-    else{
+    else {
       this.router.navigate(['home/BatchSerial_List']);
-    }   
+    }
   }
 
   GetSubmitDateFormat(EXPDATE) {
@@ -415,8 +416,11 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onUpdateClick() {
+    if (this.ShipmentID == undefined || this.ShipmentID == "") {
+      return;
+    }
     this.showLoader = true;
-    let uc = this.UseContainer == true? "Y":"N";
+    let uc = this.UseContainer == true ? "Y" : "N";
     this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -445,7 +449,7 @@ export class ShipmentViewComponent implements OnInit {
         }
       }
     );
-  }  
+  }
 
   //#region "Dock Door"
   GetDataForDockDoor() {

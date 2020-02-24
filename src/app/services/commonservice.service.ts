@@ -682,10 +682,11 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
 
-  GetDataForSalesOrderLookup(): Observable<any> {
+  GetDataForSalesOrderLookup(UseContainer): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        UseContainer: UseContainer
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataSalesOrderLookup", jObject, this.httpOptions);
