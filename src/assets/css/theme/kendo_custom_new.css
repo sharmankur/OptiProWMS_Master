@@ -12950,7 +12950,7 @@ body .opti_container{
   height: 22px !important;
   padding-top: 5px;
 }
-.form-control, body .k-dateinput-wrap .k-input::placeholder , body .k-dateinput .k-dateinput-wrap .k-input::placeholder 
+ body .k-dateinput-wrap .k-input::placeholder , body .k-dateinput .k-dateinput-wrap .k-input::placeholder 
 {
   color: #dadada;
 }
