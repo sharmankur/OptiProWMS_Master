@@ -35,6 +35,21 @@ export class GeneratePickComponent implements OnInit {
   PickContainer: boolean;
   TaskPlanDT: string;
   Priority: string;
+  SONoFrom: string;
+  SONoTo: string
+  WOFrom: string;
+  WOTo: string;
+  ShipIdFrom: string;
+  ShipIdTo: string;
+  PickListBasis: string;
+  Pick_Type: string;
+  Pick_Operation: string;
+  PackListBasisArray: any[] = [];
+  PackTypeList: any[] = [];
+  PickOperationList: any[] = [];
+  isSODisabled: boolean;
+  isWODisabled: boolean;
+  isSHIdDisabled: boolean;
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -46,12 +61,25 @@ export class GeneratePickComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.PackListBasisArray = ["Shipment", 
+    this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
+    this.PickListBasis = this.PackListBasisArray[0];
+
+    this.PackTypeList = [this.translate.instant("Batch_Picking"), 
+    this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
+    this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
+    this.Pick_Type = this.PackTypeList[0];
+    
+    this.PickOperationList = [this.translate.instant("PickToTote"), 
+    this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
+    this.Pick_Operation = this.PickOperationList[0];    
+    this.onPickListBasisChange(this.PickListBasis);
   }
   //#region "shipmentId"  
   GetDataForShipmentId(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
+    this.commonservice.GetShipmentIdForShipment().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -61,11 +89,7 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           this.serviceData = data;
-          if (fieldName == "SrNO") {
-            this.lookupfor = "SerialNoFrom";
-          } else if (fieldName == "SrNOTO") {
-            this.lookupfor = "SerialNoTo";
-          }
+          this.lookupfor = fieldName;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -96,11 +120,7 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           this.serviceData = data;
-          // if (fieldName == "SrNO") {
-          //   this.lookupfor = "SerialNoFrom";
-          // } else if (fieldName == "SrNOTO") {
-            this.lookupfor = fieldName;
-          // }
+          this.lookupfor = fieldName;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -252,7 +272,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   IsValidDockDoor(DockDoor) {
-    if(DockDoor == "" || DockDoor == null || DockDoor == undefined){
+    if (DockDoor == "" || DockDoor == null || DockDoor == undefined) {
       return;
     }
     this.showLoader = true;
@@ -320,7 +340,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   IsValidCarrier(CarrierCode) {
-    if(CarrierCode == "" || CarrierCode == null || CarrierCode == undefined){
+    if (CarrierCode == "" || CarrierCode == null || CarrierCode == undefined) {
       return;
     }
     this.showLoader = true;
@@ -356,48 +376,155 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
-  getLookupValue($event) {
-    if ($event != null && $event == "close") {
+  //#region "Sales Order ID"
+  GetDataForSalesOredr(fieldName) {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          if (fieldName == "SrNO") {
+            this.lookupfor = "SerialNoFrom";
+          } else if (fieldName == "SrNOTO") {
+            this.lookupfor = "SerialNoTo";
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion
+  //#region "WO ID"
+  GetDataForWorkOredr(fromField) {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          this.lookupfor = fromField;
+          this.hideLookup = false;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion  
+
+  getlookupSelectedItem(event) {
+    if (event != null && event == "close") {
       this.hideLookup = false;
       return;
     }
     else if (this.lookupfor == "ShipFrom") {
-      this.ShipFrom = $event[0];
+      this.ShipFrom = event.Address;
     }
     else if (this.lookupfor == "ShipTo") {
-      this.ShipTo = $event[0];
+      this.ShipTo = event.Address;
     }
     else if (this.lookupfor == "CustomerFrom") {
-      this.CustomerFrom = $event[0];
+      this.CustomerFrom = event.CardCode;
     }
     else if (this.lookupfor == "CustomerTo") {
-      this.CustomerTo = $event[0];
+      this.CustomerTo = event.CardCode;
     }
     else if (this.lookupfor == "ItemFrom") {
-      this.ItemFrom = $event[0];
+      this.ItemFrom = event.ItemCode;
     }
     else if (this.lookupfor == "ItemTo") {
-      this.ItemTo = $event[0];
+      this.ItemTo = event.ItemCode;
     }
     else if (this.lookupfor == "CCFrom") {
-      this.CarrierCodeFrom = $event[0];
+      this.CarrierCodeFrom = event.OPTM_CARRIERID;
     }
     else if (this.lookupfor == "CCTo") {
-      this.CarrierCodeTo = $event[0];
-    }      
+      this.CarrierCodeTo = event.OPTM_CARRIERID;
+    }
     else if (this.lookupfor == "DDFrom") {
-      this.Dock_DoorFrom = $event[0];
+      this.Dock_DoorFrom = event.OPTM_DOCKDOORID;
     }
     else if (this.lookupfor == "DDTo") {
-      this.Dock_DoorTo = $event[0];
+      this.Dock_DoorTo = event.OPTM_DOCKDOORID;
+    }
+    else if (this.lookupfor == "SerialNoFrom") {
+      this.SONoFrom = event.SODocNum;
+    }
+    else if (this.lookupfor == "SerialNoTo") {
+      this.SONoTo = event.SODocNum;
+    }
+    else if (this.lookupfor == "WOFrom") {
+      this.WOFrom = event.SODocNum;
+    }
+    else if (this.lookupfor == "WOTo") {
+      this.WOTo = event.SODocNum;
+    }
+    else if (this.lookupfor == "ShipIdFrom") {
+      this.ShipIdFrom = event.OPTM_SHIPMENTID;
+    }
+    else if (this.lookupfor == "ShipIdTo") {
+      this.ShipIdTo = event.OPTM_SHIPMENTID;
     }
     else if (this.lookupfor == "WareHouse") {
-      this.WareHouse = $event[0];
+      this.WareHouse = event.WhsCode;
+    }
+  }
+
+  onPickListBasisChange(event){
+    this.isSODisabled = true
+    this.isWODisabled = true;
+    this.isSHIdDisabled = true;
+    if(event == this.PackListBasisArray[0]){
+      this.isSHIdDisabled = false;
+    }else if(event == this.PackListBasisArray[1]){
+      this.isSODisabled = false;
+    }else if(event == this.PackListBasisArray[2]){
+      this.isWODisabled = false;
     }
   }
 
   //#region "validation"
-  ValidateFields(){
+  ValidateFields() {
+    if(this.PickListBasis == "")
+    this.toastr.error("", this.translate.instant("Generate_Pick_List_Msg"));
+
+  }
+  //#endregion
+
+  //#region "Generate"
+  onGenerateClick(){
 
   }
   //#endregion

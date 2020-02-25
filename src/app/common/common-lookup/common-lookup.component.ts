@@ -5,6 +5,7 @@ import { ColumnSetting } from '../../models/CommonData';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-common-lookup',
@@ -39,7 +40,10 @@ export class CommonLookupComponent implements OnInit {
   public mySelection: number[] = [];
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
-  constructor(private translate: TranslateService, private router: Router) {
+  @Input() partPerQty: any;
+  @Input() qtyAdded: any;
+
+  constructor(private translate: TranslateService, private router: Router, private toastr: ToastrService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -88,7 +92,7 @@ export class CommonLookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
-    if (this.lookupfor == "ShipmentList") {
+    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
       this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
@@ -108,7 +112,7 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if(this.lookupfor == "CarrierList"||this.lookupfor == "CCFrom"||this.lookupfor == "CCTo"){
+    else if (this.lookupfor == "CarrierList" || this.lookupfor == "CCFrom" || this.lookupfor == "CCTo") {
       this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
@@ -156,56 +160,56 @@ export class CommonLookupComponent implements OnInit {
       this.showSrNoList("To");
       //this.showITRList();
     }
-    else if(this.lookupfor == "CustomerFrom"){
-      this.showLookupCustomerList("From");      
+    else if (this.lookupfor == "CustomerFrom") {
+      this.showLookupCustomerList("From");
     }
-    else if(this.lookupfor == "CustomerTo"){
-      this.showLookupCustomerList("To");      
+    else if (this.lookupfor == "CustomerTo") {
+      this.showLookupCustomerList("To");
     }
 
     else if (this.lookupfor == "ItemFrom") {
       this.showItemList("From");
 
     }
-    else if(this.lookupfor == "ItemTo"){
-      this.showItemList("To");      
+    else if (this.lookupfor == "ItemTo") {
+      this.showItemList("To");
     }
-    else if(this.lookupfor == "WareHouse"){
-      this.showLookupWHSList();      
+    else if (this.lookupfor == "WareHouse") {
+      this.showLookupWHSList();
     }
     else if (this.lookupfor == "CARList") {
       this.showCARList();
     }
     else if (this.lookupfor == "BinList") {
       this.showBinNoList();
-    }  else if(this.lookupfor == "SOList"){
+    } else if (this.lookupfor == "SOList") {
       this.showOutSOListNew();
-    } else if(this.lookupfor == "GroupCodeList"){
+    } else if (this.lookupfor == "GroupCodeList") {
       this.showContainerGroupCodeList();
-    } else if (this.lookupfor == "DDList"||this.lookupfor == "DDFrom"||this.lookupfor == "DDTo") {
+    } else if (this.lookupfor == "DDList" || this.lookupfor == "DDFrom" || this.lookupfor == "DDTo") {
       this.showDDList();
     } else if (this.lookupfor == "GroupCode") {
       this.showGroupCodeList();
-    }else if (this.lookupfor == "BinRangeList") {
+    } else if (this.lookupfor == "BinRangeList") {
       this.showBinRangeList();
-    }else if(this.lookupfor == "WhsZoneList"){
+    } else if (this.lookupfor == "WhsZoneList") {
       this.showWhsZoneList();
     }
-    else if(this.lookupfor == "ContainsItem"){
+    else if (this.lookupfor == "ContainsItem") {
       this.ContainsItemListView();
-    } else if(this.lookupfor == "BatchSerialList"){
+    } else if (this.lookupfor == "BatchSerialList") {
       this.showBatchSerialItems();
-    } else if(this.lookupfor == "ItemsListByRuleId"){
+    } else if (this.lookupfor == "ItemsListByRuleId") {
       this.showItemCodeListByRuleId();
-    } else if(this.lookupfor == "ContainerIdList"){
+    } else if (this.lookupfor == "ContainerIdList") {
       this.showContainerIdList();
     }
-    
+
     this.clearFilters();
     this.isColumnFilter = false
   }
 
-  showContainerIdList(){
+  showContainerIdList() {
     this.table_head = [
       {
         field: 'OPTM_CONTAINERID',
@@ -251,8 +255,8 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
-  
-  showContainerGroupCodeList(){
+
+  showContainerGroupCodeList() {
     this.table_head = [
       {
         field: 'OPTM_CONTAINER_GROUP',
@@ -274,7 +278,7 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
-  
+
   showOutSOListNew() {
     this.table_head = [
       {
@@ -292,7 +296,7 @@ export class CommonLookupComponent implements OnInit {
     ];
 
     this.lookupTitle = this.translate.instant("SalesOrderList");
-	if (this.serviceData !== undefined) {
+    if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
       }
@@ -386,7 +390,7 @@ export class CommonLookupComponent implements OnInit {
         headerClass: 'text-center',
         type: 'text',
         width: '150'
-      },{
+      }, {
         field: 'OPTM_TO_BIN',
         title: this.translate.instant("ToBinCode"),
         headerClass: 'text-center',
@@ -564,6 +568,12 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
+        field: 'OPTM_SHIPMENT_CODE',
+        title: this.translate.instant("Shipment_Code"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_BPCODE',
         title: this.translate.instant("CustomerCode"),
         type: 'text',
@@ -635,6 +645,12 @@ export class CommonLookupComponent implements OnInit {
   }
 
   showBatchSerialItems() {
+    this.partPerQty = localStorage.getItem("PartPerQty");
+    if(this.partPerQty == undefined || this.partPerQty == ''){
+      this.partPerQty = "0"
+    }
+    this.partPerQty = Number(this.partPerQty);
+
     this.pagesize = 5;
     if (this.serviceData.length > this.pagesize) {
       this.pagable = true;
@@ -663,7 +679,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'BinCode',
         title: this.translate.instant("BinNo"),
         type: 'text',
-        width: '100'
+        width: '160'
       },
       {
         field: 'Quantity',
@@ -671,7 +687,7 @@ export class CommonLookupComponent implements OnInit {
         class: 'text-right',
         title: this.translate.instant("AvailableQty"),
         type: 'numeric',
-        width: '100'
+        width: '80'
       }
     ];
     this.lookupTitle = this.translate.instant("BatchSerialList");
@@ -1360,9 +1376,46 @@ export class CommonLookupComponent implements OnInit {
   }
 
   Done() {
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      if (this.selectedValues[i].QuantityToAdd == 0) {
+        this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+        return;
+      }
+    }
+
+    var sum = 0;
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      sum = sum + Number(""+this.selectedValues[i].QuantityToAdd)
+    }
+    if(sum > this.partPerQty){
+      this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+      return;
+    }
+
     this.lookupkey.emit(this.selectedValues);
     this.dialogOpened = false;
   }
 
-
+  onQtyToAddChange(value, index) {
+    console.log("value: " + value);
+    for (var i = 0; i < this.serviceData.length; i++) {
+      if (i == index) {
+        if (value == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+        } else if (value > this.serviceData[i].Quantity) {
+          this.serviceData[i].QuantityToAdd = 0;
+          this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+          break
+        } else {
+          this.serviceData[i].QuantityToAdd = value;
+          this.serviceData[i].Balance = this.serviceData[i].Quantity - value;
+          break;
+        }
+      }
+    }
+    this.qtyAdded = 0
+    for (var i = 0; i < this.serviceData.length; i++) {
+      this.qtyAdded = this.qtyAdded + Number(""+this.serviceData[i].QuantityToAdd)
+    }
+  }
 }

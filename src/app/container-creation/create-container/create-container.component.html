@@ -35,7 +35,7 @@
                                         name="whse" [(ngModel)]="whse" (blur)="onWhseChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                         name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                         (blur)="onContainerTypeChangeBlur('child')">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
                                         [(ngModel)]="parentContainerType" (blur)="onContainerTypeChangeBlur('parent')">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('parent')">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                         (blur)="onAutoPackRuleChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -322,7 +322,7 @@
                                         name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -370,7 +370,7 @@
                                         placeholder="{{'ContainerGroupingCode'|translate}}">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -417,15 +417,15 @@
                     <div class="col-12">
                         <kendo-grid class="no-shadow" [data]="fromContainerDetails" [resizable]="true" [sortable]="true"
                             [selectable]="true" id="gridItem" #gridItem>
-                                <!-- grid template start -->
-    <ng-template kendoGridToolbarTemplate> 
-      <span class="grid-toolbar-title">{{'OtherItemsTitle'|translate}}</span>  
-        <span class="opti_input-group-checkbox">
-            <input type="checkbox" id="fromContainer" name='fromContainer' class="k-checkbox"
-                checked />
-            <label class="k-checkbox-label empty-check">{{'FromContainer'|translate}}</label>
-        </span>
-    </ng-template>
+                            <!-- grid template start -->
+                            <ng-template kendoGridToolbarTemplate>
+                                <span class="grid-toolbar-title">{{'OtherItemsTitle'|translate}}</span>
+                                <span class="opti_input-group-checkbox">
+                                    <input type="checkbox" id="fromContainer" name='fromContainer' class="k-checkbox" 
+                                    (change)="onFromContainerCheckChange()"/>
+                                    <label class="k-checkbox-label empty-check">{{'FromContainer'|translate}}</label>
+                                </span>
+                            </ng-template>
                             <!-- grid for mobile start -->
                             <kendo-grid-column media="(max-width: 767px)" title="{{'List'|translate}}" class="opti_mobile-grid-td">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -476,7 +476,7 @@
                                 <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT|numberFormat}}
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="45" title="{{'BinNo'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="100" title="{{'BinNo'|translate}}">
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}"
                                 headerClass="text-center" class="text-right">
@@ -485,7 +485,8 @@
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm" name="qtytoadd" value={{dataItem.QuantityToAdd|numberFormat}}
-                                            id="qtytoadd" min="0" #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
+                                            id="qtytoadd" min="0" #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)"
+                                            [disabled]="dataItem.isDesable">
                                     </div>
                                 </ng-template>
                             </kendo-grid-column>

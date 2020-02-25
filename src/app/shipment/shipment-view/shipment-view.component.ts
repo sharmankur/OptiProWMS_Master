@@ -58,7 +58,7 @@ export class ShipmentViewComponent implements OnInit {
   pagable4 = false;
   pagable5 = false;
   pagable1 = false;
-  btnText: string = "Batch/Serial";
+  btnText: string;
   isStageDiabled: boolean = true;
   isScheduledDiabled: boolean = false;
   shipmentData: any;
@@ -73,7 +73,6 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.pageSize1 = this.commonData.commonGridPageSize;
     this.shiment_status_array = this.commonData.shiment_status_array();
     this.Container_status_array = this.commonData.Container_Status_DropDown();   
     this.clearStorage();
@@ -83,7 +82,7 @@ export class ShipmentViewComponent implements OnInit {
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
-    // this.ScheduleDatetime = new Date("15/02/2020");
+    this.onCheckChange();
   }
 
   clearStorage(){
@@ -238,7 +237,7 @@ export class ShipmentViewComponent implements OnInit {
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
-    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER = "Y" ? true : false;
+    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
     this.onCheckChange();
   }
 
@@ -275,7 +274,7 @@ export class ShipmentViewComponent implements OnInit {
       this.VehicleNumber = event.OPTM_VEHICLENO;
       this.ReturnOrderRef = event.OPTM_RETURN_ORDER_REF;
       this.BOLNumber = event.OPTM_BOLNUMBER;
-      this.UseContainer = event.OPTM_USE_CONTAINER = "Y" ? true : false;
+      this.UseContainer = event.OPTM_USE_CONTAINER == "Y" ? true : false;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
@@ -330,9 +329,9 @@ export class ShipmentViewComponent implements OnInit {
 
   onCheckChange() {
     if (this.UseContainer) {
-      this.btnText = "Container";
+      this.btnText = this.translate.instant("Container");
     } else {
-      this.btnText = "Batch/Serial";
+      this.btnText = this.translate.instant("BatchSerial");
     }
   }
 
