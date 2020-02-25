@@ -75,10 +75,8 @@ export class ShipmentViewComponent implements OnInit {
   ngOnInit() {
     // this.pageSize1 = this.commonData.commonGridPageSize;
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.commonData.Container_Status_DropDown();
-    localStorage.setItem("ShipShipmentID", '');
-    localStorage.setItem("ShipWhse", '');
-    localStorage.setItem("ShipBin", '');
+    this.Container_status_array = this.commonData.Container_Status_DropDown();   
+    this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
       this.ShipmentID = localStorage.getItem("ShipmentID");
@@ -86,6 +84,13 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
     // this.ScheduleDatetime = new Date("15/02/2020");
+  }
+
+  clearStorage(){
+    localStorage.setItem("ShipmentID", '');
+    localStorage.setItem("ShipmentArrData", '');
+    localStorage.setItem("ShipWhse", '');
+    localStorage.setItem("ShipBin", '');
   }
 
   GetShipmentIdForShipment() {
@@ -137,9 +142,10 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
           }
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
-          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
+          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {           
             this.pagable1 = true;
           }
+          localStorage.setItem("ShipmentArrData", JSON.stringify(this.shipmentLines));
           // SO Detail, Container Items, BtchSer Detail
           this.updateGridonShipmentLineId(this.shipmentLines[0].OPTM_LINEID);
           //Container Header 
