@@ -216,12 +216,12 @@ body .k-grid tr.k-grid-norecords td{
   
   .k-button.k-primary:hover, .k-button.k-primary.k-state-hover, .k-action-buttons .k-primary:hover, .k-slider .k-draghandle:hover {
     color: #ffffff;
-    background-color: #3e5b99;
+    background: #3e5b99;
     border-color: #3e5b99; }
   
   .k-button.k-primary:active, .k-button.k-primary.k-state-active, .k-button.k-primary.k-state-selected, .k-action-buttons .k-primary:active, .k-slider .k-draghandle:active, .k-slider .k-draghandle.k-pressed {
     color: #ffffff;
-    background-color: #3e5b99;
+    background: #3e5b99;
     border-color: #3e5b99; }
   
   .k-grid-toolbar, .k-toolbar, .k-editor .k-editor-toolbar, .k-gantt-toolbar {
@@ -13005,6 +13005,7 @@ body kendo-grid .k-grid-header{
 .dropdown-item.nav-active{
   background: #f3f8ff;
 }
+
 @media only screen and (min-width: 768) {
   .k-grid .k-alt {
     color: #292b2c;

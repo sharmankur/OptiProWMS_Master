@@ -29,10 +29,11 @@ body.opti_account-module {
         width: 100%;
         content: "";
         left: 0;
-        z-index: -1;
-        -webkit-filter: blur(8px);
-        filter: blur(8px);
+        // z-index: -1;
+        // -webkit-filter: blur(8px);
+        // filter: blur(8px);
         height: 100%;
+        
     }
     &:after {
         content: '';
@@ -441,3 +442,11 @@ td .k-dropdown-wrap .k-input {
 .grid-right-align-column{
     text-align: right !important;
 }
+body.opti_account-module #opti_signinID .k-dropdown .k-dropdown-wrap{
+    border: none !important;
+    height: 36px !important;
+    border-radius: 5px !important;
+  }
+  #opti_signinID .k-widget.form-control-sm .k-input {
+    height: 36px !important;
+  }
