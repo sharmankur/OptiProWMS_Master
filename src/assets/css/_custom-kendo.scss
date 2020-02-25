@@ -400,9 +400,16 @@ body .k-grid td{
         border-radius: 0 0.25rem 0.25rem 0 ;
     }
 }
+.toggle-btn-outer{
+    float: right;
+    .dropdown-item{
+        padding: 2px 5px;
+    }
+}
 .toggle-btn{
     padding: 2px 5px !important;
     font-size: 12px !important;
+    min-height: 22px;
 }
 .toggle-btn.dropdown-toggle::after{
     margin-top: 7px;
