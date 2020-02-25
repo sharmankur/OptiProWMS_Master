@@ -568,6 +568,12 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
+        field: 'OPTM_SHIPMENT_CODE',
+        title: this.translate.instant("Shipment_Code"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_BPCODE',
         title: this.translate.instant("CustomerCode"),
         type: 'text',

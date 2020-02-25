@@ -103,6 +103,7 @@ export class LookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
+    $("input[name='columnfilter']").prop("checked", false);
     if (this.lookupfor == "toWhsList" || this.lookupfor == "fromWhsList") {
       this.showToWhsList();
     } else if (this.lookupfor == "ItemsList") {
@@ -470,6 +471,7 @@ export class LookupComponent implements OnInit {
         this.dialogOpened = true;
       }
     }
+    
   }
 
   showCTRList() {
@@ -1156,20 +1158,18 @@ export class LookupComponent implements OnInit {
     }
     else {
       this.selectall = false
+      this.selectedValues = [];
     }
   }
 
   onCheckboxClick(checked: any, index: number) {
-
     let servivceItem: any = this.serviceData[index];
     if (checked) {
       this.selectedValues.push(servivceItem);
     }
     else {
-      // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
       var temp = this.selectedValues.splice(index, 1);
       this.selectedValues = this.selectedValues;
-      //console.log("selectedValues.size", this.selectedValues.length);
     }
   }
 
@@ -1181,13 +1181,6 @@ export class LookupComponent implements OnInit {
         type: 'text',
         width: '100'
       }
-      // ,
-      // {
-      //   field: 'Name',
-      //   title: this.translate.instant("ItemCode"),
-      //   type: 'text',
-      //   width: '100'
-      // }
     ];
     this.lookupTitle = this.translate.instant("Plt_PalletList");
     if (this.serviceData !== undefined) {
