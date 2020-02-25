@@ -41,6 +41,15 @@ export class GeneratePickComponent implements OnInit {
   WOTo: string;
   ShipIdFrom: string;
   ShipIdTo: string;
+  PickListBasis: string;
+  Pick_Type: string;
+  Pick_Operation: string;
+  PackListBasisArray: any[] = [];
+  PackTypeList: any[] = [];
+  PickOperationList: any[] = [];
+  isSODisabled: boolean;
+  isWODisabled: boolean;
+  isSHIdDisabled: boolean;
 
   constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -52,6 +61,19 @@ export class GeneratePickComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.PackListBasisArray = ["Shipment", 
+    this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
+    this.PickListBasis = this.PackListBasisArray[0];
+
+    this.PackTypeList = [this.translate.instant("Batch_Picking"), 
+    this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
+    this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
+    this.Pick_Type = this.PackTypeList[0];
+    
+    this.PickOperationList = [this.translate.instant("PickToTote"), 
+    this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
+    this.Pick_Operation = this.PickOperationList[0];    
+    this.onPickListBasisChange(this.PickListBasis);
   }
   //#region "shipmentId"  
   GetDataForShipmentId(fieldName) {
@@ -470,18 +492,39 @@ export class GeneratePickComponent implements OnInit {
       this.WOTo = event.SODocNum;
     }
     else if (this.lookupfor == "ShipIdFrom") {
-      this.ShipIdFrom = event.SODocNum;
+      this.ShipIdFrom = event.OPTM_SHIPMENTID;
     }
     else if (this.lookupfor == "ShipIdTo") {
-      this.ShipIdTo = event.SODocNum;
+      this.ShipIdTo = event.OPTM_SHIPMENTID;
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = event.WhsCode;
     }
   }
 
+  onPickListBasisChange(event){
+    this.isSODisabled = true
+    this.isWODisabled = true;
+    this.isSHIdDisabled = true;
+    if(event == this.PackListBasisArray[0]){
+      this.isSHIdDisabled = false;
+    }else if(event == this.PackListBasisArray[1]){
+      this.isSODisabled = false;
+    }else if(event == this.PackListBasisArray[2]){
+      this.isWODisabled = false;
+    }
+  }
+
   //#region "validation"
   ValidateFields() {
+    if(this.PickListBasis == "")
+    this.toastr.error("", this.translate.instant("Generate_Pick_List_Msg"));
+
+  }
+  //#endregion
+
+  //#region "Generate"
+  onGenerateClick(){
 
   }
   //#endregion

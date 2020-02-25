@@ -119,11 +119,13 @@
   "PT_Customer": "Customer",
   "PT_Ship_To": "Ship To",
   "PT_Warehouse": "Warehouse",
+  "WorkOrder": "Work Order",
   "Quantity": "Quantity",
   "Quantity_Fulfilled": "Quantity Fulfilled",
   "Line_status": "Line Status",
   "Pick_Type": "Pick Type",
   "Pick_Operation": "Pick Operation",
+  "PickListBasis": "Pick List Basis",
 
   "ContainerId":"Container Id",
   "LineID": "Line Id",
@@ -142,9 +144,9 @@
   "PT_PlanDate":"Plan Date",
   "Action": "Action",
   "WHSCODE":"Warehouse Code",
-  "Schedule_Datetime": "Schedule Datetime",
-  "Schedule_DatetimeFrom": "Sch Datetime From",
-  "Schedule_DatetimeTo": "Sch Datetime To",
+  "Schedule_Datetime": "Sch. Datetime",
+  "Schedule_DatetimeFrom": "Sch. Datetime From",
+  "Schedule_DatetimeTo": "Sch. Datetime To",
   "CustomerCode": "Customer Code",
   "Ship_Stage_Bin":"Ship Stage Bin",
   "Ship_To_Code":"Ship To Code",
@@ -846,6 +848,17 @@
   "AddedQtyValidMsg": "Added quantity should be less than available quantity",
   "CheckedItemQtyValid": "Quantity can't be zero for checked item",
   "QtyAdded": "Quantity Added",
+  "Generate_Pick_List_Msg":"Select Basis to generate Pick List",
+
+  "Batch_Picking":"Batch Picking",
+  "Cluster_Picking":"Cluster Picking",
+  "Container_Picking":"Container Picking",
+  "Discreate_Picking":"Discreate Picking",
+  "Zone_Picking":"Zone Picking",
+
+  "PickToTote":"Pick To Tote",
+  "PickToContainer":"Pick To Container",
+  "Loose":"Loose",
 
   "Dummy": "Dummy"
   

@@ -19,7 +19,7 @@
                                             <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@
                                             <input type="text" class="form-control form-control-sm" name='DockDoor' [(ngModel)]=DockDoor id="DockDoor" (blur)="IsValidDockDoor()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor('CT')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@
                                             <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode" (blur)="IsValidCarrier()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -181,8 +181,10 @@
                              <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer [disabled]=true/>
+                                        <!-- <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer [disabled]=true/> -->
+                                        <div class="custom-control custom-checkbox minus-m5">
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
                                             <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
                                         </div>
                                     </div>
@@ -337,10 +339,12 @@
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span  role="presentation"></span> {{'Cancel_Unassign'|translate}}</button> -->
-                    <div class="btn-group">
+                    <!-- <div class="btn-group">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'Cancel_Unassign'|translate}}</button> -->
+                    <div class="btn-group  toggle-btn-outer">
                         <div class="dropdown show">
-                            <a class="btn btn-success btn-sm dropdown-toggle toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Actions
+                            <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i  class="opti-icon-more"></i>
                             </a>                  
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#">{{'Accept_Return'|translate}}</a>

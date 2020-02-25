@@ -20,36 +20,47 @@
                         
                     </div>
 
-                    <form class="k-form" #signInForm="ngForm">
-                        <label class="k-form-field">
-                          <span class="opti_form-label">{{ 'Login_Username'|translate}}
-                          <!-- <span *ngIf="emailId.errors?.email && emailId.touched" 
-                          class="float-right opti_error-msg"> Invalid emailId. </span> -->
-                          <span *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)" 
-                          class="float-right opti_error-msg" >{{'Login_UnBlankErrMsg'|translate}}</span>
-                          <!-- <span  *ngIf="this.userNotExist==true && (emailId.dirty || emailId.touched) 
-                          && (pwd.dirty || pwd.touched) && !emailId.errors?.required &&
-                           !emailId.errors?.valid " class="float-right opti_error-msg">
-                           User does not exists.</span> -->
-                          </span> 
-                          <input type="text" id="emailID"  name ="email" required [(ngModel)]="userName"
-                            #emailId = ngModel class="k-textbox"  value="" placeholder="{{ 'Login_EnterUsername'|translate}}"
-                            [readonly]=readonlyFlag
-                            />  
-                        </label> 
-
-                        <label class="k-form-field">
-                          <span class="opti_form-label">{{ 'Login_Password'|translate}}
-                              <span  *ngIf="pwd.errors && (pwd.dirty || pwd.touched)"   class="float-right opti_error-msg">{{'Login_PwdBlankErrMsg'|translate}}</span>
-                              <span  *ngIf="this.isError==true &&  (pwd.dirty || pwd.touched) && (emailId.dirty || emailId.touched) && !pwd.errors?.required" class="float-right opti_error-msg">Invalid credentials.</span>
-                              
-                          </span>
-                          <input name = "password" required [(ngModel)]="password" 
-                          #pwd = ngModel type="password" class="k-textbox" value="" 
-                          placeholder="{{'Login_EnterPassword'|translate}}" [readonly]=readonlyFlag />
-                        </label>
+                    <form class="k-form"  #signInForm="ngForm">
+                        <div class="col-auto">
+                            <span class="opti_form-label">
+                              <!-- {{ 'Login_Username'|translate}} -->
+                            
+                                <span *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)" 
+                                class="float-right opti_error-msg" >{{'Login_UnBlankErrMsg'|translate}}</span>
+                       
+                                </span> 
+                            <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><span class="k-icon k-i-user"></span></div>
+                              </div>
+                              <input type="text" id="emailID"  name ="email" required [(ngModel)]="userName"
+                              #emailId = ngModel class="form-control"  value="" placeholder="{{ 'Login_EnterUsername'|translate}}"
+                              [readonly]=readonlyFlag
+                              /> 
+                            </div>
+                          </div>
+                          <div class="col-auto">
+                            <span class="opti_form-label">
+                              <!-- {{ 'Login_Password'|translate}} -->
+                                <span  *ngIf="pwd.errors && (pwd.dirty || pwd.touched)"   class="float-right opti_error-msg">{{'Login_PwdBlankErrMsg'|translate}}</span>
+                                <span  *ngIf="this.isError==true &&  (pwd.dirty || pwd.touched) && (emailId.dirty || emailId.touched) && !pwd.errors?.required" class="float-right opti_error-msg">Invalid credentials.</span>
+                                
+                            </span>
+                            <label class="sr-only" for="inlineFormInputGroup">Password</label>
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><span class="k-icon k-i-unlock"></span></div>
+                              </div>
+                              <input name = "password" required [(ngModel)]="password" 
+                              #pwd = ngModel type="password" class="form-control" value="" 
+                              placeholder="{{'Login_EnterPassword'|translate}}" [readonly]=readonlyFlag />
+                            </div>
+                          </div>
+                       
 
                         <!-- start if condition -->
+                        <div class="col-auto">
                         <ng-container *ngIf="isCompleteLoginVisible">
                             <label class="k-form-field">
                               <span class="opti_form-label">{{'Login_Company'|translate}} </span>
@@ -60,39 +71,23 @@
                                id="compId"
                                ></kendo-dropdownlist>
                             </label>
-
-                            <!-- <label class="k-form-field">
-                              <span class="opti_form-label">{{'Login_Warehouse'|translate}} </span>
-                              <kendo-dropdownlist class="form-control form-control-sm"
-                               [data]="whsList" (click)="setWarehouseList()" 
-                               textField="OPTM_WHSE"
-                               valueField="BPLid"
-                               id="whseId"
-                               name = "defaultWHS"
-                               [(ngModel)]="defaultWHS"
-                              ></kendo-dropdownlist>
-                            </label> -->
-
-                            <!-- <label class="k-form-field">
-                                <span class="opti_form-label">Select Mode </span>
-                                <input type="radio" name="scan" id="radio1" class="k-radio" checked />
-                                <label class="k-radio-label" for="radio1">scanning</label>
-                            <input type="radio" name="scan" id="radio2" class="k-radio" />
-                            <label class="k-radio-label" for="radio2">Without-Scanning</label>
-                            </label> -->
                         </ng-container>
+                        </div>
                         <!-- end if condition -->
-
+                        <div class="col-auto">
                         <label class="k-form-field" *ngIf="isCompleteLoginVisible">
                             <div class="opti_checkbox-container">
                                 <input type="checkbox" id="auth-2fa" class="k-checkbox float-left" [(ngModel)]="isRemember" name="isRemember">
                                 <label class="k-checkbox-label" for="auth-2fa">{{'Login_RememberMe'|translate}}</label>
                             </div>
                         </label>
-                        <div class="text-right">
+                        </div>
+                        <div class="col-auto">
+                        <div class="text-right ">
                             <button type="submit" id=connectbtn class="k-button k-primary opti_fullwidth mt-2" *ngIf="!isCompleteLoginVisible" (click)="login()">{{'Login_Connect'|translate}}</button>
-                            <button type="button" id=connectbtn *ngIf="isCompleteLoginVisible" class="k-button k-primary opti_fullwidth" (click)="onResetClick(signInForm)">{{'Login_Reset'|translate}}</button>
+                            <button type="button" id=connectbtn *ngIf="isCompleteLoginVisible" class="mb-3 k-button k-primary opti_fullwidth" (click)="onResetClick(signInForm)">{{'Login_Reset'|translate}}</button>
                             <button type="submit" id=connectbtn *ngIf="isCompleteLoginVisible" class="k-button k-primary opti_fullwidth" (click)="login()">{{'Login_Login'|translate}}</button>                            
+                        </div>
                         </div>
                     </form>
                 </div>
@@ -113,3 +108,57 @@
     <!-- Full page loader loader end -->
 </div>
 
+ <!-- <label class="k-form-field">
+                          <span class="opti_form-label">{{ 'Login_Username'|translate}}
+                          
+                          <span *ngIf="emailId.errors?.required && (emailId.dirty || emailId.touched)" 
+                          class="float-right opti_error-msg" >{{'Login_UnBlankErrMsg'|translate}}</span>
+                        
+                          </span> 
+                          <input type="text" id="emailID"  name ="email" required [(ngModel)]="userName"
+                            #emailId = ngModel class="k-textbox"  value="" placeholder="{{ 'Login_EnterUsername'|translate}}"
+                            [readonly]=readonlyFlag
+                            />  
+                        </label> 
+
+                        <label class="k-form-field">
+                          <span class="opti_form-label">{{ 'Login_Password'|translate}}
+                              <span  *ngIf="pwd.errors && (pwd.dirty || pwd.touched)"   class="float-right opti_error-msg">{{'Login_PwdBlankErrMsg'|translate}}</span>
+                              <span  *ngIf="this.isError==true &&  (pwd.dirty || pwd.touched) && (emailId.dirty || emailId.touched) && !pwd.errors?.required" class="float-right opti_error-msg">Invalid credentials.</span>
+                              
+                          </span>
+                          <input name = "password" required [(ngModel)]="password" 
+                          #pwd = ngModel type="password" class="k-textbox" value="" 
+                          placeholder="{{'Login_EnterPassword'|translate}}" [readonly]=readonlyFlag />
+                        </label> -->
+ <!-- <label class="k-form-field">
+                              <span class="opti_form-label">{{'Login_Warehouse'|translate}} </span>
+                              <kendo-dropdownlist class="form-control form-control-sm"
+                               [data]="whsList" (click)="setWarehouseList()" 
+                               textField="OPTM_WHSE"
+                               valueField="BPLid"
+                               id="whseId"
+                               name = "defaultWHS"
+                               [(ngModel)]="defaultWHS"
+                              ></kendo-dropdownlist>
+                            </label> -->
+
+                            <!-- <label class="k-form-field">
+                                <span class="opti_form-label">Select Mode </span>
+                                <input type="radio" name="scan" id="radio1" class="k-radio" checked />
+                                <label class="k-radio-label" for="radio1">scanning</label>
+                            <input type="radio" name="scan" id="radio2" class="k-radio" />
+                            <label class="k-radio-label" for="radio2">Without-Scanning</label>
+                            </label> -->
+           <!-- <span *ngIf="emailId.errors?.email && emailId.touched" 
+                                class="float-right opti_error-msg"> Invalid emailId. </span> -->
+                                <!-- <span  *ngIf="this.userNotExist==true && (emailId.dirty || emailId.touched) 
+                                && (pwd.dirty || pwd.touched) && !emailId.errors?.required &&
+                                 !emailId.errors?.valid " class="float-right opti_error-msg">
+                                 User does not exists.</span> -->
+  <!-- <span *ngIf="emailId.errors?.email && emailId.touched" 
+                          class="float-right opti_error-msg"> Invalid emailId. </span> -->
+                          <!-- <span  *ngIf="this.userNotExist==true && (emailId.dirty || emailId.touched) 
+                          && (pwd.dirty || pwd.touched) && !emailId.errors?.required &&
+                           !emailId.errors?.valid " class="float-right opti_error-msg">
+                           User does not exists.</span> -->
