@@ -388,7 +388,7 @@ export class ContainerBatchserialComponent implements OnInit {
   fillBatchSerialDataInGrid(){
 
     this.showLoader = true;
-    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID).subscribe(
+    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -505,14 +505,23 @@ export class ContainerBatchserialComponent implements OnInit {
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
-      this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));     
-      
-      for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
-        if(this.SelectedRowsforShipmentArr[i].ITEMCODE == dataitem.ITEMCODE && this.SelectedRowsforShipmentArr[i].WHSCODE == dataitem.WHSCODE &&
-          this.SelectedRowsforShipmentArr[i].BINNO == dataitem.BINNO && this.SelectedRowsforShipmentArr[i].LOTNO == dataitem.LOTNO){
-            this.SelectedRowsforShipmentArr.splice(i,1); 
-        }
-      } 
+      this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+
+      if(dataitem.LOTNO == undefined){
+        for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
+          if(this.SelectedRowsforShipmentArr[i].ITEMCODE == dataitem.ITEMCODE && this.SelectedRowsforShipmentArr[i].WHSCODE == dataitem.WHSCODE &&
+            this.SelectedRowsforShipmentArr[i].BINNO == dataitem.BINNO){
+              this.SelectedRowsforShipmentArr.splice(i,1); 
+          }
+        }        
+      }else{
+        for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
+          if(this.SelectedRowsforShipmentArr[i].ITEMCODE == dataitem.ITEMCODE && this.SelectedRowsforShipmentArr[i].WHSCODE == dataitem.WHSCODE &&
+            this.SelectedRowsforShipmentArr[i].BINNO == dataitem.BINNO && this.SelectedRowsforShipmentArr[i].LOTNO == dataitem.LOTNO){
+              this.SelectedRowsforShipmentArr.splice(i,1); 
+          }
+        } 
+      }   
      }
 
      let array = this.SelectedRowsforShipmentArr;

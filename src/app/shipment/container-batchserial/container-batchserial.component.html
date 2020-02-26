@@ -112,7 +112,7 @@
                                 [groupable]=false [columnMenu]="false"
                                 [selectable]="{ checkboxOnly: true, mode: 'multiple' }">                               
 
-                                    <kendo-grid-column field="Selected" width="85" title="Select">
+                                    <kendo-grid-column field="Selected" width="25" title="Select">
                                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                                     <label class="custom-checkbox mb-0">
                                                         <input type="checkbox" #checkedselectedvalue
@@ -143,11 +143,11 @@
                                         </kendo-grid-checkbox-column> -->
 
                                     <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
-                                    <kendo-grid-column field="WHSCODE" width="95" title="Warehouse Code"></kendo-grid-column>
-                                    <kendo-grid-column field="BINNO" width="100" title="Bin No"></kendo-grid-column>
-                                    <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking == 'B' || Tracking == 'S' || SHPStatus =='1'"></kendo-grid-column>
-                                    <kendo-grid-column field="AvailableQty" width="100" class="text-right" title="Available Quantitiy"></kendo-grid-column>
-                                    <kendo-grid-column field="AssignQty" width="100" class="text-right" title="Quantity to Assign"> <!--QtytoAssign-->
+                                    <kendo-grid-column field="WHSCODE" width="64" title="Warehouse Code"></kendo-grid-column>
+                                    <kendo-grid-column field="BINNO" width="108" title="Bin No"></kendo-grid-column>
+                                    <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking == 'B' || Tracking == 'S' || SHPStatus !='1'"></kendo-grid-column>
+                                    <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="Available Quantitiy"></kendo-grid-column>
+                                    <kendo-grid-column field="AssignQty" width="60" class="text-right" title="Quantity to Assign"> <!--QtytoAssign-->
                                       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
                                         (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
@@ -175,6 +175,7 @@
                         </div>    
                     </div>
                 </div>
+            </div>
     
                 <div class="fix-footer-btnBar">
                     <div class="col-sm-12 col-12">
@@ -183,16 +184,14 @@
                         </button>
                         <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
                             <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-                        <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()" [disabled]="IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Select_Shipment'|translate}}</button> -->
+                        
                         <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
                             <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
-                        <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Remove_from_shipment'|translate}}</button>   -->
+                       
                     </div>
                 </div>
     
-            </div>
+            
           </form>
     </div>
     
