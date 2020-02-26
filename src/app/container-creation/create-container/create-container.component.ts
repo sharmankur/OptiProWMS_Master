@@ -81,6 +81,8 @@ export class CreateContainerComponent implements OnInit {
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
     // this.GetContainerNumber();
+
+    
   }
 
 
