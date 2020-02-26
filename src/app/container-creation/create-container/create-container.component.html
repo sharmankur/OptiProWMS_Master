@@ -168,7 +168,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
-                                            [ngModel]="itemPackQty" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
+                                            [ngModel]="itemPackQty|numberFormat" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
                                             disabled>
                                         <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
                                             [(ngModel)]="itemPack" id="itemPack" disabled>
@@ -213,7 +213,7 @@
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
                                             <input type="number" class="form-control form-control-sm text-right" name='width'
-                                                [(ngModel)]="length" id="length" disabled>
+                                                [ngModel]="length|numberFormat" (ngModelChange)="length=$event" id="length" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -258,7 +258,7 @@
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
                                             <input type="number" class="form-control form-control-sm text-right" name='width'
-                                                [(ngModel)]="width" id="width" disabled>
+                                                [ngModel]="width|numberFormat" (ngModelChange)="width=$event" id="width" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
                                             <input type="number" class="form-control form-control-sm text-right" name='height'
-                                                [(ngModel)]="height" id="height" disabled>
+                                                [ngModel]="height|numberFormat" (ngModelChange)="height=$event" id="height" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -339,7 +339,7 @@
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
                                             <input type="number" class="form-control form-control-sm text-right" name="maxWeigth"
-                                                id="maxWeigth" [(ngModel)]="maxWeigth" disabled>
+                                                id="maxWeigth" [ngModel]="maxWeigth|numberFormat" (ngModelChange)="maxWeigth=$event"  disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -382,11 +382,11 @@
                         <!-- col start -->
                         <div class="col-sm-5 ml-5">
                             <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
+                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm text-right" name='CustomerTo'
-                                            [(ngModel)]="CustomerTo" id="CustomerTo" disabled>
+                                        <input type="number" class="form-control form-control-sm text-right" name='containerWeigth'
+                                            [ngModel]="containerWeigth|numberFormat" (ngModelChange)="containerWeigth=$event" id="containerWeigth" disabled>
                                     </div>
                                 </div>
                             </div>
