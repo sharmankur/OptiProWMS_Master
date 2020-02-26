@@ -42,6 +42,7 @@ export class CommonLookupComponent implements OnInit {
   lookupPageSize: number = 10;
   @Input() partPerQty: any;
   @Input() qtyAdded: any;
+  fromWhere: any;
 
   constructor(private translate: TranslateService, private router: Router, private toastr: ToastrService) {
     let userLang = navigator.language.split('-')[0];
@@ -84,7 +85,17 @@ export class CommonLookupComponent implements OnInit {
     this.clearFilters()
   }
   ngOnInit() {
-
+    this.fromWhere = localStorage.getItem("FromWhere");
+    if (this.fromWhere == "CreateContainer") {
+      this.selectedValues = []
+      this.qtyAdded = 0
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (this.serviceData[i].OldData) {
+          this.selectedValues.push(this.serviceData[i])
+          this.qtyAdded = this.qtyAdded + Number("" + this.serviceData[i].QuantityToAdd)
+        }
+      }
+    }
   }
 
   async ngOnChanges(): Promise<void> {
@@ -640,7 +651,7 @@ export class CommonLookupComponent implements OnInit {
 
   showBatchSerialItems() {
     this.partPerQty = localStorage.getItem("PartPerQty");
-    if(this.partPerQty == undefined || this.partPerQty == ''){
+    if (this.partPerQty == undefined || this.partPerQty == '') {
       this.partPerQty = "0"
     }
     this.partPerQty = Number(this.partPerQty);
@@ -1289,16 +1300,36 @@ export class CommonLookupComponent implements OnInit {
   }
 
   onCheckboxClick(checked: any, index: number) {
-
     let servivceItem: any = this.serviceData[index];
     if (checked) {
+      servivceItem.QuantityToAdd = servivceItem.Quantity;
       this.selectedValues.push(servivceItem);
-    }
-    else {
-      // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
-      var temp = this.selectedValues.splice(index, 1);
+      //If check assign available qty as default qty to add
+      this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+      this.getTotalQtyOfSelectedItems()
+      if (this.qtyAdded > this.partPerQty) {
+        this.qtyAdded = this.qtyAdded - servivceItem.Quantity;
+        this.serviceData[index].QuantityToAdd = 0;
+        this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+      }
+    } else {
+      // var temp = this.selectedValues.splice(index, 1);
+      // this.selectedValues = this.selectedValues;
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+          this.selectedValues.splice(i, 1);
+          break;
+        }
+      }
       this.selectedValues = this.selectedValues;
-      //console.log("selectedValues.size", this.selectedValues.length);
+
+      //Reset qty if unchecked
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (i == index) {
+          this.serviceData[i].QuantityToAdd = 0;
+        }
+      }
+      this.getTotalQtyOfSelectedItems();
     }
   }
 
@@ -1370,46 +1401,72 @@ export class CommonLookupComponent implements OnInit {
   }
 
   Done() {
-    for (var i = 0; i < this.selectedValues.length; i++) {
-      if (this.selectedValues[i].QuantityToAdd == 0) {
-        this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+    if (this.fromWhere == "CreateContainer") {
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (this.selectedValues[i].QuantityToAdd == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+          return;
+        }
+      }
+
+      if (this.getTotalQtyOfSelectedItems() > this.partPerQty) {
+        this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
         return;
       }
-    }
-
-    var sum = 0;
-    for (var i = 0; i < this.selectedValues.length; i++) {
-      sum = sum + Number(""+this.selectedValues[i].QuantityToAdd)
-    }
-    if(sum > this.partPerQty){
-      this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
-      return;
     }
 
     this.lookupkey.emit(this.selectedValues);
     this.dialogOpened = false;
   }
 
-  onQtyToAddChange(value, index) {
-    console.log("value: " + value);
-    for (var i = 0; i < this.serviceData.length; i++) {
-      if (i == index) {
-        if (value == 0) {
-          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
-        } else if (value > this.serviceData[i].Quantity) {
-          this.serviceData[i].QuantityToAdd = 0;
-          this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
-          break
-        } else {
-          this.serviceData[i].QuantityToAdd = value;
-          this.serviceData[i].Balance = this.serviceData[i].Quantity - value;
-          break;
-        }
-      }
+  getTotalQtyOfSelectedItems(): number {
+    var sum = 0;
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      sum = sum + Number("" + this.selectedValues[i].QuantityToAdd)
     }
-    this.qtyAdded = 0
-    for (var i = 0; i < this.serviceData.length; i++) {
-      this.qtyAdded = this.qtyAdded + Number(""+this.serviceData[i].QuantityToAdd)
-    }
+    this.qtyAdded = sum;
+    return sum;
   }
+
+  resetAddedQty(index) {
+    let servivceItem: any = this.serviceData[index];
+    this.serviceData[index].QuantityToAdd = 0;
+    this.qtyAdded = this.qtyAdded - servivceItem.QuantityToAdd;
+    this.getTotalQtyOfSelectedItems();
+  }
+
+  onQtyToAddChange(value, index){
+
+    
+
+  }
+
+  // onQtyToAddChange(value, index) {
+  //   let servivceItem: any = this.serviceData[index];
+  //   console.log("value: " + value);
+  //   value = Number(value)
+  //   for (var i = 0; i < this.selectedValues.length; i++) {
+  //     if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+  //       if (value == 0) {
+  //         this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+  //       } else if (value > this.selectedValues[i].Quantity) {
+  //         this.selectedValues[i].QuantityToAdd = 0;
+  //         this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+  //         this.resetAddedQty(index);
+  //         break
+  //       } else {
+  //         this.selectedValues[i].QuantityToAdd = value;
+  //         this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   this.qtyAdded = 0
+  //   for (var i = 0; i < this.selectedValues.length; i++) {
+  //     this.qtyAdded = this.qtyAdded + Number("" + this.selectedValues[i].QuantityToAdd)
+  //   }
+  //   if (this.qtyAdded > this.partPerQty) {
+  //     this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+  //   }
+  // }
 }

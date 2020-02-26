@@ -630,7 +630,7 @@
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
   "ContainerCreation": "Container Creation",
-  "CreateContainer": "Create Ship Container",
+  "CreateContainer": "Create Container",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
   "Task": "Task",
@@ -839,6 +839,7 @@
   "AddedQtyValidMsg": "Added quantity should be less than available quantity",
   "CheckedItemQtyValid": "Quantity can't be zero for checked item",
   "QtyAdded": "Quantity Added",
+  "QtyToAddValidMsg": "Quantity To Add can't be greater than quantity",
 
   "Dummy": "Dummy"
   

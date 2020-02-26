@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Commonservice } from './commonservice.service';
 import { Observable } from 'rxjs';
 import { Shipment } from '../models/Shipment';
+import { AnimationQueryOptions } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -192,5 +193,39 @@ export class ContainerCreationService {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions);
+  }
+
+  CheckScanAndCreateVisiblity(ruleId: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/CheckScanAndCreateVisiblity", jObject, this.commonService.httpOptions);
+  }
+
+  GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId,
+        ITEMCODE: itemCode,
+        WHSCODE: whse,
+        BINCODE: binCode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfContainerBasedOnRule", jObject, this.commonService.httpOptions);
+  }
+
+  GetListOfBatchSerOfSelectedContainerID(containerId: any, itemCode: AnimationQueryOptions): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERID: containerId,
+        ITEMCODE: itemCode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
 }

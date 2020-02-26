@@ -421,9 +421,9 @@
                             <ng-template kendoGridToolbarTemplate>
                                 <span class="grid-toolbar-title">{{'OtherItemsTitle'|translate}}</span>
                                 <span class="opti_input-group-checkbox">
-                                    <input type="checkbox" id="fromContainer" name='fromContainer' class="k-checkbox" 
-                                    (change)="onFromContainerCheckChange()"/>
-                                    <label class="k-checkbox-label empty-check">{{'FromContainer'|translate}}</label>
+                                    <input type="checkbox" id="fromContainer" name='fromContainer' class="k-checkbox"
+                                        (change)="onFromContainerCheckChange()" />
+                                    <label class="k-checkbox-label empty-check" for="fromContainer">{{'FromContainer'|translate}}</label>
                                 </span>
                             </ng-template>
                             <!-- grid for mobile start -->
@@ -464,7 +464,21 @@
                                 <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="string" [width]="45" title="{{'Container'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" title="{{'Container'|translate}}"
+                                *ngIf="fromContainer">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_CONTAINERID"
+                                            value={{dataItem.OPTM_CONTAINERID}} id="contId" min="0"
+                                            #contId>
+                                        <div class="input-group-append">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                (click)="GetListOfContainerBasedOnRule(dataItem, idx)">
+                                                <i class="opti-icon-hammenu"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="AvlQty" [width]="45" title="{{'AvailableQty'|translate}}"
                                 headerClass="text-center" class="text-right">
@@ -476,23 +490,24 @@
                                 <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT|numberFormat}}
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="100" title="{{'BinNo'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="60" title="{{'BinNo'|translate}}">
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyToAdd'|translate}}"
+                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyAdded'|translate}}"
                                 headerClass="text-center" class="text-right">
                                 <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.QuantityToAdd|numberFormat}}
                                 </ng-template> -->
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name="qtytoadd" value={{dataItem.QuantityToAdd|numberFormat}}
-                                            id="qtytoadd" min="0" #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)"
-                                            [disabled]="dataItem.isDesable">
+                                        <input type="text" class="form-control form-control-sm text-right" name="qtytoadd"
+                                            value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
+                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
                                     </div>
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" [width]="45">
+                            <kendo-grid-column media="(min-width: 768px)" [width]="45" headerClass="text-center" class="text-center">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onShowBSClick(dataItem, rowIndex)">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center"
+                                        (click)="onShowBSClick(dataItem, rowIndex)">
                                         <span class="k-icon k-i-check" role="presentation"></span>
                                     </button>
                                 </ng-template>
@@ -508,7 +523,8 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')"
+                    [disabled]="!scanCreateEnable">
                     {{'ScanCreate'|translate}}
                 </button>
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick('Create')">
