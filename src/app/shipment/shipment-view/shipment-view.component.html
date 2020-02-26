@@ -2,7 +2,7 @@
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                    {{'DropdownMenu_Shipment'|translate}}
+                {{'DropdownMenu_Shipment'|translate}}
             </h3>
             <div class="row">
                 <div class="col-12">
@@ -53,7 +53,7 @@
 
                         <!-- row start -->
                         <div class="row">
-                           
+
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
@@ -65,8 +65,8 @@
                             </div>
                             <!-- col end -->
 
-                             <!-- col start -->
-                             <div class="col-sm-4">
+                            <!-- col start -->
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label for="ShipStageBin" class="col-sm-4 col-form-label">
                                         {{'Ship_Stage_Bin'|translate}}</label>
@@ -120,8 +120,8 @@
                                 </div>
                             </div>
                             <!-- col end -->
-                             <!-- col start -->
-                             <div class="col-sm-4">
+                            <!-- col start -->
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                     <div class="col-sm-8">
@@ -141,9 +141,9 @@
                         <!-- row end -->
 
                         <!-- row start -->
-                        <div class="row">                          
-                             <!-- col start -->
-                             <div class="col-sm-4">
+                        <div class="row">
+                            <!-- col start -->
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label for="ReturnOrderRef" class="col-sm-4 col-form-label">{{'Return_Order_Ref'|translate}}</label>
                                     <div class="col-sm-8">
@@ -162,8 +162,8 @@
                                 </div>
                             </div>
                             <!-- col end -->
-                             <!-- col start -->
-                             <div class="col-sm-4">
+                            <!-- col start -->
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label for="VehicleNumber" class="col-sm-4 col-form-label">{{'VehicleNumber'|translate}}</label>
                                     <div class="col-sm-8">
@@ -177,8 +177,8 @@
 
                         <!-- row start -->
                         <div class="row">
-                             <!-- col start -->
-                             <div class="col-sm-4">
+                            <!-- col start -->
+                            <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <!-- <div class="custom-control custom-checkbox">
@@ -311,23 +311,23 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
-             
+
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" (click)="onCancelClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
 
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()" >
-                        <span  role="presentation"></span> {{'CT_Update'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()">
+                    <span role="presentation"></span> {{'CT_Update'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onScheduleClick()" [disabled]=isScheduledDiabled>
-                    <span  role="presentation"></span> {{'Schedule'|translate}}</button>
+                    <span role="presentation"></span> {{'Schedule'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()">
-                    <span  role="presentation"></span> {{btnText}}</button>
+                    <span role="presentation"></span> {{btnText}}</button>
 
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onStageORUnstageShipmentClick()"
+                <!-- <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onStageORUnstageShipmentClick()"
                     [disabled]=isStageDiabled>
-                    <span  role="presentation"></span> {{'Stage_Unstage'|translate}}</button>
+                    <span role="presentation"></span> {{'Stage_Unstage'|translate}}</button> -->
 
                 <!-- <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span  role="presentation"></span> {{'Customer_Return'|translate}}</button>
@@ -339,20 +339,22 @@
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
                     <span  role="presentation"></span> {{'Cancel_Unassign'|translate}}</button> -->
-                    <!-- <div class="btn-group">
+                <!-- <div class="btn-group">
                     <span class="k-icon k-i-check" role="presentation"></span> {{'Cancel_Unassign'|translate}}</button> -->
-                    <div class="btn-group  toggle-btn-outer">
-                        <div class="dropdown show">
-                            <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i  class="opti-icon-more"></i>
-                            </a>                  
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">{{'Accept_Return'|translate}}</a>
-                                <a class="dropdown-item" href="#">{{'Customer_Return'|translate}}</a>
-                                <a class="dropdown-item" href="#">{{'Cancel_Unassign'|translate}}</a>
-                            </div>
+                <div class="btn-group  toggle-btn-outer">
+                    <div class="dropdown show">
+                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="opti-icon-more"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">{{'Stage_Unstage'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Cancel_Unassign'|translate}}</a>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </form>

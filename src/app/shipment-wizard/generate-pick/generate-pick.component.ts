@@ -22,8 +22,8 @@ export class GeneratePickComponent implements OnInit {
   showLoader: boolean = false;
   CustomerFrom: string;
   CustomerTo: string;
-  ShipFrom: string;
-  ShipTo: string;
+  ShipToCodeFrom: string;
+  ShipToCodeTo: string;
   Dock_DoorFrom: string;
   Dock_DoorTo: string;
   Schedule_DatetimeFrom: string;
@@ -50,31 +50,37 @@ export class GeneratePickComponent implements OnInit {
   isSODisabled: boolean;
   isWODisabled: boolean;
   isSHIdDisabled: boolean;
+  Pick_Shift: string;
 
-  constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
+  constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-
+      this.initialize();
     });
   }
 
   ngOnInit() {
-    this.PackListBasisArray = ["Shipment", 
-    this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
+
+  }
+
+  initialize() {
+    this.PackListBasisArray = ["Shipment",
+      this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
     this.PickListBasis = this.PackListBasisArray[0];
 
-    this.PackTypeList = [this.translate.instant("Batch_Picking"), 
+    this.PackTypeList = [this.translate.instant("Batch_Picking"),
     this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
     this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
-    this.Pick_Type = this.PackTypeList[0];
-    
-    this.PickOperationList = [this.translate.instant("PickToTote"), 
+    // this.Pick_Type = this.PackTypeList[0];
+
+    this.PickOperationList = [this.translate.instant("PickToTote"),
     this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
-    this.Pick_Operation = this.PickOperationList[0];    
+    // this.Pick_Operation = this.PickOperationList[0];
     this.onPickListBasisChange(this.PickListBasis);
   }
+
   //#region "shipmentId"  
   GetDataForShipmentId(fieldName) {
     this.showLoader = true;
@@ -444,16 +450,17 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion  
 
+  //#region "Lookup selection"
   getlookupSelectedItem(event) {
     if (event != null && event == "close") {
       this.hideLookup = false;
       return;
     }
     else if (this.lookupfor == "ShipFrom") {
-      this.ShipFrom = event.Address;
+      this.ShipToCodeFrom = event.Address;
     }
     else if (this.lookupfor == "ShipTo") {
-      this.ShipTo = event.Address;
+      this.ShipToCodeTo = event.Address;
     }
     else if (this.lookupfor == "CustomerFrom") {
       this.CustomerFrom = event.CardCode;
@@ -501,31 +508,79 @@ export class GeneratePickComponent implements OnInit {
       this.WareHouse = event.WhsCode;
     }
   }
+  //#endregion
 
-  onPickListBasisChange(event){
+  onPickListBasisChange(event) {
     this.isSODisabled = true
     this.isWODisabled = true;
     this.isSHIdDisabled = true;
-    if(event == this.PackListBasisArray[0]){
+    this.SONoFrom = this.SONoTo = "";
+    this.WOFrom = this.WOTo = "";
+    this.ShipIdFrom = this.ShipIdTo = "";
+    if (event == this.PackListBasisArray[0]) {
       this.isSHIdDisabled = false;
-    }else if(event == this.PackListBasisArray[1]){
+    } else if (event == this.PackListBasisArray[1]) {
       this.isSODisabled = false;
-    }else if(event == this.PackListBasisArray[2]){
+    } else if (event == this.PackListBasisArray[2]) {
       this.isWODisabled = false;
     }
   }
 
   //#region "validation"
-  ValidateFields() {
-    if(this.PickListBasis == "")
-    this.toastr.error("", this.translate.instant("Generate_Pick_List_Msg"));
-
+  ValidateFields(): boolean {
+    if (this.Pick_Operation == "" || this.Pick_Operation == undefined || this.Pick_Operation == null) {
+      this.toastr.error("", this.translate.instant("Pick_Opr_val_Msg"));
+      return false;
+    }else if (this.Pick_Type == "" || this.Pick_Type == undefined || this.Pick_Type == null) {
+      this.toastr.error("", this.translate.instant("Pick_ListBasis_val_Msg"));
+      return false;
+    }else if(this.WareHouse == "" || this.WareHouse == undefined || this.WareHouse == null){
+      this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"));
+      return false;
+    }else if(this.Priority == "" || this.Priority == undefined || this.Priority == null){
+      let priority = Number(this.Priority);
+      if(priority < 1 && priority > 99){
+        this.Priority = "99";
+      }
+    }  
+    return true;
   }
   //#endregion
 
   //#region "Generate"
-  onGenerateClick(){
+  onGenerateClick() {
+    if(!this.ValidateFields()){
+      return;
+    }
+    this.generatePickList();
+  }
 
+  generatePickList() {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GeneratePickList(this.Priority, this.PickListBasis, this.Pick_Operation, this.Pick_Type, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
   //#endregion
 }
