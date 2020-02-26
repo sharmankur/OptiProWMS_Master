@@ -42,6 +42,7 @@ export class CommonLookupComponent implements OnInit {
   lookupPageSize: number = 10;
   @Input() partPerQty: any;
   @Input() qtyAdded: any;
+  fromWhere: any;
 
   constructor(private translate: TranslateService, private router: Router, private toastr: ToastrService) {
     let userLang = navigator.language.split('-')[0];
@@ -84,7 +85,17 @@ export class CommonLookupComponent implements OnInit {
     this.clearFilters()
   }
   ngOnInit() {
-
+    this.fromWhere = localStorage.getItem("FromWhere");
+    if (this.fromWhere == "CreateContainer") {
+      this.selectedValues = []
+      this.qtyAdded = 0
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (this.serviceData[i].OldData) {
+          this.selectedValues.push(this.serviceData[i])
+          this.qtyAdded = this.qtyAdded + Number("" + this.serviceData[i].QuantityToAdd)
+        }
+      }
+    }
   }
 
   async ngOnChanges(): Promise<void> {
@@ -92,7 +103,7 @@ export class CommonLookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
-    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
+    if (this.lookupfor == "ShipmentList") {
       this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
@@ -568,12 +579,6 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        field: 'OPTM_SHIPMENT_CODE',
-        title: this.translate.instant("Shipment_Code"),
-        type: 'text',
-        width: '100'
-      },
-      {
         field: 'OPTM_BPCODE',
         title: this.translate.instant("CustomerCode"),
         type: 'text',
@@ -646,7 +651,7 @@ export class CommonLookupComponent implements OnInit {
 
   showBatchSerialItems() {
     this.partPerQty = localStorage.getItem("PartPerQty");
-    if(this.partPerQty == undefined || this.partPerQty == ''){
+    if (this.partPerQty == undefined || this.partPerQty == '') {
       this.partPerQty = "0"
     }
     this.partPerQty = Number(this.partPerQty);
@@ -1294,17 +1299,47 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  onCheckboxClick(checked: any, index: number) {
-
+  onCheckboxClick(chkSelection, checked: any, index: number, dataItem) {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
-      this.selectedValues.push(servivceItem);
-    }
-    else {
-      // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
-      var temp = this.selectedValues.splice(index, 1);
-      this.selectedValues = this.selectedValues;
-      //console.log("selectedValues.size", this.selectedValues.length);
+
+      servivceItem.QuantityToAdd = servivceItem.Quantity;
+        this.selectedValues.push(servivceItem);
+        //If check assign available qty as default qty to add
+        this.serviceData[index].OldData = true;
+        this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+
+        this.getTotalQtyOfSelectedItems();
+
+      if (this.qtyAdded > this.partPerQty) {
+        // this.qtyAdded = this.qtyAdded - servivceItem.Quantity;
+        
+        this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+        this.serviceData[index].OldData = false;
+        chkSelection.checked = false;
+        this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        
+        let indexTemp = this.selectedValues.findIndex(r=>r.LOTNO == servivceItem.LOTNO);    
+         if(indexTemp > -1){
+          this.selectedValues.splice(indexTemp,1);
+         }         
+        this.getTotalQtyOfSelectedItems();       
+      }
+      
+    } else {
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+          this.selectedValues.splice(i, 1);
+          break;
+        }
+      }
+      //Reset qty if unchecked
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (i == index) {
+          this.serviceData[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+        }
+      }
+      this.getTotalQtyOfSelectedItems();
     }
   }
 
@@ -1376,46 +1411,72 @@ export class CommonLookupComponent implements OnInit {
   }
 
   Done() {
-    for (var i = 0; i < this.selectedValues.length; i++) {
-      if (this.selectedValues[i].QuantityToAdd == 0) {
-        this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+    if (this.fromWhere == "CreateContainer") {
+
+
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (this.selectedValues[i].QuantityToAdd == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+          return;
+        }
+      }
+
+      if (this.getTotalQtyOfSelectedItems() > this.partPerQty) {
+        this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
         return;
       }
-    }
-
-    var sum = 0;
-    for (var i = 0; i < this.selectedValues.length; i++) {
-      sum = sum + Number(""+this.selectedValues[i].QuantityToAdd)
-    }
-    if(sum > this.partPerQty){
-      this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
-      return;
     }
 
     this.lookupkey.emit(this.selectedValues);
     this.dialogOpened = false;
   }
 
-  onQtyToAddChange(value, index) {
-    console.log("value: " + value);
-    for (var i = 0; i < this.serviceData.length; i++) {
-      if (i == index) {
+  getTotalQtyOfSelectedItems(): number {
+    var sum = 0;
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      sum = sum + Number("" + this.selectedValues[i].QuantityToAdd)
+    }
+    this.qtyAdded = sum;
+    return sum;
+  }
+
+  resetAddedQty(index) {
+    let servivceItem: any = this.serviceData[index];
+    this.serviceData[index].QuantityToAdd = 0;
+    this.qtyAdded = this.qtyAdded - servivceItem.QuantityToAdd;
+    this.getTotalQtyOfSelectedItems();
+  }
+
+  onQtyToAddChange(value, index, qtytoadd) {
+    let servivceItem: any = this.serviceData[index];
+    value = parseFloat(value);
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
         if (value == 0) {
           this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
-        } else if (value > this.serviceData[i].Quantity) {
-          this.serviceData[i].QuantityToAdd = 0;
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        } else if (value > this.selectedValues[i].Quantity) {
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
           this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
-          break
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          // this.resetAddedQty(index);
+          //break
         } else {
-          this.serviceData[i].QuantityToAdd = value;
-          this.serviceData[i].Balance = this.serviceData[i].Quantity - value;
+          this.selectedValues[i].QuantityToAdd = value;
+          this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;
           break;
         }
       }
     }
     this.qtyAdded = 0
-    for (var i = 0; i < this.serviceData.length; i++) {
-      this.qtyAdded = this.qtyAdded + Number(""+this.serviceData[i].QuantityToAdd)
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      this.qtyAdded = this.qtyAdded + Number("" + this.selectedValues[i].QuantityToAdd)
+    }
+    if (this.qtyAdded > this.partPerQty) {
+      this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
     }
   }
 }

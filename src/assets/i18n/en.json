@@ -125,6 +125,7 @@
   "Line_status": "Line Status",
   "Pick_Type": "Pick Type",
   "Pick_Operation": "Pick Operation",
+  "Pick_Shift": "Pick Shift",
   "PickListBasis": "Pick List Basis",
 
   "ContainerId":"Container Id",
@@ -639,7 +640,7 @@
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
   "ContainerCreation": "Container Creation",
-  "CreateContainer": "Create Ship Container",
+  "CreateContainer": "Create Container",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
   "Task": "Task",
@@ -848,6 +849,10 @@
   "AddedQtyValidMsg": "Added quantity should be less than available quantity",
   "CheckedItemQtyValid": "Quantity can't be zero for checked item",
   "QtyAdded": "Quantity Added",
+  "Pick_ListBasis_val_Msg":"Select Basis to generate Pick List",
+  "Pick_Opr_val_Msg":"Select Pick Operation",
+  "Pick_Type_val_Msg":"Select Pick Type to generate Pick List",
+  "QtyToAddValidMsg": "Quantity To Add can't be greater than quantity",
   "Generate_Pick_List_Msg":"Select Basis to generate Pick List",
 
   "Batch_Picking":"Batch Picking",

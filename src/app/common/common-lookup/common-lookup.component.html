@@ -27,16 +27,16 @@
             </form>
 
         </ng-template>
-        <kendo-grid-checkbox-column *ngIf="showSelection==true" title="Select" [width]="50">
+        
+        <kendo-grid-column field="OldData" *ngIf="showSelection==true" title="Select" [width]="50">
             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                 <div class="custom-control custom-checkbox">
-                    <input #chkSelection type="checkbox" [disabled]='di.OldData' [checked]='di.OldData' (change)="onCheckboxClick(chkSelection.checked,idx)"
-                        id="chkbox-{{idx}}" class="k-checkbox" name="columnfilter" />
-
+                    <input type="checkbox" [checked]="di.OldData" #chkSelection (change)="onCheckboxClick(chkSelection, chkSelection.checked,idx,di)"
+                        id="chkbox-{{idx}}" class="k-checkbox" name="chkbox" />
                     <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
                 </div>
             </ng-template>
-        </kendo-grid-checkbox-column>
+        </kendo-grid-column>
 
         <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}" title="{{column.title}}" filter="{{column.type}}"
             format="{{column.format}}" width="{{column.width}}" minResizableWidth="{{column.width}}" headerClass={{column.headerClass}}
@@ -56,8 +56,8 @@
             headerClass="text-right" class="text-right">
             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control form-control-sm text-right" name="qtytoadd" value={{dataItem.QuantityToAdd}}
-                        id="qtytoadd" min="0" #qtytoadd (change)="onQtyToAddChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
+                    <input type="text" class="form-control form-control-sm text-right" name="qtytoadd" value={{dataItem.QuantityToAdd|numberFormat}}
+                        id="qtytoadd" min="0" #qtytoadd (change)="onQtyToAddChange(qtytoadd.value, idx,qtytoadd)" [disabled]="dataItem.isDesable">
                 </div>
             </ng-template>
         </kendo-grid-column>
@@ -76,8 +76,8 @@
                     <div class="form-group row">
                         <label for="partPerQty" class="col-sm-6 col-form-label">Quantity</label>
                         <div class="input-group col-sm-6">
-                            <input type="text" class="form-control form-control-sm" id="partPerQty" name="partPerQty"
-                                [(ngModel)]="partPerQty" disabled>
+                            <input type="text" class="form-control form-control-sm text-right" id="partPerQty" name="partPerQty"
+                                [ngModel]="partPerQty|numberFormat" (ngModelChange)="partPerQty=$event" disabled>
                         </div>
                     </div>
                 </div>
@@ -85,8 +85,8 @@
                     <div class="form-group row">
                         <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Added</label>
                         <div class="input-group col-sm-6">
-                            <input type="text" class="form-control form-control-sm" id="qtyAdded" name="qtyAdded"
-                            [(ngModel)]="qtyAdded" disabled>
+                            <input type="text" class="form-control form-control-sm text-right" id="qtyAdded" name="qtyAdded"
+                                [ngModel]="qtyAdded|numberFormat" (ngModelChange)="qtyAdded=$event" disabled>
                         </div>
                     </div>
                 </div>

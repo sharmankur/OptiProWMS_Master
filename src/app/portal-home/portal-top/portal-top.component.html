@@ -16,25 +16,30 @@
                 <div class="opti_topbar-rightpanel float-right">
                     <div class="opti_vertical-align">
                         <ul class="d-inline-flex">
-                          
+                            <li class="opti_icon-spacing opti_warehouse_count">
+                                <i class="opti-icon-home mr-2"></i>
+                                <span>{{DBName}}</span>
+                            </li>
 
                             <li class="opti_icon-spacing opti_user-profile position-relative" dropdown>
                                 <a dropdownToggle class="dropdown-toggle">
-                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30" height="30" />
+                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30"
+                                        height="30" />
                                     <!-- <span>{{DBName}}</span> -->
                                 </a>
                                 <ul class="dropdown-menu opti_user-profile-drop-down" *dropdownMenu>
-                                  
+
                                     <li class="opti_mouse-pointer opti_profile-box-setting cursor-normal">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12 pl-2">
                                                     <div class="user-list-details">
-                                                        <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30" height="30" /> 
+                                                        <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30"
+                                                            height="30" />
                                                         <div class="name"> {{loggedInUserName}}</div>
                                                         <div>{{DBName}}</div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -42,8 +47,8 @@
 
                                     <li class="opti_seprator"></li>
 
-                                    <!-- <li class="opti_mouse-pointer opti_profile-box-setting" (click)="openCloseRightPanel();"> -->
-                                    <li class="opti_mouse-pointer opti_profile-box-setting" (click)="listClick($event, 'changeWarehouse')">
+                                  
+                                    <!-- <li class="opti_mouse-pointer opti_profile-box-setting" (click)="listClick($event, 'changeWarehouse')">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -51,7 +56,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> -->
 
                                     <li class="opti_seprator"></li>
 
@@ -79,12 +84,10 @@
 
                                 </ul>
                             </li>
-                            <!-- <li class="opti_icon-spacing opti_warehouse_count">
-                                <i class="opti-icon-home mr-2"></i><span>{{loggedinWarehouse}}</span>
-                            </li> -->
+
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -116,7 +119,9 @@
         </h4>
         <p>{{appVersion}}</p>
         <p>{{'Dashboard_CopyWrt_Msg'|translate}}</p>
-        <p><a href="http://www.optiproerp.com">www.optiproerp.com</a></p>
+        <p>
+            <a href="http://www.optiproerp.com">www.optiproerp.com</a>
+        </p>
     </div>
 
     <!-- <div class="modal-footer">
@@ -130,7 +135,9 @@
     <div class="modal-body opti_mobile-search-modal">
         <div class="opti_search-form">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <span class="opti_top-search-icon opti_vertical-align opti_mouse-pointer" (click)="modal.dismiss('Cross click')"><img src="assets/images/common/search-black.svg" class="" alt="Search" width="15" /></span>
+            <span class="opti_top-search-icon opti_vertical-align opti_mouse-pointer" (click)="modal.dismiss('Cross click')">
+                <img src="assets/images/common/search-black.svg" class="" alt="Search" width="15" />
+            </span>
         </div>
     </div>
 </ng-template>

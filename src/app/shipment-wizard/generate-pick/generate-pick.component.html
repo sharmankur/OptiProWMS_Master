@@ -436,6 +436,25 @@
                                 </div>
                                 <!-- row end -->
 
+                                <!-- row start Pick_Shift-->
+                                <div class="row">
+                                        <!-- col start -->
+                                        <div class="col-sm-6">
+                                            <div class="form-group row">
+                                                <label for="Pick_Shift" class="col-sm-3 col-form-label">{{'Pick_Shift'|translate}}</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group ">
+                                                        <kendo-dropdownlist [data]="PickShiftList" id="Pick_Shift" (change)="updateDropDown(display_name, VendorLot.value, rowIndex)"
+                                                            name="Pick_Shift" [(ngModel)]="Pick_Shift" >
+                                                        </kendo-dropdownlist>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- col end -->
+                                    </div>
+                                    <!-- row end -->                                
+
                                 <!-- row start TaskPlanDT-->
                                 <div class="row">
                                     <!-- col start -->
