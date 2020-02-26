@@ -1299,39 +1299,44 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  onCheckboxClick(checked: any, index: number) {
+  onCheckboxClick(chkSelection, checked: any, index: number, dataItem) {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
+
       servivceItem.QuantityToAdd = servivceItem.Quantity;
-      this.selectedValues.push(servivceItem);
-      //If check assign available qty as default qty to add
-      // this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
-      for (var i = 0; i < this.serviceData.length; i++) {
-        if (i == index) {
-          this.serviceData[i].QuantityToAdd = servivceItem.Quantity;
-        }
-      }
-      this.getTotalQtyOfSelectedItems()
+        this.selectedValues.push(servivceItem);
+        //If check assign available qty as default qty to add
+        this.serviceData[index].OldData = true;
+        this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+
+        this.getTotalQtyOfSelectedItems();
+
       if (this.qtyAdded > this.partPerQty) {
         // this.qtyAdded = this.qtyAdded - servivceItem.Quantity;
-        // this.serviceData[index].QuantityToAdd = 0;
+        
         this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+        this.serviceData[index].OldData = false;
+        chkSelection.checked = false;
+        this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        
+        let indexTemp = this.selectedValues.findIndex(r=>r.LOTNO == servivceItem.LOTNO);    
+         if(indexTemp > -1){
+          this.selectedValues.splice(indexTemp,1);
+         }         
+        this.getTotalQtyOfSelectedItems();       
       }
+      
     } else {
-      // var temp = this.selectedValues.splice(index, 1);
-      // this.selectedValues = this.selectedValues;
       for (var i = 0; i < this.selectedValues.length; i++) {
         if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
           this.selectedValues.splice(i, 1);
           break;
         }
       }
-      this.selectedValues = this.selectedValues;
-
       //Reset qty if unchecked
       for (var i = 0; i < this.serviceData.length; i++) {
         if (i == index) {
-          this.serviceData[i].QuantityToAdd = 0;
+          this.serviceData[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
         }
       }
       this.getTotalQtyOfSelectedItems();
@@ -1407,6 +1412,8 @@ export class CommonLookupComponent implements OnInit {
 
   Done() {
     if (this.fromWhere == "CreateContainer") {
+
+
       for (var i = 0; i < this.selectedValues.length; i++) {
         if (this.selectedValues[i].QuantityToAdd == 0) {
           this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
@@ -1440,19 +1447,23 @@ export class CommonLookupComponent implements OnInit {
     this.getTotalQtyOfSelectedItems();
   }
 
-  onQtyToAddChange(value, index) {
+  onQtyToAddChange(value, index, qtytoadd) {
     let servivceItem: any = this.serviceData[index];
-    console.log("value: " + value);
-    value = Number(value)
+    value = parseFloat(value);
     for (var i = 0; i < this.selectedValues.length; i++) {
       if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
         if (value == 0) {
           this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         } else if (value > this.selectedValues[i].Quantity) {
-          // this.selectedValues[i].QuantityToAdd = 0;
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
           this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           // this.resetAddedQty(index);
-          break
+          //break
         } else {
           this.selectedValues[i].QuantityToAdd = value;
           this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;

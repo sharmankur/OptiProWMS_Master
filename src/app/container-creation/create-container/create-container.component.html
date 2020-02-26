@@ -168,7 +168,8 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
-                                            [ngModel]="itemPackQty" (ngModelChange)="itemPackQty=$event" id="itemPackQty" disabled>
+                                            [ngModel]="itemPackQty" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
+                                            disabled>
                                         <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
                                             [(ngModel)]="itemPack" id="itemPack" disabled>
                                     </div>
@@ -469,11 +470,9 @@
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_CONTAINERID"
-                                            value={{dataItem.OPTM_CONTAINERID}} id="contId" min="0"
-                                            #contId>
+                                            value={{dataItem.OPTM_CONTAINERID}} id="contId" min="0" #contId>
                                         <div class="input-group-append">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (click)="GetListOfContainerBasedOnRule(dataItem, idx)">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetListOfContainerBasedOnRule(dataItem, idx)">
                                                 <i class="opti-icon-hammenu"></i>
                                             </button>
                                         </div>
@@ -508,7 +507,7 @@
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center"
                                         (click)="onShowBSClick(dataItem, rowIndex)">
-                                        <span class="k-icon k-i-check" role="presentation"></span>
+                                        <span class="opti-icon-search" role="presentation"></span>
                                     </button>
                                 </ng-template>
                             </kendo-grid-column>
@@ -542,6 +541,22 @@
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
                     {{'ContainerOperation'|translate}}
                 </button>
+
+                <div class="btn-group  toggle-btn-outer">
+                    <div class="dropdown show">
+                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="opti-icon-more"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">{{'ScanCreate'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Login_Reset'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'ResetCounter'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'PrintLabel'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'ContainerOperation'|translate}}</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

@@ -1069,8 +1069,10 @@ export class CreateContainerComponent implements OnInit {
     }
   }
 
+  lastSelectedTracking: any = ""
   onShowBSClick(event, index) {
     console.log("onShowBSClick index: " + index);
+    this.lastSelectedTracking = event.OPTM_TRACKING
     this.partPerQty = event.OPTM_PARTS_PERCONT
     localStorage.setItem("PartPerQty", this.partPerQty)
     if (this.whse == undefined || this.whse == "") {
@@ -1156,15 +1158,17 @@ export class CreateContainerComponent implements OnInit {
     this.showOtherLookup = true;
   }
 
-  getLookupKey($event, gridSelected) {
+  getLookupKey($event) {
     console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
     if($event.length == 0){
-      // this.selectedBatchSerial = [];
-      // for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      //   this.fromContainerDetails[i].QuantityToAdd = 0;
-      // }
+      this.selectedBatchSerial = [];
+      for (var i = 0; i < this.fromContainerDetails.length; i++) {
+        if(this.lastSelectedTracking == this.fromContainerDetails[i].OPTM_TRACKING){
+          this.fromContainerDetails[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        }
+      }
       return;
     }
     var code = $event[0].ITEMCODE;
