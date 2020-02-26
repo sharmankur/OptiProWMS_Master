@@ -68,15 +68,15 @@
                                 <!-- row start -->
                                 <div class="row">
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'Customer_From'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="CustomerFrom" class="col-sm-4 col-form-label">{{'Customer_From'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name='CustomerFrom' [(ngModel)]="CustomerFrom" id="CustomerFrom">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustFrom')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -86,15 +86,15 @@
                                     <!-- col end -->
 
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="CustomerTo" class="col-sm-3 col-form-label">{{'Customer_To'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="CustomerTo" class="col-sm-4 col-form-label">{{'Customer_To'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name='CustomerTo' [(ngModel)]="CustomerTo" id="CustomerTo">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -102,20 +102,17 @@
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                </div>
-                                <!-- row end -->
-                                <!-- row start -->
-                                <div class="row">
-                                    <!-- col start -->
-                                    <div class="col-sm-6">
+
+                                     <!-- col start -->
+                                     <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="SOFrom" class="col-sm-3 col-form-label">{{'SO_From'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="SOFrom" class="col-sm-4 col-form-label">{{'SO_From'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input id="SrNoFrom" type="text" class="form-control form-control-sm" name='SrNoFrom' [(ngModel)]="SrNoFrom">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SrNO')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -124,16 +121,20 @@
                                     </div>
                                     <!-- col end -->
 
+                                </div>
+                                <!-- row end -->
+                                <!-- row start -->
+                                <div class="row">
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="SOTo" class="col-sm-3 col-form-label">{{'SO_To'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="SOTo" class="col-sm-4 col-form-label">{{'SO_To'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input id="SrNoTo" type="text" class="form-control form-control-sm" name='SrNoTo' [(ngModel)]="SrNoTo">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SrNOTO')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -141,21 +142,16 @@
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                </div>
-                                <!-- row end -->
-
-                                <!-- row start -->
-                                <div class="row">
-                                    <!-- col start -->
-                                    <div class="col-sm-6">
+                                      <!-- col start -->
+                                      <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="ItemFrom" class="col-sm-3 col-form-label">{{'Item_From'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="ItemFrom" class="col-sm-4 col-form-label">{{'Item_From'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name='ItemFrom' [(ngModel)]="ItemFrom" id="ItemFrom">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForItemCode('ItmFrm')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -165,15 +161,15 @@
                                     <!-- col end -->
 
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="ItemTo" class="col-sm-3 col-form-label">{{'Item_To'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="ItemTo" class="col-sm-4 col-form-label">{{'Item_To'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name='ItemTo' [(ngModel)]="ItemTo" id="ItemTo">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForItemCode('ItmTo')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -187,10 +183,10 @@
                                 <!-- row start -->
                                 <div class="row">
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="DueDateFrom" class="col-sm-3 col-form-label">{{'Due_Date_From'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="DueDateFrom" class="col-sm-4 col-form-label">{{'Due_Date_From'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <kendo-datepicker [(ngModel)]=DueDateFrom name="DueDateFrom" [format]=dateFormat  placeholder={{dateFormat}}></kendo-datepicker>
                                             </div>
                                         </div>
@@ -198,50 +194,25 @@
                                     <!-- col end -->
 
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="DueDateTo" class="col-sm-3 col-form-label">{{'Due_Date_To'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="DueDateTo" class="col-sm-4 col-form-label">{{'Due_Date_To'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <kendo-datepicker name="DueDateTo" [(ngModel)]=DueDateTo [format]=dateFormat  placeholder={{dateFormat}}></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                </div>
-                                <!-- row end -->
-
-
-
-                                <!-- row start -->
-                                <div class="row">
-                                    <!-- col start -->
-                                    <div class="col-sm-6">
+                                       <!-- col start -->
+                                       <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="ShipFrom" class="col-sm-3 col-form-label">{{'Ship_From'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="ShipFrom" class="col-sm-4 col-form-label">{{'Ship_From'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name="ShipFrom" id="ShipFrom" [(ngModel)]="ShipFrom">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipFrom')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- col end -->
-
-                                    <!-- col start -->
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
-                                            <label for="ShipTo" class="col-sm-3 col-form-label">{{'Ship_To'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
-                                                    <input type="text" class="form-control form-control-sm" name="ShipTo" id="ShipTo" [(ngModel)]="ShipTo">
-                                                    <div class="input-group-append has-seprate-btn">
-                                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipTo')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -252,13 +223,32 @@
                                 </div>
                                 <!-- row end -->
 
+
+
                                 <!-- row start -->
                                 <div class="row">
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="OpenQtyFrom" class="col-sm-3 col-form-label">{{'Open_Qty_From'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="ShipTo" class="col-sm-4 col-form-label">{{'Ship_To'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
+                                                    <input type="text" class="form-control form-control-sm" name="ShipTo" id="ShipTo" [(ngModel)]="ShipTo">
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipTo')" [disabled]=isUpdate>
+                                                            <i class="opti-icon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- col end -->
+                                       <!-- col start -->
+                                       <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="OpenQtyFrom" class="col-sm-4 col-form-label">{{'Open_Qty_From'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control form-control-sm" name="OpenQtyFrom" id="OpenQtyFrom" [(ngModel)]="OpenQtyFrom" (keypress)="numericOnly($event)">
                                             </div>
                                         </div>
@@ -266,10 +256,10 @@
                                     <!-- col end -->
 
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="OpenQtyTo" class="col-sm-3 col-form-label">{{'Open_Qty_To'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="OpenQtyTo" class="col-sm-4 col-form-label">{{'Open_Qty_To'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control form-control-sm" name="OpenQtyTo" id="OpenQtyTo" [(ngModel)]="OpenQtyTo" (keypress)="numericOnly($event)">
                                             </div>
                                         </div>
@@ -278,13 +268,14 @@
                                 </div>
                                 <!-- row end -->
 
+
                                 <!-- row start -->
                                 <div class="row">
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="NoofOpenLinesFrom" class="col-sm-3 col-form-label">{{'No_of_Open_Lines_From'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="NoofOpenLinesFrom" class="col-sm-4 col-form-label">{{'No_of_Open_Lines_From'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesFrom" name="NoofOpenLinesFrom" id="NoofOpenLinesFrom"
                                                     (keypress)="numericOnly($event)">
                                             </div>
@@ -293,30 +284,26 @@
                                     <!-- col end -->
 
                                     <!-- col start -->
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="NoofOpenLinesTo" class="col-sm-3 col-form-label">{{'No_of_Open_Lines_To'|translate}}</label>
-                                            <div class="col-sm-9">
+                                            <label for="NoofOpenLinesTo" class="col-sm-4 col-form-label">{{'No_of_Open_Lines_To'|translate}}</label>
+                                            <div class="col-sm-8">
                                                 <input type="text" class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesTo" name="NoofOpenLinesTo" id="NoofOpenLinesTo"
                                                     (keypress)="numericOnly($event)">
                                             </div>
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                </div>
-                                <!-- row end -->
-                                <!-- row start -->
-                                <div class="row">
-                                    <!-- col start -->
-                                    <div class="col-sm-6">
+                                     <!-- col start -->
+                                     <div class="col-sm-4">
                                         <div class="form-group row">
-                                            <label for="Whse" class="col-sm-3 col-form-label">{{'PT_Warehouse'|translate}}</label>
-                                            <div class="col-sm-9">
-                                                <div class="input-group input-group-sm">
+                                            <label for="Whse" class="col-sm-4 col-form-label">{{'PT_Warehouse'|translate}}</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group ">
                                                     <input type="text" class="form-control form-control-sm" name='WareHouse' [(ngModel)]="WareHouse" id="Whse">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForWareHouse('Whs')" [disabled]=isUpdate>
-                                                            <i class="opti-icon-hammenu"></i>
+                                                            <i class="opti-icon-search"></i>
                                                         </button>
                                                     </div>
                                                 </div>

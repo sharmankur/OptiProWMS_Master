@@ -22,7 +22,7 @@
                                </div>
                                <!-- <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem('lookup')">
-                                        <i class="opti-icon-hammenu"></i>
+                                        <i class="opti-icon-search"></i>
                                     </button>
                                 </div> -->
                             </div>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -67,14 +67,14 @@
                                     </div>
                                     <div class="input-group-append has-seprate-btn">
                                          <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                             <i class="opti-icon-hammenu"></i>
+                                             <i class="opti-icon-search"></i>
                                          </button>
                                      </div>
                                    </div>
                           </div>     
                           <div class="col-sm-6">
                                 <div class="form-group row">
-                                  <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>  
+                                  <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>  
                               </div>
                            </div>
                            </div>                    
@@ -124,11 +124,11 @@
                                     <kendo-grid-column field="BINNO" width="100" title="Bin No"></kendo-grid-column>
                                     <kendo-grid-column field="LOTNO" width="108" title="Lot No"></kendo-grid-column>
                                     <kendo-grid-column field="AvailableQty" width="100" class="text-right" title="Available Quantitiy"></kendo-grid-column>
-                                    <kendo-grid-column field="QtytoAssign" width="100" class="text-right" title="Quantity to Assign">
+                                    <kendo-grid-column field="AssignQty" width="100" class="text-right" title="Quantity to Assign"> <!--QtytoAssign-->
                                       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <input type="text" fieldSize="small" name="dataItem.QtytoAssign" class="form-control form-control-sm text-right" id="AssignQtyid"
+                                        <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
                                         (keypress)="numberOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
-                                        value={{dataItem.QtytoAssign}} #AssignQty title="Quantity to Assign" />
+                                        value={{dataItem.AssignQty}} #AssignQty title="Quantity to Assign" />
                                       </ng-template>
                                     </kendo-grid-column> 
                                 </kendo-grid>

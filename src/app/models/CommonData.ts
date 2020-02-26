@@ -273,4 +273,46 @@ export class CommonData {
             { "Value": 3, "Name": "Delete All" }
         ];
     }
+
+    validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
+
+        if(SelectedDataArray.length == 0){
+            if(parseFloat(AvailableQty) > parseFloat(OpenQty)){
+                return -1;
+            }
+            else{
+                return AvailableQty;
+            }  
+         }
+         else{
+            let remQty: any = parseFloat(OpenQty) - parseFloat(SelectedQty);
+
+            if(remQty == 0){
+                return -1;            
+            }
+
+            AvailableQty = (AvailableQty - parseFloat(remQty))>0?parseFloat(remQty):AvailableQty;
+
+            let diff = parseFloat(remQty) - AvailableQty;
+            if(diff >= 0){
+              return AvailableQty;
+            }
+            else{
+              return -1;
+            } 
+         }
+
+    }
+
+    validateOnChange(value, AvailableQty){
+
+        if(parseFloat(value) > parseFloat(AvailableQty)){
+            //this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
+            return false;
+        }
+        else{
+             return true;
+        }
+
+    }
 }

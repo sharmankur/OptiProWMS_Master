@@ -146,7 +146,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
   CreateShipMentData() {
     this.ConsolidatedDataSelection.Company = [];
-    this.ConsolidatedDataSelection.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId") })
+    let uc = this.UseContainer == true ? "Y" : "N";
+    this.ConsolidatedDataSelection.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
+    OPTM_FUNCTION: "Shipping",
+    OPTM_OBJECT: "Shipment" })
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
 
@@ -303,7 +306,6 @@ export class ShipmentWizardViewComponent implements OnInit {
 
   gridUserSelectionChange(gridUser, selection) {
     if (selection.selectedRows.length > 0) {
-      debugger
       this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
     }
     else if (selection.deselectedRows.length > 0) {

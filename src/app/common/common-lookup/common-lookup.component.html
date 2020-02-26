@@ -56,7 +56,7 @@
             headerClass="text-right" class="text-right">
             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control form-control-sm text-right" name="qtytoadd" value={{dataItem.QuantityToAdd}}
+                    <input type="text" class="form-control form-control-sm text-right" name="qtytoadd" value={{dataItem.QuantityToAdd|numberFormat}}
                         id="qtytoadd" min="0" #qtytoadd (change)="onQtyToAddChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
                 </div>
             </ng-template>
@@ -76,7 +76,7 @@
                     <div class="form-group row">
                         <label for="partPerQty" class="col-sm-6 col-form-label">Quantity</label>
                         <div class="input-group col-sm-6">
-                            <input type="text" class="form-control form-control-sm" id="partPerQty" name="partPerQty"
+                            <input type="text" class="form-control form-control-sm text-right" id="partPerQty" name="partPerQty"
                                 [(ngModel)]="partPerQty" disabled>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                     <div class="form-group row">
                         <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Added</label>
                         <div class="input-group col-sm-6">
-                            <input type="text" class="form-control form-control-sm" id="qtyAdded" name="qtyAdded"
+                            <input type="text" class="form-control form-control-sm text-right" id="qtyAdded" name="qtyAdded"
                             [(ngModel)]="qtyAdded" disabled>
                         </div>
                     </div>

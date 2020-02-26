@@ -1305,11 +1305,16 @@ export class CommonLookupComponent implements OnInit {
       servivceItem.QuantityToAdd = servivceItem.Quantity;
       this.selectedValues.push(servivceItem);
       //If check assign available qty as default qty to add
-      this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+      // this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (i == index) {
+          this.serviceData[i].QuantityToAdd = servivceItem.Quantity;
+        }
+      }
       this.getTotalQtyOfSelectedItems()
       if (this.qtyAdded > this.partPerQty) {
-        this.qtyAdded = this.qtyAdded - servivceItem.Quantity;
-        this.serviceData[index].QuantityToAdd = 0;
+        // this.qtyAdded = this.qtyAdded - servivceItem.Quantity;
+        // this.serviceData[index].QuantityToAdd = 0;
         this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
       }
     } else {
@@ -1435,38 +1440,32 @@ export class CommonLookupComponent implements OnInit {
     this.getTotalQtyOfSelectedItems();
   }
 
-  onQtyToAddChange(value, index){
-
-    
-
+  onQtyToAddChange(value, index) {
+    let servivceItem: any = this.serviceData[index];
+    console.log("value: " + value);
+    value = Number(value)
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+        if (value == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+        } else if (value > this.selectedValues[i].Quantity) {
+          // this.selectedValues[i].QuantityToAdd = 0;
+          this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+          // this.resetAddedQty(index);
+          break
+        } else {
+          this.selectedValues[i].QuantityToAdd = value;
+          this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;
+          break;
+        }
+      }
+    }
+    this.qtyAdded = 0
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      this.qtyAdded = this.qtyAdded + Number("" + this.selectedValues[i].QuantityToAdd)
+    }
+    if (this.qtyAdded > this.partPerQty) {
+      this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+    }
   }
-
-  // onQtyToAddChange(value, index) {
-  //   let servivceItem: any = this.serviceData[index];
-  //   console.log("value: " + value);
-  //   value = Number(value)
-  //   for (var i = 0; i < this.selectedValues.length; i++) {
-  //     if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
-  //       if (value == 0) {
-  //         this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
-  //       } else if (value > this.selectedValues[i].Quantity) {
-  //         this.selectedValues[i].QuantityToAdd = 0;
-  //         this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
-  //         this.resetAddedQty(index);
-  //         break
-  //       } else {
-  //         this.selectedValues[i].QuantityToAdd = value;
-  //         this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;
-  //         break;
-  //       }
-  //     }
-  //   }
-  //   this.qtyAdded = 0
-  //   for (var i = 0; i < this.selectedValues.length; i++) {
-  //     this.qtyAdded = this.qtyAdded + Number("" + this.selectedValues[i].QuantityToAdd)
-  //   }
-  //   if (this.qtyAdded > this.partPerQty) {
-  //     this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
-  //   }
-  // }
 }

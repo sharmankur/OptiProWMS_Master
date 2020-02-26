@@ -35,7 +35,7 @@
                                         name="whse" [(ngModel)]="whse" (blur)="onWhseChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                         name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                                         (blur)="onContainerTypeChangeBlur('child')">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
                                         [(ngModel)]="parentContainerType" (blur)="onContainerTypeChangeBlur('parent')">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('parent')">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -167,9 +167,9 @@
                                 <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name='itemPackQty'
+                                        <input type="text" class="form-control form-control-sm text-right" name='itemPackQty'
                                             [(ngModel)]="itemPackQty" id="itemPackQty" disabled>
-                                        <input type="text" class="form-control form-control-sm ml-1" name='itemPack'
+                                        <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
                                             [(ngModel)]="itemPack" id="itemPack" disabled>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                         (blur)="onAutoPackRuleChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name='width'
+                                            <input type="number" class="form-control form-control-sm text-right" name='width'
                                                 [(ngModel)]="length" id="length" disabled>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name='noOfPackToGen'
+                                        <input type="text" class="form-control form-control-sm text-right" name='noOfPackToGen'
                                             [(ngModel)]="noOfPackToGen" id="noOfPackToGen">
                                         <!-- <input type="text" class="form-control form-control-sm ml-1" name='noOfPackToGen1'
                                             [(ngModel)]="noOfPackToGen1" id="noOfPackToGen1" placeholder="{{'0'}}"
@@ -256,7 +256,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name='width'
+                                            <input type="number" class="form-control form-control-sm text-right" name='width'
                                                 [(ngModel)]="width" id="width" disabled>
                                         </div>
                                     </div>
@@ -296,7 +296,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name='height'
+                                            <input type="number" class="form-control form-control-sm text-right" name='height'
                                                 [(ngModel)]="height" id="height" disabled>
                                         </div>
                                     </div>
@@ -322,7 +322,7 @@
                                         name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name="maxWeigth"
+                                            <input type="number" class="form-control form-control-sm text-right" name="maxWeigth"
                                                 id="maxWeigth" [(ngModel)]="maxWeigth" disabled>
                                         </div>
                                     </div>
@@ -370,7 +370,7 @@
                                         placeholder="{{'ContainerGroupingCode'|translate}}">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -384,7 +384,7 @@
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm" name='CustomerTo'
+                                        <input type="number" class="form-control form-control-sm text-right" name='CustomerTo'
                                             [(ngModel)]="CustomerTo" id="CustomerTo" disabled>
                                     </div>
                                 </div>

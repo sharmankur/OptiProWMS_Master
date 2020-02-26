@@ -58,7 +58,7 @@ export class ShipmentViewComponent implements OnInit {
   pagable4 = false;
   pagable5 = false;
   pagable1 = false;
-  btnText: string = "Batch/Serial";
+  btnText: string;
   isStageDiabled: boolean = true;
   isScheduledDiabled: boolean = false;
   shipmentData: any;
@@ -73,19 +73,23 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.pageSize1 = this.commonData.commonGridPageSize;
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.commonData.Container_Status_DropDown();
-    localStorage.setItem("ShipShipmentID", '');
-    localStorage.setItem("ShipWhse", '');
-    localStorage.setItem("ShipBin", '');
+    this.Container_status_array = this.commonData.Container_Status_DropDown();   
+    this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
       this.ShipmentID = localStorage.getItem("ShipmentID");
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
-    // this.ScheduleDatetime = new Date("15/02/2020");
+    this.onCheckChange();
+  }
+
+  clearStorage(){
+    localStorage.setItem("ShipmentID", '');
+    localStorage.setItem("ShipmentArrData", '');
+    localStorage.setItem("ShipWhse", '');
+    localStorage.setItem("ShipBin", '');
   }
 
   GetShipmentIdForShipment() {
@@ -137,9 +141,10 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
           }
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
-          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
+          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {           
             this.pagable1 = true;
           }
+          localStorage.setItem("ShipmentArrData", JSON.stringify(this.shipmentLines));
           // SO Detail, Container Items, BtchSer Detail
           this.updateGridonShipmentLineId(this.shipmentLines[0].OPTM_LINEID);
           //Container Header 
@@ -232,7 +237,7 @@ export class ShipmentViewComponent implements OnInit {
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
-    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER = "Y" ? true : false;
+    this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
     this.onCheckChange();
   }
 
@@ -269,7 +274,7 @@ export class ShipmentViewComponent implements OnInit {
       this.VehicleNumber = event.OPTM_VEHICLENO;
       this.ReturnOrderRef = event.OPTM_RETURN_ORDER_REF;
       this.BOLNumber = event.OPTM_BOLNUMBER;
-      this.UseContainer = event.OPTM_USE_CONTAINER = "Y" ? true : false;
+      this.UseContainer = event.OPTM_USE_CONTAINER == "Y" ? true : false;
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
@@ -324,9 +329,9 @@ export class ShipmentViewComponent implements OnInit {
 
   onCheckChange() {
     if (this.UseContainer) {
-      this.btnText = "Container";
+      this.btnText = this.translate.instant("Container");
     } else {
-      this.btnText = "Batch/Serial";
+      this.btnText = this.translate.instant("BatchSerial");
     }
   }
 
