@@ -30,7 +30,7 @@
         <kendo-grid-checkbox-column *ngIf="showSelection==true" title="Select" [width]="50">
             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                 <div class="custom-control custom-checkbox">
-                    <input #chkSelection type="checkbox"  [checked]='di.OldData' (change)="onCheckboxClick(chkSelection.checked,idx)"
+                    <input #chkSelection type="checkbox" [checked]='di.OldData' (change)="onCheckboxClick(chkSelection.checked,idx)"
                         id="chkbox-{{idx}}" class="k-checkbox" name="columnfilter" />
 
                     <label class="k-checkbox-label empty-check" for="chkbox-{{idx}}"></label>
@@ -77,7 +77,7 @@
                         <label for="partPerQty" class="col-sm-6 col-form-label">Quantity</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="partPerQty" name="partPerQty"
-                                [(ngModel)]="partPerQty" disabled>
+                                [ngModel]="partPerQty|numberFormat" (ngModelChange)="partPerQty=$event" disabled>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Added</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="qtyAdded" name="qtyAdded"
-                            [(ngModel)]="qtyAdded" disabled>
+                                [ngModel]="qtyAdded|numberFormat" (ngModelChange)="qtyAdded=$event" disabled>
                         </div>
                     </div>
                 </div>

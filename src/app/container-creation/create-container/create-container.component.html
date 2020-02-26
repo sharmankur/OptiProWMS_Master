@@ -167,8 +167,8 @@
                                 <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm text-right" name='itemPackQty'
-                                            [(ngModel)]="itemPackQty" id="itemPackQty" disabled>
+                                        <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
+                                            [ngModel]="itemPackQty" (ngModelChange)="itemPackQty=$event" id="itemPackQty" disabled>
                                         <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
                                             [(ngModel)]="itemPack" id="itemPack" disabled>
                                     </div>
