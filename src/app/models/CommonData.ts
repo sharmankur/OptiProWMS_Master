@@ -311,9 +311,9 @@ export class CommonData {
             //this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
             return false;
         }
-        else if(parseFloat(SelectedQty) > parseFloat(OpenQty)){
-            return false;
-        }
+        // else if((parseFloat(SelectedQty) + parseFloat(value)) > parseFloat(OpenQty)){
+        //     return false;
+        // }
         else{
              return true;
         }
