@@ -68,7 +68,7 @@ export class ShipmentViewComponent implements OnInit {
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-
+      this.onCheckChange();
     });
   }
 
@@ -82,7 +82,6 @@ export class ShipmentViewComponent implements OnInit {
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
-    this.onCheckChange();
   }
 
   clearStorage(){
@@ -238,6 +237,9 @@ export class ShipmentViewComponent implements OnInit {
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
     this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
+    if(this.UseContainer == null){
+      this.UseContainer = false;
+    }
     this.onCheckChange();
   }
 
@@ -284,7 +286,9 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   OnContainerBtnClick() {
-    // alert(this.ScheduleDatetime.toLocaleDateString());
+    if (this.ShipmentID == undefined || this.ShipmentID == "") {
+      return false;
+    }
     this.showContainerShipmentScreen = true;
     localStorage.setItem("ShipShipmentID", this.ShipmentID);
     localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
@@ -389,6 +393,9 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onStageORUnstageShipmentClick() {
+    if (this.ShipmentID == undefined || this.ShipmentID == "") {
+      return false;
+    }
     this.showLoader = true;
     this.shipmentService.StageORUnstageShipment(this.ShipmentID, this.StatusId).subscribe(
       (data: any) => {

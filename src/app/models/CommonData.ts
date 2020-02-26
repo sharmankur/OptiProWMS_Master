@@ -287,12 +287,16 @@ export class CommonData {
          }
          else{
             let remQty: any = parseFloat(OpenQty) - parseFloat(SelectedQty);
+            if(remQty == 0){
+                return false;
+            }
+            AvailableQty = (AvailableQty - parseFloat(remQty))>0?parseFloat(remQty):AvailableQty;
             let diff = parseFloat(remQty) - AvailableQty;
-            if(diff >= 0){
+            if(diff > 0){
               return true;
             }
             else{
-              return false;
+              return true;
             } 
          }
 
