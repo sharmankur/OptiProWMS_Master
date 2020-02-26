@@ -474,15 +474,9 @@ export class ContainerBatchserialComponent implements OnInit {
   selectContainerRowChange (isCheck,dataitem,idx){
     if(isCheck){
 
-      let IsValid = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
+      let CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
 
-      if(IsValid){        
-         dataitem.AssignQty = dataitem.AvailableQty;    
-         this.ContainerBatchSerials[idx].Selected = true; 
-         this.SelectedRowsforShipmentArr.push(dataitem);   
-      }
-      else{   
-
+      if(CalQty == -1){
         if(this.SelectedRowsforShipmentArr.length == 0)
           this.toastr.error('', "Assigned Qty cannot be greater than Open Qty");        
         else
@@ -492,7 +486,13 @@ export class ContainerBatchserialComponent implements OnInit {
         this.ContainerBatchSerials[idx].Selected = false;  
         this.ContainerBatchSerials[idx].AssignQty = 0;  
         return;
-      }      
+      }
+      else{
+         dataitem.AssignQty = CalQty;    
+         this.ContainerBatchSerials[idx].AssignQty = CalQty;  
+         this.ContainerBatchSerials[idx].Selected = true; 
+         this.SelectedRowsforShipmentArr.push(dataitem);
+      }         
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
