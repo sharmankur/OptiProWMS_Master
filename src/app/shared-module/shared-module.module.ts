@@ -23,7 +23,7 @@ import { InputContainerCodeComponent } from '../common/input-container-code/inpu
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
     PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, InputContainerCodeComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
     DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     

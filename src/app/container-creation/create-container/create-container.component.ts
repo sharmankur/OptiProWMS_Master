@@ -71,6 +71,7 @@ export class CreateContainerComponent implements OnInit {
 
   ngOnInit() {
     console.log("ngOnInit");
+    localStorage.setItem("FromWhere", "");
     localStorage.setItem("ContainerOperationData", "");
     this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
@@ -79,7 +80,7 @@ export class CreateContainerComponent implements OnInit {
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
-    this.GetContainerNumber();
+    // this.GetContainerNumber();
   }
 
 
@@ -223,6 +224,7 @@ export class CreateContainerComponent implements OnInit {
         this.autoPackRule = $event[0];
         this.autoRuleId = $event[0];
         this.packType = $event[2];
+        this.CheckScanAndCreateVisiblity(this.autoPackRule);
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event[0];
@@ -234,6 +236,13 @@ export class CreateContainerComponent implements OnInit {
         this.soNumber = $event[0];
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event[0];
+      } else if(this.lookupfor == "ContainerIdList") {
+        for (var i = 0; i < this.fromContainerDetails.length; i++) {
+          if ($event[2] == this.fromContainerDetails[i].OPTM_ITEMCODE) {
+            this.fromContainerDetails[i].OPTM_CONTAINERID = $event[0];
+          }
+        }
+        this.GetListOfBatchSerOfSelectedContainerID($event[0], $event[2])
       }
     }
   }
@@ -305,7 +314,7 @@ export class CreateContainerComponent implements OnInit {
     this.prepareSaveModel(this.autoPackRule, this.containerId,
       this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,
       localStorage.getItem("UserId"), "", this.itemCode, this.action, this.parentContainerCode, this.itemPackQty,
-      this.width, this.height, this.containerWeigth, this.createMode, this.containerCode);
+      this.width, this.height, this.containerWeigth, this.createMode, "");
 
     this.showInputDialog("ScanAndCreate", this.translate.instant("Confirm"), this.translate.instant("Cancel"),
       this.translate.instant("ConfirmContainerCode"));
@@ -336,7 +345,7 @@ export class CreateContainerComponent implements OnInit {
           this.count = $event.Count;
           this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
           this.selectedBatchSerial = [];
-          this.GetContainerNumber();
+          // this.GetContainerNumber();
           break
       }
     }
@@ -366,7 +375,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_SONO: this.soNumber,
       OPTM_CONTAINERID: containerId,
       OPTM_CONTTYPE: containerType,
-      OPTM_CONTAINERCODE: containerCode,
+      OPTM_CONTAINERCODE: ""+containerCode,
       OPTM_WEIGHT: wieght,
       OPTM_AUTOCLOSE_ONFULL: ((this.autoClose == true) ? 'Y' : 'N'),
       OPTM_AUTORULEID: autoRuleId,
@@ -388,17 +397,20 @@ export class CreateContainerComponent implements OnInit {
       OPTM_PARENTCODE: parentCode,
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
-      OPTM_PERPOSE: purps
+      OPTM_PERPOSE: purps,
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Container"
     });
 
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
       this.oSaveModel.OtherItemsDTL.push({
         OPTM_ITEMCODE: this.fromContainerDetails[i].OPTM_ITEMCODE,
-        OPTM_QUANTITY: this.fromContainerDetails[i].OPTM_PARTS_PERCONT,
+        OPTM_QUANTITY: this.fromContainerDetails[i].QuantityToAdd,
         OPTM_CONTAINER: "",
         OPTM_AVLQUANTITY: 0,
         OPTM_INVQUANTITY: 0,
         OPTM_BIN: '',
+        OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
         OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING
       });
     }
@@ -406,7 +418,7 @@ export class CreateContainerComponent implements OnInit {
     for (var i = 0; i < this.selectedBatchSerial.length; i++) {
       this.oSaveModel.OtherBtchSerDTL.push({
         OPTM_BTCHSER: this.selectedBatchSerial[i].LOTNO,
-        OPTM_QUANTITY: this.selectedBatchSerial[i].Quantity,
+        OPTM_QUANTITY: this.selectedBatchSerial[i].QuantityToAdd,
         OPTM_ITEMCODE: this.selectedBatchSerial[i].ITEMCODE
       });
     }
@@ -420,7 +432,7 @@ export class CreateContainerComponent implements OnInit {
     this.prepareSaveModel(this.autoPackRule, this.containerId,
       this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,
       localStorage.getItem("UserId"), "", this.itemCode, this.action, "", this.itemPackQty,
-      this.width, this.height, this.containerWeigth, this.createMode, this.containerCode);
+      this.width, this.height, this.containerWeigth, this.createMode, "");
 
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
@@ -438,8 +450,9 @@ export class CreateContainerComponent implements OnInit {
             // this.onResetClick();
             this.GetInventoryData();
             this.containerId = data[0].OPTM_CONTAINERID;
+            this.containerCode = data[0].OPTM_CONTCODE;
             this.selectedBatchSerial = [];
-            this.GetContainerNumber();
+            // this.GetContainerNumber();
           }
         } else {
           //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -514,8 +527,9 @@ export class CreateContainerComponent implements OnInit {
   }
 
   fromContainer: boolean = false
-  onFromContainerCheckChange(){
+  onFromContainerCheckChange() {
     this.fromContainer = !this.fromContainer;
+    this.GetInventoryData();
   }
 
   getAutoPackRule() {
@@ -936,7 +950,10 @@ export class CreateContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.serviceData = []
           this.batchSerialData = []
+          this.selectedBatchSerial = []
+          this.bsrListByContainerId = [];
           // this.fromContainerDetails = []
           if (data.IteWiseInventory != null && data.IteWiseInventory != undefined) {
             for (var j = 0; j < this.fromContainerDetails.length; j++) {
@@ -946,6 +963,8 @@ export class CreateContainerComponent implements OnInit {
               this.fromContainerDetails[j].AvlQty = 0
               this.fromContainerDetails[j].isDesable = true
               this.fromContainerDetails[j].OPTM_TRACKING = "B"
+              this.fromContainerDetails[j].QuantityToAdd = 0
+              this.fromContainerDetails[j].OPTM_CONTAINERID = "";
               for (var i = 0; i < data.IteWiseInventory.length; i++) {
                 if (data.IteWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
                   this.fromContainerDetails[j].BinCode = data.IteWiseInventory[i].BinCode
@@ -1058,22 +1077,35 @@ export class CreateContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectWhseMsg"));
       return false;
     }
-    
+
     if (this.binNo == undefined || this.binNo == "") {
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return false;
     }
 
     this.lookupData = [];
-    if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
-      var isChecked = false;
+    var tempList = [];
+    if(this.fromContainer){
+      tempList = this.bsrListByContainerId;
+    } else {
+      tempList = this.batchSerialData;
+    }
+    if (tempList != undefined && tempList.length > 0) {
       // Filter according to ITEMCODE
-      for (var i = 0; i < this.batchSerialData.length; i++) {
-        if (event.OPTM_ITEMCODE == this.batchSerialData[i].ITEMCODE) {
-          this.batchSerialData[i].OldData = isChecked;
-          this.batchSerialData[i].Balance = this.batchSerialData[i].AvlQty
-          this.batchSerialData[i].QuantityToAdd = 0;
-          this.lookupData.push(this.batchSerialData[i]);
+      for (var i = 0; i < tempList.length; i++) {
+        if (event.OPTM_ITEMCODE == tempList[i].ITEMCODE) {
+          tempList[i].OldData = false;
+          tempList[i].Balance = 0
+          tempList[i].QuantityToAdd = 0;
+          this.lookupData.push({
+            ITEMCODE: tempList[i].ITEMCODE,
+            LOTNO: tempList[i].LOTNO,
+            Quantity: tempList[i].Quantity,
+            BinCode: tempList[i].BinCode,
+            OldData: tempList[i].OldData,
+            Balance: tempList[i].Balance,
+            QuantityToAdd: tempList[i].QuantityToAdd
+          })
         }
       }
 
@@ -1081,15 +1113,44 @@ export class CreateContainerComponent implements OnInit {
         this.lookupData[i].OldData = false;
         for (var j = 0; j < this.selectedBatchSerial.length; j++) {
           if (this.lookupData[i].ITEMCODE == this.selectedBatchSerial[j].ITEMCODE && this.lookupData[i].LOTNO == this.selectedBatchSerial[j].LOTNO) {
+            this.lookupData[i].QuantityToAdd = this.selectedBatchSerial[j].QuantityToAdd
             this.lookupData[i].OldData = true;
           }
-          // else {
-          //   this.lookupData[i].OldData = false;
-          // }
         }
       }
     }
 
+    // if (this.batchSerialData != undefined && this.batchSerialData.length > 0) {
+    //   // Filter according to ITEMCODE
+    //   for (var i = 0; i < this.batchSerialData.length; i++) {
+    //     if (event.OPTM_ITEMCODE == this.batchSerialData[i].ITEMCODE) {
+    //       this.batchSerialData[i].OldData = false;
+    //       this.batchSerialData[i].Balance = 0
+    //       this.batchSerialData[i].QuantityToAdd = 0;
+    //       this.lookupData.push({
+    //         ITEMCODE: this.batchSerialData[i].ITEMCODE,
+    //         LOTNO: this.batchSerialData[i].LOTNO,
+    //         Quantity: this.batchSerialData[i].Quantity,
+    //         BinCode: this.batchSerialData[i].BinCode,
+    //         OldData: this.batchSerialData[i].OldData,
+    //         Balance: this.batchSerialData[i].Balance,
+    //         QuantityToAdd: this.batchSerialData[i].QuantityToAdd
+    //       })
+    //     }
+    //   }
+
+    //   for (var i = 0; i < this.lookupData.length; i++) {
+    //     this.lookupData[i].OldData = false;
+    //     for (var j = 0; j < this.selectedBatchSerial.length; j++) {
+    //       if (this.lookupData[i].ITEMCODE == this.selectedBatchSerial[j].ITEMCODE && this.lookupData[i].LOTNO == this.selectedBatchSerial[j].LOTNO) {
+    //         this.lookupData[i].QuantityToAdd = this.selectedBatchSerial[j].QuantityToAdd
+    //         this.lookupData[i].OldData = true;
+    //       }
+    //     }
+    //   }
+    // }
+
+    localStorage.setItem("FromWhere", "CreateContainer");
     this.lookupfor = "BatchSerialList";
     this.showLookup = false;
     this.showOtherLookup = true;
@@ -1099,7 +1160,15 @@ export class CreateContainerComponent implements OnInit {
     console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
+    if($event.length == 0){
+      // this.selectedBatchSerial = [];
+      // for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      //   this.fromContainerDetails[i].QuantityToAdd = 0;
+      // }
+      return;
+    }
     var code = $event[0].ITEMCODE;
+    this.selectedBatchSerial = [];
     //Add item in selectedBatchSerial list it is not exist. 
     for (var i = 0; i < $event.length; i++) {
       var itemcode = $event[i].ITEMCODE;
@@ -1114,7 +1183,7 @@ export class CreateContainerComponent implements OnInit {
     var sumQty = 0;
     for (var i = 0; i < this.selectedBatchSerial.length; i++) {
       if (this.selectedBatchSerial[i].ITEMCODE == code) {
-        sumQty = sumQty + Number(""+this.selectedBatchSerial[i].QuantityToAdd);
+        sumQty = sumQty + Number("" + this.selectedBatchSerial[i].QuantityToAdd);
       }
     }
 
@@ -1168,6 +1237,108 @@ export class CreateContainerComponent implements OnInit {
         }
       }
     );
+  }
+
+  scanCreateEnable: boolean = false;
+  CheckScanAndCreateVisiblity(ruleId) {
+    this.showLoader = true;
+    var result = false;
+    this.containerCreationService.CheckScanAndCreateVisiblity(ruleId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data[0].TotalRow > 0) {
+            this.scanCreateEnable = false;
+          } else {
+            this.scanCreateEnable = true;
+          }
+
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
+  GetListOfContainerBasedOnRule(data) {
+    this.showLoader = true;
+    var result = false;
+    this.containerCreationService.GetListOfContainerBasedOnRule(this.autoPackRule, data.OPTM_ITEMCODE, this.whse, this.binNo).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ContainerIdList";
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
+  bsrListByContainerId: any = []
+  GetListOfBatchSerOfSelectedContainerID(cId: any, itemCode: any) {
+    // this.showLoader = true;
+    var result = false;
+    this.containerCreationService.GetListOfBatchSerOfSelectedContainerID(cId, itemCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.bsrListByContainerId = data;
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
   }
 
   isValidateCalled: boolean = false;
