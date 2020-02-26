@@ -107,27 +107,50 @@
                         <div class="col-12">
                            <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5>
                            <div class="card-body">
-                                <kendo-grid [kendoGridBinding]="ContainerBatchSerials" [resizable]="true" [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
+                                <kendo-grid class="custom-height-grid kendo-responsive-grid"  [kendoGridBinding]="ContainerBatchSerials" 
+                                [resizable]="true" [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterUser
+                                [groupable]=false [columnMenu]="false"
+                                [selectable]="{ checkboxOnly: true, mode: 'multiple' }">                               
+
                                     <kendo-grid-column field="Selected" width="85" title="Select">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                            <label class="custom-checkbox mb-0">
-                                                <input type="checkbox" #checkedselectedvalue
-                                                    (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
+                                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <label class="custom-checkbox mb-0">
+                                                        <input type="checkbox" #checkedselectedvalue
+                                                            (change)="selectContainerRowChange(checkedselectedvalue, checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
+                                                        <span class="checkbox"></span>
+                                                    </label>
+                                                </ng-template>
                                     </kendo-grid-column>
                                     <!-- <kendo-grid-column field="Select" class="text-right" width="85" title="Select"></kendo-grid-column> -->
                                     <!-- <kendo-grid-column field="OPTM_BatchSerial" width="100" title="{{'Batch_Serial'|translate}}"></kendo-grid-column> -->
+                                   
+
+                                    <!-- <kendo-grid-checkbox-column title="Select" [width]="25">
+                                            <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
+                                                        id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
+                                                    <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]=selectall
+                                                        id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                                    <label class="custom-control-label" for="chkbox-{{idx}}"></label>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-checkbox-column> -->
+
                                     <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
                                     <kendo-grid-column field="WHSCODE" width="95" title="Warehouse Code"></kendo-grid-column>
                                     <kendo-grid-column field="BINNO" width="100" title="Bin No"></kendo-grid-column>
-                                    <kendo-grid-column field="LOTNO" width="108" title="Lot No"></kendo-grid-column>
+                                    <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking == 'B' || Tracking == 'S' || SHPStatus =='1'"></kendo-grid-column>
                                     <kendo-grid-column field="AvailableQty" width="100" class="text-right" title="Available Quantitiy"></kendo-grid-column>
                                     <kendo-grid-column field="AssignQty" width="100" class="text-right" title="Quantity to Assign"> <!--QtytoAssign-->
                                       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
-                                        (keypress)="numberOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
+                                        (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
                                         value={{dataItem.AssignQty}} #AssignQty title="Quantity to Assign" />
                                       </ng-template>
                                     </kendo-grid-column> 
@@ -140,7 +163,7 @@
                     <div class="d-flex flex-row">
                         <label for="OpenQty" class="col-sm-4 col-form-label">{{'Open_Qty'|translate}}</label>
                         <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
+                            <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
                         </div> 
                         <!-- <label for="RowCount" class="col-sm-2 col-form-label">{{'Row_Count'|translate}}</label>
                         <div class="col-sm-4 input-group">
@@ -148,7 +171,7 @@
                         </div>  -->
                         <label for="SelectedQty" class="col-sm-4 col-form-label">{{'Selected_Qty'|translate}}</label>
                         <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId" disabled>
+                            <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId" disabled>
                         </div>    
                     </div>
                 </div>

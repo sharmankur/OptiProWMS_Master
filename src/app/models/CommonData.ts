@@ -278,7 +278,8 @@ export class CommonData {
 
         if(SelectedDataArray.length == 0){
             if(parseFloat(AvailableQty) > parseFloat(OpenQty)){
-                return -1;
+              // let diffAvail = parseFloat(AvailableQty) - parseFloat(OpenQty);
+               return OpenQty;
             }
             else{
                 return AvailableQty;
@@ -304,10 +305,13 @@ export class CommonData {
 
     }
 
-    validateOnChange(value, AvailableQty){
+    validateOnChange(value, AvailableQty, OpenQty, SelectedQty){
 
         if(parseFloat(value) > parseFloat(AvailableQty)){
             //this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
+            return false;
+        }
+        else if(parseFloat(SelectedQty) > parseFloat(OpenQty)){
             return false;
         }
         else{

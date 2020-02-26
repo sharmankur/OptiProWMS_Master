@@ -17,7 +17,7 @@ export class ContainerBatchserialComponent implements OnInit {
 
   WarehouseId: any='';
   BinId: any='';
-  ContainsItemDD: any= {OPTM_ITEMCODE: '', OPEN_QTY: ''};
+  ContainsItemDD: any= {OPTM_ITEMCODE: '', OPEN_QTY: '', TRACKING: '', SHPSTATUS: ''};
   ContainsItemID: any = '';
   lookupfor: string;
   showLookup: boolean = false;
@@ -38,6 +38,8 @@ export class ContainerBatchserialComponent implements OnInit {
   ItemCodeArray: any = [];
   TempGridData: any = [];
   ShimpmentArray: any = [];
+  Tracking: any = '';
+  SHPStatus: any = '';
   commonData: any = new CommonData();
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
@@ -72,7 +74,9 @@ export class ContainerBatchserialComponent implements OnInit {
     this.ShimpmentArray.filter(function(obj){
       let map = {};
       map['OPTM_ITEMCODE'] = obj.OPTM_ITEMCODE; 
-      map['OPEN_QTY']  =  parseFloat(obj.OPTM_QTY) - parseFloat(obj.OPTM_QTY_FULFILLED);      
+      map['OPEN_QTY']  =  parseFloat(obj.OPTM_QTY) - parseFloat(obj.OPTM_QTY_FULFILLED == null ? 0 : obj.OPTM_QTY_FULFILLED);  
+      map['TRACKING']  = obj.TRACKING;
+      map['SHPSTATUS'] = obj.SHPSTATUS;
       ItemCodeArray.push(map);
     });
 
@@ -80,7 +84,9 @@ export class ContainerBatchserialComponent implements OnInit {
     this.ContainsItemDD = this.ItemCodeArray[0];
     this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
     this.OpenQty = this.ItemCodeArray[0].OPEN_QTY;
-
+    this.Tracking = this.ItemCodeArray[0].TRACKING;
+    this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
+    
     this.fillBatchSerialDataInGrid();    
   }
 
@@ -328,6 +334,8 @@ export class ContainerBatchserialComponent implements OnInit {
     this.setDataInTempGrid();
     this.ContainsItemID = $event.OPTM_ITEMCODE;
     this.OpenQty = $event.OPEN_QTY;
+    this.Tracking = $event.TRACKING;
+    this.SHPStatus = $event.SHPSTATUS;
     this.getDataFromTempGrid();   
   }
 
@@ -408,15 +416,15 @@ export class ContainerBatchserialComponent implements OnInit {
             // }) 
             // this.OpenQty = Openqty;  
           //}
-          this.RowCount = 0;
-          this.SelectedQty = 0;
+         // this.RowCount = 0;
+          this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
           
           if(this.ContainerBatchSerials.length > 10){
             this.ShowGridPaging = true;          
           }
           for(let i =0; i<this.ContainerBatchSerials.length; i++){
             this.ContainerBatchSerials[i].Selected = false;
-            this.ContainerBatchSerials[i].AssignQty = 0;
+            this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
             this.ContainerBatchSerials[i].AvailableQty = Number(data[i].AvailableQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }         
         } else {
@@ -471,7 +479,7 @@ export class ContainerBatchserialComponent implements OnInit {
   //   );
   // }
 
-  selectContainerRowChange (isCheck,dataitem,idx){
+  selectContainerRowChange (checkedselectedvalue, isCheck,dataitem,idx){
     if(isCheck){
 
       let CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
@@ -482,21 +490,22 @@ export class ContainerBatchserialComponent implements OnInit {
         else
           this.toastr.error('', "Total quantities added cannot be greater than Open Qty");        
       
-        dataitem.Selected = false;  
+       // dataitem.Selected = false;  
         this.ContainerBatchSerials[idx].Selected = false;  
-        this.ContainerBatchSerials[idx].AssignQty = 0;  
+        this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));      
+        checkedselectedvalue.checked = false;
         return;
       }
       else{
-         dataitem.AssignQty = CalQty;    
-         this.ContainerBatchSerials[idx].AssignQty = CalQty;  
+       //  dataitem.AssignQty = CalQty;    
+         this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));     
          this.ContainerBatchSerials[idx].Selected = true; 
          this.SelectedRowsforShipmentArr.push(dataitem);
       }         
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
-      this.ContainerBatchSerials[idx].AssignQty = 0;
+      this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));     
       
       for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
         if(this.SelectedRowsforShipmentArr[i].ITEMCODE == dataitem.ITEMCODE && this.SelectedRowsforShipmentArr[i].WHSCODE == dataitem.WHSCODE &&
@@ -510,9 +519,8 @@ export class ContainerBatchserialComponent implements OnInit {
      var sum = array.reduce(function(a, b){
       return a + parseFloat(b.AssignQty);
       }, 0);
-     this.SelectedQty = parseFloat(sum);
+     this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
     // this.RowCount = this.SelectedRowsforShipmentArr.length;
-
   }
 
   onAssignShipmentPress(){
@@ -523,16 +531,13 @@ export class ContainerBatchserialComponent implements OnInit {
     }
 
     for(let rowIdx=0; rowIdx<this.SelectedRowsforShipmentArr.length; rowIdx++){
-      if(this.SelectedRowsforShipmentArr[rowIdx].AssignQty == '' || this.SelectedRowsforShipmentArr[rowIdx].AssignQty == 0 || this.SelectedRowsforShipmentArr[rowIdx].AssignQty == undefined){
+      if(this.SelectedRowsforShipmentArr[rowIdx].AssignQty == '' || this.SelectedRowsforShipmentArr[rowIdx].AssignQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))) || this.SelectedRowsforShipmentArr[rowIdx].AssignQty == undefined){
         this.toastr.error('', this.translate.instant("Enter_Assigned_Qty"));
         return;
       } 
     }
 
-    // if(parseFloat(this.SelectedQty) > parseFloat(this.OpenQty)){
-    //   this.toastr.error('', this.translate.instant("Greater_OpenQty"));
-    //   return;
-    // }
+    //this.SelectedRowsforShipmentArr = this.SelectedRowsforShipmentArr.filter(val => val.AssignQty != Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))));   
 
     let oSaveData:any = {};
     oSaveData.SelectedRows = [];
@@ -590,14 +595,21 @@ export class ContainerBatchserialComponent implements OnInit {
 
     let qtyValue = parseFloat(value);
 
-    let IsValid = this.commonData.validateOnChange(qtyValue, this.ContainerBatchSerials[rowindex].AvailableQty);    
+    // if(qtyValue == 0){
+    //  this.ContainerBatchSerials[rowindex].Selected = false;    
+    //   if(this.SelectedRowsforShipmentArr.length > 0){
+    //     this.SelectedRowsforShipmentArr = this.SelectedRowsforShipmentArr.filter(val => val.AssignQty != Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))));
+    //   }
+    // }
+    
+    let IsValid = this.commonData.validateOnChange(qtyValue, this.ContainerBatchSerials[rowindex].AvailableQty,this.OpenQty, this.SelectedQty);  
 
     if(IsValid){
-      this.ContainerBatchSerials[rowindex].AssignQty = qtyValue;
+      this.ContainerBatchSerials[rowindex].AssignQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     }
     else{
       this.toastr.error('',"Assigned Qty cannot be greater than Available Qty");
-      this.ContainerBatchSerials[rowindex].AssignQty = 0;     
+      this.ContainerBatchSerials[rowindex].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
       return;
     } 
 
@@ -605,7 +617,7 @@ export class ContainerBatchserialComponent implements OnInit {
     var sum = array. reduce(function(a, b){
      return a + parseFloat(b.AssignQty);
      }, 0);
-    this.SelectedQty = parseFloat(sum);
+    this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
   }
 
   getLookupValue($event) {
@@ -634,12 +646,11 @@ export class ContainerBatchserialComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
-  numberOnly(event){
+  numberDecimalOnly(event){
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
     return true;
   }
-
 }
