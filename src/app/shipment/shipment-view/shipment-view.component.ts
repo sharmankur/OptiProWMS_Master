@@ -31,7 +31,7 @@ export class ShipmentViewComponent implements OnInit {
   StatusId: string;
   CarrierCode: string;
   ReturnOrderRef: string;
-  UseContainer: boolean;
+  UseContainer: boolean=false;
   BOLNumber: string;
   VehicleNumber: string;
   shipmentLines: any[] = [];
@@ -82,10 +82,11 @@ export class ShipmentViewComponent implements OnInit {
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
+    this.onCheckChange();
   }
 
   clearStorage(){
-    localStorage.setItem("ShipmentID", '');
+    // localStorage.setItem("ShipmentID", '');
     localStorage.setItem("ShipmentArrData", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');

@@ -477,7 +477,7 @@
                                         <div class="form-group row">
                                             <label for="Priority" class="col-sm-3 col-form-label">{{'Priority'|translate}}</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-sm" name="Priority" id="Priority" [(ngModel)]="Priority" (keypress)="numericOnly($event)">
+                                                <input type="number" class="form-control form-control-sm" name="Priority" id="Priority" [(ngModel)]="Priority" (keypress)="numericOnly($event)">
                                             </div>
                                         </div>
                                     </div>
@@ -494,9 +494,9 @@
         </div>
         <div class="fix-footer-btnBar">
             <div class="col-sm-12 col-12">
-                <button (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
-                    <i class="opti-icon-arrow-back"></i>
-                </button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span>
+                        {{'Cancel'|translate}}</button>                
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onGenerateClick()">
                     <span role="presentation"></span> {{'Generate'|translate}}</button>
             </div>

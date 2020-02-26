@@ -168,6 +168,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           }
           this.GetCreateShipMentData = resp["ShipmentHdr"];
           this.currentStep = this.currentStep + 1;
+          this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -536,4 +537,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
+  OnCancelClick() {
+    this.router.navigate(['home/dashboard']);
+  }
 }

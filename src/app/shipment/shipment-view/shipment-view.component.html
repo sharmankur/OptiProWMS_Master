@@ -181,10 +181,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <!-- <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer [disabled]=true/> -->
                                         <div class="custom-control custom-checkbox minus-m5">
-                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer/>
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer [disabled]=true/>
                                             <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
                                         </div>
                                     </div>
@@ -312,9 +310,12 @@
                 </div> -->
             <div class="col-sm-12 col-12">
 
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" (click)="onCancelClick()">
+                <!-- <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" (click)="onCancelClick()">
                     <i class="opti-icon-arrow-back"></i>
-                </button>
+                </button> -->
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span>
+                        {{'Cancel'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()">
                     <span role="presentation"></span> {{'CT_Update'|translate}}</button>

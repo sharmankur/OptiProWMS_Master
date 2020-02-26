@@ -103,8 +103,8 @@
                                     </div>
                                     <!-- col end -->
 
-                                     <!-- col start -->
-                                     <div class="col-sm-4">
+                                    <!-- col start -->
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="SOFrom" class="col-sm-4 col-form-label">{{'SO_From'|translate}}</label>
                                             <div class="col-sm-8">
@@ -142,8 +142,8 @@
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                      <!-- col start -->
-                                      <div class="col-sm-4">
+                                    <!-- col start -->
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="ItemFrom" class="col-sm-4 col-form-label">{{'Item_From'|translate}}</label>
                                             <div class="col-sm-8">
@@ -187,7 +187,7 @@
                                         <div class="form-group row">
                                             <label for="DueDateFrom" class="col-sm-4 col-form-label">{{'Due_Date_From'|translate}}</label>
                                             <div class="col-sm-8">
-                                                <kendo-datepicker [(ngModel)]=DueDateFrom name="DueDateFrom" [format]=dateFormat  placeholder={{dateFormat}}></kendo-datepicker>
+                                                <kendo-datepicker [(ngModel)]=DueDateFrom name="DueDateFrom" [format]=dateFormat placeholder={{dateFormat}}></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
@@ -198,13 +198,13 @@
                                         <div class="form-group row">
                                             <label for="DueDateTo" class="col-sm-4 col-form-label">{{'Due_Date_To'|translate}}</label>
                                             <div class="col-sm-8">
-                                                <kendo-datepicker name="DueDateTo" [(ngModel)]=DueDateTo [format]=dateFormat  placeholder={{dateFormat}}></kendo-datepicker>
+                                                <kendo-datepicker name="DueDateTo" [(ngModel)]=DueDateTo [format]=dateFormat placeholder={{dateFormat}}></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                       <!-- col start -->
-                                       <div class="col-sm-4">
+                                    <!-- col start -->
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="ShipFrom" class="col-sm-4 col-form-label">{{'Ship_From'|translate}}</label>
                                             <div class="col-sm-8">
@@ -244,8 +244,8 @@
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                       <!-- col start -->
-                                       <div class="col-sm-4">
+                                    <!-- col start -->
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="OpenQtyFrom" class="col-sm-4 col-form-label">{{'Open_Qty_From'|translate}}</label>
                                             <div class="col-sm-8">
@@ -294,8 +294,8 @@
                                         </div>
                                     </div>
                                     <!-- col end -->
-                                     <!-- col start -->
-                                     <div class="col-sm-4">
+                                    <!-- col start -->
+                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="Whse" class="col-sm-4 col-form-label">{{'PT_Warehouse'|translate}}</label>
                                             <div class="col-sm-8">
@@ -461,14 +461,17 @@
                     <hr />
                 </div> -->
             <div class="col-sm-12 col-12">
-                <button (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
+                <button type="button" *ngIf="currentStep == 1" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button *ngIf="currentStep > 1" (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
+                <button *ngIf="currentStep != 4" (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-next"></i>
                 </button>
-
-
+                <button *ngIf="currentStep == 4" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onNextClick()">
+                    <span role="presentation"></span> {{'CreateShipment'|translate}}</button>
             </div>
         </div>
     </form>

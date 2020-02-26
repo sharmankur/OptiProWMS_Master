@@ -156,6 +156,7 @@
   "BOL_Number":"BOL Number",
   "VehicleNumber":"Vehicle Number",
   "Shipment_Lines":"Shipment Lines",
+  "Shipment_Code":"Shipment Code",
   "SalesOrderDetails":"Sales Order Details",
   "ShipmentContainers":"Shipment Containers",
   "ContainerItems": "Container Items",
@@ -864,7 +865,8 @@
   "PickToTote":"Pick To Tote",
   "PickToContainer":"Pick To Container",
   "Loose":"Loose",
-
+  "CreateShipment":"Create Shipment",
+  "CreatedShipmentMsg":"Shipment Createed Sucessfully",
   "Dummy": "Dummy"
   
 }
