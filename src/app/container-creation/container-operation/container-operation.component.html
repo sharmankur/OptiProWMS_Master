@@ -101,9 +101,9 @@
                                 <div class="form-group row">
                                     <label for="containerMaxWgt" class="col-sm-4 col-form-label">{{'ContainerMaxWeight'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerMaxWgt"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerMaxWgt"
                                             placeholder="{{'ContainerMaxWeight'|translate}}" name="containerMaxWgt"
-                                            [(ngModel)]="containerMaxWgt" disabled>
+                                            [ngModel]="containerMaxWgt|numberFormat" (ngModelChange)="containerMaxWgt=$event" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('TransferOutBin')">
@@ -118,9 +118,9 @@
                                 <div class="form-group row">
                                     <label for="containerWgt" class="col-sm-4 col-form-label">{{'ContainerWeight'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerWgt"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerWgt"
                                             placeholder="{{'ContainerWeight'|translate}}" name="containerWgt"
-                                            [(ngModel)]="containerWgt" disabled>
+                                            [ngModel]="containerWgt|numberFormat" (ngModelChange)="containerWgt=$event" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('TransferInBin')">
@@ -154,8 +154,8 @@
                                 <div class="form-group row">
                                     <label for="containerQty" class="col-sm-4 col-form-label">{{'ContainerQty'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerQty"
-                                            placeholder="{{'ContainerQty'|translate}}" name="containerQty" [(ngModel)]="containerQty"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerQty"
+                                            placeholder="{{'ContainerQty'|translate}}" name="containerQty" [ngModel]="containerQty|numberFormat" (ngModelChange)="containerQty=$event"
                                             disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -205,8 +205,8 @@
                     <div class="form-group row">
                         <label for="itemQty" class="col-sm-4 col-form-label">{{'Quantity'|translate}}</label>
                         <div class="input-group col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="itemQty" placeholder="{{'Quantity'|translate}}"
-                                name="itemQty" [(ngModel)]="itemQty">
+                            <input type="text" class="form-control form-control-sm text-right" id="itemQty" placeholder="{{'Quantity'|translate}}"
+                                name="itemQty" [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event">
                         </div>
                     </div>
                     <div class="form-group row">

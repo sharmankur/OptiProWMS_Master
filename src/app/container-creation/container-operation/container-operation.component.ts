@@ -34,8 +34,8 @@ export class ContainerOperationComponent implements OnInit {
   containerType: string;
   binCode: string;
   containerId: string;
-  containerMaxWgt: string;
-  containerWgt: string;
+  containerMaxWgt: number = 0;
+  containerWgt: number = 0;
   packingRule: string;
   containerUsage: string;
   itemCode: string;
@@ -294,7 +294,13 @@ export class ContainerOperationComponent implements OnInit {
         this.packingRule = $event[14];
         this.whseCode = $event[18];
         this.binCode = $event[19];
-        this.containerWgt = $event[20];
+        if ($event[20] == undefined || $event[20] == "") {
+          this.containerWgt = 0.0;
+        }
+        else {
+          this.containerWgt = $event[20];
+        }
+
       } else {
         this.childContainerId = $event[0];
       }
@@ -370,6 +376,9 @@ export class ContainerOperationComponent implements OnInit {
       id = this.containerId;
     } else {
       id = this.childContainerId;
+    }
+    if (id == undefined || id == "") {
+      return
     }
     this.showLoader = true;
     this.containerCreationService.IsValidContainerId(id).subscribe(
