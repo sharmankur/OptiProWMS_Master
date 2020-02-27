@@ -1106,7 +1106,7 @@ export class CreateContainerComponent implements OnInit {
           this.lookupData.push({
             ITEMCODE: tempList[i].ITEMCODE,
             LOTNO: tempList[i].LOTNO,
-            Quantity: tempList[i].Quantity,
+            Quantity: Number(tempList[i].Quantity).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
             BinCode: tempList[i].BinCode,
             OldData: tempList[i].OldData,
             Balance: tempList[i].Balance,
@@ -1176,7 +1176,7 @@ export class CreateContainerComponent implements OnInit {
       return;
     }
     var code = $event[0].ITEMCODE;
-    //this.selectedBatchSerial = [];
+    this.selectedBatchSerial = [];
     //Add item in selectedBatchSerial list it is not exist. 
     for (var i = 0; i < $event.length; i++) {
       var itemcode = $event[i].ITEMCODE;
