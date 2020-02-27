@@ -467,7 +467,7 @@
                 <button *ngIf="currentStep > 1" (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button *ngIf="currentStep != 4" (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
+                <button *ngIf="currentStep < 4" (click)="onNextClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button">
                     <i class="opti-icon-arrow-next"></i>
                 </button>
                 <button *ngIf="currentStep == 4" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onNextClick()">

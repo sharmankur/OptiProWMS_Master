@@ -207,7 +207,7 @@
                                 <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
                             </kendo-grid>
                         </div>
@@ -241,7 +241,7 @@
                             <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
                                 <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="90"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="150"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}" width="90"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
@@ -266,7 +266,7 @@
                             <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
                                 <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="75" class="text-right"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="150" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QUANTITY" title="{{'PartQty'|translate}}" width="75" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>
@@ -363,7 +363,7 @@
 </div>
 
 <span [hidden]="hideLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (lookupkey)="getlookupSelectedItem($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getlookupSelectedItem($event)"></app-common-lookup>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

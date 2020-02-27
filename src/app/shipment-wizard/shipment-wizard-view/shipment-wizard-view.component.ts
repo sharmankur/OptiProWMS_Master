@@ -162,6 +162,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
               if (resp["ShipmentHdr"][i].OPTM_DOCENTRY === resp["ShipmentDtl"][j].OPTM_DOCENTRY) {
+                resp["ShipmentDtl"][j].OPTM_QTY = Number(resp["ShipmentDtl"][j].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
             }
@@ -278,6 +279,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
               if (resp["ShipmentHdr"][i].Shipment_Id === resp["ShipmentDtl"][j].Shipment_Id) {
+                resp["ShipmentDtl"][j].ShipQty = Number(resp["ShipmentDtl"][j].ShipQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
             }

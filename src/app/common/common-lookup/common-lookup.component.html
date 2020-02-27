@@ -52,7 +52,7 @@
                     </ng-template>
         </kendo-grid-column> -->
 
-        <kendo-grid-column *ngIf="showSelection==true" field="QuantityToAdd" title="Qty To Add" [width]="80"
+        <kendo-grid-column *ngIf="showSelection==true" field="QuantityToAdd" title="Allocated" [width]="80"
             headerClass="text-right" class="text-right">
             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                 <div class="input-group input-group-sm">
@@ -70,11 +70,11 @@
                 <div class="col-sm-4">
                     <div class="mt-3 clearfix" *ngIf="showSelection==true">
                     </div>
-                    <button id="btnDone" *ngIf="showSelection==true" (click)="Done()">Done</button>
+                    <button id="btnDone" *ngIf="showSelection==true" (click)="Done()">Add</button>
                 </div>
                 <div class="col-sm-4 mt-3" *ngIf="showSelection==true">
                     <div class="form-group row">
-                        <label for="partPerQty" class="col-sm-6 col-form-label">Quantity</label>
+                        <label for="partPerQty" class="col-sm-6 col-form-label">Quantity Required</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="partPerQty" name="partPerQty"
                                 [ngModel]="partPerQty|numberFormat" (ngModelChange)="partPerQty=$event" disabled>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-sm-4 mt-3" *ngIf="showSelection==true">
                     <div class="form-group row">
-                        <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Added</label>
+                        <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Allocated</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="qtyAdded" name="qtyAdded"
                                 [ngModel]="qtyAdded|numberFormat" (ngModelChange)="qtyAdded=$event" disabled>

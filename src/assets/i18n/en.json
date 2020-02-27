@@ -635,7 +635,7 @@
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
   "ShipMentId": "Shipment Id",
-  "ScheduleTimeBlank": "Schedule Time can't be blank.",
+  "ScheduleTimeBlank": "Schedule Date can't be blank.",
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
@@ -852,7 +852,7 @@
   "Pick_ListBasis_val_Msg":"Select Basis to generate Pick List",
   "Pick_Opr_val_Msg":"Select Pick Operation",
   "Pick_Type_val_Msg":"Select Pick Type to generate Pick List",
-  "QtyToAddValidMsg": "Quantity To Add can't be greater than quantity",
+  "QtyToAddValidMsg": "Allocated quantity can't be greater than required quantity",
   "Generate_Pick_List_Msg":"Select Basis to generate Pick List",
 
   "Batch_Picking":"Batch Picking",
@@ -865,7 +865,7 @@
   "PickToContainer":"Pick To Container",
   "Loose":"Loose",
   "CreateShipment":"Create Shipment",
-  "CreatedShipmentMsg":"Shipment Createed Sucessfully",
+  "CreatedShipmentMsg":"Shipment Created Sucessfully",
   "Dummy": "Dummy"
   
 }

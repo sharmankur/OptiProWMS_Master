@@ -197,8 +197,8 @@ export class CommonData {
         return [
             { "Value": 1, "Name": "New" },
             { "Value": 2, "Name": "Scheduled" },
-            { "Value": 3, "Name": "Part Fulfilled" },
-            { "Value": 4, "Name": "Fulfilled" },
+            { "Value": 3, "Name": "Part Allocated" },
+            { "Value": 4, "Name": "Allocated" },
             { "Value": 5, "Name": "Picking" },
             { "Value": 6, "Name": "Picked" },
             { "Value": 7, "Name": "Ship Staged" },
@@ -211,6 +211,23 @@ export class CommonData {
             { "Value": 14, "Name": "Cancelled" }
         ];
     }
+
+    // shiment_status_array() {
+    //     return [
+    //         { "Value": 1, "Name": "New" },
+    //         { "Value": 2, "Name": "Scheduled" },
+    //         { "Value": 3, "Name": "Part Allocated" },
+    //         { "Value": 4, "Name": "Allocated" },
+    //         { "Value": 5, "Name": "Part Picked" },
+    //         { "Value": 6, "Name": "Picked" },
+    //         { "Value": 7, "Name": "Ship Ready" },
+    //         { "Value": 8, "Name": "Loaded on truck" },
+    //         { "Value": 9, "Name": "Shipped" },
+    //         { "Value": 10, "Name": "Cancelled" },
+    //         { "Value": 11, "Name": "Returned" },
+    //         { "Value": 12, "Name": "Return Accepted" },
+    //     ];
+    // }
 
     Container_Status_DropDown() {
         return [
@@ -246,13 +263,19 @@ export class CommonData {
             { "Value": 9, "Name": "Cancelled" }
         ];
     }
+    
 
     Shipment_Lines_Status_DropDown() {
         return [
             { "Value": 1, "Name": "New" },
-            { "Value": 2, "Name": "Part Fulfilled" },
-            { "Value": 3, "Name": "Fulfilled" },
-            { "Value": 4, "Name": "Cancelled" }
+            { "Value": 2, "Name": "Part Allocated" },
+            { "Value": 3, "Name": "Allocated" },
+            { "Value": 4, "Name": "Pick Generated" },
+            { "Value": 5, "Name": "Pick Released" },
+            { "Value": 6, "Name": "Part Picked" },
+            { "Value": 7, "Name": "Picked" },
+            { "Value": 8, "Name": "Shipped" },
+            { "Value": 9, "Name": "Cancelled" }
         ];
     }
 
