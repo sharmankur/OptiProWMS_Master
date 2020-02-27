@@ -145,7 +145,8 @@
                                     <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
                                     <kendo-grid-column field="WHSCODE" width="64" title="Warehouse Code"></kendo-grid-column>
                                     <kendo-grid-column field="BINNO" width="108" title="Bin No"></kendo-grid-column>
-                                    <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking == 'B' || Tracking == 'S' || SHPStatus !='1'"></kendo-grid-column>
+                                   <kendo-grid-column field="LOTNO" width="108" title="Lot No" 
+                                   *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
                                     <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="Available Quantitiy"></kendo-grid-column>
                                     <kendo-grid-column field="AssignQty" width="60" class="text-right" title="Quantity to Assign"> <!--QtytoAssign-->
                                       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -154,6 +155,14 @@
                                         value={{dataItem.AssignQty}} #AssignQty title="Quantity to Assign" />
                                       </ng-template>
                                     </kendo-grid-column> 
+                                    <kendo-grid-column *ngIf="SHPStatus == '3'" [width]="45" headerClass="text-center" class="text-center">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center"
+                                                (click)="onShowButtonClick(dataItem, rowIndex)">
+                                                <span class="opti-icon-search" role="presentation"></span>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
                                 </kendo-grid>
                             </div>
                         </div>

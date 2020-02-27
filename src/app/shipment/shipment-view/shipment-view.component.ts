@@ -85,7 +85,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   clearStorage(){
-    localStorage.setItem("ShipmentID", '');
+  //  localStorage.setItem("ShipmentID", '');
     localStorage.setItem("ShipmentArrData", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');

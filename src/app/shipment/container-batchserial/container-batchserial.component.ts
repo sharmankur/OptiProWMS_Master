@@ -353,7 +353,11 @@ export class ContainerBatchserialComponent implements OnInit {
       } 
       if(!flag){
         this.fillBatchSerialDataInGrid();
-      }     
+        this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      } 
+      else{
+        this.SelectedQty = this.ContainerBatchSerials[0].SelectedQty;
+      }    
     }
     else{
       this.fillBatchSerialDataInGrid();
@@ -426,6 +430,7 @@ export class ContainerBatchserialComponent implements OnInit {
             this.ContainerBatchSerials[i].Selected = false;
             this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
             this.ContainerBatchSerials[i].AvailableQty = Number(data[i].AvailableQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.ContainerBatchSerials[i].SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }         
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -524,11 +529,16 @@ export class ContainerBatchserialComponent implements OnInit {
       }   
      }
 
-     let array = this.SelectedRowsforShipmentArr;
+     let array = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE == this.ContainsItemID);
      var sum = array.reduce(function(a, b){
       return a + parseFloat(b.AssignQty);
       }, 0);
-     this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+     this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
+    
+     for(let upIdx=0; upIdx<this.ContainerBatchSerials.length; upIdx++){
+      this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
+    } 
+    
     // this.RowCount = this.SelectedRowsforShipmentArr.length;
   }
 
@@ -622,11 +632,15 @@ export class ContainerBatchserialComponent implements OnInit {
       return;
     } 
 
-    let array = this.SelectedRowsforShipmentArr;
+    let array = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE == this.ContainsItemID);
     var sum = array. reduce(function(a, b){
      return a + parseFloat(b.AssignQty);
      }, 0);
-    this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+    this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+
+    for(let upIdx=0; upIdx<this.ContainerBatchSerials.length; upIdx++){
+      this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
+    }    
   }
 
   getLookupValue($event) {
