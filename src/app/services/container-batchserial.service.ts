@@ -14,7 +14,7 @@ export class ContainerBatchserialService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
    }
 
-  fillBatchSerialDataInGrid(ContnrShipmentId:number, WarehouseId:string, BinId:string, ItemCode:string){
+  fillBatchSerialDataInGrid(ContnrShipmentId:number, WarehouseId:string, BinId:string, ItemCode:string, SHPStatus: any, Tracking: any){
 
     let jObject = {
       Shipment: JSON.stringify([{
@@ -22,7 +22,9 @@ export class ContainerBatchserialService {
         ContnrShipmentId: ContnrShipmentId,
         WarehouseId: WarehouseId,
         BinId: BinId,
-        ItemCode: ItemCode
+        ItemCode: ItemCode,
+        SHPStatus: SHPStatus,
+        Tracking: Tracking
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillBatchSerialDataInGrid", jObject, this.commonService.httpOptions);

@@ -276,42 +276,58 @@
                         </kendo-grid>
 
                     </div>
-                </div>
-
-                <div class="fix-footer-btnBar">
-                    <div class="col-sm-12 col-12">
-                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button"
-                            *ngIf="IsShipment" (click)="onArrowBtnClick()">
-                            <i class="opti-icon-arrow-back"></i>
-                        </button>
-                        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Select_Shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Remove_from_shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onReturnPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Return_by_customer'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSetDamagedPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Set_Damaged'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onCloseContainerPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Close_Container'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onPostToInventoryPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Post_To_Inventory'|translate}}</button>
-                    </div>
-                </div>
+                </div>               
 
             </div>
         </div>
+        <div class="fix-footer-btnBar">
+                <div class="col-sm-12 col-12">
+                    <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button"
+                        *ngIf="IsShipment" (click)="onArrowBtnClick()">
+                        <i class="opti-icon-arrow-back"></i>
+                    </button>
+                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()"
+                        *ngIf="!IsShipment">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
+                    <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()"
+                        *ngIf="!IsShipment">
+                        <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Select_Shipment'|translate}}</button> -->
+                    <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
+                        <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+                    <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()"
+                        *ngIf="!IsShipment"> -->
+                        <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Remove_from_shipment'|translate}}</button>
+                    <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onReturnPress()"
+                        *ngIf="!IsShipment"> -->
+                        <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Return_by_customer'|translate}}</button> -->
+                    <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSetDamagedPress()"
+                        *ngIf="!IsShipment">
+                        <span class="k-icon k-i-check" role="presentation"></span>{{'Set_Damaged'|translate}}</button> -->
+                    <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onCloseContainerPress()"
+                        *ngIf="!IsShipment">
+                        <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Close_Container'|translate}}</button>
+                    <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onPostToInventoryPress()"
+                        *ngIf="!IsShipment"> -->
+                        <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Post_To_Inventory'|translate}}</button> -->
+
+                        <div class="btn-group  toggle-btn-outer">
+                                <div class="dropdown show">
+                                    <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="opti-icon-more"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">{{'Select_Shipment'|translate}}</a>
+                                        <a class="dropdown-item" href="#">{{'Remove_from_shipment'|translate}}</a>
+                                        <a class="dropdown-item" href="#">{{'Return_by_customer'|translate}}</a>
+                                        <a class="dropdown-item" href="#">{{'Set_Damaged'|translate}}</a>
+                                        <a class="dropdown-item" href="#">{{'Close_Container'|translate}}</a>
+                                        <a class="dropdown-item" href="#">{{'Post_To_Inventory'|translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
       </form>
 </div>
 

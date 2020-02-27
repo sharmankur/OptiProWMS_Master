@@ -547,6 +547,10 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
 
+  OnCancelClick() {
+    this.router.navigate(['home/dashboard']);
+  }
+
   //#region "Generate"
   onGenerateClick() {
     if(!this.ValidateFields()){
