@@ -490,6 +490,7 @@ export class ContainerBatchserialComponent implements OnInit {
 
       if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
         this.toastr.error('', "Open Qty is zero");  
+        checkedselectedvalue.checked = false;
         return;      
       }
 
