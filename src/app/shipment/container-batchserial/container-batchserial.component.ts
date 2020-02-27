@@ -596,6 +596,7 @@ export class ContainerBatchserialComponent implements OnInit {
             else{
               this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
               this.SelectedRowsforShipmentArr = [];
+              this.TempGridData = [];
               let OpenQty = this.OpenQty - this.SelectedQty;
               this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
               this.fillBatchSerialDataInGrid();
