@@ -233,7 +233,7 @@
                     <div class="card-body">
                         <kendo-grid [kendoGridBinding]="ContainerItems" [resizable]="true" [height]="300" [pageSize]="pageSize"
                             [pageable]="ShowGridPaging" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
-                            <kendo-grid-column field="Selected" width="85" title="{{'Selected'|translate}}">
+                            <kendo-grid-column field="Selected" width="65" title="{{'Selected'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <label class="custom-checkbox mb-0">
                                         <input type="checkbox" #checkedselectedvalue (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)"
@@ -242,8 +242,8 @@
                                     </label>
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column>
-                            <kendo-grid-column field="OPTM_CONTCODE" width="100" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="155" title="{{'Container_Id'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTCODE" width="155" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_CONTTYPE" class="text-right" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>

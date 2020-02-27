@@ -102,6 +102,8 @@ export class ContainerShipmentComponent implements OnInit {
 
          for(let i =0; i<this.ContainerItems.length; i++){
            this.ContainerItems[i].Selected = false;
+           this.ContainerItems[i].OPTM_QUANTITY = Number(this.ContainerItems[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+           this.ContainerItems[i].OPTM_WEIGHT = Number(this.ContainerItems[i].OPTM_WEIGHT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           // this.setContainerStatus(this.ContainerItems[i].OPTM_STATUS);
          }
         } else {
