@@ -488,6 +488,11 @@ export class ContainerBatchserialComponent implements OnInit {
   selectContainerRowChange (checkedselectedvalue, isCheck,dataitem,idx){
     if(isCheck){
 
+      if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
+        this.toastr.error('', "Open Qty is zero");  
+        return;      
+      }
+
       let CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
 
       if(CalQty == -1){
