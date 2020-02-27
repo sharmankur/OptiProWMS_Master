@@ -509,6 +509,7 @@ export class ContainerShipmentComponent implements OnInit {
             }
             else{
               this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
+              this.fillDataInGridWithShipment();
             }
           }
         } else {
