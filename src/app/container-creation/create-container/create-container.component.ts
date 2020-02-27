@@ -352,6 +352,7 @@ export class CreateContainerComponent implements OnInit {
           this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
           this.selectedBatchSerial = [];
           // this.GetContainerNumber();
+          this.GetInventoryData()
           break
       }
     }
