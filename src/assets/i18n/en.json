@@ -115,7 +115,6 @@
   "PT_ShipmentIdTo": "Shipment Id To",
   "WorkOrderFrom": "Work Order Id From",
   "WorkOrderTo": "Work Order Id To",  
-  "Shipment_Code": "OPTM_SHIPMENT_CODE",
   "PT_Customer": "Customer",
   "PT_Ship_To": "Ship To",
   "PT_Warehouse": "Warehouse",
@@ -156,6 +155,7 @@
   "BOL_Number":"BOL Number",
   "VehicleNumber":"Vehicle Number",
   "Shipment_Lines":"Shipment Lines",
+  "Shipment_Code":"Shipment Code",
   "SalesOrderDetails":"Sales Order Details",
   "ShipmentContainers":"Shipment Containers",
   "ContainerItems": "Container Items",
@@ -543,8 +543,8 @@
   "Dock_Door": "Dock Door",
   "Dock_DoorFrom": "Dock Door From",
   "Dock_DoorTo": "Dock Door To",
-  "InvalidDock_Door": "Invalid Dock Door Id.",
-  "Invalid_Carrier_code": "Invalid Carrier Code",
+  "InvalidDock_Door": "Dock Door Id can't be blank",
+  "Invalid_Carrier_code": "Carrier Code  can't be blank",
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
   
@@ -864,7 +864,8 @@
   "PickToTote":"Pick To Tote",
   "PickToContainer":"Pick To Container",
   "Loose":"Loose",
-
+  "CreateShipment":"Create Shipment",
+  "CreatedShipmentMsg":"Shipment Createed Sucessfully",
   "Dummy": "Dummy"
   
 }

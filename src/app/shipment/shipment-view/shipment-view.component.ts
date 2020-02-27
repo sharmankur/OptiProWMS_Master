@@ -31,7 +31,7 @@ export class ShipmentViewComponent implements OnInit {
   StatusId: string;
   CarrierCode: string;
   ReturnOrderRef: string;
-  UseContainer: boolean;
+  UseContainer: boolean=false;
   BOLNumber: string;
   VehicleNumber: string;
   shipmentLines: any[] = [];
@@ -82,10 +82,11 @@ export class ShipmentViewComponent implements OnInit {
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
+    this.onCheckChange();
   }
 
   clearStorage(){
-  //  localStorage.setItem("ShipmentID", '');
+    // localStorage.setItem("ShipmentID", '');
     localStorage.setItem("ShipmentArrData", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
@@ -342,17 +343,18 @@ export class ShipmentViewComponent implements OnInit {
   validateFields(): boolean {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
-    } else if (this.CarrierCode == undefined || this.CarrierCode == "") {
-      this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
-      return false;
-    } else if (this.DockDoor == undefined || this.DockDoor == "") {
-      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
-      return false;
     } else if (this.ScheduleDatetime == undefined || this.ScheduleDatetime == null
       || this.ScheduleDatetime.toDateString() == "") {
       this.toastr.error('', this.translate.instant("ScheduleTimeBlank"));
       return false;
-    }
+    }else if (this.DockDoor == undefined || this.DockDoor == "") {
+      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+      return false;
+    } 
+    else if (this.CarrierCode == undefined || this.CarrierCode == "") {
+      this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
+      return false;
+    } 
     return true;
   }
 
@@ -465,8 +467,11 @@ export class ShipmentViewComponent implements OnInit {
 
   //#region "Dock Door"
   GetDataForDockDoor() {
+    if(this.WarehouseCode == "" || this.WarehouseCode == null || this.WarehouseCode == undefined){
+      return;
+    }
     this.showLoader = true;
-    this.commonservice.GetDataForDockDoor().subscribe(
+    this.commonservice.GetDockDoorBasedOnWarehouse(this.WarehouseCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -476,7 +481,7 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          this.serviceData = data;
+          this.serviceData = data.Table;
           this.lookupfor = "DDList";
           this.hideLookup = false;
         } else {

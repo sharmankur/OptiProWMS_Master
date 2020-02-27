@@ -766,6 +766,16 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.httpOptions);
   }
 
+  GetDockDoorBasedOnWarehouse(OPTM_WHSE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSE: OPTM_WHSE   
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDockDoorBasedOnWarehouse", jObject, this.httpOptions);
+  }
+
   GetDataForCarrier(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{

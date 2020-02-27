@@ -1,87 +1,85 @@
 <div class="opti_container position-relative bg-white rounded">
-        <form class="form-with-fix-btnBar">
-            <div class="opti_container_inner" [perfectScrollbar]=" ">
-    
-                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                     <span *ngIf="IsShipment">{{'Container_BatchSerial'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin - {{SelectedBin}})</span>
-                     <span *ngIf="!IsShipment">{{'Container_BatchSerial'|translate}}</span>
-                </h3>
-                <div class="row">
-                   <div class="col-12">
+    <form class="form-with-fix-btnBar">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                <span *ngIf="IsShipment">{{'Container_BatchSerial'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin -
+                    {{SelectedBin}})</span>
+                <span *ngIf="!IsShipment">{{'Container_BatchSerial'|translate}}</span>
+            </h3>
+            <div class="row">
+                <div class="col-12">
                     <div class="row">
-                      
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'ItemCode'|translate}}</label>
-                              <div class="input-group col-sm-7">
-                                 <!-- <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'ItemCode'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <!-- <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
                                  id="ContainsItemID" (blur)="onContainsItemChange()"> -->
-                                 <kendo-dropdownlist class="form-control form-control-sm" [data]="ItemCodeArray"
-                                 textField="OPTM_ITEMCODE" valueField="OPTM_ITEMCODE" id="ItemCode" name="ItemCode" [(ngModel)]="ContainsItemDD"
-                                 #selectedvalue (selectionChange)="onItemCodeChange($event)"></kendo-dropdownlist>
-                               </div>
-                               <!-- <div class="input-group-append has-seprate-btn">
+                                    <kendo-dropdownlist class="form-control form-control-sm" [data]="ItemCodeArray" textField="OPTM_ITEMCODE" valueField="OPTM_ITEMCODE"
+                                        id="ItemCode" name="ItemCode" [(ngModel)]="ContainsItemDD" #selectedvalue (selectionChange)="onItemCodeChange($event)"></kendo-dropdownlist>
+                                </div>
+                                <!-- <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem('lookup')">
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div> -->
                             </div>
                         </div>
-                      </div>                    
                     </div>
-                   
                 </div>
-    
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">                         
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                                    <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId 
-                                        id="WarehouseId" (blur)="onWhseChange()">
-                                    </div>
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId id="WarehouseId" (blur)="onWhseChange()">
+                                </div>
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>            
-                    
+                    </div>
                 </div>
-    
-                <div class="row">
-                        <div class="col-12">
-                         <div class="row">
 
-                         <div class="col-sm-6">
-                             <div class="form-group row">
-                                 <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
-                                   <div class="input-group col-sm-7">
-                                      <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId"
-                                      (blur)="onBinChange()">
-                                    </div>
-                                    <div class="input-group-append has-seprate-btn">
-                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                             <i class="opti-icon-search"></i>
-                                         </button>
-                                     </div>
-                                   </div>
-                          </div>     
-                          <div class="col-sm-6">
-                                <div class="form-group row">
-                                  <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>  
-                              </div>
-                           </div>
-                           </div>                    
-                         </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId" (blur)="onBinChange()">
+                                </div>
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-    
-                <!-- <div class="row">
+            </div>
+
+            <!-- <div class="row">
                         <div class="col-12">
                          <div class="row">
 
@@ -178,10 +176,10 @@
                         <div class="col-sm-4 input-group">
                             <input type="text" class=" form-control form-control-sm" name='RowCountId' [(ngModel)]=RowCount id="RowCountId" disabled>
                         </div>  -->
-                        <label for="SelectedQty" class="col-sm-4 col-form-label">{{'Selected_Qty'|translate}}</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId" disabled>
-                        </div>    
+                    <label for="SelectedQty" class="col-sm-4 col-form-label">{{'Selected_Qty'|translate}}</label>
+                    <div class="col-sm-4 input-group">
+                        <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
+                            disabled>
                     </div>
                 </div>
             </div>
@@ -200,7 +198,7 @@
                     </div>
                 </div>
     
-            
+            </div>
           </form>
     </div>
     
