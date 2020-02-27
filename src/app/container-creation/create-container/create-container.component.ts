@@ -47,7 +47,7 @@ export class CreateContainerComponent implements OnInit {
   itemPackQty: number = 0;
   action: string = "";
   fromContainerDetails: any = [];
-  purpose: string = "Y";
+  purpose: string = "Shipping";
   noOfPackToGen: number = 1;
   oSaveModel: any = {};
   fromType: string = "";
@@ -301,11 +301,13 @@ export class CreateContainerComponent implements OnInit {
     this.action = "";
     this.parentContainerCode = "";
     this.fromContainerDetails = [];
-    this.purpose = "Y";
+    this.purpose = "Shipping";
     this.noOfPackToGen = 1;
     this.selectedBatchSerial = [];
-    this.oSaveModel = [];
+    this.oSaveModel = {};
     this.containerGroupCode = ''
+    this.containerCode = ""
+    this.containerId = ""
   }
 
   onScanAndCreateClick() {
@@ -1165,7 +1167,7 @@ export class CreateContainerComponent implements OnInit {
     this.showOtherLookup = false;
     this.showLookup = false;
     if($event.length == 0){
-      this.selectedBatchSerial = [];
+      //this.selectedBatchSerial = [];
       for (var i = 0; i < this.fromContainerDetails.length; i++) {
         if(this.lastSelectedTracking == this.fromContainerDetails[i].OPTM_TRACKING){
           this.fromContainerDetails[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -1174,7 +1176,7 @@ export class CreateContainerComponent implements OnInit {
       return;
     }
     var code = $event[0].ITEMCODE;
-    this.selectedBatchSerial = [];
+    //this.selectedBatchSerial = [];
     //Add item in selectedBatchSerial list it is not exist. 
     for (var i = 0; i < $event.length; i++) {
       var itemcode = $event[i].ITEMCODE;
