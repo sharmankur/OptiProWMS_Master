@@ -572,8 +572,12 @@ export class ContainerBatchserialComponent implements OnInit {
       OPTM_CREATEDBY: localStorage.getItem("UserId")
     })
 
-    for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){      
-      oSaveData.SelectedRows.push(this.SelectedRowsforShipmentArr[i])
+    for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){   
+      this.SelectedRowsforShipmentArr[i].QtytoAssign = parseFloat(this.SelectedRowsforShipmentArr[i].QtytoAssign);
+      if(this.SelectedRowsforShipmentArr[i].LOTNO == undefined){
+        this.SelectedRowsforShipmentArr[i].LOTNO = '';
+      }
+      oSaveData.SelectedRows.push(this.SelectedRowsforShipmentArr[i]);
     }
 
     this.containerBatchserialService.AssignMaterialToShipment(oSaveData).subscribe(
@@ -591,6 +595,10 @@ export class ContainerBatchserialComponent implements OnInit {
             }
             else{
               this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
+              this.SelectedRowsforShipmentArr = [];
+              let OpenQty = this.OpenQty - this.SelectedQty;
+              this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+              this.fillBatchSerialDataInGrid();
             }
           }
                
