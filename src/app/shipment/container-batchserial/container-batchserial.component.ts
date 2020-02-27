@@ -83,7 +83,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.ItemCodeArray  = ItemCodeArray;
     this.ContainsItemDD = this.ItemCodeArray[0];
     this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
-    this.OpenQty = this.ItemCodeArray[0].OPEN_QTY;
+    this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
     this.Tracking = this.ItemCodeArray[0].TRACKING;
     this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
     
@@ -333,7 +333,7 @@ export class ContainerBatchserialComponent implements OnInit {
   onItemCodeChange($event){
     this.setDataInTempGrid();
     this.ContainsItemID = $event.OPTM_ITEMCODE;
-    this.OpenQty = $event.OPEN_QTY;
+    this.OpenQty = Number($event.OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
     this.Tracking = $event.TRACKING;
     this.SHPStatus = $event.SHPSTATUS;
     this.getDataFromTempGrid();   
@@ -428,7 +428,8 @@ export class ContainerBatchserialComponent implements OnInit {
           }
           for(let i =0; i<this.ContainerBatchSerials.length; i++){
             this.ContainerBatchSerials[i].Selected = false;
-            this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+            this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));             
+            this.ContainerBatchSerials[i].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
             this.ContainerBatchSerials[i].AvailableQty = Number(data[i].AvailableQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
             this.ContainerBatchSerials[i].SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }         
@@ -497,20 +498,23 @@ export class ContainerBatchserialComponent implements OnInit {
       
        // dataitem.Selected = false;  
         this.ContainerBatchSerials[idx].Selected = false;  
-        this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));      
+        this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+        this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
         checkedselectedvalue.checked = false;
         return;
       }
       else{
        //  dataitem.AssignQty = CalQty;    
-         this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));     
+         this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+         this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
          this.ContainerBatchSerials[idx].Selected = true; 
          this.SelectedRowsforShipmentArr.push(dataitem);
       }         
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
-      this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+      this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+      this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
 
       if(dataitem.LOTNO == undefined){
         for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
@@ -625,10 +629,12 @@ export class ContainerBatchserialComponent implements OnInit {
 
     if(IsValid){
       this.ContainerBatchSerials[rowindex].AssignQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      this.ContainerBatchSerials[rowindex].QtytoAssign = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
     }
     else{
       this.toastr.error('',"Assigned Qty cannot be greater than Available Qty");
       this.ContainerBatchSerials[rowindex].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+      this.ContainerBatchSerials[rowindex].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
       return;
     } 
 
