@@ -310,6 +310,7 @@ export class CreateContainerComponent implements OnInit {
     this.containerId = ""
     this.soNumber = "";
     this.parentContainerType = ""
+    // this.fromContainer = false;
   }
 
   onScanAndCreateClick() {
