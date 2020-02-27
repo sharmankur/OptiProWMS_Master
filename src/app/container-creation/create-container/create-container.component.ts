@@ -425,7 +425,7 @@ export class CreateContainerComponent implements OnInit {
     for (var i = 0; i < this.selectedBatchSerial.length; i++) {
       this.oSaveModel.OtherBtchSerDTL.push({
         OPTM_BTCHSER: this.selectedBatchSerial[i].LOTNO,
-        OPTM_QUANTITY: this.selectedBatchSerial[i].QuantityToAdd,
+        OPTM_QUANTITY: Number(this.selectedBatchSerial[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
         OPTM_ITEMCODE: this.selectedBatchSerial[i].ITEMCODE
       });
     }
