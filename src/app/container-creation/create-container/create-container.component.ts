@@ -1167,7 +1167,7 @@ export class CreateContainerComponent implements OnInit {
     this.showOtherLookup = false;
     this.showLookup = false;
     if($event.length == 0){
-      //this.selectedBatchSerial = [];
+      this.selectedBatchSerial = [];
       for (var i = 0; i < this.fromContainerDetails.length; i++) {
         if(this.lastSelectedTracking == this.fromContainerDetails[i].OPTM_TRACKING){
           this.fromContainerDetails[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
