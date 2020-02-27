@@ -430,11 +430,11 @@ export class ContainerShipmentComponent implements OnInit {
   selectContainerRowChange(isCheck, dataitem, idx) {
     if (isCheck) {
       this.ContainerItems[idx].Selected = true;
-      this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTAINERID);
+      this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTCODE);
     }
     else {
       this.ContainerItems[idx].Selected = true;
-      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTAINERID);
+      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTCODE);
       if (index > -1)
         this.SelectedRowsforShipmentArr.splice(index, 1);
     }
