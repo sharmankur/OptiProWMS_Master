@@ -340,7 +340,7 @@
                                         <ng-template kendoGridCellTemplate let-dataItem let-companyRowIndex="rowIndex">
                                             <!-- The first focusable element will be focused when pressing Enter on the cell -->
                                             <!-- <input type="text" kendoGridFocusable [value]="dataItem.SODocEntry" /> -->
-                                            <input type="text" class="form-control form-control-sm" [value]="dataItem.SalesOpenQty" (change)="ChangeSalesQty($event,dataItem,companyRowIndex)">
+                                            <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.SalesOpenQty" (change)="ChangeSalesQty($event,dataItem,companyRowIndex)">
 
                                         </ng-template>
                                     </kendo-grid-column>
