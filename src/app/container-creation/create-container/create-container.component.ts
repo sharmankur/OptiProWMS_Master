@@ -308,6 +308,8 @@ export class CreateContainerComponent implements OnInit {
     this.containerGroupCode = ''
     this.containerCode = ""
     this.containerId = ""
+    this.soNumber = "";
+    this.parentContainerType = ""
   }
 
   onScanAndCreateClick() {
@@ -350,6 +352,7 @@ export class CreateContainerComponent implements OnInit {
           this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
           this.selectedBatchSerial = [];
           // this.GetContainerNumber();
+          this.GetInventoryData()
           break
       }
     }
@@ -1214,6 +1217,9 @@ export class CreateContainerComponent implements OnInit {
   }
 
   onSONumberChange() {
+    if(this.soNumber == undefined || this.soNumber == ""){
+      return;
+    }
     this.showLoader = true;
     this.containerCreationService.IsValidSONumber(this.soNumber).subscribe(
       (data: any) => {
