@@ -46,6 +46,8 @@ export class ContainerShipmentComponent implements OnInit {
   pageSize: number = Commonservice.pageSize;
   commonData: any = new CommonData();
   oSaveModel: any = {};
+  WOId: any = '';
+  SOId: any = '';
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) { }
@@ -89,7 +91,7 @@ export class ContainerShipmentComponent implements OnInit {
   fillDataInGridWithShipment() {
     this.showLoader = true;
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
-      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment).subscribe(
+      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -558,6 +560,69 @@ export class ContainerShipmentComponent implements OnInit {
     );
   }
 
+  // getWorkOrders() {
+  //   this.showLoader = true;
+  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         this.showLookup = true;
+  //         this.serviceData = data;
+
+  //         this.lookupfor = "Workorder";
+  //       } else {
+  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+
+  // }
+
+  // getSalesOrders() {
+  //   this.showLoader = true;
+  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         this.showLookup = true;
+  //         this.serviceData = data;
+
+  //         this.lookupfor = "Salesorder";
+  //       } else {
+  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
+
   getLookupValue($event) {
     if ($event != null && $event == "close") {
       return;
@@ -575,6 +640,12 @@ export class ContainerShipmentComponent implements OnInit {
       else if (this.lookupfor == "ContainsItem") {
         this.ContainsItemID = $event[0];
       }
+      // else if(this.lookupfor == "Workorder"){
+      //   this.WOId = $event[0];
+      // }
+      // else if(this.lookupfor == "Salesorder"){
+      //   this.SOId = $event[0];
+      // }
 
     }
   }
