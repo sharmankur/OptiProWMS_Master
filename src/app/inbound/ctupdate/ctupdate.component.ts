@@ -17,6 +17,7 @@ export class CTUpdateComponent implements OnInit {
   CT_Width: string;
   CT_Height: string;
   CT_Max_Width: string;
+  CT_Tare_Width: string;
   CT_ContainerType: string;
   CT_ROW: any;
   BtnTitle: string;
@@ -71,6 +72,11 @@ export class CTUpdateComponent implements OnInit {
     this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
+  formatCT_Tare_Width() {
+    this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+  
+
   validateFields(): boolean{
     if(this.CT_ContainerType == '' || this.CT_ContainerType == undefined){
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
@@ -109,7 +115,7 @@ export class CTUpdateComponent implements OnInit {
   addContainerType() {
     this.showLoader = true;
     this.inboundService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
-      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width).subscribe(
+      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -143,7 +149,7 @@ export class CTUpdateComponent implements OnInit {
   updateContainerType() {
     this.showLoader = true;
     this.inboundService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
-      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width).subscribe(
+      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

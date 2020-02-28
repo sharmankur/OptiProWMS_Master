@@ -63,6 +63,7 @@
   "CT_Width":"Width", 
   "CT_Height":"Height", 
   "CT_Max_Width":"Max Weight", 
+  "CT_Tare_Width":"Tare Weight", 
   "Weight":"Weight", 
   "CT_Add":"Add", 
   "WeightUOM": "Weight UOM",
@@ -91,6 +92,7 @@
   "CAR_ItemCode":"Item Code", 
   "CAR_AddPartsToContainer":"Add Parts To Container", 
   "CAR_MinFillPercent":"Min Fill Percent", 
+  "CAR_MAT_WT":"Packing Mat Weight", 
   "CAR_Pack_Type_Blank_Msg":"Pack Type can't be blank.", 
   "CAR_ItemCode_Blank_Msg":"Item Code can't be blank.", 
   "CAR_ContainerPackRule_Blank_Msg":"Container Pack Rule can't be blank.", 
@@ -879,6 +881,9 @@
   "WorkCenter": "Work Center",
   "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
+  "InventoryStatus": "Inventory Status",
+  "PackProcess": "Pack Process",
+  "Selected": "Selected",
 
   "Dummy": "Dummy"
   

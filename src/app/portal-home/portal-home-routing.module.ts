@@ -53,7 +53,8 @@ const routes: Routes = [
       { path:'binrule', loadChildren: "../binrule/binrule.module#BinruleModule" },
       { path: 'Container_List', component: ContainerShipmentComponent } ,
       { path: 'BatchSerial_List', component: ContainerBatchserialComponent } ,
-      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" }
+      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
+      { path: 'container-maintenance', loadChildren: "../container-maintenance/container-maintenance.module#ContainerMaintenanceModule" }
     ]
 
   }

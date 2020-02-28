@@ -240,7 +240,7 @@ export class CreateContainerComponent implements OnInit {
         this.packType = $event[2];
         this.CheckScanAndCreateVisiblity(this.autoPackRule);
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
-        this.GetTotalWeightBasedOnRuleID();
+        // this.GetTotalWeightBasedOnRuleID();
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event[0];
         this.binNo = "";
@@ -446,7 +446,8 @@ export class CreateContainerComponent implements OnInit {
         OPTM_INVQUANTITY: 0,
         OPTM_BIN: '',
         OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
-        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING
+        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
+        OPTM_WEIGHT: this.fromContainerDetails[i].IWeight1,
       });
     }
 

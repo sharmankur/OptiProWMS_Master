@@ -123,6 +123,10 @@ export class CARUpdateComponent implements OnInit {
         this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
         return false;
       }
+      // if (sum != 100) {
+      //   this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
+      //   return false;
+      // }
     }
     return true;
   }
@@ -238,6 +242,7 @@ export class CARUpdateComponent implements OnInit {
         OPTM_RULEID: this.CAR_CPackRule,
         OPTM_PARTS_PERCONT: this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT,
         OPTM_MIN_FILLPRCNT: this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT,
+        OPTM_PACKING_MATWT: this.autoRuleArray[iBtchIndex].OPTM_PACKING_MATWT,
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       });
     }
@@ -280,6 +285,7 @@ export class CARUpdateComponent implements OnInit {
         OPTM_RULEID: this.CAR_CPackRule,
         OPTM_PARTS_PERCONT: this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT,
         OPTM_MIN_FILLPRCNT: this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT,
+        OPTM_PACKING_MATWT: this.autoRuleArray[iBtchIndex].OPTM_PACKING_MATWT,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       });
     }
@@ -425,7 +431,7 @@ export class CARUpdateComponent implements OnInit {
     // } else {
 
     // }
-    this.autoRuleArray.push(new AutoRuleModel("", 0, "0", "0"));
+    this.autoRuleArray.push(new AutoRuleModel("", 0, "0", "0", "0"));
   }
 
   updateRuleId(lotTemplateVar, value, rowindex, gridData: any) {
