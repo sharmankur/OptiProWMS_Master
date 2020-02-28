@@ -9,8 +9,8 @@
                 <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
 
                     <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_ContainerType'|translate}}</label>
-                        <div class="col-sm-9">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_ContainerType'|translate}}</label>
+                        <div class="col-sm-8">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CTR_ContainerType" [(ngModel)]="CTR_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
                                     (blur)="OnContainerTypeChangeBlur()" #VendScanInputField [disabled]=isUpdate id="CTR_ContainerTypeScanInputField">
@@ -25,8 +25,8 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
-                        <div class="col-sm-9">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
+                        <div class="col-sm-8">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CTR_ParentContainerType" [(ngModel)]="CTR_ParentContainerType"
                                     placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="OnParentContainerTypeChangeBlur()" #VendScanInputField
@@ -43,8 +43,8 @@
 
 
                     <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTRContainersPerParent'|translate}}</label>
-                        <div class="col-sm-9">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainersPerParent'|translate}}</label>
+                        <div class="col-sm-8">
                             <div class="input-group input-group-sm">
                                 <input type="number" #scanQty name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent (blur)="formatCTR_ConainerPerParent()" min="0" class="text-right form-control form-control-sm">
                             </div>
@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
-                        <div class="col-sm-9">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
+                        <div class="col-sm-8">
                             <div class="input-group input-group-sm">
                                 <input type="number" #scanQty name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent (blur)="formatCTR_ConatainerPartofParent()"  min="0" class="text-right 
                                 form-control form-control-sm">
