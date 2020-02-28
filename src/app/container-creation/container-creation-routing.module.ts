@@ -7,6 +7,7 @@ import { CcmainComponent } from './ccmain/ccmain.component';
 const routes: Routes = [
   { path: '', component: CcmainComponent},
   { path: 'create-container', component: CreateContainerComponent },
+  { path: 'create-containerWIP', component: CreateContainerComponent },
 ];
 
 @NgModule({

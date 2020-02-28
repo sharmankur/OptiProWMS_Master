@@ -203,6 +203,10 @@
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
 </span>
 
+<span *ngIf="showLookup==false && showOtherLookup==true">
+        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
+    </span>
+
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>

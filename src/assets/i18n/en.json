@@ -640,6 +640,7 @@
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
   "ContainerCreation": "Container Creation",
+  "ContainerCreationWIP": "Container Creation (WIP)",
   "CreateContainer": "Create Container",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
@@ -728,7 +729,10 @@
   "Greater_OpenQty": "Assigned Quantity cannot be greater than Open Quantity",
   "WO_NUM": "WO#",
   "SO_NUM": "SO#",
-
+  "Produced_Qty": "Produced Qty",
+  "Passed_Qty": "Passed Qty",
+  "Rejected/NC": "Rejected/NC Qty",
+  
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",
   "WhsUserGroup_UserGroup_Picking": "Picking Group",
@@ -850,7 +854,7 @@
   "AddedQtyValid": "Added quantity must be equal to quantity",
   "AddedQtyValidMsg": "Added quantity should be less than available quantity",
   "CheckedItemQtyValid": "Quantity can't be zero for checked item",
-  "QtyAdded": "Quantity Added",
+  "QtyAdded": "Quantity Allocated",
   "Pick_ListBasis_val_Msg":"Select Basis to generate Pick List",
   "Pick_Opr_val_Msg":"Select Pick Operation",
   "Pick_Type_val_Msg":"Select Pick Type to generate Pick List",

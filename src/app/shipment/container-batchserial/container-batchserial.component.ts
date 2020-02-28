@@ -41,6 +41,9 @@ export class ContainerBatchserialComponent implements OnInit {
   Tracking: any = '';
   SHPStatus: any = '';
   commonData: any = new CommonData();
+  lookupData: any = [];
+  BatchSerialData : any = [];
+  showOtherLookup: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
@@ -664,7 +667,65 @@ export class ContainerBatchserialComponent implements OnInit {
     }    
   }
 
+  getLotNoInventoryData(WHSE,Bin){
+    this.showLoader = true;
+    this.containerBatchserialService.getLotNoInventoryData(WHSE,Bin).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }          
+          this.BatchSerialData = data;        
+
+          for(let i=0; i<this.BatchSerialData.length;i++){
+            this.BatchSerialData[i].Quantity = Number(this.BatchSerialData[i].Quantity).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
+            this.BatchSerialData[i].Selected = false;
+          }
+
+          this.lookupData = this.BatchSerialData;
+          this.lookupfor = "BatchSerialList";
+          this.showLookup = false;
+          this.showOtherLookup = true;
+                   
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onShowButtonClick(event, index){
+    let WHSE = event.WHSCODE;
+    let Bin = event.BINNO;
+    this.lookupData = [];
+    this.getLotNoInventoryData(WHSE,Bin);
+  }
+
+  getLookupKey($event) {    
+    this.showOtherLookup = false;
+    this.showLookup = false;
+    if($event.length == 0){
+     alert(1);
+    }
+    var code = $event[0].ITEMCODE;    
+  }
+
   getLookupValue($event) {
+    this.showOtherLookup = false;
+    this.showLookup = false;
+
     if ($event != null && $event == "close") {
       return;
     }

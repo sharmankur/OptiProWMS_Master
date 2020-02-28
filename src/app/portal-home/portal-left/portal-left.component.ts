@@ -131,7 +131,7 @@ export class PortalLeftComponent implements OnInit {
       localStorage.setItem("towhseId", localStorage.getItem("whseId"));
       localStorage.setItem("fromwhseId", localStorage.getItem("whseId"));
     }
-
+    
     this.closeRightSidebar(event);
     this.router.navigate(['home/' + module]);
   }
