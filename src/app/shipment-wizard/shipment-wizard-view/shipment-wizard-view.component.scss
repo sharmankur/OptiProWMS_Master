@@ -27,7 +27,7 @@
                 background: #fff;
                 border-radius: 50%;
                 position: relative;
-                border: 2px solid #F3BB45;
+                border: 2px solid #3e5b99;
                 i{
                     position: relative;
                     z-index: 3;
@@ -43,7 +43,7 @@
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
-                background: #F3BB45;
+                background: #3e5b99;
                 position: absolute;
             }
         }
@@ -56,7 +56,7 @@
             color: #fff;
         }
         .steps-label{
-            color: #F3BB45;
+            color: #3e5b99;
         }
     }
         
@@ -75,11 +75,11 @@
             top: 0;
             width: 10%;
             height: 5px;
-            background: #F3BB45;
+            background: #3e5b99;
             transition: all 0.3s;
         }
         .steps-box.done a{
-            background: #F3BB45;
+            background: #3e5b99;
         }
         .steps-box:nth-child(1).done  ~ .step-line::before{
             width: 30%;
@@ -119,4 +119,10 @@
 
 .mrb-5{
     margin-bottom: 5px;
+}
+.custom-control-label::before{
+    top: .10rem;
+}
+.custom-control-label::after {
+    top: .2rem;
 }

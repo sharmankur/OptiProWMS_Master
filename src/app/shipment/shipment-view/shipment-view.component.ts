@@ -139,6 +139,7 @@ export class ShipmentViewComponent implements OnInit {
           //Shipment Detail 
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
+            data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));            
           }
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
           if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {           
@@ -181,6 +182,7 @@ export class ShipmentViewComponent implements OnInit {
     this.SODetails = [];
     for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_SODTL.length; i++) {
       if (this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_DTLLINEID === ShipmentLineId) {
+        this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY = Number(this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));            
         this.SODetails.push(this.shipmentData.OPTM_SHPMNT_SODTL[i]);
       }
     }
@@ -191,6 +193,7 @@ export class ShipmentViewComponent implements OnInit {
     this.ContainerItems = [];
     for (var i = 0; i < this.shipmentData.OPTM_CONT_DTL.length; i++) {
       if (this.shipmentData.OPTM_CONT_DTL[i].OPTM_SHIPMENT_LINEID === ShipmentLineId) {
+        this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY = Number(this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));         
         this.ContainerItems.push(this.shipmentData.OPTM_CONT_DTL[i]);
       }
     }
@@ -201,6 +204,7 @@ export class ShipmentViewComponent implements OnInit {
     this.ShipmentLineDetails = [];
     for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
       if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
+        this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
       }
     }

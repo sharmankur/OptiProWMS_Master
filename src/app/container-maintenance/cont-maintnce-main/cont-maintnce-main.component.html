@@ -475,102 +475,7 @@
             <div>
                 <div class="row mt-3">
                     <div class="col-12 ">
-                        <kendo-grid class="no-shadow" [data]="fromContainerDetails" [resizable]="true" [sortable]="true"
-                            [selectable]="true" id="gridItem" #gridItem>
-                            <!-- grid template start -->
-                            <ng-template kendoGridToolbarTemplate>
-                                <span class="grid-toolbar-title">{{'OtherItemsTitle'|translate}}</span>
-                                <span class="opti_input-group-checkbox">
-                                    <input type="checkbox" id="fromContainer" name='fromContainer' class="k-checkbox"
-                                        (change)="onFromContainerCheckChange()" />
-                                    <label class="k-checkbox-label empty-check" for="fromContainer">{{'FromContainer'|translate}}</label>
-                                </span>
-                            </ng-template>
-                            <!-- grid for mobile start -->
-                            <kendo-grid-column media="(max-width: 767px)" title="{{'List'|translate}}" class="opti_mobile-grid-td">
-                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <dl class="opti_mobile_grid_dl">
-                                        <dt>{{dataItem.OPTM_ITEMCODE}}</dt>
-                                        <dd>{{dataItem.OPTM_PARTS_PERCONT}}</dd>
-                                        <dt></dt>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
-                                    </dl>
-                                    <dl class="opti_mobile_grid_dl">
-                                        <dt>{{'#'}}</dt>
-                                        <dt>{{'ItemCode'|translate}}</dt>
-                                        <dd>{{'Quantity'|translate}}</dd>
-                                        <dt>{{'Container'|translate}}</dt>
-                                        <dd>{{'AvailableQty'|translate}}</dd>
-                                        <dd>{{'InvQty'|translate}}</dd>
-                                        <dd>{{'BinNo'|translate}}</dd>
-                                    </dl>
-                                </ng-template>
-                            </kendo-grid-column>
-                            <!-- grid for mobile end -->
-
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45" title="{{'ItemCode'|translate}}">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="ITEMCODE" value={{dataItem.OPTM_ITEMCODE}}
-                                                id="display_name" min="0" #display_name>
-                                        </div>
-                                    </ng-template> -->
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Quantity'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" title="{{'Container'|translate}}"
-                                *ngIf="fromContainer">
-                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_CONTAINERID"
-                                            value={{dataItem.OPTM_CONTAINERID}} id="contId" min="0" #contId>
-                                        <div class="input-group-append">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetListOfContainerBasedOnRule(dataItem, idx)">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="AvlQty" [width]="45" title="{{'AvailableQty'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty|numberFormat}}
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'InvQty'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT|numberFormat}}
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="60" title="{{'BinNo'|translate}}">
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyAdded'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.QuantityToAdd|numberFormat}}
-                                    </ng-template> -->
-                                <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm text-right" name="qtytoadd"
-                                            value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
-                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
-                                    </div>
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" [width]="45" headerClass="text-center" class="text-center">
-                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center"
-                                        (click)="onShowBSClick(dataItem, rowIndex)">
-                                        <span class="opti-icon-search" role="presentation"></span>
-                                    </button>
-                                </ng-template>
-                            </kendo-grid-column>
-                        </kendo-grid>
+                        
                     </div>
                 </div>
             </div>
@@ -581,17 +486,17 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')"
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPostToInvClick('ScanAndCreate')"
                     [disabled]="!scanCreateEnable">
                     {{'PostToInv'|translate}}
                 </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick('Create')">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick('Create')">
                     {{'ContainerOperation'|translate}}
                 </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onReopenClick()">
                     {{'ReOpen'|translate}}
                 </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onSetDamagedClick()">
                     {{'Set_Damaged'|translate}}
                 </button>
 
@@ -602,11 +507,10 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                            <!-- <a class="dropdown-item" (click)="onResetClick()">{{'Login_Reset'|translate}}</a> -->
-                            <a class="dropdown-item">{{'ResetCounter'|translate}}</a>
-                            <a class="dropdown-item">{{'PrintLabel'|translate}}</a>
+                            <a class="dropdown-item" (click)="onPostToInvClick()">{{'PostToInv'|translate}}</a>
                             <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
+                            <a class="dropdown-item" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
                         </div>
                     </div>
                 </div>

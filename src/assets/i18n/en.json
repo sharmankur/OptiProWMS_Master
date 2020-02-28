@@ -635,7 +635,7 @@
   "Masking_ValidateTypeAndOper": "Please select correct type and operation for row number",
   "Masking_CodeAlreadyExist": "Code already exist.",
   "ShipMentId": "Shipment Id",
-  "ScheduleTimeBlank": "Schedule Time can't be blank.",
+  "ScheduleTimeBlank": "Schedule Date can't be blank.",
   "Carrier_CarrierId": "Carrier Id",
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
@@ -720,12 +720,14 @@
   "Enter_shipmentid": "Enter Shipment Id to Assign", 
   "Containers_assigned_successfully" : "Containers assigned to shipment successfully",
   "Row_Count": "Rows Selected",
-  "Selected_Qty": "Quantities Added",
+  "Selected_Qty": "Quantity Allocated",
   "Quantity_cannot_be_zero": "Assigned Quantity cannot be zero",
   "AssignedQty_cannot_be_greater": "Assigned Quantity cannot be greater than Available Quantity",
   "Enter_Assigned_Qty": "Enter Assign Quantity",
-  "Open_Qty": "Open Quantity",
+  "Open_Qty": "Quantity Required",
   "Greater_OpenQty": "Assigned Quantity cannot be greater than Open Quantity",
+  "WO_NUM": "WO#",
+  "SO_NUM": "SO#",
 
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",
@@ -852,7 +854,7 @@
   "Pick_ListBasis_val_Msg":"Select Basis to generate Pick List",
   "Pick_Opr_val_Msg":"Select Pick Operation",
   "Pick_Type_val_Msg":"Select Pick Type to generate Pick List",
-  "QtyToAddValidMsg": "Quantity To Add can't be greater than quantity",
+  "QtyToAddValidMsg": "Allocated quantity can't be greater than required quantity",
   "Generate_Pick_List_Msg":"Select Basis to generate Pick List",
 
   "Batch_Picking":"Batch Picking",
@@ -871,6 +873,8 @@
   "FROMOPRCODE": "Operation Code",
   "WOList": "Work Order List",
   "WorkCenter": "Work Center",
+  "PostToInv": "Post To Inventory",
+  "ReOpen": "Reopen",
 
   "Dummy": "Dummy"
   
