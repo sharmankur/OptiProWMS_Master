@@ -102,13 +102,16 @@
                         
                 </div> -->
 
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
-                    <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5>
-                    <div class="card-body">
+                    <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
+                    <!-- <div class="card-body"> -->
                         <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
                             [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterUser
                             [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
+                            <ng-template kendoGridToolbarTemplate> 
+                                <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>                                       
+                              </ng-template>
                             <kendo-grid-column field="Selected" width="25" title="Select">
                                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                                     <label class="custom-checkbox mb-0">
@@ -155,7 +158,7 @@
                                 </ng-template>
                             </kendo-grid-column>
                         </kendo-grid>
-                    </div>
+                    <!-- </div> -->
                 </div>
             </div>
 
@@ -177,20 +180,21 @@
                 </div>
             </div>
 
-            <div class="fix-footer-btnBar">
-                <div class="col-sm-12 col-12">
-                    <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
-                        <i class="opti-icon-arrow-back"></i>
-                    </button>
-                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
-                        <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
+           
 
-                    <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                        <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
 
-                </div>
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
+                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+
             </div>
-
         </div>
     </form>
 </div>
