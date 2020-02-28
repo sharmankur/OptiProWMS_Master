@@ -58,6 +58,9 @@ export class CreateContainerComponent implements OnInit {
   selectedBatchSerial: any = [];
   partPerQty: any;
   qtyAdded: any;
+  workOrder: any = "";
+  operationNo: any = "";
+  taskId: any = "";
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -82,7 +85,7 @@ export class CreateContainerComponent implements OnInit {
     this.createMode = this.defaultCreateMode.Value;
     // this.GetContainerNumber();
 
-    
+
   }
 
 
@@ -228,6 +231,7 @@ export class CreateContainerComponent implements OnInit {
         this.packType = $event[2];
         this.CheckScanAndCreateVisiblity(this.autoPackRule);
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
+        this.GetTotalWeightBasedOnRuleID();
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event[0];
         this.binNo = "";
@@ -238,13 +242,17 @@ export class CreateContainerComponent implements OnInit {
         this.soNumber = $event[0];
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event[0];
-      } else if(this.lookupfor == "ContainerIdList") {
+      } else if (this.lookupfor == "ContainerIdList") {
         for (var i = 0; i < this.fromContainerDetails.length; i++) {
           if ($event[2] == this.fromContainerDetails[i].OPTM_ITEMCODE) {
             this.fromContainerDetails[i].OPTM_CONTAINERID = $event[0];
           }
         }
         this.GetListOfBatchSerOfSelectedContainerID($event[0], $event[2])
+      } else if (this.lookupfor == "WOLIST") {
+        this.workOrder = $event[0]
+        this.taskId = $event[6]
+        this.operationNo = $event[1]
       }
     }
   }
@@ -311,6 +319,9 @@ export class CreateContainerComponent implements OnInit {
     this.soNumber = "";
     this.parentContainerType = ""
     // this.fromContainer = false;
+    this.workOrder = ""
+    this.taskId = ""
+    this.operationNo = ""
   }
 
   onScanAndCreateClick() {
@@ -383,8 +394,8 @@ export class CreateContainerComponent implements OnInit {
       OPTM_SONO: this.soNumber,
       OPTM_CONTAINERID: containerId,
       OPTM_CONTTYPE: containerType,
-      OPTM_CONTAINERCODE: ""+containerCode,
-      OPTM_WEIGHT: wieght,
+      OPTM_CONTAINERCODE: "" + containerCode,
+      OPTM_WEIGHT: this.containerWeigth,
       OPTM_AUTOCLOSE_ONFULL: ((this.autoClose == true) ? 'Y' : 'N'),
       OPTM_AUTORULEID: autoRuleId,
       OPTM_WHSE: whse,
@@ -407,7 +418,10 @@ export class CreateContainerComponent implements OnInit {
       OPTM_CREATEMODE: createMode,
       OPTM_PERPOSE: purps,
       OPTM_FUNCTION: "Shipping",
-      OPTM_OBJECT: "Container"
+      OPTM_OBJECT: "Container",
+      OPTM_WONUMBER: this.workOrder,
+      OPTM_TASKHDID: this.taskId,
+      OPTM_OPERATION: this.operationNo
     });
 
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
@@ -1075,6 +1089,7 @@ export class CreateContainerComponent implements OnInit {
         }
       }
     }
+    this.updateWeigth()
   }
 
   lastSelectedTracking: any = ""
@@ -1095,7 +1110,7 @@ export class CreateContainerComponent implements OnInit {
 
     this.lookupData = [];
     var tempList = [];
-    if(this.fromContainer){
+    if (this.fromContainer) {
       tempList = this.bsrListByContainerId;
     } else {
       tempList = this.batchSerialData;
@@ -1114,7 +1129,8 @@ export class CreateContainerComponent implements OnInit {
             BinCode: tempList[i].BinCode,
             OldData: tempList[i].OldData,
             Balance: tempList[i].Balance,
-            QuantityToAdd: tempList[i].QuantityToAdd
+            QuantityToAdd: tempList[i].QuantityToAdd,
+            OPTM_TRACKING: event.OPTM_TRACKING
           })
         }
       }
@@ -1170,17 +1186,20 @@ export class CreateContainerComponent implements OnInit {
     console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
-    if($event.length == 0){
-      // this.selectedBatchSerial = [];
+    if ($event.length == 0) {
+      //this.selectedBatchSerial = [];
+      this.updateBSSelectedList()
       for (var i = 0; i < this.fromContainerDetails.length; i++) {
-        if(this.lastSelectedTracking == this.fromContainerDetails[i].OPTM_TRACKING){
+        if (this.lastSelectedTracking == this.fromContainerDetails[i].OPTM_TRACKING) {
           this.fromContainerDetails[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         }
       }
+      this.updateWeigth()
       return;
     }
     var code = $event[0].ITEMCODE;
-    // this.selectedBatchSerial = [];
+    //this.selectedBatchSerial = [];
+    this.updateBSSelectedList();
     //Add item in selectedBatchSerial list it is not exist. 
     for (var i = 0; i < $event.length; i++) {
       var itemcode = $event[i].ITEMCODE;
@@ -1205,7 +1224,30 @@ export class CreateContainerComponent implements OnInit {
         this.fromContainerDetails[i].QuantityToAdd = sumQty;
       }
     }
+    this.updateWeigth()
     console.log("getLookupKey sumQty: " + sumQty);
+  }
+
+  updateBSSelectedList() {
+    if (this.selectedBatchSerial.length > 0) {
+      var temp = [];
+      for (var i = 0; i < this.selectedBatchSerial.length; i++) {
+        if (this.lastSelectedTracking != this.selectedBatchSerial[i].OPTM_TRACKING) {
+          temp.push(this.selectedBatchSerial[i])
+        }
+      }
+      this.selectedBatchSerial = temp;
+    }
+  }
+
+  updateWeigth(){
+    var weight = 0
+    for (var i = 0; i < this.fromContainerDetails.length; i++) {
+      var w : any = Number(this.fromContainerDetails[i].IWeight1).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      var q : any = Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      weight = weight + (w * q)
+    }
+    this.containerWeigth = weight
   }
 
   checkItemAlreadyExist(list: any, item: any, batchSrl: any) {
@@ -1218,7 +1260,7 @@ export class CreateContainerComponent implements OnInit {
   }
 
   onSONumberChange() {
-    if(this.soNumber == undefined || this.soNumber == ""){
+    if (this.soNumber == undefined || this.soNumber == "") {
       return;
     }
     this.showLoader = true;
@@ -1338,6 +1380,73 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.bsrListByContainerId = data;
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
+  //woList: any = [];
+  GetWorkOrderList() {
+    // this.showLoader = true;
+    var result = false;
+    this.containerCreationService.GetWorkOrderList().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          this.lookupfor = "WOLIST";
+          this.showLookup = true;
+          this.showOtherLookup = false;
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
+  bsWeightData: any= []
+  GetTotalWeightBasedOnRuleID() {
+    // this.showLoader = true;
+    var result = false;
+    this.containerCreationService.GetTotalWeightBasedOnRuleID(this.autoPackRule).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.bsWeightData = data;
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

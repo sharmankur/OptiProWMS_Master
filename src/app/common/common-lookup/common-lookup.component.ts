@@ -214,10 +214,60 @@ export class CommonLookupComponent implements OnInit {
       this.showItemCodeListByRuleId();
     } else if (this.lookupfor == "ContainerIdList") {
       this.showContainerIdList();
+    } else if(this.lookupfor == "WOLIST") {
+      this.workOrderList();
     }
 
     this.clearFilters();
     this.isColumnFilter = false
+  }
+
+  workOrderList() {
+    this.table_head = [
+      {
+        field: 'OPTM_WONO',
+        title: this.translate.instant("WorkOrderNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_FROMOPERNO',
+        title: this.translate.instant("FROMOPERNO"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_FROMOPRCODE',
+        title: this.translate.instant("FROMOPRCODE"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_ID',
+        title: this.translate.instant("PT_TaskId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("Login_Warehouse"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WC',
+        title: this.translate.instant("WorkCenter"),
+        type: 'text',
+        width: '100'
+      }
+      
+    ];
+    this.lookupTitle = this.translate.instant("WOList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
   }
 
   showContainerIdList() {

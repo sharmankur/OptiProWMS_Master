@@ -228,4 +228,23 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
+
+  GetWorkOrderList(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);
+  }
+
+  GetTotalWeightBasedOnRuleID(ruleId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetTotalWeightBasedOnRuleID", jObject, this.commonService.httpOptions);
+  }
 }

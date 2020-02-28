@@ -74,12 +74,14 @@
                     </div>
                 </div>
             </div>
-
+<!-- 
             <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button>
+                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button> -->
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12"> <div class="card shipment-widget-box">
+                    <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                        <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
                     <kendo-grid class="no-shadow" [data]="binRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHS_RULE" headerClass="text-right" class="text-center" [width]="18" title="{{'BinRuleWhsRule'|translate}}">
@@ -145,6 +147,7 @@
                         </kendo-grid-column> -->
 
                     </kendo-grid>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,7 +160,7 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                    <span class="k-icon k-i-plus" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
     </form>

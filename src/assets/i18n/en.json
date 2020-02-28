@@ -867,7 +867,15 @@
   "PickToContainer":"Pick To Container",
   "Loose":"Loose",
   "CreateShipment":"Create Shipment",
-  "CreatedShipmentMsg":"Shipment Created Sucessfully",
+  "CreatedShipmentMsg":"Shipment Createed Sucessfully",
+  "WorkOrderNo": "WO Number",
+  "FROMOPERNO": "Operation No",
+  "FROMOPRCODE": "Operation Code",
+  "WOList": "Work Order List",
+  "WorkCenter": "Work Center",
+  "PostToInv": "Post To Inventory",
+  "ReOpen": "Reopen",
+
   "Dummy": "Dummy"
   
 }
