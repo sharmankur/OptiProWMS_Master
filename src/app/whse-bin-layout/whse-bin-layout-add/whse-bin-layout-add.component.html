@@ -138,10 +138,10 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <button class="btn btn-success k-button btn-sm btn-icon-with-text mb-2" type="button" (click)="onAddRowClick('zone')">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{'Masking_AddRow'|translate}}</button>
+                    
                     <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'WarehouseZone'|translate}}</h5>
+                        <h5 class="card-header">{{'WarehouseZone'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
+                            <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
                         <div class="card-body">
                             <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize" [skip]="skip"
                                 [pageable]="zonePageable">
@@ -216,10 +216,11 @@
                     </div>
                 </div>
                 <div class="col-xs-12 ">
-                    <button class="btn btn-success k-button btn-sm btn-icon-with-text mb-2" type="button" (click)="onAddRowClick('range')">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{'Masking_AddRow'|translate}}</button>
+                   
                     <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'WarehouseBinRanges'|translate}}</h5>
+                        <h5 class="card-header">{{'WarehouseBinRanges'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('range')">
+                            <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>
+                        
                         <div class="card-body">
                             <kendo-grid [data]="whseRangeList" [resizable]="true" [pageSize]="rangePageSize" [skip]="skip"
                                 [pageable]="rangePageable">
