@@ -51,6 +51,9 @@ export class GeneratePickComponent implements OnInit {
   isWODisabled: boolean;
   isSHIdDisabled: boolean;
   Plan_Shift: string="";
+  pickListBasisIndex = 1;
+  pickTypeIndex = 1;
+  pickOperationIndex = 1;
 
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -69,6 +72,7 @@ export class GeneratePickComponent implements OnInit {
     this.PackListBasisArray = ["Shipment",
       this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
     this.PickListBasis = this.PackListBasisArray[0];
+    this.pickListBasisIndex = 1;
 
     this.PackTypeList = [this.translate.instant("Batch_Picking"),
     this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
@@ -519,17 +523,29 @@ export class GeneratePickComponent implements OnInit {
     this.ShipIdFrom = this.ShipIdTo = "";
     if (event == this.PackListBasisArray[0]) {
       this.isSHIdDisabled = false;
+      this.pickListBasisIndex = 1;
     } else if (event == this.PackListBasisArray[1]) {
       this.isSODisabled = false;
+      this.pickListBasisIndex = 2;
     } else if (event == this.PackListBasisArray[2]) {
       this.isWODisabled = false;
+      this.pickListBasisIndex = 3;
     }
   }
 
   onPickTypeChange(event) {
+    this.pickTypeIndex = this.PackTypeList.indexOf(event);
+    this.pickTypeIndex = this.pickTypeIndex + 1;
+    // alert(this.pickTypeIndex);
     if (event == this.PackTypeList[2]) {
       this.Pick_Operation = this.PickOperationList[2];
+      this.pickOperationIndex = 3;
     } 
+  }
+
+  onPickOperationChange(event) {
+    this.pickOperationIndex = this.PickOperationList.indexOf(event);
+    this.pickOperationIndex = this.pickOperationIndex + 1;
   }
 
   //#region "validation"
@@ -568,8 +584,7 @@ export class GeneratePickComponent implements OnInit {
   generatePickList() {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GeneratePickList(this.Priority, this.PickListBasis, this.Pick_Operation, this.Pick_Type, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo,
-    this.Plan_Shift).subscribe(
+    this.commonservice.GeneratePickList(this.Priority, this.pickListBasisIndex, this.pickOperationIndex, this.pickTypeIndex, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo, this.Plan_Shift, this.TaskPlanDT).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

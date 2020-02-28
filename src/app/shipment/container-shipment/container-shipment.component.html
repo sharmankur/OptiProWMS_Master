@@ -279,14 +279,15 @@
                             <kendo-grid-checkbox-column title="Select" [width]="25">
                                     <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
+                                            <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue 
+                                            (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
                                                 id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
                                             <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
                                         </div>
                                     </ng-template>
                                     <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                         <div class="custom-control custom-checkbox">
-                                            <input #chkSelection type="checkbox"  (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]=selectall
+                                            <input #chkSelection type="checkbox"  (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
                                                 id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
                                             <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                         </div>
