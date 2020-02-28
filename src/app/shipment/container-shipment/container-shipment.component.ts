@@ -46,8 +46,8 @@ export class ContainerShipmentComponent implements OnInit {
   pageSize: number = Commonservice.pageSize;
   commonData: any = new CommonData();
   oSaveModel: any = {};
-  WOId: any = '';
-  SOId: any = '';
+  WOId: string = "";
+  SOId: string = "";
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) { }
@@ -68,7 +68,7 @@ export class ContainerShipmentComponent implements OnInit {
 
       this.StatusId = this.statusArray[2];
       this.status = this.StatusId.Value;
-
+      this.StatusValue = "3";
       this.PurposeId = this.purposeArray[0];
       this.PurposeValue = this.PurposeId.Value;
       this.shipeligible = "Y";

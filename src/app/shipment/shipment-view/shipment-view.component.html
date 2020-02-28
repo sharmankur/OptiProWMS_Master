@@ -289,9 +289,9 @@
                             <kendo-grid [data]="ShipmentLineDetails" [resizable]="true" [pageSize]="pageSize5" [skip]="skip" [height]="gridheight" [pageable]="pagable5">
                                 <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_DTLLINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right" *ngIf=false></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_ITEMCODE" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="BinCode" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_BIN" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_BTCHSER" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_CONATINER_ID" width="95" title="{{'ContainerId'|translate}}"></kendo-grid-column>
