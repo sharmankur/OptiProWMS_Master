@@ -12,7 +12,7 @@
                     <!-- row start -->
                     <div class="row">
                         <!-- col start -->
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Purpose'|translate}}</label>
                                 <div class="col-sm-7">
@@ -27,7 +27,7 @@
                         <!-- col end -->
 
                         <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Login_Warehouse'|translate}}</label>
                                 <div class="input-group col-sm-7">
@@ -42,6 +42,21 @@
                             </div>
                         </div>
                         <!-- col end -->
+
+                            <!-- col start -->
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
+                                    <div class="col-sm-7">
+                                        <div class="input-group input-group-sm">
+                                            <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
+                                                textField="Name" valueField="Value" id="createMode" name="createMode"
+                                                [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
                     </div>
                 </div>
             </div>
@@ -51,23 +66,8 @@
                 <div class="col-12">
                     <!-- row start -->
                     <div class="row">
-                        <!-- col start -->
-                        <div class="col-sm-5">
-                            <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
-                                            textField="Name" valueField="Value" id="createMode" name="createMode"
-                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-
-                        <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                           <!-- col start -->
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'BinCode'|translate}}</label>
                                 <div class="input-group col-sm-7">
@@ -82,58 +82,43 @@
                             </div>
                         </div>
                         <!-- col end -->
+ <!-- col start -->
+ <div class="col-sm-4">
+    <div class="form-group row">
+        <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerType'|translate}}</label>
+        <div class="input-group col-sm-7">
+            <input type="text" class="form-control form-control-sm" id="containerTypeId"
+                placeholder="{{'ContainerType'|translate}}" name="containerType" [(ngModel)]="containerType"
+                (blur)="onContainerTypeChangeBlur('child')">
+            <div class="input-group-append has-seprate-btn">
+                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
+                    <i class="opti-icon-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- col end -->
 
-                        <!-- <div class="col-sm-5">
 
-                        </div> -->
-                    </div>
+<div class="col-sm-4">
+    <!-- col start -->
+    <div class="form-group row">
+        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
+        <div class="col-sm-7">
+            <div class="input-group input-group-sm">
+                <div class="input-group input-group-sm">
+                    <!-- <input type="text" class="form-control form-control-sm mr-1" name='containerId'
+                        [(ngModel)]="containerId" id="containerId" disabled> -->
+                    <input type="text" class="form-control form-control-sm" name='containerCode'
+                        [(ngModel)]="containerCode" id="containerCode" disabled>
                 </div>
             </div>
-
-            <!-- Row 3 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
-                        <!-- col start -->
-                        <div class="col-sm-5">
-                            <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerType'|translate}}</label>
-                                <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="containerTypeId"
-                                        placeholder="{{'ContainerType'|translate}}" name="containerType" [(ngModel)]="containerType"
-                                        (blur)="onContainerTypeChangeBlur('child')">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-
-                        <div class="col-sm-5 ml-5">
-                            <!-- col start -->
-                            <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <!-- <input type="text" class="form-control form-control-sm mr-1" name='containerId'
-                                                [(ngModel)]="containerId" id="containerId" disabled> -->
-                                            <input type="text" class="form-control form-control-sm" name='containerCode'
-                                                [(ngModel)]="containerCode" id="containerCode" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col end -->
-                        </div>
-
-                        <!-- <div class="col-sm-5">
-                            
-                        </div> -->
+        </div>
+    </div>
+    <!-- col end -->
+</div>
+                       
                     </div>
                 </div>
             </div>
@@ -144,7 +129,7 @@
                     <!-- row start -->
                     <div class="row">
                         <!-- col start -->
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
                                 <div class="input-group col-sm-7">
@@ -162,7 +147,7 @@
                         <!-- col end -->
 
                         <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
                                 <div class="col-sm-7">
@@ -177,6 +162,25 @@
                             </div>
                         </div>
                         <!-- col end -->
+                              <!-- col start -->
+                              <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                    <div class="input-group col-sm-7">
+                                        <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
+                                            placeholder="{{'AutoPackRule'|translate}}" name="autoPackRule" [(ngModel)]="autoPackRule"
+                                            (blur)="onAutoPackRuleChangeBlur()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                            <!-- col end -->
+    
                     </div>
                 </div>
             </div>
@@ -186,27 +190,9 @@
                 <div class="col-12">
                     <!-- row start -->
                     <div class="row">
+                  
                         <!-- col start -->
-                        <div class="col-sm-5">
-                            <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
-                                <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
-                                        placeholder="{{'AutoPackRule'|translate}}" name="autoPackRule" [(ngModel)]="autoPackRule"
-                                        (blur)="onAutoPackRuleChangeBlur()">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- col end -->
-
-                        <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Length'|translate}}</label>
                                 <div class="col-sm-7">
@@ -220,17 +206,8 @@
                             </div>
                         </div>
                         <!-- col end -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 6 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
-                        <!-- col start -->
-                        <div class="col-sm-5">
+                          <!-- col start -->
+                          <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                                 <div class="col-sm-7">
@@ -249,9 +226,8 @@
 
                         </div>
                         <!-- col end -->
-
                         <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Width'|translate}}</label>
                                 <div class="col-sm-7">
@@ -275,7 +251,7 @@
                     <!-- row start -->
                     <div class="row">
                         <!-- col start -->
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoCloseWhenFull'|translate}}</label>
                                 <div class="col-sm-7">
@@ -291,7 +267,7 @@
                         <!-- col end -->
 
                         <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'CT_Height'|translate}}</label>
                                 <div class="col-sm-7">
@@ -305,17 +281,8 @@
                             </div>
                         </div>
                         <!-- col end -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 8 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
-                        <!-- col start -->
-                        <div class="col-sm-5">
+                           <!-- col start -->
+                           <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
                                 <div class="input-group col-sm-7">
@@ -330,9 +297,19 @@
                             </div>
                         </div>
                         <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 8 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                     
 
                         <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'MaxWeigth'|translate}}</label>
                                 <div class="col-sm-7">
@@ -346,19 +323,10 @@
                             </div>
                         </div>
                         <!-- col end -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 9 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
-                        <!-- col start -->
-                        <div class="col-sm-5">
+                           <!-- col start -->
+                           <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
+                                <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
                                 <!-- <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="number" class="form-control form-control-sm" name='CustomerTo'
@@ -378,9 +346,8 @@
                             </div>
                         </div>
                         <!-- col end -->
-
-                        <!-- col start -->
-                        <div class="col-sm-5 ml-5">
+                          <!-- col start -->
+                          <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
                                 <div class="col-sm-7">
