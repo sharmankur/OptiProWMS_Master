@@ -877,6 +877,9 @@
   "WorkCenter": "Work Center",
   "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
+  "InventoryStatus": "Inventory Status",
+  "PackProcess": "Pack Process",
+  "Selected": "Selected",
 
   "Dummy": "Dummy"
   
