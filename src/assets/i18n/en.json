@@ -866,6 +866,12 @@
   "Loose":"Loose",
   "CreateShipment":"Create Shipment",
   "CreatedShipmentMsg":"Shipment Createed Sucessfully",
+  "WorkOrderNo": "WO Number",
+  "FROMOPERNO": "Operation No",
+  "FROMOPRCODE": "Operation Code",
+  "WOList": "Work Order List",
+  "WorkCenter": "Work Center",
+
   "Dummy": "Dummy"
   
 }
