@@ -267,12 +267,15 @@
     
                 </div>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-12">
-                    <h5 class="card-header">{{'Container_Items'|translate}}</h5>
-                    <div class="card-body">
+                    <!-- <h5 class="card-header">{{'Container_Items'|translate}}</h5> -->
+                    <!-- <div class="card-body"> -->
                         <kendo-grid [kendoGridBinding]="ContainerItems" [resizable]="true" [height]="250" [pageSize]="pageSize"
                             [pageable]="ShowGridPaging" [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="true" >
+                            <ng-template kendoGridToolbarTemplate> 
+                                <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>                                       
+                              </ng-template>
                             <kendo-grid-checkbox-column title="Select" [width]="25">
                                     <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                                         <div class="custom-control custom-checkbox">
@@ -322,7 +325,7 @@
                             <kendo-grid-column field="OPTM_SO_NUMBER" width="100" title="{{'SONumber'|translate}}"></kendo-grid-column>
                         </kendo-grid>
 
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
 </div>
