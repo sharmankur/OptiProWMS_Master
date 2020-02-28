@@ -18,7 +18,7 @@ export class InboundService {
   }
 
   InsertIntoContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH,
-    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT): Observable<any> {
+    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT, OPTM_TARE_WT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 
@@ -28,6 +28,7 @@ export class InboundService {
         OPTM_WIDTH: OPTM_WIDTH, 
         OPTM_HEIGHT: OPTM_HEIGHT,
         OPTM_MAXWEIGHT:OPTM_MAXWEIGHT,
+        OPTM_TARE_WT: OPTM_TARE_WT,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
@@ -35,7 +36,7 @@ export class InboundService {
   }
 
   UpdateContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH,
-    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT): Observable<any> {
+    OPTM_WIDTH, OPTM_HEIGHT, OPTM_MAXWEIGHT, OPTM_TARE_WT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"), 
@@ -45,6 +46,7 @@ export class InboundService {
         OPTM_WIDTH: OPTM_WIDTH, 
         OPTM_HEIGHT: OPTM_HEIGHT,
         OPTM_MAXWEIGHT:OPTM_MAXWEIGHT,
+        OPTM_TARE_WT: OPTM_TARE_WT,
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
