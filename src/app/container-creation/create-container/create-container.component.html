@@ -545,47 +545,47 @@
         </div>
 
         <div class="fix-footer-btnBar">
-            <div class="col-sm-12 col-12">
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span>
-                    {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')"
-                    [disabled]="!scanCreateEnable">
-                    {{'ScanCreate'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick('Create')">
-                    {{'Create'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
-                    {{'Login_Reset'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
-                    {{'ResetCounter'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
-                    {{'PrintLabel'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
-                    {{'ContainerOperation'|translate}}
-                </button>
-
-                <div class="btn-group  toggle-btn-outer">
-                    <div class="dropdown show">
-                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="opti-icon-more"></i>
-                        </a>
-                        <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" >{{'ScanCreate'|translate}}</a>
-                            <a class="dropdown-item" >{{'Login_Reset'|translate}}</a>
-                            <a class="dropdown-item" >{{'ResetCounter'|translate}}</a>
-                            <a class="dropdown-item" >{{'PrintLabel'|translate}}</a>
-                            <a class="dropdown-item" >{{'ContainerOperation'|translate}}</a>
+                <div class="col-sm-12 col-12">
+                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span>
+                        {{'Cancel'|translate}}</button>
+                    <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')"
+                        [disabled]="!scanCreateEnable">
+                        {{'ScanCreate'|translate}}
+                    </button> -->
+                    <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick('Create')">
+                        {{'Create'|translate}}
+                    </button>
+                    <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
+                        {{'Login_Reset'|translate}}
+                    </button>
+                    <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
+                        {{'ResetCounter'|translate}}
+                    </button>
+                    <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
+                        {{'PrintLabel'|translate}}
+                    </button>
+                    <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
+                        {{'ContainerOperation'|translate}}
+                    </button> -->
+    
+                    <div class="btn-group  toggle-btn-outer">
+                        <div class="dropdown show">
+                            <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="opti-icon-more"></i>
+                            </a>
+                            <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
+                                <!-- <a class="dropdown-item" (click)="onResetClick()">{{'Login_Reset'|translate}}</a> -->
+                                <a class="dropdown-item">{{'ResetCounter'|translate}}</a>
+                                <a class="dropdown-item">{{'PrintLabel'|translate}}</a>
+                                <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </form>
 </div>
 
