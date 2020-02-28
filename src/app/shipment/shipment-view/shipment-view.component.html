@@ -195,113 +195,115 @@
                     <!--/ Shipment Form  -->
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6 col-xs-12">
-                    <!-- Shipment Lines -->
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'Shipment_Lines'|translate}}</h5>
-                        <div class="card-body">
-                            <kendo-grid [data]="shipmentLines" [selectable]="true" [resizable]="true" [height]="gridheight" [pageSize]="pageSize1" [skip]="skip"
-                                [pageable]="pagable1" (selectionChange)="onRowSelection($event)">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
-                            </kendo-grid>
+            <button class="btn btn-success k-button btn-sm btn-icon-with-text mb-2" (click)="showShipDetails()" type="button"><span class="k-icon k-i-add" role="presentation"></span> Shipment Details</button>
+            <div *ngIf="showShipDetailsEnable">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <!-- Shipment Lines -->
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'Shipment_Lines'|translate}}</h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="shipmentLines" [selectable]="true" [resizable]="true" [height]="gridheight" [pageSize]="pageSize1" [skip]="skip"
+                                    [pageable]="pagable1" (selectionChange)="onRowSelection($event)">
+                                    <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_LINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
                         </div>
+                        <!--/ Shipment Lines -->
                     </div>
-                    <!--/ Shipment Lines -->
+                    <div class="col-sm-6 col-xs-12">
+                        <!-- Sales Order Details -->
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'SalesOrderDetails'|translate}}</h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="SODetails" [resizable]="true" [pageSize]="pageSize2" [skip]="skip" [height]="gridheight" [pageable]="pagable2">
+                                    <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_DTLLINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="90" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SONO" class="text-right" width="75" title="{{'SONumber'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SOLINENO" title="{{'SOLine'|translate}}" class="text-right" width="50"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SOLINEQTY" title="{{'Quantity'|translate}}" class="text-right" width="60"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
+                        </div>
+                        <!--/ Sales Order Details -->
+                    </div>
                 </div>
-                <div class="col-sm-6 col-xs-12">
-                    <!-- Sales Order Details -->
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'SalesOrderDetails'|translate}}</h5>
-                        <div class="card-body">
-                            <kendo-grid [data]="SODetails" [resizable]="true" [pageSize]="pageSize2" [skip]="skip" [height]="gridheight" [pageable]="pagable2">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_DTLLINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="90" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SONO" class="text-right" width="75" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SOLINENO" title="{{'SOLine'|translate}}" class="text-right" width="50"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SOLINEQTY" title="{{'Quantity'|translate}}" class="text-right" width="60"></kendo-grid-column>
-                            </kendo-grid>
+                <div class="row" *ngIf="UseContainer">
+                    <div class="col-sm-6 col-xs-12">
+                        <!-- Shipment Lines -->
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
+                                    <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="150"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}" width="90"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SHIPELIGIBLE" title="{{'ShipEligible'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_WHSE" title="{{'WarehouseCode'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_BIN" title="{{'ContainerBin'|translate}}" width="200"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_WT_UOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_VOLUME" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_VOL_UOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
                         </div>
+                        <!--/ Shipment Lines -->
                     </div>
-                    <!--/ Sales Order Details -->
+                    <div class="col-sm-6 col-xs-12">
+                        <!-- Sales Order Details -->
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
+                                    <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="150" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_QUANTITY" title="{{'PartQty'|translate}}" width="75" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_WT_UOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_VOLUME" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_VOL_UOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
+                        </div>
+                        <!--/ Sales Order Details -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Sales Order Details -->
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="ShipmentLineDetails" [resizable]="true" [pageSize]="pageSize5" [skip]="skip" [height]="gridheight" [pageable]="pagable5">
+                                    <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_DTLLINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right" *ngIf=false></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ITEMCODE" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_BIN" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_BTCHSER" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="" width="95" title="{{'ContainerId'|translate}}"></kendo-grid-column>
+                                </kendo-grid>
+                            </div>
+                        </div>
+                        <!--/ Sales Order Details -->
+                    </div>
                 </div>
             </div>
-            <div class="row" *ngIf="UseContainer">
-                <div class="col-sm-6 col-xs-12">
-                    <!-- Shipment Lines -->
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
-                        <div class="card-body">
-                            <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="150"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}" width="90"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPELIGIBLE" title="{{'ShipEligible'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WHSE" title="{{'WarehouseCode'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BIN" title="{{'ContainerBin'|translate}}" width="200"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WT_UOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOLUME" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOL_UOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
-                            </kendo-grid>
-                        </div>
-                    </div>
-                    <!--/ Shipment Lines -->
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <!-- Sales Order Details -->
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
-                        <div class="card-body">
-                            <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
-                                <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="150" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QUANTITY" title="{{'PartQty'|translate}}" width="75" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WT_UOM" title="{{'WeightUOM'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOLUME" title="{{'Volume'|translate}}" width="75"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOL_UOM" title="{{'VolumeUOM'|translate}}" width="75"></kendo-grid-column>
-                            </kendo-grid>
-                        </div>
-                    </div>
-                    <!--/ Sales Order Details -->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <!-- Sales Order Details -->
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
-                        <div class="card-body">
-                            <kendo-grid [data]="ShipmentLineDetails" [resizable]="true" [pageSize]="pageSize5" [skip]="skip" [height]="gridheight" [pageable]="pagable5">
-                                <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_DTLLINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right" *ngIf=false></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMCODE" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BIN" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BTCHSER" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right"></kendo-grid-column>
-                                <kendo-grid-column field="" width="95" title="{{'ContainerId'|translate}}"></kendo-grid-column>
-                            </kendo-grid>
-                        </div>
-                    </div>
-                    <!--/ Sales Order Details -->
-                </div>
-            </div>
-
 
         </div>
         <div class="fix-footer-btnBar">
