@@ -109,7 +109,7 @@
                         <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
                             [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterUser
                             [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
-                            <!-- <kendo-grid-column field="Selected" width="25" title="Select">
+                            <kendo-grid-column field="Selected" width="25" title="Select">
                                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                                     <label class="custom-checkbox mb-0">
                                                         <input type="checkbox" #checkedselectedvalue
@@ -117,8 +117,8 @@
                                                         <span class="checkbox"></span>
                                                     </label>
                                                 </ng-template>
-                                    </kendo-grid-column> -->
-                            <kendo-grid-checkbox-column title="Select" [width]="25">
+                                    </kendo-grid-column>
+                            <!-- <kendo-grid-checkbox-column title="Select" [width]="25">
                                 <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
@@ -133,7 +133,7 @@
                                         <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                     </div>
                                 </ng-template>
-                            </kendo-grid-checkbox-column>
+                            </kendo-grid-checkbox-column> -->
                             <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
                             <kendo-grid-column field="WHSCODE" width="64" title="Warehouse Code"></kendo-grid-column>
                             <kendo-grid-column field="BINNO" width="108" title="Bin No"></kendo-grid-column>

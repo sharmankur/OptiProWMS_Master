@@ -406,7 +406,8 @@
                                             <label for="Pick_Type" class="col-sm-3 col-form-label">{{'Pick_Type'|translate}}</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group ">
-                                                    <kendo-dropdownlist [data]="PackTypeList" id="Pick_Type" (change)="updateDropDown(display_name, VendorLot.value, rowIndex)"
+                                                    <kendo-dropdownlist [data]="PackTypeList" id="Pick_Type" 
+                                                    #selectedvalue (selectionChange)="onPickTypeChange($event)"
                                                         name="Pick_Type" [(ngModel)]="Pick_Type" >
                                                     </kendo-dropdownlist>
                                                 </div>
@@ -436,16 +437,16 @@
                                 </div>
                                 <!-- row end -->
 
-                                <!-- row start Pick_Shift-->
+                                <!-- row start Plan_Shift-->
                                 <div class="row">
                                         <!-- col start -->
                                         <div class="col-sm-6">
                                             <div class="form-group row">
-                                                <label for="Pick_Shift" class="col-sm-3 col-form-label">{{'Pick_Shift'|translate}}</label>
+                                                <label for="Plan_Shift" class="col-sm-3 col-form-label">{{'Plan_Shift'|translate}}</label>
                                                 <div class="col-sm-9">
                                                     <div class="input-group ">
-                                                        <kendo-dropdownlist [data]="PickShiftList" id="Pick_Shift" (change)="updateDropDown(display_name, VendorLot.value, rowIndex)"
-                                                            name="Pick_Shift" [(ngModel)]="Pick_Shift" >
+                                                        <kendo-dropdownlist [data]="PickShiftList" id="Plan_Shift" (change)="updateDropDown(display_name, VendorLot.value, rowIndex)"
+                                                            name="Plan_Shift" [(ngModel)]="Plan_Shift" >
                                                         </kendo-dropdownlist>
                                                     </div>
                                                 </div>

@@ -18,39 +18,39 @@ export class GeneratePickComponent implements OnInit {
   hideLookup: boolean = true;
   public mobileMedia = "(max-width: 767px)";
   public desktopMedia = "(min-width: 768px)";
-  WareHouse: string;
+  WareHouse: string="";
   showLoader: boolean = false;
-  CustomerFrom: string;
-  CustomerTo: string;
-  ShipToCodeFrom: string;
-  ShipToCodeTo: string;
-  Dock_DoorFrom: string;
-  Dock_DoorTo: string;
-  Schedule_DatetimeFrom: string;
-  Schedule_DatetimeTo: string;
-  ItemFrom: string;
-  ItemTo: string;
-  CarrierCodeFrom: string;
-  CarrierCodeTo: string;
+  CustomerFrom: string="";
+  CustomerTo: string="";
+  ShipToCodeFrom: string="";
+  ShipToCodeTo: string="";
+  Dock_DoorFrom: string="";
+  Dock_DoorTo: string="";
+  Schedule_DatetimeFrom: string="";
+  Schedule_DatetimeTo: string="";
+  ItemFrom: string="";
+  ItemTo: string="";
+  CarrierCodeFrom: string="";
+  CarrierCodeTo: string="";
   PickContainer: boolean;
-  TaskPlanDT: string;
-  Priority: string;
-  SONoFrom: string;
-  SONoTo: string
-  WOFrom: string;
-  WOTo: string;
-  ShipIdFrom: string;
-  ShipIdTo: string;
-  PickListBasis: string;
-  Pick_Type: string;
-  Pick_Operation: string;
+  TaskPlanDT: string="";
+  Priority: string="99";
+  SONoFrom: string="";
+  SONoTo: string="";
+  WOFrom: string="";
+  WOTo: string="";
+  ShipIdFrom: string="";
+  ShipIdTo: string="";
+  PickListBasis: string="";
+  Pick_Type: string="";
+  Pick_Operation: string="";
   PackListBasisArray: any[] = [];
   PackTypeList: any[] = [];
   PickOperationList: any[] = [];
   isSODisabled: boolean;
   isWODisabled: boolean;
   isSHIdDisabled: boolean;
-  Pick_Shift: string;
+  Plan_Shift: string="";
 
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -62,7 +62,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.initialize();
   }
 
   initialize() {
@@ -526,6 +526,12 @@ export class GeneratePickComponent implements OnInit {
     }
   }
 
+  onPickTypeChange(event) {
+    if (event == this.PackTypeList[2]) {
+      this.Pick_Operation = this.PickOperationList[2];
+    } 
+  }
+
   //#region "validation"
   ValidateFields(): boolean {
     if (this.Pick_Operation == "" || this.Pick_Operation == undefined || this.Pick_Operation == null) {
@@ -562,7 +568,8 @@ export class GeneratePickComponent implements OnInit {
   generatePickList() {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GeneratePickList(this.Priority, this.PickListBasis, this.Pick_Operation, this.Pick_Type, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo).subscribe(
+    this.commonservice.GeneratePickList(this.Priority, this.PickListBasis, this.Pick_Operation, this.Pick_Type, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo,
+    this.Plan_Shift).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
