@@ -185,8 +185,8 @@
                         <div class="wizard-box">
                             <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
                             <div class="wizard-content">
-                                <kendo-grid [data]="AllConsolidateData" [pageSize]="pageSize" [skip]="skip" #gridUser [resizable]="true"
-                                    [pageable]="true" [selectable]="true" >
+                                <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
+                                    [resizable]="true" [pageable]="true" [selectable]="true">
 
                                     <kendo-grid-checkbox-column media="(min-width: 768px)" [width]="60">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex">
@@ -194,67 +194,96 @@
                                         </ng-template>
                                     </kendo-grid-checkbox-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTID" title="{{'ContainerId'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_HDRSEQID"
+                                        title="{{'ContainerId'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Customer" title="{{'ContainerType'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTTYPE"
+                                        title="{{'ContainerType'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Warehouse_Code" title="{{'ItemCode'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE"
+                                        title="{{'ItemCode'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Quantity'|translate}}">
-                                    </kendo-grid-column>
-
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'UOM'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Wt_of_Items'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Wt_UOM'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Item_Volume'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_QUANTITY"
+                                        title="{{'Quantity'|translate}}" class="text-right">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Volume_UOM'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_UOM" title="{{'UOM'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Container_Wt'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WEIGHT"
+                                        title="{{'Wt_of_Items'|translate}}" class="text-right">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Vol_UOM'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WT_UOM"
+                                        title="{{'Wt_UOM'|translate}}" class="text-right">
                                     </kendo-grid-column>
-
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Parent_Cont'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Shipment_Id'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Picked'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOLUME"
+                                        title="{{'Item_Volume'|translate}}" class="text-right">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Login_Warehouse'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOL_UOM"
+                                        title="{{'Volume_UOM'|translate}}" class="text-right">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Cont_Bin'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT"
+                                        title="{{'Container_Wt'|translate}}" class="text-right">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Built_In_Process'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT_UOM"
+                                        title="{{'Wt_UOM'|translate}}" class="text-right">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME"
+                                        title="{{'ContainerVolume'|translate}}" class="text-right">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'ShipEligible'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME_UOM"
+                                        title="{{'ContVolUOM'|translate}}" class="text-right">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'DateTime'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_PARENTCONTID"
+                                        title="{{'Parent_CId'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Selected'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_ID"
+                                        title="{{'Shipment_Id'|translate}}">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'ContainerCode'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_PICKED_TOSHIP"
+                                        title="{{'Picked'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'ContainerStatus'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WHSE" title="{{'Login_Warehouse'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'SONumber'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="200" field="OPTM_BIN" title="{{'BinCode'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPELIGIBLE"
+                                        title="{{'Built_In_Process'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPELIGIBLE"
+                                        title="{{'ShipEligible'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="200" field="OPTM_CREATEDATE"
+                                        title="{{'DateTime'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Selected'|translate}}"
+                                        class="text-right">
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_LINEID"
+                                        title="{{'Shipment_Line'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_CONTAINERID"
+                                        title="{{'ContainerCode'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_STATUS"
+                                        title="{{'ContainerStatus'|translate}}">
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER"
+                                        title="{{'SONumber'|translate}}">
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
-                                        <kendo-grid [data]="dataItem.ShipmentChildData">
-                                            <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}"
-                                                class="text-right"></kendo-grid-column>
-                                            <kendo-grid-column field="Item_Code" title="{{'ItemCode'|translate}}">
+                                        <kendo-grid [data]="dataItem.ItemBatchSerailData">
+                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
-
+                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
+                                            </kendo-grid-column>
+                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
+                                                class="text-right">
+                                            </kendo-grid-column>
                                         </kendo-grid>
                                     </ng-template>
                                 </kendo-grid>

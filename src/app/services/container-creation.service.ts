@@ -247,4 +247,14 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetTotalWeightBasedOnRuleID", jObject, this.commonService.httpOptions);
   }
+
+  GetItemAndBtchSerDetailBasedOnContainerID(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERID: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetItemAndBtchSerDetailBasedOnContainerID", jObject, this.commonService.httpOptions);
+  }
 }

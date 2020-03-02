@@ -884,6 +884,22 @@
   "InventoryStatus": "Inventory Status",
   "PackProcess": "Pack Process",
   "Selected": "Selected",
+  "CStatusNew": "New",
+  "CScheduledNew": "Scheduled",
+  "CClosedNew": "Closed",
+  "CReopenedNew": "Reopened",
+  "CAssignedNew": "Assigned",
+  "CShippedNew": "Shipped",
+  "CPickedNew": "Picked",
+  "CReturnNew": "Return",
+  "CDamagedNew": "Damaged",
+  "CCancelledNew": "Canclled",
+  "InvStatusPending": "Pending",
+  "InvStatusPosted": "Posted",
+  "Shipping": "Shipping",
+  "Internal": "Internal",
+  "ContVolUOM": "Container Vol UOM",
+  "ContainerVolume": "Container Vol",
 
   "Dummy": "Dummy"
   

@@ -634,5 +634,38 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
     return result;
   }
+
+  onWhseChange() {
+    if (this.whseCode == undefined || this.whseCode == "") {
+      return;
+    }
+
+    this.showLookup = false;
+    var result = false;
+    this.commonservice.IsValidWhseCode(this.whseCode).subscribe(
+      resp => {
+        this.showLookup = false;
+        if (resp != null && resp != undefined)
+          if (resp.ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
+
+            return;
+          }
+        if (resp.length == 0) {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.whseCode = ''
+        } else {
+          this.whseCode = resp[0].WhsCode
+        }
+        result = true;
+      },
+      error => {
+        result = false;
+        this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+        this.showLookup = false;
+      }
+    );
+    return result;
+  }
 }
 

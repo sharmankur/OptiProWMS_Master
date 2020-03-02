@@ -61,11 +61,11 @@ export class CreateContainerComponent implements OnInit {
   workOrder: any = "";
   operationNo: any = "";
   taskId: any = "";
-  ProducedQty:any='';
-  PassedQty:any='';
-  RejectedQty:any='';
-  NCQty:any='';
-  IsWIPCont : boolean = false;
+  ProducedQty: any = '';
+  PassedQty: any = '';
+  RejectedQty: any = '';
+  NCQty: any = '';
+  IsWIPCont: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -81,10 +81,10 @@ export class CreateContainerComponent implements OnInit {
     console.log("ngOnInit");
     localStorage.setItem("FromWhere", "");
     localStorage.setItem("ContainerOperationData", "");
-    if(window.location.href.indexOf("WIP") > -1){
+    if (window.location.href.indexOf("WIP") > -1) {
       this.IsWIPCont = true;
     }
-    else{
+    else {
       this.IsWIPCont = false;
     }
     this.ccmain.ccComponent = 1;
@@ -434,7 +434,8 @@ export class CreateContainerComponent implements OnInit {
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: this.workOrder,
       OPTM_TASKHDID: this.taskId,
-      OPTM_OPERATION: this.operationNo
+      OPTM_OPERATION: this.operationNo,
+      OPTM_SOURCE: 3
     });
 
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
@@ -1254,11 +1255,11 @@ export class CreateContainerComponent implements OnInit {
     }
   }
 
-  updateWeigth(){
+  updateWeigth() {
     var weight = 0
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      var w : any = Number(this.fromContainerDetails[i].IWeight1).toFixed(Number(localStorage.getItem("DecimalPrecision")))
-      var q : any = Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      var w: any = Number(this.fromContainerDetails[i].IWeight1).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      var q: any = Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")))
       weight = weight + (w * q)
     }
     this.containerWeigth = weight
@@ -1447,7 +1448,7 @@ export class CreateContainerComponent implements OnInit {
     return result;
   }
 
-  bsWeightData: any= []
+  bsWeightData: any = []
   GetTotalWeightBasedOnRuleID() {
     // this.showLoader = true;
     var result = false;
