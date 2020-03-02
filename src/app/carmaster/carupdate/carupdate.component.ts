@@ -55,6 +55,7 @@ export class CARUpdateComponent implements OnInit {
       for(var i=0; i<this.autoRuleArray.length ;i++){
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = Number(this.autoRuleArray[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        this.autoRuleArray[i].OPTM_PACKING_MATWT = Number(this.autoRuleArray[i].OPTM_PACKING_MATWT).toFixed(Number(localStorage.getItem("DecimalPrecision")));        
       }      
       if (this.CTR_ROW[2] == 1) {
         this.CAR_PackType = this.PackTypeList[0];
@@ -464,6 +465,15 @@ export class CARUpdateComponent implements OnInit {
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
+      }
+    }
+  }
+
+  updateMatWTfill(lotTemplateVar, value, rowindex, gridData: any) {
+    value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    for (let i = 0; i < this.autoRuleArray.length; ++i) {
+      if (i === rowindex) {
+        this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
       }
     }
   }

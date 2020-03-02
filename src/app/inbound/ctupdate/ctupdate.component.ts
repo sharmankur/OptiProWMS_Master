@@ -43,6 +43,8 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Width = this.CT_ROW[3];
       this.CT_Height = this.CT_ROW[4];
       this.CT_Max_Width = this.CT_ROW[5];
+      this.CT_Tare_Width = this.CT_ROW[10];
+      this.formatCT_Tare_Width();
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");

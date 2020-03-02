@@ -61,16 +61,45 @@ export class DockdoorviewComponent implements OnInit {
     );
   }
 
+  IsValidDockDoor(PTM_DOCKDOORID: string, OPTM_WHSE: string) {
+    this.showLoader = true;
+    this.ddService.IsValidDockDoor(PTM_DOCKDOORID, OPTM_WHSE).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          localStorage.setItem("DD_Grid_Data", JSON.stringify(data));
+          this.ddmainComponent.ddComponent = 2;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   getlookupSelectedItem(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
-    this.ddmainComponent.ddComponent = 2;
+    this.IsValidDockDoor(event.OPTM_DOCKDOORID, event.OPTM_WHSE);
   }
 
   onCopyItemClick(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "copy");
-    this.ddmainComponent.ddComponent = 2;
+    this.IsValidDockDoor(event.OPTM_DOCKDOORID, event.OPTM_WHSE);
   }
 
   OnCancelClick() {
@@ -152,6 +181,7 @@ export class DockdoorviewComponent implements OnInit {
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
             OPTM_DOCKDOORID: this.event[0],
+            OPTM_WHSE: this.event[1],
             CompanyDBId: localStorage.getItem("CompID")
           });
           this.DeleteFromDockDoor(ddDeleteArry);
@@ -165,6 +195,7 @@ export class DockdoorviewComponent implements OnInit {
           for (var i = 0; i < this.event.length; i++) {
             ddDeleteArry.push({
               OPTM_DOCKDOORID: this.event[i].OPTM_DOCKDOORID,
+              OPTM_WHSE: this.event[i].OPTM_WHSE,
               CompanyDBId: localStorage.getItem("CompID")
             });
           }

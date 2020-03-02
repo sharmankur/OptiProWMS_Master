@@ -44,6 +44,62 @@
             </div>
 
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shipment-widget-box">
+                        <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                            <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
+     
+                    <kendo-grid class="no-shadow" [data]="DDdetailArray" [resizable]="true" [sortable]="true" [selectable]="true"
+                        #gridItem>
+
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_SHIP_STAGEBIN" [width]="18" title="{{'Ship_Stage_Bin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                    <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SHIP_STAGEBIN" value={{dataItem.OPTM_SHIP_STAGEBIN}} id="display_name"
+                                        min="0" #display_name >
+                                    <div class="input-group-append">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetStageBinList(idx)">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_DEFAULT" headerClass="text-right" class="text-left" [width]="18" title="{{'Default_Bin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                <input type="text" class="text-left form-control form-control-sm" name="dataItem.OPTM_DEFAULT" value={{dataItem.OPTM_DEFAULT}} id="display_name"
+                                    #display_name (change)="UpdateDefault(display_name, display_name.value, idx)">
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+                        <kendo-grid-checkbox-column title="{{'Default_Bin'|translate}}" [width]="25">
+                            <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
+                                <div class="custom-control custom-checkbox">
+                                    <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]="dataItem.OPTM_DEFAULT_BOOL"
+                                        id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                    <label class="custom-control-label" for="chkbox-{{idx}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-checkbox-column>
+                        
+                        <kendo-grid-column media="(min-width: 768px)" field="{{'Action'|translate}}" headerClass="text-center" class="text-center" [width]="10" title="">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
+                                    <span class="k-icon k-i-delete" role="presentation"></span>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <div class="fix-footer-btnBar">
             <div class="col-sm-12 col-12">

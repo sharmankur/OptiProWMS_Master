@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { Commonservice } from '../../services/commonservice.service';
 
 @Component({
