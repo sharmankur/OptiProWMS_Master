@@ -66,11 +66,8 @@ export class BinruleviewComponent implements OnInit {
             } else if (this.serviceData[j].OPTM_RULE_TYPE == 3) {
               this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[2];
             }
-            
         }
-        
-         
-          this.lookupfor = "BinRuleList";
+        this.lookupfor = "BinRuleList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
