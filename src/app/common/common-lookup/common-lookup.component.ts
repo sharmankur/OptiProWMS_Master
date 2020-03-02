@@ -5,6 +5,7 @@ import { ColumnSetting } from '../../models/CommonData';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-common-lookup',
@@ -39,7 +40,11 @@ export class CommonLookupComponent implements OnInit {
   public mySelection: number[] = [];
   lookupPagable: boolean = false;
   lookupPageSize: number = 10;
-  constructor(private translate: TranslateService, private router: Router) {
+  @Input() partPerQty: any;
+  @Input() qtyAdded: any;
+  fromWhere: any;
+
+  constructor(private translate: TranslateService, private router: Router, private toastr: ToastrService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -80,7 +85,17 @@ export class CommonLookupComponent implements OnInit {
     this.clearFilters()
   }
   ngOnInit() {
-
+    this.fromWhere = localStorage.getItem("FromWhere");
+    if (this.fromWhere == "CreateContainer") {
+      this.selectedValues = []
+      this.qtyAdded = 0
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (this.serviceData[i].OldData) {
+          this.selectedValues.push(this.serviceData[i])
+          this.qtyAdded = this.qtyAdded + Number("" + this.serviceData[i].QuantityToAdd)
+        }
+      }
+    }
   }
 
   async ngOnChanges(): Promise<void> {
@@ -88,7 +103,7 @@ export class CommonLookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
-    if (this.lookupfor == "ShipmentList") {
+    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
       this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
@@ -108,14 +123,14 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "PickItemBtchSer") {
       this.showPickItemBtchSerList();
     }
-    else if(this.lookupfor == "CarrierList"||this.lookupfor == "CCFrom"||this.lookupfor == "CCTo"){
+    else if (this.lookupfor == "CarrierList" || this.lookupfor == "CCFrom" || this.lookupfor == "CCTo") {
       this.CarrierListView();
     }
     else if (this.lookupfor == "POItemList") {
       this.showPOItemList();
     }
-    else if (this.lookupfor == "out-customer") {
-      this.showCustomerList();
+    else if (this.lookupfor == "ShipFrom" || this.lookupfor == "ShipTo") {
+      this.showShiptoCodeList();
     }
     else if (this.lookupfor == "out-items") {
       this.showAvaliableItems();
@@ -156,52 +171,153 @@ export class CommonLookupComponent implements OnInit {
       this.showSrNoList("To");
       //this.showITRList();
     }
-    else if(this.lookupfor == "CustomerFrom"){
-      this.showLookupCustomerList("From");      
+    else if (this.lookupfor == "CustomerFrom") {
+      this.showLookupCustomerList("From");
     }
-    else if(this.lookupfor == "CustomerTo"){
-      this.showLookupCustomerList("To");      
+    else if (this.lookupfor == "CustomerTo") {
+      this.showLookupCustomerList("To");
     }
 
     else if (this.lookupfor == "ItemFrom") {
       this.showItemList("From");
 
     }
-    else if(this.lookupfor == "ItemTo"){
-      this.showItemList("To");      
+    else if (this.lookupfor == "ItemTo") {
+      this.showItemList("To");
     }
-    else if(this.lookupfor == "WareHouse"){
-      this.showLookupWHSList();      
+    else if (this.lookupfor == "WareHouse") {
+      this.showLookupWHSList();
     }
     else if (this.lookupfor == "CARList") {
       this.showCARList();
     }
     else if (this.lookupfor == "BinList") {
       this.showBinNoList();
-    }  else if(this.lookupfor == "SOList"){
+    } else if (this.lookupfor == "SOList") {
       this.showOutSOListNew();
-    } else if(this.lookupfor == "GroupCodeList"){
+    } else if (this.lookupfor == "GroupCodeList") {
       this.showContainerGroupCodeList();
-    } else if (this.lookupfor == "DDList"||this.lookupfor == "DDFrom"||this.lookupfor == "DDTo") {
+    } else if (this.lookupfor == "DDList" || this.lookupfor == "DDFrom" || this.lookupfor == "DDTo") {
       this.showDDList();
     } else if (this.lookupfor == "GroupCode") {
       this.showGroupCodeList();
-    }else if (this.lookupfor == "BinRangeList") {
+    } else if (this.lookupfor == "BinRangeList") {
       this.showBinRangeList();
-    }else if(this.lookupfor == "WhsZoneList"){
+    } else if (this.lookupfor == "WhsZoneList") {
       this.showWhsZoneList();
     }
-    else if(this.lookupfor == "ContainsItem"){
+    else if (this.lookupfor == "ContainsItem") {
       this.ContainsItemListView();
-    } else if(this.lookupfor == "BatchSerialList"){
+    } else if (this.lookupfor == "BatchSerialList") {
       this.showBatchSerialItems();
+    } else if (this.lookupfor == "ItemsListByRuleId") {
+      this.showItemCodeListByRuleId();
+    } else if (this.lookupfor == "ContainerIdList") {
+      this.showContainerIdList();
+    } else if(this.lookupfor == "WOLIST") {
+      this.workOrderList();
     }
-    
+
     this.clearFilters();
     this.isColumnFilter = false
   }
 
-  showContainerGroupCodeList(){
+  workOrderList() {
+    this.table_head = [
+      {
+        field: 'OPTM_WONO',
+        title: this.translate.instant("WorkOrderNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_FROMOPERNO',
+        title: this.translate.instant("FROMOPERNO"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_FROMOPRCODE',
+        title: this.translate.instant("FROMOPRCODE"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_ID',
+        title: this.translate.instant("PT_TaskId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("Login_Warehouse"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WC',
+        title: this.translate.instant("WorkCenter"),
+        type: 'text',
+        width: '100'
+      }
+      
+    ];
+    this.lookupTitle = this.translate.instant("WOList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContainerIdList() {
+    this.table_head = [
+      {
+        field: 'OPTM_CONTAINERID',
+        title: this.translate.instant("ContainerId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONTCODE',
+        title: this.translate.instant("ContainerCode"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("Container_List");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showItemCodeListByRuleId() {
+    this.table_head = [
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      }
+      // ,
+      // {
+      //   field: 'ItemName',
+      //   title: this.translate.instant("ItemName"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContainerGroupCodeList() {
     this.table_head = [
       {
         field: 'OPTM_CONTAINER_GROUP',
@@ -223,7 +339,7 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
-  
+
   showOutSOListNew() {
     this.table_head = [
       {
@@ -241,7 +357,7 @@ export class CommonLookupComponent implements OnInit {
     ];
 
     this.lookupTitle = this.translate.instant("SalesOrderList");
-	if (this.serviceData !== undefined) {
+    if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
       }
@@ -335,7 +451,7 @@ export class CommonLookupComponent implements OnInit {
         headerClass: 'text-center',
         type: 'text',
         width: '150'
-      },{
+      }, {
         field: 'OPTM_TO_BIN',
         title: this.translate.instant("ToBinCode"),
         headerClass: 'text-center',
@@ -513,6 +629,12 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
+        field: 'OPTM_SHIPMENT_CODE',
+        title: this.translate.instant("Shipment_Code"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_BPCODE',
         title: this.translate.instant("CustomerCode"),
         type: 'text',
@@ -584,6 +706,12 @@ export class CommonLookupComponent implements OnInit {
   }
 
   showBatchSerialItems() {
+    this.partPerQty = localStorage.getItem("PartPerQty");
+    if (this.partPerQty == undefined || this.partPerQty == '') {
+      this.partPerQty = "0"
+    }
+    this.partPerQty = Number(this.partPerQty);
+
     this.pagesize = 5;
     if (this.serviceData.length > this.pagesize) {
       this.pagable = true;
@@ -612,7 +740,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'BinCode',
         title: this.translate.instant("BinNo"),
         type: 'text',
-        width: '100'
+        width: '160'
       },
       {
         field: 'Quantity',
@@ -620,7 +748,7 @@ export class CommonLookupComponent implements OnInit {
         class: 'text-right',
         title: this.translate.instant("AvailableQty"),
         type: 'numeric',
-        width: '100'
+        width: '80'
       }
     ];
     this.lookupTitle = this.translate.instant("BatchSerialList");
@@ -829,25 +957,21 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showCustomerList() {
-
+  showShiptoCodeList() {
     this.table_head = [
       {
-        title: this.translate.instant("CustomerCode"),
-        field: 'CUSTOMER CODE',
+        title: this.translate.instant("ShipTo"),
+        field: 'Address',
         type: 'text',
         width: '100'
       },
-
       {
         title: this.translate.instant("Outbound_CustomerName"),
-        field: 'CUSTOMER NAME',
+        field: 'CardCode',
         type: 'text',
         width: '100'
       }
-
     ];
-
     this.lookupTitle = this.translate.instant("CustomerList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
@@ -1231,18 +1355,74 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  onCheckboxClick(checked: any, index: number) {
-
+  onCheckboxClick(chkSelection, checked: any, index: number, dataItem) {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
+
+      servivceItem.QuantityToAdd = servivceItem.Quantity;
       this.selectedValues.push(servivceItem);
+      //If check assign available qty as default qty to add
+      this.serviceData[index].OldData = true;
+      this.serviceData[index].QuantityToAdd = servivceItem.Quantity;
+
+      this.getTotalQtyOfSelectedItems();
+
+      if (this.qtyAdded > this.partPerQty) {
+        // this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+        this.serviceData[index].OldData = false;
+        chkSelection.checked = false;
+        this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+
+        let indexTemp = this.selectedValues.findIndex(r => r.LOTNO == servivceItem.LOTNO);
+        if (indexTemp > -1) {
+          this.selectedValues.splice(indexTemp, 1);
+        }
+        this.getTotalQtyOfSelectedItems();
+
+        var result = this.assignRemainQty(servivceItem.Quantity);
+        if (result != -1) {
+          this.serviceData[index].OldData = true;
+          chkSelection.checked = true;
+          servivceItem.QuantityToAdd = Number(result).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.serviceData[index].QuantityToAdd = Number(result).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.selectedValues.push(servivceItem);
+          this.getTotalQtyOfSelectedItems();
+        } else {
+          this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+        }
+      }
+    } else {
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+          this.selectedValues.splice(i, 1);
+          break;
+        }
+      }
+      //Reset qty if unchecked
+      for (var i = 0; i < this.serviceData.length; i++) {
+        if (i == index) {
+          this.serviceData[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        }
+      }
+      this.getTotalQtyOfSelectedItems();
     }
-    else {
-      // let rixd: number= this.selectedValues.findIndex(i => i.LOTNO == servivceItem.LOTNO && i.LOTNO == servivceItem.BINNO)
-      var temp = this.selectedValues.splice(index, 1);
-      this.selectedValues = this.selectedValues;
-      //console.log("selectedValues.size", this.selectedValues.length);
+  }
+
+  assignRemainQty(avlQty) {
+    let remQty: any = parseFloat(this.partPerQty) - parseFloat(this.qtyAdded);
+    if (remQty == 0) {
+      return -1
     }
+    var qq = (avlQty - parseFloat(remQty)) > 0 ? parseFloat(remQty) : avlQty;
+
+    let diff = parseFloat(remQty) - qq;
+    if (diff >= 0) {
+      return qq;
+
+    } else {
+      return -1;
+    }
+
   }
 
   palletList() {
@@ -1313,9 +1493,72 @@ export class CommonLookupComponent implements OnInit {
   }
 
   Done() {
+    if (this.fromWhere == "CreateContainer") {
+
+
+      for (var i = 0; i < this.selectedValues.length; i++) {
+        if (this.selectedValues[i].QuantityToAdd == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+          return;
+        }
+      }
+
+      if (this.getTotalQtyOfSelectedItems() > this.partPerQty) {
+        this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+        return;
+      }
+    }
+
     this.lookupkey.emit(this.selectedValues);
     this.dialogOpened = false;
   }
 
+  getTotalQtyOfSelectedItems(): number {
+    var sum = 0;
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      sum = sum + Number("" + this.selectedValues[i].QuantityToAdd)
+    }
+    this.qtyAdded = sum;
+    return sum;
+  }
 
+  resetAddedQty(index) {
+    let servivceItem: any = this.serviceData[index];
+    this.serviceData[index].QuantityToAdd = 0;
+    this.qtyAdded = this.qtyAdded - servivceItem.QuantityToAdd;
+    this.getTotalQtyOfSelectedItems();
+  }
+
+  onQtyToAddChange(value, index, qtytoadd) {
+    let servivceItem: any = this.serviceData[index];
+    value = parseFloat(value);
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      if (servivceItem.LOTNO == this.selectedValues[i].LOTNO) {
+        if (value == 0) {
+          this.toastr.error('', this.translate.instant("CheckedItemQtyValid"));
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        } else if (value > this.selectedValues[i].Quantity) {
+          this.selectedValues[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.toastr.error('', this.translate.instant("AddedQtyValidMsg"));
+          this.serviceData[index].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          qtytoadd.value = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          // this.resetAddedQty(index);
+          //break
+        } else {
+          this.selectedValues[i].QuantityToAdd = value;
+          this.selectedValues[i].Balance = this.selectedValues[i].Quantity - value;
+          break;
+        }
+      }
+    }
+    this.qtyAdded = 0
+    for (var i = 0; i < this.selectedValues.length; i++) {
+      this.qtyAdded = this.qtyAdded + Number("" + this.selectedValues[i].QuantityToAdd)
+    }
+    if (this.qtyAdded > this.partPerQty) {
+      this.toastr.error('', this.translate.instant("QtyToAddValidMsg"));
+    }
+  }
 }

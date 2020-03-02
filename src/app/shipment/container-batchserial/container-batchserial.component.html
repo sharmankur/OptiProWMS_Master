@@ -1,79 +1,86 @@
 <div class="opti_container position-relative bg-white rounded">
-        <form class="form-with-fix-btnBar">
-            <div class="opti_container_inner" [perfectScrollbar]=" ">
-    
-                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                     <span *ngIf="IsShipment">Container Batch Serial - {{SelectedShipmentId}}</span>
-                     <span *ngIf="!IsShipment">Container Batch Serial</span>
-                </h3>
-                <div class="row">
-                   <div class="col-12">
+    <form class="form-with-fix-btnBar">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                <span *ngIf="IsShipment">{{'Container_BatchSerial'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin -
+                    {{SelectedBin}})
+                </span>
+                <span *ngIf="!IsShipment">{{'Container_BatchSerial'|translate}}</span>
+            </h3>
+            <div class="row">
+                <div class="col-12">
                     <div class="row">
-                      
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
-                              <div class="input-group col-sm-7">
-                                 <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
-                                 id="ContainsItemID" (blur)="onContainsItemChange()">
-                               </div>
-                               <div class="input-group-append has-seprate-btn">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (blur)="getContainsItem()">
-                                        <i class="opti-icon-hammenu"></i>
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'ItemCode'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <!-- <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
+                                 id="ContainsItemID" (blur)="onContainsItemChange()"> -->
+                                    <kendo-dropdownlist class="form-control form-control-sm" [data]="ItemCodeArray" textField="OPTM_ITEMCODE" valueField="OPTM_ITEMCODE"
+                                        id="ItemCode" name="ItemCode" [(ngModel)]="ContainsItemDD" #selectedvalue (selectionChange)="onItemCodeChange($event)"></kendo-dropdownlist>
+                                </div>
+                                <!-- <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem('lookup')">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId id="WarehouseId" (blur)="onWhseChange()">
+                                </div>
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                        <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                      </div>                    
                     </div>
-                   
                 </div>
-    
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">                         
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                                    <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId 
-                                        id="WarehouseId" (blur)="onWhseChange()">
-                                    </div>
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                            <i class="opti-icon-hammenu"></i>
-                                        </button>
-                                    </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId" (blur)="onBinChange()">
+                                </div>
+                                <div class="input-group-append has-seprate-btn">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>            
-                    
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-    
-                <div class="row">
-                        <div class="col-12">
-                         <div class="row">
+            </div>
 
-                         <div class="col-sm-6">
-                             <div class="form-group row">
-                                 <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
-                                   <div class="input-group col-sm-7">
-                                      <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId"
-                                      (blur)="onBinChange()">
-                                    </div>
-                                    <div class="input-group-append has-seprate-btn">
-                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                             <i class="opti-icon-hammenu"></i>
-                                         </button>
-                                     </div>
-                                   </div>
-                                 </div>     
-                           </div>                    
-                         </div>
-                </div>
-    
-                <div class="row">
+            <!-- <div class="row">
                         <div class="col-12">
                          <div class="row">
 
@@ -87,91 +94,119 @@
                              </div>    
                             <div class="col-sm-6">
                               <div class="form-group row">
-                                <button type="button" text="Select Shipments" (click)="fillBatchSerialDataInGrid()">{{'Query'|translate}}</button>  
+                                <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>  
                             </div>
                         </div>
                     </div>                    
                 </div>
                         
+                </div> -->
+
+            <div class="row mb-2">
+                <div class="col-12">
+                    <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
+                    <!-- <div class="card-body"> -->
+                        <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
+                            [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterUser
+                            [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
+                            <ng-template kendoGridToolbarTemplate> 
+                                <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>                                       
+                              </ng-template>
+                            <kendo-grid-column field="Selected" width="25" title="Select">
+                                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <label class="custom-checkbox mb-0">
+                                                        <input type="checkbox" #checkedselectedvalue
+                                                            (change)="selectContainerRowChange(checkedselectedvalue, checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
+                                                        <span class="checkbox"></span>
+                                                    </label>
+                                                </ng-template>
+                                    </kendo-grid-column>
+                            <!-- <kendo-grid-checkbox-column title="Select" [width]="25">
+                                <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
+                                            [checked]=selectall id="parent_checkbox_{{rowIndex}}" class="custom-control-input">
+                                        <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                                    </div>
+                                </ng-template>
+                                <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
+                                    <div class="custom-control custom-checkbox">
+                                        <input #chkSelection type="checkbox" (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]=selectall
+                                            id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                        <label class="custom-control-label" for="chkbox-{{idx}}"></label>
+                                    </div>
+                                </ng-template>
+                            </kendo-grid-checkbox-column> -->
+                            <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
+                            <kendo-grid-column field="WHSCODE" width="64" title="Warehouse Code"></kendo-grid-column>
+                            <kendo-grid-column field="BINNO" width="108" title="Bin No"></kendo-grid-column>
+                            <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
+                            <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="Available Quantitiy"></kendo-grid-column>
+                            <kendo-grid-column field="AssignQty" width="60" class="text-right" title="Quantity to Assign">
+                                <!--QtytoAssign-->
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
+                                        (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
+                                        value={{dataItem.AssignQty}} #AssignQty title="Quantity to Assign" />
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column *ngIf="SHPStatus == '3'" [width]="45" headerClass="text-center" class="text-center">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center" (click)="onShowButtonClick(dataItem, rowIndex)">
+                                        <span class="opti-icon-search" role="presentation"></span>
+                                    </button>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    <!-- </div> -->
                 </div>
-                
-                <div class="row">
-                        <div class="col-12">
-                           <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5>
-                           <div class="card-body">
-                                <kendo-grid [data]="ContainerBatchSerials" [resizable]="true" [height]="200" [pageSize]="pageSize" [skip]="skip" [pageable]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
-                                    <kendo-grid-column field="Selected" class="text-right" width="85" title="{{'Selected'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                            <label class="custom-checkbox mb-0">
-                                                <input type="checkbox" #checkedselectedvalue
-                                                    (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <!-- <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column> -->
-                                    <kendo-grid-column field="OPTM_BatchSerial" width="100" title="{{'Batch_Serial'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTCODE" width="100" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTTYPE" class="text-right" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_FILL_PERCENT" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="QuantityFulFill" width="100" title="{{'UOM'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_WEIGHT" width="100" title="{{'Wt_of_Items'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_WT_UOM" width="100" title="{{'Wt_UOM'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_WT_UOM" width="100" title="{{'Item_Volume'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_VOL_UOM" width="100" title="{{'Volume_UOM'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Container_Wt'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Vol_UOM'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_PARENTCONTID" width="100" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_SHIPMENTID" width="100" title="{{'Shipment_Id'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="100" title="{{'Picked'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                            <label class="custom-checkbox mb-0">
-                                                <input type="checkbox"
-                                                    #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'"
-                                                    (change)="pickedChange(checkedpickedvalue.checked,rowIndex)">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_WHSE" width="100" title="{{'Warehouse'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_BIN" width="100" title="{{'Cont_Bin'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_BUILT_SOURCE" width="100" title="{{'Built_In_Process'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_SHIPELIGIBLE" width="100" title="{{'ShipEligible'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="QuantityFulFill" width="100" title="{{'DateTime'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'ContainerStatus'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_SO_NUMBER" width="100" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                                </kendo-grid>
-                            </div>
-                        </div>
-                </div>           
-    
-                <div class="fix-footer-btnBar">
-                    <div class="col-sm-12 col-12">
-                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
-                            <i class="opti-icon-arrow-back"></i>
-                        </button>
-                        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
-                            <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()" [disabled]="IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Select_Shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Remove_from_shipment'|translate}}</button>  
+            </div>
+
+            <div class="row">
+                <div class="d-flex flex-row">
+                    <label for="OpenQty" class="col-sm-4 col-form-label">{{'Open_Qty'|translate}}</label>
+                    <div class="col-sm-4 input-group">
+                        <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
+                    </div>
+                    <!-- <label for="RowCount" class="col-sm-2 col-form-label">{{'Row_Count'|translate}}</label>
+                        <div class="col-sm-4 input-group">
+                            <input type="text" class=" form-control form-control-sm" name='RowCountId' [(ngModel)]=RowCount id="RowCountId" disabled>
+                        </div>  -->
+                    <label for="SelectedQty" class="col-sm-4 col-form-label">{{'Selected_Qty'|translate}}</label>
+                    <div class="col-sm-4 input-group">
+                        <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
+                            disabled>
                     </div>
                 </div>
-    
             </div>
-          </form>
-    </div>
-    
-    <span *ngIf="showLookup">
-        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+
+           
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
+
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
+                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<span *ngIf="showLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showLookup==false && showOtherLookup==true">
+        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
     </span>
-    
-    <div class="opti_loader full-section" *ngIf="showLoader">
-        <div class="opti_spinner"></div>
-    </div>
-        
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>

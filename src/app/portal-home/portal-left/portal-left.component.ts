@@ -23,7 +23,7 @@ export class PortalLeftComponent implements OnInit {
   allOptionMenus: any = []
 
   constructor(private commonService: Commonservice, private router: Router, private menuService: MenuService, private translate: TranslateService, private toastr: ToastrService) {
-    
+
   }
   selectedThemeColor: string = 'opticonstants.DEFAULTTHEMECOLOR';
   selectedItem: string;
@@ -45,18 +45,16 @@ export class PortalLeftComponent implements OnInit {
         this.selectedThemeColor = data;
       }
     );
-   this.getAllMenus();
+    this.getAllMenus();
     this.commonService.setCustomizeInfo();
 
     UIHelper.manageNavigationPanel(document.getElementById('sidebarCollapse-alt'));
   }
-  
+
   getAllMenus() {
-    let menuLoaded = window.localStorage.getItem('IsMenuLoaded');
-    //  if(!menuLoaded){
     this.menuService.getAllMenus().subscribe(
       data => {
-        if (data != null){
+        if (data != null) {
           this.displayMenuOptions(data.Modules);
           this.allOptionMenus = data.Modules
         }
@@ -76,17 +74,17 @@ export class PortalLeftComponent implements OnInit {
   displayMenuOptions(menus: any[]) {
     menus.forEach(element => {
       var thisRefs = this;
-      console.log("forEach: element.id: "+document.getElementById(element.id))
-        if (document.getElementById(element.id) != null) {
-          document.getElementById(element.id).style.display = 'flex';
-          if(document.getElementById(element.id).childNodes.length > 0 && document.querySelectorAll('#'+element.id+".dropdown")[0] !=undefined){
-            (<HTMLElement>document.querySelectorAll('#'+element.id+".dropdown")[0].childNodes[0]).onclick = function(){
-            for (var i = 0; i < document.querySelectorAll('#'+element.id+".dropdown")[0].childNodes[2].childNodes.length; i++) {
-              var menuId = (<HTMLElement>document.querySelectorAll('#'+element.id+".dropdown")[0].childNodes[2].childNodes[i]).id;
-              if(thisRefs.isMenuVisible(menuId)){
-                (<HTMLElement>document.querySelectorAll('#'+element.id+".dropdown")[0].childNodes[2].childNodes[i]).style.display = 'flex';
+      console.log("forEach: element.id: " + document.getElementById(element.id))
+      if (document.getElementById(element.id) != null) {
+        document.getElementById(element.id).style.display = 'flex';
+        if (document.getElementById(element.id).childNodes.length > 0 && document.querySelectorAll('#' + element.id + ".dropdown")[0] != undefined) {
+          (<HTMLElement>document.querySelectorAll('#' + element.id + ".dropdown")[0].childNodes[0]).onclick = function () {
+            for (var i = 0; i < document.querySelectorAll('#' + element.id + ".dropdown")[0].childNodes[2].childNodes.length; i++) {
+              var menuId = (<HTMLElement>document.querySelectorAll('#' + element.id + ".dropdown")[0].childNodes[2].childNodes[i]).id;
+              if (thisRefs.isMenuVisible(menuId)) {
+                (<HTMLElement>document.querySelectorAll('#' + element.id + ".dropdown")[0].childNodes[2].childNodes[i]).style.display = 'flex';
               } else {
-                (<HTMLElement>document.querySelectorAll('#'+element.id+".dropdown")[0].childNodes[2].childNodes[i]).style.display = 'none';
+                (<HTMLElement>document.querySelectorAll('#' + element.id + ".dropdown")[0].childNodes[2].childNodes[i]).style.display = 'none';
               }
             }
           };
@@ -95,9 +93,9 @@ export class PortalLeftComponent implements OnInit {
     });
   }
 
-  isMenuVisible(menu: string){
-    for(var i=0;i<this.allOptionMenus.length;i++){
-      if(this.allOptionMenus[i].id == menu){
+  isMenuVisible(menu: string) {
+    for (var i = 0; i < this.allOptionMenus.length; i++) {
+      if (this.allOptionMenus[i].id == menu) {
         return true;
       }
     }
@@ -113,27 +111,29 @@ export class PortalLeftComponent implements OnInit {
   listClick(event, module) {
     this.selectedItem = module;
 
-    this.closeRightSidebar(event);
-    this.router.navigate(['home/' + module]);
+
 
     localStorage.setItem("ProdReceptItem", '');
     localStorage.setItem("FromReceiptProd", 'false');
     localStorage.setItem("GoodsReceiptModel", '');
     localStorage.setItem("AvailableRejectQty", 0 + "");
 
-    if(module == "outbound"){
-      this.onOutboundClick();
-    }else if(module == "inbound"){
+    if (module == "shipment") {
+      localStorage.setItem("ShipmentID", "");
+    } else if (module == "inbound") {
       this.onInboundClick();
-    }else if(module == "whsTransfer"){
+    } else if (module == "whsTransfer") {
       localStorage.setItem("fromscreen", "WhsTransfer");
-    }else if(module == "InventoryTransferRequest"){
+    } else if (module == "InventoryTransferRequest") {
       localStorage.setItem("fromscreen", "InventoryTransferRequest");
-    }else if(module == "binTransfer"){
+    } else if (module == "binTransfer") {
       localStorage.setItem("fromscreen", "");
       localStorage.setItem("towhseId", localStorage.getItem("whseId"));
       localStorage.setItem("fromwhseId", localStorage.getItem("whseId"));
     }
+    
+    this.closeRightSidebar(event);
+    this.router.navigate(['home/' + module]);
   }
 
   /** 
@@ -143,10 +143,10 @@ export class PortalLeftComponent implements OnInit {
     let currentSidebarInfo: CurrentSidebarInfo = new CurrentSidebarInfo();
     currentSidebarInfo.SideBarStatus = false;
     this.commonService.setCurrentSideBar(currentSidebarInfo);
-    if(UIHelper.isMobile()==true){ 
+    if (UIHelper.isMobile() == true) {
       document.getElementById('opti_RightPanelID').classList.remove('opti_menusidebar-mobile-open');
       document.getElementById('opti_LeftPanelID').classList.remove('opti_menusidebar-mobile-open');
-    } 
+    }
   }
 
   binClick() {

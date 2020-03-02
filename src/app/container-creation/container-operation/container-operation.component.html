@@ -7,6 +7,25 @@
             </h3>
             <div class="row">
                 <div class="col-12">
+                    <div class="shipment-form">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="whse" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                                    <div class="input-group col-sm-8">
+                                        <input type="text" class="form-control form-control-sm" id="containerId"
+                                            placeholder="{{'ContainerId'|translate}}" name="containerId"
+                                            [(ngModel)]="containerId" (blur)="onContainerIdChange('parent')">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetParentContainer()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Shipment From -->
                     <div class="shipment-form">
                         <!-- row 1 -->
@@ -20,7 +39,7 @@
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetWhseCode()" [disabled]="isUpdate">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div> -->
                                     </div>
@@ -51,7 +70,7 @@
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('WIP_FG_StageBin')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div> -->
                                     </div>
@@ -60,15 +79,15 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="containerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                                    <label for="containerCode" class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerId"
-                                            placeholder="{{'ContainerId'|translate}}" name="containerId" [(ngModel)]="containerId"
-                                            disabled>
+                                        <input type="text" class="form-control form-control-sm" id="containerCode"
+                                            placeholder="{{'ContainerCode'|translate}}" name="containerCode"
+                                            [(ngModel)]="containerCode" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('WIP_RM_StageBin')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div> -->
                                     </div>
@@ -82,13 +101,13 @@
                                 <div class="form-group row">
                                     <label for="containerMaxWgt" class="col-sm-4 col-form-label">{{'ContainerMaxWeight'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerMaxWgt"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerMaxWgt"
                                             placeholder="{{'ContainerMaxWeight'|translate}}" name="containerMaxWgt"
-                                            [(ngModel)]="containerMaxWgt" disabled>
+                                            [ngModel]="containerMaxWgt|numberFormat" (ngModelChange)="containerMaxWgt=$event" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('TransferOutBin')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div> -->
                                     </div>
@@ -99,13 +118,13 @@
                                 <div class="form-group row">
                                     <label for="containerWgt" class="col-sm-4 col-form-label">{{'ContainerWeight'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerWgt"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerWgt"
                                             placeholder="{{'ContainerWeight'|translate}}" name="containerWgt"
-                                            [(ngModel)]="containerWgt" disabled>
+                                            [ngModel]="containerWgt|numberFormat" (ngModelChange)="containerWgt=$event" disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (mousedown)="GetDefaultShipStageBin('TransferInBin')">
-                                                    <i class="opti-icon-hammenu"></i>
+                                                    <i class="opti-icon-search"></i>
                                                 </button>
                                             </div> -->
                                     </div>
@@ -125,7 +144,7 @@
                                         <!-- <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetDefaultShipStageBin('Ship_StageBin')">
-                                                <i class="opti-icon-hammenu"></i>
+                                                <i class="opti-icon-search"></i>
                                             </button>
                                         </div> -->
                                     </div>
@@ -135,13 +154,13 @@
                                 <div class="form-group row">
                                     <label for="containerQty" class="col-sm-4 col-form-label">{{'ContainerQty'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="containerQty"
-                                            placeholder="{{'ContainerQty'|translate}}" name="containerQty" [(ngModel)]="containerQty"
+                                        <input type="text" class="form-control form-control-sm text-right" id="containerQty"
+                                            placeholder="{{'ContainerQty'|translate}}" name="containerQty" [ngModel]="containerQty|numberFormat" (ngModelChange)="containerQty=$event"
                                             disabled>
                                         <!-- <div class="input-group-append has-seprate-btn">
                                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                         (mousedown)="GetDefaultShipStageBin('TransferInBin')">
-                                                        <i class="opti-icon-hammenu"></i>
+                                                        <i class="opti-icon-search"></i>
                                                     </button>
                                                 </div> -->
                                     </div>
@@ -162,7 +181,7 @@
                                 name="itemCode" [(ngModel)]="itemCode" (blur)="onItemCodeChange()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="getItemCode()">
-                                    <i class="opti-icon-hammenu"></i>
+                                    <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                             <!-- <input type="text" class="ml-1 form-control form-control-sm" id="itemCode1" name="itemCode1"
@@ -184,10 +203,10 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="qty" class="col-sm-4 col-form-label">{{'Quantity'|translate}}</label>
+                        <label for="itemQty" class="col-sm-4 col-form-label">{{'Quantity'|translate}}</label>
                         <div class="input-group col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="qty" placeholder="{{'Quantity'|translate}}"
-                                name="qty" [(ngModel)]="qty">
+                            <input type="text" class="form-control form-control-sm text-right" id="itemQty" placeholder="{{'Quantity'|translate}}"
+                                name="itemQty" [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -203,7 +222,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label"></label>
                         <div class="input-group col-sm-8">
-                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
+                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="addItemToContainer()">
                                 <span role="presentation"></span> {{addItemBtnText}}</button>
                         </div>
                     </div>
@@ -224,19 +243,19 @@
                                 [(ngModel)]="containerUsage1">
                             <!-- <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="getItemCode()">
-                                    <i class="opti-icon-hammenu"></i>
+                                    <i class="opti-icon-search"></i>
                                 </button>
                             </div> -->
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="addedContainerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
+                        <label for="childContainerId" class="col-sm-4 col-form-label">{{'ContainerId'|translate}}</label>
                         <div class="input-group col-sm-8">
-                            <input type="text" class="form-control form-control-sm" id="addedContainerId" placeholder="{{'ContainerId'|translate}}"
-                                name="addedContainerId" [(ngModel)]="addedContainerId">
+                            <input type="text" class="form-control form-control-sm" id="childContainerId" placeholder="{{'ContainerId'|translate}}"
+                                name="childContainerId" [(ngModel)]="childContainerId" (blur)="onContainerIdChange('child')">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="getContainerIdList()">
-                                    <i class="opti-icon-hammenu"></i>
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer()">
+                                    <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -264,7 +283,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label"></label>
                         <div class="input-group col-sm-8">
-                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
+                            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="addContainerToContainer()">
                                 <span role="presentation"></span> {{addContBtnText}}</button>
                         </div>
                     </div>

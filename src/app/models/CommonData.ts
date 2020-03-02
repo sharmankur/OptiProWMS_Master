@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 // ng build --prod --base-href=/OptiProERPWMS/
-//1. ng build --base-href=/OptiProERPWMS/
+//1. ng build --base-href=/OptiProERPShipment/
 //2. add OptiProERPWMS in css path in index.html
 
 export interface ColumnSetting {
@@ -197,8 +197,8 @@ export class CommonData {
         return [
             { "Value": 1, "Name": "New" },
             { "Value": 2, "Name": "Scheduled" },
-            { "Value": 3, "Name": "Part Fulfilled" },
-            { "Value": 4, "Name": "Fulfilled" },
+            { "Value": 3, "Name": "Part Allocated" },
+            { "Value": 4, "Name": "Allocated" },
             { "Value": 5, "Name": "Picking" },
             { "Value": 6, "Name": "Picked" },
             { "Value": 7, "Name": "Ship Staged" },
@@ -211,6 +211,23 @@ export class CommonData {
             { "Value": 14, "Name": "Cancelled" }
         ];
     }
+
+    // shiment_status_array() {
+    //     return [
+    //         { "Value": 1, "Name": "New" },
+    //         { "Value": 2, "Name": "Scheduled" },
+    //         { "Value": 3, "Name": "Part Allocated" },
+    //         { "Value": 4, "Name": "Allocated" },
+    //         { "Value": 5, "Name": "Part Picked" },
+    //         { "Value": 6, "Name": "Picked" },
+    //         { "Value": 7, "Name": "Ship Ready" },
+    //         { "Value": 8, "Name": "Loaded on truck" },
+    //         { "Value": 9, "Name": "Shipped" },
+    //         { "Value": 10, "Name": "Cancelled" },
+    //         { "Value": 11, "Name": "Returned" },
+    //         { "Value": 12, "Name": "Return Accepted" },
+    //     ];
+    // }
 
     Container_Status_DropDown() {
         return [
@@ -234,7 +251,6 @@ export class CommonData {
     }
 
     Container_Shipment_Status_DropDown() {
-        // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
             { "Value": 1, "Name": "New" },
             { "Value": 2, "Name": "Open" },
@@ -244,6 +260,21 @@ export class CommonData {
             { "Value": 6, "Name": "Shipped" },
             { "Value": 7, "Name": "Returned" },
             { "Value": 8, "Name": "Damaged" },
+            { "Value": 9, "Name": "Cancelled" }
+        ];
+    }
+    
+
+    Shipment_Lines_Status_DropDown() {
+        return [
+            { "Value": 1, "Name": "New" },
+            { "Value": 2, "Name": "Part Allocated" },
+            { "Value": 3, "Name": "Allocated" },
+            { "Value": 4, "Name": "Pick Generated" },
+            { "Value": 5, "Name": "Pick Released" },
+            { "Value": 6, "Name": "Part Picked" },
+            { "Value": 7, "Name": "Picked" },
+            { "Value": 8, "Name": "Shipped" },
             { "Value": 9, "Name": "Cancelled" }
         ];
     }
@@ -258,11 +289,57 @@ export class CommonData {
         ];
     }
 
-    Container_Operation_Add_Container() {
+    Container_Operation_Add_Container(){
         return [
             { "Value": 1, "Name": "Add" },
             { "Value": 2, "Name": "Remove" },
-            { "Value": 4, "Name": "Delete All" }
+            { "Value": 3, "Name": "Delete All" }
         ];
+    }
+
+    validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
+
+        if(SelectedDataArray.length == 0){
+            if(parseFloat(AvailableQty) > parseFloat(OpenQty)){
+              // let diffAvail = parseFloat(AvailableQty) - parseFloat(OpenQty);
+               return OpenQty;
+            }
+            else{
+                return AvailableQty;
+            }  
+         }
+         else{
+            let remQty: any = parseFloat(OpenQty) - parseFloat(SelectedQty);
+
+            if(remQty == 0){
+                return -1;            
+            }
+
+            AvailableQty = (AvailableQty - parseFloat(remQty))>0?parseFloat(remQty):AvailableQty;
+
+            let diff = parseFloat(remQty) - AvailableQty;
+            if(diff >= 0){
+              return AvailableQty;
+            }
+            else{
+              return -1;
+            } 
+         }
+
+    }
+
+    validateOnChange(value, AvailableQty, OpenQty, SelectedQty){
+
+        if(parseFloat(value) > parseFloat(AvailableQty)){
+            //this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
+            return false;
+        }
+        // else if((parseFloat(SelectedQty) + parseFloat(value)) > parseFloat(OpenQty)){
+        //     return false;
+        // }
+        else{
+             return true;
+        }
+
     }
 }

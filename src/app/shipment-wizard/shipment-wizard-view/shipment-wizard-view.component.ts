@@ -17,6 +17,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
+  UseContainer: boolean=false; 
   constructor(private WizardService: ShipmentWizardService, private router: Router, private commonservice: Commonservice,
     private toastr: ToastrService, private translate: TranslateService) { }
   // GRID VAIRABLE
@@ -65,6 +66,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   public AllConsolidateData: any = [];
   public ConsolidatedDataSelection: any = {};
   public GetCreateShipMentData: any = [];
+  dateFormat: string;
+
   ngOnInit() {
     // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
@@ -72,15 +75,15 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.HoldSelectedRow.SOLines = [];
     this.ConsolidatedDataSelection.SelectedRows = [];
     this.ConsolidatedDataSelection.Company = [];
+    this.dateFormat = localStorage.getItem("DATEFORMAT");
   }
 
   onPrevClick() {
     if (this.currentStep > 1) {
-
       this.currentStep = this.currentStep - 1;
-
     }
   }
+
   numericOnly(event): boolean {
     let patt = /^([0-9])$/;
     let result = patt.test(event.key);
@@ -109,7 +112,6 @@ export class ShipmentWizardViewComponent implements OnInit {
           this.toastr.error('', this.translate.instant("GridCheckBoxValidation"));
           return;
         }
-
       }
       if (this.currentStep === 3) {
         if (this.CHKCustomer === false && this.CHKDueDate === false && this.CHKItem === false && this.CHKShipto === false &&
@@ -125,7 +127,6 @@ export class ShipmentWizardViewComponent implements OnInit {
           })
           this.GetConsolidatedData();
         }
-
       }
       if (this.currentStep === 4) {
         if (this.ConsolidatedDataSelection.SelectedRows.length > 0) {
@@ -145,7 +146,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
   CreateShipMentData() {
     this.ConsolidatedDataSelection.Company = [];
-    this.ConsolidatedDataSelection.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId") })
+    let uc = this.UseContainer == true ? "Y" : "N";
+    this.ConsolidatedDataSelection.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
+    OPTM_FUNCTION: "Shipping",
+    OPTM_OBJECT: "Shipment" })
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
 
@@ -158,12 +162,14 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
               if (resp["ShipmentHdr"][i].OPTM_DOCENTRY === resp["ShipmentDtl"][j].OPTM_DOCENTRY) {
+                resp["ShipmentDtl"][j].OPTM_QTY = Number(resp["ShipmentDtl"][j].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
             }
           }
           this.GetCreateShipMentData = resp["ShipmentHdr"];
           this.currentStep = this.currentStep + 1;
+          this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -273,6 +279,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
               if (resp["ShipmentHdr"][i].Shipment_Id === resp["ShipmentDtl"][j].Shipment_Id) {
+                resp["ShipmentDtl"][j].ShipQty = Number(resp["ShipmentDtl"][j].ShipQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
             }
@@ -302,7 +309,6 @@ export class ShipmentWizardViewComponent implements OnInit {
 
   gridUserSelectionChange(gridUser, selection) {
     if (selection.selectedRows.length > 0) {
-      debugger
       this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
     }
     else if (selection.deselectedRows.length > 0) {
@@ -323,7 +329,7 @@ export class ShipmentWizardViewComponent implements OnInit {
 
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup().subscribe(
+    this.commonservice.GetDataForSalesOrderLookup(this.UseContainer).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -339,6 +345,40 @@ export class ShipmentWizardViewComponent implements OnInit {
             this.lookupfor = "SerialNoTo";
           }
 
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetDataForShipToCode(fieldName) {
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetShipToAddress().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          // if (fieldName == "SrNO") {
+          //   this.lookupfor = "SerialNoFrom";
+          // } else if (fieldName == "SrNOTO") {
+            this.lookupfor = fieldName;
+          // }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -488,9 +528,18 @@ export class ShipmentWizardViewComponent implements OnInit {
     else if (this.lookupfor == "ItemTo") {
       this.ItemTo = $event[0];
     }
+    else if (this.lookupfor == "ShipFrom") {
+      this.ShipFrom = $event[0];
+    }
+    else if (this.lookupfor == "ShipTo") {
+      this.ShipTo = $event[0];
+    }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = $event[0];
     }
   }
 
+  OnCancelClick() {
+    this.router.navigate(['home/dashboard']);
+  }
 }

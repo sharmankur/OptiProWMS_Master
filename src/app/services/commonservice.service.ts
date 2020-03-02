@@ -682,10 +682,11 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
 
-  GetDataForSalesOrderLookup(): Observable<any> {
+  GetDataForSalesOrderLookup(UseContainer): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        UseContainer: UseContainer
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataSalesOrderLookup", jObject, this.httpOptions);
@@ -763,6 +764,16 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.httpOptions);
+  }
+
+  GetDockDoorBasedOnWarehouse(OPTM_WHSE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSE: OPTM_WHSE   
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDockDoorBasedOnWarehouse", jObject, this.httpOptions);
   }
 
   GetDataForCarrier(): Observable<any> {
@@ -845,5 +856,57 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCarrier", jObject, this.httpOptions);
+  }
+
+  GetShipToAddress(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
+  }
+
+  GetShipmentIdForShipment(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
+  }
+
+  GeneratePickList(PRIORITY, PICKBASIS, PICKOPERATION, PICKTYPE, WHSECODE, FROMCUSTOMER, TOCUSTOMER, FROMSHIPTOCODE, TOSHIPTOCODE, FROMSHIPMENTID, TOSHIPMENTID, FROMDOCKDOOR, TODOCKDOOR, FROMDATETIME, TODATETIME, FROMITEMCODE, TOITEMCODE, FROMCARRIERCODE, TOCARRIERCODE, FROMSALESORDER, TOSALESORDER, FROMWORKORDER, TOWORKORDER, PLANSHIFT, TASKPLANDATETIME): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        PRIORITY: PRIORITY,
+        PICKBASIS: PICKBASIS,
+        PICKOPERATION: PICKOPERATION,
+        PICKTYPE: PICKTYPE,
+        WHSECODE: WHSECODE,
+        FROMCUSTOMER: FROMCUSTOMER,
+        TOCUSTOMER: TOCUSTOMER,
+        FROMSHIPTOCODE: FROMSHIPTOCODE,
+        TOSHIPTOCODE: TOSHIPTOCODE,
+        FROMSHIPMENTID: FROMSHIPMENTID,
+        TOSHIPMENTID: TOSHIPMENTID,
+        FROMDOCKDOOR: FROMDOCKDOOR,
+        TODOCKDOOR: TODOCKDOOR,
+        FROMDATETIME: FROMDATETIME,
+        TODATETIME: TODATETIME,
+        FROMITEMCODE: FROMITEMCODE,
+        TOITEMCODE: TOITEMCODE,
+        FROMCARRIERCODE: FROMCARRIERCODE,
+        TOCARRIERCODE: TOCARRIERCODE,
+        FROMSALESORDER: FROMSALESORDER,
+        TOSALESORDER: TOSALESORDER,
+        FROMWORKORDER: FROMWORKORDER,
+        TOWORKORDER: TOWORKORDER,
+        PLANSHIFT: PLANSHIFT,
+        TASKPLANDATETIME: TASKPLANDATETIME
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/GeneratePickList/GeneratePickList", jObject, this.httpOptions);
   }
 }

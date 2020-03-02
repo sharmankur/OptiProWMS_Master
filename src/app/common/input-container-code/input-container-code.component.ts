@@ -101,7 +101,7 @@ export class InputContainerCodeComponent implements OnInit {
             this.isYesClick.emit({
               Status: "yes",
               From: this.fromWhere,
-              // ContainerId: data[0].OPTM_CONTAINERID,
+              ContainerId: data[0].OPTM_CONTAINERID,
               ParentContainerCode: this.parentContainerCode,
               ContainerCode: this.containerCode,
               Count: this.count

@@ -26,7 +26,7 @@ export class ContainerShipmentService {
   }
 
   FillContainerDataInGrid(ContnrShipmentId:number,OPTM_CONTCODE:any, OPTM_SHIPELIGIBLE:string, OPTM_STATUS:number, OPTM_CONTTYPE:string, OPTM_ITEMCODE:string,
-    OPTM_SHIPMENTID:number, OPTM_INV_STATUS:number, OPTM_WHSE:string, OPTM_BIN:string, IsShipment:boolean): Observable<any> {
+    OPTM_SHIPMENTID:number, OPTM_INV_STATUS:number, OPTM_WHSE:string, OPTM_BIN:string, IsShipment:boolean, WOId:any , SOId:any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -40,7 +40,9 @@ export class ContainerShipmentService {
         OPTM_INV_STATUS: OPTM_INV_STATUS,
         OPTM_WHSE: OPTM_WHSE,
         OPTM_BIN: OPTM_BIN,
-        IsShipment: IsShipment
+        IsShipment: IsShipment,
+        WOId: WOId,
+        SOId: SOId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
@@ -57,6 +59,13 @@ export class ContainerShipmentService {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/IsValidContainsItemCode", jObject, this.commonService.httpOptions);
+  }
+
+  AssignContainerToShipment(oSaveArray:any){
+
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignContainerstoShipment", jObject, this.commonService.httpOptions);
   }
   
 }

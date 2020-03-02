@@ -7,6 +7,7 @@ import { ContainerCreationService } from 'src/app/services/container-creation.se
 import { CARMasterService } from 'src/app/services/carmaster.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonData } from 'src/app/models/CommonData';
+import { ɵAnimationRendererFactory } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-container-operation',
@@ -24,21 +25,24 @@ export class ContainerOperationComponent implements OnInit {
   addContainerOpnArr: any = [];
   defaultItemOpn: any;
   defaultContOpn: any;
-  addItemOpn: any;
-  addContOpn: any;
-  addContBtnText: string="Add";
-  addItemBtnText: string="Add";
+  addItemOpn: any = "Add";
+  addContOpn: any = "Add";
+  addContBtnText: string = "Add";
+  addItemBtnText: string = "Add";
   whseCode: string;
   oSaveModel: any;
   containerType: string;
   binCode: string;
   containerId: string;
-  containerMaxWgt: string;
-  containerWgt: string;
+  containerMaxWgt: number = 0;
+  containerWgt: number = 0;
   packingRule: string;
   containerUsage: string;
   itemCode: string;
-  addedContainerId: string;
+  childContainerId: string;
+  itemQty: any = 0;
+  containerCode: string;
+  itemBatchSr: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -58,18 +62,20 @@ export class ContainerOperationComponent implements OnInit {
 
     this.addItemOpn = this.defaultItemOpn.Name;
     this.addContOpn = this.defaultContOpn.Name;
-    
+
     var data = localStorage.getItem("ContainerOperationData");
     this.oSaveModel = JSON.parse(data);
 
-    this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
-    this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
-    this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
-    this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
-    this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
-    this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
-    this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    // this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
+    // this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
+    // this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
+    // this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
+    // this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
+    // this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
+    // this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
+    // this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
+    // this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    this.GetParentContainer();
   }
 
   ngAfterViewInit(): void {
@@ -85,23 +91,54 @@ export class ContainerOperationComponent implements OnInit {
 
   onAddContOpnSelectChange($event) {
     this.addContBtnText = $event.Name;
+    this.addContOpn = $event.Name;
   }
 
   onAddItemOpnSelectChange($event) {
     this.addItemBtnText = $event.Name;
+    this.addItemOpn = $event.Name;
   }
 
   onBatchSrlChange($event) {
 
   }
 
-  onItemCodeChange(){
-
+  onItemCodeChange() {
+    this.showLoader = true;
+    this.containerCreationService.IsValidItemCode(this.packingRule, this.itemCode).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+            this.itemCode = ''
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          } else {
+            this.itemCode = data[0].OPTM_ITEMCODE
+          }
+        } else {
+          this.itemCode = ''
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   getItemCode() {
     this.showLoader = true;
-    this.commonservice.GetItemCodeList().subscribe(
+    this.containerCreationService.GetSelectesdRuleItem(this.packingRule).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -112,7 +149,7 @@ export class ContainerOperationComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
-          this.lookupfor = "ItemsList";
+          this.lookupfor = "ItemsListByRuleId";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -128,13 +165,223 @@ export class ContainerOperationComponent implements OnInit {
     );
   }
 
-  getContainerIdList(){
+  getContainerIdList() {
 
   }
 
-  onContainerIdChange() {
+  addItemToContainer() {
+    if (this.itemCode == undefined || this.itemCode == '') {
+      this.toastr.error('', this.translate.instant("SelectItemCode"));
+      return;
+    }
+    if (this.addItemOpn == "Add" && this.itemQty == 0) {
+      this.toastr.error('', this.translate.instant("ItemQtyCannotZero"));
+      return;
+    }
+
     this.showLoader = true;
-    this.containerCreationService.CheckDuplicateContainerIdCreate("").subscribe(
+    this.containerCreationService.InsertItemInContainer(this.containerId, this.containerType,
+      this.itemCode, this.packingRule, this.partPerQty, this.fillPerQty, true,
+      this.addItemOpn, this.itemQty).subscribe(
+        data => {
+          this.showLoader = false;
+          if (data != undefined && data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+
+            if (data[0].RESULT == "Data Saved") {
+              if (this.addItemOpn == "Add") {
+                this.toastr.success('', this.translate.instant("ItemAddedSuccessMsg"));
+                this.itemCode = "";
+                this.itemQty = 0;
+                this.itemBatchSr = "";
+              } else if (this.addItemOpn == "Remove") {
+                this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
+              } else if (this.addItemOpn == "Query") {
+                this.itemQty = data[0].RESULT
+              } else if (this.addItemOpn == "Delete Item") {
+                this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+              } else if (this.addItemOpn == "Delete All Items") {
+                this.toastr.success('', this.translate.instant("ItemDeletedSuccessMsg"));
+              }
+            } else if (data[0].RESULT.length < 10) {
+              this.itemQty = data[0].RESULT;
+            } else {
+              this.toastr.error('', this.translate.instant(data[0].RESULT));
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+  }
+
+  addContainerToContainer() {
+    if (this.childContainerId == undefined || this.childContainerId == '') {
+      this.toastr.error('', this.translate.instant("ChildContainerCannotBlank"));
+      return;
+    }
+
+    this.showLoader = true;
+    this.containerCreationService.InsertContainerinContainer(this.containerId, this.childContainerId, this.addContOpn).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data[0].RESULT == "Data Saved") {
+            if (this.addContOpn == "Add") {
+              this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+              this.itemCode = "";
+              this.itemQty = 0;
+              this.itemBatchSr = "";
+            } else if (this.addContOpn == "Remove") {
+              this.toastr.success('', this.translate.instant("ContainerAddedSuccessMsg"));
+            } else if (this.addContOpn == "Delete All") {
+              this.toastr.success('', this.translate.instant("ContainerDeletedSuccessMsg"));
+            }
+          } else {
+            this.toastr.error('', this.translate.instant(data[0].RESULT));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  ruleID: any;
+  partPerQty: any;
+  fillPerQty: any;
+  getLookupValue($event) {
+    if ($event != null && $event == "close") {
+      this.showLookup = false;
+      return;
+    }
+    else if (this.lookupfor == "ItemsListByRuleId") {
+      this.ruleID = $event[0];
+      this.itemCode = $event[1];
+      this.partPerQty = $event[2];
+      this.fillPerQty = $event[3];
+    } else if (this.lookupfor == "ContainerIdList") {
+      if (this.containerIdType == "parent") {
+        this.containerId = $event[0];
+        this.containerCode = $event[1];
+        this.containerType = $event[6];
+        this.containerUsage = ($event[12] == "Y") ? "Shipping" : "Internal"
+        this.packingRule = $event[14];
+        this.whseCode = $event[18];
+        this.binCode = $event[19];
+        if ($event[20] == undefined || $event[20] == "") {
+          this.containerWgt = 0.0;
+        }
+        else {
+          this.containerWgt = $event[20];
+        }
+
+      } else {
+        this.childContainerId = $event[0];
+      }
+    }
+  }
+
+  containerIdType: any = "parent"
+  GetParentContainer() {
+    this.showLoader = true;
+    this.containerIdType = "parent"
+    this.containerCreationService.GetAllContainer().subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.containerIdType = "parent"
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ContainerIdList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetAllContainer() {
+    this.showLoader = true;
+    this.containerIdType = "child"
+    this.containerCreationService.GetAllContainer().subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.containerIdType = "child"
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ContainerIdList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onContainerIdChange(from) {
+    var id;
+    if (from == 'parent') {
+      id = this.containerId;
+    } else {
+      id = this.childContainerId;
+    }
+    if (id == undefined || id == "") {
+      return
+    }
+    this.showLoader = true;
+    this.containerCreationService.IsValidContainerId(id).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -143,9 +390,28 @@ export class ContainerOperationComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-
+          if (data.length == 0) {
+            if (from == 'parent') {
+              this.containerId = '';
+            } else {
+              this.childContainerId = '';
+            }
+            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+          } else {
+            this.itemCode = data[0].ITEMCODE
+            if (from == 'parent') {
+              this.containerId = data[0].OPTM_CONTAINERID;
+            } else {
+              this.childContainerId = data[0].OPTM_CONTAINERID;
+            }
+          }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          if (from == 'parent') {
+            this.containerId = '';
+          } else {
+            this.childContainerId = '';
+          }
+          this.toastr.error('', this.translate.instant("InvalidContainerId"));
         }
       },
       error => {
@@ -158,17 +424,5 @@ export class ContainerOperationComponent implements OnInit {
         }
       }
     );
-  }
-
-  getLookupValue($event) {
-    if ($event != null && $event == "close") {
-      this.showLookup = false;
-      return;
-    }
-    else if (this.lookupfor == "ItemsList") {
-      this.itemCode = $event[0];
-    } else if(this.lookupfor == "Container") {
-      this.addedContainerId = ""
-    }
   }
 }

@@ -3,48 +3,52 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                 <span *ngIf="IsShipment">Container and Shipment - {{SelectedShipmentId}}</span>
-                 <span *ngIf="!IsShipment">Container and Shipment</span>
+                <span *ngIf="IsShipment">{{'Container_and_shipment'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin
+                    - {{SelectedBin}}) </span>
+                <span *ngIf="!IsShipment">{{'Container_and_shipment'|translate}}</span>
             </h3>
             <div class="row">
-               <div class="col-12">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
-                            <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
-                                      <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId
-                                      id="ContainerCodeId">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId id="ContainerCodeId">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                       
-                <div class="col-sm-6">
-                    <div class="form-group row">
-                        <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
-                          <div class="input-group col-sm-7">
-                             <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
-                             id="ContainsItemID" (blur)="onContainsItemChange()">
-                           </div>
-                           <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem()">
-                                    <i class="opti-icon-hammenu"></i>
-                                </button>
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID id="ContainsItemID"
+                                            (blur)="onContainsItemChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
-                          </div>
                         </div>
 
-                    <!-- <div class="col-sm-4">
-                        <div class="form-group row">
-                          <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Select_Shipment'|translate}}</button>
-                        </div>                                   
-                    </div> -->
-                    
-                  </div>                    
+                        <!-- <div class="col-sm-4">
+                            <div class="form-group row">
+                              <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Select_Shipment'|translate}}</button>
+                            </div>                                   
+                        </div> -->
+
+                    </div>
                 </div>
-               
+
             </div>
 
             <div class="row">
@@ -53,234 +57,327 @@
                         <div class="col-sm-6">
                             <div class="form-group row">
                                 <label for="PurposeId" class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
-                                <div class="col-sm-7">
+                                <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                         <!-- <input type="text" class="form-control form-control-sm" name='PurposeId' [(ngModel)]=PurposeId id="PurposeId" disabled> -->
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
-                                        textField="Name" valueField="Value" id="PurposeId" name="PurposeId" [(ngModel)]="PurposeId"
-                                        #selectedvalue (selectionChange)="onPurposeSelectChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
-                                    </div>                                    
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray" textField="Name" valueField="Value" id="PurposeId"
+                                            name="PurposeId" [(ngModel)]="PurposeId" #selectedvalue (selectionChange)="onPurposeSelectChange($event)"
+                                            [disabled]="IsShipment"></kendo-dropdownlist>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="col-sm-6">
                             <div class="form-group row">
                                 <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                                <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId 
-                                    id="WarehouseId" (blur)="onWhseChange()">
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId id="WarehouseId" (blur)="onWhseChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="input-group-append has-seprate-btn">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                        <i class="opti-icon-hammenu"></i>
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
 
                         <!-- <div class="col-sm-4">
-                            <div class="form-group row">
-                                <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Assign_to_shipment'|translate}}</button>
-                            </div>                                   
-                        </div> -->
+                                <div class="form-group row">
+                                    <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Assign_to_shipment'|translate}}</button>
+                                </div>                                   
+                            </div> -->
                     </div>
-                </div>            
-                
+                </div>
+
             </div>
 
             <div class="row">
-                    <div class="col-12">
-                     <div class="row">
-                         <div class="col-sm-6">
-                             <div class="form-group row">
-                                 <label for="StatusId" class="col-sm-4 col-form-label">{{'Status'|translate}}</label>
-                                 <div class="col-sm-7">
-                                     <div class="input-group input-group-sm">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="StatusId" class="col-sm-4 col-form-label">{{'Status'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm">
                                         <!-- <input type="text" class="form-control form-control-sm" name='StatusId' [(ngModel)]=StatusId id="StatusId" disabled> -->
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="statusArray"
-                                        textField="Name" valueField="Value" id="status" name="status" [(ngModel)]="StatusId"
-                                        #selectedvalue (selectionChange)="onStatusChange($event)"></kendo-dropdownlist>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                            
-                     <div class="col-sm-6">
-                         <div class="form-group row">
-                             <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
-                               <div class="input-group col-sm-7">
-                                  <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId"
-                                  (blur)="onBinChange()">
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="statusArray" textField="Name" valueField="Value" id="status"
+                                            name="status" [(ngModel)]="StatusId" #selectedvalue (selectionChange)="onStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
+                                    </div>
                                 </div>
-                                <div class="input-group-append has-seprate-btn">
-                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                         <i class="opti-icon-hammenu"></i>
-                                     </button>
-                                 </div>
-                               </div>
-                             </div>
-     
-                         <!-- <div class="col-sm-4">
-                             <div class="form-group row">
-                               <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Remove_from_shipment'|translate}}</button>
-                             </div>                                   
-                         </div> -->
-                         
-                       </div>                    
-                     </div>
-                    
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId" (blur)="onBinChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-4">
+                                 <div class="form-group row">
+                                   <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Remove_from_shipment'|translate}}</button>
+                                 </div>                                   
+                             </div> -->
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
-                    <div class="col-12">
-                     <div class="row">
-                         <div class="col-sm-6">
-                             <div class="form-group row">
-                                 <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Container_Type'|translate}}</label>
-                                 <div class="col-sm-6">
-                                     <!-- <div class="input-group input-group-sm"> -->
-                                      <input type="text" class="form-control form-control-sm" name='ContainerTypeId' [(ngModel)]=ContainerTypeId
-                                       id="ContainerTypeId" (blur)="onContainerTypeChange()"> 
-                                       <!-- <kendo-dropdownlist class="form-control form-control-sm" [data]="ContainerTypeArray"
-                                        textField="Name" valueField="Value" id="ContainerTypeId" name="ContainerTypeId" [(ngModel)]="ContainerTypeId"
-                                        #selectedvalue (selectionChange)="onContainerTypeChange($event)"></kendo-dropdownlist> -->
-                                     <!-- </div> -->
-                                 </div>
-                                 <div class="input-group-append has-seprate-btn col-sm-2">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()"> 
-                                        <i class="opti-icon-hammenu"></i>
-                                    </button>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Container_Type'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <!-- <div class="input-group input-group-sm"> -->
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" name='ContainerTypeId' [(ngModel)]=ContainerTypeId id="ContainerTypeId"
+                                            (blur)="onContainerTypeChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- <kendo-dropdownlist class="form-control form-control-sm" [data]="ContainerTypeArray"
+                                            textField="Name" valueField="Value" id="ContainerTypeId" name="ContainerTypeId" [(ngModel)]="ContainerTypeId"
+                                            #selectedvalue (selectionChange)="onContainerTypeChange($event)"></kendo-dropdownlist> -->
+                                    <!-- </div> -->
                                 </div>
-                             </div>
-                         </div>
-                            
-                     <div class="col-sm-6">
-                         <div class="form-group row">
-                             <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
-                               <div class="input-group col-sm-7">
-                                  <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId">
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId">
                                 </div>
                                 <!-- <div class="input-group-append has-seprate-btn">
-                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                         <i class="opti-icon-hammenu"></i>
-                                     </button>
-                                 </div> -->
-                               </div>
-                             </div>
-     
-                         <!-- <div class="col-sm-4">
-                             <div class="form-group row">
-                               <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Return_by_customer'|translate}}</button>
-                             </div>                                   
-                         </div> -->
-                         
-                       </div>                    
-                     </div>
-                    
+                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                             <i class="opti-icon-search"></i>
+                                         </button>
+                                     </div> -->
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm-4">
+                                 <div class="form-group row">
+                                   <button type="button" text="Select Shipments" (click)="GetWhseCode()">{{'Return_by_customer'|translate}}</button>
+                                 </div>                                   
+                             </div> -->
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
-                    <div class="col-12">
-                     <div class="row">
-                         <div class="col-sm-6">
-                             <div class="form-group row">
-                                 <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Inv_Post_Status'|translate}}</label>
-                                 <div class="col-sm-7">
-                                     <div class="input-group input-group-sm">
-                                        <!-- <input type="text" class="form-control form-control-sm" name='ContainerTypeId' [(ngModel)]=ContainerTypeId id="ContainerTypeId" disabled> -->
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="InvPostStatusArray"
-                                        textField="Name" valueField="Value" id="InvPostStatusValue" name="InvPostStatusValue" [(ngModel)]="InvPostStatusId"
-                                        #selectedvalue (selectionChange)="onInvPostStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>    
-                         <div>
-                            <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>  
-                         </div>                    
-                       
-                       </div>                    
-                     </div>
-                    
-            </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Inv_Post_Status'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group input-group-sm">
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="InvPostStatusArray" textField="Name" valueField="Value"
+                                            id="InvPostStatusValue" name="InvPostStatusValue" [(ngModel)]="InvPostStatusId" #selectedvalue
+                                            (selectionChange)="onInvPostStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="WOId" class="col-sm-4 col-form-label">{{'WO_NUM'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-sm" name='WOId'
+                                                [(ngModel)]=WOId id="WOId">
+                                            <!-- <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                    (mousedown)="getWorkOrders()">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div> -->
+                                        </div>                                       
+                                    </div>
+        
+                                </div>
+                            </div>
+        
+                        <!-- <div>
+                            <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                        </div> -->
+
+                    </div>
+                </div>
+
+
+            </div>
             <div class="row">
                     <div class="col-12">
-                       <h5 class="card-header">{{'Container_Items'|translate}}</h5>
-                       <div class="card-body">
-                            <kendo-grid [data]="ContainerItems" [resizable]="true" [height]="200" [pageSize]="pageSize" [skip]="skip" [pageable]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
-                                <kendo-grid-column field="Selected" class="text-right" width="85" title="{{'Selected'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <label class="custom-checkbox mb-0">
-                                            <input type="checkbox" #checkedselectedvalue
-                                                (change)="selectContainerRowChange(checkedselectedvalue.checked,dataItem,rowIndex)">
-                                            <span class="checkbox"></span>
-                                        </label>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <!-- <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column> -->
-                                <kendo-grid-column field="OPTM_CONTCODE" width="100" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CONTTYPE" class="text-right" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_UOM" width="100" title="{{'UOM'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WEIGHT" width="100" title="{{'Wt_of_Items'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WT_UOM" width="100" title="{{'Wt_UOM'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOLUME" width="100" title="{{'Item_Volume'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_VOL_UOM" width="100" title="{{'Volume_UOM'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Container_Wt'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Vol_UOM'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PARENTCONTID" width="100" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPMENTID" width="100" title="{{'Shipment_Id'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="100" title="{{'Picked'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <label class="custom-checkbox mb-0">
-                                            <input type="checkbox"
-                                                #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'">
-                                            <span class="checkbox"></span>
-                                        </label>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_WHSE" width="100" title="{{'Warehouse'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BIN" width="100" title="{{'Cont_Bin'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_BUILT_SOURCE" width="100" title="{{'Built_In_Process'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPELIGIBLE" width="100" title="{{'ShipEligible'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="QuantityFulFill" width="100" title="{{'DateTime'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'ContainerStatus'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SO_NUMBER" width="100" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                            </kendo-grid>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="SOId" class="col-sm-4 col-form-label">{{'SO_NUM'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-sm" name='SOId'
+                                                [(ngModel)]=SOId id="SOId"> 
+                                            <!-- <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                    (mousedown)="getSalesOrders()">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div> -->
+                                        </div>                                       
+                                    </div>
+        
+                                </div>
+                            </div>
+            
+                            <div>
+                                <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                            </div>
+    
                         </div>
                     </div>
-            </div>           
+    
+    
+                </div>
 
-            <div class="fix-footer-btnBar">
-                <div class="col-sm-12 col-12">
-                       <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
-                        <i class="opti-icon-arrow-back"></i>
-                        </button>
-                        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
-                           <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()" [disabled]="IsShipment">
-                           <span class="k-icon k-i-check" role="presentation"></span>{{'Select_Shipment'|translate}}</button> 
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Remove_from_shipment'|translate}}</button>  
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text"(click)="onReturnPress()">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Return_by_customer'|translate}}</button> 
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSetDamagedPress()" [disabled]="IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Set_Damaged'|translate}}</button>    
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onCloseContainerPress()" [disabled]="IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Close_Container'|translate}}</button>                       
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onPostToInventoryPress()" [disabled]="IsShipment">
-                           <span class="k-icon k-i-check" role="presentation"></span>{{'Post_To_Inventory'|translate}}</button>    
+            <div class="row mt-2">
+                <div class="col-12">
+                    <!-- <h5 class="card-header">{{'Container_Items'|translate}}</h5> -->
+                    <!-- <div class="card-body"> -->
+                        <kendo-grid [kendoGridBinding]="ContainerItems" [resizable]="true" [height]="250" [pageSize]="pageSize"
+                            [pageable]="ShowGridPaging" [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="true" >
+                            <ng-template kendoGridToolbarTemplate> 
+                                <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>                                       
+                              </ng-template>
+                            <kendo-grid-checkbox-column title="Select" [width]="25">
+                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue 
+                                            (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
+                                                id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
+                                            <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
+                                        <div class="custom-control custom-checkbox">
+                                            <input #chkSelection type="checkbox"  (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
+                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                            <label class="custom-control-label" for="chkbox-{{idx}}"></label>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-checkbox-column>  
+                            <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTCODE" width="155" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTTYPE" class="text-right" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_UOM" width="100" title="{{'UOM'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_WEIGHT" width="100" class="text-right" title="{{'Wt_of_Items'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_WT_UOM" width="100" title="{{'Wt_UOM'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_VOLUME" width="100" title="{{'Item_Volume'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_VOL_UOM" width="100" title="{{'Volume_UOM'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Container_Wt'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Vol_UOM'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_PARENTCONTID" width="100" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_SHIPMENTID" width="100" title="{{'Shipment_Id'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="85" title="{{'Picked'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <label class="custom-checkbox mb-0">
+                                        <input type="checkbox" #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'"
+                                            disabled>
+                                        <span class="checkbox"></span>
+                                    </label>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="OPTM_WHSE" width="100" title="{{'Warehouse'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_BIN" width="208" title="{{'Cont_Bin'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_BUILT_SOURCE" width="100" title="{{'Built_In_Process'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_SHIPELIGIBLE" width="75" title="{{'ShipEligible'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="QuantityFulFill" width="100" title="{{'DateTime'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'ContainerStatus'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_SO_NUMBER" width="100" title="{{'SONumber'|translate}}"></kendo-grid-column>
+                        </kendo-grid>
+
+                        <!-- </div> -->
+                    </div>
+                </div>
+</div>
+            
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" type="button" *ngIf="IsShipment" (click)="onArrowBtnClick()">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
+                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()"
+                            *ngIf="!IsShipment">
+                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Select_Shipment'|translate}}</button> -->
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
+                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onRemoveShipmentPress()"
+                            *ngIf="!IsShipment"> -->
+                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Remove_from_shipment'|translate}}</button>
+                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onReturnPress()"
+                            *ngIf="!IsShipment"> -->
+                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Return_by_customer'|translate}}</button> -->
+                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSetDamagedPress()"
+                            *ngIf="!IsShipment">
+                            <span class="k-icon k-i-check" role="presentation"></span>{{'Set_Damaged'|translate}}</button> -->
+                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onCloseContainerPress()"
+                            *ngIf="!IsShipment">
+                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Close_Container'|translate}}</button>
+                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onPostToInventoryPress()"
+                            *ngIf="!IsShipment"> -->
+                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Post_To_Inventory'|translate}}</button> -->
+
+                <div class="btn-group  toggle-btn-outer">
+                    <div class="dropdown show">
+                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="opti-icon-more"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">{{'Select_Shipment'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Return_by_customer'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Set_Damaged'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Close_Container'|translate}}</a>
+                            <a class="dropdown-item" href="#">{{'Post_To_Inventory'|translate}}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
-      </form>
+    </form>
 </div>
 
 <span *ngIf="showLookup">
@@ -290,6 +387,3 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
-
-
-    

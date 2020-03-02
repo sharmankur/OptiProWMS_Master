@@ -26,7 +26,7 @@
                                     (blur)="OnContainerTypeChangeBlur()" #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerType()" [disabled]=isUpdate>
-                                        <i class="opti-icon-hammenu"></i>
+                                        <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
                             </div>
@@ -57,11 +57,14 @@
                 </div>
             </div>
 
-            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button>
+           
 
             <div class="row">
                 <div class="col-md-12">
+                    <div class="card shipment-widget-box">
+                        <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                            <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
+     
                     <kendo-grid class="no-shadow" [data]="autoRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
 
@@ -121,7 +124,7 @@
                                         min="0" #display_name >
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -142,7 +145,12 @@
                                     #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
                             </ng-template>
                         </kendo-grid-column>
-
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                    <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PACKING_MATWT" value={{dataItem.OPTM_PACKING_MATWT}} id="display_name"
+                                        #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
+                                </ng-template>
+                            </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
@@ -151,6 +159,7 @@
                             </ng-template>
                         </kendo-grid-column>
                     </kendo-grid>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,7 +172,7 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                    <span class="k-icon k-i-plus" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
     </form>

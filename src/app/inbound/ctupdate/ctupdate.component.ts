@@ -17,6 +17,7 @@ export class CTUpdateComponent implements OnInit {
   CT_Width: string;
   CT_Height: string;
   CT_Max_Width: string;
+  CT_Tare_Width: string;
   CT_ContainerType: string;
   CT_ROW: any;
   BtnTitle: string;
@@ -42,6 +43,8 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Width = this.CT_ROW[3];
       this.CT_Height = this.CT_ROW[4];
       this.CT_Max_Width = this.CT_ROW[5];
+      this.CT_Tare_Width = this.CT_ROW[10];
+      this.formatCT_Tare_Width();
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
@@ -70,6 +73,11 @@ export class CTUpdateComponent implements OnInit {
   formatCT_Max_Width() {
     this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
+
+  formatCT_Tare_Width() {
+    this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+  
 
   validateFields(): boolean{
     if(this.CT_ContainerType == '' || this.CT_ContainerType == undefined){
@@ -109,7 +117,7 @@ export class CTUpdateComponent implements OnInit {
   addContainerType() {
     this.showLoader = true;
     this.inboundService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
-      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width).subscribe(
+      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -143,7 +151,7 @@ export class CTUpdateComponent implements OnInit {
   updateContainerType() {
     this.showLoader = true;
     this.inboundService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
-      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width).subscribe(
+      this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

@@ -97,6 +97,7 @@ export class SigninComponent implements OnInit {
                     console.log('service_url after fetch:   '+ data[0]);
                     sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
                     this.getPSURL();
+                    this.signinService.loadConfig();
                 },
                 (err: HttpErrorResponse) => {
                     console.log(err.message);
@@ -159,6 +160,7 @@ export class SigninComponent implements OnInit {
             localStorage.setItem("whseId", "01");
             localStorage.setItem("UserId", this.userName);
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
+            localStorage.setItem("DATEFORMAT", "MM/dd/yyyy");
 
             localStorage.setItem("DecimalPrecision", "2");
             localStorage.setItem("DecimalSeparator", ".");

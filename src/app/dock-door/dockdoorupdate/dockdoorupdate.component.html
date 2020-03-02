@@ -1,29 +1,22 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner">
-
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Dock_Door'|translate}}
             </h3>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-
                     <div class="form-group row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="WHSCODE" [(ngModel)]="WHSCODE" placeholder="{{'WHSCODE'|translate}}"
-                                    (blur)="IsValidWhseCode()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
                                 <div class="input-group-append">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onWhsLookupClick()" [disabled]=isUpdate >
-                                        <i class="opti-icon-hammenu"></i>
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onWhsLookupClick()" [disabled]=isUpdate>
+                                        <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
-                                <!-- <div class="ml-1 d-flex">
-                                    <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                        <i class="opti-icon-qr-code fs-24"></i>
-                                    </button>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -49,6 +42,59 @@
 
                 </div>
             </div>
+
+
+            <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
+         
+                        <kendo-grid class="no-shadow" [data]="autoRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
+                            #gridItem>
+    
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+    
+                                        <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name"
+                                            min="0" #display_name >
+                                        <div class="input-group-append">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+    
+                                </ng-template>
+                            </kendo-grid-column>
+    
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="18" title="{{'CAR_PartsPerContainer'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                    <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PARTS_PERCONT" value={{dataItem.OPTM_PARTS_PERCONT}}
+                                        id="display_name" min="0" #display_name (change)="updatePartperCont(display_name, display_name.value, idx)">
+                                </ng-template>
+                            </kendo-grid-column>
+    
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                    <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
+                                        #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
+                                </ng-template>
+                            </kendo-grid-column>
+    
+                            <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
+                                        <span class="k-icon k-i-delete" role="presentation"></span>
+                                    </button>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                        </div>
+                    </div>
+                </div>
 
 
         </div>

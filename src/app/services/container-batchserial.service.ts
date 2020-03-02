@@ -14,16 +14,50 @@ export class ContainerBatchserialService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
    }
 
-  fillBatchSerialDataInGrid(WarehouseId:string, BinId:string, ItemCode:string){
+  fillBatchSerialDataInGrid(ContnrShipmentId:number, WarehouseId:string, BinId:string, ItemCode:string, SHPStatus: any, Tracking: any){
 
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
+        ContnrShipmentId: ContnrShipmentId,
         WarehouseId: WarehouseId,
         BinId: BinId,
-        ItemCode: ItemCode
+        ItemCode: ItemCode,
+        SHPStatus: SHPStatus,
+        Tracking: Tracking
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/fillBatchSerialDataInGrid", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillBatchSerialDataInGrid", jObject, this.commonService.httpOptions);
+  }
+  
+  AssignMaterialToShipment(oSaveArray:any){
+
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignMaterialToShipment", jObject, this.commonService.httpOptions);
+  }
+
+  GetItemsOpenQuantity(ContnrShipmentId:number){
+
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContnrShipmentId: ContnrShipmentId       
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/GetItemsOpenQuantity", jObject, this.commonService.httpOptions);
+  }
+
+  getLotNoInventoryData(WHSE:string, Bin:string){
+
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WHSE: WHSE,
+        Bin: Bin,
+        RULEID: ''
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/getLotNoInventoryData", jObject, this.commonService.httpOptions);
   }
 }

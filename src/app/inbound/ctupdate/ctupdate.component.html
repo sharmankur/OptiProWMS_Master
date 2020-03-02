@@ -69,6 +69,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Tare_Width'|translate}}</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group input-group-sm">
+                                            <input type="number" #scanQty name="CT_Tare_Width"
+                                            [(ngModel)]=CT_Tare_Width (blur)="formatCT_Tare_Width()" 
+                                            min="0"
+                                            class="text-right form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>                        
                     </div>
                 </div>
     

@@ -173,3 +173,13 @@ p {
         }
     }
 }
+
+.grid-toolbar-delete-btn{
+    float: right;
+}
+.opti_show-hide-grid-column-filter{
+    margin-top: 3px;
+    .k-checkbox+.k-checkbox-label{
+        margin-left: 0;
+    }
+}

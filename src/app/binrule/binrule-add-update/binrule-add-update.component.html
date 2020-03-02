@@ -50,7 +50,7 @@
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetWhseCode()">
-                                        <i class="opti-icon-hammenu"></i>
+                                        <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                     (mousedown)="GetDataForWhsZone()">
-                                    <i class="opti-icon-hammenu"></i>
+                                    <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -74,12 +74,14 @@
                     </div>
                 </div>
             </div>
-
+<!-- 
             <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button>
+                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button> -->
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12"> <div class="card shipment-widget-box">
+                    <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                        <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
                     <kendo-grid class="no-shadow" [data]="binRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHS_RULE" headerClass="text-right" class="text-center" [width]="18" title="{{'BinRuleWhsRule'|translate}}">
@@ -96,7 +98,7 @@
                                         min="0" #storage_from_bin >
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,1)">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -110,7 +112,7 @@
                                         min="0" #storage_to_bin >
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,2)">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -124,13 +126,13 @@
                                         min="0" #putaway_stage_bin >
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,3)">
-                                            <i class="opti-icon-hammenu"></i>
+                                            <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
                             </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-left" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="deleteRow(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>
@@ -145,6 +147,7 @@
                         </kendo-grid-column> -->
 
                     </kendo-grid>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,7 +160,7 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                    <span class="k-icon k-i-plus" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
     </form>

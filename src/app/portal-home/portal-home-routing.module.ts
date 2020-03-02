@@ -47,12 +47,14 @@ const routes: Routes = [
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
+      { path: 'container-creationWIP', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
       { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"},     
       { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
       { path:'binrule', loadChildren: "../binrule/binrule.module#BinruleModule" },
       { path: 'Container_List', component: ContainerShipmentComponent } ,
       { path: 'BatchSerial_List', component: ContainerBatchserialComponent } ,
-      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" }
+      { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
+      { path: 'container-maintenance', loadChildren: "../container-maintenance/container-maintenance.module#ContainerMaintenanceModule" }
     ]
 
   }
