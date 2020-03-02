@@ -32,7 +32,7 @@
   "Container_Maintenance": "Container Maintenance",
   "Container_List": "Container List",
 
-  "WhsUGMapping": "Whs-UG Mapping",
+  "WhsUGMapping": "Whse-Group-Mapping",
   "Bin_Rules": "Bin Rules",
   "Warehouse_Bin_Layout": "Warehouse Bin Layout",
   "Container_Groups": "Container Groups",
@@ -63,6 +63,7 @@
   "CT_Width":"Width", 
   "CT_Height":"Height", 
   "CT_Max_Width":"Max Weight", 
+  "CT_Tare_Width":"Tare Weight", 
   "Weight":"Weight", 
   "CT_Add":"Add", 
   "WeightUOM": "Weight UOM",
@@ -91,6 +92,7 @@
   "CAR_ItemCode":"Item Code", 
   "CAR_AddPartsToContainer":"Add Parts To Container", 
   "CAR_MinFillPercent":"Min Fill Percent", 
+  "CAR_MAT_WT":"Packing Mat Weight", 
   "CAR_Pack_Type_Blank_Msg":"Pack Type can't be blank.", 
   "CAR_ItemCode_Blank_Msg":"Item Code can't be blank.", 
   "CAR_ContainerPackRule_Blank_Msg":"Container Pack Rule can't be blank.", 
@@ -640,6 +642,7 @@
   "Carrier_CarrierIdAlreadyExist": "Carrier Id already exist.",
   "CarrierIdbalnkMsg": "Carrier Id can't be blank.",
   "ContainerCreation": "Container Creation",
+  "ContainerCreationWIP": "Container Creation (WIP)",
   "CreateContainer": "Create Container",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
@@ -728,7 +731,10 @@
   "Greater_OpenQty": "Assigned Quantity cannot be greater than Open Quantity",
   "WO_NUM": "WO#",
   "SO_NUM": "SO#",
-
+  "Produced_Qty": "Produced Qty",
+  "Passed_Qty": "Passed Qty",
+  "Rejected/NC": "Rejected/NC Qty",
+  
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",
   "WhsUserGroup_UserGroup_Picking": "Picking Group",
@@ -850,7 +856,7 @@
   "AddedQtyValid": "Added quantity must be equal to quantity",
   "AddedQtyValidMsg": "Added quantity should be less than available quantity",
   "CheckedItemQtyValid": "Quantity can't be zero for checked item",
-  "QtyAdded": "Quantity Added",
+  "QtyAdded": "Quantity Allocated",
   "Pick_ListBasis_val_Msg":"Select Basis to generate Pick List",
   "Pick_Opr_val_Msg":"Select Pick Operation",
   "Pick_Type_val_Msg":"Select Pick Type to generate Pick List",
@@ -876,6 +882,10 @@
   "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
   "Invalid_Stagebin_msg":"Please select stage bin.", 
+  "InventoryStatus": "Inventory Status",
+  "PackProcess": "Pack Process",
+  "Selected": "Selected",
+
   "Dummy": "Dummy"
   
 }

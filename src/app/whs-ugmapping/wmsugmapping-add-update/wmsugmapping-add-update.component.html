@@ -60,30 +60,33 @@
                     </div>
                 </div>
                 <!-- col end -->
-                <!-- col start -->
-                <div class="col-sm-6">
-                    <div class="form-group row">
-                        <label for="binRange"
-                            class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
-                        <div class="col-sm-9">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name='binrange'
-                                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
-                                <div class="input-group-append has-seprate-btn">
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetBinRange()">
-                                        <i class="opti-icon-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- col end -->
+               
             </div>
             <!-- row end -->
-
-
+            <!-- row start -->
+            <div class="row">
+ <!-- col start -->
+ <div class="col-sm-6">
+    <div class="form-group row">
+        <label for="binRange"
+            class="col-sm-3 col-form-label">{{'WhsUserGroup_Bin_Range'|translate}}</label>
+        <div class="col-sm-9">
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" name='binrange'
+                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
+                <div class="input-group-append has-seprate-btn">
+                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                        (mousedown)="GetBinRange()">
+                        <i class="opti-icon-hammenu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- col end -->
+            </div>
+            <!-- row end -->
             <!-- row start -->
             <div class="row">
 
@@ -255,9 +258,9 @@
                 <!-- col end -->
             </div>
         </div>
-            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
+            <!-- <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
                 (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
-                (copyItem)="onCopyItemClick($event)"></app-lookup>
+                (copyItem)="onCopyItemClick($event)"></app-lookup> -->
 
         </div>
 
@@ -267,16 +270,17 @@
         <div class="fix-footer-btnBar">
 
             <div class="col-sm-12 col-12">
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
-                    (click)="OnCancelClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span>
-                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
 
-                <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
-                    <span class="k-icon k-i-plus" role="presentation"></span> {{'CT_Add'|translate}}</button>
+                <!-- <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
 
                     <button *ngIf="forUpdate==true" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onUpdateClick()">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button>
+                        <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Update'|translate}}</button> -->
+                        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                            <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
     </form>

@@ -366,11 +366,10 @@
 
 
  <!-- Row 9 -->
- <div class="row">
+ <div class="row" *ngIf="IsWIPCont">
         <div class="col-12">
             <!-- row start -->
-            <div class="row">
-             
+            <div class="row">             
 
                 <!-- col start -->
                 <div class="col-sm-4">
@@ -415,6 +414,58 @@
                         </div>
                     </div>
                 </div>
+                <!-- col end -->
+            </div>
+        </div>
+    </div>
+
+  <!-- Row 10 -->
+ <div class="row" *ngIf="IsWIPCont">
+        <div class="col-12">
+            <!-- row start -->
+            <div class="row">            
+
+                <!-- col start -->
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Produced_Qty'|translate}}</label>
+                        <div class="input-group col-sm-7">
+                                <input type="text" class="form-control form-control-sm" id="ProducedQtyId"
+                                        name="ProducedQtyId" [(ngModel)]="ProducedQty" disabled> 
+                            </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                   <!-- col start -->
+                   <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'Passed_Qty'|translate}}</label>
+                        <div class="col-sm-7">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm" name='PassedQtyId'
+                                            [(ngModel)]="PassedQty" id="PassedQtyId" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                  <!-- col start -->              
+                <div class="col-sm-4">
+                        <div class="form-group row">
+                            <label for="RejectedNC" class="col-sm-5 col-form-label">{{'Rejected/NC'|translate}}</label>
+                            <div class="col-sm-7">
+                                <div class="input-group input-group-sm">
+                                    <input type="number" class="form-control form-control-sm text-right" name='RejectedQtyId'
+                                        [ngModel]="RejectedQty" id="RejectedQtyId"
+                                        disabled>
+                                    <input type="text" class="form-control form-control-sm ml-1 text-right" name='NCQtyId'
+                                        [(ngModel)]="NCQty" id="NCQtyId" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <!-- col end -->
             </div>
         </div>
@@ -508,12 +559,12 @@
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="AvlQty" [width]="45" title="{{'AvailableQty'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty|numberFormat}}
+                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty}}
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'InvQty'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT|numberFormat}}
+                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT}}
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="60" title="{{'BinNo'|translate}}">

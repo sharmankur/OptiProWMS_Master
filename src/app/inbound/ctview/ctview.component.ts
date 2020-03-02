@@ -50,6 +50,7 @@ export class CTViewComponent implements OnInit {
             data[i].OPTM_WIDTH = data[i].OPTM_WIDTH.toFixed(Number(localStorage.getItem("DecimalPrecision")));
             data[i].OPTM_HEIGHT = data[i].OPTM_HEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
             data[i].OPTM_MAXWEIGHT = data[i].OPTM_MAXWEIGHT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            // data[i].OPTM_TARE_WT = data[i].OPTM_TARE_WT.toFixed(Number(localStorage.getItem("DecimalPrecision")));            
           }
           this.serviceData = data;
           this.lookupfor = "CTList";

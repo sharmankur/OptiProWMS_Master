@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ContainerGroupService } from 'src/app/services/container-group.service';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
 import { WhsUserGroupService } from 'src/app/services/whs-user-group.service';
+import { WhsUGMappingMasterComponent } from '../whs-ugmapping-master/whs-ugmapping-master.component';
 
 @Component({
   selector: 'app-wmsugmapping-add-update',
@@ -36,9 +37,12 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
   binRange: any='';
   whsZone: any='';
   isValidateCalled: boolean = false;
-
+  UGM_ROW: any;
+  BtnTitle: string;
   forUpdate: boolean = false;
-  constructor(private translate: TranslateService,private commonservice: Commonservice,
+  isUpdate: boolean = false;
+
+  constructor(private whsUGMappingMasterComponent:WhsUGMappingMasterComponent,private translate: TranslateService,private commonservice: Commonservice,
      private toastr: ToastrService,  private router: Router, private userGroupMappingService: WhsUserGroupService,
      private containerCreationService: ContainerCreationService) { 
     let userLang = navigator.language.split('-')[0];
@@ -49,9 +53,64 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.GetDataForWarehouseUserGroupList();
+    let UGMRow = localStorage.getItem("UGMapping_ROW")
+    if (UGMRow != undefined && UGMRow != "") {
+      this.UGM_ROW = JSON.parse(localStorage.getItem("UGMapping_ROW"));
+    }
+    
+    if (localStorage.getItem("UGAction") == "copy") {
+      this.isUpdate = false;
+      this.BtnTitle = this.translate.instant("CT_Add");
+      this.prepareAndSetDataForUpdateAndCopy();
+    } else if (localStorage.getItem("UGAction") == "update") {
+      this.isUpdate = true;
+      this.BtnTitle = this.translate.instant("CT_Update");
+      this.prepareAndSetDataForUpdateAndCopy()
+    } else if (localStorage.getItem("UGAction") == "add") {
+      this.BtnTitle = this.translate.instant("CT_Add");
+      this.isUpdate = false;
+      this.resetForm();
+    } else {
+      this.BtnTitle = this.translate.instant("CT_Add");
+      this.isUpdate = false;
+    }
+   // this.GetDataForWarehouseUserGroupList();
   }
+  // whsCode: any ='';
+  // whsName: any='';
+  // pickingGroup: any='';
+  // packingGroup: any='';
+  // putAwayGroup: any='';
+  // receivingGroup: any='';
+  // shippingGroup: any='';
+  // returnGroup: any='';
+  // moveGroup: any='';
+  // binRange: any='';
+  // whsZone: any='';
+  prepareAndSetDataForUpdateAndCopy(){
+    var $event = JSON.parse(localStorage.getItem("UGMapping_ROW"));
+    this.whsCode = $event[0];
+    this.whsZone = $event[1];
+    this.binRange = $event[2];
+    this.pickingGroup = $event[3];
+    this.packingGroup = $event[4];
+    this.putAwayGroup = $event[5];
+    this.receivingGroup = $event[6];
+    this.shippingGroup = $event[7];
+    this.returnGroup = $event[8];
+    this.moveGroup = $event[9];
 
+    // this.whsCode = $event[0];
+    // this.whsZone = $event[1];
+    // this.binRange = $event[2];
+    // this.pickingGroup = $event[3];
+    // this.packingGroup = $event[4];
+    // this.putAwayGroup = $event[5];
+    // this.receivingGroup = $event[6];
+    // this.shippingGroup = $event[7];
+    // this.returnGroup = $event[8];
+    // this.moveGroup = $event[9];
+  }
   GetWhseCode() {
     this.showLoader = true;
     this.commonservice.GetWhseCode().subscribe(
@@ -210,10 +269,10 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectWhsCode"));
      return false;
     }
-    // if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
-    //   this.toastr.error('', this.translate.instant("SelectWhsZone"));
-    //  return false;
-    // }
+    if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
+      this.toastr.error('', this.translate.instant("SelectWhsZone"));
+     return false;
+    }
     if(this.binRange==undefined && this.binRange==null || this.binRange==""){
       this.toastr.error('', this.translate.instant("SelectBinRange"));
      return false;
@@ -553,12 +612,17 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           if(data.length>0 && data[0].RESULT=="Data Saved"){
             
             this.toastr.success('', this.translate.instant("UpdatedSuccessfullyErrorMsg"));
-            this.resetForm(1);
-            this.GetDataForWarehouseUserGroupList();
+            //this.resetForm();
+            this.whsUGMappingMasterComponent.WhsUGComponent = 1;
+            //this.GetDataForWarehouseUserGroupList();
+          }else  if(data.length>0 && data[0].RESULT=="Data Not Saved"){
+            this.toastr.error('', "Data Not Saved");
           }else{
+
+          }
             //something went wrong
           //  this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"))
-          }
+         
          
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -575,7 +639,13 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       }
     );  
    }
-
+   OnAddUpdateClick(){
+     if(this.isUpdate){
+       this.onUpdateClick()
+     }else{
+       this.OnAddClick();
+     }
+   }
 
 
     OnAddClick(){
@@ -596,8 +666,9 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           if (data.length > 0 && data[0].RESULT == "Data Saved") {
 
             this.toastr.success('', this.translate.instant("AddedSuccessfullyErrorMsg"));
-            this.resetForm(1);
+            this.resetForm();
             this.GetDataForWarehouseUserGroupList();
+              this.whsUGMappingMasterComponent.WhsUGComponent = 1;
           } else if (data.length > 0 && data[0].RESULT == "Data Already Exists") {
             this.toastr.success('', this.translate.instant("UserGroupAlreadyExists"));
 
@@ -651,12 +722,8 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     }
 
 
-   resetForm(afterWhich:Number){
-     if(afterWhich==1){
-       this.forUpdate = false;
-     }else{
-      this.forUpdate = true;
-     }
+   resetForm(){
+    
     this.whsCode  ='';
     this.whsName='';
     this.pickingGroup='';
@@ -670,6 +737,9 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     this.whsZone='';
    }
 
+  onCancelClick() {
+    this.whsUGMappingMasterComponent.WhsUGComponent = 1;
+  }
 
 
   OnCancelClick() {
@@ -716,11 +786,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     this.moveGroup = $event[9];
     this.forUpdate =false;
     console.log("list Items:", this.groupData.length);
-    // this.groupDataFor = "groupData"
-    // this.groupData = this.groupData;
-    //     this.GetDataForWarehouseUserGroupList();
-
-    //this.ddmainComponent.ddComponent = 2;
+  
   }
 
   deleteUserGroupListRow(whsCode:String, whsZone:String, binRange:String) {
@@ -738,7 +804,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
         
           if(data.length>0 && data[0].RESULT=="Data Saved"){
             this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
-            this.resetForm(1);
+            this.resetForm();
             this.groupData = [];
             this.groupDataFor = ''
             this.GetDataForWarehouseUserGroupList();
@@ -777,7 +843,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
         
           if(data.length>0 && data[0].RESULT=="Data Saved"){
             this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
-            this.resetForm(1);
+            this.resetForm();
             this.groupData = [];
             this.groupDataFor = ''
             this.GetDataForWarehouseUserGroupList();

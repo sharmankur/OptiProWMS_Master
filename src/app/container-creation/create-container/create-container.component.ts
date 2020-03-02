@@ -61,6 +61,11 @@ export class CreateContainerComponent implements OnInit {
   workOrder: any = "";
   operationNo: any = "";
   taskId: any = "";
+  ProducedQty:any='';
+  PassedQty:any='';
+  RejectedQty:any='';
+  NCQty:any='';
+  IsWIPCont : boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -76,6 +81,12 @@ export class CreateContainerComponent implements OnInit {
     console.log("ngOnInit");
     localStorage.setItem("FromWhere", "");
     localStorage.setItem("ContainerOperationData", "");
+    if(window.location.href.indexOf("WIP") > -1){
+      this.IsWIPCont = true;
+    }
+    else{
+      this.IsWIPCont = false;
+    }
     this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
@@ -84,8 +95,6 @@ export class CreateContainerComponent implements OnInit {
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
     // this.GetContainerNumber();
-
-
   }
 
 
@@ -231,7 +240,7 @@ export class CreateContainerComponent implements OnInit {
         this.packType = $event[2];
         this.CheckScanAndCreateVisiblity(this.autoPackRule);
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
-        this.GetTotalWeightBasedOnRuleID();
+        // this.GetTotalWeightBasedOnRuleID();
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event[0];
         this.binNo = "";
@@ -250,9 +259,13 @@ export class CreateContainerComponent implements OnInit {
         }
         this.GetListOfBatchSerOfSelectedContainerID($event[0], $event[2])
       } else if (this.lookupfor == "WOLIST") {
-        this.workOrder = $event[0]
-        this.taskId = $event[6]
-        this.operationNo = $event[1]
+        this.workOrder = $event[0];
+        this.taskId = $event[6];
+        this.operationNo = $event[1];
+        this.ProducedQty = $event[7];
+        this.PassedQty = $event[8];
+        this.RejectedQty = $event[9];
+        this.NCQty = $event[10];
       }
     }
   }
@@ -433,7 +446,8 @@ export class CreateContainerComponent implements OnInit {
         OPTM_INVQUANTITY: 0,
         OPTM_BIN: '',
         OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
-        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING
+        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
+        OPTM_WEIGHT: this.fromContainerDetails[i].IWeight1,
       });
     }
 

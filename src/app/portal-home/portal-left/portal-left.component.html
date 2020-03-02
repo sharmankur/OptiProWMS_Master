@@ -170,6 +170,15 @@
                                 <span class="text">{{'ContainerCreation'|translate}}</span>
                             </a>
                         </li>
+
+                        <li id="16017" role="menuitem" (click)="listClick($event, 'container-creationWIP')" [ngStyle]="{'display':'flex'}">
+                                <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/container-creationWIP">
+                                    <svg viewBox="0 0 24 24" class="icon">
+                                        <use xlink:href="#containerCreation"></use>
+                                    </svg>
+                                    <span class="text">{{'ContainerCreationWIP'|translate}}</span>
+                                </a>
+                            </li>
     
                         <li id="16015" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
                             <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/shipmentwizard">
@@ -200,7 +209,7 @@
                         <span class="text">{{'Maintenance'|translate}}</span>
                     </a>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16018" role="menuitem" (click)="listClick($event, 'Container_Maintenance')" [ngStyle]="{'display':'flex'}">
+                        <li id="16018" role="menuitem" (click)="listClick($event, 'container-maintenance')" [ngStyle]="{'display':'flex'}">
                             <a class="dropdown-item">
                                 <svg viewBox="0 0 511 512" class="icon">
                                     <use xlink:href="#containerMaintenance"></use>

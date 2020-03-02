@@ -10,9 +10,10 @@ import {  GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { SharedModule } from '../shared-module/shared-module.module';
+import { UgmappingviewComponent } from './ugmappingview/ugmappingview.component';
 
 @NgModule({
-  declarations: [WhsUGMappingMasterComponent, WMSUGMappingAddUpdateComponent],
+  declarations: [WhsUGMappingMasterComponent, WMSUGMappingAddUpdateComponent, UgmappingviewComponent],
   imports: [
     CommonModule,
     WhsUGMappingRoutingModule,

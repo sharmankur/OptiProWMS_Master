@@ -7,6 +7,7 @@ import { WhsUGMappingMasterComponent } from './whs-ugmapping-master/whs-ugmappin
 
 const routes: Routes = [
   { path: '', component: WhsUGMappingMasterComponent}
+ 
     // { path: 'outcustomer', component: OutCutomerComponent },
     // { path: 'outorder', component: OutOrderComponent },
     // { path: 'outprodissue', component: OutProdissueComponent }

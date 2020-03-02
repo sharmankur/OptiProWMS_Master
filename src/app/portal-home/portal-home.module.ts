@@ -40,6 +40,7 @@ import { ContainerBatchserialComponent } from '../shipment/container-batchserial
 import { ShipmentModule } from '../shipment/shipment.module';
 import { GeneratePickComponent } from 'src/app/shipment-wizard/generate-pick/generate-pick.component';
 import { DateInputsModule } from '../../../node_modules/@progress/kendo-angular-dateinputs';
+import { ContainerMaintenanceModule } from '../container-maintenance/container-maintenance.module';
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import { DateInputsModule } from '../../../node_modules/@progress/kendo-angular-
     ContainerGroupModule,
     WhseBinLayoutModule,
     ShipmentModule,
-    DateInputsModule
+    DateInputsModule,
+    ContainerMaintenanceModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
     ContainerShipmentComponent,ContainerBatchserialComponent,GeneratePickComponent],
