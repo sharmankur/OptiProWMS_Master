@@ -16,10 +16,10 @@ export class ContainerShipmentComponent implements OnInit {
 
   ContainerCodeId: any = '';
   purposeArray: any = [];
-  PurposeId: any;
+  PurposeId: any =  {Value: ''};
   PurposeValue: any = '';
   statusArray: any = [];
-  StatusId: any = '';
+  StatusId: any =  {Value: ''};
   StatusValue: any = '';
   WarehouseId: any = '';
   BinId: any = '';
@@ -27,7 +27,7 @@ export class ContainerShipmentComponent implements OnInit {
   ContainerTypeArray: any = [];
   ShipmentId: any = '';
   InvPostStatusArray: any = [];
-  InvPostStatusId: any = '';
+  InvPostStatusId: any = {Value: ''};
   InvPostStatusValue: any = '';
   status: any = '';
   ContainerItems: any = [];

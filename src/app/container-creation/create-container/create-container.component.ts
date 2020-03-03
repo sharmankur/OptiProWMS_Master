@@ -506,7 +506,7 @@ export class CreateContainerComponent implements OnInit {
             this.selectedBatchSerial = [];
             if(this.IsWIPCont){
               this.ProducedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
-              this.PassedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+              this.PassedQty = parseFloat(this.ProducedQty);
             }
             // this.GetContainerNumber();
           }

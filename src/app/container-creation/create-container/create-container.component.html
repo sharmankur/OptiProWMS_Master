@@ -85,7 +85,7 @@
                         <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Passed'|translate}}</label>
                         <div class="col-sm-7">
                                 <div class="input-group input-group-sm">                                    
-                                    <input type="number" class="form-control form-control-sm" name='PassedQtyId'
+                                    <input type="number" class="form-control form-control-sm text-right" name='PassedQtyId'
                                     [ngModel]="PassedQty" id="PassedQtyId"
                                     disabled>                                  
                                 </div>
@@ -99,7 +99,7 @@
                             <label for="RejectedNC" class="col-sm-5 col-form-label">{{'NC'|translate}}</label>
                             <div class="col-sm-7">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name='NCQtyId'
+                                    <input type="text" class="form-control form-control-sm text-right" name='NCQtyId'
                                         [(ngModel)]="NCQty" id="NCQtyId" disabled>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                             <!-- col start -->
                             <div class="col-sm-4">
                                     <div class="form-group row">
-                                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
+                                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Cont_Code'|translate}}</label>
                                         <div class="col-sm-7">
                                             <div class="input-group input-group-sm">
                                                 <div class="input-group input-group-sm">
@@ -232,7 +232,7 @@
 
                     <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerType'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Cont_Type'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="containerTypeId"
                                        name="containerType" [(ngModel)]="containerType"
@@ -247,16 +247,14 @@
                         </div>
 
                             <!-- col start -->
-                        <div class="col-sm-4">
-                            <div class="form-group row">
+                        <div class="col-sm-4" >
+                            <div class="form-group row" *ngIf="false">
                                 <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
                                             [ngModel]="itemPackQty|numberFormat" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
-                                            disabled>
-                                        <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
-                                            [(ngModel)]="itemPack" id="itemPack" disabled>
+                                            disabled>                                        
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +288,7 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="parentContainerType"
                                         name="parentContainerType"
@@ -307,18 +305,12 @@
 
                         <!-- col start -->
                         <div class="col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group row" *ngIf="false">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm text-right" name='noOfPackToGen'
-                                            [(ngModel)]="noOfPackToGen" id="noOfPackToGen">
-                                        <!-- <input type="text" class="form-control form-control-sm ml-1" name='noOfPackToGen1'
-                                            [(ngModel)]="noOfPackToGen1" id="noOfPackToGen1" placeholder="{{'0'}}"
-                                            disabled>
-                                        <input type="text" class="form-control form-control-sm ml-1" name='noOfPackToGen2'
-                                            [(ngModel)]="noOfPackToGen2" id="noOfPackToGen2" placeholder="{{'0'}}"
-                                            disabled> -->
+                                            [(ngModel)]="noOfPackToGen" id="noOfPackToGen">                                       
                                     </div>
                                 </div>
                             </div>
@@ -531,7 +523,7 @@
                                     </div>
                                 </ng-template> -->
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Quantity'|translate}}"
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Item_Container_Quantity'|translate}}"
                                 headerClass="text-center" class="text-right">
                                 <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
                                 </ng-template>
