@@ -33,7 +33,7 @@ export class BinRangeViewComponent implements OnInit {
 
   GetDataForBinRanges() {
     this.showLoader = true;
-    this.binRangeService.GetDataForBinRanges().subscribe(
+    this.commonservice.GetDataForBinRanges(undefined).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -61,7 +61,7 @@ export class BinRangeViewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getlookupSelectedItem(event) {
     localStorage.setItem("BinRangesRow", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.binrangesMainComponent.binRangesComponent = 2;
@@ -101,7 +101,7 @@ export class BinRangeViewComponent implements OnInit {
     this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  DeleteFromCarrier(ddDeleteArry) {
+  DeleteFromBinranges(ddDeleteArry) {
     this.showLoader = true;
     this.binRangeService.DeleteFromBinranges(ddDeleteArry).subscribe(
       (data: any) => {
@@ -148,10 +148,11 @@ export class BinRangeViewComponent implements OnInit {
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
-            OPTM_CARRIERID: this.event[0],
+            OPTM_BIN_RANGE: this.event[1],
+            OPTM_WHSCODE: this.event[0],
             CompanyDBId: localStorage.getItem("CompID")
           });
-          this.DeleteFromCarrier(ddDeleteArry);
+          this.DeleteFromBinranges(ddDeleteArry);
           break;
         case ("DeleteSelected"):
           if (this.event.length <= 0) {
@@ -161,11 +162,12 @@ export class BinRangeViewComponent implements OnInit {
           var ddDeleteArry: any[] = [];
           for (var i = 0; i < this.event.length; i++) {
             ddDeleteArry.push({
-              OPTM_CARRIERID: this.event[i].OPTM_CARRIERID,
+              OPTM_BIN_RANGE: this.event[i].OPTM_BIN_RANGE,
+              OPTM_WHSCODE: this.event[i].OPTM_WHSCODE,
               CompanyDBId: localStorage.getItem("CompID")
             });
           }
-          this.DeleteFromCarrier(ddDeleteArry);
+          this.DeleteFromBinranges(ddDeleteArry);
           break;
 
       }

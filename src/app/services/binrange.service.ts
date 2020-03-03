@@ -15,16 +15,7 @@ export class BinRangeService {
   constructor(private httpclient: HttpClient,private commonService:Commonservice) {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
-
-
-  GetDataForBinRanges(): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
-      }])
-    };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
-  }
+   
 
   IsValidBinRule(whsRule: String, whsCode: string, whsZone: number, purspose:String): Promise<any> {
     let jObject = {
@@ -39,19 +30,39 @@ export class BinRangeService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
   }
 
-  InsertIntoBinRule(oShipmentAutoRule: any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
+  InsertIntoWareHouseBinRange(OPTM_BIN_RANGE: string, OPTM_WHSCODE, OPTM_FROM_BIN, OPTM_TO_BIN, OPTM_RANGE_DESC): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_BIN_RANGE: OPTM_BIN_RANGE,
+        OPTM_WHSCODE: OPTM_WHSCODE, 
+        OPTM_FROM_BIN: OPTM_FROM_BIN,
+        OPTM_TO_BIN: OPTM_TO_BIN,
+        OPTM_RANGE_DESC: OPTM_RANGE_DESC,
+        OPTM_CREATEDBY: localStorage.getItem("UserId")
+      }])
+    };  
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
-  UpdateBinRule(oShipmentAutoRule: any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
+  UpdateWareHouseBinRange(OPTM_BIN_RANGE, OPTM_WHSCODE, OPTM_FROM_BIN, OPTM_TO_BIN, OPTM_RANGE_DESC): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_BIN_RANGE: OPTM_BIN_RANGE,
+        OPTM_WHSCODE: OPTM_WHSCODE, 
+        OPTM_FROM_BIN: OPTM_FROM_BIN,
+        OPTM_TO_BIN: OPTM_TO_BIN,
+        OPTM_RANGE_DESC: OPTM_RANGE_DESC,
+        OPTM_CREATEDBY: localStorage.getItem("UserId")
+      }])
+    };      
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromBinranges(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
 }

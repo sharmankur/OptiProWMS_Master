@@ -20,6 +20,7 @@ export class CARUpdateComponent implements OnInit {
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
   CAR_PackType = "Shipping";
+  OPTM_CONT_DESC: string;
   lookupfor: string;
   BtnTitle: string;
 
@@ -52,6 +53,7 @@ export class CARUpdateComponent implements OnInit {
       this.autoRuleArray = (JSON.parse(localStorage.getItem("CAR_Grid_Data"))).OPTM_CONT_AUTORULEDTL;
       this.CAR_CPackRule = this.CTR_ROW[0];
       this.CAR_ContainerType = this.CTR_ROW[1];
+      this.OPTM_CONT_DESC = this.CTR_ROW[2];
       for(var i=0; i<this.autoRuleArray.length ;i++){
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = Number(this.autoRuleArray[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -231,6 +233,7 @@ export class CARUpdateComponent implements OnInit {
     oSubmitPOLotsObj.Header.push({
       OPTM_RULEID: this.CAR_CPackRule,
       OPTM_CONTTYPE: this.CAR_ContainerType,
+      OPTM_CONT_DESC: this.OPTM_CONT_DESC,
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_CONTUSE: packtype,
       OPTM_ADD_TOCONT: addPartToCont,

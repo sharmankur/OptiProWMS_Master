@@ -920,4 +920,14 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/GeneratePickList/GeneratePickList", jObject, this.httpOptions);
   }
+
+  GetDataForBinRanges(OPTM_WHSCODE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: OPTM_WHSCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRange", jObject, this.httpOptions);
+  }
 }
