@@ -7,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BinRangeMainComponent implements OnInit {
 
+  binRangesComponent: Number = 1;
   constructor() { }
 
+  
   ngOnInit() {
   }
 

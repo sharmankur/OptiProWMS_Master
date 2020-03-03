@@ -191,7 +191,7 @@ export class CommonLookupComponent implements OnInit {
     else if (this.lookupfor == "CARList") {
       this.showCARList();
     }
-    else if (this.lookupfor == "BinList") {
+    else if (this.lookupfor == "BinList"||this.lookupfor == "From_BinList"||this.lookupfor == "To_BinList") {
       this.showBinNoList();
     } else if (this.lookupfor == "SOList") {
       this.showOutSOListNew();

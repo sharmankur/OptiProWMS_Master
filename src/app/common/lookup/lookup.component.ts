@@ -118,8 +118,8 @@ export class LookupComponent implements OnInit {
     } else if (this.lookupfor == "toBinsList") {
       this.showSBTrackFromBinList();
     }
-    else if (this.lookupfor == "RecvBinList") {
-      this.showRecvBinList();
+    else if (this.lookupfor == "BinRangeList") {
+      this.showBinRangeList();
     }
     else if (this.lookupfor == "CTList") {
       this.showContainerType();
@@ -373,16 +373,34 @@ export class LookupComponent implements OnInit {
     this.lookupTitle = this.translate.instant("LookupTitle_BinNoList");
   }
 
-  showRecvBinList() {
+  showBinRangeList() {
     this.table_head = [
       {
         field: 'BINNO',
-        title: this.translate.instant("BinNo"),
+        title: this.translate.instant("BinRange"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("BinRangeDesc"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("FromBinCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("ToBinCode"),
         type: 'text',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("LookupTitle_BinNoList");
+    this.lookupTitle = this.translate.instant("WarehouseBinRanges");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

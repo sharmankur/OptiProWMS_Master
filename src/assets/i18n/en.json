@@ -761,6 +761,8 @@
   "WarehouseZone": "Warehouse Zones",
   "WarehouseBinRanges": "Warehouse Bin Ranges",
   "BinRange": "Bin Range",
+  "BinRangeDesc": "Bin Range Description",
+  "BinRanges": "Bin Ranges",
   "FromBinCode": "From Bin No.",
   "ToBinCode": "To Bin No.",
   "WhseZoneType": "Zone Type",
