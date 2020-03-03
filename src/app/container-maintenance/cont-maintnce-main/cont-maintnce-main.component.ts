@@ -27,7 +27,7 @@ export class ContMaintnceMainComponent implements OnInit {
   weight: any;
   shipEligible: any;
   volume: any;
-
+  containerItems: any = []
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
     private router: Router, private containerCreationService: ContainerCreationService) { }
@@ -84,6 +84,9 @@ export class ContMaintnceMainComponent implements OnInit {
     );
   }
 
+  containerStatusEnum: any;
+  inventoryStatusEnum: any;
+  shipEligibleEnum: any;
   getLookupValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {
@@ -94,13 +97,17 @@ export class ContMaintnceMainComponent implements OnInit {
       if (this.lookupfor == "ContainerIdList") {
         this.containerId = $event[0];
         this.containerCode = $event[1];
-        this.containerStatus = $event[11]
-        this.shipEligible = $event[12]
-        this.inventoryStatus = $event[17]
+        this.containerStatusEnum = $event[11]
+        this.shipEligibleEnum = $event[12]
+        this.inventoryStatusEnum = $event[17]
         this.warehouse = $event[18]
         this.binCode = $event[19]
         this.weight = $event[20]
         this.volume = $event[22]
+        this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
+        this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
+        this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+        this.getItemAndBSDetailByContainerId()
       }
     }
   }
@@ -125,6 +132,118 @@ export class ContMaintnceMainComponent implements OnInit {
             this.toastr.error('', this.translate.instant("InvalidContainerId"));
           } else {
             this.containerId = data[0].OPTM_CONTAINERID;
+            this.containerCode = data[0].OPTM_CONTCODE
+            this.containerStatusEnum = data[0].OPTM_STATUS
+            this.shipEligibleEnum = data[0].OPTM_SHIPELIGIBLE
+            this.inventoryStatusEnum = data[0].OPTM_INV_STATUS
+            this.warehouse = data[0].OPTM_WHSE
+            this.binCode = data[0].OPTM_BIN
+            this.weight = data[0].OPTM_WEIGHT
+            this.volume = data[0].OPTM_VOLUME
+            this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
+            this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
+            this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+            this.getItemAndBSDetailByContainerId()
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  getContainerStatus(id) {
+    if (id == undefined || id == "") {
+      return ""
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("CStatusNew");
+    } else if (id == 2) {
+      return this.translate.instant("CScheduledNew");
+    } else if (id == 3) {
+      return this.translate.instant("CClosedNew");
+    } else if (id == 4) {
+      return this.translate.instant("CReopenedNew");
+    } else if (id == 5) {
+      return this.translate.instant("CAssignedNew");
+    } else if (id == 6) {
+      return this.translate.instant("CShippedNew");
+    } else if (id == 7) {
+      return this.translate.instant("CPickedNew");
+    } else if (id == 8) {
+      return this.translate.instant("CReturnNew");
+    } else if (id == 9) {
+      return this.translate.instant("CDamagedNew");
+    } else if (id == 10) {
+      return this.translate.instant("CCancelledNew");
+    }
+  }
+
+  getInvStatus(id) {
+    if (id == undefined || id == "") {
+      return ""
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("InvStatusPending");
+    } else if (id == 2) {
+      return this.translate.instant("InvStatusPosted");
+    }
+  }
+
+  getShipEligible(v) {
+    if (v == undefined || v == "") {
+      return ""
+    }
+
+    if (v == "Y") {
+      return this.translate.instant("Shipping");
+    } else if (v == "N") {
+      return this.translate.instant("Internal");
+    }
+  }
+
+  getItemAndBSDetailByContainerId() {
+    if (this.containerId == undefined || this.containerId == "") {
+      return;
+    }
+    this.showLoader = true;
+    this.containerCreationService.GetItemAndBtchSerDetailBasedOnContainerID(this.containerId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length == 0) {
+            this.containerId = '';
+            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+          } else {
+            this.containerItems = data.ItemDeiail
+            var batchSerailsData = data.BtchSerDeiail
+            for (var i = 0; i < this.containerItems.length; i++) {
+              this.containerItems[i].ItemBatchSerailData = []
+              for (var j = 0; j < batchSerailsData.length; j++) {
+                if(this.containerItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE){
+                  this.containerItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
+                }
+              }
+            }
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
