@@ -1084,7 +1084,7 @@ export class CreateContainerComponent implements OnInit {
     //     return;
     //   }
     // }
-
+    localStorage.setItem("From", "CCreation")
     this.ccmain.ccComponent = 2;
     this.prepareSaveModel(this.autoPackRule, this.containerId,
       this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,

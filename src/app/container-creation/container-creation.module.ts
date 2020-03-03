@@ -26,6 +26,8 @@ import { ContainerOperationComponent } from './container-operation/container-ope
     GridModule,
     DropDownsModule,
     DateInputsModule
-  ]
+  ],
+  exports: [CcmainComponent, ContainerOperationComponent],
+  providers: [CcmainComponent, ContainerOperationComponent]
 })
 export class ContainerCreationModule { }

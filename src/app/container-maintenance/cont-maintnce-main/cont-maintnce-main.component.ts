@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Commonservice } from 'src/app/services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { ContMaintnceComponent } from '../cont-maintnce/cont-maintnce.component';
 
 @Component({
   selector: 'app-cont-maintnce-main',
@@ -30,9 +31,11 @@ export class ContMaintnceMainComponent implements OnInit {
   containerItems: any = []
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
-    private router: Router, private containerCreationService: ContainerCreationService) { }
+    private router: Router, private containerCreationService: ContainerCreationService, private contMaintenance: ContMaintnceComponent) { }
 
   ngOnInit() {
+    localStorage.setItem("From", "")
+    this.contMaintenance.cmComponent = 1;
   }
 
   onCancelClick() {
@@ -44,6 +47,11 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onContainerOperationClick() {
+    localStorage.setItem("From", "CMaintenance")
+    this.contMaintenance.cmComponent = 2;
+  }
+
+  onCloseClick(){
 
   }
 

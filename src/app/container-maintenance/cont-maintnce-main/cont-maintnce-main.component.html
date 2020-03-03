@@ -260,6 +260,12 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Selected'|translate}}"
                                         class="text-right">
+                                        <ng-template kendoGridToolbarTemplate>
+                                            <span class="opti_input-group-checkbox">
+                                                <input type="checkbox" id="selected" name='selected' class="k-checkbox" />
+                                                <label class="k-checkbox-label empty-check" for="selected"></label>
+                                            </span>
+                                        </ng-template>
                                     </kendo-grid-column>
 
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_LINEID"
@@ -277,11 +283,11 @@
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ItemBatchSerailData">
-                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
+                                            <kendo-grid-column width="150" [width]="150" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
+                                            <kendo-grid-column width="150" [width]="150" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column width="150" [width]="150"  field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
+                                            <kendo-grid-column width="150" [width]="150" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
                                                 class="text-right">
                                             </kendo-grid-column>
                                         </kendo-grid>
@@ -299,7 +305,7 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick('Create')">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCloseClick('Create')">
                     {{'Close'|translate}}
                 </button>
 

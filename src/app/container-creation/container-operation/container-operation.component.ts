@@ -8,6 +8,7 @@ import { CARMasterService } from 'src/app/services/carmaster.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonData } from 'src/app/models/CommonData';
 import { ɵAnimationRendererFactory } from '@angular/platform-browser/animations';
+import { ContMaintnceComponent } from 'src/app/container-maintenance/cont-maintnce/cont-maintnce.component';
 
 @Component({
   selector: 'app-container-operation',
@@ -43,10 +44,11 @@ export class ContainerOperationComponent implements OnInit {
   itemQty: any = 0;
   containerCode: string;
   itemBatchSr: any;
+  from: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
-    private ccmain: CcmainComponent) {
+    private ccmain: CcmainComponent, private contMaintenance: ContMaintnceComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -63,18 +65,10 @@ export class ContainerOperationComponent implements OnInit {
     this.addItemOpn = this.defaultItemOpn.Name;
     this.addContOpn = this.defaultContOpn.Name;
 
-    var data = localStorage.getItem("ContainerOperationData");
-    this.oSaveModel = JSON.parse(data);
+    this.from = localStorage.getItem("From")
 
-    // this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
-    // this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
-    // this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
-    // this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
-    // this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
-    // this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    // this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    // this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
-    // this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    // var data = localStorage.getItem("ContainerOperationData");
+    // this.oSaveModel = JSON.parse(data);
     this.GetParentContainer();
   }
 
@@ -86,7 +80,11 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.ccmain.ccComponent = 1;
+    if(this.from == "CMaintenance"){
+      this.contMaintenance.cmComponent = 1;
+    } else {
+      this.ccmain.ccComponent = 1;
+    }
   }
 
   onAddContOpnSelectChange($event) {
