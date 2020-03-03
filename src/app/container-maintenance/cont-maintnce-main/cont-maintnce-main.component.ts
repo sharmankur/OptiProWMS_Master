@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
 import { ContMaintnceComponent } from '../cont-maintnce/cont-maintnce.component';

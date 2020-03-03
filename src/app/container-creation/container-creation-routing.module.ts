@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateContainerComponent } from './create-container/create-container.component';
 import { CcmainComponent } from './ccmain/ccmain.component';
-import { ContainerOperationComponent } from './container-operation/container-operation.component';
 
 
 const routes: Routes = [
