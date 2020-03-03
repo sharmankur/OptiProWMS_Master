@@ -61,11 +61,14 @@ export class CreateContainerComponent implements OnInit {
   workOrder: any = "";
   operationNo: any = "";
   taskId: any = "";
-  ProducedQty: any = '';
-  PassedQty: any = '';
-  RejectedQty: any = '';
-  NCQty: any = '';
-  IsWIPCont: boolean = false;
+  ProducedQty:any='';
+  PassedQty:any='';
+  RejectedQty:any='';
+  NCQty:any='';
+  IsWIPCont : boolean = false;
+  SelectedWOItemCode: any= '';
+  partsQty: any = 0;
+  RemQtyWO: any = 0;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -86,6 +89,7 @@ export class CreateContainerComponent implements OnInit {
     }
     else {
       this.IsWIPCont = false;
+      this.taskId = 1;
     }
     this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
@@ -238,6 +242,7 @@ export class CreateContainerComponent implements OnInit {
         this.autoPackRule = $event[0];
         this.autoRuleId = $event[0];
         this.packType = $event[2];
+        this.partsQty = $event[10];        
         this.CheckScanAndCreateVisiblity(this.autoPackRule);
         this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
         // this.GetTotalWeightBasedOnRuleID();
@@ -266,6 +271,12 @@ export class CreateContainerComponent implements OnInit {
         this.PassedQty = $event[8];
         this.RejectedQty = $event[9];
         this.NCQty = $event[10];
+        this.SelectedWOItemCode = $event[3];
+        this.itemCode = this.SelectedWOItemCode;
+        this.RemQtyWO = $event[11];
+
+        this.fromContainerDetails = [];
+        this.selectedBatchSerial = [];
       }
     }
   }
@@ -400,7 +411,7 @@ export class CreateContainerComponent implements OnInit {
       purps = "Y"
     } else {
       purps = "N"
-    }
+    }    
 
     //Push data of header table into BatchSerial model
     this.oSaveModel.HeaderTableBindingData.push({
@@ -435,30 +446,34 @@ export class CreateContainerComponent implements OnInit {
       OPTM_WONUMBER: this.workOrder,
       OPTM_TASKHDID: this.taskId,
       OPTM_OPERATION: this.operationNo,
-      OPTM_SOURCE: 3
+      OPTM_QUANTITY: this.partsQty,
+      OPTM_SOURCE: this.IsWIPCont ? 1 : 3
     });
 
-    for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      this.oSaveModel.OtherItemsDTL.push({
-        OPTM_ITEMCODE: this.fromContainerDetails[i].OPTM_ITEMCODE,
-        OPTM_QUANTITY: this.fromContainerDetails[i].QuantityToAdd,
-        OPTM_CONTAINER: "",
-        OPTM_AVLQUANTITY: 0,
-        OPTM_INVQUANTITY: 0,
-        OPTM_BIN: '',
-        OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
-        OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
-        OPTM_WEIGHT: this.fromContainerDetails[i].IWeight1,
-      });
+    if(this.fromContainerDetails.length > 0){
+      for (var i = 0; i < this.fromContainerDetails.length; i++) {
+        this.oSaveModel.OtherItemsDTL.push({
+          OPTM_ITEMCODE: this.fromContainerDetails[i].OPTM_ITEMCODE,
+          OPTM_QUANTITY: this.fromContainerDetails[i].QuantityToAdd,
+          OPTM_CONTAINER: "",
+          OPTM_AVLQUANTITY: 0,
+          OPTM_INVQUANTITY: 0,
+          OPTM_BIN: '',
+          OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
+          OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
+          OPTM_WEIGHT: this.fromContainerDetails[i].IWeight1,
+        });
+      }
+  
+      for (var i = 0; i < this.selectedBatchSerial.length; i++) {
+        this.oSaveModel.OtherBtchSerDTL.push({
+          OPTM_BTCHSER: this.selectedBatchSerial[i].LOTNO,
+          OPTM_QUANTITY: Number(this.selectedBatchSerial[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
+          OPTM_ITEMCODE: this.selectedBatchSerial[i].ITEMCODE
+        });
+      }
     }
-
-    for (var i = 0; i < this.selectedBatchSerial.length; i++) {
-      this.oSaveModel.OtherBtchSerDTL.push({
-        OPTM_BTCHSER: this.selectedBatchSerial[i].LOTNO,
-        OPTM_QUANTITY: Number(this.selectedBatchSerial[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
-        OPTM_ITEMCODE: this.selectedBatchSerial[i].ITEMCODE
-      });
-    }
+    
   }
 
   onCreateClick(event) {
@@ -489,6 +504,10 @@ export class CreateContainerComponent implements OnInit {
             this.containerId = data[0].OPTM_CONTAINERID;
             this.containerCode = data[0].OPTM_CONTCODE;
             this.selectedBatchSerial = [];
+            if(this.IsWIPCont){
+              this.ProducedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+              this.PassedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+            }
             // this.GetContainerNumber();
           }
         } else {
@@ -546,6 +565,14 @@ export class CreateContainerComponent implements OnInit {
       }
     }
 
+    if(this.IsWIPCont){
+     let Sum = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+      if(Sum >  parseFloat(this.RemQtyWO)){
+        this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+        return;
+      }
+    }
+
     // for (var i = 0; i < this.fromContainerDetails.length; i++) {
     //   if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
     //     if (this.fromContainerDetails[i].QuantityToAdd > this.fromContainerDetails[i].AvlQty) {
@@ -554,7 +581,6 @@ export class CreateContainerComponent implements OnInit {
     //     }
     //   }
     // }
-
     return true;
   }
 
@@ -575,6 +601,49 @@ export class CreateContainerComponent implements OnInit {
       return;
     }
 
+    if(this.IsWIPCont){
+      if (this.workOrder == undefined || this.workOrder == "" || this.workOrder == null ) {
+        this.toastr.error('', this.translate.instant("SelectWOMsg"));
+        return;
+      }
+      this.showLoader = true;
+      this.commonservice.GetDataForContainerAutoRuleWIP(this.containerType,this.SelectedWOItemCode).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            this.showLookup = true;
+            this.serviceData = data;
+            for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
+              if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
+                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
+              } else {
+                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
+              }
+            }
+  
+            this.lookupfor = "CARList";
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+    }
+    else{
+    
     this.showLoader = true;
     this.commonservice.GetDataForContainerAutoRule().subscribe(
       (data: any) => {
@@ -610,6 +679,7 @@ export class CreateContainerComponent implements OnInit {
         }
       }
     );
+    }
   }
 
   GetWhseCode() {
@@ -773,8 +843,13 @@ export class CreateContainerComponent implements OnInit {
           this.selectedBatchSerial = [];
           this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL;
           for (var j = 0; j < this.fromContainerDetails.length; j++) {
+            if(this.IsWIPCont && this.fromContainerDetails[j].OPTM_ITEMCODE == this.SelectedWOItemCode){
+              this.fromContainerDetails[j].QuantityToAdd = Number(this.partsQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            }
+            else{
+              this.fromContainerDetails[j].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));;
+            }
             this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0;
-            this.fromContainerDetails[j].QuantityToAdd = 0;
             this.fromContainerDetails[j].AvlQty = 0;
           }
 
@@ -994,13 +1069,19 @@ export class CreateContainerComponent implements OnInit {
           // this.fromContainerDetails = []
           if (data.IteWiseInventory != null && data.IteWiseInventory != undefined) {
             for (var j = 0; j < this.fromContainerDetails.length; j++) {
-              this.fromContainerDetails[j].QuantityToAdd = 0
+              
+              if(this.IsWIPCont && this.fromContainerDetails[j].OPTM_ITEMCODE == this.SelectedWOItemCode){
+                this.fromContainerDetails[j].QuantityToAdd = this.partsQty;
+              }
+              else{
+                this.fromContainerDetails[j].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));;
+              }
+
               this.fromContainerDetails[j].BinCode = this.binNo
               this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = 0
               this.fromContainerDetails[j].AvlQty = 0
               this.fromContainerDetails[j].isDesable = true
               this.fromContainerDetails[j].OPTM_TRACKING = "B"
-              this.fromContainerDetails[j].QuantityToAdd = 0
               this.fromContainerDetails[j].OPTM_CONTAINERID = "";
               for (var i = 0; i < data.IteWiseInventory.length; i++) {
                 if (data.IteWiseInventory[i].ITEMCODE == this.fromContainerDetails[j].OPTM_ITEMCODE) {
