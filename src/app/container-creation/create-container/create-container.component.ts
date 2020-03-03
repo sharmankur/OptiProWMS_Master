@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CommonData } from 'src/app/models/CommonData';
-import { CARMasterService } from 'src/app/services/carmaster.service';
+import { CommonData } from '../../models/CommonData';
+import { CARMasterService } from '../../services/carmaster.service';
 import { CcmainComponent } from '../ccmain/ccmain.component';
 
 @Component({
@@ -84,10 +84,10 @@ export class CreateContainerComponent implements OnInit {
     console.log("ngOnInit");
     localStorage.setItem("FromWhere", "");
     localStorage.setItem("ContainerOperationData", "");
-    if(window.location.href.indexOf("WIP") > -1){
+    if (window.location.href.indexOf("WIP") > -1) {
       this.IsWIPCont = true;
     }
-    else{
+    else {
       this.IsWIPCont = false;
       this.taskId = 1;
     }
@@ -446,7 +446,8 @@ export class CreateContainerComponent implements OnInit {
       OPTM_WONUMBER: this.workOrder,
       OPTM_TASKHDID: this.taskId,
       OPTM_OPERATION: this.operationNo,
-      OPTM_QUANTITY: this.partsQty
+      OPTM_QUANTITY: this.partsQty,
+      OPTM_SOURCE: this.IsWIPCont ? 1 : 3
     });
 
     if(this.fromContainerDetails.length > 0){
@@ -1164,7 +1165,7 @@ export class CreateContainerComponent implements OnInit {
     //     return;
     //   }
     // }
-
+    localStorage.setItem("From", "CCreation")
     this.ccmain.ccComponent = 2;
     this.prepareSaveModel(this.autoPackRule, this.containerId,
       this.containerType, this.autoClose, this.autoRuleId, this.whse, this.binNo, this.maxWeigth,
@@ -1335,11 +1336,11 @@ export class CreateContainerComponent implements OnInit {
     }
   }
 
-  updateWeigth(){
+  updateWeigth() {
     var weight = 0
     for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      var w : any = Number(this.fromContainerDetails[i].IWeight1).toFixed(Number(localStorage.getItem("DecimalPrecision")))
-      var q : any = Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      var w: any = Number(this.fromContainerDetails[i].IWeight1).toFixed(Number(localStorage.getItem("DecimalPrecision")))
+      var q: any = Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")))
       weight = weight + (w * q)
     }
     this.containerWeigth = weight
@@ -1528,7 +1529,7 @@ export class CreateContainerComponent implements OnInit {
     return result;
   }
 
-  bsWeightData: any= []
+  bsWeightData: any = []
   GetTotalWeightBasedOnRuleID() {
     // this.showLoader = true;
     var result = false;

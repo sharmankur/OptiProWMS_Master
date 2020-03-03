@@ -32,7 +32,7 @@
   "Container_Maintenance": "Container Maintenance",
   "Container_List": "Container List",
 
-  "WhsUGMapping": "Whs-UG Mapping",
+  "WhsUGMapping": "Whse-Group-Mapping",
   "Bin_Rules": "Bin Rules",
   "Warehouse_Bin_Layout": "Warehouse Bin Layout",
   "Container_Groups": "Container Groups",
@@ -100,7 +100,7 @@
   "CAR_MinFillPercent_val_msg":"Sum of Min Fill Percent should be equal to 100.", 
   "CAR_MinFillPercent_blank_msg":"Min Fill Percent should not be equal to 0.", 
   "CAR_PartsPerContainer_blank_msg":"Parts Per Container should not be equal to 0.", 
-  "CAR_addItemDetail_blank_msg":"Please add item detail for the rule.", 
+  "CAR_addItemDetail_blank_msg":"Please add item detail.", 
   "CAR_itemcode_exists_Msg": "This item code already selected.",
   "CAR_deleteitem_Msg": "Please select any item.",
   "Edit":"Edit",
@@ -162,7 +162,7 @@
   "ShipmentContainers":"Shipment Containers",
   "ContainerItems": "Container Items",
   "ShipmentLineDetails":"Shipment Line Details",
-
+  "Default_Bin":"Default Bin",
   
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
@@ -885,9 +885,26 @@
   "WorkCenter": "Work Center",
   "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
+  "Invalid_Stagebin_msg":"Please select stage bin.", 
   "InventoryStatus": "Inventory Status",
   "PackProcess": "Pack Process",
   "Selected": "Selected",
+  "CStatusNew": "New",
+  "CScheduledNew": "Scheduled",
+  "CClosedNew": "Closed",
+  "CReopenedNew": "Reopened",
+  "CAssignedNew": "Assigned",
+  "CShippedNew": "Shipped",
+  "CPickedNew": "Picked",
+  "CReturnNew": "Return",
+  "CDamagedNew": "Damaged",
+  "CCancelledNew": "Canclled",
+  "InvStatusPending": "Pending",
+  "InvStatusPosted": "Posted",
+  "Shipping": "Shipping",
+  "Internal": "Internal",
+  "ContVolUOM": "Container Vol UOM",
+  "ContainerVolume": "Container Vol",
 
   "Dummy": "Dummy"
   

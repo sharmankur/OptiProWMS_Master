@@ -18,7 +18,7 @@ export class GeneratePickComponent implements OnInit {
   hideLookup: boolean = true;
   public mobileMedia = "(max-width: 767px)";
   public desktopMedia = "(min-width: 768px)";
-  WareHouse: string="01";
+  WareHouse: string="";
   showLoader: boolean = false;
   CustomerFrom: string="";
   CustomerTo: string="";
@@ -52,8 +52,8 @@ export class GeneratePickComponent implements OnInit {
   isSHIdDisabled: boolean;
   Plan_Shift: string="";
   pickListBasisIndex = 1;
-  pickTypeIndex = 3;
-  pickOperationIndex = 2;
+  pickTypeIndex = 1;
+  pickOperationIndex = 1;
 
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -77,11 +77,11 @@ export class GeneratePickComponent implements OnInit {
     this.PackTypeList = [this.translate.instant("Batch_Picking"),
     this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
     this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
-    this.Pick_Type = this.PackTypeList[0];
+    // this.Pick_Type = this.PackTypeList[0];
 
     this.PickOperationList = [this.translate.instant("PickToTote"),
     this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
-    this.Pick_Operation = this.PickOperationList[0];
+    // this.Pick_Operation = this.PickOperationList[0];
     this.onPickListBasisChange(this.PickListBasis);
   }
 

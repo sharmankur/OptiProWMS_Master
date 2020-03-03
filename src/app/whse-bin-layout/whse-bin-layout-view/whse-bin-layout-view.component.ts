@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { WhseBinLayoutService } from 'src/app/services/whse-bin-layout.service';
+import { WhseBinLayoutService } from '../../services/whse-bin-layout.service';
 import { WhseBinLayoutComponent } from '../whse-bin-layout/whse-bin-layout.component';
 
 @Component({

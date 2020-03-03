@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { CARMasterService } from 'src/app/services/carmaster.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { CARMasterService } from '../../services/carmaster.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { WhseBinLayoutComponent } from '../whse-bin-layout/whse-bin-layout.component';
-import { WhseBinLayoutService } from 'src/app/services/whse-bin-layout.service';
+import { WhseBinLayoutService } from '../../services/whse-bin-layout.service';
 
 @Component({
   selector: 'app-whse-bin-layout-add',
@@ -624,6 +624,39 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
         }
 
+        result = true;
+      },
+      error => {
+        result = false;
+        this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+        this.showLookup = false;
+      }
+    );
+    return result;
+  }
+
+  onWhseChange() {
+    if (this.whseCode == undefined || this.whseCode == "") {
+      return;
+    }
+
+    this.showLookup = false;
+    var result = false;
+    this.commonservice.IsValidWhseCode(this.whseCode).subscribe(
+      resp => {
+        this.showLookup = false;
+        if (resp != null && resp != undefined)
+          if (resp.ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
+
+            return;
+          }
+        if (resp.length == 0) {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.whseCode = ''
+        } else {
+          this.whseCode = resp[0].WhsCode
+        }
         result = true;
       },
       error => {

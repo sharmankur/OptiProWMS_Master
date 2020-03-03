@@ -103,6 +103,7 @@ export class LookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
+    this.selectedValues = [];
     $("input[name='columnfilter']").prop("checked", false);
     if (this.lookupfor == "toWhsList" || this.lookupfor == "fromWhsList") {
       this.showToWhsList();
