@@ -678,7 +678,7 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }          
-          this.BatchSerialData = data;        
+          this.BatchSerialData = data.BatchWiseInventory;        
 
           for(let i=0; i<this.BatchSerialData.length;i++){
             this.BatchSerialData[i].Quantity = Number(this.BatchSerialData[i].Quantity).toFixed(Number(localStorage.getItem("DecimalPrecision"))),

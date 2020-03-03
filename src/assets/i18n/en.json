@@ -657,7 +657,7 @@
   "AutoCloseWhenFull": "Auto Close When Full",
   "SONumber": "SO Number",
   "SOLine": "SO Line",
-  "ContainerWeigth/MaxWeight": "Container Wt/Max Wt",
+  "ContainerWeigth/MaxWeight": "Cont Wt/Max Wt",
   "AutoPackRule": "Auto Pack Rule",
   "InvQty": "Inv Quantity",
   "Create": "Create",
@@ -738,7 +738,14 @@
   "NC": "NC Qty",
   "Operation_Code": "Operation Code",
   "TaskId/Opn#": "Task Id/ Opn#",
-  
+  "WH": "WH",
+  "Bin_No": "Bin No",
+  "Available_Quantity": "Available Quantity",
+  "Item_Container_Quantity" : "Item Container Quantity",
+  "Cont_Code": "Cont. Code",
+  "Cont_Type": "Cont. Type",
+  "Parent_Cont_Type": "Parent Cont. Type",
+    
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",
   "WhsUserGroup_UserGroup_Picking": "Picking Group",
@@ -749,7 +756,7 @@
   "WhsUserGroup_User_Group_Returns": "Returns Group",
   "WhsUserGroup_User_Group_Move": "Move Group",
 
-  "ContainerGroupingCode": "Container Grouping Code",
+  "ContainerGroupingCode": "Cont. Group Code",
   "OtherItemsTitle": "Items to be included",
   "ResetCounter": "Reset Counter",
   "ParentContCannoSame": "Container type and parent container type can not be same.",
