@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { CommonData } from 'src/app/models/CommonData';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { CommonData } from '../../models/CommonData';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ContainerShipmentService } from 'src/app/services/container-shipment.service';
-import { ContainerBatchserialService } from 'src/app/services/container-batchserial.service';
+import { ContainerShipmentService } from '../../services/container-shipment.service';
+import { ContainerBatchserialService } from '../../services/container-batchserial.service';
 
 @Component({
   selector: 'app-container-batchserial',

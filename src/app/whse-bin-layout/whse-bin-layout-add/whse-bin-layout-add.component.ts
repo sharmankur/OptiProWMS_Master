@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { CARMasterService } from 'src/app/services/carmaster.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { CARMasterService } from '../../services/carmaster.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { WhseBinLayoutComponent } from '../whse-bin-layout/whse-bin-layout.component';
-import { WhseBinLayoutService } from 'src/app/services/whse-bin-layout.service';
+import { WhseBinLayoutService } from '../../services/whse-bin-layout.service';
 
 @Component({
   selector: 'app-whse-bin-layout-add',

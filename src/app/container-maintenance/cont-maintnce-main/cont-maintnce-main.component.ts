@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
 
 @Component({
   selector: 'app-cont-maintnce-main',

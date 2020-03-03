@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ContainerGroupService } from 'src/app/services/container-group.service';
+import { ContainerGroupService } from '../../services/container-group.service';
 import { ContainergroupmainComponent } from '../containergroupmain/containergroupmain.component';
 import { LookupComponent } from '../../common/lookup/lookup.component';
 

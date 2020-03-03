@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { BinrulemasterComponent } from '../binrulemaster/binrulemaster.component';
-import { BinruleService } from 'src/app/services/binrule.service';
+import { BinruleService } from '../../services/binrule.service';
 
 @Component({
   selector: 'app-binruleview',

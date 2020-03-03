@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { CarrierMainComponent } from '../carrier-main/carrier-main.component';
-import { CarrierService } from 'src/app/services/carrier.service';
+import { CarrierService } from '../../services/carrier.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 

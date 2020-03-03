@@ -5,7 +5,7 @@ import { WMSUGMappingAddUpdateComponent } from './wmsugmapping-add-update/wmsugm
 import { WhsUGMappingRoutingModule } from './whsugmapping-routing.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
-import { TrnaslateLazyModule } from 'src/translate-lazy.module';
+import { TrnaslateLazyModule } from '../../translate-lazy.module';
 import {  GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { WhsUGMappingMasterComponent } from '../whs-ugmapping-master/whs-ugmapping-master.component';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
-import { WhsUserGroupService } from 'src/app/services/whs-user-group.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
+import { WhsUserGroupService } from '../../services/whs-user-group.service';
 
 @Component({
   selector: 'app-ugmappingview',

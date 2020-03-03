@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CcmainComponent } from '../ccmain/ccmain.component';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
-import { CARMasterService } from 'src/app/services/carmaster.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
+import { CARMasterService } from '../../services/carmaster.service';
 import { ToastrService } from 'ngx-toastr';
-import { CommonData } from 'src/app/models/CommonData';
+import { CommonData } from '../../models/CommonData';
 import { ɵAnimationRendererFactory } from '@angular/platform-browser/animations';
 
 @Component({
