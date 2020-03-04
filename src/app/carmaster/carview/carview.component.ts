@@ -118,6 +118,16 @@ export class CARViewComponent implements OnInit {
   }
   
   DeleteFromContainerAutoRule(ddDeleteArry) {
+    for(var iBtchIndex=0; iBtchIndex<ddDeleteArry.length; iBtchIndex++){
+      if(ddDeleteArry[iBtchIndex].OPTM_CONTUSE == this.translate.instant("Shipping")){
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '1';
+      }else if(ddDeleteArry[iBtchIndex].OPTM_CONTUSE == this.translate.instant("Internal")){
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '2';
+      }else{
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '3';
+      }
+    }    
+
     this.showLoader = true;
     this.carmasterService.DeleteFromContainerAutoRule(ddDeleteArry).subscribe(
       (data: any) => {

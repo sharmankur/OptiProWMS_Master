@@ -660,8 +660,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.showLookup = false;
         if (resp != null && resp != undefined)
           if (resp.ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
-
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();            
             return;
           }
         if (resp.length == 0) {
@@ -679,6 +678,37 @@ export class WhseBinLayoutAddComponent implements OnInit {
       }
     );
     return result;
+  }
+  
+  IsValidWareHouseBinRange(index, value) {
+    if(value == undefined || value == ""){
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidWareHouseBinRange(this.whseCode, value).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.whseZoneList[index].OPTM_BIN_RANGE = data[0].OPTM_BIN_RANGE;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   GetDataForBinRanges(index) {

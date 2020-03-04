@@ -33,7 +33,7 @@ export class BinRangeViewComponent implements OnInit {
 
   GetDataForBinRanges() {
     this.showLoader = true;
-    this.commonservice.GetDataForBinRanges(undefined).subscribe(
+    this.commonservice.GetDataForBinRanges("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

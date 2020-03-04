@@ -38,8 +38,8 @@ export class DockdoorupdateComponent implements OnInit {
       this.DD_DESC = this.DD_ROW.OPTM_DESC;
       this.WHSCODE = this.DD_ROW.OPTM_WHSE;
       this.DDdetailArray = (JSON.parse(localStorage.getItem("DD_Grid_Data"))).OPTM_DOCKDOOR_DTL;
-      for(var i=0; i<this.DDdetailArray.length ;i++){
-        this.DDdetailArray[i].OPTM_DEFAULT_BOOL = this.DDdetailArray[i].OPTM_DEFAULT == "Y"? true : false;
+      for (var i = 0; i < this.DDdetailArray.length; i++) {
+        this.DDdetailArray[i].OPTM_DEFAULT_BOOL = this.DDdetailArray[i].OPTM_DEFAULT == "Y" ? true : false;
       }
       if (localStorage.getItem("Action") == "copy") {
         this.isUpdate = false;
@@ -107,7 +107,7 @@ export class DockdoorupdateComponent implements OnInit {
 
     for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
       DockDoorData.Details.push({
-        OPTM_LINEID: Number(iBtchIndex+1),
+        OPTM_LINEID: Number(iBtchIndex + 1),
         OPTM_SHIP_STAGEBIN: this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN,
         OPTM_DEFAULT: this.DDdetailArray[iBtchIndex].OPTM_DEFAULT,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
@@ -135,11 +135,11 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.ddmainComponent.ddComponent = 1;
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.success('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -173,11 +173,11 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.ddmainComponent.ddComponent = 1;
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -236,13 +236,13 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length > 0){
-            this.WHSCODE = data[0].WhsCode;
-          }else{
+          if (data.length > 0) {
+            this.WHSCODE = data.OUTPUT[0].WhsCode;
+          } else {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WHSCODE = "";
           }
-          
+
         } else {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WHSCODE = "";
@@ -267,7 +267,7 @@ export class DockdoorupdateComponent implements OnInit {
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
+          if (data.OUTPUT[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
               this.translate.instant("CommonSessionExpireMsg"));
             return;
@@ -298,7 +298,7 @@ export class DockdoorupdateComponent implements OnInit {
   //     data => {
   //       this.showLoader = false;
   //       if (data != undefined && data.length > 0) {
-  //         if (data[0].ErrorMsg == "7001") {
+  //         if (data.OUTPUT[0].ErrorMsg == "7001") {
   //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
   //             this.translate.instant("CommonSessionExpireMsg"));
   //           return;
@@ -328,7 +328,7 @@ export class DockdoorupdateComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event[0];
-    }else if (this.lookupfor == "BinList") {
+    } else if (this.lookupfor == "BinList") {
       for (let i = 0; i < this.DDdetailArray.length; ++i) {
         if (i === this.index) {
           this.DDdetailArray[i].OPTM_SHIP_STAGEBIN = $event[0];
@@ -351,13 +351,17 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   onCheckboxClick(value, rowindex) {
-    // for (let i = 0; i < this.DDdetailArray.length; ++i) {
-      // if (i === rowindex) {
-        this.DDdetailArray[rowindex].OPTM_DEFAULT_BOOL = value;
-        this.DDdetailArray[rowindex].OPTM_DEFAULT = value==true?"Y":"N";
-      // }
-    // }
+    for (let i = 0; i < this.DDdetailArray.length; ++i) {
+      this.DDdetailArray[i].OPTM_DEFAULT_BOOL = false;
+      this.DDdetailArray[i].OPTM_DEFAULT = "N";
+    }
+    this.DDdetailArray[rowindex].OPTM_DEFAULT_BOOL = value;
+    if(value == true){
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y"; 
+    }else{
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "N"; 
+    }
   }
 
-  
+
 }

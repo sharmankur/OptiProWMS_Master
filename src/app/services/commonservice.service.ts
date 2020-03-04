@@ -930,7 +930,18 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRange", jObject, this.httpOptions);
   }
-  
+
+  IsValidWareHouseBinRange(OPTM_WHSCODE, OPTM_BIN_RANGE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: OPTM_WHSCODE,
+        OPTM_BIN_RANGE: OPTM_BIN_RANGE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRange", jObject, this.httpOptions);
+  }
+
   CloseClick(containerId): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{

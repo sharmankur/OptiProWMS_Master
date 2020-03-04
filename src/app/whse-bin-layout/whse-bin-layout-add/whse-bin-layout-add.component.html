@@ -196,8 +196,8 @@
                                     <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_BIN_RANGE"
-                                                value={{dataItem.OPTM_BIN_RANGE}} id="display_name" min="0"
-                                                #display_name>
+                                                value={{dataItem.OPTM_BIN_RANGE}} id="display_name" 
+                                                #display_name (blur)="IsValidWareHouseBinRange(idx, display_name.value)">
                                             <div class="input-group-append">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                     (click)="GetDataForBinRanges(idx)">

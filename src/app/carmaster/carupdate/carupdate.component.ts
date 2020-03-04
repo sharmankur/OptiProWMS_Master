@@ -126,10 +126,6 @@ export class CARUpdateComponent implements OnInit {
         this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
         return false;
       }
-      // if (sum != 100) {
-      //   this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
-      //   return false;
-      // }
     }
     return true;
   }
