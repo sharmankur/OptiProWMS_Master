@@ -225,6 +225,41 @@ export class DockdoorupdateComponent implements OnInit {
     );
   }
 
+  IsValidBinCode(index, bincode) {
+    this.showLoader = true;
+    this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = data[0].BinCode;
+          } else {
+            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+          }
+
+        } else {
+          this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+          this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   IsValidWhseCode() {
     this.showLoader = true;
     this.commonservice.IsValidWhseCode(this.WHSCODE).subscribe(
@@ -267,12 +302,6 @@ export class DockdoorupdateComponent implements OnInit {
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
-          if (data.OUTPUT[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          //this.hideLookup = false;
           this.serviceData = data;
           this.lookupfor = "BinList";
           this.hideLookup = false;
@@ -362,6 +391,4 @@ export class DockdoorupdateComponent implements OnInit {
       this.DDdetailArray[rowindex].OPTM_DEFAULT = "N"; 
     }
   }
-
-
 }

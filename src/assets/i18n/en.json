@@ -90,7 +90,7 @@
   "BatchSerial_List": "Batch/Serial List",
   "CAR_PartsPerContainer":"Parts Per Container", 
   "CAR_ItemCode":"Item Code", 
-  "CAR_AddPartsToContainer":"Add Parts To Container", 
+  "CAR_AddPartsToContainer":"Add Parts To Cont.", 
   "CAR_MinFillPercent":"Min Fill Percent", 
   "CAR_MAT_WT":"Packing Mat Weight", 
   "CAR_Pack_Type_Blank_Msg":"Pack Type can't be blank.", 

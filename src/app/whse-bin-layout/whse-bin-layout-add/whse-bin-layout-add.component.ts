@@ -694,8 +694,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.whseZoneList[index].OPTM_BIN_RANGE = data[0].OPTM_BIN_RANGE;
+          if(data.OPTM_SHP_WHSE_BINS.length > 0){
+            this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+          }else{
+            this.whseZoneList[index].OPTM_BIN_RANGE = "";
+          }
         } else {
+          this.whseZoneList[index].OPTM_BIN_RANGE = "";
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },

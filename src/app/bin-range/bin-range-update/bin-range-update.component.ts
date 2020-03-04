@@ -242,6 +242,58 @@ export class BinRangeUpdateComponent implements OnInit {
     );
   }
 
+  IsValidBinCode(from) {
+    let bincode = "";
+    if(from == "frombin"){
+      bincode = this.FromBinCode;
+    }else{
+      bincode = this.ToBinCode;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            if(from == "frombin"){
+              this.FromBinCode = data[0].BinCode;
+            }else{
+              this.ToBinCode = data[0].BinCode;
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+            if(from == "frombin"){
+              this.FromBinCode = "";
+            }else{
+              this.ToBinCode = "";
+            }
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+          if(from == "frombin"){
+              this.FromBinCode = "";
+            }else{
+              this.ToBinCode = "";
+            }
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   UpdateBinRange() {
     this.showLoader = true;
     this.binRangeService.UpdateWareHouseBinRange(this.BinRange, this.WHSCODE, this.FromBinCode, this.ToBinCode, this.Description).subscribe(
