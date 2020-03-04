@@ -917,6 +917,9 @@
   "Both": "Both",
   "ContVolUOM": "Container Vol UOM",
   "ContainerVolume": "Container Vol",
+  "BuiltProManufacturing": "Manufacturing",
+  "BuiltProReceived_From_Vendor": "Received From Vendor",
+  "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
 
   "Dummy": "Dummy"
   
