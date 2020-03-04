@@ -21,6 +21,7 @@ export class ShipmentViewComponent implements OnInit {
   showLoader: boolean = false;
   hideLookup: boolean = true;
   ShipmentID: string;
+  ShipmentCode: string;
   CustomerCode: string;
   WarehouseCode: string;
   ScheduleDatetime: Date;
@@ -271,6 +272,7 @@ export class ShipmentViewComponent implements OnInit {
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
       this.ShipmentID = event.OPTM_SHIPMENTID
+      this.ShipmentCode = event.OPTM_SHIPMENT_CODE
       localStorage.setItem("ShipmentID", this.ShipmentID);
       this.CustomerCode = event.OPTM_BPCODE
       this.WarehouseCode = event.OPTM_WHSCODE;
