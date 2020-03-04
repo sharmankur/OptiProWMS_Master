@@ -21,7 +21,7 @@ export class BinruleAddUpdateComponent implements OnInit {
   
   public binRuleArray: BinRuleRowModel[] = [];
   
-  PurposeList: any[] = ["Shipping", "Internal", "Both"];
+  PurposeList: any[] = ["Shipping", "WIP","Receiving","Transfer"];
   RuleTypeList: any[] = ["Pick", "Putaway"];
   
   isUpdate: boolean = false;
@@ -50,6 +50,8 @@ export class BinruleAddUpdateComponent implements OnInit {
   showLoader: boolean = false;
   showLookup: boolean = false;
   isValidateCalled: boolean = false;
+
+  isPutAway:boolean = false;
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
     private translate: TranslateService, private binRuleMasterComponent: BinrulemasterComponent,
     private binruleService: BinruleService, private router: Router, 
@@ -67,7 +69,6 @@ export class BinruleAddUpdateComponent implements OnInit {
     let binruleRow = localStorage.getItem("binRule_ROW")
     if (binruleRow != undefined && binruleRow != "") {
       this.binRule_ROW = JSON.parse(localStorage.getItem("binRule_ROW"));
-      
     }
     
     if (localStorage.getItem("brAction") == "copy") {
@@ -105,11 +106,11 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
 
     if (this.ruleType == 1+"") {
+      this.isPutAway = false;
       this.ruleType = this.RuleTypeList[0];
     } else if (this.ruleType == 2+"") {
+      this.isPutAway = true;
       this.ruleType = this.RuleTypeList[1];
-    }else{
-      this.ruleType = this.RuleTypeList[2];
     }
     this.binRuleArray = [];
     for(let i =0;i<OPTM_SHP_BINRULES_DTL.length; i++){
@@ -117,7 +118,35 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
   }
 
-  GetWhseCode() {
+  openDialog: boolean = false;
+  open(){
+   this.toastr.error('', this.translate.instant("AlertChangeRule"));
+    console.log("open call");
+  }
+  closeDialog(){
+   this.openDialog = false;
+  }
+  binRuleValueChange($event){
+    if ($event == "Pick") {
+      this.isPutAway = false;
+    } else {
+      this.isPutAway = true;
+    }
+    if(this.isPutAway){
+      for(let i=0;i<this.binRuleArray.length;i++){
+        this.binRuleArray[i].OPTM_PICK_DROP_BIN = '';
+        
+      }
+    }else{
+      for(let i=0;i<this.binRuleArray.length;i++){
+        this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = '';
+      }
+    }
+    
+    console.log("value change for bin rule");
+  }
+
+  GetWhseCode() { 
     this.showLoader = true;
     this.commonservice.GetWhseCode().subscribe(
       (data: any) => {
@@ -303,7 +332,8 @@ export class BinruleAddUpdateComponent implements OnInit {
     if (this.binRuleArray.length > 0) {
       let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.binRuleArray.length; iBtchIndex++) {
-        if (this.binRuleArray[iBtchIndex].OPTM_STORAGE_FROM_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_STORAGE_FROM_BIN == "") {
+        if (this.binRuleArray[iBtchIndex].OPTM_STORAGE_FROM_BIN == undefined || 
+          this.binRuleArray[iBtchIndex].OPTM_STORAGE_FROM_BIN == "") {
           this.toastr.error('', this.translate.instant("BinRule_FromBinMsg"));
           return false;
         }
@@ -313,7 +343,7 @@ export class BinruleAddUpdateComponent implements OnInit {
         }
       }
     }
-    return true;
+    return true; 
   }
   public lineId: number = 0;
   AddRow() {
@@ -400,18 +430,18 @@ export class BinruleAddUpdateComponent implements OnInit {
         purposeType = 1;
       } else if (this.purpose == this.PurposeList[1]) {
         purposeType = 2;
-      }else{
+      } else if (this.purpose == this.PurposeList[2]) {
         purposeType = 3;
+      } else if (this.purpose == this.PurposeList[3]) {
+        purposeType = 4;
       }
 
       // set value of rule type.
       let ruleTypeType = 1;
       if (this.ruleType == this.RuleTypeList[0]) {
         ruleTypeType = 1;
-      } else if (this.purpose == this.RuleTypeList[1]) {
+      } else if (this.ruleType == this.RuleTypeList[1]) {
         ruleTypeType = 2;
-      }else{
-        ruleTypeType = 3;
       }
       if(fromUpdate){
         oSubmitBinRuleObj.Header.push({
@@ -441,13 +471,15 @@ export class BinruleAddUpdateComponent implements OnInit {
          OPTM_STORAGE_FROM_BIN: this.binRuleArray[iBtchIndex].OPTM_STORAGE_FROM_BIN,
          OPTM_STORAGE_TO_BIN:  this.binRuleArray[iBtchIndex].OPTM_STORAGE_TO_BIN,
          OPTM_PUTWAY_STAGE_BIN: this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN,
+         OPTM_PICK_DROP_BIN: this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN,
+         
          OPTM_LINEID: this.lineId
         }); 
       }
       return oSubmitBinRuleObj;
     }
 
-   
+    
     async UpdateBinRule(BinRuleData: any) {
      
       this.showLoader = true;
@@ -506,7 +538,10 @@ export class BinruleAddUpdateComponent implements OnInit {
               } else 
               if(this.fromWhere == 3){
                 this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = $event[0];
-              }
+              } else
+              if(this.fromWhere == 4){
+                this.binRuleArray[i].OPTM_PICK_DROP_BIN = $event[0];
+              } 
               
             }
           }

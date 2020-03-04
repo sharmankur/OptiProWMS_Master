@@ -492,7 +492,7 @@ export class CommonLookupComponent implements OnInit {
         width: '150'
       }
     ];
-    this.lookupTitle = this.translate.instant("BinRange");
+    this.lookupTitle = this.translate.instant("Zone_list");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

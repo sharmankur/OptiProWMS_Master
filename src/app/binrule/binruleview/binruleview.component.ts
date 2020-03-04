@@ -16,7 +16,7 @@ export class BinruleviewComponent implements OnInit {
   serviceData: any[];
   lookupfor: string;
   showLoader: boolean = false;
-  PurposeList: any[] = ["Shipping", "Internal", "Both"];
+  PurposeList: any[] = ["Shipping", "WIP","Receiving","Transfer"];
   RuleTypeList: any[] = ["Pick", "Putaway"];
   constructor(private binRuleServie:BinruleService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private binRuleMasterComponent: BinrulemasterComponent) {
@@ -57,15 +57,15 @@ export class BinruleviewComponent implements OnInit {
               this.serviceData[j].OPTM_PURPOSE_Text = this.PurposeList[1];
             } else if (this.serviceData[j].OPTM_PURPOSE == 3) {
               this.serviceData[j].OPTM_PURPOSE_Text = this.PurposeList[2];
+            } else if (this.serviceData[j].OPTM_PURPOSE == 4) {
+              this.serviceData[j].OPTM_PURPOSE_Text = this.PurposeList[3];
             }
 
             if (this.serviceData[j].OPTM_RULE_TYPE == 1) {
               this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[0];
             } else if (this.serviceData[j].OPTM_RULE_TYPE == 2) {
               this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[1];
-            } else if (this.serviceData[j].OPTM_RULE_TYPE == 3) {
-              this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[2];
-            }
+            }  
         }
         this.lookupfor = "BinRuleList";
         } else {

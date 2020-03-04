@@ -17,10 +17,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsCode'
-                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()">
+                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()" [disabled]=isUpdate>
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetWhseCode()">
+                                        (mousedown)="GetWhseCode()" [disabled]=isUpdate>
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
@@ -48,10 +48,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsZone'
-                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
+                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()" [disabled]=isUpdate>
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsZone()">
+                                        (mousedown)="GetDataForWhsZone()" [disabled]=isUpdate>
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
@@ -73,11 +73,11 @@
         <div class="col-sm-9">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control form-control-sm" name='binrange'
-                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
+                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()" [disabled]=isUpdate>
                 <div class="input-group-append has-seprate-btn">
                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                        (mousedown)="GetBinRange()">
-                        <i class="opti-icon-hammenu"></i>
+                        (mousedown)="GetBinRange()" [disabled]=isUpdate>
+                        <i class="opti-icon-search"></i>
                     </button>
                 </div>
             </div>

@@ -36,7 +36,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
   moveGroup: any='';
   binRange: any='';
   whsZone: any='';
-  isValidateCalled: boolean = false;
+  isValidateCalled: boolean = false; 
   UGM_ROW: any;
   BtnTitle: string;
   forUpdate: boolean = false;
@@ -74,19 +74,8 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       this.BtnTitle = this.translate.instant("CT_Add");
       this.isUpdate = false;
     }
-   // this.GetDataForWarehouseUserGroupList();
   }
-  // whsCode: any ='';
-  // whsName: any='';
-  // pickingGroup: any='';
-  // packingGroup: any='';
-  // putAwayGroup: any='';
-  // receivingGroup: any='';
-  // shippingGroup: any='';
-  // returnGroup: any='';
-  // moveGroup: any='';
-  // binRange: any='';
-  // whsZone: any='';
+ 
   prepareAndSetDataForUpdateAndCopy(){
     var $event = JSON.parse(localStorage.getItem("UGMapping_ROW"));
     this.whsCode = $event[0];
@@ -99,17 +88,6 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     this.shippingGroup = $event[7];
     this.returnGroup = $event[8];
     this.moveGroup = $event[9];
-
-    // this.whsCode = $event[0];
-    // this.whsZone = $event[1];
-    // this.binRange = $event[2];
-    // this.pickingGroup = $event[3];
-    // this.packingGroup = $event[4];
-    // this.putAwayGroup = $event[5];
-    // this.receivingGroup = $event[6];
-    // this.shippingGroup = $event[7];
-    // this.returnGroup = $event[8];
-    // this.moveGroup = $event[9];
   }
   GetWhseCode() {
     this.showLoader = true;
@@ -165,7 +143,9 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           }
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
-          this.whsCode = ''
+          this.whsCode = '';
+          this.whsZone = '';
+          this.binRange = '';
         } else {
           this.whsCode = resp[0].WhsCode;
           this.whsName = resp[0].WhsName;
@@ -198,9 +178,14 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          if(data.length == 0){
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+
+          }else{
           this.showLookup = true;
           this.serviceData = data;
           this.lookupfor = "BinRangeList";
+        }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -269,10 +254,10 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectWhsCode"));
      return false;
     }
-    if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
-      this.toastr.error('', this.translate.instant("SelectWhsZone"));
-     return false;
-    }
+    // if(this.whsZone==undefined && this.whsZone==null || this.whsZone==""){
+    //   this.toastr.error('', this.translate.instant("SelectWhsZone"));
+    //  return false;
+    // }
     if(this.binRange==undefined && this.binRange==null || this.binRange==""){
       this.toastr.error('', this.translate.instant("SelectBinRange"));
      return false;
@@ -296,9 +281,13 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          if(data.length == 0){
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }else{
           this.showLookup = true;
           this.serviceData = data;
           this.lookupfor = "WhsZoneList";
+        }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -670,7 +659,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
             this.GetDataForWarehouseUserGroupList();
               this.whsUGMappingMasterComponent.WhsUGComponent = 1;
           } else if (data.length > 0 && data[0].RESULT == "Data Already Exists") {
-            this.toastr.success('', this.translate.instant("UserGroupAlreadyExists"));
+            this.toastr.error('', this.translate.instant("UserGroupAlreadyExists"));
 
           } else {
 
