@@ -19,6 +19,7 @@ export class ContMaintnceMainComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
   containerId: any;
+  packProcessEnum: any;
   packProcess: any;
   containerCode: any;
   warehouse: any;
@@ -64,7 +65,7 @@ export class ContMaintnceMainComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          
+
           this.serviceData = data;
           this.showLookup = true;
           this.lookupfor = "ContainerIdList";
@@ -98,15 +99,16 @@ export class ContMaintnceMainComponent implements OnInit {
         this.containerCode = $event[1];
         this.containerStatusEnum = $event[11]
         this.shipEligibleEnum = $event[12]
+        this.packProcess = $event[34]
         this.inventoryStatusEnum = $event[17]
         this.warehouse = $event[18]
         this.binCode = $event[19]
         this.weight = $event[20]
         this.volume = $event[22]
-        if(this.weight == undefined || this.weight == ""){
+        if (this.weight == undefined || this.weight == "") {
           this.weight = 0
         }
-        if(this.volume == undefined || this.volume == ""){
+        if (this.volume == undefined || this.volume == "") {
           this.volume = 0
         }
         // if(this.inventoryStatusEnum == undefined || this.inventoryStatusEnum == ""){
@@ -115,6 +117,7 @@ export class ContMaintnceMainComponent implements OnInit {
         this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
         this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
         this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+        this.packProcess = this.getBuiltProcess(this.packProcessEnum);
         this.getItemAndBSDetailByContainerId()
       }
     }
@@ -148,9 +151,11 @@ export class ContMaintnceMainComponent implements OnInit {
             this.binCode = data[0].OPTM_BIN
             this.weight = data[0].OPTM_WEIGHT
             this.volume = data[0].OPTM_VOLUME
+            this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
             this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+            this.packProcess = this.getBuiltProcess(this.packProcessEnum);
             this.getItemAndBSDetailByContainerId()
           }
         } else {
@@ -171,7 +176,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   getContainerStatus(id) {
     if (id == undefined || id == "") {
-      return this.translate.instant("CStatusNew");
+      return //this.translate.instant("CStatusNew");
     }
     id = Number("" + id)
 
@@ -200,7 +205,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   getInvStatus(id) {
     if (id == undefined || id == "") {
-      return this.translate.instant("InvStatusPending");
+      return //this.translate.instant("InvStatusPending");
     }
     id = Number("" + id)
 
@@ -220,6 +225,21 @@ export class ContMaintnceMainComponent implements OnInit {
       return this.translate.instant("Shipping");
     } else if (v == "N") {
       return this.translate.instant("Internal");
+    }
+  }
+
+  getBuiltProcess(id) {
+    if (id == undefined || id == "") {
+      return;//this.translate.instant("BuiltProManufacturing");
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("BuiltProManufacturing");
+    } else if (id == 2) {
+      return this.translate.instant("BuiltProReceived_From_Vendor");
+    } else if (id == 3) {
+      return this.translate.instant("BuiltProPacked_In_WareHouse");
     }
   }
 
@@ -250,9 +270,14 @@ export class ContMaintnceMainComponent implements OnInit {
               for (var j = 0; j < batchSerailsData.length; j++) {
                 if (this.containerItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE) {
                   this.containerItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
+                } else if (this.containerItems[i].OPTM_TRACKING == "N") {
+                  this.containerItems[i].ItemBatchSerailData.push({
+                    TEMP_ID: -1
+                  });
                 }
               }
             }
+            console.log("");
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -288,36 +313,36 @@ export class ContMaintnceMainComponent implements OnInit {
     }
 
     for (var i = 0; i < this.containerItems.length; i++) {
-      if(this.containerItems[i].OPTM_WEIGHT == undefined || this.containerItems[i].OPTM_WEIGHT == ""){
-        this.containerItems[i].OPTM_WEIGHT = 0
+      if (this.containerItems[i].OPTM_WEIGHT == undefined || this.containerItems[i].OPTM_WEIGHT == "") {
+        this.containerItems[i].OPTM_WEIGHT = 0.0
       }
 
-      if(this.containerItems[i].OPTM_WT_UOM == undefined || this.containerItems[i].OPTM_WT_UOM == ""){
-        this.containerItems[i].OPTM_WT_UOM = 0
+      if (this.containerItems[i].OPTM_WT_UOM == undefined || this.containerItems[i].OPTM_WT_UOM == "") {
+        this.containerItems[i].OPTM_WT_UOM = 0.0
       }
 
-      if(this.containerItems[i].OPTM_VOLUME == undefined || this.containerItems[i].OPTM_VOLUME == ""){
-        this.containerItems[i].OPTM_VOLUME = 0
+      if (this.containerItems[i].OPTM_VOLUME == undefined || this.containerItems[i].OPTM_VOLUME == "") {
+        this.containerItems[i].OPTM_VOLUME = 0.0
       }
 
-      if(this.containerItems[i].OPTM_VOL_UOM == undefined || this.containerItems[i].OPTM_VOL_UOM == ""){
-        this.containerItems[i].OPTM_VOL_UOM = 0
+      if (this.containerItems[i].OPTM_VOL_UOM == undefined || this.containerItems[i].OPTM_VOL_UOM == "") {
+        this.containerItems[i].OPTM_VOL_UOM = 0.0
       }
 
-      if(this.containerItems[i].CONTAINER_WEIGHT == undefined || this.containerItems[i].CONTAINER_WEIGHT == ""){
-        this.containerItems[i].CONTAINER_WEIGHT = 0
+      if (this.containerItems[i].CONTAINER_WEIGHT == undefined || this.containerItems[i].CONTAINER_WEIGHT == "") {
+        this.containerItems[i].CONTAINER_WEIGHT = 0.0
       }
 
-      if(this.containerItems[i].CONTAINER_WEIGHT_UOM == undefined || this.containerItems[i].CONTAINER_WEIGHT_UOM == ""){
-        this.containerItems[i].CONTAINER_WEIGHT_UOM = 0
+      if (this.containerItems[i].CONTAINER_WEIGHT_UOM == undefined || this.containerItems[i].CONTAINER_WEIGHT_UOM == "") {
+        this.containerItems[i].CONTAINER_WEIGHT_UOM = 0.0
       }
 
-      if(this.containerItems[i].CONTAINER_VOLUME == undefined || this.containerItems[i].CONTAINER_VOLUME == ""){
-        this.containerItems[i].CONTAINER_VOLUME = 0
+      if (this.containerItems[i].CONTAINER_VOLUME == undefined || this.containerItems[i].CONTAINER_VOLUME == "") {
+        this.containerItems[i].CONTAINER_VOLUME = 0.0
       }
 
-      if(this.containerItems[i].CONTAINER_VOLUME_UOM == undefined || this.containerItems[i].CONTAINER_VOLUME_UOM == ""){
-        this.containerItems[i].CONTAINER_VOLUME_UOM = 0
+      if (this.containerItems[i].CONTAINER_VOLUME_UOM == undefined || this.containerItems[i].CONTAINER_VOLUME_UOM == "") {
+        this.containerItems[i].CONTAINER_VOLUME_UOM = 0.0
       }
     }
   }
@@ -416,5 +441,17 @@ export class ContMaintnceMainComponent implements OnInit {
         }
       }
     );
+  }
+
+  public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
+    return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+  }
+
+  onExpand(event) {
+    console.log("keep track of all expanded rows (index)")
+  }
+
+  onCollapse(event) {
+    console.log("keep track of all onCollapse rows (index)")
   }
 }

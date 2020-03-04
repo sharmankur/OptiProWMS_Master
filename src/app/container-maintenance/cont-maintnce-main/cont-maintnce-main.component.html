@@ -188,15 +188,15 @@
                                 <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
                                     [resizable]="true" [pageable]="true" [selectable]="true">
 
-                                    <kendo-grid-checkbox-column media="(min-width: 768px)" [width]="60">
+                                    <!-- <kendo-grid-checkbox-column media="(min-width: 768px)" [width]="60">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex">
                                             <input [kendoGridSelectionCheckbox]="idx" />
                                         </ng-template>
-                                    </kendo-grid-checkbox-column>
+                                    </kendo-grid-checkbox-column> -->
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_HDRSEQID"
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_HDRSEQID"
                                         title="{{'ContainerId'|translate}}">
-                                    </kendo-grid-column>
+                                    </kendo-grid-column> -->
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTTYPE"
                                         title="{{'ContainerType'|translate}}">
                                     </kendo-grid-column>
@@ -206,11 +206,7 @@
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_QUANTITY"
                                         title="{{'Quantity'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="quantity" value="{{di.OPTM_QUANTITY|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="quantity"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
 
@@ -219,82 +215,50 @@
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WEIGHT"
                                         title="{{'Wt_of_Items'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="itemWt" value="{{di.OPTM_WEIGHT|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="itemWt"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.OPTM_WEIGHT|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WT_UOM"
                                         title="{{'Wt_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="wt_UOM" value="{{di.OPTM_WT_UOM|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="wt_UOM"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.OPTM_WT_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOLUME"
                                         title="{{'Item_Volume'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="volume" value="{{di.OPTM_VOLUME|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="volume"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.OPTM_VOLUME|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
 
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOL_UOM"
                                         title="{{'Volume_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="volumeUOM" value="{{di.OPTM_VOL_UOM|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="volumeUOM"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.OPTM_VOL_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT"
                                         title="{{'Container_Wt'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="contWt" value="{{di.CONTAINER_WEIGHT|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="contWt"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.CONTAINER_WEIGHT|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT_UOM"
                                         title="{{'Wt_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="contWtUOM" value="{{di.CONTAINER_WEIGHT_UOM|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="contWtUOM"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.CONTAINER_WEIGHT_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME"
                                         title="{{'ContainerVolume'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="contVol" value="{{di.CONTAINER_VOLUME|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="contVol"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.CONTAINER_VOLUME|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME_UOM"
                                         title="{{'ContVolUOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" id="contVolUOM" value="{{di.CONTAINER_VOLUME_UOM|numberFormat}}"
-                                                    class="form-control form-control-sm text-right" name="contVolUOM"
-                                                    disabled />
-                                            </div>
+                                            <label class="col-form-label">{{di.CONTAINER_VOLUME_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_PARENTCONTID"
@@ -318,9 +282,9 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="200" field="OPTM_BIN" title="{{'BinCode'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BUILT_SOURCE"
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BUILT_SOURCE"
                                         title="{{'Built_In_Process'|translate}}">
-                                    </kendo-grid-column>
+                                    </kendo-grid-column> -->
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPELIGIBLE"
                                         title="{{'ShipEligible'|translate}}">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
@@ -331,10 +295,10 @@
                                             </div>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="200" field="OPTM_CREATEDATE"
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="200" field="OPTM_CREATEDATE"
                                         title="{{'DateTime'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Selected'|translate}}"
+                                    </kendo-grid-column> -->
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="Quantity" title="{{'Selected'|translate}}"
                                         class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <div class="custom-control custom-checkbox">
@@ -343,39 +307,34 @@
                                                 <label class="k-checkbox-label empty-check" for="selected"></label>
                                             </div>
                                         </ng-template>
-                                    </kendo-grid-column>
+                                    </kendo-grid-column> -->
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_LINEID"
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_LINEID"
                                         title="{{'Shipment_Line'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_CONTAINERID"
+                                    </kendo-grid-column> -->
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_CONTAINERID"
                                         title="{{'ContainerCode'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_STATUS"
+                                    </kendo-grid-column> -->
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_STATUS"
                                         title="{{'ContainerStatus'|translate}}">
-                                    </kendo-grid-column>
+                                    </kendo-grid-column> -->
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER"
                                         title="{{'SONumber'|translate}}">
                                     </kendo-grid-column>
 
-                                    <ng-template kendoGridDetailTemplate let-dataItem>
+                                    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
                                         <kendo-grid [data]="dataItem.ItemBatchSerailData">
-                                            <kendo-grid-column width="300" [width]="300" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
-                                            </kendo-grid-column>
+                                            <!-- <kendo-grid-column width="300" [width]="300" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
+                                            </kendo-grid-column> -->
                                             <kendo-grid-column width="300" [width]="300" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
                                             </kendo-grid-column>
                                             <kendo-grid-column width="300" [width]="300" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
                                                 class="text-right" headerClass="text-right">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="number" id="quantity" value="{{di.OPTM_QUANTITY|numberFormat}}"
-                                                            class="form-control form-control-sm text-right" name="quantity"
-                                                            disabled />
-                                                    </div>
+                                                    <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                 </ng-template>
                                             </kendo-grid-column>
-                                            <kendo-grid-column >
-                                                
+                                            <kendo-grid-column>
                                             </kendo-grid-column>
                                         </kendo-grid>
                                     </ng-template>
