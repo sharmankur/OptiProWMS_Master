@@ -3,7 +3,7 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                <span *ngIf="IsShipment">{{'Container_BatchSerial'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin -
+                <span *ngIf="IsShipment">{{'Container_BatchSerial'|translate}} : ({{'ShipMentId'|translate}} - {{SelectedShipmentId}} {{'WH'|translate}} - {{SelectedWhse}} {{'Bin'|translate}} -
                     {{SelectedBin}})
                 </span>
                 <span *ngIf="!IsShipment">{{'Container_BatchSerial'|translate}}</span>
@@ -112,7 +112,7 @@
                             <ng-template kendoGridToolbarTemplate> 
                                 <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>                                       
                               </ng-template>
-                            <kendo-grid-column field="Selected" width="25" title="Select">
+                            <kendo-grid-column field="Selected" width="25" title="{{'Select'|translate}}">
                                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                                     <label class="custom-checkbox mb-0">
                                                         <input type="checkbox" #checkedselectedvalue
@@ -137,17 +137,17 @@
                                     </div>
                                 </ng-template>
                             </kendo-grid-checkbox-column> -->
-                            <kendo-grid-column field="ITEMCODE" width="100" title="Item Code"></kendo-grid-column>
-                            <kendo-grid-column field="WHSCODE" width="64" title="Warehouse Code"></kendo-grid-column>
-                            <kendo-grid-column field="BINNO" width="108" title="Bin No"></kendo-grid-column>
-                            <kendo-grid-column field="LOTNO" width="108" title="Lot No" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
-                            <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="Available Quantitiy"></kendo-grid-column>
-                            <kendo-grid-column field="AssignQty" width="60" class="text-right" title="Quantity to Assign">
+                            <kendo-grid-column field="ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="WHSCODE" width="64" title="{{'WarehouseCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="BINNO" width="108" title="{{'Bin_No'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="LOTNO" width="108" title="{{'LotNo'|translate}}" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
+                            <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="{{'Available_Quantity'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="AssignQty" width="60" class="text-right" title="{{'QtyAdded'|translate}}">
                                 <!--QtytoAssign-->
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
                                         (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
-                                        value={{dataItem.AssignQty}} #AssignQty title="Quantity to Assign" />
+                                        value={{dataItem.AssignQty}} #AssignQty title="{{'QtyAdded'|translate}}" />
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column *ngIf="SHPStatus == '3'" [width]="45" headerClass="text-center" class="text-center">

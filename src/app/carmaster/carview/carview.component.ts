@@ -46,9 +46,17 @@ export class CARViewComponent implements OnInit {
           this.serviceData = data;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if(this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y'){
-              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
             }else{
-              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("no");
+            }
+
+            if(this.serviceData[iBtchIndex].OPTM_CONTUSE == '1'){
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Shipping");
+            }else if(this.serviceData[iBtchIndex].OPTM_CONTUSE == '2'){
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Internal");
+            }else{
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Both");
             }
           }
           this.lookupfor = "CARList";
@@ -72,13 +80,13 @@ export class CARViewComponent implements OnInit {
   getLookupValue(event) {
     localStorage.setItem("CAR_ROW", JSON.stringify(event));    
     localStorage.setItem("Action", "");
-    this.IsValidContainerAutoRule(event[0], event[1], event[2]);
+    this.IsValidContainerAutoRule(event[0], event[1], event[3]);
   }
 
   onCopyItemClick(event) {
     localStorage.setItem("CAR_ROW", JSON.stringify(event));  
     localStorage.setItem("Action", "copy");  
-    this.IsValidContainerAutoRule(event[0], event[1], event[2]);
+    this.IsValidContainerAutoRule(event[0], event[1], event[3]);
   }
 
   OnCancelClick() {
@@ -110,6 +118,16 @@ export class CARViewComponent implements OnInit {
   }
   
   DeleteFromContainerAutoRule(ddDeleteArry) {
+    for(var iBtchIndex=0; iBtchIndex<ddDeleteArry.length; iBtchIndex++){
+      if(ddDeleteArry[iBtchIndex].OPTM_CONTUSE == this.translate.instant("Shipping")){
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '1';
+      }else if(ddDeleteArry[iBtchIndex].OPTM_CONTUSE == this.translate.instant("Internal")){
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '2';
+      }else{
+        ddDeleteArry[iBtchIndex].OPTM_CONTUSE = '3';
+      }
+    }    
+
     this.showLoader = true;
     this.carmasterService.DeleteFromContainerAutoRule(ddDeleteArry).subscribe(
       (data: any) => {
@@ -188,7 +206,7 @@ export class CARViewComponent implements OnInit {
           CompanyDBId: localStorage.getItem("CompID"),
           OPTM_RULEID: this.event[0],
           OPTM_CONTTYPE: this.event[1],
-          OPTM_CONTUSE: this.event[2]       
+          OPTM_CONTUSE: this.event[3]       
         });
       this.DeleteFromContainerAutoRule(ddDeleteArry);
           break;

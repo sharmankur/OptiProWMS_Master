@@ -47,12 +47,27 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shipment-widget-box">
-                        <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                            <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
-     
+                        
                     <kendo-grid class="no-shadow" [data]="DDdetailArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
-
+                        <ng-template kendoGridToolbarTemplate> 
+                            <form class="k-form opti_show-hide-grid-column-filter float-left opti_hide-in-mobile pl-0 pt-0">
+                                <div class="k-form-field d-flex">
+                                    <input #chkFilter type="checkbox" (change)="onFilterChange(chkFilter,gridItem)" id="opti_SalesOrderListColumnFilterID" [(ngModel)]="isColumnFilter"
+                                        class="k-checkbox" name="columnfilter" />
+                                    <label class="k-checkbox-label" for="opti_SalesOrderListColumnFilterID">Enable Filter</label>
+                    
+                                    
+                                </div>
+                            </form>
+                            <button type="button" class="float-right btn btn-success k-button btn-sm btn-icon-with-text grid-toolbar-delete-btn" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span> 
+                                Add Row</button>
+                          <!-- <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button>                        -->
+         
+                        </ng-template>
+                    
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_SHIP_STAGEBIN" [width]="18" title="{{'Ship_Stage_Bin'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
 
