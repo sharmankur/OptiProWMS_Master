@@ -184,6 +184,41 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
   //#region "Warehouse"
+  IsValidWhseCode() {
+    this.showLoader = true;
+    this.commonservice.IsValidWhseCode(this.WareHouse).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.WareHouse = data.OUTPUT[0].WhsCode;
+          } else {
+            this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+            this.WareHouse = "";
+          }
+
+        } else {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.WareHouse = "";
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForWareHouse(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -215,6 +250,70 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
   //#region "Item Code"
+  async IsValidItemCode(fieldName) {
+    let value;
+    if (fieldName == "ItmFrm") {
+      value = this.ItemFrom;
+    }
+    else if (fieldName == "ItmTo") {
+      value = this.ItemTo
+    }
+    if (value == undefined || value == "") {
+      return;
+    }
+    this.showLoader = true;
+    var result = false;
+    await this.commonservice.IsValidItemCode(value).then(
+      (data: any) => {
+        this.showLoader = false;
+        result = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            if (fieldName == "ItmFrm") {
+              this.ItemFrom = data[0].ItemCode;
+            }
+            else if (fieldName == "ItmTo") {
+              this.ItemTo = data[0].ItemCode;
+            }
+            result = true;
+          } else {
+            if (fieldName == "ItmFrm") {
+              this.ItemFrom = "";
+            }
+            else if (fieldName == "ItmTo") {
+              this.ItemTo = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          }
+        } else {
+          if (fieldName == "ItmFrm") {
+            this.ItemFrom = "";
+          }
+          else if (fieldName == "ItmTo") {
+            this.ItemTo = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
   GetDataForItemCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -281,7 +380,14 @@ export class GeneratePickComponent implements OnInit {
     );
   }
 
-  IsValidDockDoor(DockDoor) {
+  IsValidDockDoor(fieldName) {
+    let DockDoor;
+    if (fieldName == "DDFrom") {
+      DockDoor = this.Dock_DoorFrom;
+    }
+    else if (fieldName == "DDTo") {
+      DockDoor = this.Dock_DoorTo
+    }
     if (DockDoor == "" || DockDoor == null || DockDoor == undefined) {
       return;
     }
@@ -296,13 +402,28 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.Dock_DoorFrom = data[0].OPTM_DOCKDOORID;
+            if (fieldName == "DDFrom") {
+              this.Dock_DoorFrom = data[0].OPTM_DOCKDOORID;
+            }
+            else if (fieldName == "DDTo") {
+              this.Dock_DoorTo = data[0].OPTM_DOCKDOORID;
+            }            
           } else {
-            this.Dock_DoorFrom = "";
+            if (fieldName == "DDFrom") {
+              this.Dock_DoorFrom = "";
+            }
+            else if (fieldName == "DDTo") {
+              this.Dock_DoorTo = "";
+            }
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
           }
         } else {
-          this.Dock_DoorFrom = "";
+          if (fieldName == "DDFrom") {
+            this.Dock_DoorFrom = "";
+          }
+          else if (fieldName == "DDTo") {
+            this.Dock_DoorTo = "";
+          }
           this.toastr.error('', this.translate.instant("InvalidDock_Door"));
         }
       },
@@ -349,7 +470,13 @@ export class GeneratePickComponent implements OnInit {
     );
   }
 
-  IsValidCarrier(CarrierCode) {
+  IsValidCarrier(fromField) {
+    let CarrierCode;
+    if(fromField == "CCFrom"){
+      CarrierCode = this.CarrierCodeFrom;
+    }else{
+      CarrierCode = this.CarrierCodeTo;
+    }
     if (CarrierCode == "" || CarrierCode == null || CarrierCode == undefined) {
       return;
     }
@@ -364,13 +491,25 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.CarrierCodeFrom = data[0].OPTM_CARRIERID;
+            if(fromField == "CCFrom"){
+              this.CarrierCodeFrom = data[0].OPTM_CARRIERID;
+            }else{
+              this.CarrierCodeTo = data[0].OPTM_CARRIERID;
+            }
           } else {
-            this.CarrierCodeFrom = "";
+            if(fromField == "CCFrom"){
+              this.CarrierCodeFrom = "";
+            }else{
+              this.CarrierCodeTo = "";
+            }
             this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
           }
         } else {
-          this.CarrierCodeFrom = "";
+          if(fromField == "CCFrom"){
+            this.CarrierCodeFrom = "";
+          }else{
+            this.CarrierCodeTo = "";
+          }
           this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
         }
       },
@@ -387,6 +526,65 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
   //#region "Sales Order ID"
+  IsValidSONumber(fieldName) {
+    let soNum;
+    if (fieldName == "SONoFrom") {
+      soNum = this.SONoFrom;
+    }
+    else if (fieldName == "SONoTo") {
+      soNum = this.SONoTo
+    }
+    if (soNum == "" || soNum == null || soNum == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidSONumber(soNum).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "SONoFrom") {
+              this.SONoFrom = data[0].DocNum;
+            }
+            else if (fieldName == "SONoTo") {
+              this.SONoTo = data[0].DocNum;
+            }
+          } else {
+            if (fieldName == "SONoFrom") {
+              this.SONoFrom = "";
+            }
+            else if (fieldName == "SONoTo") {
+              this.SONoTo = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidSONo"));
+          }
+        } else {
+          if (fieldName == "SONoFrom") {
+            this.SONoFrom = "";
+          }
+          else if (fieldName == "SONoTo") {
+            this.SONoTo = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidSONo"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForSalesOredr(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -422,10 +620,69 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
   //#region "WO ID"
-  GetDataForWorkOredr(fromField) {
+  IsValidWONumber(fieldName) {
+    let woNum;
+    if (fieldName == "WOFrom") {
+      woNum = this.WOFrom;
+    }
+    else if (fieldName == "WOTo") {
+      woNum = this.WOTo
+    }
+    if (woNum == "" || woNum == null || woNum == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidWONumber(woNum).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "WOFrom") {
+              this.WOFrom = data[0].OPTM_WONO;
+            }
+            else if (fieldName == "WOTo") {
+              this.WOTo = data[0].OPTM_WONO;
+            }
+          } else {
+            if (fieldName == "WOFrom") {
+              this.WOFrom = "";
+            }
+            else if (fieldName == "WOTo") {
+              this.WOTo = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidWONo"));
+          }
+        } else {
+          if (fieldName == "WOFrom") {
+            this.WOFrom = "";
+          }
+          else if (fieldName == "WOTo") {
+            this.WOTo = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidWONo"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetWorkOrderList(fromField) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
+    this.commonservice.GetWorkOrderList().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -497,10 +754,10 @@ export class GeneratePickComponent implements OnInit {
       this.SONoTo = event.SODocNum;
     }
     else if (this.lookupfor == "WOFrom") {
-      this.WOFrom = event.SODocNum;
+      this.WOFrom = event.OPTM_WONO;
     }
     else if (this.lookupfor == "WOTo") {
-      this.WOTo = event.SODocNum;
+      this.WOTo = event.OPTM_WONO;
     }
     else if (this.lookupfor == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;

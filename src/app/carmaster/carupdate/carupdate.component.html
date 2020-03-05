@@ -12,7 +12,17 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_CPackRule'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
+                                <input type="text" class="form-control form-control-sm" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
+                                    [disabled]=isUpdate>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" placeholder="{{'CT_Description'|translate}}"
                                     [disabled]=isUpdate>
                             </div>
                         </div>
@@ -117,18 +127,14 @@
 
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-
-                                    <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name"
-                                        min="0" #display_name >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name" #display_name (blur)="IsValidItemCode(idx, display_name.value)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
-
                             </ng-template>
                         </kendo-grid-column>
 

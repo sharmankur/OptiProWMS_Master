@@ -118,8 +118,8 @@ export class LookupComponent implements OnInit {
     } else if (this.lookupfor == "toBinsList") {
       this.showSBTrackFromBinList();
     }
-    else if (this.lookupfor == "RecvBinList") {
-      this.showRecvBinList();
+    else if (this.lookupfor == "BinRangeList") {
+      this.showBinRangeList();
     }
     else if (this.lookupfor == "CTList") {
       this.showContainerType();
@@ -373,16 +373,40 @@ export class LookupComponent implements OnInit {
     this.lookupTitle = this.translate.instant("LookupTitle_BinNoList");
   }
 
-  showRecvBinList() {
+  showBinRangeList() {
     this.table_head = [
       {
-        field: 'BINNO',
-        title: this.translate.instant("BinNo"),
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Login_Warehouse"),
         type: 'text',
-        width: '100'
+        width: '80'
+      },
+      {
+        field: 'OPTM_BIN_RANGE',
+        title: this.translate.instant("BinRange"),
+        type: 'text',
+        width: '80'
+      },
+      {
+        field: 'OPTM_RANGE_DESC',
+        title: this.translate.instant("BinRangeDesc"),
+        type: 'text',
+        width: '80'
+      },
+      {
+        field: 'OPTM_FROM_BIN',
+        title: this.translate.instant("FromBinCode"),
+        type: 'text',
+        width: '200'
+      },
+      {
+        field: 'OPTM_TO_BIN',
+        title: this.translate.instant("ToBinCode"),
+        type: 'text',
+        width: '200'
       }
     ];
-    this.lookupTitle = this.translate.instant("LookupTitle_BinNoList");
+    this.lookupTitle = this.translate.instant("WarehouseBinRanges");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -456,15 +480,16 @@ export class LookupComponent implements OnInit {
         class: 'text-right',
         type: 'numeric',
         width: '100'
-      },
-      {
-        field: 'OPTM_MAXWEIGHT',
-        title: this.translate.instant("CT_Max_Width"),
-        headerClass: 'text-left',
-        class: 'text-right',
-        type: 'numeric',
-        width: '100'
       }
+      // ,
+      // {
+      //   field: 'OPTM_MAXWEIGHT',
+      //   title: this.translate.instant("CT_Max_Width"),
+      //   headerClass: 'text-left',
+      //   class: 'text-right',
+      //   type: 'numeric',
+      //   width: '100'
+      // }
     ];
     this.lookupTitle = this.translate.instant("CT_ContainerType");
     if (this.serviceData !== undefined) {
@@ -524,30 +549,36 @@ export class LookupComponent implements OnInit {
         headerClass: 'text-left',
         class: 'text-right',
         type: 'numeric',
-        width: '150'
+        width: '100'
       },
       {
         field: 'OPTM_CONTTYPE',
         title: this.translate.instant("CT_ContainerType"),
         headerClass: 'text-left',
         type: 'text',
-        width: '150'
+        width: '100'
       },
-
+      {
+        field: 'OPTM_CONT_DESC',
+        title: this.translate.instant("CT_Description"),
+        headerClass: 'text-left',
+        type: 'text',
+        width: '100'
+      },
       {
         field: 'OPTM_CONTUSE',
         title: this.translate.instant("Container_Use"),
         headerClass: 'text-left',
-        class: 'text-right',
-        type: 'numeric',
-        width: '150'
+        class: 'text-left',
+        type: 'text',
+        width: '100'
       },
       {
         field: 'OPTM_ADD_TOCONT',
         title: this.translate.instant("CAR_AddPartsToContainer"),
         headerClass: 'text-left',
         type: 'boolean',
-        width: '150'
+        width: '100'
       }
     ];
     this.lookupTitle = this.translate.instant("CT_ContainerType");

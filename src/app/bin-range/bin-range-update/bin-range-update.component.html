@@ -1,1 +1,95 @@
-<p>bin-range-update works!</p>
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'BinRanges'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'WHSCODE'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="WHSCODE" [(ngModel)]="WHSCODE" placeholder="{{'WHSCODE'|translate}}"
+                                    #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onWhsLookupClick()" [disabled]=isUpdate>
+                                        <i class="opti-icon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'BinRange'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="BinRange" [(ngModel)]="BinRange" placeholder="{{'BinRange'|translate}}"
+                                    #BinRangeInputField [disabled]=isUpdate id="BinRange">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="Description" [(ngModel)]="Description" placeholder="{{'CT_Description'|translate}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'FromBinCode'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="FromBinCode" [(ngModel)]="FromBinCode" placeholder="{{'FromBinCode'|translate}}" #bin (blur)="IsValidBinCode('frombin', bin.value)">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetBinCode('From_BinList', idx)">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'ToBinCode'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="ToBinCode" [(ngModel)]="ToBinCode" placeholder="{{'ToBinCode'|translate}}" #bin (blur)="IsValidBinCode('tobin', bin.value)">
+                                <div class="input-group-append">
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetBinCode('To_BinList', idx)">
+                                        <i class="opti-icon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <hr />
+            </div>
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onAddUpdateClick()">
+                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<span [hidden]="hideLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>

@@ -13,10 +13,10 @@
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ShipmentID" class="col-sm-4 col-form-label">{{'PT_ShipmentId'|translate}}</label>
+                                    <label for="ShipmentCode" class="col-sm-4 col-form-label">{{'Shipment_Code'|translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='ShipmentID' [(ngModel)]=ShipmentID id="ShipmentID" [disabled]=true>
+                                            <input type="text" class="form-control form-control-sm" name='ShipmentCode' [(ngModel)]=ShipmentCode id="ShipmentCode">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
                                                     <i class="opti-icon-search"></i>
@@ -351,10 +351,10 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item" href="#">{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" href="#">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" href="#">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" >{{'Stage_Unstage'|translate}}</a>
+                            <a class="dropdown-item" >{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" >{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" >{{'Cancel_Unassign'|translate}}</a>
                         </div>
                     </div>
                 </div>

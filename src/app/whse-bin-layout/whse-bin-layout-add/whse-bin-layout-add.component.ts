@@ -81,13 +81,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
     if (type == "zone") {
       this.whseZoneList.splice(rowindex, 1);
       this.zonePageable = false;
-      if(this.whseZoneList.length > 10){
+      if (this.whseZoneList.length > 10) {
         this.zonePageable = true;
       }
     } else {
       this.whseRangeList.splice(rowindex, 1);
       this.rangePageable = false;
-      if(this.whseRangeList.length > 10){
+      if (this.whseRangeList.length > 10) {
         this.rangePageable = true;
       }
     }
@@ -288,6 +288,12 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.Ship_StageBin = $event[0];
           }
         }
+      } else if (this.lookupfor == "BinRangeList") {
+        for (var i = 0; i < this.whseZoneList.length; i++) {
+          if (i == this.index) {
+            this.whseZoneList[i].OPTM_BIN_RANGE = $event[1];
+          }
+        }
       }
     }
   }
@@ -299,21 +305,22 @@ export class WhseBinLayoutAddComponent implements OnInit {
         ZoneCode: "",
         ZoneType: "",
         FromBin: "",
-        ToBin: ""
+        ToBin: "",
+        OPTM_BIN_RANGE:""
       })
 
       this.zonePageable = false;
-      if(this.whseZoneList.length > 10){
+      if (this.whseZoneList.length > 10) {
         this.zonePageable = true;
       }
     } else if (event == "range") {
       this.whseRangeList.push({
-        BinRange: "",
+        OPTM_BIN_RANGE: "",
         FromBin: "",
         ToBin: ""
       })
       this.rangePageable = false;
-      if(this.whseRangeList.length > 10){
+      if (this.whseRangeList.length > 10) {
         this.rangePageable = true;
       }
     }
@@ -348,6 +355,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         OPTM_ZONETYPE: this.whseZoneList[i].ZoneType,
         OPTM_FROM_BIN: this.whseZoneList[i].FromBin,
         OPTM_TO_BIN: this.whseZoneList[i].ToBin,
+        OPTM_BIN_RANGE: this.whseZoneList[i].OPTM_BIN_RANGE,
         OPTM_CREATEDBY: localStorage.getItem("UserId"),
       });
     }
@@ -355,7 +363,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     for (var i = 0; i < this.whseRangeList.length; i++) {
       this.shipmentModel.OPTM_SHP_WHSE_BINS.push({
         OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
-        OPTM_BIN_RANGE: this.whseRangeList[i].BinRange,
+        OPTM_BIN_RANGE: this.whseRangeList[i].OPTM_BIN_RANGE,
         OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
         OPTM_TO_BIN: this.whseRangeList[i].ToBin,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
@@ -386,30 +394,35 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
 
     for (var i = 0; i < this.whseZoneList.length; i++) {
-      if (this.whseZoneList[i].FromBin == undefined || this.whseZoneList[i].FromBin == '') {
-        this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
-        return;
-      }
-      if (this.whseZoneList[i].ToBin == undefined || this.whseZoneList[i].ToBin == '') {
-        this.toastr.error('', this.translate.instant("ZoneToBinCannotBlankMsg"));
-        return;
-      }
-    }
+      // if (this.whseZoneList[i].FromBin == undefined || this.whseZoneList[i].FromBin == '') {
+      //   this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
+      //   return;
+      // }
+      // if (this.whseZoneList[i].ToBin == undefined || this.whseZoneList[i].ToBin == '') {
+      //   this.toastr.error('', this.translate.instant("ZoneToBinCannotBlankMsg"));
+      //   return;
+      // }
 
-    for (var i = 0; i < this.whseRangeList.length; i++) {
-      if (this.whseRangeList[i].FromBin == undefined || this.whseRangeList[i].FromBin == '') {
-        this.toastr.error('', this.translate.instant("RangeFromBinCannotBlankMsg"));
-        return;
-      }
-      if (this.whseRangeList[i].ToBin == undefined || this.whseRangeList[i].ToBin == '') {
-        this.toastr.error('', this.translate.instant("RangeToBinCannotBlankMsg"));
-        return;
-      }
-      if (this.whseRangeList[i].BinRange == undefined || this.whseRangeList[i].BinRange == '') {
+      if (this.whseZoneList[i].OPTM_BIN_RANGE == undefined || this.whseZoneList[i].OPTM_BIN_RANGE == '') {
         this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
         return;
       }
     }
+
+    // for (var i = 0; i < this.whseRangeList.length; i++) {
+    //   if (this.whseRangeList[i].FromBin == undefined || this.whseRangeList[i].FromBin == '') {
+    //     this.toastr.error('', this.translate.instant("RangeFromBinCannotBlankMsg"));
+    //     return;
+    //   }
+    //   if (this.whseRangeList[i].ToBin == undefined || this.whseRangeList[i].ToBin == '') {
+    //     this.toastr.error('', this.translate.instant("RangeToBinCannotBlankMsg"));
+    //     return;
+    //   }
+      // if (this.whseRangeList[i].OPTM_BIN_RANGE == undefined || this.whseRangeList[i].OPTM_BIN_RANGE == '') {
+      //   this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
+      //   return;
+      // }
+    //}
 
     if (this.isUpdate) {
       this.update();
@@ -490,7 +503,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
   onBinRangeChangeBlur(value, index) {
     for (var i = 0; i < this.whseRangeList.length; i++) {
       if (i == index) {
-        this.whseRangeList[i].BinRange = value;
+        this.whseRangeList[i].OPTM_BIN_RANGE = value;
       }
     }
   }
@@ -536,12 +549,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
               ZoneType: data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE,
               FromBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,
               ToBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_TO_BIN,
+              OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_ZONES[i].OPTM_BIN_RANGE
             })
           }
 
           for (var i = 0; i < data.OPTM_SHP_WHSE_BINS.length; i++) {
             this.whseRangeList.push({
-              BinRange: data.OPTM_SHP_WHSE_BINS[i].OPTM_BIN_RANGE,
+              OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_BINS[i].OPTM_BIN_RANGE,
               FromBin: data.OPTM_SHP_WHSE_BINS[i].OPTM_FROM_BIN,
               ToBin: data.OPTM_SHP_WHSE_BINS[i].OPTM_TO_BIN,
             })
@@ -639,7 +653,6 @@ export class WhseBinLayoutAddComponent implements OnInit {
     if (this.whseCode == undefined || this.whseCode == "") {
       return;
     }
-
     this.showLookup = false;
     var result = false;
     this.commonservice.IsValidWhseCode(this.whseCode).subscribe(
@@ -647,8 +660,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.showLookup = false;
         if (resp != null && resp != undefined)
           if (resp.ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
-
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();            
             return;
           }
         if (resp.length == 0) {
@@ -667,5 +679,73 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
     return result;
   }
+  
+  IsValidWareHouseBinRange(index, value) {
+    if(value == undefined || value == ""){
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidWareHouseBinRange(this.whseCode, value).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data.OPTM_SHP_WHSE_BINS.length > 0){
+            this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+          }else{
+            this.whseZoneList[index].OPTM_BIN_RANGE = "";
+          }
+        } else {
+          this.whseZoneList[index].OPTM_BIN_RANGE = "";
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetDataForBinRanges(index) {
+    this.showLoader = true;
+    this.index = index;
+    this.commonservice.GetDataForBinRanges(this.whseCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "BinRangeList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
 }
 

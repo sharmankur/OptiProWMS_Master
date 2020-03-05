@@ -20,6 +20,7 @@ export class CARUpdateComponent implements OnInit {
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
   CAR_PackType = "Shipping";
+  OPTM_CONT_DESC: string;
   lookupfor: string;
   BtnTitle: string;
 
@@ -50,21 +51,23 @@ export class CARUpdateComponent implements OnInit {
     if (Carow != undefined && Carow != "") {
       this.CTR_ROW = JSON.parse(localStorage.getItem("CAR_ROW"));
       this.autoRuleArray = (JSON.parse(localStorage.getItem("CAR_Grid_Data"))).OPTM_CONT_AUTORULEDTL;
-      this.CAR_CPackRule = this.CTR_ROW[0];
-      this.CAR_ContainerType = this.CTR_ROW[1];
+      this.CAR_CPackRule = this.CTR_ROW.OPTM_RULEID;//, event.OPTM_CONTTYPE, event.OPTM_CONTUSE);
+      this.CAR_ContainerType = this.CTR_ROW.OPTM_CONTTYPE;
+      // this.OPTM_CONT_DESC = this.CTR_ROW[2];
       for(var i=0; i<this.autoRuleArray.length ;i++){
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = Number(this.autoRuleArray[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.autoRuleArray[i].OPTM_PACKING_MATWT = Number(this.autoRuleArray[i].OPTM_PACKING_MATWT).toFixed(Number(localStorage.getItem("DecimalPrecision")));        
       }      
-      if (this.CTR_ROW[2] == 1) {
-        this.CAR_PackType = this.PackTypeList[0];
-      } else if (this.CTR_ROW[2] == 2) {
-        this.CAR_PackType = this.PackTypeList[1];
-      }else{
-        this.CAR_PackType = this.PackTypeList[2];
-      }
-      if (this.CTR_ROW[3] == 'Yes') {
+      this.CAR_PackType = this.CTR_ROW.OPTM_CONTUSE;
+      // if (this.CTR_ROW.OPTM_CONTUSE == 1) {
+      //   this.CAR_PackType = this.PackTypeList[0];
+      // } else if (this.CTR_ROW[3] == 2) {
+      //   this.CAR_PackType = this.PackTypeList[1];
+      // }else{
+      //   this.CAR_PackType = this.PackTypeList[2];
+      // }
+      if (this.CTR_ROW.OPTM_ADD_TOCONT == 'Yes') {
         this.CAR_AddPartsToContainer = true;
       } else {
         this.CAR_AddPartsToContainer = false;
@@ -124,10 +127,6 @@ export class CARUpdateComponent implements OnInit {
         this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
         return false;
       }
-      // if (sum != 100) {
-      //   this.toastr.error('', this.translate.instant("CAR_MinFillPercent_val_msg"));
-      //   return false;
-      // }
     }
     return true;
   }
@@ -151,7 +150,6 @@ export class CARUpdateComponent implements OnInit {
     var result = false;
     await this.commonservice.IsValidContainerType(this.CAR_ContainerType).then(
       (data: any) => {
-        console.log("inside IsValidContainerType")
         this.showLoader = false;
         result = false;
         if (data != undefined) {
@@ -165,11 +163,11 @@ export class CARUpdateComponent implements OnInit {
             result = true;
           } else {
             this.CAR_ContainerType = "";
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
           this.CAR_ContainerType = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
       error => {
@@ -231,6 +229,7 @@ export class CARUpdateComponent implements OnInit {
     oSubmitPOLotsObj.Header.push({
       OPTM_RULEID: this.CAR_CPackRule,
       OPTM_CONTTYPE: this.CAR_ContainerType,
+      OPTM_CONT_DESC: this.OPTM_CONT_DESC,
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_CONTUSE: packtype,
       OPTM_ADD_TOCONT: addPartToCont,
@@ -526,6 +525,48 @@ export class CARUpdateComponent implements OnInit {
         return this.OnContainerTypeChange();
       }
     }
+  }
+
+  async IsValidItemCode(iBtchIndex, value) {
+    if (value == undefined || value == "") {
+      return;
+    }
+    this.showLoader = true;
+    var result = false;
+    await this.commonservice.IsValidItemCode(value).then(
+      (data: any) => {
+        this.showLoader = false;
+        result = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = data[0].ItemCode;
+            result = true;
+          } else {
+            this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = "";
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          }
+        } else {
+          this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = "";
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
   }
 }
 

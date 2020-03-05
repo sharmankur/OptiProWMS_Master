@@ -11,7 +11,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="WHSCODE" [(ngModel)]="WHSCODE" placeholder="{{'WHSCODE'|translate}}"
-                                    #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" (blur)="IsValidWhseCode()"> 
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onWhsLookupClick()" [disabled]=isUpdate>
                                         <i class="opti-icon-search"></i>
@@ -47,19 +47,34 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card shipment-widget-box">
-                        <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                            <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
-     
-                    <kendo-grid class="no-shadow" [data]="DDdetailArray" [resizable]="true" [sortable]="true" [selectable]="true"
+                        
+                    <kendo-grid class="no-shadow" [data]="DDdetailArray" [resizable]="true" [sortable]="true" [selectable]="true" 
                         #gridItem>
-
+                        <ng-template kendoGridToolbarTemplate> 
+                            <form class="k-form opti_show-hide-grid-column-filter float-left opti_hide-in-mobile pl-0 pt-0">
+                                <div class="k-form-field d-flex">
+                                    <input #chkFilter type="checkbox" (change)="onFilterChange(chkFilter,gridItem)" id="opti_SalesOrderListColumnFilterID" [(ngModel)]="isColumnFilter"
+                                        class="k-checkbox" name="columnfilter" />
+                                    <label class="k-checkbox-label" for="opti_SalesOrderListColumnFilterID">Enable Filter</label>
+                    
+                                    
+                                </div>
+                            </form>
+                            <button type="button" class="float-right btn btn-success k-button btn-sm btn-icon-with-text grid-toolbar-delete-btn" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span> 
+                                Add Row</button>
+                          <!-- <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button>                        -->
+         
+                        </ng-template>
+                    
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_SHIP_STAGEBIN" [width]="18" title="{{'Ship_Stage_Bin'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
 
                                     <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SHIP_STAGEBIN" value={{dataItem.OPTM_SHIP_STAGEBIN}} id="display_name"
-                                        min="0" #display_name >
+                                        min="0" #display_name (blur)="IsValidBinCode(idx, display_name.value)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetStageBinList(idx)">
                                             <i class="opti-icon-search"></i>
@@ -77,7 +92,7 @@
                             </ng-template>
                         </kendo-grid-column> -->
 
-                        <kendo-grid-checkbox-column title="{{'Default_Bin'|translate}}" [width]="25">
+                        <kendo-grid-checkbox-column title="{{'Default_Bin'|translate}}" [width]="9">
                             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                 <div class="custom-control custom-checkbox">
                                     <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]="dataItem.OPTM_DEFAULT_BOOL"
@@ -87,7 +102,7 @@
                             </ng-template>
                         </kendo-grid-checkbox-column>
                         
-                        <kendo-grid-column media="(min-width: 768px)" field="{{'Action'|translate}}" headerClass="text-center" class="text-center" [width]="10" title="">
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-left" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>

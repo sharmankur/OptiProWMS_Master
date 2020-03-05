@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { CarrierMainComponent } from './carrier-main/carrier-main.component';
-// import { CarrierUpdateComponent } from './carrier-update/carrier-update.component';
-// import { CarrierViewComponent } from './carrier-view/carrier-view.component';
-
+import { BinRangeViewComponent } from './bin-range-view/bin-range-view.component';
+import { BinRangeUpdateComponent } from './bin-range-update/bin-range-update.component';
+import { BinRangeMainComponent } from './bin-range-main/bin-range-main.component';
 
 const routes: Routes = [
-  // { path: '', component: CarrierMainComponent },
-  // { path: 'carrier-update', component: CarrierUpdateComponent },
-  // { path: 'carrier-view', component: CarrierViewComponent },
+  { path: '', component: BinRangeMainComponent },
+  { path: 'binranges-update', component: BinRangeUpdateComponent },
+  { path: 'binranges-view', component: BinRangeViewComponent },
 
 ];
 
