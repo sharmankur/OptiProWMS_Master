@@ -923,6 +923,7 @@
   "BuiltProReceived_From_Vendor": "Received From Vendor",
   "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
   "InvalidSONo": "Invalid SO number.",
+  "InvalidWONo": "Invalid WO number.",
 
   "Dummy": "Dummy"
   

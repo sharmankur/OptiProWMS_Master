@@ -346,6 +346,66 @@ export class ShipmentWizardViewComponent implements OnInit {
   ChangeSalesQty(event, dataItem, companyRowIndex) {
     dataItem.SalesOpenQty = event.target.value
   }
+
+  IsValidSONumber(fieldName) {
+    let soNum;
+    if (fieldName == "SONoFrom") {
+      soNum = this.SrNoFrom;
+    }
+    else if (fieldName == "SONoTo") {
+      soNum = this.SrNoTo
+    }
+    if (soNum == "" || soNum == null || soNum == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidSONumber(soNum).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "SONoFrom") {
+              this.SrNoFrom = data[0].DocNum;
+            }
+            else if (fieldName == "SONoTo") {
+              this.SrNoTo = data[0].DocNum;
+            }
+          } else {
+            if (fieldName == "SONoFrom") {
+              this.SrNoFrom = "";
+            }
+            else if (fieldName == "SONoTo") {
+              this.SrNoTo = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidSONo"));
+          }
+        } else {
+          if (fieldName == "SONoFrom") {
+            this.SrNoFrom = "";
+          }
+          else if (fieldName == "SONoTo") {
+            this.SrNoTo = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidSONo"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForSalesOredr(fieldName) {
 
     this.showLoader = true;
@@ -486,6 +546,70 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
+  async IsValidItemCode(fieldName) {
+    let value;
+    if (fieldName == "ItmFrm") {
+      value = this.ItemFrom;
+    }
+    else if (fieldName == "ItmTo") {
+      value = this.ItemTo
+    }
+    if (value == undefined || value == "") {
+      return;
+    }
+    this.showLoader = true;
+    var result = false;
+    await this.commonservice.IsValidItemCode(value).then(
+      (data: any) => {
+        this.showLoader = false;
+        result = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            if (fieldName == "ItmFrm") {
+              this.ItemFrom = data[0].ItemCode;
+            }
+            else if (fieldName == "ItmTo") {
+              this.ItemTo = data[0].ItemCode;
+            }
+            result = true;
+          } else {
+            if (fieldName == "ItmFrm") {
+              this.ItemFrom = "";
+            }
+            else if (fieldName == "ItmTo") {
+              this.ItemTo = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          }
+        } else {
+          if (fieldName == "ItmFrm") {
+            this.ItemFrom = "";
+          }
+          else if (fieldName == "ItmTo") {
+            this.ItemTo = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result;
+  }
+
   GetDataForItemCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -509,6 +633,41 @@ export class ShipmentWizardViewComponent implements OnInit {
 
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidWhseCode() {
+    this.showLoader = true;
+    this.commonservice.IsValidWhseCode(this.WareHouse).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.WareHouse = data.OUTPUT[0].WhsCode;
+          } else {
+            this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+            this.WareHouse = "";
+          }
+
+        } else {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.WareHouse = "";
         }
       },
       error => {

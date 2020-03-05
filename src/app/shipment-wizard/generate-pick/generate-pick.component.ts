@@ -643,10 +643,10 @@ export class GeneratePickComponent implements OnInit {
           }
           if (data.length > 0) {        
             if (fieldName == "WOFrom") {
-              this.WOFrom = data[0].DocNum;
+              this.WOFrom = data[0].OPTM_WONO;
             }
             else if (fieldName == "WOTo") {
-              this.WOTo = data[0].DocNum;
+              this.WOTo = data[0].OPTM_WONO;
             }
           } else {
             if (fieldName == "WOFrom") {
@@ -655,7 +655,7 @@ export class GeneratePickComponent implements OnInit {
             else if (fieldName == "WOTo") {
               this.WOTo = "";
             }
-            this.toastr.error('', this.translate.instant("InvalidSONo"));
+            this.toastr.error('', this.translate.instant("InvalidWONo"));
           }
         } else {
           if (fieldName == "WOFrom") {
@@ -664,7 +664,7 @@ export class GeneratePickComponent implements OnInit {
           else if (fieldName == "WOTo") {
             this.WOTo = "";
           }
-          this.toastr.error('', this.translate.instant("InvalidSONo"));
+          this.toastr.error('', this.translate.instant("InvalidWONo"));
         }
       },
       error => {
@@ -754,10 +754,10 @@ export class GeneratePickComponent implements OnInit {
       this.SONoTo = event.SODocNum;
     }
     else if (this.lookupfor == "WOFrom") {
-      this.WOFrom = event.SODocNum;
+      this.WOFrom = event.OPTM_WONO;
     }
     else if (this.lookupfor == "WOTo") {
-      this.WOTo = event.SODocNum;
+      this.WOTo = event.OPTM_WONO;
     }
     else if (this.lookupfor == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;

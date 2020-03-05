@@ -181,7 +181,7 @@
                                             <label for="SOFrom" class="col-sm-4 col-form-label">{{'WorkOrderFrom'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input id="WOFrom" type="Number" class="form-control form-control-sm" name='WOFrom' [(ngModel)]="WOFrom" [disabled]=isWODisabled (blur)="IsValidWONumber('WOFrom')">
+                                                    <input id="WOFrom" type="text" class="form-control form-control-sm" name='WOFrom' [(ngModel)]="WOFrom" [disabled]=isWODisabled (blur)="IsValidWONumber('WOFrom')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWorkOrderList('WOFrom')" [disabled]=isWODisabled>
                                                             <i class="opti-icon-search"></i>
