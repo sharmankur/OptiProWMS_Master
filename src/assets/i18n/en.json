@@ -90,13 +90,13 @@
   "BatchSerial_List": "Batch/Serial List",
   "CAR_PartsPerContainer":"Parts Per Container", 
   "CAR_ItemCode":"Item Code", 
-  "CAR_AddPartsToContainer":"Add Parts To Container", 
+  "CAR_AddPartsToContainer":"Add Parts To Cont.", 
   "CAR_MinFillPercent":"Min Fill Percent", 
   "CAR_MAT_WT":"Packing Mat Weight", 
   "CAR_Pack_Type_Blank_Msg":"Pack Type can't be blank.", 
   "CAR_ItemCode_Blank_Msg":"Item Code can't be blank.", 
   "CAR_ContainerPackRule_Blank_Msg":"Container Pack Rule can't be blank.", 
-  "DockDoorId_Blank_Msg":"Dock Door Id can't be blank.", 
+  "DockDoorId_Blank_Msg":"Invalid Dock Door Id.", 
   "CAR_MinFillPercent_val_msg":"Sum of Min Fill Percent should be equal to 100.", 
   "CAR_MinFillPercent_blank_msg":"Min Fill Percent should not be equal to 0.", 
   "CAR_PartsPerContainer_blank_msg":"Parts Per Container should not be equal to 0.", 
@@ -163,6 +163,7 @@
   "ContainerItems": "Container Items",
   "ShipmentLineDetails":"Shipment Line Details",
   "Default_Bin":"Default Bin",
+  "Pick_Shift":"Pick Shift",
   
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
@@ -546,7 +547,7 @@
   "Dock_DoorFrom": "Dock Door From",
   "Dock_DoorTo": "Dock Door To",
   "InvalidDock_Door": "Dock Door Id can't be blank",
-  "Invalid_Carrier_code": "Carrier Code  can't be blank",
+  "Invalid_Carrier_code": "Invalid Carrier Code.",
   "DD_ID": "Dock Door Id",
   "DD_DESC": "Description",
   
@@ -559,6 +560,7 @@
   "CarrierCodeTo": "Carrier Code To",
  
   "Shipment_Wizard": "Shipment Wizard",
+  "Shipment_Qty": "Shipment Qty.",
   "SO_From": "Sales Order From",
   "SO_To": "Sales Order To",
   "Due_Date_To": "Due Date To",
@@ -922,6 +924,7 @@
   "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All",
+  "InvalidSONo": "Invalid SO number.",
 
   "Dummy": "Dummy"
   

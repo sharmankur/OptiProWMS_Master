@@ -204,11 +204,11 @@ export class CTRUpdateComponent implements OnInit {
             result = true;
           }else{
             this.CTR_ContainerType = "";
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
           this.CTR_ContainerType = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
       error => {
@@ -253,11 +253,11 @@ export class CTRUpdateComponent implements OnInit {
             result = true;
           }else{
             this.CTR_ParentContainerType = "";
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
           this.CTR_ParentContainerType = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
       error => {

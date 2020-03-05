@@ -214,7 +214,7 @@ export class CommonLookupComponent implements OnInit {
       this.showItemCodeListByRuleId();
     } else if (this.lookupfor == "ContainerIdList") {
       this.showContainerIdList();
-    } else if(this.lookupfor == "WOLIST") {
+    } else if(this.lookupfor == "WOLIST" || this.lookupfor == "WOFrom" || this.lookupfor == "WOTo") {
       this.workOrderList();
     }
 
@@ -1470,16 +1470,16 @@ export class CommonLookupComponent implements OnInit {
     this.table_head = [
       {
         field: 'SODocNum',
-        title: this.translate.instant("DocNo"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'SODocEntry',
-        title: this.translate.instant("DocEntry"),
+        title: this.translate.instant("SONumber"),
         type: 'text',
         width: '100'
       }
+      // {
+      //   field: 'SODocEntry',
+      //   title: this.translate.instant("DocEntry"),
+      //   type: 'text',
+      //   width: '100'
+      // }
     ];
     if (value === "From")
       this.lookupTitle = this.translate.instant("SrNoTitleFrom");

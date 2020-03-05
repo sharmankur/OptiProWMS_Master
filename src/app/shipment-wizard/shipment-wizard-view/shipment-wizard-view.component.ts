@@ -18,13 +18,18 @@ export class ShipmentWizardViewComponent implements OnInit {
   lookupfor: string;
   serviceData: any[];
   UseContainer: boolean=false; 
+  SOpageSize = 10;
+  SOpagable:boolean = false;
+  SPpagable:boolean = false;
+  SPpageSize = 10;
+  pageSize = 10;
+
   constructor(private WizardService: ShipmentWizardService, private router: Router, private commonservice: Commonservice,
     private toastr: ToastrService, private translate: TranslateService) { }
   // GRID VAIRABLE
   //public gridView: any = [{"ProductName":"test"}];
   public items: any[] = [];
   public mySelection: number[] = [];
-  public pageSize = 10;
   public skip = 0;
   // GRID VARIABLE
 
@@ -67,6 +72,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   public ConsolidatedDataSelection: any = {};
   public GetCreateShipMentData: any = [];
   dateFormat: string;
+  pageable: boolean = false;
 
   ngOnInit() {
     // this.HoldSelectedRow = [];
@@ -168,6 +174,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             }
           }
           this.GetCreateShipMentData = resp["ShipmentHdr"];
+          if(this.GetCreateShipMentData.length > this.pageSize){
+            this.pageable = true;
+          }else{
+            this.pageable = false;
+          }
           this.currentStep = this.currentStep + 1;
           this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
         }
@@ -221,6 +232,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
           }
           this.gridData = resp;
+          if(this.gridData.length > this.SOpageSize){
+            this.SOpagable = true;
+          }else{
+            this.SOpagable = false;
+          }
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -285,6 +301,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             }
           }
           this.AllConsolidateData = resp["ShipmentHdr"];
+          if(this.AllConsolidateData.length > this.SPpageSize){
+            this.SPpagable = true;
+          }else{
+            this.SPpagable = false;
+          }
           this.currentStep = this.currentStep + 1;
         }
         else {

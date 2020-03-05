@@ -45,7 +45,7 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'FromBinCode'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name="FromBinCode" [(ngModel)]="FromBinCode" placeholder="{{'FromBinCode'|translate}}">
+                                <input type="text" class="form-control form-control-sm" name="FromBinCode" [(ngModel)]="FromBinCode" placeholder="{{'FromBinCode'|translate}}" #bin (blur)="IsValidBinCode('frombin', bin.value)">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetBinCode('From_BinList', idx)">
                                         <i class="opti-icon-search"></i>
@@ -59,7 +59,7 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'ToBinCode'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name="ToBinCode" [(ngModel)]="ToBinCode" placeholder="{{'ToBinCode'|translate}}">
+                                <input type="text" class="form-control form-control-sm" name="ToBinCode" [(ngModel)]="ToBinCode" placeholder="{{'ToBinCode'|translate}}" #bin (blur)="IsValidBinCode('tobin', bin.value)">
                                 <div class="input-group-append">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetBinCode('To_BinList', idx)">
                                         <i class="opti-icon-search"></i>

@@ -127,18 +127,14 @@
 
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-
-                                    <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name"
-                                        min="0" #display_name >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name" #display_name (blur)="IsValidItemCode(idx, display_name.value)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
-
                             </ng-template>
                         </kendo-grid-column>
 
