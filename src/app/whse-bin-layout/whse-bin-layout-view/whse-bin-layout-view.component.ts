@@ -112,7 +112,7 @@ export class WhseBinLayoutViewComponent implements OnInit {
     var ddDeleteArry: any[] = [];
       ddDeleteArry.push({
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_WHSCODE: event[0]     
+        OPTM_WHSCODE: event.OPTM_WHSCODE     
       });
     this.DeleteFromWareHouseMaster(ddDeleteArry);
   }

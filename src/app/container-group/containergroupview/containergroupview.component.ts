@@ -102,7 +102,7 @@ export class ContainergroupviewComponent implements OnInit {
   onDeleteRowClick(event){
     var cgDeleteArry: any[] = [];
     cgDeleteArry.push({
-        OPTM_CONTAINER_GROUP: event[0],
+        OPTM_CONTAINER_GROUP: event.OPTM_CONTAINER_GROUP,
         CompanyDBId: localStorage.getItem("CompID")
       });
     this.DeleteContnrGroup(cgDeleteArry);

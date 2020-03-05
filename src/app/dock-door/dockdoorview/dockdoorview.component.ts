@@ -171,7 +171,7 @@ export class DockdoorviewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -180,8 +180,8 @@ export class DockdoorviewComponent implements OnInit {
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
-            OPTM_DOCKDOORID: this.event[0],
-            OPTM_WHSE: this.event[1],
+            OPTM_DOCKDOORID: this.event.OPTM_DOCKDOORID,
+            OPTM_WHSE: this.event.OPTM_WHSE,
             CompanyDBId: localStorage.getItem("CompID")
           });
           this.DeleteFromDockDoor(ddDeleteArry);

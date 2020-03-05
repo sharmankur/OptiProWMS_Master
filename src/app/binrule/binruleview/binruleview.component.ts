@@ -194,7 +194,7 @@ export class BinruleviewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -204,9 +204,9 @@ export class BinruleviewComponent implements OnInit {
         var ddDeleteArry: any[] = [];
         ddDeleteArry.push({
           CompanyDBId: localStorage.getItem("CompID"),
-          OPTM_WHS_RULE: this.event[0],
-          OPTM_WHSCODE: this.event[3],
-          OPTM_WHS_ZONE: this.event[4],
+          OPTM_WHS_RULE: this.event.OPTM_WHS_RULE,
+          OPTM_WHSCODE: this.event.OPTM_WHSCODE,
+          OPTM_WHS_ZONE: this.event.OPTM_WHS_ZONE,
         });
       this.DeleteFromBinRule(ddDeleteArry);
           break;

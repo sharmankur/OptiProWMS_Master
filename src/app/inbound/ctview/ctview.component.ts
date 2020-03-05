@@ -156,7 +156,7 @@ export class CTViewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -166,7 +166,7 @@ export class CTViewComponent implements OnInit {
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
             CompanyDBId: localStorage.getItem("CompID"),
-            OPTM_CONTAINER_TYPE: this.event[0],
+            OPTM_CONTAINER_TYPE: this.event.OPTM_CONTAINER_TYPE,
           });
           this.DeleteFromContainerType(ddDeleteArry);
           break;
