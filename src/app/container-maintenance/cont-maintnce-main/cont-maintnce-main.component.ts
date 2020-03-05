@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
 import { ContMaintnceComponent } from '../cont-maintnce/cont-maintnce.component';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-cont-maintnce-main',
@@ -31,6 +32,7 @@ export class ContMaintnceMainComponent implements OnInit {
   volume: any;
   containerItems: any = []
   pageSize: number = 10
+  ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
     private router: Router, private containerCreationService: ContainerCreationService, private contMaintenance: ContMaintnceComponent) { }
@@ -38,6 +40,7 @@ export class ContMaintnceMainComponent implements OnInit {
   ngOnInit() {
     localStorage.setItem("From", "")
     this.contMaintenance.cmComponent = 1;
+    this.ExpandCollapseBtn = "Expand All"
     this.GetAllContainer()
   }
 
@@ -446,12 +449,19 @@ export class ContMaintnceMainComponent implements OnInit {
   public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
     return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
   }
+  
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  isExpand: boolean = false;
+  onExpandCollapse() {
+    this.isExpand = !this.isExpand;
+    this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
 
-  onExpand(event) {
-    console.log("keep track of all expanded rows (index)")
-  }
-
-  onCollapse(event) {
-    console.log("keep track of all onCollapse rows (index)")
+    for (var i = 0; i < this.containerItems.length; i++) {
+      if (this.isExpand) {
+        this.grid.expandRow(i)
+      } else {
+        this.grid.collapseRow(i);
+      }
+    }
   }
 }
