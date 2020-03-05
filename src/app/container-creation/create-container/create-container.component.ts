@@ -285,79 +285,79 @@ export class CreateContainerComponent implements OnInit {
     localStorage.setItem("ContainerOperationData", "");
   }
 
-  getLookupValue($event) {
-    this.showOtherLookup = false;
-    this.showLookup = false;
-    if ($event != null && $event == "close") {
-      //nothing to do
-      return;
-    }
-    else {
-      if (this.lookupfor == "CTList") {
-        if (this.fromType == 'child') {
-          this.containerType = $event[0];
-          this.length = $event[2];
-          this.width = $event[3];
-          this.height = $event[4];
-          this.maxWeigth = $event[5];
-          this.parentContainerType = '';
-          // this.containerWeigth = $event[0];         
-        } 
-        // else {
-        //   this.parentContainerType = $event[0];
-        // }
+  // getLookupValue($event) {
+  //   this.showOtherLookup = false;
+  //   this.showLookup = false;
+  //   if ($event != null && $event == "close") {
+  //     //nothing to do
+  //     return;
+  //   }
+  //   else {
+  //     if (this.lookupfor == "CTList") {
+  //       if (this.fromType == 'child') {
+  //         this.containerType = $event[0];
+  //         this.length = $event[2];
+  //         this.width = $event[3];
+  //         this.height = $event[4];
+  //         this.maxWeigth = $event[5];
+  //         this.parentContainerType = '';
+  //         // this.containerWeigth = $event[0];         
+  //       } 
+  //       // else {
+  //       //   this.parentContainerType = $event[0];
+  //       // }
 
-        // if (this.containerType == this.parentContainerType) {
-        //   this.toastr.error('', this.translate.instant("ParentContCannoSame"));
-        //   this.parentContainerType = '';
-        // }
-      } 
-      else if(this.lookupfor == "ParentCTList"){
-        this.parentContainerType = $event[1];
-        this.ParentPerQty = $event[2];
-      }
-      else if (this.lookupfor == "CARList") {
-        this.autoPackRule = $event[0];
-        this.autoRuleId = $event[0];
-        this.packType = $event[2];
-        this.partsQty = $event[10];        
-        this.CheckScanAndCreateVisiblity(this.autoPackRule);
-        this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
-        // this.GetTotalWeightBasedOnRuleID();
-      } else if (this.lookupfor == "WareHouse") {
-        this.whse = $event[0];
-        this.binNo = "";
-      } else if (this.lookupfor == "BinList") {
-        this.binNo = $event[0];
-        this.GetInventoryData();
-      } else if (this.lookupfor == "SOList") {
-        this.soNumber = $event[0];
-      } else if (this.lookupfor == "GroupCodeList") {
-        this.containerGroupCode = $event[0];
-      } else if (this.lookupfor == "ContainerIdList") {
-        for (var i = 0; i < this.fromContainerDetails.length; i++) {
-          if ($event[2] == this.fromContainerDetails[i].OPTM_ITEMCODE) {
-            this.fromContainerDetails[i].OPTM_CONTAINERID = $event[0];
-          }
-        }
-        this.GetListOfBatchSerOfSelectedContainerID($event[0], $event[2])
-      } else if (this.lookupfor == "WOLIST") {
-        this.workOrder = $event[0];
-        this.taskId = $event[6];
-        this.operationNo = $event[1];
-        this.ProducedQty = $event[7];
-        this.PassedQty = $event[8];
-        this.RejectedQty = $event[9];
-        this.NCQty = $event[10];
-        this.SelectedWOItemCode = $event[3];
-        this.itemCode = this.SelectedWOItemCode;
-        this.RemQtyWO = $event[11];
+  //       // if (this.containerType == this.parentContainerType) {
+  //       //   this.toastr.error('', this.translate.instant("ParentContCannoSame"));
+  //       //   this.parentContainerType = '';
+  //       // }
+  //     } 
+  //     else if(this.lookupfor == "ParentCTList"){
+  //       this.parentContainerType = $event[1];
+  //       this.ParentPerQty = $event[2];
+  //     }
+  //     else if (this.lookupfor == "CARList") {
+  //       this.autoPackRule = $event[0];
+  //       this.autoRuleId = $event[0];
+  //       this.packType = $event[2];
+  //       this.partsQty = $event[10];        
+  //       this.CheckScanAndCreateVisiblity(this.autoPackRule);
+  //       this.IsValidContainerAutoRule(this.autoPackRule, $event[1], this.packType);
+  //       // this.GetTotalWeightBasedOnRuleID();
+  //     } else if (this.lookupfor == "WareHouse") {
+  //       this.whse = $event[0];
+  //       this.binNo = "";
+  //     } else if (this.lookupfor == "BinList") {
+  //       this.binNo = $event[0];
+  //       this.GetInventoryData();
+  //     } else if (this.lookupfor == "SOList") {
+  //       this.soNumber = $event[0];
+  //     } else if (this.lookupfor == "GroupCodeList") {
+  //       this.containerGroupCode = $event[0];
+  //     } else if (this.lookupfor == "ContainerIdList") {
+  //       for (var i = 0; i < this.fromContainerDetails.length; i++) {
+  //         if ($event[2] == this.fromContainerDetails[i].OPTM_ITEMCODE) {
+  //           this.fromContainerDetails[i].OPTM_CONTAINERID = $event[0];
+  //         }
+  //       }
+  //       this.GetListOfBatchSerOfSelectedContainerID($event[0], $event[2])
+  //     } else if (this.lookupfor == "WOLIST") {
+  //       this.workOrder = $event[0];
+  //       this.taskId = $event[6];
+  //       this.operationNo = $event[1];
+  //       this.ProducedQty = $event[7];
+  //       this.PassedQty = $event[8];
+  //       this.RejectedQty = $event[9];
+  //       this.NCQty = $event[10];
+  //       this.SelectedWOItemCode = $event[3];
+  //       this.itemCode = this.SelectedWOItemCode;
+  //       this.RemQtyWO = $event[11];
 
-        this.fromContainerDetails = [];
-        this.selectedBatchSerial = [];
-      }
-    }
-  }
+  //       this.fromContainerDetails = [];
+  //       this.selectedBatchSerial = [];
+  //     }
+  //   }
+  // }
 
   onContainerIdChange() {
     this.showLoader = true;
@@ -1366,7 +1366,74 @@ export class CreateContainerComponent implements OnInit {
     this.showOtherLookup = true;
   }
 
+
+  getLookupDataValue($event) {
+    this.showOtherLookup = false;
+    this.showLookup = false;
+    if ($event != null && $event == "close") {
+      return;
+    }
+    else {
+      if (this.lookupfor == "CTList") {
+        if (this.fromType == 'child') {
+          this.containerType = $event.OPTM_CONTAINER_TYPE;
+          this.length = $event.OPTM_LENGTH;
+          this.width = $event.OPTM_WIDTH;
+          this.height = $event.OPTM_HEIGHT;
+          this.maxWeigth = $event.OPTM_MAXWEIGHT;
+          this.parentContainerType = '';
+        }
+      } 
+      else if(this.lookupfor == "ParentCTList"){
+        this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
+        this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
+      }
+      else if (this.lookupfor == "CARList") {
+        this.autoPackRule = $event.OPTM_RULEID;
+        this.autoRuleId = $event.OPTM_RULEID;
+        this.packType = $event.OPTM_CONTUSE;
+        this.partsQty = $event.OPTM_PARTS_PERCONT;        
+        this.CheckScanAndCreateVisiblity(this.autoPackRule);
+        this.IsValidContainerAutoRule(this.autoPackRule, $event.OPTM_CONTTYPE, this.packType);
+        // this.GetTotalWeightBasedOnRuleID();
+      } else if (this.lookupfor == "WareHouse") {
+        this.whse = $event.WhsCode;
+        this.binNo = "";
+      } else if (this.lookupfor == "BinList") {
+        this.binNo = $event.BinCode;
+        this.GetInventoryData();
+      } else if (this.lookupfor == "SOList") {
+        this.soNumber = $event.DocEntry;
+      } else if (this.lookupfor == "GroupCodeList") {
+        this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
+      } else if (this.lookupfor == "ContainerIdList") {
+        for (var i = 0; i < this.fromContainerDetails.length; i++) {
+          if ($event.OPTM_ITEMCODE == this.fromContainerDetails[i].OPTM_ITEMCODE) {
+            this.fromContainerDetails[i].OPTM_CONTAINERID = $event.OPTM_CONTAINERID;
+          }
+        }
+        this.GetListOfBatchSerOfSelectedContainerID($event.OPTM_CONTAINERID, $event.OPTM_ITEMCODE)
+      } else if (this.lookupfor == "WOLIST") {
+        this.workOrder = $event.OPTM_WONO;
+        this.taskId = $event.OPTM_ID;
+        this.operationNo = $event.OPTM_FROMOPERNO;
+        this.ProducedQty = $event.OPTM_QTYPRODUCED;
+        this.PassedQty = $event.OPTM_QTYACCEPTED;
+        this.RejectedQty = $event.OPTM_QTYREJECTED;
+        this.NCQty = $event.OPTM_NCQTY;
+        this.SelectedWOItemCode = $event.OPTM_FGCODE;
+        this.itemCode = this.SelectedWOItemCode;
+        this.RemQtyWO = $event.OPTM_REMAININGQTY;
+
+        this.fromContainerDetails = [];
+        this.selectedBatchSerial = [];
+      }
+    }
+  }
+
+
   getLookupKey($event) {
+
     console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;

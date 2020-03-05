@@ -672,11 +672,11 @@
 </div>
 
 <span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
 </span>
 
 <span *ngIf="showLookup==false && showOtherLookup==true">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event)"></app-common-lookup>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">
