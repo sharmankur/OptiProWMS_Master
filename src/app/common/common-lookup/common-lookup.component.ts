@@ -112,7 +112,11 @@ export class CommonLookupComponent implements OnInit {
     }
     else if (this.lookupfor == "CTList" || this.lookupfor == "PCTList") {
       this.showContainerType();
-    } else if (this.lookupfor == "SBTrackFromBin") {
+    } 
+    else if(this.lookupfor == "ParentCTList"){
+      this.showParentContList();
+    }
+    else if (this.lookupfor == "SBTrackFromBin") {
       this.showSBTrackFromBinList();
     } else if (this.lookupfor == "toBinsList") {
       this.showSBTrackFromBinList();
@@ -761,6 +765,23 @@ export class CommonLookupComponent implements OnInit {
           var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.serviceData[i].TOTALQTY = qty;
         }
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showParentContList() {
+    this.table_head = [
+      {
+        field: 'OPTM_PARENT_CONTTYPE',
+        title: this.translate.instant("Parent_Container_Type"),
+        type: 'text',
+        width: '100'
+      }      
+    ];
+    this.lookupTitle = this.translate.instant("Parent_Container_Type");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
         this.dialogOpened = true;
       }
     }

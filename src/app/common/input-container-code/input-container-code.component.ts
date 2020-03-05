@@ -26,6 +26,9 @@ export class InputContainerCodeComponent implements OnInit {
   containerCode: string = "";
   parentContainerCode: string = "";
   count: any = 0;
+  ShowParentField : boolean = true;
+  RemainingQty : any = 0;
+  TotalQty : any=0;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router) { }
@@ -36,6 +39,10 @@ export class InputContainerCodeComponent implements OnInit {
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
+
+    if(this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentContainerType == "" || this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentContainerType == undefined){
+      this.ShowParentField = false;
+    }    
   }
 
   public opened: boolean = true;
@@ -80,9 +87,91 @@ export class InputContainerCodeComponent implements OnInit {
     // }
   }
 
+  onParentContainerChange(){
+    this.showLoader = true;
+    this.containerCreationService.GetCountOfParentContainer(this.parentContainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.count= data[0].Count;  
+          this.TotalQty =  this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentPerQty;  
+          this.RemainingQty = this.TotalQty - this.count;     
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onContainerCodeChange(){
+    this.showLoader = true;
+    this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data[0].Count > 0){
+            this.toastr.error('', this.translate.instant("DuplicateContCode"));
+            this.containerCode = '';
+            return;
+          }
+          else{
+            this.GenerateShipContainer();
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GenerateShipContainer() {
+
+    if(this.ShowParentField && (this.parentContainerCode == "" || this.parentContainerCode == undefined)){
+      this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));
+      return;
+    }
+
+    if(this.ShowParentField && this.RemainingQty <= 0){
+      this.toastr.error('', this.translate.instant("Cannot_Create_Container"));
+      return;
+    }  
+    
+    if(this.containerCode == "" || this.containerCode == undefined){
+      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
+      return;
+    } 
+
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;
 
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
@@ -96,19 +185,31 @@ export class InputContainerCodeComponent implements OnInit {
           }
 
           if(data == null || data.length == 0){
-            this.toastr.error('', this.translate.instant("Code not generated."));
+            this.toastr.error('', this.translate.instant("Code_not_generated"));
           } else if(data != null && data.length == 1){
-            this.isYesClick.emit({
-              Status: "yes",
-              From: this.fromWhere,
-              ContainerId: data[0].OPTM_CONTAINERID,
-              ParentContainerCode: this.parentContainerCode,
-              ContainerCode: this.containerCode,
-              Count: this.count
-            });
-            this.opened = false;
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+            this.containerCode = '';
+
+            if(this.ShowParentField){
+              this.onParentContainerChange();
+            }           
+
+            // this.count += this.count;
+            // this.RemainingQty -= this.RemainingQty;
+
+           
+            // this.isYesClick.emit({
+            //   Status: "yes",
+            //   From: this.fromWhere,
+            //   ContainerId: data[0].OPTM_CONTAINERID,
+            //   ParentContainerCode: this.parentContainerCode,
+            //   ContainerCode: this.containerCode,
+            //   Count: this.count
+            // });
+            //this.opened = false;
+
           } else {
-            this.toastr.error('', this.translate.instant("Code already exist."));
+            this.toastr.error('', this.translate.instant("Input_Code_exist"));
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

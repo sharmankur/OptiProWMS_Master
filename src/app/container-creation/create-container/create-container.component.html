@@ -32,8 +32,8 @@
                     <div class="form-group row">
                         <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Produced'|translate}}</label>
                         <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group input-group-sm">
+                                <div class="">
+                                    <div class="">
                                             <input type="text" class="form-control form-control-sm text-right" id="ProducedQtyId"
                                    name="ProducedQtyId" [(ngModel)]="ProducedQty" disabled>
                                     </div>
@@ -47,8 +47,8 @@
                     <div class="form-group row">
                         <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Rejected'|translate}}</label>
                         <div class="col-sm-7">
-                            <div class="input-group input-group-sm">                                
-                                   <input type="number" class="form-control form-control-sm text-right" name='RejectedQtyId'
+                            <div class="">                                
+                                   <input type="text" class="form-control form-control-sm text-right" name='RejectedQtyId'
                                    [(ngModel)]="RejectedQty" id="RejectedQtyId" disabled>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" id="taskId"
                                     name="taskId" [(ngModel)]="taskId" disabled>
-                                    <input type="text" class="form-control form-control-sm ml-1" id="OperationNoId"
+                                    <input type="text" class="form-control form-control-sm ml-1 text-right" id="OperationNoId"
                                     name="OperationNoId" [(ngModel)]="operationNo" disabled>
                             </div>
                         </div>
@@ -84,8 +84,8 @@
                     <div class="form-group row">
                         <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Passed'|translate}}</label>
                         <div class="col-sm-7">
-                                <div class="input-group input-group-sm">                                    
-                                    <input type="number" class="form-control form-control-sm text-right" name='PassedQtyId'
+                                <div class="">                                    
+                                    <input type="text" class="form-control form-control-sm text-right" name='PassedQtyId'
                                     [ngModel]="PassedQty" id="PassedQtyId"
                                     disabled>                                  
                                 </div>
@@ -98,7 +98,7 @@
                         <div class="form-group row">
                             <label for="RejectedNC" class="col-sm-5 col-form-label">{{'NC'|translate}}</label>
                             <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
+                                <div class="">
                                     <input type="text" class="form-control form-control-sm text-right" name='NCQtyId'
                                         [(ngModel)]="NCQty" id="NCQtyId" disabled>
                                 </div>
@@ -211,7 +211,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='ContStatusId'
+                                            <input type="text" class="form-control form-control-sm" name='ContStatusId'
                                                 [ngModel]="ContStatus" id="ContStatusId" disabled>
                                         </div>
                                     </div>
@@ -247,8 +247,8 @@
                         </div>
 
                             <!-- col start -->
-                        <div class="col-sm-4" >
-                            <div class="form-group row" *ngIf="false">
+                        <!-- <div class="col-sm-4" >
+                            <div class="form-group row">
                                 <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
@@ -258,7 +258,22 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+
+                        <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
+                                    <div class="input-group col-sm-7">
+                                        <input type="text" class="form-control form-control-sm" id="soNumber" 
+                                            name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <!-- col end -->
                     <!-- col start -->
                     <div class="col-sm-4">
@@ -267,7 +282,7 @@
                             <div class="col-sm-7">
                                 <div class="input-group input-group-sm">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm text-right" name='width'
+                                        <input type="text" class="form-control form-control-sm text-right" name='width'
                                             [ngModel]="length|numberFormat" (ngModelChange)="length=$event" id="length" disabled>
                                     </div>
                                 </div>
@@ -292,9 +307,9 @@
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="parentContainerType"
                                         name="parentContainerType"
-                                        [(ngModel)]="parentContainerType" (blur)="onContainerTypeChangeBlur('parent')">
+                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')"> 
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('parent')">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -304,8 +319,8 @@
                         <!-- col end -->
 
                         <!-- col start -->
-                        <div class="col-sm-4">
-                            <div class="form-group row" *ngIf="false">
+                        <!-- <div class="col-sm-4">
+                            <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
@@ -314,17 +329,34 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
 
-                        </div>
+                        <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
+                                    <div class="input-group col-sm-7">
+                                        <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                                            name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         <!-- col end -->
                        <!-- col start -->
                        <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Width'|translate}}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='width'
+                                    <div class="">
+                                        <div class="">
+                                            <input type="text" class="form-control form-control-sm text-right" name='width'
                                                 [ngModel]="width|numberFormat" (ngModelChange)="width=$event" id="width" disabled>
                                         </div>
                                     </div>
@@ -363,7 +395,7 @@
                         <!-- col end -->
                           <!-- col start -->
                           <div class="col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group row" *ngIf="false">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="soNumber" 
@@ -382,9 +414,9 @@
                             <div class="form-group row">
                                 <label for="CustomerTo" class="col-sm-5 col-form-label">{{'CT_Height'|translate}}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='height'
+                                    <div class="">
+                                        <div class="">
+                                            <input type="text" class="form-control form-control-sm text-right" name='height'
                                                 [ngModel]="height|numberFormat" (ngModelChange)="height=$event" id="height" disabled>
                                         </div>
                                     </div>
@@ -418,14 +450,8 @@
                         <!-- col end -->
                         <!-- col start -->
                         <div class="col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group row" *ngIf="false">
                                 <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                                <!-- <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm" name='CustomerTo'
-                                            [(ngModel)]="CustomerTo" id="CustomerTo">
-                                    </div>
-                                </div> -->
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="containerGroupCode"
                                         name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
@@ -443,12 +469,12 @@
                            <!-- col start -->
                            <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth/MaxWeight'|translate}}</label>
+                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'MaxWeight/ContainerWeigth'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm text-right" name='containerWeigth'
+                                        <input type="text" class="form-control form-control-sm text-right" name='containerWeigth'
                                             [ngModel]="containerWeigth|numberFormat" (ngModelChange)="containerWeigth=$event" id="containerWeigth" disabled>
-                                        <input type="number" class="form-control form-control-sm text-right ml-1" name="maxWeigth"
+                                        <input type="text" class="form-control form-control-sm text-right ml-1" name="maxWeigth"
                                         id="maxWeigth" [ngModel]="maxWeigth|numberFormat" (ngModelChange)="maxWeigth=$event" disabled>
                                     </div>
                                 </div>
@@ -496,16 +522,16 @@
                                     <dl class="opti_mobile_grid_dl">
                                         <dt>{{dataItem.OPTM_ITEMCODE}}</dt>
                                         <dd>{{dataItem.OPTM_PARTS_PERCONT}}</dd>
-                                        <dt></dt>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
+                                        <dt>{{dataItem.OPTM_CONTAINERID}}</dt>
+                                        <dd>{{dataItem.AvlQty}}</dd>
+                                        <dd>{{dataItem.OPTM_MIN_FILLPRCNT}}</dd>
+                                        <dd>{{dataItem.BinCode}}</dd>
+                                        <dd>{{dataItem.QuantityToAdd}}</dd>
                                     </dl>
                                     <dl class="opti_mobile_grid_dl">
                                         <dt>{{'#'}}</dt>
                                         <dt>{{'ItemCode'|translate}}</dt>
-                                        <dd>{{'Quantity'|translate}}</dd>
+                                        <dd>{{'Item_Container_Quantity'|translate}}</dd>
                                         <dt>{{'Container'|translate}}</dt>
                                         <dd>{{'AvailableQty'|translate}}</dd>
                                         <dd>{{'InvQty'|translate}}</dd>
@@ -515,17 +541,21 @@
                             </kendo-grid-column>
                             <!-- grid for mobile end -->
 
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45" title="{{'ItemCode'|translate}}">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name="ITEMCODE" value={{dataItem.OPTM_ITEMCODE}}
-                                            id="display_name" min="0" #display_name>
-                                    </div>
-                                </ng-template> -->
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45"  headerClass="text-center" title="{{'ItemCode'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_ITEMCODE}}</span>
+                                <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    {{dataItem.OPTM_ITEMCODE}}</span>
+                                </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Item_Container_Quantity'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
+                                </ng-template> -->
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" title="{{'Container'|translate}}"
@@ -544,26 +574,42 @@
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="AvlQty" [width]="45" title="{{'AvailableQty'|translate}}"
                                 headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty}}
-                                </ng-template>
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty}}
+                                </ng-template> -->
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.AvlQty}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.AvlQty}}</span>
+                                </ng-template>                                
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'InvQty'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT}}
-                                </ng-template>
+                                headerClass="text-center" class="text-right">                                
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_MIN_FILLPRCNT}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.OPTM_MIN_FILLPRCNT}}</span>
+                                </ng-template>  
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="60" title="{{'BinNo'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" headerClass="text-center" [width]="60" title="{{'BinNo'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.BinCode}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.BinCode}}</span>
+                                </ng-template> 
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyAdded'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.QuantityToAdd|numberFormat}}
-                                </ng-template> -->
+                                headerClass="text-center" class="text-right">                                
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm text-right" name="qtytoadd"
                                             value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
-                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
+                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> <!--[disabled]="dataItem.isDesable"-->
                                     </div>
+                                    <!-- <div class="input-group input-group-sm" *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode">
+                                        <input type="text" class="form-control form-control-sm text-right" class="font-weight-bold" name="qtytoadd"
+                                            value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
+                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> 
+                                    </div> -->
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" [width]="45" headerClass="text-center" class="text-center">
@@ -614,7 +660,7 @@
                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
                                 <!-- <a class="dropdown-item" (click)="onResetClick()">{{'Login_Reset'|translate}}</a> -->
-                                <a class="dropdown-item">{{'ResetCounter'|translate}}</a>
+                                <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
                                 <a class="dropdown-item">{{'PrintLabel'|translate}}</a>
                                 <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
                             </div>
