@@ -23,9 +23,10 @@
                             <span class="opti_form-label">{{'BinRuleRuleType'|translate}}</span>
                         </label>
                         <div class="col-sm-9">
-                            <kendo-dropdownlist [data]="PurposeList" id="ruleType" 
-                            (change) = "updateDropDown(display_name, VendorLot.value, rowIndex)"
-                            name="ruleType" [(ngModel)]="ruleType" >
+                            <kendo-dropdownlist [data]="RuleTypeList" id="ruleType" 
+                            (open)="open()"
+                            (valueChange)="binRuleValueChange($event)"
+                            name="ruleType" [(ngModel)]="ruleType" [disabled]=isUpdate>
                             </kendo-dropdownlist>
                         </div>
                     </div>
@@ -36,7 +37,7 @@
                         <div class="col-sm-9">
                             <kendo-dropdownlist [data]="PurposeList" id="purpose" 
                             (change) = "updateDropDown(display_name, VendorLot.value, rowIndex)"
-                            name="purpose" [(ngModel)]="purpose" >
+                            name="purpose" [(ngModel)]="purpose"   [disabled]=isUpdate>
                             </kendo-dropdownlist>
                         </div>
                     </div>
@@ -46,10 +47,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsCode'
-                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()">
+                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()"   [disabled]=isUpdate>
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetWhseCode()">
+                                        (mousedown)="GetWhseCode()"   [disabled]=isUpdate>
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
@@ -62,10 +63,10 @@
                     <div class="col-sm-9">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control form-control-sm" name='whsZone'
-                                [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
+                                [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()" [disabled]=isUpdate>
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                    (mousedown)="GetDataForWhsZone()">
+                                    (mousedown)="GetDataForWhsZone()"   [disabled]=isUpdate>
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
@@ -123,16 +124,32 @@
 
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PUTWAY_STAGE_BIN" value={{dataItem.OPTM_PUTWAY_STAGE_BIN}} id="putaway_stage_bin"
-                                        min="0" #putaway_stage_bin >
+                                        min="0" #putaway_stage_bin [disabled]=!isPutAway >
                                     <div class="input-group-append">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,3)">
+                                        <button  [disabled]=!isPutAway tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,3)">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
                             </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-left" [width]="10" title="{{'Action'|translate}}">
+
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICK_DROP_BIN" [width]="18" title="{{'BinRulePickDropBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm"  >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PICK_DROP_BIN" value={{dataItem.OPTM_PICK_DROP_BIN}} id="OPTM_PICK_DROP_BIN"
+                                        min="0" #OPTM_PICK_DROP_BIN [disabled]=isPutAway  >
+                                    <div class="input-group-append">
+                                        <button [disabled]=isPutAway  tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,4)">
+                                            <i class="opti-icon-search" ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-left" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="deleteRow(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>
@@ -175,4 +192,10 @@
 </span>
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
-</div>
+</div> 
+<!-- <kendo-dialog title="{{'Alert'|translate}}" *ngIf="openDialog" (close)="close('cancel')" [minWidth]="190" [width]="260" [height]="200">
+    <p style="margin: 30px; text-align: center;">{{'AlertChangeRule'|translate}}</p>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeDialog()">Ok</button>
+    </kendo-dialog-actions>
+</kendo-dialog> -->

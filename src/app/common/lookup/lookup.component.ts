@@ -1021,12 +1021,12 @@ export class LookupComponent implements OnInit {
 
   binRuleListView() {
     this.table_head = [
-      {
-        field: 'OPTM_WHS_RULE',
-        title: this.translate.instant("BinRuleId"),
-        type: 'text',
-        width: '100'
-      },
+      // {
+      //   field: 'OPTM_WHS_RULE',
+      //   title: this.translate.instant("BinRuleId"),
+      //   type: 'text',
+      //   width: '100'
+      // },
       {
         field: 'OPTM_RULE_TYPE_Text',
         title: this.translate.instant("BinRuleRuleType"),
@@ -1098,56 +1098,56 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("WhsUserGroup_Bin_Range"),
         type: 'text',
         width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PICKING',
-        title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PACKING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PUTAWAY',
-        title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_RECEIVING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_SHIPPING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_RETURNS',
-        title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_MOVE',
-        title: this.translate.instant("WhsUserGroup_User_Group_Move"),
-        type: 'text',
-        width: '100'
-      }
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PICKING',
+      //   title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PACKING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PUTAWAY',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_RECEIVING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_SHIPPING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_RETURNS',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_MOVE',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Move"),
+      //   type: 'text',
+      //   width: '100'
+      // }
       // },
       // {
       //   field: 'OPTM_CREATEDATE',
       //   title: this.translate.instant("CreatedDate"),
       //   type: 'date',
       //   width: '200'
-      // }
+       }
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
