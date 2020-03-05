@@ -273,34 +273,34 @@ export class ContainerOperationComponent implements OnInit {
   ruleID: any;
   partPerQty: any;
   fillPerQty: any;
-  getLookupValue($event) {
+  getLookupData($event) {
     if ($event != null && $event == "close") {
       this.showLookup = false;
       return;
     }
     else if (this.lookupfor == "ItemsListByRuleId") {
-      this.ruleID = $event[0];
-      this.itemCode = $event[1];
-      this.partPerQty = $event[2];
-      this.fillPerQty = $event[3];
+      this.ruleID = $event.OPTM_RULEID;
+      this.itemCode = $event.OPTM_ITEMCODE;
+      this.partPerQty = $event.OPTM_PARTS_PERCONT;
+      this.fillPerQty = $event.OPTM_MIN_FILLPRCNT;
     } else if (this.lookupfor == "ContainerIdList") {
       if (this.containerIdType == "parent") {
-        this.containerId = $event[0];
-        this.containerCode = $event[1];
-        this.containerType = $event[6];
-        this.containerUsage = ($event[12] == "Y") ? "Shipping" : "Internal"
-        this.packingRule = $event[14];
-        this.whseCode = $event[18];
-        this.binCode = $event[19];
-        if ($event[20] == undefined || $event[20] == "") {
+        this.containerId = $event.OPTM_CONTAINERID;
+        this.containerCode = $event.OPTM_CONTCODE;
+        this.containerType = $event.OPTM_CONTTYPE;
+        this.containerUsage = ($event.OPTM_SHIPELIGIBLE == "Y") ? this.translate.instant("Shipping") : this.translate.instant("Internal")
+        this.packingRule = $event.OPTM_AUTORULEID;
+        this.whseCode = $event.OPTM_WHSE;
+        this.binCode = $event.OPTM_BIN;
+        if ($event.OPTM_WEIGHT == undefined || $event.OPTM_WEIGHT == "") {
           this.containerWgt = 0.0;
         }
         else {
-          this.containerWgt = $event[20];
+          this.containerWgt = $event.OPTM_WEIGHT;
         }
 
       } else {
-        this.childContainerId = $event[0];
+        this.childContainerId = $event.OPTM_CONTAINERID;
       }
     }
   }
