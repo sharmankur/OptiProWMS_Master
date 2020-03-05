@@ -41,6 +41,8 @@ export class GeneratePickComponent implements OnInit {
   WOTo: string="";
   ShipIdFrom: string="";
   ShipIdTo: string="";
+  ShipmentCodeFrom: string="";
+  ShipmentCodeTo: string="";
   PickListBasis: string="";
   Pick_Type: string="";
   Pick_Operation: string="";
@@ -86,10 +88,71 @@ export class GeneratePickComponent implements OnInit {
   }
 
   //#region "shipmentId"  
+  IsValidShipmentCode(fieldName) {
+    let soNum;
+    if (fieldName == "ShipIdFrom") {
+      soNum = this.ShipmentCodeFrom;
+    }
+    else if (fieldName == "ShipIdTo") {
+      soNum = this.ShipmentCodeTo
+    }
+    if (soNum == "" || soNum == null || soNum == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidAllocatedShipmentCode(soNum).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "ShipIdFrom") {
+              this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
+              this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
+            }
+            else if (fieldName == "ShipIdTo") {
+              this.ShipIdTo = data[0].OPTM_SHIPMENTID;
+              this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE
+            }
+          } else {
+            if (fieldName == "ShipIdFrom") {
+              this.ShipIdFrom = this.ShipmentCodeFrom = "";
+            }
+            else if (fieldName == "ShipIdTo") {
+              this.ShipIdTo = this.ShipmentCodeTo = "";
+            }
+            this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+          }
+        } else {
+          if (fieldName == "ShipIdFrom") {
+            this.ShipIdFrom = this.ShipmentCodeFrom = "";
+          }
+          else if (fieldName == "ShipIdTo") {
+            this.ShipIdTo = this.ShipmentCodeTo = "";
+          }
+          this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForShipmentId(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetShipmentIdForShipment().subscribe(
+    this.commonservice.GetAllocatedShipmentCode().subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -116,7 +179,66 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
-  //#region "ShipToCode"  
+  //#region "ShipToCode" 
+  IsValidShipToAddress(fieldName) {
+    let ccode;
+    if (fieldName == "ShipFrom") {
+      ccode = this.ShipToCodeFrom;
+    }
+    else if (fieldName == "ShipTo") {
+      ccode = this.ShipToCodeTo
+    }
+    if (ccode == "" || ccode == null || ccode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidShipToAddress(ccode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "ShipFrom") {
+              this.ShipToCodeFrom = data[0].Address;
+            }
+            else if (fieldName == "ShipTo") {
+              this.ShipToCodeTo = data[0].Address;
+            }
+          } else {
+            if (fieldName == "ShipFrom") {
+              this.ShipToCodeFrom = "";
+            }
+            else if (fieldName == "ShipTo") {
+              this.ShipToCodeTo = "";
+            }
+            this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
+          }
+        } else {
+          if (fieldName == "ShipFrom") {
+            this.ShipToCodeFrom = "";
+          }
+          else if (fieldName == "ShipTo") {
+            this.ShipToCodeTo = "";
+          }
+          this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForShipToCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -148,6 +270,65 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion  
   //#region "Cusotmer Code"
+  IsValidCustomerCode(fieldName) {
+    let ccode;
+    if (fieldName == "CustFrom") {
+      ccode = this.CustomerFrom;
+    }
+    else if (fieldName == "CustTo") {
+      ccode = this.CustomerTo
+    }
+    if (ccode == "" || ccode == null || ccode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidCustomer(ccode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "CustFrom") {
+              this.CustomerFrom = data[0].CardCode;
+            }
+            else if (fieldName == "CustTo") {
+              this.CustomerTo = data[0].CardCode;
+            }
+          } else {
+            if (fieldName == "CustFrom") {
+              this.CustomerFrom = "";
+            }
+            else if (fieldName == "CustTo") {
+              this.CustomerTo = "";
+            }
+            this.toastr.error('', this.translate.instant("Invalid_CC"));
+          }
+        } else {
+          if (fieldName == "CustFrom") {
+            this.CustomerFrom = "";
+          }
+          else if (fieldName == "CustTo") {
+            this.CustomerTo = "";
+          }
+          this.toastr.error('', this.translate.instant("Invalid_CC"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetDataForCustomer(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
@@ -185,6 +366,9 @@ export class GeneratePickComponent implements OnInit {
   //#endregion
   //#region "Warehouse"
   IsValidWhseCode() {
+    if(this.WareHouse == undefined || this.WareHouse == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidWhseCode(this.WareHouse).subscribe(
       (data: any) => {
@@ -201,7 +385,6 @@ export class GeneratePickComponent implements OnInit {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WareHouse = "";
           }
-
         } else {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WareHouse = "";
@@ -761,9 +944,11 @@ export class GeneratePickComponent implements OnInit {
     }
     else if (this.lookupfor == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;
+      this.ShipmentCodeFrom = event.OPTM_SHIPMENT_CODE;
     }
     else if (this.lookupfor == "ShipIdTo") {
       this.ShipIdTo = event.OPTM_SHIPMENTID;
+      this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE;
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = event.WhsCode;
@@ -811,7 +996,7 @@ export class GeneratePickComponent implements OnInit {
       this.toastr.error("", this.translate.instant("Pick_Opr_val_Msg"));
       return false;
     }else if (this.Pick_Type == "" || this.Pick_Type == undefined || this.Pick_Type == null) {
-      this.toastr.error("", this.translate.instant("Pick_ListBasis_val_Msg"));
+      this.toastr.error("", this.translate.instant("Pick_Type_val_Msg"));
       return false;
     }else if(this.WareHouse == "" || this.WareHouse == undefined || this.WareHouse == null){
       this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"));

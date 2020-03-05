@@ -722,4 +722,123 @@ export class ShipmentWizardViewComponent implements OnInit {
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
+
+  IsValidShipToAddress(fieldName) {
+    let ccode;
+    if (fieldName == "ShipFrom") {
+      ccode = this.ShipFrom;
+    }
+    else if (fieldName == "ShipTo") {
+      ccode = this.ShipTo
+    }
+    if (ccode == "" || ccode == null || ccode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidShipToAddress(ccode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "ShipFrom") {
+              this.ShipFrom = data[0].Address;
+            }
+            else if (fieldName == "ShipTo") {
+              this.ShipTo = data[0].Address;
+            }
+          } else {
+            if (fieldName == "ShipFrom") {
+              this.ShipFrom = "";
+            }
+            else if (fieldName == "ShipTo") {
+              this.ShipTo = "";
+            }
+            this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
+          }
+        } else {
+          if (fieldName == "ShipFrom") {
+            this.ShipFrom = "";
+          }
+          else if (fieldName == "ShipTo") {
+            this.ShipTo = "";
+          }
+          this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  
+  IsValidCustomerCode(fieldName) {
+    let ccode;
+    if (fieldName == "CustFrom") {
+      ccode = this.CustomerFrom;
+    }
+    else if (fieldName == "CustTo") {
+      ccode = this.CustomerTo
+    }
+    if (ccode == "" || ccode == null || ccode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidCustomer(ccode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {        
+            if (fieldName == "CustFrom") {
+              this.CustomerFrom = data[0].CardCode;
+            }
+            else if (fieldName == "CustTo") {
+              this.CustomerTo = data[0].CardCode;
+            }
+          } else {
+            if (fieldName == "CustFrom") {
+              this.CustomerFrom = "";
+            }
+            else if (fieldName == "CustTo") {
+              this.CustomerTo = "";
+            }
+            this.toastr.error('', this.translate.instant("Invalid_CC"));
+          }
+        } else {
+          if (fieldName == "CustFrom") {
+            this.CustomerFrom = "";
+          }
+          else if (fieldName == "CustTo") {
+            this.CustomerTo = "";
+          }
+          this.toastr.error('', this.translate.instant("Invalid_CC"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

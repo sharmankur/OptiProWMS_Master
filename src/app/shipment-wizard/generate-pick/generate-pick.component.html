@@ -41,7 +41,7 @@
                                             <label for="CustomerFrom" class="col-sm-4 col-form-label">{{'Customer_From'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input type="text" class="form-control form-control-sm" name='CustomerFrom' [(ngModel)]="CustomerFrom" id="CustomerFrom">
+                                                    <input type="text" class="form-control form-control-sm" name='CustomerFrom' [(ngModel)]="CustomerFrom" id="CustomerFrom" (blur)="IsValidCustomerCode('CustFrom')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustFrom')" [disabled]=isUpdate>
                                                             <i class="opti-icon-search"></i>
@@ -58,7 +58,7 @@
                                             <label for="CustomerTo" class="col-sm-4 col-form-label">{{'Customer_To'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input type="text" class="form-control form-control-sm" name='CustomerTo' [(ngModel)]="CustomerTo" id="CustomerTo">
+                                                    <input type="text" class="form-control form-control-sm" name='CustomerTo' [(ngModel)]="CustomerTo" id="CustomerTo" (blur)="IsValidCustomerCode('CustTo')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustTo')" [disabled]=isUpdate>
                                                             <i class="opti-icon-search"></i>
@@ -80,7 +80,7 @@
                                             <label for="ShipFrom" class="col-sm-4 col-form-label">{{'Ship_From'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input type="text" class="form-control form-control-sm" name="ShipFrom" id="ShipFrom" [(ngModel)]="ShipFrom">
+                                                    <input type="text" class="form-control form-control-sm" name="ShipToCodeFrom" id="ShipToCodeFrom" [(ngModel)]="ShipToCodeFrom" (blur)="IsValidShipToAddress('ShipFrom')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipFrom')" [disabled]=isUpdate>
                                                             <i class="opti-icon-search"></i>
@@ -97,7 +97,7 @@
                                             <label for="ShipTo" class="col-sm-4 col-form-label">{{'Ship_To'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input type="text" class="form-control form-control-sm" name="ShipTo" id="ShipTo" [(ngModel)]="ShipTo">
+                                                    <input type="text" class="form-control form-control-sm" name="ShipToCodeTo" id="ShipToCodeTo" [(ngModel)]="ShipToCodeTo" (blur)="IsValidShipToAddress('ShipTo')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipTo')" [disabled]=isUpdate>
                                                             <i class="opti-icon-search"></i>
@@ -221,7 +221,7 @@
                                             <label for="ShipIdFrom" class="col-sm-4 col-form-label">{{'PT_ShipmentIdFrom'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input id="ShipIdFrom" type="text" class="form-control form-control-sm" name='ShipIdFrom' [(ngModel)]="ShipIdFrom" [disabled]=isSHIdDisabled>
+                                                    <input id="ShipIdFrom" type="text" class="form-control form-control-sm" name='ShipmentCodeFrom' [(ngModel)]="ShipmentCodeFrom" [disabled]=isSHIdDisabled (blur)="IsValidShipmentCode('ShipIdFrom')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipmentId('ShipIdFrom')" [disabled]=isSHIdDisabled>
                                                             <i class="opti-icon-search"></i>
@@ -239,7 +239,7 @@
                                             <label for="SOTo" class="col-sm-4 col-form-label">{{'PT_ShipmentIdTo'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <input id="ShipIdTo" type="text" class="form-control form-control-sm" name='ShipIdTo' [(ngModel)]="ShipIdTo" [disabled]=isSHIdDisabled>
+                                                    <input id="ShipIdTo" type="text" class="form-control form-control-sm" name='ShipmentCodeTo' [(ngModel)]="ShipmentCodeTo" [disabled]=isSHIdDisabled (blur)="IsValidShipmentCode('ShipIdTo')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipmentId('ShipIdTo')" [disabled]=isSHIdDisabled>
                                                             <i class="opti-icon-search"></i>

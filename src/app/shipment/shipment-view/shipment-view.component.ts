@@ -32,7 +32,7 @@ export class ShipmentViewComponent implements OnInit {
   StatusId: string;
   CarrierCode: string;
   ReturnOrderRef: string;
-  UseContainer: boolean=false;
+  UseContainer: boolean = false;
   BOLNumber: string;
   VehicleNumber: string;
   shipmentLines: any[] = [];
@@ -73,12 +73,12 @@ export class ShipmentViewComponent implements OnInit {
     });
   }
   showShipDetailsEnable = false;
-  showShipDetails(){
+  showShipDetails() {
     this.showShipDetailsEnable = !this.showShipDetailsEnable
   }
   ngOnInit() {
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.commonData.Container_Status_DropDown();   
+    this.Container_status_array = this.commonData.Container_Status_DropDown();
     this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
@@ -89,11 +89,48 @@ export class ShipmentViewComponent implements OnInit {
     this.onCheckChange();
   }
 
-  clearStorage(){
+  clearStorage() {
     // localStorage.setItem("ShipmentID", '');
     localStorage.setItem("ShipmentArrData", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
+  }
+
+  IsValidShipmentCode(fieldName) {
+    this.showLoader = true;
+    this.commonservice.IsValidShipmentCode(this.ShipmentCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.ShipmentID = data[0].OPTM_SHIPMENTID;
+            this.ShipmentCode = data[0].OPTM_SHIPMENT_CODE;
+          } else {
+            this.ShipmentID = "";
+            this.ShipmentCode = "";
+            this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+          }
+        } else {
+          this.ShipmentID = "";
+          this.ShipmentCode = "";
+          this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   GetShipmentIdForShipment() {
@@ -143,10 +180,10 @@ export class ShipmentViewComponent implements OnInit {
           //Shipment Detail 
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
-            data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));            
+            data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
-          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {           
+          if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
             this.pagable1 = true;
           }
           localStorage.setItem("ShipmentArrData", JSON.stringify(this.shipmentLines));
@@ -186,7 +223,7 @@ export class ShipmentViewComponent implements OnInit {
     this.SODetails = [];
     for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_SODTL.length; i++) {
       if (this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-        this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY = Number(this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));            
+        this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY = Number(this.shipmentData.OPTM_SHPMNT_SODTL[i].OPTM_SOLINEQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.SODetails.push(this.shipmentData.OPTM_SHPMNT_SODTL[i]);
       }
     }
@@ -197,7 +234,7 @@ export class ShipmentViewComponent implements OnInit {
     this.ContainerItems = [];
     for (var i = 0; i < this.shipmentData.OPTM_CONT_DTL.length; i++) {
       if (this.shipmentData.OPTM_CONT_DTL[i].OPTM_SHIPMENT_LINEID === ShipmentLineId) {
-        this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY = Number(this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));         
+        this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY = Number(this.shipmentData.OPTM_CONT_DTL[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.ContainerItems.push(this.shipmentData.OPTM_CONT_DTL[i]);
       }
     }
@@ -246,7 +283,7 @@ export class ShipmentViewComponent implements OnInit {
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
     this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
-    if(this.UseContainer == null){
+    if (this.UseContainer == null) {
       this.UseContainer = false;
     }
     this.onCheckChange();
@@ -356,14 +393,14 @@ export class ShipmentViewComponent implements OnInit {
       || this.ScheduleDatetime.toDateString() == "") {
       this.toastr.error('', this.translate.instant("ScheduleTimeBlank"));
       return false;
-    }else if (this.DockDoor == undefined || this.DockDoor == "") {
+    } else if (this.DockDoor == undefined || this.DockDoor == "") {
       this.toastr.error('', this.translate.instant("InvalidDock_Door"));
       return false;
-    } 
+    }
     else if (this.CarrierCode == undefined || this.CarrierCode == "") {
       this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
       return false;
-    } 
+    }
     return true;
   }
 
@@ -476,7 +513,7 @@ export class ShipmentViewComponent implements OnInit {
 
   //#region "Dock Door"
   GetDataForDockDoor() {
-    if(this.WarehouseCode == "" || this.WarehouseCode == null || this.WarehouseCode == undefined){
+    if (this.WarehouseCode == "" || this.WarehouseCode == null || this.WarehouseCode == undefined) {
       return;
     }
     this.showLoader = true;

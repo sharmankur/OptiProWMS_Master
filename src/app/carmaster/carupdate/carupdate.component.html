@@ -22,8 +22,8 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" placeholder="{{'CT_Description'|translate}}"
-                                    [disabled]=isUpdate>
+                                <input type="text" class="form-control form-control-sm" name="OPTM_RULE_DESC" [(ngModel)]="OPTM_RULE_DESC" placeholder="{{'CT_Description'|translate}}"
+                                    >
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name" #display_name (blur)="IsValidItemCode(idx, display_name.value)">
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name" #display_name (blur)="IsValidItemCode(idx, display_name.value, display_name)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
                                             <i class="opti-icon-search"></i>

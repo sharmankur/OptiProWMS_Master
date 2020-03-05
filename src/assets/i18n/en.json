@@ -926,6 +926,9 @@
   "CollapseAll": "Collapse All",
   "InvalidSONo": "Invalid SO number.",
   "InvalidWONo": "Invalid WO number.",
+  "Invalid_CC": "Invalid Customer Code.",
+  "Invalid_ShipToCode": "Invalid ShipToCode.",
+  "Invalid_ShipmentCode": "Invalid Shipment Code.",
 
   "Dummy": "Dummy"
   

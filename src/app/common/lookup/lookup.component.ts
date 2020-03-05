@@ -559,7 +559,7 @@ export class LookupComponent implements OnInit {
         width: '100'
       },
       {
-        field: 'OPTM_CONT_DESC',
+        field: 'OPTM_RULE_DESC',
         title: this.translate.instant("CT_Description"),
         headerClass: 'text-left',
         type: 'text',
@@ -831,8 +831,7 @@ export class LookupComponent implements OnInit {
   }
 
   onDeleteRowClick(lookup_key) {
-    // this.lookupkey.emit(lookup_key);
-    this.deleteClick.emit(Object.values(lookup_key));
+    this.deleteClick.emit(lookup_key);
   }
 
   onCopyClick(lookup_key) {
@@ -842,7 +841,7 @@ export class LookupComponent implements OnInit {
   }
 
   onSelectedDeleteRowClick(lookup_key) {
-   // this.lookupkey.emit(this.selectedValues);
+    this.lookupkey.emit(this.selectedValues);
     this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
 
