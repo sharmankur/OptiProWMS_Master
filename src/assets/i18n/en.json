@@ -922,6 +922,8 @@
   "BuiltProManufacturing": "Manufacturing",
   "BuiltProReceived_From_Vendor": "Received From Vendor",
   "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
+  "ExpandAll": "Expand All",
+  "CollapseAll": "Collapse All",
   "InvalidSONo": "Invalid SO number.",
   "InvalidWONo": "Invalid WO number.",
 

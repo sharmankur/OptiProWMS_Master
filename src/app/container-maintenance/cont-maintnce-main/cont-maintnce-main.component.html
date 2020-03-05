@@ -183,7 +183,13 @@
                 <div class="col-12">
                     <div class="wizard-container mt-3">
                         <div class="wizard-box">
-                            <h5 class="card-header">{{'ContainerItems'|translate}}</h5>
+                            <div class="input-group card-header">
+                                <h5>{{'ContainerItems'|translate}}</h5>
+                                <button tabIndex="-1" class="k-button k-primary btn ml-2" type="button" (click)="onExpandCollapse()"
+                                    *ngIf="containerItems.length != 0">
+                                    {{ExpandCollapseBtn}}
+                                </button>
+                            </div>
                             <div class="wizard-content">
                                 <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
                                     [resizable]="true" [pageable]="true" [selectable]="true">
