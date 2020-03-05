@@ -5,15 +5,17 @@ import { ContainerMaintenanceRoutingModule } from './container-maintenance-routi
 import { ContMaintnceMainComponent } from './cont-maintnce-main/cont-maintnce-main.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
-import { TrnaslateLazyModule } from 'src/translate-lazy.module';
+import { TrnaslateLazyModule } from '../../translate-lazy.module';
 import { SharedModule } from '../shared-module/shared-module.module';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { ContainerCreationModule } from '../container-creation/container-creation.module';
+import { ContMaintnceComponent } from './cont-maintnce/cont-maintnce.component';
 
 
 @NgModule({
-  declarations: [ContMaintnceMainComponent],
+  declarations: [ContMaintnceMainComponent, ContMaintnceComponent],
   imports: [
     CommonModule,
     ContainerMaintenanceRoutingModule,
@@ -23,7 +25,10 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     SharedModule,
     GridModule,
     DropDownsModule,
-    DateInputsModule
-  ]
+    DateInputsModule,
+    ContainerCreationModule
+  ],
+  exports: [ContMaintnceComponent],
+  providers: [ContMaintnceComponent]
 })
 export class ContainerMaintenanceModule { }

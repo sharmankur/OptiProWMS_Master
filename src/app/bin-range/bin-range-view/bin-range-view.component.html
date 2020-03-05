@@ -1,0 +1,37 @@
+<div class="opti_container position-relative bg-white rounded">
+
+
+        <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+            <div class="opti_container_inner" >
+      
+                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                    {{'BinRanges'|translate}}
+                </h3>
+      
+                <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getlookupSelectedItem($event)" (deleteClick)="onDeleteRowClick($event)" 
+                (deleteSelectedItems)="OnDeleteSelected($event)" (copyItem)="onCopyItemClick($event)"></app-lookup>
+                
+            </div>
+            <div class="fix-footer-btnBar">
+      
+                <div class="col-sm-12 col-12">
+                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
+                                <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                                {{'Cancel'|translate}}</button>
+                    <button  class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
+                        <span class="k-icon k-i-plus" role="presentation"></span> {{'CT_Add'|translate}}</button>
+      
+                </div>
+            </div>
+        </form> 
+      
+      </div>
+      
+      <div class="opti_loader full-section" *ngIf="showLoader">
+        <div class="opti_spinner"></div>
+      </div>
+
+      <span *ngIf="showConfirmDialog">
+            <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+                (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+        </span>      

@@ -3,7 +3,7 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                <span *ngIf="IsShipment">{{'Container_and_shipment'|translate}} : (Shipment Id - {{SelectedShipmentId}} WH - {{SelectedWhse}} Bin
+                <span *ngIf="IsShipment">{{'Container_and_shipment'|translate}} : ({{'ShipMentId'|translate}} - {{SelectedShipmentId}} {{'WH'|translate}} - {{SelectedWhse}} {{'Bin'|translate}}
                     - {{SelectedBin}}) </span>
                 <span *ngIf="!IsShipment">{{'Container_and_shipment'|translate}}</span>
             </h3>
@@ -276,7 +276,7 @@
                             <ng-template kendoGridToolbarTemplate> 
                                 <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>                                       
                               </ng-template>
-                            <kendo-grid-checkbox-column title="Select" [width]="25">
+                            <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
                                     <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue 

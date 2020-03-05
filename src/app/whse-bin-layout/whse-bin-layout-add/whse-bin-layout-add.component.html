@@ -16,9 +16,9 @@
                                     <label for="whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Warehouse'|translate}}"
-                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChangeBlur()">
+                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChange()" [disabled]=isUpdate>
                                         <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                            <button tabIndex="-1" class="k-button k-primary btn" [disabled]=isUpdate type="button"
                                                 (click)="GetWhseCode()">
                                                 <i class="opti-icon-search"></i>
                                             </button>
@@ -137,25 +137,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">
-                    
+                <div class="col-xs-12">                    
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'WarehouseZone'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
                             <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
                         <div class="card-body">
                             <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize" [skip]="skip"
                                 [pageable]="zonePageable">
-                                <!-- <kendo-grid-column field="SoNumber" title="{{'Warehouse'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                                <input type="text" class="form-control form-control-sm" id="itemCode" placeholder="{{'ItemCode'|translate}}"
-                                                    name="itemCode" [(ngModel)]="itemCode">
-                                                <div class="input-group-append has-seprate-btn">
-                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="getItemCodeList()">
-                                                        <i class="opti-icon-search"></i>
-                                                    </button>
-                                                </div>
-                                            </ng-template>
-                                </kendo-grid-column> -->
                                 <kendo-grid-column field="ZoneCode" title="{{'WhseZoneCode'|translate}}">
                                     <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                         <div class="input-group input-group-sm">
@@ -174,7 +162,7 @@
                                         </div>
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="ShipmentLine" title="{{'FromBinCode'|translate}}">
+                                <!-- <kendo-grid-column field="ShipmentLine" title="{{'FromBinCode'|translate}}">
                                     <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control form-control-sm" name="dataItem.FromBin"
@@ -203,7 +191,22 @@
                                             </div>
                                         </div>
                                     </ng-template>
-                                </kendo-grid-column>
+                                </kendo-grid-column> -->
+                                <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRanges'|translate}}">
+                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_BIN_RANGE"
+                                                value={{dataItem.OPTM_BIN_RANGE}} id="display_name" 
+                                                #display_name (blur)="IsValidWareHouseBinRange(idx, display_name.value)">
+                                            <div class="input-group-append">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                    (click)="GetDataForBinRanges(idx)">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-column>                                
                                 <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
                                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick('zone', rowIndex)">
@@ -215,8 +218,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 ">
-                   
+                <!-- <div class="col-xs-12 ">
                     <div class="card shipment-widget-box">
                         <h5 class="card-header">{{'WarehouseBinRanges'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('range')">
                             <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>
@@ -230,12 +232,6 @@
                                             <input type="text" class="form-control form-control-sm" name="dataItem.BinRange"
                                                 value={{dataItem.BinRange}} id="binRange" (blur)="onBinRangeChangeBlur(display_name.value,idx)"
                                                 #display_name>
-                                            <!-- <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetItemCodeList(idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
-                                            </div> -->
                                         </div>
                                     </ng-template>
                                 </kendo-grid-column>
@@ -279,7 +275,7 @@
                             </kendo-grid>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="fix-footer-btnBar">

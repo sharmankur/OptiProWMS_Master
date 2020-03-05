@@ -176,8 +176,8 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Gs1/GS1SETUP", jObject, this.httpOptions);
   }
 
-  RemoveLicenseAndSignout(toastr: ToastrService, router: Router, message: string, fromLogout:boolean = false) {
-    this.signOut(this.toastr, this.router, message,fromLogout);
+  RemoveLicenseAndSignout(toastr: ToastrService, router: Router, message: string, fromLogout: boolean = false) {
+    this.signOut(this.toastr, this.router, message, fromLogout);
     // this.RemoveLicense().subscribe(
     //   (data: any) => {
     //     this.signOut(this.toastr, this.router, message,fromLogout);
@@ -213,13 +213,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/MoveOrder/GetSettingOnSAP", jObject, this.httpOptions);
   }
 
-  signOut(toastr: ToastrService, router: Router, message: string, fromLogout: boolean= false) {
-    if(fromLogout){
+  signOut(toastr: ToastrService, router: Router, message: string, fromLogout: boolean = false) {
+    if (fromLogout) {
       toastr.success('', message);
-    }else{
+    } else {
       toastr.error('', message);
     }
-    
+
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('selectedComp');
     sessionStorage.removeItem('loggedInUser');
@@ -647,7 +647,7 @@ export class Commonservice {
   GetPalletsWithRowsPresent(): Observable<any> {
     var jObject = {
       PalletCode: JSON.stringify([{
-        COMPANYDBNAME: localStorage.getItem("CompID"), 
+        COMPANYDBNAME: localStorage.getItem("CompID"),
         WhseCode: localStorage.getItem("whseId")
       }])
     };
@@ -671,6 +671,16 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerType", jObject, this.httpOptions).toPromise();
+  }
+
+  IsValidItemCode(OPTM_ITEMCODE: string): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_ITEMCODE: OPTM_ITEMCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidItemCode", jObject, this.httpOptions).toPromise();
   }
 
   GetItemCodeList(): Observable<any> {
@@ -716,15 +726,15 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetWHSELookup", jObject, this.httpOptions);
   }
 
-  getCustomizationDetail(): any{
+  getCustomizationDetail(): any {
     let customizationDetail = localStorage.getItem("CustomizationDetail");
-    if(customizationDetail != undefined){
+    if (customizationDetail != undefined) {
       return JSON.parse(customizationDetail);
     }
     return null;
   }
 
-  setCustomizeInfo(){
+  setCustomizeInfo() {
     let customizationDetails = new CustomizationDetails(true, false);
     localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
@@ -736,6 +746,17 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
+  }
+
+  GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContainerType: ContainerType,
+        ItemCode: ItemCode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRuleWIP", jObject, this.httpOptions);
   }
 
   GetWhseCode(): Observable<any> {
@@ -760,7 +781,7 @@ export class Commonservice {
   GetDataForDockDoor(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")       
+        CompanyDBId: localStorage.getItem("CompID")
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.httpOptions);
@@ -770,7 +791,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_WHSE: OPTM_WHSE   
+        OPTM_WHSE: OPTM_WHSE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDockDoorBasedOnWarehouse", jObject, this.httpOptions);
@@ -826,7 +847,7 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetInventoryData", jObject, this.httpOptions);
   }
-  
+
   IsValidWhseCode(whse: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -847,6 +868,75 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidDockDoor", jObject, this.httpOptions);
   }
+  
+  IsValidSONumber(SONUMBER: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SONUMBER: SONUMBER
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.httpOptions);
+  }
+  
+  IsValidShipToAddress(ADDRESS: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ADDRESS: ADDRESS
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipToAddress", jObject, this.httpOptions);
+  }
+
+  IsValidAllocatedShipmentCode(SHIPMENTCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTCODE: SHIPMENTCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
+  }
+
+  IsValidShipmentCode(SHIPMENTCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTCODE: SHIPMENTCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
+  }
+
+  IsValidCustomer(CARDCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CARDCODE: CARDCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidCustomer", jObject, this.httpOptions);
+  }
+
+  IsValidWONumber(WONUMBER: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        WONUMBER: WONUMBER
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidWONumber", jObject, this.httpOptions);
+  }
+
+  GetWorkOrderList(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.httpOptions);
+  }  
 
   IsValidCarrier(OPTM_CARRIERID: string): Observable<any> {
     let jObject = {
@@ -874,6 +964,15 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
+  }
+
+  GetAllocatedShipmentCode(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
   GeneratePickList(PRIORITY, PICKBASIS, PICKOPERATION, PICKTYPE, WHSECODE, FROMCUSTOMER, TOCUSTOMER, FROMSHIPTOCODE, TOSHIPTOCODE, FROMSHIPMENTID, TOSHIPMENTID, FROMDOCKDOOR, TODOCKDOOR, FROMDATETIME, TODATETIME, FROMITEMCODE, TOITEMCODE, FROMCARRIERCODE, TOCARRIERCODE, FROMSALESORDER, TOSALESORDER, FROMWORKORDER, TOWORKORDER, PLANSHIFT, TASKPLANDATETIME): Observable<any> {
@@ -904,9 +1003,65 @@ export class Commonservice {
         FROMWORKORDER: FROMWORKORDER,
         TOWORKORDER: TOWORKORDER,
         PLANSHIFT: PLANSHIFT,
-        TASKPLANDATETIME: TASKPLANDATETIME
+        TASKPLANDATETIME: TASKPLANDATETIME,
+        OPTM_FUNCTION_AREA: "Shipping",
+        OPTM_BUSINESS_OBJECT_CLUSTER: "Cluster",
+        OPTM_BUSINESS_OBJECT_WHSETASK: "Warehouse Task",
+        OPTM_BUSINESS_OBJECT_PICKLIST: "Picklist",
+        OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/GeneratePickList/GeneratePickList", jObject, this.httpOptions);
+  }
+
+  GetDataForBinRanges(OPTM_WHSCODE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: OPTM_WHSCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRange", jObject, this.httpOptions);
+  }
+
+  IsValidWareHouseBinRange(OPTM_WHSCODE, OPTM_BIN_RANGE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: OPTM_WHSCODE,
+        OPTM_BIN_RANGE: OPTM_BIN_RANGE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRange", jObject, this.httpOptions);
+  }
+
+  CloseClick(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERIDS: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseClick", jObject, this.httpOptions);
+  }
+
+  ReopenClick(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINERID: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenClick", jObject, this.httpOptions);
+  }
+
+  DamagedClick(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINERID: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/DamagedClick", jObject, this.httpOptions);
   }
 }

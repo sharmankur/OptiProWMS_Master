@@ -5,16 +5,30 @@
     <div class="px-3">
         <div class="form-group row">
             <div class="input-group input-group-sm">
-                <input type="text" id="parentContainerCode" name="parentContainerCode" class="form-control form-control-sm"
-                    [(ngModel)]="parentContainerCode" placeholder="{{'Parent Container Code'}}">
-                <input type="text" id="count" name="count" class="form-control form-control-sm ml-1"
-                    [(ngModel)]="count" placeholder="{{'Count'}}">
+                <label class="col-sm-4 col-form-label">Parent Container Code</label>
+                <input type="text" id="parentContainerCode" name="parentContainerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                    [(ngModel)]="parentContainerCode" placeholder="{{'Parent Container Code'}}" (blur)="onParentContainerChange()" [disabled]="!ShowParentField"> 
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group input-group-sm">
+                <label class="col-sm-4 col-form-label">Remaining Qty</label>
+                <input type="text" id="RemainingQty" name="RemainingQty" class="col-sm-8 form-control form-control-sm mr-3"
+                    [(ngModel)]="RemainingQty" placeholder="{{'RemainingQty'}}" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group input-group-sm">
+                <label class="col-sm-4 col-form-label">Count</label>
+                <input type="text" id="count" name="count" class="col-sm-8 form-control form-control-sm mr-3"
+                    [(ngModel)]="count" placeholder="{{'Count'}}" disabled>
             </div>
         </div>
         <div class="form-group row mt-2">
             <div class="input-group input-group-sm">
-                <input type="text" id="containerCode" name="containerCode" class="form-control form-control-sm"
-                    [(ngModel)]="containerCode" placeholder="{{'Container Code'}}">
+                <label class="col-sm-4 col-form-label">Container Code</label>
+                <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                    [(ngModel)]="containerCode" placeholder="{{'Container Code'}}" (blur)="onContainerCodeChange()">
             </div>
         </div>
         <!-- <div class="form-group row">
@@ -36,10 +50,10 @@
     </kendo-dialog-actions>
 </kendo-dialog>
 
-<span [hidden]="showLookup">
-    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
-</span>
-
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+<!-- 
+<span [hidden]="showLookup">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-lookup>
+</span> -->

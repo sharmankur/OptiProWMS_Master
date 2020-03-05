@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CcmainComponent } from '../ccmain/ccmain.component';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
+import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
-import { CARMasterService } from 'src/app/services/carmaster.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
+import { CARMasterService } from '../../services/carmaster.service';
 import { ToastrService } from 'ngx-toastr';
-import { CommonData } from 'src/app/models/CommonData';
+import { CommonData } from '../../models/CommonData';
 import { ɵAnimationRendererFactory } from '@angular/platform-browser/animations';
+import { ContMaintnceComponent } from 'src/app/container-maintenance/cont-maintnce/cont-maintnce.component';
 
 @Component({
   selector: 'app-container-operation',
@@ -43,10 +44,11 @@ export class ContainerOperationComponent implements OnInit {
   itemQty: any = 0;
   containerCode: string;
   itemBatchSr: any;
+  from: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
-    private ccmain: CcmainComponent) {
+    private ccmain: CcmainComponent, private contMaintenance: ContMaintnceComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -63,18 +65,10 @@ export class ContainerOperationComponent implements OnInit {
     this.addItemOpn = this.defaultItemOpn.Name;
     this.addContOpn = this.defaultContOpn.Name;
 
-    var data = localStorage.getItem("ContainerOperationData");
-    this.oSaveModel = JSON.parse(data);
+    this.from = localStorage.getItem("From")
 
-    // this.whseCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE;
-    // this.containerType = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE;
-    // this.binCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN;
-    // this.containerCode = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE;
-    // this.containerId = this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERID;
-    // this.containerMaxWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    // this.containerWgt = this.oSaveModel.HeaderTableBindingData[0].OPTM_WEIGHT;
-    // this.packingRule = this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID;
-    // this.containerUsage = this.oSaveModel.HeaderTableBindingData[0].Purpose;
+    // var data = localStorage.getItem("ContainerOperationData");
+    // this.oSaveModel = JSON.parse(data);
     this.GetParentContainer();
   }
 
@@ -86,7 +80,11 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.ccmain.ccComponent = 1;
+    if(this.from == "CMaintenance"){
+      this.contMaintenance.cmComponent = 1;
+    } else {
+      this.ccmain.ccComponent = 1;
+    }
   }
 
   onAddContOpnSelectChange($event) {
@@ -275,34 +273,34 @@ export class ContainerOperationComponent implements OnInit {
   ruleID: any;
   partPerQty: any;
   fillPerQty: any;
-  getLookupValue($event) {
+  getLookupData($event) {
     if ($event != null && $event == "close") {
       this.showLookup = false;
       return;
     }
     else if (this.lookupfor == "ItemsListByRuleId") {
-      this.ruleID = $event[0];
-      this.itemCode = $event[1];
-      this.partPerQty = $event[2];
-      this.fillPerQty = $event[3];
+      this.ruleID = $event.OPTM_RULEID;
+      this.itemCode = $event.OPTM_ITEMCODE;
+      this.partPerQty = $event.OPTM_PARTS_PERCONT;
+      this.fillPerQty = $event.OPTM_MIN_FILLPRCNT;
     } else if (this.lookupfor == "ContainerIdList") {
       if (this.containerIdType == "parent") {
-        this.containerId = $event[0];
-        this.containerCode = $event[1];
-        this.containerType = $event[6];
-        this.containerUsage = ($event[12] == "Y") ? "Shipping" : "Internal"
-        this.packingRule = $event[14];
-        this.whseCode = $event[18];
-        this.binCode = $event[19];
-        if ($event[20] == undefined || $event[20] == "") {
+        this.containerId = $event.OPTM_CONTAINERID;
+        this.containerCode = $event.OPTM_CONTCODE;
+        this.containerType = $event.OPTM_CONTTYPE;
+        this.containerUsage = ($event.OPTM_SHIPELIGIBLE == "Y") ? this.translate.instant("Shipping") : this.translate.instant("Internal")
+        this.packingRule = $event.OPTM_AUTORULEID;
+        this.whseCode = $event.OPTM_WHSE;
+        this.binCode = $event.OPTM_BIN;
+        if ($event.OPTM_WEIGHT == undefined || $event.OPTM_WEIGHT == "") {
           this.containerWgt = 0.0;
         }
         else {
-          this.containerWgt = $event[20];
+          this.containerWgt = $event.OPTM_WEIGHT;
         }
 
       } else {
-        this.childContainerId = $event[0];
+        this.childContainerId = $event.OPTM_CONTAINERID;
       }
     }
   }

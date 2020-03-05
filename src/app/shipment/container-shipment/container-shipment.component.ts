@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Commonservice } from 'src/app/services/commonservice.service';
-import { CommonData } from 'src/app/models/CommonData';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { Commonservice } from '../../services/commonservice.service';
+import { CommonData } from '../../models/CommonData';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ContainerShipmentService } from 'src/app/services/container-shipment.service';
+import { ContainerShipmentService } from '../../services/container-shipment.service';
 
 @Component({
   selector: 'app-container-shipment',
@@ -16,10 +16,10 @@ export class ContainerShipmentComponent implements OnInit {
 
   ContainerCodeId: any = '';
   purposeArray: any = [];
-  PurposeId: any;
+  PurposeId: any =  {Value: ''};
   PurposeValue: any = '';
   statusArray: any = [];
-  StatusId: any = '';
+  StatusId: any =  {Value: ''};
   StatusValue: any = '';
   WarehouseId: any = '';
   BinId: any = '';
@@ -27,7 +27,7 @@ export class ContainerShipmentComponent implements OnInit {
   ContainerTypeArray: any = [];
   ShipmentId: any = '';
   InvPostStatusArray: any = [];
-  InvPostStatusId: any = '';
+  InvPostStatusId: any = {Value: ''};
   InvPostStatusValue: any = '';
   status: any = '';
   ContainerItems: any = [];
