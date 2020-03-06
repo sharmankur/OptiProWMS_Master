@@ -27,8 +27,8 @@ export class CarrierUpdateComponent implements OnInit {
     let DD_ROW = localStorage.getItem("DD_ROW")
     if (DD_ROW != undefined && DD_ROW != "") {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));
-      this.carrierId = this.DD_ROW[0];
-      this.carrierDesc = this.DD_ROW[1];
+      this.carrierId = this.DD_ROW.OPTM_CARRIERID;
+      this.carrierDesc = this.DD_ROW.OPTM_DESC;
       if (localStorage.getItem("Action") == "copy") {
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");

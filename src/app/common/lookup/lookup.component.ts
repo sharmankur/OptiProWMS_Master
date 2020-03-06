@@ -826,8 +826,8 @@ export class LookupComponent implements OnInit {
   }
 
   onEditClick(lookup_key) {
-    // this.lookupkey.emit(lookup_key);
-    this.lookupvalue.emit(Object.values(lookup_key));
+    this.lookupkey.emit(lookup_key);
+    // this.lookupvalue.emit(Object.values(lookup_key));
   }
 
   onDeleteRowClick(lookup_key) {

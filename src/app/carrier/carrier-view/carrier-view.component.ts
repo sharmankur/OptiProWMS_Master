@@ -61,7 +61,7 @@ export class CarrierViewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getLookupData(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.carrierMainComponent.carrierComponent = 2;
