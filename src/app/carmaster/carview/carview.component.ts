@@ -201,7 +201,7 @@ export class CARViewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -211,9 +211,9 @@ export class CARViewComponent implements OnInit {
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
             CompanyDBId: localStorage.getItem("CompID"),
-            OPTM_RULEID: this.event[0],
-            OPTM_CONTTYPE: this.event[1],
-            OPTM_CONTUSE: this.event[2]
+            OPTM_RULEID: this.event.OPTM_RULEID,
+            OPTM_CONTTYPE: this.event.OPTM_CONTTYPE,
+            OPTM_CONTUSE: this.event.OPTM_CONTUSE
           });
           this.DeleteFromContainerAutoRule(ddDeleteArry);
           break;

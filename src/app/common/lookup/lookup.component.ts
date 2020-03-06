@@ -547,8 +547,8 @@ export class LookupComponent implements OnInit {
         field: 'OPTM_RULEID',
         title: this.translate.instant("CAR_CPackRule"),
         headerClass: 'text-left',
-        class: 'text-right',
-        type: 'numeric',
+        class: 'text-left',
+        type: 'text',
         width: '100'
       },
       {
@@ -559,7 +559,7 @@ export class LookupComponent implements OnInit {
         width: '100'
       },
       {
-        field: 'OPTM_CONT_DESC',
+        field: 'OPTM_RULE_DESC',
         title: this.translate.instant("CT_Description"),
         headerClass: 'text-left',
         type: 'text',
@@ -826,13 +826,12 @@ export class LookupComponent implements OnInit {
   }
 
   onEditClick(lookup_key) {
-    // this.lookupkey.emit(lookup_key);
-    this.lookupvalue.emit(Object.values(lookup_key));
+    this.lookupkey.emit(lookup_key);
+    // this.lookupvalue.emit(Object.values(lookup_key));
   }
 
   onDeleteRowClick(lookup_key) {
-    // this.lookupkey.emit(lookup_key);
-    this.deleteClick.emit(Object.values(lookup_key));
+    this.deleteClick.emit(lookup_key);
   }
 
   onCopyClick(lookup_key) {
@@ -842,7 +841,7 @@ export class LookupComponent implements OnInit {
   }
 
   onSelectedDeleteRowClick(lookup_key) {
-   // this.lookupkey.emit(this.selectedValues);
+    this.lookupkey.emit(this.selectedValues);
     this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
 
@@ -1022,12 +1021,12 @@ export class LookupComponent implements OnInit {
 
   binRuleListView() {
     this.table_head = [
-      {
-        field: 'OPTM_WHS_RULE',
-        title: this.translate.instant("BinRuleId"),
-        type: 'text',
-        width: '100'
-      },
+      // {
+      //   field: 'OPTM_WHS_RULE',
+      //   title: this.translate.instant("BinRuleId"),
+      //   type: 'text',
+      //   width: '100'
+      // },
       {
         field: 'OPTM_RULE_TYPE_Text',
         title: this.translate.instant("BinRuleRuleType"),
@@ -1099,56 +1098,56 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("WhsUserGroup_Bin_Range"),
         type: 'text',
         width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PICKING',
-        title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PACKING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_PUTAWAY',
-        title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_RECEIVING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_SHIPPING',
-        title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_RETURNS',
-        title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
-        type: 'text',
-        width: '100'
-      },
-      {
-        field: 'OPTM_USRGRP_MOVE',
-        title: this.translate.instant("WhsUserGroup_User_Group_Move"),
-        type: 'text',
-        width: '100'
-      }
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PICKING',
+      //   title: this.translate.instant("WhsUserGroup_UserGroup_Picking"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PACKING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Packing"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_PUTAWAY',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Putaway"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_RECEIVING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Receiving"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_SHIPPING',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Shipping"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_RETURNS',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Returns"),
+      //   type: 'text',
+      //   width: '100'
+      // },
+      // {
+      //   field: 'OPTM_USRGRP_MOVE',
+      //   title: this.translate.instant("WhsUserGroup_User_Group_Move"),
+      //   type: 'text',
+      //   width: '100'
+      // }
       // },
       // {
       //   field: 'OPTM_CREATEDATE',
       //   title: this.translate.instant("CreatedDate"),
       //   type: 'date',
       //   width: '200'
-      // }
+       }
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {

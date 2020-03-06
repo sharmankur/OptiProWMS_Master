@@ -878,6 +878,46 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.httpOptions);
   }
+  
+  IsValidShipToAddress(ADDRESS: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ADDRESS: ADDRESS
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipToAddress", jObject, this.httpOptions);
+  }
+
+  IsValidAllocatedShipmentCode(SHIPMENTCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTCODE: SHIPMENTCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
+  }
+
+  IsValidShipmentCode(SHIPMENTCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTCODE: SHIPMENTCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
+  }
+
+  IsValidCustomer(CARDCODE: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CARDCODE: CARDCODE
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidCustomer", jObject, this.httpOptions);
+  }
 
   IsValidWONumber(WONUMBER: string): Observable<any> {
     let jObject = {
@@ -924,6 +964,15 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
+  }
+
+  GetAllocatedShipmentCode(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
   GeneratePickList(PRIORITY, PICKBASIS, PICKOPERATION, PICKTYPE, WHSECODE, FROMCUSTOMER, TOCUSTOMER, FROMSHIPTOCODE, TOSHIPTOCODE, FROMSHIPMENTID, TOSHIPMENTID, FROMDOCKDOOR, TODOCKDOOR, FROMDATETIME, TODATETIME, FROMITEMCODE, TOITEMCODE, FROMCARRIERCODE, TOCARRIERCODE, FROMSALESORDER, TOSALESORDER, FROMWORKORDER, TOWORKORDER, PLANSHIFT, TASKPLANDATETIME): Observable<any> {

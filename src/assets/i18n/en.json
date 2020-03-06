@@ -857,6 +857,7 @@
   "BinRuleFromBin": "Storage From Bin",
   "BinRuleToBin": "Storage To Bin",
   "BinRulePutawayBin": "Putaway Stage Bin",
+  "BinRulePickDropBin": "Pick Drop Stage Bin",
   "BinRuleSelectPurpose": "Please select Purpose",
   "BinRuleSelectRuleType": "Please select Rule type",
   "BinRule_FromBinMsg": "Item detail From bin can't be blank",
@@ -911,6 +912,9 @@
   "InventoryStatus": "Inventory Status",
   "PackProcess": "Pack Process",
   "Selected": "Selected",
+  "Zone_list": "Warehouse Zones ",
+  "Alert":"Alert",
+  "AlertChangeRule": "If you change Rule type then you have to add Picking or Putaway stage bin for all the rows.",
   "CStatusNew": "New",
   "CScheduledNew": "Scheduled",
   "CClosedNew": "Closed",
@@ -933,8 +937,12 @@
   "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All",
-  "InvalidSONo": "Invalid SO number",
-  "InvalidWONo": "Invalid WO number",
+  "InvalidSONo": "Invalid SO number.",
+  "InvalidWONo": "Invalid WO number.",
+  "Invalid_CC": "Invalid Customer Code.",
+  "Invalid_ShipToCode": "Invalid ShipToCode.",
+  "Invalid_ShipmentCode": "Invalid Shipment Code.",
+  "PCTNotSameChild": "Parent container type can't be same as chile container type.",
 
   "Dummy": "Dummy"
   

@@ -139,7 +139,7 @@ export class BinRangeViewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -148,8 +148,8 @@ export class BinRangeViewComponent implements OnInit {
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
-            OPTM_BIN_RANGE: this.event[1],
-            OPTM_WHSCODE: this.event[0],
+            OPTM_BIN_RANGE: this.event.OPTM_BIN_RANGE,
+            OPTM_WHSCODE: this.event.OPTM_WHSCODE,
             CompanyDBId: localStorage.getItem("CompID")
           });
           this.DeleteFromBinranges(ddDeleteArry);

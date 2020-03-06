@@ -96,9 +96,9 @@ export class UgmappingviewComponent implements OnInit {
 
 
   onDeleteRowClick(event){
-    var whsCode = event[0];
-    var whsZone = event[1];
-    var whsBinRange = event[2];
+    var whsCode = event.OPTM_WHSCODE;
+    var whsZone = event.OPTM_WHSEZONE;
+    var whsBinRange = event.OPTM_BINRANGE;
     this.deleteUserGroupListRow(whsCode,whsZone,whsBinRange);
   } 
   

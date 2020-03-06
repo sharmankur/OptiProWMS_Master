@@ -87,7 +87,7 @@
 </div>
 
 <span [hidden]="hideLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupKey($event)"></app-common-lookup>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

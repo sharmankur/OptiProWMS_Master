@@ -90,7 +90,7 @@ export class ContMaintnceMainComponent implements OnInit {
   containerStatusEnum: any;
   inventoryStatusEnum: any;
   shipEligibleEnum: any;
-  getLookupValue($event) {
+  getLookupDataValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {
       //nothing to do
@@ -98,16 +98,16 @@ export class ContMaintnceMainComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "ContainerIdList") {
-        this.containerId = $event[0];
-        this.containerCode = $event[1];
-        this.containerStatusEnum = $event[11]
-        this.shipEligibleEnum = $event[12]
-        this.packProcess = $event[34]
-        this.inventoryStatusEnum = $event[17]
-        this.warehouse = $event[18]
-        this.binCode = $event[19]
-        this.weight = $event[20]
-        this.volume = $event[22]
+        this.containerId = $event.OPTM_CONTAINERID;
+        this.containerCode = $event.OPTM_CONTCODE;
+        this.containerStatusEnum = $event.OPTM_STATUS
+        this.shipEligibleEnum = $event.OPTM_SHIPELIGIBLE
+        this.packProcess = $event.OPTM_BUILT_SOURCE
+        this.inventoryStatusEnum = $event.OPTM_INV_STATUS
+        this.warehouse = $event.OPTM_WHSE
+        this.binCode = $event.OPTM_BIN
+        this.weight = $event.OPTM_WEIGHT
+        this.volume = $event.OPTM_VOLUME
         if (this.weight == undefined || this.weight == "") {
           this.weight = 0
         }
@@ -449,7 +449,7 @@ export class ContMaintnceMainComponent implements OnInit {
   public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
     return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
   }
-  
+
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
   isExpand: boolean = false;
   onExpandCollapse() {

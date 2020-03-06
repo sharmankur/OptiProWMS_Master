@@ -97,21 +97,24 @@ export class BinRangeUpdateComponent implements OnInit {
     );
   }
 
-  getLookupValue($event) {
+  getLookupKey($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
       return;
     }
     else if (this.lookupfor == "WareHouse") {
-      this.WHSCODE = $event[0];
+      this.WHSCODE = $event.WhsCode;
     }else if (this.lookupfor == "From_BinList") {
-      this.FromBinCode = $event[0];
+      this.FromBinCode = $event.BinCode;
     }else if (this.lookupfor == "To_BinList") {
-      this.ToBinCode = $event[0];
+      this.ToBinCode = $event.BinCode;
     }
   }
 
   IsValidWHSCODE() {
+    if(this.WHSCODE == undefined || this.WHSCODE == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidWhseCode(this.WHSCODE).subscribe(
       (data: any) => {
@@ -218,13 +221,13 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.binrangesMainComponent.binRangesComponent = 1;
-          } else if (data[0].RESULT == "Data Already Exists") {
+          } else if (data.OUTPUT[0].RESULT == "Data Already Exists") {
             this.toastr.error('', this.translate.instant("UserGroupAlreadyExists"));
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -249,6 +252,9 @@ export class BinRangeUpdateComponent implements OnInit {
     }else{
       bincode = this.ToBinCode;
     }
+    if(bincode == undefined || bincode == ""){
+      return;
+    }    
     this.showLoader = true;
     this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
       (data: any) => {
@@ -305,13 +311,13 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.binrangesMainComponent.binRangesComponent = 1;
-          } else if (data[0].RESULT == "Data Already Exists") {
+          } else if (data.OUTPUT[0].RESULT == "Data Already Exists") {
             this.toastr.error('', this.translate.instant("Carrier_CarrierIdAlreadyExist"));
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
