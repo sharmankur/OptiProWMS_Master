@@ -67,7 +67,7 @@ export class CTRViewComponent implements OnInit {
   }
 
 
-  getLookupValue(event) {
+  getlookupSelectedItem(event) {
     localStorage.setItem("CTR_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.ctrmainComponent.ctrComponent = 2;

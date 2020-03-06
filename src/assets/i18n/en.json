@@ -942,6 +942,7 @@
   "Invalid_CC": "Invalid Customer Code.",
   "Invalid_ShipToCode": "Invalid ShipToCode.",
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
+  "PCTNotSameChild": "Parent container type can't be same as chile container type.",
 
   "Dummy": "Dummy"
   

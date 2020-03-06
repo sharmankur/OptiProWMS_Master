@@ -103,7 +103,7 @@ export class CTViewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getlookupSelectedItem(event) {
     localStorage.setItem("CT_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.inboundMasterComponent.inboundComponent = 2;

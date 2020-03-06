@@ -547,8 +547,8 @@ export class LookupComponent implements OnInit {
         field: 'OPTM_RULEID',
         title: this.translate.instant("CAR_CPackRule"),
         headerClass: 'text-left',
-        class: 'text-right',
-        type: 'numeric',
+        class: 'text-left',
+        type: 'text',
         width: '100'
       },
       {

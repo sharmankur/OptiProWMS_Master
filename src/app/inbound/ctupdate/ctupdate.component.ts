@@ -37,13 +37,13 @@ export class CTUpdateComponent implements OnInit {
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
-      this.CT_ContainerType = this.CT_ROW[0];
-      this.CT_Description = this.CT_ROW[1];
-      this.CT_Length = this.CT_ROW[2];
-      this.CT_Width = this.CT_ROW[3];
-      this.CT_Height = this.CT_ROW[4];
-      this.CT_Max_Width = this.CT_ROW[5];
-      this.CT_Tare_Width = this.CT_ROW[10];
+      this.CT_ContainerType = this.CT_ROW.OPTM_CONTAINER_TYPE;
+      this.CT_Description = this.CT_ROW.OPTM_DESC;
+      this.CT_Length = this.CT_ROW.OPTM_LENGTH;
+      this.CT_Width = this.CT_ROW.OPTM_WIDTH;
+      this.CT_Height = this.CT_ROW.OPTM_HEIGHT;
+      this.CT_Max_Width = this.CT_ROW.OPTM_MAXWEIGHT;
+      this.CT_Tare_Width = this.CT_ROW.OPTM_TARE_WT;
       this.formatCT_Tare_Width();
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
