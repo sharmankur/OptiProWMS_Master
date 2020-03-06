@@ -682,40 +682,40 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  getLookupValue($event) {
+  getLookupKey($event) {
 
     if ($event != null && $event == "close") {
       this.hideLookup = false;
       return;
     }
     else if (this.lookupfor == "SerialNoFrom") {
-      this.SrNoFrom = $event[0];
+      this.SrNoFrom = $event.SODocNum;
       //this.CTR_ContainerType = $event[0];
     }
     else if (this.lookupfor == "SerialNoTo") {
-      this.SrNoTo = $event[0];
+      this.SrNoTo = $event.SODocNum;
       //this.CTR_ContainerType = $event[0];
     }
     else if (this.lookupfor == "CustomerFrom") {
-      this.CustomerFrom = $event[0];
+      this.CustomerFrom = $event.CardCode;
     }
     else if (this.lookupfor == "CustomerTo") {
-      this.CustomerTo = $event[0];
+      this.CustomerTo = $event.CardCode;
     }
     else if (this.lookupfor == "ItemFrom") {
-      this.ItemFrom = $event[0];
+      this.ItemFrom = $event.ItemCode;
     }
     else if (this.lookupfor == "ItemTo") {
-      this.ItemTo = $event[0];
+      this.ItemTo = $event.ItemCode;
     }
     else if (this.lookupfor == "ShipFrom") {
-      this.ShipFrom = $event[0];
+      this.ShipFrom = $event.CardCode;
     }
     else if (this.lookupfor == "ShipTo") {
-      this.ShipTo = $event[0];
+      this.ShipTo = $event.CardCode;
     }
     else if (this.lookupfor == "WareHouse") {
-      this.WareHouse = $event[0];
+      this.WareHouse = $event.WhsCode;
     }
   }
 
