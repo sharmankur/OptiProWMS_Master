@@ -463,11 +463,16 @@ export class CreateContainerComponent implements OnInit {
           this.containerCode = $event.ContainerCode;
           this.parentContainerCode = $event.ParentContainerCode;
           this.count = $event.Count;
-          this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+          //this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
           this.selectedBatchSerial = [];
+          this.ContStatus = '';
           // this.GetContainerNumber();
           this.GetInventoryData()
-          break
+
+          if(this.IsWIPCont){
+            this.GetDataofSelectedTask();
+          }
+          break;
       }
     }
   }
@@ -557,7 +562,71 @@ export class CreateContainerComponent implements OnInit {
   }
 
   onWorkOrderChangeBlur() {
-    
+
+    this.showLoader = true;
+    this.commonservice.IsValidWONumber(this.workOrder).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length <= 0) {  
+            this.workOrder = '';
+            this.toastr.error('', this.translate.instant("InvalidWONo"));
+          }         
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );    
+  }
+
+  GetDataofSelectedTask(){
+    this.showLoader = true;
+    this.containerCreationService.GetDataofSelectedTask(this.taskId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {  
+           this.ProducedQty = data[0].OPTM_QTYPRODUCED;
+           this.PassedQty  = data[0].OPTM_QTYACCEPTED;
+           this.RejectedQty = data[0].OPTM_QTYACCEPTED;
+           this.NCQty = data[0].OPTM_NCQTY;
+          }         
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    ); 
   }
 
   onCreateClick(event) {
@@ -581,7 +650,13 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
 
-          if (data.length == 1) {
+          if (data.length > 0) {
+
+            if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
+              this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+              return;
+            }
+
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             // this.onResetClick();
             this.GetInventoryData();
@@ -589,8 +664,9 @@ export class CreateContainerComponent implements OnInit {
             this.containerCode = data[0].OPTM_CONTCODE;
             this.selectedBatchSerial = [];
             if(this.IsWIPCont){
-              this.ProducedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
-              this.PassedQty = parseFloat(this.ProducedQty);
+              // this.ProducedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+              // this.PassedQty = parseFloat(this.ProducedQty);
+              this.GetDataofSelectedTask();
             }
             this.ContStatus = '';
             // this.GetContainerNumber();
@@ -650,13 +726,13 @@ export class CreateContainerComponent implements OnInit {
       }
     }
 
-    if(this.IsWIPCont){
-     let Sum = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
-      if(Sum >  parseFloat(this.RemQtyWO)){
-        this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
-        return;
-      }
-    }
+    // if(this.IsWIPCont){
+    //  let Sum = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
+    //   if(Sum >  parseFloat(this.RemQtyWO)){
+    //     this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+    //     return;
+    //   }
+    // }
 
     // for (var i = 0; i < this.fromContainerDetails.length; i++) {
     //   if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
@@ -1031,6 +1107,11 @@ export class CreateContainerComponent implements OnInit {
 
   async onBinChange() {
     if (this.binNo == undefined || this.binNo == "") {
+      return;
+    }
+
+    if(this.whse == "" || this.whse == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
 
@@ -1424,7 +1505,7 @@ export class CreateContainerComponent implements OnInit {
         this.SelectedWOItemCode = $event.OPTM_FGCODE;
         this.itemCode = this.SelectedWOItemCode;
         this.RemQtyWO = $event.OPTM_REMAININGQTY;
-
+        this.autoPackRule = '';
         this.fromContainerDetails = [];
         this.selectedBatchSerial = [];
       }

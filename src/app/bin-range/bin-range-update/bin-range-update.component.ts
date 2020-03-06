@@ -221,13 +221,13 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.binrangesMainComponent.binRangesComponent = 1;
-          } else if (data[0].RESULT == "Data Already Exists") {
+          } else if (data.OUTPUT[0].RESULT == "Data Already Exists") {
             this.toastr.error('', this.translate.instant("UserGroupAlreadyExists"));
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -252,9 +252,15 @@ export class BinRangeUpdateComponent implements OnInit {
     }else{
       bincode = this.ToBinCode;
     }
-    if((bincode == undefined || bincode == "") && (this.WHSCODE == "" || this.WHSCODE == undefined)){
+    if(bincode == undefined || bincode == ""){
       return;
     }
+
+    if(this.WHSCODE == "" || this.WHSCODE == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
+
     this.showLoader = true;
     this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
       (data: any) => {
@@ -311,13 +317,13 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', data[0].RESULT);
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', data.OUTPUT[0].RESULT);
             this.binrangesMainComponent.binRangesComponent = 1;
-          } else if (data[0].RESULT == "Data Already Exists") {
+          } else if (data.OUTPUT[0].RESULT == "Data Already Exists") {
             this.toastr.error('', this.translate.instant("Carrier_CarrierIdAlreadyExist"));
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

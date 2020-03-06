@@ -287,5 +287,15 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsDuplicateContainerCode", jObject, this.commonService.httpOptions);
   }
 
+  GetDataofSelectedTask(TaskId:number): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        TaskId: TaskId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetDataofSelectedTask", jObject, this.commonService.httpOptions);
+  }
+
 
 }

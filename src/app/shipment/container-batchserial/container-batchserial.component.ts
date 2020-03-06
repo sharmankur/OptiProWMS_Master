@@ -717,12 +717,12 @@ export class ContainerBatchserialComponent implements OnInit {
     this.showOtherLookup = false;
     this.showLookup = false;
     if($event.length == 0){
-     alert(1);
+     //alert(1);
     }
     var code = $event[0].ITEMCODE;    
   }
 
-  getLookupValue($event) {
+  getLookupDataValue($event) {
     this.showOtherLookup = false;
     this.showLookup = false;
 
@@ -731,15 +731,14 @@ export class ContainerBatchserialComponent implements OnInit {
     }
     else {     
        if (this.lookupfor == "WareHouse") {
-        this.WarehouseId = $event[0];
+        this.WarehouseId = $event.WhsCode;
        } 
       else if (this.lookupfor == "BinList") {
-        this.BinId = $event[0];
+        this.BinId = $event.BinCode;
       }    
-      else if(this.lookupfor == "ContainsItem"){
-        this.ContainsItemID =  $event[0];
-      }
-      
+      // else if(this.lookupfor == "ContainsItem"){
+      //   this.ContainsItemID =  $event.OPTM_ITEMCODE;
+      // }      
      }
   }
 
