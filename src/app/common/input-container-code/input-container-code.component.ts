@@ -29,6 +29,9 @@ export class InputContainerCodeComponent implements OnInit {
   ShowParentField : boolean = true;
   RemainingQty : any = 0;
   TotalQty : any=0;
+  CreateFlag: boolean = false;
+  TempContnrId: any = '';
+  TempContnrCode: any = '';
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router) { }
@@ -36,6 +39,7 @@ export class InputContainerCodeComponent implements OnInit {
   ngOnInit() {
     this.showLookup = true;
     this.showNoButton = true;
+    this.CreateFlag = false;
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
@@ -45,7 +49,7 @@ export class InputContainerCodeComponent implements OnInit {
     }    
   }
 
-  public opened: boolean = true;
+  public opened: boolean = true;  
 
   public close(status) {
     if (status == "yes") {
@@ -55,14 +59,26 @@ export class InputContainerCodeComponent implements OnInit {
       }
       this.GenerateShipContainer();
     } else if (status == "cancel" || status == "no") {
-      this.isYesClick.emit({
-        Status: "no",
-        From: this.fromWhere,
-        ContainerCode: "",
-        ParentContainerCode: "",
-        Count: 0
-      });
-      this.opened = false;
+      if(this.CreateFlag){
+        this.isYesClick.emit({
+          Status: "yes",
+          From: this.fromWhere,
+          ContainerId: this.TempContnrId,
+          ContainerCode: this.TempContnrCode,
+          ParentContainerCode: this.parentContainerCode,
+          Count: 0
+        });
+      }
+      else{
+        this.isYesClick.emit({
+          Status: "no",
+          From: this.fromWhere,
+          ContainerCode: "",
+          ParentContainerCode: "",
+          Count: 0
+        });                
+      }
+      this.opened = false;      
     }
 
     // this.isYesClick.emit({
@@ -167,7 +183,7 @@ export class InputContainerCodeComponent implements OnInit {
     if(this.containerCode == "" || this.containerCode == undefined){
       this.toastr.error('', this.translate.instant("Enter_Container_Code"));
       return;
-    } 
+    }    
 
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
@@ -186,17 +202,22 @@ export class InputContainerCodeComponent implements OnInit {
 
           if(data == null || data.length == 0){
             this.toastr.error('', this.translate.instant("Code_not_generated"));
-          } else if(data != null && data.length == 1){
-            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+          } 
+
+          if(data != null && data.length > 0){
+            if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
+              this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+              return;
+            }            
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));           
+            this.CreateFlag = true;
+            this.TempContnrId = data[0].OPTM_CONTAINERID;
+            this.TempContnrCode = this.containerCode;
             this.containerCode = '';
 
             if(this.ShowParentField){
               this.onParentContainerChange();
-            }           
-
-            // this.count += this.count;
-            // this.RemainingQty -= this.RemainingQty;
-
+            } 
            
             // this.isYesClick.emit({
             //   Status: "yes",

@@ -623,22 +623,22 @@ export class ContainerShipmentComponent implements OnInit {
   //   );
   // }
 
-  getLookupValue($event) {
+  getLookupDataValue($event) {
     if ($event != null && $event == "close") {
       return;
     }
     else {
       if (this.lookupfor == "WareHouse") {
-        this.WarehouseId = $event[0];
+        this.WarehouseId = $event.WhsCode;
       }
       else if (this.lookupfor == "BinList") {
-        this.BinId = $event[0];
+        this.BinId = $event.BinCode;
       }
       else if (this.lookupfor == "CTList") {
-        this.ContainerTypeId = $event[0];
+        this.ContainerTypeId = $event.OPTM_CONTAINER_TYPE;
       }
       else if (this.lookupfor == "ContainsItem") {
-        this.ContainsItemID = $event[0];
+        this.ContainsItemID = $event.OPTM_ITEMCODE;
       }
       // else if(this.lookupfor == "Workorder"){
       //   this.WOId = $event[0];
