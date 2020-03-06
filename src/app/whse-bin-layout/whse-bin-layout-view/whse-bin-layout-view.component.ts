@@ -18,7 +18,7 @@ export class WhseBinLayoutViewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
 
-  constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, 
+  constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService,
     private translate: TranslateService, private whseBinLayoutService: WhseBinLayoutService,
     private whseBintComponent: WhseBinLayoutComponent) {
     let userLang = navigator.language.split('-')[0];
@@ -46,9 +46,9 @@ export class WhseBinLayoutViewComponent implements OnInit {
           this.showLookup = false;
           this.serviceData = data;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
-            if(this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y'){
+            if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
-            }else{
+            } else {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
             }
           }
@@ -69,15 +69,15 @@ export class WhseBinLayoutViewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
-    console.log("getLookupValue" + event)
+  getLookupKey(event) {
+    console.log("getLookupKey" + event)
     localStorage.setItem("Action", "edit");
     localStorage.setItem("Row", JSON.stringify(event));
     this.whseBintComponent.whseBinLayoutComponent = 2;
   }
 
   onCopyItemClick(event) {
-    localStorage.setItem("CAR_ROW", JSON.stringify(event));  
+    localStorage.setItem("CAR_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "copy");
     this.whseBintComponent.whseBinLayoutComponent = 2;
   }
@@ -86,37 +86,95 @@ export class WhseBinLayoutViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
+  OnAddClick() {
     localStorage.setItem("CAR_ROW", "");
     localStorage.setItem("Action", "");
     this.whseBintComponent.whseBinLayoutComponent = 2;
     // this.whseBintComponent.whseBinLayoutComponent = 2;
   }
 
-  OnDeleteSelected(event){
-    if(event.length <= 0){
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any = [];
+
+  OnDeleteSelected(event) {
+    if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
     }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({       
-        OPTM_WHSCODE: event[i].OPTM_WHSCODE,
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteFromWareHouseMaster(ddDeleteArry);
+
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
-    var ddDeleteArry: any[] = [];
-      ddDeleteArry.push({
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_WHSCODE: event.OPTM_WHSCODE     
-      });
-    this.DeleteFromWareHouseMaster(ddDeleteArry);
+  getConfirmDialogValue($data) {
+    this.showConfirmDialog = false;
+    if ($data.Status == "yes") {
+      switch ($data.From) {
+        case ("Delete"):
+          var ddDeleteArry: any[] = [];
+          ddDeleteArry.push({
+            CompanyDBId: localStorage.getItem("CompID"),
+            OPTM_WHSCODE: this.event.OPTM_WHSCODE
+          });
+          this.DeleteFromWareHouseMaster(ddDeleteArry);
+          break;
+        case ("DeleteSelected"):
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              OPTM_WHSCODE: this.event[i].OPTM_WHSCODE,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteFromWareHouseMaster(ddDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($data.Status == "no") {
+        switch ($data.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
-  
+
+  // OnDeleteSelected(event){
+  //   if(event.length <= 0){
+  //     this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+  //     return;
+  //   }
+  //   var ddDeleteArry: any[] = [];
+  //   for(var i=0; i<event.length; i++){
+  //     ddDeleteArry.push({       
+  //       OPTM_WHSCODE: event[i].OPTM_WHSCODE,
+  //       CompanyDBId: localStorage.getItem("CompID")
+  //     });
+  //   }
+  //   this.DeleteFromWareHouseMaster(ddDeleteArry);
+  // }
+
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
+  }
+
   DeleteFromWareHouseMaster(ddDeleteArry) {
     this.showLoader = true;
     this.whseBinLayoutService.DeleteWhseBinLayout(ddDeleteArry).subscribe(
@@ -129,7 +187,7 @@ export class WhseBinLayoutViewComponent implements OnInit {
             return;
           }
           // if(data[0].RESULT == this.translate.instant("DataSaved")){
-            this.GetDataWareHouseMaster();
+          this.GetDataWareHouseMaster();
           // }else{
           //   this.toastr.error('', data[0].RESULT);
           // }

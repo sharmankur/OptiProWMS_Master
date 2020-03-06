@@ -97,6 +97,9 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   IsValidShipmentCode(fieldName) {
+    if(this.ShipmentCode == undefined || this.ShipmentCode == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidShipmentCode(this.ShipmentCode).subscribe(
       (data: any) => {

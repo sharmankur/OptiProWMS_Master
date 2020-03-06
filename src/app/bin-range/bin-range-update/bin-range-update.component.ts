@@ -112,6 +112,9 @@ export class BinRangeUpdateComponent implements OnInit {
   }
 
   IsValidWHSCODE() {
+    if(this.WHSCODE == undefined || this.WHSCODE == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidWhseCode(this.WHSCODE).subscribe(
       (data: any) => {
@@ -248,6 +251,9 @@ export class BinRangeUpdateComponent implements OnInit {
       bincode = this.FromBinCode;
     }else{
       bincode = this.ToBinCode;
+    }
+    if((bincode == undefined || bincode == "") && (this.WHSCODE == "" || this.WHSCODE == undefined)){
+      return;
     }
     this.showLoader = true;
     this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
