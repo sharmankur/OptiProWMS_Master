@@ -97,7 +97,7 @@ export class BinRangeUpdateComponent implements OnInit {
     );
   }
 
-  getLookupValue($event) {
+  getLookupKey($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
       return;

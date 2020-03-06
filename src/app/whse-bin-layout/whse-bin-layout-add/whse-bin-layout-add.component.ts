@@ -239,15 +239,15 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
 
-  getLookupValue($event) {
+  getLookupData($event) {
     if ($event != null && $event == "close") {
       //nothing to do
       return;
     }
     else {
       if (this.lookupfor == "WareHouse") {
-        this.whseCode = $event[0];
-        this.whseDescr = $event[1];
+        this.whseCode = $event.WhsCode;
+        this.whseDescr = $event.WhsName;
         this.WIP_FG_StageBin = '';
         this.WIP_RM_StageBin = '';
         this.TransferOutBin = '';
@@ -259,9 +259,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
           for (var i = 0; i < this.whseZoneList.length; i++) {
             if (i == this.index) {
               if (this.binType == 'from_bin') {
-                this.whseZoneList[i].FromBin = $event[0];
+                this.whseZoneList[i].FromBin = $event.BinCode;
               } else {
-                this.whseZoneList[i].ToBin = $event[0];
+                this.whseZoneList[i].ToBin = $event.BinCode;
               }
             }
           }
@@ -269,29 +269,29 @@ export class WhseBinLayoutAddComponent implements OnInit {
           for (var i = 0; i < this.whseRangeList.length; i++) {
             if (i == this.index) {
               if (this.binType == 'from_bin') {
-                this.whseRangeList[i].FromBin = $event[0];
+                this.whseRangeList[i].FromBin = $event.BinCode;
               } else {
-                this.whseRangeList[i].ToBin = $event[0];
+                this.whseRangeList[i].ToBin = $event.BinCode;
               }
             }
           }
         } else {
           if (this.fromType == 'WIP_FG_StageBin') {
-            this.WIP_FG_StageBin = $event[0];
+            this.WIP_FG_StageBin = $event.BinCode;
           } else if (this.fromType == 'WIP_RM_StageBin') {
-            this.WIP_RM_StageBin = $event[0];
+            this.WIP_RM_StageBin = $event.BinCode;
           } else if (this.fromType == 'TransferOutBin') {
-            this.TransferOutBin = $event[0];
+            this.TransferOutBin = $event.BinCode;
           } else if (this.fromType == 'TransferInBin') {
-            this.TransferInBin = $event[0];
+            this.TransferInBin = $event.BinCode;
           } else if (this.fromType == 'Ship_StageBin') {
-            this.Ship_StageBin = $event[0];
+            this.Ship_StageBin = $event.BinCode;
           }
         }
       } else if (this.lookupfor == "BinRangeList") {
         for (var i = 0; i < this.whseZoneList.length; i++) {
           if (i == this.index) {
-            this.whseZoneList[i].OPTM_BIN_RANGE = $event[1];
+            this.whseZoneList[i].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
           }
         }
       }
