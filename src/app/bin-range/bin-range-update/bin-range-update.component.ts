@@ -103,11 +103,11 @@ export class BinRangeUpdateComponent implements OnInit {
       return;
     }
     else if (this.lookupfor == "WareHouse") {
-      this.WHSCODE = $event[0];
+      this.WHSCODE = $event.WhsCode;
     }else if (this.lookupfor == "From_BinList") {
-      this.FromBinCode = $event[0];
+      this.FromBinCode = $event.BinCode;
     }else if (this.lookupfor == "To_BinList") {
-      this.ToBinCode = $event[0];
+      this.ToBinCode = $event.BinCode;
     }
   }
 
