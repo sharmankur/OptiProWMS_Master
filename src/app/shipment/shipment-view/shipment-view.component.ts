@@ -26,11 +26,11 @@ export class ShipmentViewComponent implements OnInit {
   WarehouseCode: string;
   ScheduleDatetime: Date;
   ShipStageBin: string;
-  DockDoor: string;
+  DockDoor: string = "";
   ShipToCode: string;
   Status: string = "New";
   StatusId: string;
-  CarrierCode: string;
+  CarrierCode: string = "";
   ReturnOrderRef: string;
   UseContainer: boolean = false;
   BOLNumber: string;
@@ -396,14 +396,15 @@ export class ShipmentViewComponent implements OnInit {
       || this.ScheduleDatetime.toDateString() == "") {
       this.toastr.error('', this.translate.instant("ScheduleTimeBlank"));
       return false;
-    } else if (this.DockDoor == undefined || this.DockDoor == "") {
-      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
-      return false;
-    }
-    else if (this.CarrierCode == undefined || this.CarrierCode == "") {
-      this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
-      return false;
-    }
+    } 
+    //else if (this.DockDoor == undefined || this.DockDoor == "") {
+    //   this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+    //   return false;
+    // }
+    // else if (this.CarrierCode == undefined || this.CarrierCode == "") {
+    //   this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
+    //   return false;
+    // }
     return true;
   }
 

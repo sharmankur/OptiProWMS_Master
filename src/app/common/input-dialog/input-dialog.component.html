@@ -6,7 +6,7 @@
         <div class="form-group row">
             <div class="input-group input-group-sm">
                 <input type="text" id="newPallet" name="newPallet" class="form-control form-control-sm" [(ngModel)]="palletNo"
-                    placeholder="{{'Pallet No.'}}" [disabled]="autoGeneratePalletEnable">
+                    placeholder="{{'Plt_PalletNo'|translate}}" [disabled]="autoGeneratePalletEnable">
                 <!-- <div class="input-group-append  has-seprate-btn ml-1">
                     <button class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0" type="button"
                         (click)="createNewPallet(event)">
@@ -17,7 +17,7 @@
         </div>
         <div class="form-group row">
             <div class="input-group input-group-sm">
-                <input type="text" class="form-control form-control-sm" placeholder="{{'Bin No.'}}" name="binNo"
+                <input type="text" class="form-control form-control-sm" placeholder="{{'BinNo'|translate}}" name="binNo"
                     [(ngModel)]="binNo" (blur)="OnBinChange()">
                 <div class="input-group-append  has-seprate-btn">
                     <button class="k-button k-primary btn" type="button" (click)="OnBinLookupClick('OnClick')">
