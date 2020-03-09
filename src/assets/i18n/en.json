@@ -946,7 +946,8 @@
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
   "PCTNotSameChild": "Parent container type can't be same as chile container type.",
   "Allocated": "Allocated",
-  
+  "Picklist_Created_Msg": "Picklist Created Sucessfully.",
+
 
   "Dummy": "Dummy"
   
