@@ -95,8 +95,8 @@
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
 
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_FROM_BIN" value={{dataItem.OPTM_STORAGE_FROM_BIN}} id="storage_from_bin"
-                                        min="0" #storage_from_bin >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_FROM_BIN"  id="storage_from_bin"
+                                        min="0" #storage_from_bin (blur)="IsValidBinCode('frombin', dataItem,idx,storage_from_bin)" value={{dataItem.OPTM_STORAGE_FROM_BIN}} >
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,1)">
                                             <i class="opti-icon-search"></i>
@@ -110,7 +110,7 @@
 
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_TO_BIN" value={{dataItem.OPTM_STORAGE_TO_BIN}} id="storage_to_bin"
-                                        min="0" #storage_to_bin >
+                                        min="0" #storage_to_bin  (blur)="IsValidBinCode('tobin', dataItem,idx,storage_to_bin)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,2)">
                                             <i class="opti-icon-search"></i>
@@ -124,7 +124,7 @@
 
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PUTWAY_STAGE_BIN" value={{dataItem.OPTM_PUTWAY_STAGE_BIN}} id="putaway_stage_bin"
-                                        min="0" #putaway_stage_bin [disabled]=!isPutAway >
+                                        min="0" #putaway_stage_bin [disabled]=!isPutAway (blur)="IsValidBinCode('putawaybin', dataItem, idx,putaway_stage_bin)" >
                                     <div class="input-group-append">
                                         <button  [disabled]=!isPutAway tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,3)">
                                             <i class="opti-icon-search"></i>
@@ -133,13 +133,13 @@
                                 </div>
                             </ng-template>
                         </kendo-grid-column>
-
+   
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICK_DROP_BIN" [width]="18" title="{{'BinRulePickDropBin'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
 
                                 <div class="input-group input-group-sm"  >
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PICK_DROP_BIN" value={{dataItem.OPTM_PICK_DROP_BIN}} id="OPTM_PICK_DROP_BIN"
-                                        min="0" #OPTM_PICK_DROP_BIN [disabled]=isPutAway  >
+                                        min="0" #OPTM_PICK_DROP_BIN [disabled]=isPutAway (blur)="IsValidBinCode('pickdropbin', dataItem, idx,OPTM_PICK_DROP_BIN)" >
                                     <div class="input-group-append">
                                         <button [disabled]=isPutAway  tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,4)">
                                             <i class="opti-icon-search" ></i>

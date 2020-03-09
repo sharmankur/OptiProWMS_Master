@@ -8,7 +8,7 @@
                 {{'Bin_Rules'|translate}}
             </h3>
   
-            <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (deleteClick)="onDeleteRowClick($event)" 
+            <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupValue($event)" (deleteClick)="onDeleteRowClick($event)" 
             (deleteSelectedItems)="OnDeleteSelected($event)" (copyItem)="onCopyItemClick($event)"></app-lookup>
             
         </div>

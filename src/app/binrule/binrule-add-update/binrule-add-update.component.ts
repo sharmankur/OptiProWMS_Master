@@ -120,7 +120,9 @@ export class BinruleAddUpdateComponent implements OnInit {
 
   openDialog: boolean = false;
   open(){
-   this.toastr.error('', this.translate.instant("AlertChangeRule"));
+    if(this.binRuleArray!=null && this.binRuleArray!= undefined && this.binRuleArray.length>0){
+      this.toastr.error('', this.translate.instant("AlertChangeRule")); 
+    }
     console.log("open call");
   }
   closeDialog(){
@@ -181,9 +183,7 @@ export class BinruleAddUpdateComponent implements OnInit {
   }
 
   onWhseChangeBlur() {
-    if (this.isValidateCalled) {
-      return
-    }
+   
     this.OnWhsCodeChange();
   }
 
@@ -263,9 +263,7 @@ export class BinruleAddUpdateComponent implements OnInit {
  
 
   onWhsZoneBlur() {
-    if (this.isValidateCalled) {
-      return
-    }
+   
     this.OnWhsZoneChange();
   }
 
@@ -292,7 +290,7 @@ export class BinruleAddUpdateComponent implements OnInit {
           this.toastr.error('', this.translate.instant("InvalidWhsZoneErrorMsg"));
           this.whsZone = ''
         } else {
-          this.whsZone = resp[0]
+          this.whsZone = resp[0].OPTM_WHSZONE;
         }
         result = true;
       },
@@ -351,10 +349,10 @@ export class BinruleAddUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectWhsCode"));
       return ;
     }
-    if(this.whsZone == ""){
-      this.toastr.error('', this.translate.instant("SelectWhsZone"));
-      return ;
-    }
+    // if(this.whsZone == ""){
+    //   this.toastr.error('', this.translate.instant("SelectWhsZone"));
+    //   return ;
+    // }
    this.binRuleArray.push(new BinRuleRowModel("","","",""));
   }
   
@@ -597,5 +595,91 @@ export class BinruleAddUpdateComponent implements OnInit {
       deleteRow(rowIndex, gridItem){
               this.binRuleArray.splice(rowIndex,1);
               gridItem = this.binRuleArray;
+      }
+
+
+      IsValidBinCode(from,dataItem,index,templateVar) {
+        let bincode = "";
+        if(from == "frombin"){
+          bincode =templateVar.value;
+        }else if(from == "tobin"){
+          bincode =templateVar.value;
+        }else if(from == "pickdropbin"){
+          bincode = templateVar.value;
+        }else if(from == "putawaybin"){
+          bincode =templateVar.value;
+        }
+        if(bincode == undefined || bincode == ""){
+          return;
+        }  
+
+        if(from == "frombin"){
+          this.binRuleArray[index].OPTM_STORAGE_FROM_BIN = bincode;
+        }else if(from == "tobin"){
+          this.binRuleArray[index].OPTM_STORAGE_TO_BIN = bincode;
+        }else if(from == "pickdropbin"){
+          this.binRuleArray[index].OPTM_PICK_DROP_BIN = bincode;
+        }else if(from == "putawaybin"){ 
+          this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = bincode;
+        }
+
+        this.showLoader = true;
+        this.commonservice.IsValidBinCode(this.whsCode, bincode).subscribe(
+          (data: any) => {
+            this.showLoader = false;
+            if (data != undefined) {
+              if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+                this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                  this.translate.instant("CommonSessionExpireMsg"));
+                return;
+              }
+              if (data.length > 0) {
+                if(from == "frombin"){
+                  this.binRuleArray[index].OPTM_STORAGE_FROM_BIN = data[0].BinCode;
+                }else if(from == "tobin"){
+                  this.binRuleArray[index].OPTM_STORAGE_TO_BIN = data[0].BinCode;
+                }else if(from == "pickdropbin"){
+                  this.binRuleArray[index].OPTM_PICK_DROP_BIN = data[0].BinCode;
+                }else if(from == "putawaybin"){
+                  this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = data[0].BinCode;
+                }
+             
+              } else {
+                this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+                 //reset that index bin value.
+                 if(from == "frombin"){
+                  this.binRuleArray[index].OPTM_STORAGE_FROM_BIN = '';
+                }else if(from == "tobin"){
+                  this.binRuleArray[index].OPTM_STORAGE_TO_BIN = '';
+                }else if(from == "pickdropbin"){
+                  this.binRuleArray[index].OPTM_PICK_DROP_BIN = '';
+                }else if(from == "putawaybin"){
+                  this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = '';
+                }
+              }
+            } else {
+              if(from == "frombin"){
+                this.binRuleArray[index].OPTM_STORAGE_FROM_BIN = '';
+              }else if(from == "tobin"){
+                this.binRuleArray[index].OPTM_STORAGE_TO_BIN = '';
+              }else if(from == "pickdropbin"){
+                this.binRuleArray[index].OPTM_PICK_DROP_BIN = '';
+              }else if(from == "putawaybin"){
+                this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = '';
+              }
+              this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+              //reset that index bin value.
+            }
+          },
+          error => {
+            this.showLoader = false;
+            if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+              this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+            }
+            else {
+              this.toastr.error('', error);
+            }
+          }
+        );
       }
 }
