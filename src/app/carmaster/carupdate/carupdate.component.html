@@ -145,19 +145,19 @@
                             </ng-template>
                         </kendo-grid-column>
 
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
                                     #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
                             </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                     <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PACKING_MATWT" value={{dataItem.OPTM_PACKING_MATWT}} id="display_name"
                                         #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
                                 </ng-template>
                             </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>

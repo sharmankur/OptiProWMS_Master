@@ -781,12 +781,19 @@ export class CreateContainerComponent implements OnInit {
             this.serviceData = data;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
               if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
-                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
+                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
               } else {
-                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
+                this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("no");
+              }
+  
+              if (this.serviceData[iBtchIndex].OPTM_CONTUSE == '1') {
+                this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Shipping");
+              } else if (this.serviceData[iBtchIndex].OPTM_CONTUSE == '2') {
+                this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Internal");
+              } else {
+                this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Both");
               }
             }
-  
             this.lookupfor = "CARList";
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -819,12 +826,19 @@ export class CreateContainerComponent implements OnInit {
           this.serviceData = data;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
-              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "Yes";
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
             } else {
-              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
+              this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("no");
+            }
+
+            if (this.serviceData[iBtchIndex].OPTM_CONTUSE == '1') {
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Shipping");
+            } else if (this.serviceData[iBtchIndex].OPTM_CONTUSE == '2') {
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Internal");
+            } else {
+              this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Both");
             }
           }
-
           this.lookupfor = "CARList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -990,6 +1004,13 @@ export class CreateContainerComponent implements OnInit {
   }
 
   async IsValidContainerAutoRule(ruleId, ContType, packType) {
+    if (packType == this.translate.instant("Shipping")) {
+      packType = '1';
+    } else if (packType == this.translate.instant("Internal")) {
+      packType = '2';
+    } else {
+      packType = '3';
+    }
     this.showLoader = true;
     var result = false;
     await this.carmasterService.IsValidContainerAutoRule(ruleId, ContType, packType).then(
@@ -1107,6 +1128,11 @@ export class CreateContainerComponent implements OnInit {
 
   async onBinChange() {
     if (this.binNo == undefined || this.binNo == "") {
+      return;
+    }
+
+    if(this.whse == "" || this.whse == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
 
@@ -1367,7 +1393,7 @@ export class CreateContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return false;
     }
-
+   
     this.lookupData = [];
     var tempList = [];
     if (this.fromContainer) {

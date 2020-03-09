@@ -54,13 +54,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.isUpdate = true;
         this.buttonText = this.translate.instant("CT_Update");
         var data = JSON.parse(localStorage.getItem("Row"));
-        this.whseCode = data[0];
+        this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
         this.buttonText = this.translate.instant("CT_Add");
-        this.whseCode = data[0];
+        this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
@@ -525,6 +525,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   getWhseMasterDetails(whse) {
+    if(whse == undefined || whse == ""){
+      return;
+    }
     this.whseService.IsValidWareHouseMaster(whse).subscribe(
       (data: any) => {
         this.showLoader = false;

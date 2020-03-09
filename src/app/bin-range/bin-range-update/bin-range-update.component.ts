@@ -254,7 +254,13 @@ export class BinRangeUpdateComponent implements OnInit {
     }
     if(bincode == undefined || bincode == ""){
       return;
-    }    
+    }
+
+    if(this.WHSCODE == "" || this.WHSCODE == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
+
     this.showLoader = true;
     this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
       (data: any) => {

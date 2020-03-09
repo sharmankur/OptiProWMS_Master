@@ -325,7 +325,7 @@
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onScheduleClick()" [disabled]=isScheduledDiabled>
                     <span role="presentation"></span> {{'Schedule'|translate}}</button>
 
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()">
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()" [disabled]="StatusId == '1'">
                     <span role="presentation"></span> {{btnText}}</button>
 
                 <!-- <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onStageORUnstageShipmentClick()"

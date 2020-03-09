@@ -15,11 +15,13 @@ import { InputDialogComponent } from '../common/input-dialog/input-dialog.compon
 import { StatePersistingServiceService } from '../services/state-persisting-service.service';
 import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
 import { InputContainerCodeComponent } from '../common/input-container-code/input-container-code.component';
+import { TrnaslateLazyModule } from 'src/translate-lazy.module';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
     FormsModule,
-    DialogsModule,PdfViewerModule],
+    DialogsModule,PdfViewerModule,
+    TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
     PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent],

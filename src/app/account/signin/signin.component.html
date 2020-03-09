@@ -29,7 +29,7 @@
                                 class="float-right opti_error-msg" >{{'Login_UnBlankErrMsg'|translate}}</span>
                        
                                 </span> 
-                            <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                            <label class="sr-only" for="inlineFormInputGroup">{{ 'Login_Username'|translate}}</label>
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
                                 <div class="input-group-text"><span class="k-icon k-i-user"></span></div>
@@ -47,7 +47,7 @@
                                 <span  *ngIf="this.isError==true &&  (pwd.dirty || pwd.touched) && (emailId.dirty || emailId.touched) && !pwd.errors?.required" class="float-right opti_error-msg">Invalid credentials.</span>
                                 
                             </span>
-                            <label class="sr-only" for="inlineFormInputGroup">Password</label>
+                            <label class="sr-only" for="inlineFormInputGroup">{{'Login_Password'|translate}}</label>
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
                                 <div class="input-group-text"><span class="k-icon k-i-unlock"></span></div>

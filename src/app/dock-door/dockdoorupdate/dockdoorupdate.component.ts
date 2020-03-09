@@ -226,6 +226,9 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidBinCode(index, bincode) {
+    if(bincode == undefined || bincode == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidBinCode(this.WHSCODE, bincode).subscribe(
       (data: any) => {
@@ -261,6 +264,9 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidWhseCode() {
+    if(this.WHSCODE == undefined || this.WHSCODE == ""){
+      return;
+    }
     this.showLoader = true;
     this.commonservice.IsValidWhseCode(this.WHSCODE).subscribe(
       (data: any) => {

@@ -102,6 +102,9 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onItemCodeChange() {
+    if((this.itemCode == undefined || this.itemCode == "")){
+      return;
+    }
     this.showLoader = true;
     this.containerCreationService.IsValidItemCode(this.packingRule, this.itemCode).subscribe(
       data => {

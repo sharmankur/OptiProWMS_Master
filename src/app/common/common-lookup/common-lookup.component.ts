@@ -396,14 +396,14 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_DOCKDOORID',
         title: this.translate.instant("DD_ID"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_DESC',
         title: this.translate.instant("DD_DESC"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       }
@@ -420,7 +420,7 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_GROUPCODE',
         title: this.translate.instant("GroupCode"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       }
@@ -438,27 +438,27 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_WHSCODE',
         title: this.translate.instant("WarehouseCode"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_BIN_RANGE',
         title: this.translate.instant("WhsUserGroup_Bin_Range"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_FROM_BIN',
         title: this.translate.instant("FromBinCode"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       }, {
         field: 'OPTM_TO_BIN',
         title: this.translate.instant("ToBinCode"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       }
@@ -477,21 +477,21 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_WHSCODE',
         title: this.translate.instant("WarehouseCode"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_WHSZONE',
         title: this.translate.instant("WhsZone"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_ZONETYPE',
         title: this.translate.instant("WhseZoneType"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
         width: '150'
       }
@@ -504,41 +504,89 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showCARList() {
+  // showCARList() {
+  //   this.table_head = [
+  //     {
+  //       field: 'OPTM_RULEID',
+  //       title: this.translate.instant("CAR_CPackRule"),
+  //       headerClass: 'text-left',
+  //       class: 'text-right',
+  //       type: 'numeric',
+  //       width: '150'
+  //     },
+  //     {
+  //       field: 'OPTM_CONTTYPE',
+  //       title: this.translate.instant("CT_ContainerType"),
+  //       headerClass: 'text-left',
+  //       type: 'text',
+  //       width: '150'
+  //     },
+
+  //     {
+  //       field: 'OPTM_PACKTYPE',
+  //       title: this.translate.instant("CAR_PackType"),
+  //       headerClass: 'text-left',
+  //       class: 'text-right',
+  //       type: 'numeric',
+  //       width: '150'
+  //     },
+  //     {
+  //       field: 'OPTM_ADD_TOCONT',
+  //       title: this.translate.instant("CAR_AddPartsToContainer"),
+  //       headerClass: 'text-left',
+  //       type: 'boolean',
+  //       width: '150'
+  //     }
+  //   ];
+  //   this.lookupTitle = this.translate.instant("CT_AutoPackRule");
+  //   if (this.serviceData !== undefined) {
+  //     if (this.serviceData.length > 0) {
+  //       this.dialogOpened = true;
+  //     }
+  //   }
+  // }
+
+  showCARList(){
     this.table_head = [
       {
         field: 'OPTM_RULEID',
         title: this.translate.instant("CAR_CPackRule"),
-        headerClass: 'text-center',
-        class: 'text-right',
-        type: 'numeric',
-        width: '150'
+        headerClass: 'text-left',
+        class: 'text-left',
+        type: 'text',
+        width: '100'
       },
       {
         field: 'OPTM_CONTTYPE',
         title: this.translate.instant("CT_ContainerType"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'text',
-        width: '150'
+        width: '100'
       },
-
       {
-        field: 'OPTM_PACKTYPE',
-        title: this.translate.instant("CAR_PackType"),
-        headerClass: 'text-center',
-        class: 'text-right',
-        type: 'numeric',
-        width: '150'
+        field: 'OPTM_RULE_DESC',
+        title: this.translate.instant("CT_Description"),
+        headerClass: 'text-left',
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONTUSE',
+        title: this.translate.instant("Container_Use"),
+        headerClass: 'text-left',
+        class: 'text-left',
+        type: 'text',
+        width: '100'
       },
       {
         field: 'OPTM_ADD_TOCONT',
         title: this.translate.instant("CAR_AddPartsToContainer"),
-        headerClass: 'text-center',
+        headerClass: 'text-left',
         type: 'boolean',
-        width: '150'
+        width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CT_AutoPackRule");
+    this.lookupTitle = this.translate.instant("CT_ContainerType");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -748,18 +796,30 @@ export class CommonLookupComponent implements OnInit {
       },
       {
         field: 'Quantity',
-        headerClass: 'text-right',
+        headerClass: 'text-left',
         class: 'text-right',
         title: this.translate.instant("AvailableQty"),
         type: 'numeric',
         width: '80'
       }
     ];
-    this.lookupTitle = this.translate.instant("BatchSerialList");
+
+    
+    //this.lookupTitle = this.translate.instant("BatchSerialList");
     if (this.serviceData !== undefined) {
       var len = this.serviceData.length;
-      if (len > 0) {
-        //  console.log('ServiceData', this.serviceData);
+      if (len > 0) {       
+
+        if(this.serviceData[0].OPTM_TRACKING  == "S"){
+          this.lookupTitle = this.translate.instant("Serial");
+        }
+        else if(this.serviceData[0].OPTM_TRACKING == "B"){
+          this.lookupTitle = this.translate.instant("Batch");
+        }
+        else{
+          this.lookupTitle = this.translate.instant("None");
+        } 
+
         var tempData: any;
         for (var i = 0; i < len; i++) {
           var qty = Number(this.serviceData[i].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
