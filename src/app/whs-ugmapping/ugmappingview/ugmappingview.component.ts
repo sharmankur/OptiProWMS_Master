@@ -96,13 +96,14 @@ export class UgmappingviewComponent implements OnInit {
 
 
   onDeleteRowClick(event){
+    var optmId = event.OPTM_ID;
     var whsCode = event.OPTM_WHSCODE;
     var whsZone = event.OPTM_WHSEZONE;
     var whsBinRange = event.OPTM_BINRANGE;
-    this.deleteUserGroupListRow(whsCode,whsZone,whsBinRange);
-  } 
+    this.deleteUserGroupListRow(optmId,whsCode,whsZone,whsBinRange);
+  }  
   
-  OnDeleteSelected(event){
+  OnDeleteSelected(event){ 
     if(event.length <= 0){
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
@@ -111,6 +112,7 @@ export class UgmappingviewComponent implements OnInit {
     for(var i=0; i<event.length; i++){
       ddDeleteArry.push({
         CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_ID: event[i].OPTM_ID,
         OPTM_WHSCODE: event[i].OPTM_WHSCODE,
         OPTM_WHSEZONE: event[i].OPTM_WHSEZONE,
         OPTM_BINRANGE: event[i].OPTM_BINRANGE,
@@ -119,9 +121,9 @@ export class UgmappingviewComponent implements OnInit {
     this.deleteMultipleRows(ddDeleteArry);
   }
 
-  deleteUserGroupListRow(whsCode:String, whsZone:String, binRange:String) {
+  deleteUserGroupListRow(optmId:String, whsCode:String, whsZone:String, binRange:String) {
     this.showLoader = true;
-    this.userGroupMappingService.DeleteUserGroup(whsCode,whsZone,binRange).subscribe(
+    this.userGroupMappingService.DeleteUserGroup(optmId, whsCode,whsZone,binRange).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

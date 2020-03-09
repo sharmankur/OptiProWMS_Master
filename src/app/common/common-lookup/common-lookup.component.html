@@ -22,13 +22,13 @@
                 <div class="k-form-field d-flex">
                     <input #chkFilter type="checkbox" (change)="onFilterChange(chkFilter,gridItem)" id="opti_SalesOrderListColumnFilterID"
                         [(ngModel)]="isColumnFilter" class="k-checkbox" name="columnfilter" />
-                    <label class="k-checkbox-label" for="opti_SalesOrderListColumnFilterID">Enable Filter</label>
+                    <label class="k-checkbox-label" for="opti_SalesOrderListColumnFilterID">{{'Enable_Filter'|translate}}</label>
                 </div>
             </form>
 
         </ng-template>
         
-        <kendo-grid-column field="OldData" *ngIf="showSelection==true" title="Select" [width]="50">
+        <kendo-grid-column field="OldData" *ngIf="showSelection==true" title="{{'Select'|translate}}" [width]="50">
             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" [checked]="di.OldData" #chkSelection (change)="onCheckboxClick(chkSelection, chkSelection.checked,idx,di)"
@@ -52,8 +52,8 @@
                     </ng-template>
         </kendo-grid-column> -->
 
-        <kendo-grid-column *ngIf="showSelection==true" field="QuantityToAdd" title="Allocated" [width]="80"
-            headerClass="text-right" class="text-right">
+        <kendo-grid-column *ngIf="showSelection==true" field="QuantityToAdd" title="{{'Allocated'|translate}}" [width]="80"
+            headerClass="text-left" class="text-left">
             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                 <div class="input-group input-group-sm">
                     <input type="text" class="form-control form-control-sm text-right" name="qtytoadd" value={{dataItem.QuantityToAdd|numberFormat}}
@@ -70,11 +70,11 @@
                 <div class="col-sm-4">
                     <div class="mt-3 clearfix" *ngIf="showSelection==true">
                     </div>
-                    <button id="btnDone" *ngIf="showSelection==true" (click)="Done()">Add</button>
+                    <button id="btnDone" *ngIf="showSelection==true" (click)="Done()">{{'CT_Add'|translate}}</button>
                 </div>
                 <div class="col-sm-4 mt-3" *ngIf="showSelection==true">
                     <div class="form-group row">
-                        <label for="partPerQty" class="col-sm-6 col-form-label">Quantity Required</label>
+                        <label for="partPerQty" class="col-sm-6 col-form-label">{{'Open_Qty'|translate}}</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="partPerQty" name="partPerQty"
                                 [ngModel]="partPerQty|numberFormat" (ngModelChange)="partPerQty=$event" disabled>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-sm-4 mt-3" *ngIf="showSelection==true">
                     <div class="form-group row">
-                        <label for="qtyAdded" class="col-sm-6 col-form-label">Quantity Allocated</label>
+                        <label for="qtyAdded" class="col-sm-6 col-form-label">{{'QtyAdded'|translate}}</label>
                         <div class="input-group col-sm-6">
                             <input type="text" class="form-control form-control-sm text-right" id="qtyAdded" name="qtyAdded"
                                 [ngModel]="qtyAdded|numberFormat" (ngModelChange)="qtyAdded=$event" disabled>
