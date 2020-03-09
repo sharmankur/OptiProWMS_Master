@@ -7,7 +7,7 @@
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Whs_User_GroupMapping'|translate}}
             </h3>
-            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
+            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupkey)="getGridItemClick($event)"
             (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
             (copyItem)="onCopyItemClick($event)"></app-lookup>
         </div>

@@ -130,9 +130,10 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
 
-  DeleteUserGroup(whsCode:String,whsZone:String,whsBinRange:String): Observable<any> {
+  DeleteUserGroup(optmId: String, whsCode:String,whsZone:String,whsBinRange:String): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
+        OPTM_ID :optmId,
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_WHSCODE:whsCode,
         OPTM_WHSEZONE:whsZone,
@@ -148,10 +149,11 @@ export class WhsUserGroupService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
 
-  updateWhsUserGroup(whsCode:String,whsZone:String,binRange:String,groupPicking:String,groupPacking:String,
+  updateWhsUserGroup(optm_id:String, whsCode:String,whsZone:String,binRange:String,groupPicking:String,groupPacking:String,
     groupPutAway:String, groupReciving:String,groupShipping:String, groupReturn:String,groupMove:String ): Observable<any> {
      let jObject = {
        Shipment: JSON.stringify([{
+        OPTM_ID:optm_id,
          CompanyDBId: localStorage.getItem("CompID") ,
          OPTM_WHSCODE: whsCode,
          OPTM_WHSEZONE: whsZone,

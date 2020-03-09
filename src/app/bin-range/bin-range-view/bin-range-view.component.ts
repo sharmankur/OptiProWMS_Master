@@ -84,6 +84,10 @@ export class BinRangeViewComponent implements OnInit {
   }
 
   OnDeleteSelected(event) {
+    if(event.length <= 0){
+      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+      return;
+    }
     this.event = event;
     this.dialogFor = "DeleteSelected";
     this.yesButtonText = this.translate.instant("yes");
