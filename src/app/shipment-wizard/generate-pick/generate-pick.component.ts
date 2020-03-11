@@ -1034,6 +1034,11 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          if(data.OUTPUT[0].RESULT == "Picklist created"){
+            this.toastr.success('', this.translate.instant("Picklist_Created_Msg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
