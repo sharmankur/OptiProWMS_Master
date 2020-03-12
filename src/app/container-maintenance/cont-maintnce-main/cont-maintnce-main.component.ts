@@ -128,12 +128,12 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  onContainerIdChange() {
-    if (this.containerId == undefined || this.containerId == "") {
+  onContainerCodeChange() {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.IsValidContainerId(this.containerId).subscribe(
+    this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -470,7 +470,7 @@ export class ContMaintnceMainComponent implements OnInit {
             if (data[0].RESULT == "Data Saved") {
               this.toastr.success('', data[0].RESULT)
               //this.toastr.success('', "ContainerCancelledMsg")
-              this.onContainerIdChange();
+              this.onContainerCodeChange();
             } else {
               this.toastr.error('', data[0].RESULT)
             }
