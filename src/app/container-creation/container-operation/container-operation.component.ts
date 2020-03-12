@@ -17,7 +17,7 @@ import { ContMaintnceComponent } from 'src/app/container-maintenance/cont-maintn
 })
 export class ContainerOperationComponent implements OnInit {
 
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   showLookup: boolean = false;
   serviceData: any[];
   lookupfor: string;

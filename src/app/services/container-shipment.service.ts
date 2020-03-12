@@ -62,10 +62,13 @@ export class ContainerShipmentService {
   }
 
   AssignContainerToShipment(oSaveArray:any){
-
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignContainerstoShipment", jObject, this.commonService.httpOptions);
+  }
+
+  RemoveShipmentFromContainer(oSaveArray:any){
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveShipmentFromContainer", jObject, this.commonService.httpOptions);
   }
   
 }

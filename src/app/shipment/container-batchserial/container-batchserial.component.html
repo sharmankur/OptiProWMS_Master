@@ -107,10 +107,14 @@
                     <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
                     <!-- <div class="card-body"> -->
                         <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
-                            [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterUser
+                            [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=FilterColumnView
                             [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
                             <ng-template kendoGridToolbarTemplate> 
-                                <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>                                       
+                                <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>   
+                                <label class="custom-checkbox mb-0 mr-2 filter-checkbox">                                            
+                                    <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ContainerBatchSerials)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" />
+                                    <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_filter'|translate}}</label>
+                                </label>                                    
                               </ng-template>
                             <kendo-grid-column field="Selected" width="25" title="{{'Select'|translate}}">
                                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -192,7 +196,7 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
 
                 <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>             
 
             </div>
         </div>
