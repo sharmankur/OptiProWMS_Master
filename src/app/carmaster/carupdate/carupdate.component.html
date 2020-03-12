@@ -157,7 +157,7 @@
                                         #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
                                 </ng-template>
                             </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="{{'Action'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-center" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>
