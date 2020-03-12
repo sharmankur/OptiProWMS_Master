@@ -6,6 +6,7 @@ import { ContainerCreationService } from '../../services/container-creation.serv
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-container-shipment',
@@ -44,10 +45,11 @@ export class ContainerShipmentComponent implements OnInit {
   SelectedRowsforShipmentArr = [];
   ShowGridPaging: boolean = false;
   pageSize: number = Commonservice.pageSize;
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   oSaveModel: any = {};
   WOId: string = "";
   SOId: string = "";
+  isColumnFilterView: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) { }
@@ -60,6 +62,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
+    this.isColumnFilterView = false;
 
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
@@ -89,6 +92,7 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   fillDataInGridWithShipment() {
+    this.isColumnFilterView = false;
     this.showLoader = true;
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
       this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId).subscribe(
@@ -435,11 +439,22 @@ export class ContainerShipmentComponent implements OnInit {
 
   selectContainerRowChange(isCheck, dataitem, idx) {
     if (isCheck) {
-      this.ContainerItems[idx].Selected = true;
-      this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTCODE);
+      for(let i=0; i<this.ContainerItems.length; i++){
+        if(this.ContainerItems[i].OPTM_CONTCODE == dataitem.OPTM_CONTCODE){
+          this.ContainerItems[i].Selected = true;
+        }
+      }     
+      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTCODE);
+      if (index == -1){
+        this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTCODE);
+      }
     }
     else {
-      this.ContainerItems[idx].Selected = false;
+      for(let i=0; i<this.ContainerItems.length; i++){
+        if(this.ContainerItems[i].OPTM_CONTCODE == dataitem.OPTM_CONTCODE){
+          this.ContainerItems[i].Selected = false;          
+        }
+      } 
       var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTCODE);
       if (index > -1)
         this.SelectedRowsforShipmentArr.splice(index, 1);
@@ -472,8 +487,8 @@ export class ContainerShipmentComponent implements OnInit {
       }
     }
   }
-
-  onAssignShipmentPress() {
+   
+  onShipmentBtnPress(action) {
 
     if (!this.IsShipment) {
       if (this.ShipmentId == "" || this.ShipmentId == undefined || this.ShipmentId == null) {
@@ -525,39 +540,75 @@ export class ContainerShipmentComponent implements OnInit {
     //   map['Container_Id'] = this.SelectedRowsforShipmentArr[i];
     //   tempArr.push(map);
     // }   
-
-    this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          if (data.length > 0) {
-            if (data[0].RESULT != '' && data[0].RESULT != null) {
-              this.toastr.error('', data[0].RESULT);
+    
+    if(action == 'Assign'){
+      this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
             }
-            else {
-              this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
-              this.fillDataInGridWithShipment();
+            if (data.length > 0) {
+              if (data[0].RESULT != '' && data[0].RESULT != null) {
+                this.toastr.error('', data[0].RESULT);
+              }
+              else {
+                this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
+                this.fillDataInGridWithShipment();
+              }
             }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+      );
+    }
+    else{
+      this.containerShipmentService.RemoveShipmentFromContainer(oSaveData).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            if (data.length > 0) {
+              if (data[0].RESULT != '' && data[0].RESULT != null) {
+                this.toastr.error('', data[0].RESULT);
+              }
+              else {
+                this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
+                this.fillDataInGridWithShipment();
+              }
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
+    }    
   }
 
   // getWorkOrders() {
@@ -658,6 +709,15 @@ export class ContainerShipmentComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  onFilterChange(checkBox:any,grid:GridComponent){
+    if(checkBox.checked==false){
+      this.clearFilter(grid);
+    }
+  }
 
+  clearFilter(grid:GridComponent){      
+    //grid.filter.filters=[];    
+    //this.clearFilters();
+  }
 
 }

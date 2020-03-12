@@ -42,7 +42,7 @@ export class ShipmentViewComponent implements OnInit {
   ShipContainers: any[] = [];
   ContItems: any[] = [];
   ShipLineDetails: any[] = [];
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   shiment_status_array: any[] = [];
   Container_status_array: any[] = [];
   shiment_lines_status_array: any[] = [];
