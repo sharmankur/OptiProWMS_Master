@@ -419,9 +419,11 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((soNum == "" || soNum == null || soNum == undefined) && (event == 'blur')) {
       return;
     }
+    let uc;
+    uc = this.UseContainer == true ? "Y":"N";
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup(this.UseContainer, soNum).subscribe(
+    this.commonservice.GetDataForSalesOrderLookup(uc, soNum).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -450,9 +452,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             }
           } else {
             this.serviceData = data;
-            if (fieldName == "SrNO") {
+            if (fieldName == "SONoFrom") {
               this.lookupfor = "SerialNoFrom";
-            } else if (fieldName == "SrNOTO") {
+            } else if (fieldName == "SONoTo") {
               this.lookupfor = "SerialNoTo";
             }
           }
