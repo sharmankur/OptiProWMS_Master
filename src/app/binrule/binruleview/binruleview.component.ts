@@ -117,13 +117,13 @@ export class BinruleviewComponent implements OnInit {
     localStorage.setItem("binRule_ROW", JSON.stringify(event));    
     localStorage.setItem("brAction", "update");
     //it means we dont need to redirect on its click.
-    this.IsValidBinRule(event[0], event[3], event[4],event[2]);
+    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE,event.OPTM_PURPOSE);
   }
 
   onCopyItemClick(event) {
     localStorage.setItem("binRule_ROW", JSON.stringify(event));  
     localStorage.setItem("brAction", "copy");  
-    this.IsValidBinRule(event[0], event[3], event[4],event[2]);
+    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE,event.OPTM_PURPOSE);
   }
 
   OnCancelClick() {
@@ -137,6 +137,11 @@ export class BinruleviewComponent implements OnInit {
   }
 
   OnDeleteSelected(event){
+    if (event.length <= 0) {
+      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+      return;
+    }
+    
     this.event = event;
     this.dialogFor = "DeleteSelected";
     this.yesButtonText = this.translate.instant("yes");

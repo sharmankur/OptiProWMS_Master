@@ -377,6 +377,8 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column field="WhsCode" width="120" title="{{'WHSCODE'|translate}}">
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="U_OPTM_SHP_CONTTYPE" width="120" title="{{'SHP_CONTTYPE'|translate}}">
+                                        </kendo-grid-column>                                    
                                 </kendo-grid>
                             </div>
                             <!-- STEP 2 END -->
@@ -425,18 +427,18 @@
                                         </ng-template>
                                     </kendo-grid-checkbox-column>
 
-                                    <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
-                                    <kendo-grid-column field="Customer" title="{{'Customer'|translate}}">
+                                    <kendo-grid-column field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="CUSTOMER" title="{{'Customer'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Warehouse_Code" title="{{'WHSCODE'|translate}}">
+                                    <kendo-grid-column field="WAREHOUSE_CODE" title="{{'WHSCODE'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Ship_To" title="{{'ShipTo'|translate}}">
+                                    <kendo-grid-column field="Ship_To" title="{{'SHIP_TO'|translate}}">
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
-                                            <kendo-grid-column field="Shipment_Id" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
-                                            <kendo-grid-column field="Item_Code" title="{{'ItemCode'|translate}}">
+                                            <kendo-grid-column field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
+                                            <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
                                             <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
 
