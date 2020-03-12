@@ -34,7 +34,7 @@ export class ContainerOperationComponent implements OnInit {
   oSaveModel: any;
   containerType: string;
   binCode: string;
-  containerId: string;
+  @Input() containerId: string;
   containerMaxWgt: number = 0;
   containerWgt: number = 0;
   packingRule: string;
@@ -69,7 +69,13 @@ export class ContainerOperationComponent implements OnInit {
 
     // var data = localStorage.getItem("ContainerOperationData");
     // this.oSaveModel = JSON.parse(data);
-    this.GetParentContainer();
+
+    if (this.from == "CMaintenance") {
+      this.containerId = localStorage.getItem("ContainerId")
+      this.onContainerIdChange("parent")
+    } else {
+      this.GetParentContainer();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -80,7 +86,7 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onCancelClick() {
-    if(this.from == "CMaintenance"){
+    if (this.from == "CMaintenance") {
       this.contMaintenance.cmComponent = 1;
     } else {
       this.ccmain.ccComponent = 1;
@@ -102,7 +108,7 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onItemCodeChange() {
-    if((this.itemCode == undefined || this.itemCode == "")){
+    if ((this.itemCode == undefined || this.itemCode == "")) {
       return;
     }
     this.showLoader = true;
@@ -402,6 +408,19 @@ export class ContainerOperationComponent implements OnInit {
             this.itemCode = data[0].ITEMCODE
             if (from == 'parent') {
               this.containerId = data[0].OPTM_CONTAINERID;
+              this.containerId = data[0].OPTM_CONTAINERID;
+              this.containerCode = data[0].OPTM_CONTCODE;
+              this.containerType = data[0].OPTM_CONTTYPE;
+              this.containerUsage = (data[0].OPTM_SHIPELIGIBLE == "Y") ? this.translate.instant("Shipping") : this.translate.instant("Internal")
+              this.packingRule = data[0].OPTM_AUTORULEID;
+              this.whseCode = data[0].OPTM_WHSE;
+              this.binCode = data[0].OPTM_BIN;
+              if (data[0].OPTM_WEIGHT == undefined || data[0].OPTM_WEIGHT == "") {
+                this.containerWgt = 0.0;
+              }
+              else {
+                this.containerWgt = data[0].OPTM_WEIGHT;
+              }
             } else {
               this.childContainerId = data[0].OPTM_CONTAINERID;
             }

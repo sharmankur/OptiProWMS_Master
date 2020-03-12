@@ -1039,7 +1039,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        CONTAINERIDS: containerId
+        OPTM_CONTCODE: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseClick", jObject, this.httpOptions);
@@ -1049,7 +1049,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTAINERID: containerId
+        CONTAINERID: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenClick", jObject, this.httpOptions);
@@ -1059,9 +1059,19 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTAINERID: containerId
+        CONTAINERID: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/DamagedClick", jObject, this.httpOptions);
+  }
+
+  CancelClick(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINERID: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CancelContainer", jObject, this.httpOptions);
   }
 }
