@@ -692,35 +692,39 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
 
-  GetDataForSalesOrderLookup(UseContainer): Observable<any> {
+  GetDataForSalesOrderLookup(UseContainer, OPTM_SONUMBER): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        UseContainer: UseContainer
+        UseContainer: UseContainer,
+        OPTM_SONUMBER: OPTM_SONUMBER
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataSalesOrderLookup", jObject, this.httpOptions);
   }
-  GetDataForCustomerLookup(): Observable<any> {
+  GetDataForCustomerLookup(OPTM_CUSTOMERCODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CUSTOMERCODE: OPTM_CUSTOMERCODE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetCustomerLookup", jObject, this.httpOptions);
   }
-  GetDataForItemCodeLookup(): Observable<any> {
+  GetDataForItemCodeLookup(OPTM_ITEMCODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_ITEMCODE: OPTM_ITEMCODE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetItemCodeLookup", jObject, this.httpOptions);
   }
-  GetDataForWHSLookup(): Observable<any> {
+  GetDataForWHSLookup(OPTM_WHSCODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSCODE: OPTM_WHSCODE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetWHSELookup", jObject, this.httpOptions);
@@ -948,10 +952,11 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCarrier", jObject, this.httpOptions);
   }
 
-  GetShipToAddress(): Observable<any> {
+  GetShipToAddress(OPTM_SHIPTO): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPTO: OPTM_SHIPTO
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
@@ -1039,7 +1044,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        CONTAINERIDS: containerId
+        OPTM_CONTCODE: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseClick", jObject, this.httpOptions);
@@ -1049,7 +1054,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTAINERID: containerId
+        CONTAINERID: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenClick", jObject, this.httpOptions);
@@ -1059,9 +1064,19 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTAINERID: containerId
+        CONTAINERID: containerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/DamagedClick", jObject, this.httpOptions);
+  }
+
+  CancelClick(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINERID: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CancelContainer", jObject, this.httpOptions);
   }
 }

@@ -53,6 +53,7 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onContainerOperationClick() {
+    localStorage.setItem("ContainerId", this.containerId)
     localStorage.setItem("From", "CMaintenance")
     this.contMaintenance.cmComponent = 2;
   }
@@ -351,11 +352,11 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onCloseClick() {
-    if (this.containerId == undefined || this.containerId == "") {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CloseClick(this.containerId).subscribe(
+    this.commonservice.CloseClick(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -430,6 +431,46 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
 
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onSetCancelClick() {
+    if (this.containerId == undefined || this.containerId == "") {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.CancelClick(this.containerId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', data[0].RESULT)
+              //this.toastr.success('', "ContainerCancelledMsg")
+              this.onContainerIdChange();
+            } else {
+              this.toastr.error('', data[0].RESULT)
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
