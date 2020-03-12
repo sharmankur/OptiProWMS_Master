@@ -1,4 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 // ng build --prod --base-href=/OptiProERPWMS/
 //1. ng build --base-href=/OptiProERPShipment/
 //2. add OptiProERPWMS in css path in index.html
@@ -20,6 +21,15 @@ export class CommonData {
     public href: any = window.location.href;
     public application_path = this.get_current_url();
     public commonGridPageSize = 10;
+
+    constructor(private translate: TranslateService) {
+        let userLang = navigator.language.split('-')[0];
+        userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+        translate.use(userLang);
+        translate.onLangChange.subscribe(() => {
+        });
+      }
+
 
     public get_current_url() {
         let temp: any = this.href.substring(0, this.href.lastIndexOf('/'));
@@ -61,9 +71,9 @@ export class CommonData {
     ];
 
     public opertions: any = [
-        { "value": 1, "Name": "No Operation" },
-        { "value": 2, "Name": "Increase" },
-        { "value": 3, "Name": "Decrease" }
+        { "value": 1, "Name": this.translate.instant("No_Operation")},
+        { "value": 2, "Name": this.translate.instant("Increase")},
+        { "value": 3, "Name": this.translate.instant("Decrease")}
     ];
 
     public bom_type: any = [
@@ -170,45 +180,45 @@ export class CommonData {
     container_creation_purpose_string_dropdown() {
         // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-            { "Value": 1, "Name": "Shipping" },
-            { "Value": 2, "Name": "Internal" }
+            { "Value": 1, "Name": this.translate.instant("Shipping") },
+            { "Value": 2, "Name": this.translate.instant("Internal") }
         ];
     }
 
     container_use_array() {
         // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-            { "Value": 1, "Name": "Shipping" },
-            { "Value": 2, "Name": "Internal" },
-            { "Value": 3, "Name": "Both" }
+            { "Value": 1, "Name": this.translate.instant("Shipping") },
+            { "Value": 2, "Name": this.translate.instant("Internal") },
+            { "Value": 3, "Name": this.translate.instant("Both") }
         ];
     }
 
     container_creation_create_mode_string_dropdown() {
         // let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-            { "Value": 1, "Name": "Auto Rule Based" },
-            { "Value": 2, "Name": "Manual Rule Based" },
-            { "Value": 3, "Name": "Manual" }
+            { "Value": 1, "Name": this.translate.instant("Auto_Rule_Based") },
+            { "Value": 2, "Name": this.translate.instant("Manual_Rule_Based") },
+            { "Value": 3, "Name": this.translate.instant("Manual") }
         ];
     }
 
     shiment_status_array() {
         return [
-            { "Value": 1, "Name": "New" },
-            { "Value": 2, "Name": "Scheduled" },
-            { "Value": 3, "Name": "Part Allocated" },
-            { "Value": 4, "Name": "Allocated" },
-            { "Value": 5, "Name": "Picking" },
-            { "Value": 6, "Name": "Picked" },
-            { "Value": 7, "Name": "Ship Staged" },
-            { "Value": 8, "Name": "Unstaged" },
-            { "Value": 9, "Name": "Loaded on truck" },
-            { "Value": 10, "Name": "Shipped" },
-            { "Value": 11, "Name": "Part Returned" },
-            { "Value": 12, "Name": "Returned" },
-            { "Value": 13, "Name": "Return Accepted" },
-            { "Value": 14, "Name": "Cancelled" }
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("CScheduledNew") },
+            { "Value": 3, "Name": this.translate.instant("Part_Allocated") },
+            { "Value": 4, "Name": this.translate.instant("Allocated") },
+            { "Value": 5, "Name": this.translate.instant("Picking") },
+            { "Value": 6, "Name": this.translate.instant("Picked") },
+            { "Value": 7, "Name": this.translate.instant("Ship_Staged") },
+            { "Value": 8, "Name": this.translate.instant("Unstaged") },
+            { "Value": 9, "Name": this.translate.instant("Loaded_on_truck") },
+            { "Value": 10, "Name": this.translate.instant("CShippedNew")},
+            { "Value": 11, "Name": this.translate.instant("Part_Returned") },
+            { "Value": 12, "Name": this.translate.instant("Returned") },
+            { "Value": 13, "Name": this.translate.instant("Return_Accepted") },
+            { "Value": 14, "Name": this.translate.instant("CCancelledNew") }
         ];
     }
 
@@ -231,69 +241,69 @@ export class CommonData {
 
     Container_Status_DropDown() {
         return [
-            { "Value": 1, "Name": "New" },
-            { "Value": 2, "Name": "Open" },
-            { "Value": 3, "Name": "Closed" },
-            { "Value": 4, "Name": "Reopened" },
-            { "Value": 5, "Name": "Assigned" },
-            { "Value": 6, "Name": "Shipped" },
-            { "Value": 7, "Name": "Returned" },
-            { "Value": 8, "Name": "Damaged" },
-            { "Value": 9, "Name": "Cancelled" }
+            { "Value": 1, "Name": this.translate.instant("CStatusNew")},
+            { "Value": 2, "Name": this.translate.instant("Open")},
+            { "Value": 3, "Name": this.translate.instant("CClosedNew")},
+            { "Value": 4, "Name": this.translate.instant("CReopenedNew")},
+            { "Value": 5, "Name": this.translate.instant("CAssignedNew")},
+            { "Value": 6, "Name": this.translate.instant("CShippedNew")},
+            { "Value": 7, "Name": this.translate.instant("Returned")},
+            { "Value": 8, "Name": this.translate.instant("CDamagedNew")},
+            { "Value": 9, "Name": this.translate.instant("CCancelledNew")}
         ];
     }
 
     Container_Shipment_Inv_Status_DropDown() {
         return [
-            { "Value": 1, "Name": "Pending" },
-            { "Value": 2, "Name": "Posted" }
+            { "Value": 1, "Name": this.translate.instant("InvStatusPending") },
+            { "Value": 2, "Name": this.translate.instant("InvStatusPosted") }
         ];
     }
 
     Container_Shipment_Status_DropDown() {
         return [
-            { "Value": 1, "Name": "New" },
-            { "Value": 2, "Name": "Open" },
-            { "Value": 3, "Name": "Closed" },
-            { "Value": 4, "Name": "Reopened" },
-            { "Value": 5, "Name": "Assigned" },
-            { "Value": 6, "Name": "Shipped" },
-            { "Value": 7, "Name": "Returned" },
-            { "Value": 8, "Name": "Damaged" },
-            { "Value": 9, "Name": "Cancelled" }
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("Open") },
+            { "Value": 3, "Name": this.translate.instant("CClosedNew") },
+            { "Value": 4, "Name": this.translate.instant("CReopenedNew") },
+            { "Value": 5, "Name": this.translate.instant("CAssignedNew") },
+            { "Value": 6, "Name": this.translate.instant("CShippedNew") },
+            { "Value": 7, "Name": this.translate.instant("Returned") },
+            { "Value": 8, "Name": this.translate.instant("CDamagedNew") },
+            { "Value": 9, "Name": this.translate.instant("CCancelledNew") }
         ];
     }
     
 
     Shipment_Lines_Status_DropDown() {
         return [
-            { "Value": 1, "Name": "New" },
-            { "Value": 2, "Name": "Part Allocated" },
-            { "Value": 3, "Name": "Allocated" },
-            { "Value": 4, "Name": "Pick Generated" },
-            { "Value": 5, "Name": "Pick Released" },
-            { "Value": 6, "Name": "Part Picked" },
-            { "Value": 7, "Name": "Picked" },
-            { "Value": 8, "Name": "Shipped" },
-            { "Value": 9, "Name": "Cancelled" }
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("Part_Allocated") },
+            { "Value": 3, "Name": this.translate.instant("Allocated") },
+            { "Value": 4, "Name": this.translate.instant("Pick_Generated") },
+            { "Value": 5, "Name": this.translate.instant("Pick_Released") },
+            { "Value": 6, "Name": this.translate.instant("Part_Picked") },
+            { "Value": 7, "Name": this.translate.instant("Picked") },
+            { "Value": 8, "Name": this.translate.instant("CShippedNew") },
+            { "Value": 9, "Name": this.translate.instant("CCancelledNew") }
         ];
     }
 
     Container_Operation_Add_Items() {
         return [
-            { "Value": 1, "Name": "Add" },
-            { "Value": 2, "Name": "Remove" },
-            { "Value": 3, "Name": "Query" },
-            { "Value": 4, "Name": "Delete Item" },
-            { "Value": 5, "Name": "Delete All Items" }
+            { "Value": 1, "Name": this.translate.instant("Add") },
+            { "Value": 2, "Name": this.translate.instant("Remove") },
+            { "Value": 3, "Name": this.translate.instant("Query") },
+            { "Value": 4, "Name": this.translate.instant("Delete_Item") },
+            { "Value": 5, "Name": this.translate.instant("Delete_All_Items") }
         ];
     }
 
     Container_Operation_Add_Container(){
         return [
-            { "Value": 1, "Name": "Add" },
-            { "Value": 2, "Name": "Remove" },
-            { "Value": 3, "Name": "Delete All" }
+            { "Value": 1, "Name": this.translate.instant("Add") },
+            { "Value": 2, "Name": this.translate.instant("Remove") },
+            { "Value": 3, "Name": this.translate.instant("Delete_All") }
         ];
     }
 

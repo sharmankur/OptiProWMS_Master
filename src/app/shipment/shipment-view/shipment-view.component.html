@@ -16,7 +16,7 @@
                                     <label for="ShipmentCode" class="col-sm-4 col-form-label">{{'Shipment_Code'|translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='ShipmentCode' [(ngModel)]=ShipmentCode id="ShipmentCode">
+                                            <input type="text" class="form-control form-control-sm" name='ShipmentCode' [(ngModel)]=ShipmentCode id="ShipmentCode" (blur)="IsValidShipmentCode()">
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
                                                     <i class="opti-icon-search"></i>
