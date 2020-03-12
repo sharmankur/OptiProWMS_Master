@@ -693,7 +693,7 @@
   "Container_Code": "Container Code",
   "Contains_Item": "Contains Item",
   "Select_Shipment": "Select Shipment",
-  "Purpose": "Ship/Internal",
+  "Purpose": "Purpose",
   "Warehouse": "Warehouse",
   "Assign_to_shipment": "Assign to shipment",
   "Remove_from_shipment": "Remove from shipment",
@@ -973,7 +973,8 @@
   "Delete_All": "Delete All",
   "SHP_CONTTYPE": "Shipment Container Type",
   "Picklist_Created_Msg": "Picklist Created Sucessfully.",
-
+  "CancelContainer": "Cancel Container",
+  "CloseContainer": "Close Container",
   "Dummy": "Dummy"
   
 }
