@@ -28,10 +28,11 @@ export class ContMaintnceMainComponent implements OnInit {
   binCode: any;
   inventoryStatus: any;
   weight: any;
-  shipEligible: any;
+  purpose: any;
   volume: any;
   containerItems: any = []
   pageSize: number = 10
+  pageable: boolean = false;
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
@@ -90,7 +91,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   containerStatusEnum: any;
   inventoryStatusEnum: any;
-  shipEligibleEnum: any;
+  purposeEnum: any;
   getLookupDataValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {
@@ -102,7 +103,7 @@ export class ContMaintnceMainComponent implements OnInit {
         this.containerId = $event.OPTM_CONTAINERID;
         this.containerCode = $event.OPTM_CONTCODE;
         this.containerStatusEnum = $event.OPTM_STATUS
-        this.shipEligibleEnum = $event.OPTM_SHIPELIGIBLE
+        this.purposeEnum = $event.OPTM_SHIPELIGIBLE
         this.packProcess = $event.OPTM_BUILT_SOURCE
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
         this.warehouse = $event.OPTM_WHSE
@@ -120,19 +121,19 @@ export class ContMaintnceMainComponent implements OnInit {
         // }
         this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
         this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
-        this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+        this.purpose = this.getShipEligible(this.purposeEnum);
         this.packProcess = this.getBuiltProcess(this.packProcessEnum);
         this.getItemAndBSDetailByContainerId()
       }
     }
   }
 
-  onContainerIdChange() {
-    if (this.containerId == undefined || this.containerId == "") {
+  onContainerCodeChange() {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.IsValidContainerId(this.containerId).subscribe(
+    this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -149,7 +150,7 @@ export class ContMaintnceMainComponent implements OnInit {
             this.containerId = data[0].OPTM_CONTAINERID;
             this.containerCode = data[0].OPTM_CONTCODE
             this.containerStatusEnum = data[0].OPTM_STATUS
-            this.shipEligibleEnum = data[0].OPTM_SHIPELIGIBLE
+            this.purposeEnum = data[0].OPTM_SHIPELIGIBLE
             this.inventoryStatusEnum = data[0].OPTM_INV_STATUS
             this.warehouse = data[0].OPTM_WHSE
             this.binCode = data[0].OPTM_BIN
@@ -158,7 +159,7 @@ export class ContMaintnceMainComponent implements OnInit {
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
-            this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+            this.purpose = this.getShipEligible(this.purposeEnum);
             this.packProcess = this.getBuiltProcess(this.packProcessEnum);
             this.getItemAndBSDetailByContainerId()
           }
@@ -267,6 +268,9 @@ export class ContMaintnceMainComponent implements OnInit {
             this.toastr.error('', this.translate.instant("InvalidContainerId"));
           } else {
             this.containerItems = data.ItemDeiail
+            if(this.containerItems.length > 10){
+              this.pageable = true
+            }
             this.prepareDataForGrid();
             var batchSerailsData = data.BtchSerDeiail
             for (var i = 0; i < this.containerItems.length; i++) {
@@ -466,7 +470,7 @@ export class ContMaintnceMainComponent implements OnInit {
             if (data[0].RESULT == "Data Saved") {
               this.toastr.success('', data[0].RESULT)
               //this.toastr.success('', "ContainerCancelledMsg")
-              this.onContainerIdChange();
+              this.onContainerCodeChange();
             } else {
               this.toastr.error('', data[0].RESULT)
             }

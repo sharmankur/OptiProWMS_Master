@@ -692,11 +692,11 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
   }
 
-  GetDataForSalesOrderLookup(UseContainer, OPTM_SONUMBER): Observable<any> {
+  GetDataForSalesOrderLookup(OPTM_CONTUSE, OPTM_SONUMBER): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        UseContainer: UseContainer,
+        OPTM_CONTUSE: OPTM_CONTUSE,
         OPTM_SONUMBER: OPTM_SONUMBER
       }])
     };

@@ -976,7 +976,9 @@
   "Manufacturing": "Manufacturing",
   "Received_From_Vendor": "Received From Vendor",
   "Packed_In_WareHouse": "Packed In WareHouse",
-
+  "CancelContainer": "Cancel Container",
+  "CloseContainer": "Close Container",
+  
   "Dummy": "Dummy"
   
 }
