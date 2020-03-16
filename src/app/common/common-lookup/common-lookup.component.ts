@@ -351,13 +351,14 @@ export class CommonLookupComponent implements OnInit {
         title: 'SO#',
         type: 'numeric',
         width: '100'
-      },
-      {
-        field: 'DocNum',
-        title: 'Doc Num',
-        type: 'date',
-        width: '100'
       }
+      //,
+      // {
+      //   field: 'DocNum',
+      //   title: 'Doc Num',
+      //   type: 'date',
+      //   width: '100'
+      // }
     ];
 
     this.lookupTitle = this.translate.instant("SalesOrderList");

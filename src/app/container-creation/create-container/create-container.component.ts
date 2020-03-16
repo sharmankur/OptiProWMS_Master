@@ -70,7 +70,7 @@ export class CreateContainerComponent implements OnInit {
   SelectedWOItemCode: any= '';
   partsQty: any = 0;
   RemQtyWO: any = 0;
-  ContStatus: any = "";//'New';
+  ContStatus: any = "New";
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
   
@@ -104,6 +104,7 @@ export class CreateContainerComponent implements OnInit {
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
+    this.ContStatus = "New";
     // this.GetContainerNumber();    
   }
 
