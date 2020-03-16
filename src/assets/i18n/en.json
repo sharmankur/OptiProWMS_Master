@@ -113,8 +113,8 @@
 
   "PT_ShipmentList": "Shipment List",
   "PT_ShipmentId": "Shipment Id",
-  "PT_ShipmentIdFrom": "Shipment Id From",
-  "PT_ShipmentIdTo": "Shipment Id To",
+  "PT_ShipmentIdFrom": "Shipment Code From",
+  "PT_ShipmentIdTo": "Shipment Code To",
   "WorkOrderFrom": "Work Order Id From",
   "WorkOrderTo": "Work Order Id To",  
   "PT_Customer": "Customer",
@@ -895,7 +895,7 @@
   "Batch_Picking":"Batch Picking",
   "Cluster_Picking":"Cluster Picking",
   "Container_Picking":"Container Picking",
-  "Discreate_Picking":"Discreate Picking",
+  "Discreate_Picking":"Discrete Picking",
   "Zone_Picking":"Zone Picking",
 
   "PickToTote":"Pick To Tote",
@@ -978,7 +978,7 @@
   "Packed_In_WareHouse": "Packed In WareHouse",
   "CancelContainer": "Cancel Container",
   "CloseContainer": "Close Container",
-  
+
   "Dummy": "Dummy"
   
 }

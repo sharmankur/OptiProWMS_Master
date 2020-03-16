@@ -51,6 +51,7 @@ export class ContainerShipmentComponent implements OnInit {
   SOId: string = "";
   isColumnFilterView: boolean = false;
   ContainerBuildSourceArray: any = [];
+  //statusArrMulti: any = [];
   
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) { 
@@ -70,6 +71,11 @@ export class ContainerShipmentComponent implements OnInit {
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
     this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
     this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
+    
+    // this.statusArrMulti = [];
+    // for(let i=0; i<this.statusArray.length; i++){
+    //   this.statusArrMulti.push(this.statusArray[i].Name);
+    // }   
 
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
@@ -311,6 +317,26 @@ export class ContainerShipmentComponent implements OnInit {
   onStatusChange($event) {
     this.StatusValue = $event.Value;
   }
+
+  // onStatusChange($event) {    
+  //   if($event.length == 1) {
+  //     this.StatusValue = $event[0].Value;
+  //   } 
+  //   else if($event.length == 0){
+  //     this.StatusValue = "";
+  //   }
+  // }
+
+  // open($event){
+  //   if(this.StatusValue != "" && this.StatusValue != undefined){
+  //     $event.preventDefault();
+  //   }    
+  // }
+
+
+  // blurMultiSelect($event){   
+
+  // }
 
   onInvPostStatusChange($event) {
     this.InvPostStatusValue = $event.Value;

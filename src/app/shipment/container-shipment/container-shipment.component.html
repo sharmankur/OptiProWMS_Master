@@ -108,6 +108,12 @@
                                     <div class="input-group input-group-sm">
                                         <kendo-dropdownlist class="form-control form-control-sm" [data]="statusArray" textField="Name" valueField="Value" id="status"
                                             name="status" [(ngModel)]="StatusId" #selectedvalue (selectionChange)="onStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
+                                         <!-- <kendo-multiselect [data]="statusArrMulti" [filterable]="true" (valueChange)="valueChange($event)" (filterChange)="filterChange($event)" (open)="open()" (close)="close()" (focus)="focus()" (blur)="blur()">
+                                        </kendo-multiselect> -->
+
+                                        <!-- <kendo-multiselect #selectedvalue [data]="statusArray" [textField]="'Name'" [valueField]="'Value'" [(ngModel)]="StatusId" [valueNormalizer]="valueNormalizer" [allowCustom]="true"  
+                                         [disabled]="IsShipment" (valueChange)="onStatusChange($event)" (blur)="blurMultiSelect($event)" (open)="open($event)" (filterChange)="filterChange($event)">
+                                        </kendo-multiselect> -->
                                     </div>
                                 </div>
                             </div>
