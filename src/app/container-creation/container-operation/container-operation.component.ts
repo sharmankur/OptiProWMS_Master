@@ -47,7 +47,7 @@ export class ContainerOperationComponent implements OnInit {
   containerCode: string = "";
   itemBatchSr: any;
   from: any;
-
+  disableCCodeField: boolean = false;
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private ccmain: CcmainComponent, private contMaintenance: ContMaintnceComponent) {
@@ -73,6 +73,7 @@ export class ContainerOperationComponent implements OnInit {
     // this.oSaveModel = JSON.parse(data);
 
     if (this.from == "CMaintenance") {
+      this.disableCCodeField = true
       this.containerId = localStorage.getItem("ContainerId")
       this.containerCode = localStorage.getItem("ContainerCode")
       this.onContainerCodeChange("parent")
@@ -290,6 +291,8 @@ export class ContainerOperationComponent implements OnInit {
   ruleID: any;
   partPerQty: any;
   fillPerQty: any;
+  containerStatusEnum: any;
+  containerStatus: any;
   getLookupData($event) {
     if ($event != null && $event == "close") {
       this.showLookup = false;
@@ -309,13 +312,14 @@ export class ContainerOperationComponent implements OnInit {
         this.packingRule = $event.OPTM_AUTORULEID;
         this.whseCode = $event.OPTM_WHSE;
         this.binCode = $event.OPTM_BIN;
+        this.containerStatusEnum = $event.OPTM_STATUS
         if ($event.OPTM_WEIGHT == undefined || $event.OPTM_WEIGHT == "") {
           this.containerWgt = 0.0;
         }
         else {
           this.containerWgt = $event.OPTM_WEIGHT;
         }
-
+        this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
       } else {
         this.childContainerId = $event.OPTM_CONTAINERID;
         this.childContainerCode =  $event.OPTM_CONTCODE;
@@ -428,12 +432,14 @@ export class ContainerOperationComponent implements OnInit {
               this.packingRule = data[0].OPTM_AUTORULEID;
               this.whseCode = data[0].OPTM_WHSE;
               this.binCode = data[0].OPTM_BIN;
+              this.containerStatusEnum = data[0].OPTM_STATUS
               if (data[0].OPTM_WEIGHT == undefined || data[0].OPTM_WEIGHT == "") {
                 this.containerWgt = 0.0;
               }
               else {
                 this.containerWgt = data[0].OPTM_WEIGHT;
               }
+              this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             } else {
               this.childContainerId = data[0].OPTM_CONTAINERID;
               this.childContainerCode =  data[0].OPTM_CONTCODE;
@@ -477,5 +483,34 @@ export class ContainerOperationComponent implements OnInit {
     this.itemQty = 0.0;
     this.containerMaxWgt = 0.0
     this.containerQty = 0.0
+  }
+
+  getContainerStatus(id) {
+    if (id == undefined || id == "") {
+      return //this.translate.instant("CStatusNew");
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("CStatusNew");
+    } else if (id == 2) {
+      return this.translate.instant("CScheduledNew");
+    } else if (id == 3) {
+      return this.translate.instant("CClosedNew");
+    } else if (id == 4) {
+      return this.translate.instant("CReopenedNew");
+    } else if (id == 5) {
+      return this.translate.instant("CAssignedNew");
+    } else if (id == 6) {
+      return this.translate.instant("CShippedNew");
+    } else if (id == 7) {
+      return this.translate.instant("CPickedNew");
+    } else if (id == 8) {
+      return this.translate.instant("CReturnNew");
+    } else if (id == 9) {
+      return this.translate.instant("CDamagedNew");
+    } else if (id == 10) {
+      return this.translate.instant("CCancelledNew");
+    }
   }
 }
