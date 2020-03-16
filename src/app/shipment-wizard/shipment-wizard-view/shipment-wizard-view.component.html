@@ -147,13 +147,7 @@
                                                         <input id="SrNoTo" type="Number" class="form-control form-control-sm"
                                                             name='SrNoTo' [(ngModel)]="SrNoTo" (blur)="GetDataForSalesOredr('SONoTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
-<<<<<<< HEAD
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                                (mousedown)="GetDataForSalesOredr('SrNOTO', 'lookup')"
-                                                                [disabled]=isUpdate>
-=======
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SONoTo', 'lookup')" [disabled]=isUpdate>
->>>>>>> 25b293a03eae969b726d338785d039ea01c21fe1
                                                                 <i class="opti-icon-search"></i>
                                                             </button>
                                                         </div>
@@ -494,12 +488,7 @@
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
-<<<<<<< HEAD
-                                            <kendo-grid-column field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}"
-                                                class="text-right"></kendo-grid-column>
-=======
                                             <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
->>>>>>> 25b293a03eae969b726d338785d039ea01c21fe1
                                             <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
                                             <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
