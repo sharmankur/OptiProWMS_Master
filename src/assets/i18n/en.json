@@ -975,6 +975,8 @@
   "Picklist_Created_Msg": "Picklist Created Sucessfully.",
   "CancelContainer": "Cancel Container",
   "CloseContainer": "Close Container",
+  "InvalidContainerCode": "Invalid container code",
+  "SameContainerValidMsg": "Parent and Child container should not same",
   "Dummy": "Dummy"
   
 }

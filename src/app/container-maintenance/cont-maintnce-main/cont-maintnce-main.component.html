@@ -16,10 +16,10 @@
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'ContainerCode'|translate}}"
-                                        name="containerCode" [(ngModel)]="containerCode" (blur)="onContainerCodeChange()">
+                                    <input type="text" class="form-control form-control-sm" id="containerCode" placeholder="{{'ContainerCode'|translate}}"
+                                        name="containerCode" [(ngModel)]="containerCode" (blur)="onContainerCodeChange(ccode.value)" #ccode>
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -121,7 +121,7 @@
                                 <label for="shipEligible" class="col-sm-3 col-form-label">{{'Purpose'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
                                     <input type="text" class="form-control form-control-sm" id="shipEligible"
-                                        name="shipEligible" [(ngModel)]="shipEligible"
+                                        name="shipEligible" [(ngModel)]="purpose"
                                         disabled>
                                 </div>
                             </div>

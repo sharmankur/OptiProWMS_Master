@@ -154,10 +154,11 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetSelectesdRuleItem", jObject, this.commonService.httpOptions);
   }
 
-  GetAllContainer(): Observable<any> {
+  GetAllContainer(containerCode): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERCODE: containerCode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
