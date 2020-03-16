@@ -307,6 +307,14 @@ export class CommonData {
         ];
     }
 
+    ContainerBuildSourceEnum(){
+        return [
+            { "Value": 1, "Name": this.translate.instant("Manufacturing") },
+            { "Value": 2, "Name": this.translate.instant("Received_From_Vendor") },
+            { "Value": 3, "Name": this.translate.instant("Packed_In_WareHouse") }
+        ];
+    }
+
     validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
 
         if(SelectedDataArray.length == 0){

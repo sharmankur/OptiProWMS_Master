@@ -1153,7 +1153,8 @@ export class CreateContainerComponent implements OnInit {
           this.binNo = ''
         }
         else {
-          this.binNo = resp[0].BinCode
+          this.binNo = resp[0].BinCode;
+          this.GetInventoryData();
         }
         result = true;
       },
