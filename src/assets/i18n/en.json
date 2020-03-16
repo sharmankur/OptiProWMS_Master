@@ -978,6 +978,8 @@
   "Packed_In_WareHouse": "Packed In WareHouse",
   "CancelContainer": "Cancel Container",
   "CloseContainer": "Close Container",
+  "InvalidContainerCode": "Invalid container code",
+  "SameContainerValidMsg": "Parent and Child container should not same",
 
   "Dummy": "Dummy"
   

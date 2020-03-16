@@ -22,7 +22,7 @@ export class ContMaintnceMainComponent implements OnInit {
   containerId: any;
   packProcessEnum: any;
   packProcess: any;
-  containerCode: any;
+  containerCode: any = "";
   warehouse: any;
   containerStatus: any;
   binCode: any;
@@ -42,7 +42,7 @@ export class ContMaintnceMainComponent implements OnInit {
     localStorage.setItem("From", "")
     this.contMaintenance.cmComponent = 1;
     this.ExpandCollapseBtn = "Expand All"
-    this.GetAllContainer()
+    // this.GetAllContainer('')
   }
 
   onCancelClick() {
@@ -55,13 +55,14 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onContainerOperationClick() {
     localStorage.setItem("ContainerId", this.containerId)
+    localStorage.setItem("ContainerCode", this.containerCode)
     localStorage.setItem("From", "CMaintenance")
     this.contMaintenance.cmComponent = 2;
   }
 
-  GetAllContainer() {
+  GetAllContainer(code) {
     this.showLoader = true;
-    this.containerCreationService.GetAllContainer().subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -128,12 +129,12 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  onContainerCodeChange() {
-    if (this.containerCode == undefined || this.containerCode == "") {
+  onContainerCodeChange(code) {
+    if (code == undefined || code == "") {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -144,8 +145,8 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length == 0) {
-            this.containerId = '';
-            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+            this.resetFields()
+            this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.containerId = data[0].OPTM_CONTAINERID;
             this.containerCode = data[0].OPTM_CONTCODE
@@ -177,6 +178,23 @@ export class ContMaintnceMainComponent implements OnInit {
         }
       }
     );
+  }
+
+  resetFields() {
+    this.containerId = '';
+    this.containerCode = '';
+    this.warehouse = '';
+    this.binCode = '';
+    this.weight = 0.0;
+    this.containerStatus = ''
+    this.inventoryStatus = ''
+    this.purpose = ''
+    this.packProcess = ''
+    this.packProcessEnum = ""
+    this.containerStatusEnum = ""
+    this.purposeEnum = ""
+    this.inventoryStatusEnum = ""
+    this.containerItems = []
   }
 
   getContainerStatus(id) {
@@ -264,11 +282,11 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length == 0) {
-            this.containerId = '';
-            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+            this.resetFields()
+            this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.containerItems = data.ItemDeiail
-            if(this.containerItems.length > 10){
+            if (this.containerItems.length > 10) {
               this.pageable = true
             }
             this.prepareDataForGrid();
@@ -470,7 +488,7 @@ export class ContMaintnceMainComponent implements OnInit {
             if (data[0].RESULT == "Data Saved") {
               this.toastr.success('', data[0].RESULT)
               //this.toastr.success('', "ContainerCancelledMsg")
-              this.onContainerCodeChange();
+              this.onContainerCodeChange("");
             } else {
               this.toastr.error('', data[0].RESULT)
             }
