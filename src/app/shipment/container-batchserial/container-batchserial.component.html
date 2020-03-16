@@ -107,13 +107,13 @@
                     <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
                     <!-- <div class="card-body"> -->
                         <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
-                            [height]="200" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterView
+                            [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterView
                             [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
                             <ng-template kendoGridToolbarTemplate> 
                                 <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>   
                                 <label class="custom-checkbox mb-0 mr-2 filter-checkbox">                                            
                                     <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ContainerBatchSerials)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" />
-                                    <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_filter'|translate}}</label>
+                                    <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
                                 </label>                                    
                               </ng-template>
                             <kendo-grid-column field="Selected" width="25" title="{{'Select'|translate}}">

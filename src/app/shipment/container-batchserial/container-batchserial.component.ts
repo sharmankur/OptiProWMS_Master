@@ -433,6 +433,9 @@ export class ContainerBatchserialComponent implements OnInit {
           if(this.ContainerBatchSerials.length > 10){
             this.ShowGridPaging = true;          
           }
+          else{
+            this.ShowGridPaging = false;
+          }
           for(let i =0; i<this.ContainerBatchSerials.length; i++){
             this.ContainerBatchSerials[i].Selected = false;
             this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));             

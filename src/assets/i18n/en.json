@@ -113,8 +113,8 @@
 
   "PT_ShipmentList": "Shipment List",
   "PT_ShipmentId": "Shipment Id",
-  "PT_ShipmentIdFrom": "Shipment Id From",
-  "PT_ShipmentIdTo": "Shipment Id To",
+  "PT_ShipmentIdFrom": "Shipment Code From",
+  "PT_ShipmentIdTo": "Shipment Code To",
   "WorkOrderFrom": "Work Order Id From",
   "WorkOrderTo": "Work Order Id To",  
   "PT_Customer": "Customer",
@@ -674,7 +674,7 @@
   "SelectWhseMsg": "Please select warehouse",
   "SelectBinCodeMsg": "Please select bin code",
   "ContainerCode": "Container Code",
-  "ConfirmContainerCode": "Confirm Container Code",
+  "ConfirmContainerCode": "Scan and Create Container",
   "ContainerCodeBlankMsg": "Container code can not blank.",
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
@@ -895,7 +895,7 @@
   "Batch_Picking":"Batch Picking",
   "Cluster_Picking":"Cluster Picking",
   "Container_Picking":"Container Picking",
-  "Discreate_Picking":"Discreate Picking",
+  "Discreate_Picking":"Discrete Picking",
   "Zone_Picking":"Zone Picking",
 
   "PickToTote":"Pick To Tote",
@@ -973,10 +973,14 @@
   "Delete_All": "Delete All",
   "SHP_CONTTYPE": "Shipment Container Type",
   "Picklist_Created_Msg": "Picklist Created Sucessfully.",
+  "Manufacturing": "Manufacturing",
+  "Received_From_Vendor": "Received From Vendor",
+  "Packed_In_WareHouse": "Packed In WareHouse",
   "CancelContainer": "Cancel Container",
   "CloseContainer": "Close Container",
   "InvalidContainerCode": "Invalid container code",
   "SameContainerValidMsg": "Parent and Child container should not same",
+
   "Dummy": "Dummy"
   
 }

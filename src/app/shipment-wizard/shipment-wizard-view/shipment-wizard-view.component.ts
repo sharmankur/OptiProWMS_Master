@@ -419,6 +419,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((soNum == "" || soNum == null || soNum == undefined) && (event == 'blur')) {
       return;
     }
+    if(event != 'blur') {
+      soNum = ""
+    }
     let uc;
     uc = this.UseContainer == true ? "Y":"N";
     this.showLoader = true;
@@ -485,6 +488,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((ccode == "" || ccode == null || ccode == undefined) && event == 'blur') {
       return;
     }
+    if(event != 'blur') {
+      ccode = ""
+    }
     this.showLoader = true;
     this.hideLookup = false;
     this.commonservice.GetShipToAddress(ccode).subscribe(
@@ -544,6 +550,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((ccode == "" || ccode == null || ccode == undefined) && (event == 'blur')) {
       return;
     }
+    if(event != 'blur') {
+      ccode = ""
+    }
     this.showLoader = true;
     this.hideLookup = false;
     this.commonservice.GetDataForCustomerLookup(ccode).subscribe(
@@ -599,12 +608,16 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
 
   GetDataForWareHouse(event) {
-    if ((this.WareHouse == "" || this.WareHouse == null || this.WareHouse == undefined) && (event == 'blur')) {
+    let whs = this.WareHouse;
+    if ((whs == "" || whs == null || whs == undefined) && (event == 'blur')) {
       return;
+    }
+    if(event != 'blur') {
+      whs = ""
     }
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForWHSLookup(this.WareHouse).subscribe(
+    this.commonservice.GetDataForWHSLookup(whs).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -714,6 +727,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     if ((value == undefined || value == "") && event == 'blur') {
       return;
+    }
+    if(event != 'blur'){
+      value = "";
     }
     this.showLoader = true;
     this.hideLookup = false;

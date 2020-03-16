@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService , LangChangeEvent} from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';
 import { CommonData } from '../../models/CommonData';
 import { ContainerCreationService } from '../../services/container-creation.service';
@@ -50,14 +50,32 @@ export class ContainerShipmentComponent implements OnInit {
   WOId: string = "";
   SOId: string = "";
   isColumnFilterView: boolean = false;
-
+  ContainerBuildSourceArray: any = [];
+  //statusArrMulti: any = [];
+  
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
-    private containerShipmentService: ContainerShipmentService) { }
+    private containerShipmentService: ContainerShipmentService) { 
+      let userLang = navigator.language.split('-')[0];
+      userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+      translate.use(userLang);
+      translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
+        this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
+        this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
+        this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
+      });
+    }
 
   ngOnInit() {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
     this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
+    this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
+    
+    // this.statusArrMulti = [];
+    // for(let i=0; i<this.statusArray.length; i++){
+    //   this.statusArrMulti.push(this.statusArray[i].Name);
+    // }   
 
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
@@ -108,13 +126,17 @@ export class ContainerShipmentComponent implements OnInit {
 
             if (this.ContainerItems.length > 10) {
               this.ShowGridPaging = true;
-            }
+            }else{
+              this.ShowGridPaging = false;
+            }           
 
             for (let i = 0; i < this.ContainerItems.length; i++) {
               this.ContainerItems[i].Selected = false;
               this.ContainerItems[i].OPTM_QUANTITY = Number(this.ContainerItems[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
               this.ContainerItems[i].OPTM_WEIGHT = Number(this.ContainerItems[i].OPTM_WEIGHT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              // this.setContainerStatus(this.ContainerItems[i].OPTM_STATUS);
+              this.ContainerItems[i].OPTM_STATUS = this.setContainerStatus(this.ContainerItems[i].OPTM_STATUS);
+              this.ContainerItems[i].OPTM_BUILT_SOURCE = this.setBuiltSource(this.ContainerItems[i].OPTM_BUILT_SOURCE);
+              this.ContainerItems[i].OPTM_SHIPELIGIBLE = (this.ContainerItems[i].OPTM_SHIPELIGIBLE) == 'Y' ? 'Yes' : 'No';
             }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -132,22 +154,21 @@ export class ContainerShipmentComponent implements OnInit {
       );
   }
 
-  // setContainerStatus(status) {
+  setContainerStatus(status) {
+    return this.statusArray[Number(status) - 1].Name;   
+  }
 
-  //   let statusArr = this.commonData.Container_Shipment_Status_DropDown();
-  //   if(statusArr){
-
-  //   }
-
-  // }
+  setBuiltSource(builtsource){
+    return this.ContainerBuildSourceArray[Number(builtsource) - 1].Name;   
+  }
 
   onQueryBtnClick() {
-    if (this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != '') {
-      if (this.PurposeId.Value == '1')
-        this.shipeligible = "Y";
-      else
-        this.shipeligible = "N";
-    }
+    // if (this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != '') {
+    //   if (this.PurposeId.Value == '1')
+    //     this.shipeligible = "Y";
+    //   else
+    //     this.shipeligible = "N";
+    // }
 
     this.fillDataInGridWithShipment();
   }
@@ -185,6 +206,12 @@ export class ContainerShipmentComponent implements OnInit {
 
   onPurposeSelectChange($event) {
     this.PurposeId = $event.Value;
+    if (this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != '') {
+      if (this.PurposeId == '1')
+        this.shipeligible = "Y";
+      else if (this.PurposeId == '2')
+        this.shipeligible = "N";
+    }
   }
 
   GetWhseCode() {
@@ -290,6 +317,26 @@ export class ContainerShipmentComponent implements OnInit {
   onStatusChange($event) {
     this.StatusValue = $event.Value;
   }
+
+  // onStatusChange($event) {    
+  //   if($event.length == 1) {
+  //     this.StatusValue = $event[0].Value;
+  //   } 
+  //   else if($event.length == 0){
+  //     this.StatusValue = "";
+  //   }
+  // }
+
+  // open($event){
+  //   if(this.StatusValue != "" && this.StatusValue != undefined){
+  //     $event.preventDefault();
+  //   }    
+  // }
+
+
+  // blurMultiSelect($event){   
+
+  // }
 
   onInvPostStatusChange($event) {
     this.InvPostStatusValue = $event.Value;
