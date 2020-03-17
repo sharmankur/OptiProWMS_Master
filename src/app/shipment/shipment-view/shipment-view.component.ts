@@ -74,9 +74,9 @@ export class ShipmentViewComponent implements OnInit {
       this.Container_status_array = this.commonData.Container_Status_DropDown();
     });
   }
-  showShipDetailsEnable = false;
-  showShipDetails() {
-    this.showShipDetailsEnable = !this.showShipDetailsEnable
+  showShipDetailsEnable = [false,false,false];
+  showShipDetails(index) {
+    this.showShipDetailsEnable[index] = !this.showShipDetailsEnable[index]
   }
   ngOnInit() {
     this.shiment_status_array = this.commonData.shiment_status_array();

@@ -195,8 +195,13 @@
                     <!--/ Shipment Form  -->
                 </div>
             </div>
-            <button class="btn btn-success k-button btn-sm btn-icon-with-text mb-2" (click)="showShipDetails()" type="button"><span class="k-icon k-i-add" role="presentation"></span> Shipment Details</button>
-            <div *ngIf="showShipDetailsEnable">
+            <div>
+                <a  class="toggle-anchor" (click)="showShipDetails(0)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[0]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                    <span class="toggle-anchor-text"> Shipment Details</span>
+                </a>
+            </div>
+            <div class="toggle-anchor-details" *ngIf="showShipDetailsEnable[0]">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <!-- Shipment Lines -->
@@ -234,7 +239,15 @@
                         <!--/ Sales Order Details -->
                     </div>
                 </div>
-                <div class="row" *ngIf="UseContainer">
+            </div>
+            <div *ngIf="UseContainer">
+                <a  class="toggle-anchor" (click)="showShipDetails(1)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                    <span class="toggle-anchor-text"> Shipment Details</span>
+                </a>
+            </div>
+            <div *ngIf="showShipDetailsEnable[1] && UseContainer">
+                <div class="row" >
                     <div class="col-sm-6 col-xs-12">
                         <!-- Shipment Lines -->
                         <div class="card shipment-widget-box">
@@ -282,6 +295,14 @@
                         <!--/ Sales Order Details -->
                     </div>
                 </div>
+            </div>
+            <div>
+                <a  class="toggle-anchor" (click)="showShipDetails(2)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[2]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                    <span class="toggle-anchor-text"> Shipment Details</span>
+                </a>
+            </div>
+            <div *ngIf="showShipDetailsEnable[2]">
                 <div class="row">
                     <div class="col-12">
                         <!-- Sales Order Details -->
