@@ -22,16 +22,17 @@ export class ContMaintnceMainComponent implements OnInit {
   containerId: any;
   packProcessEnum: any;
   packProcess: any;
-  containerCode: any;
+  containerCode: any = "";
   warehouse: any;
   containerStatus: any;
   binCode: any;
   inventoryStatus: any;
   weight: any;
-  shipEligible: any;
+  purpose: any;
   volume: any;
   containerItems: any = []
   pageSize: number = 10
+  pageable: boolean = false;
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
@@ -41,7 +42,7 @@ export class ContMaintnceMainComponent implements OnInit {
     localStorage.setItem("From", "")
     this.contMaintenance.cmComponent = 1;
     this.ExpandCollapseBtn = "Expand All"
-    this.GetAllContainer()
+    // this.GetAllContainer('')
   }
 
   onCancelClick() {
@@ -53,13 +54,15 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onContainerOperationClick() {
+    localStorage.setItem("ContainerId", this.containerId)
+    localStorage.setItem("ContainerCode", this.containerCode)
     localStorage.setItem("From", "CMaintenance")
     this.contMaintenance.cmComponent = 2;
   }
 
-  GetAllContainer() {
+  GetAllContainer(code) {
     this.showLoader = true;
-    this.containerCreationService.GetAllContainer().subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -89,7 +92,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   containerStatusEnum: any;
   inventoryStatusEnum: any;
-  shipEligibleEnum: any;
+  purposeEnum: any;
   getLookupDataValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {
@@ -101,7 +104,7 @@ export class ContMaintnceMainComponent implements OnInit {
         this.containerId = $event.OPTM_CONTAINERID;
         this.containerCode = $event.OPTM_CONTCODE;
         this.containerStatusEnum = $event.OPTM_STATUS
-        this.shipEligibleEnum = $event.OPTM_SHIPELIGIBLE
+        this.purposeEnum = $event.OPTM_SHIPELIGIBLE
         this.packProcess = $event.OPTM_BUILT_SOURCE
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
         this.warehouse = $event.OPTM_WHSE
@@ -119,19 +122,19 @@ export class ContMaintnceMainComponent implements OnInit {
         // }
         this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
         this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
-        this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+        this.purpose = this.getShipEligible(this.purposeEnum);
         this.packProcess = this.getBuiltProcess(this.packProcessEnum);
         this.getItemAndBSDetailByContainerId()
       }
     }
   }
 
-  onContainerIdChange() {
-    if (this.containerId == undefined || this.containerId == "") {
+  onContainerCodeChange(code) {
+    if (code == undefined || code == "") {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.IsValidContainerId(this.containerId).subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -142,13 +145,13 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length == 0) {
-            this.containerId = '';
-            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+            this.resetFields()
+            this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.containerId = data[0].OPTM_CONTAINERID;
             this.containerCode = data[0].OPTM_CONTCODE
             this.containerStatusEnum = data[0].OPTM_STATUS
-            this.shipEligibleEnum = data[0].OPTM_SHIPELIGIBLE
+            this.purposeEnum = data[0].OPTM_SHIPELIGIBLE
             this.inventoryStatusEnum = data[0].OPTM_INV_STATUS
             this.warehouse = data[0].OPTM_WHSE
             this.binCode = data[0].OPTM_BIN
@@ -157,7 +160,7 @@ export class ContMaintnceMainComponent implements OnInit {
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
-            this.shipEligible = this.getShipEligible(this.shipEligibleEnum);
+            this.purpose = this.getShipEligible(this.purposeEnum);
             this.packProcess = this.getBuiltProcess(this.packProcessEnum);
             this.getItemAndBSDetailByContainerId()
           }
@@ -175,6 +178,23 @@ export class ContMaintnceMainComponent implements OnInit {
         }
       }
     );
+  }
+
+  resetFields() {
+    this.containerId = '';
+    this.containerCode = '';
+    this.warehouse = '';
+    this.binCode = '';
+    this.weight = 0.0;
+    this.containerStatus = ''
+    this.inventoryStatus = ''
+    this.purpose = ''
+    this.packProcess = ''
+    this.packProcessEnum = ""
+    this.containerStatusEnum = ""
+    this.purposeEnum = ""
+    this.inventoryStatusEnum = ""
+    this.containerItems = []
   }
 
   getContainerStatus(id) {
@@ -262,10 +282,13 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length == 0) {
-            this.containerId = '';
-            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+            this.resetFields()
+            this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.containerItems = data.ItemDeiail
+            if (this.containerItems.length > 10) {
+              this.pageable = true
+            }
             this.prepareDataForGrid();
             var batchSerailsData = data.BtchSerDeiail
             for (var i = 0; i < this.containerItems.length; i++) {
@@ -351,11 +374,11 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onCloseClick() {
-    if (this.containerId == undefined || this.containerId == "") {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CloseClick(this.containerId).subscribe(
+    this.commonservice.CloseClick(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -430,6 +453,46 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
 
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onSetCancelClick() {
+    if (this.containerId == undefined || this.containerId == "") {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.CancelClick(this.containerId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', data[0].RESULT)
+              //this.toastr.success('', "ContainerCancelledMsg")
+              this.onContainerCodeChange("");
+            } else {
+              this.toastr.error('', data[0].RESULT)
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

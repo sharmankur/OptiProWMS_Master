@@ -14,12 +14,12 @@
                         <!-- col start -->
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ContainerId'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'ContainerId'|translate}}"
-                                        name="containerId" [(ngModel)]="containerId" (blur)="onContainerIdChange()">
+                                    <input type="text" class="form-control form-control-sm" id="containerCode" placeholder="{{'ContainerCode'|translate}}"
+                                        name="containerCode" [(ngModel)]="containerCode" (blur)="onContainerCodeChange(ccode.value)" #ccode>
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -34,7 +34,7 @@
                                 <label for="packProcess" class="col-sm-3 col-form-label">{{'PackProcess'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="packProcess"
-                                        placeholder="{{'PackProcess'|translate}}" name="packProcess" [(ngModel)]="packProcess"
+                                        name="packProcess" [(ngModel)]="packProcess"
                                         disabled>
                                 </div>
                             </div>
@@ -52,11 +52,11 @@
                         <!-- col start -->
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
+                                <label for="containerStatus" class="col-sm-3 col-form-label">{{'ContainerStatus'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="containerCode"
-                                        placeholder="{{'ContainerCode'|translate}}" name="containerCode" [(ngModel)]="containerCode"
-                                        disabled>
+                                    <input type="text" class="form-control form-control-sm" id="containerStatus"
+                                        placeholder="{{'ContainerStatus'|translate}}" name="containerStatus"
+                                        [(ngModel)]="containerStatus" disabled>
                                 </div>
                             </div>
                         </div>
@@ -85,11 +85,11 @@
                         <!-- col start -->
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label for="containerStatus" class="col-sm-3 col-form-label">{{'ContainerStatus'|translate}}</label>
+                                <label for="inventoryStatus" class="col-sm-3 col-form-label">{{'InventoryStatus'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="containerStatus"
-                                        placeholder="{{'ContainerStatus'|translate}}" name="containerStatus"
-                                        [(ngModel)]="containerStatus" disabled>
+                                    <input type="text" class="form-control form-control-sm" id="inventoryStatus"
+                                        placeholder="{{'InventoryStatus'|translate}}" name="inventoryStatus"
+                                        [(ngModel)]="inventoryStatus" disabled>
                                 </div>
                             </div>
                         </div>
@@ -118,11 +118,11 @@
                         <!-- col start -->
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label for="inventoryStatus" class="col-sm-3 col-form-label">{{'InventoryStatus'|translate}}</label>
+                                <label for="shipEligible" class="col-sm-3 col-form-label">{{'Purpose'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="inventoryStatus"
-                                        placeholder="{{'InventoryStatus'|translate}}" name="inventoryStatus"
-                                        [(ngModel)]="inventoryStatus" disabled>
+                                    <input type="text" class="form-control form-control-sm" id="shipEligible"
+                                        name="shipEligible" [(ngModel)]="purpose"
+                                        disabled>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                             <div class="form-group row">
                                 <label for="weight" class="col-sm-3 col-form-label">{{'Weight'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="number" class="form-control form-control-sm text-right" name='weight'
+                                    <input type="text" class="form-control form-control-sm text-right" name='weight'
                                         [ngModel]="weight|numberFormat" (ngModelChange)="weight=$event" id="weight"
                                         disabled>
                                 </div>
@@ -151,14 +151,14 @@
                     <div class="row">
                         <!-- col start -->
                         <div class="col-sm-6">
-                            <div class="form-group row">
+                            <!-- <div class="form-group row">
                                 <label for="shipEligible" class="col-sm-3 col-form-label">{{'ShipEligible'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
                                     <input type="text" class="form-control form-control-sm" id="shipEligible"
                                         placeholder="{{'ShipEligible'|translate}}" name="shipEligible" [(ngModel)]="shipEligible"
                                         disabled>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                         <!-- col end -->
@@ -168,7 +168,7 @@
                             <div class="form-group row">
                                 <label for="volume" class="col-sm-3 col-form-label">{{'Volume'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="number" class="form-control form-control-sm text-right" name='volume'
+                                    <input type="text" class="form-control form-control-sm text-right" name='volume'
                                         [ngModel]="volume|numberFormat" (ngModelChange)="volume=$event" id="volume"
                                         disabled>
                                 </div>
@@ -183,26 +183,36 @@
                 <div class="col-12">
                     <div class="wizard-container mt-3">
                         <div class="wizard-box">
-                            <div class="input-group card-header">
+                            <!-- <div class="input-group card-header">
                                 <h5>{{'ContainerItems'|translate}}</h5>
                                 <button tabIndex="-1" class="k-button k-primary btn ml-2" type="button" (click)="onExpandCollapse()"
                                     *ngIf="containerItems.length != 0">
                                     {{ExpandCollapseBtn}}
                                 </button>
-                            </div>
+                            </div> -->
                             <div class="wizard-content">
-                                <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
-                                    [resizable]="true" [pageable]="true" [selectable]="true">
+                                <kendo-grid [height]="300" [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
+                                    [resizable]="true" [pageable]="pageable" [selectable]="true">
+                                    <!-- <div class="input-group card-header">
+                                        <h5>{{'ContainerItems'|translate}}</h5>
+                                        <button tabIndex="-1" class="k-button k-primary btn ml-2" type="button" (click)="onExpandCollapse()"
+                                            *ngIf="containerItems.length != 0">
+                                            {{ExpandCollapseBtn}}
+                                        </button>
+                                    </div> -->
+                                    <ng-template kendoGridToolbarTemplate>
+                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button"
+                                            (click)="onExpandCollapse()" *ngIf="containerItems.length != 0">
+                                            <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
+                                                <use xlink:href="#collapseAll"></use>
+                                            </svg>
+                                            <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
+                                                <use xlink:href="#expandAll"></use>
+                                            </svg>
+                                        </button>
+                                    </ng-template>
 
-                                    <!-- <kendo-grid-checkbox-column media="(min-width: 768px)" [width]="60">
-                                        <ng-template kendoGridCellTemplate let-idx="rowIndex">
-                                            <input [kendoGridSelectionCheckbox]="idx" />
-                                        </ng-template>
-                                    </kendo-grid-checkbox-column> -->
-
-                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_HDRSEQID"
-                                        title="{{'ContainerId'|translate}}">
-                                    </kendo-grid-column> -->
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTTYPE"
                                         title="{{'ContainerType'|translate}}">
                                     </kendo-grid-column>
@@ -358,7 +368,7 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCloseClick()">
-                    {{'Close'|translate}}
+                    {{'CloseContainer'|translate}}
                 </button>
 
                 <div class="btn-group  toggle-btn-outer">
@@ -372,6 +382,7 @@
                             <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
                             <a class="dropdown-item" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
                             <a class="dropdown-item" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
+                            <a class="dropdown-item" (click)="onSetCancelClick()">{{'CancelContainer'|translate}}</a>
                         </div>
                     </div>
                 </div>

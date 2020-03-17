@@ -242,7 +242,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForShipToCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetShipToAddress().subscribe(
+    this.commonservice.GetShipToAddress("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -332,7 +332,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForCustomer(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForCustomerLookup().subscribe(
+    this.commonservice.GetDataForCustomerLookup("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -405,7 +405,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForWareHouse(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForWHSLookup().subscribe(
+    this.commonservice.GetDataForWHSLookup("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -500,7 +500,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForItemCode(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForItemCodeLookup().subscribe(
+    this.commonservice.GetDataForItemCodeLookup("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -771,7 +771,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForSalesOredr(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup("").subscribe(
+    this.commonservice.GetDataForSalesOrderLookup("", "").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1033,6 +1033,11 @@ export class GeneratePickComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
               this.translate.instant("CommonSessionExpireMsg"));
             return;
+          }
+          if(data.OUTPUT[0].RESULT == "Picklist created"){
+            this.toastr.success('', this.translate.instant("Picklist_Created_Msg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

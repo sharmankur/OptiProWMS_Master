@@ -42,7 +42,7 @@ export class ShipmentViewComponent implements OnInit {
   ShipContainers: any[] = [];
   ContItems: any[] = [];
   ShipLineDetails: any[] = [];
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   shiment_status_array: any[] = [];
   Container_status_array: any[] = [];
   shiment_lines_status_array: any[] = [];
@@ -70,11 +70,13 @@ export class ShipmentViewComponent implements OnInit {
     translate.use(userLang);
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.onCheckChange();
+      this.shiment_status_array = this.commonData.shiment_status_array();
+      this.Container_status_array = this.commonData.Container_Status_DropDown();
     });
   }
-  showShipDetailsEnable = false;
-  showShipDetails() {
-    this.showShipDetailsEnable = !this.showShipDetailsEnable
+  showShipDetailsEnable = [false,false,false];
+  showShipDetails(index) {
+    this.showShipDetailsEnable[index] = !this.showShipDetailsEnable[index]
   }
   ngOnInit() {
     this.shiment_status_array = this.commonData.shiment_status_array();
@@ -83,6 +85,7 @@ export class ShipmentViewComponent implements OnInit {
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
       this.ShipmentID = localStorage.getItem("ShipmentID");
+      this.ShipmentCode = localStorage.getItem("ShipmentCode");
       this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
     }
     this.dateFormat = localStorage.getItem("DATEFORMAT");
@@ -246,12 +249,22 @@ export class ShipmentViewComponent implements OnInit {
     }
     //BatchSer Details
     this.ShipmentLineDetails = [];
-    for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
-      if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-        this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-        this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
+    if(this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0){
+      for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
+        if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
+          this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
+        }
+      }
+    }else{
+      for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
+        if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
+          this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_BINDTL[i]);
+        }
       }
     }
+
     if (this.ShipmentLineDetails != undefined && this.ShipmentLineDetails.length > this.pageSize5) {
       this.pagable5 = true;
     }
@@ -294,6 +307,7 @@ export class ShipmentViewComponent implements OnInit {
 
   onCancelClick() {
     localStorage.setItem("ShipmentID", "");
+    localStorage.setItem("ShipmentCode", "");
     this.router.navigate(['home/dashboard']);
   }
 
@@ -314,6 +328,7 @@ export class ShipmentViewComponent implements OnInit {
       this.ShipmentID = event.OPTM_SHIPMENTID
       this.ShipmentCode = event.OPTM_SHIPMENT_CODE
       localStorage.setItem("ShipmentID", this.ShipmentID);
+      localStorage.setItem("ShipmentCode", this.ShipmentCode);
       this.CustomerCode = event.OPTM_BPCODE
       this.WarehouseCode = event.OPTM_WHSCODE;
       if (event.OPTM_SCH_DATETIME != null) {

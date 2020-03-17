@@ -17,7 +17,7 @@ import { ContMaintnceComponent } from 'src/app/container-maintenance/cont-maintn
 })
 export class ContainerOperationComponent implements OnInit {
 
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   showLookup: boolean = false;
   serviceData: any[];
   lookupfor: string;
@@ -34,18 +34,20 @@ export class ContainerOperationComponent implements OnInit {
   oSaveModel: any;
   containerType: string;
   binCode: string;
-  containerId: string;
+  @Input() containerId: string;
+  containerQty: number = 0
   containerMaxWgt: number = 0;
   containerWgt: number = 0;
   packingRule: string;
   containerUsage: string;
   itemCode: string;
   childContainerId: string;
+  childContainerCode: string;
   itemQty: any = 0;
-  containerCode: string;
+  containerCode: string = "";
   itemBatchSr: any;
   from: any;
-
+  disableCCodeField: boolean = false;
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private ccmain: CcmainComponent, private contMaintenance: ContMaintnceComponent) {
@@ -69,7 +71,15 @@ export class ContainerOperationComponent implements OnInit {
 
     // var data = localStorage.getItem("ContainerOperationData");
     // this.oSaveModel = JSON.parse(data);
-    this.GetParentContainer();
+
+    if (this.from == "CMaintenance") {
+      this.disableCCodeField = true
+      this.containerId = localStorage.getItem("ContainerId")
+      this.containerCode = localStorage.getItem("ContainerCode")
+      this.onContainerCodeChange("parent")
+    } else {
+      this.GetParentContainer();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -80,7 +90,7 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onCancelClick() {
-    if(this.from == "CMaintenance"){
+    if (this.from == "CMaintenance") {
       this.contMaintenance.cmComponent = 1;
     } else {
       this.ccmain.ccComponent = 1;
@@ -102,7 +112,7 @@ export class ContainerOperationComponent implements OnInit {
   }
 
   onItemCodeChange() {
-    if((this.itemCode == undefined || this.itemCode == "")){
+    if ((this.itemCode == undefined || this.itemCode == "")) {
       return;
     }
     this.showLoader = true;
@@ -232,6 +242,11 @@ export class ContainerOperationComponent implements OnInit {
     if (this.childContainerId == undefined || this.childContainerId == '') {
       this.toastr.error('', this.translate.instant("ChildContainerCannotBlank"));
       return;
+    } else if (this.containerCode == this.childContainerCode) {
+      this.toastr.error('', this.translate.instant("SameContainerValidMsg"));
+      this.childContainerId = '';
+      this.childContainerCode = ''
+      return;
     }
 
     this.showLoader = true;
@@ -276,6 +291,8 @@ export class ContainerOperationComponent implements OnInit {
   ruleID: any;
   partPerQty: any;
   fillPerQty: any;
+  containerStatusEnum: any;
+  containerStatus: any;
   getLookupData($event) {
     if ($event != null && $event == "close") {
       this.showLookup = false;
@@ -295,15 +312,17 @@ export class ContainerOperationComponent implements OnInit {
         this.packingRule = $event.OPTM_AUTORULEID;
         this.whseCode = $event.OPTM_WHSE;
         this.binCode = $event.OPTM_BIN;
+        this.containerStatusEnum = $event.OPTM_STATUS
         if ($event.OPTM_WEIGHT == undefined || $event.OPTM_WEIGHT == "") {
           this.containerWgt = 0.0;
         }
         else {
           this.containerWgt = $event.OPTM_WEIGHT;
         }
-
+        this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
       } else {
         this.childContainerId = $event.OPTM_CONTAINERID;
+        this.childContainerCode =  $event.OPTM_CONTCODE;
       }
     }
   }
@@ -312,7 +331,7 @@ export class ContainerOperationComponent implements OnInit {
   GetParentContainer() {
     this.showLoader = true;
     this.containerIdType = "parent"
-    this.containerCreationService.GetAllContainer().subscribe(
+    this.containerCreationService.GetAllContainer("").subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -340,10 +359,10 @@ export class ContainerOperationComponent implements OnInit {
     );
   }
 
-  GetAllContainer() {
+  GetAllContainer(code) {
     this.showLoader = true;
     this.containerIdType = "child"
-    this.containerCreationService.GetAllContainer().subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -371,18 +390,18 @@ export class ContainerOperationComponent implements OnInit {
     );
   }
 
-  onContainerIdChange(from) {
-    var id;
+  onContainerCodeChange(from) {
+    var code;
     if (from == 'parent') {
-      id = this.containerId;
+      code = this.containerCode;
     } else {
-      id = this.childContainerId;
+      code = this.childContainerCode;
     }
-    if (id == undefined || id == "") {
+    if (code == undefined || code == "") {
       return
     }
     this.showLoader = true;
-    this.containerCreationService.IsValidContainerId(id).subscribe(
+    this.containerCreationService.GetAllContainer(code).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -394,25 +413,47 @@ export class ContainerOperationComponent implements OnInit {
           if (data.length == 0) {
             if (from == 'parent') {
               this.containerId = '';
+              this.containerCode = '';
+              this.resetFields()
             } else {
               this.childContainerId = '';
+              this.childContainerCode = '';
             }
-            this.toastr.error('', this.translate.instant("InvalidContainerId"));
+            
+            this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.itemCode = data[0].ITEMCODE
             if (from == 'parent') {
               this.containerId = data[0].OPTM_CONTAINERID;
+              this.containerCode = data[0].OPTM_CONTCODE;
+              this.childContainerCode = ''
+              this.containerType = data[0].OPTM_CONTTYPE;
+              this.containerUsage = (data[0].OPTM_SHIPELIGIBLE == "Y") ? this.translate.instant("Shipping") : this.translate.instant("Internal")
+              this.packingRule = data[0].OPTM_AUTORULEID;
+              this.whseCode = data[0].OPTM_WHSE;
+              this.binCode = data[0].OPTM_BIN;
+              this.containerStatusEnum = data[0].OPTM_STATUS
+              if (data[0].OPTM_WEIGHT == undefined || data[0].OPTM_WEIGHT == "") {
+                this.containerWgt = 0.0;
+              }
+              else {
+                this.containerWgt = data[0].OPTM_WEIGHT;
+              }
+              this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             } else {
               this.childContainerId = data[0].OPTM_CONTAINERID;
+              this.childContainerCode =  data[0].OPTM_CONTCODE;
             }
           }
         } else {
           if (from == 'parent') {
             this.containerId = '';
+            this.resetFields()
           } else {
             this.childContainerId = '';
           }
-          this.toastr.error('', this.translate.instant("InvalidContainerId"));
+          
+          this.toastr.error('', this.translate.instant("InvalidContainerCode"));
         }
       },
       error => {
@@ -425,5 +466,51 @@ export class ContainerOperationComponent implements OnInit {
         }
       }
     );
+  }
+
+  resetFields(){
+    this.containerId = '';
+    this.containerCode = '';
+    this.childContainerCode = ''
+    this.containerType = '';
+    this.containerUsage = ''
+    this.packingRule = '';
+    this.whseCode = '';
+    this.binCode = '';
+    this.containerWgt = 0.0;
+    this.itemCode = ''
+    this.itemBatchSr = ''
+    this.itemQty = 0.0;
+    this.containerMaxWgt = 0.0
+    this.containerQty = 0.0
+  }
+
+  getContainerStatus(id) {
+    if (id == undefined || id == "") {
+      return //this.translate.instant("CStatusNew");
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("CStatusNew");
+    } else if (id == 2) {
+      return this.translate.instant("CScheduledNew");
+    } else if (id == 3) {
+      return this.translate.instant("CClosedNew");
+    } else if (id == 4) {
+      return this.translate.instant("CReopenedNew");
+    } else if (id == 5) {
+      return this.translate.instant("CAssignedNew");
+    } else if (id == 6) {
+      return this.translate.instant("CShippedNew");
+    } else if (id == 7) {
+      return this.translate.instant("CPickedNew");
+    } else if (id == 8) {
+      return this.translate.instant("CReturnNew");
+    } else if (id == 9) {
+      return this.translate.instant("CDamagedNew");
+    } else if (id == 10) {
+      return this.translate.instant("CCancelledNew");
+    }
   }
 }

@@ -17,10 +17,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
-  UseContainer: boolean=false; 
+  UseContainer: boolean = false;
   SOpageSize = 10;
-  SOpagable:boolean = false;
-  SPpagable:boolean = false;
+  SOpagable: boolean = false;
+  SPpagable: boolean = false;
   SPpageSize = 10;
   pageSize = 10;
 
@@ -153,9 +153,11 @@ export class ShipmentWizardViewComponent implements OnInit {
   CreateShipMentData() {
     this.ConsolidatedDataSelection.Company = [];
     let uc = this.UseContainer == true ? "Y" : "N";
-    this.ConsolidatedDataSelection.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
-    OPTM_FUNCTION: "Shipping",
-    OPTM_OBJECT: "Shipment" })
+    this.ConsolidatedDataSelection.Company.push({
+      CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Shipment"
+    })
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
 
@@ -174,9 +176,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             }
           }
           this.GetCreateShipMentData = resp["ShipmentHdr"];
-          if(this.GetCreateShipMentData.length > this.pageSize){
+          if (this.GetCreateShipMentData.length > this.pageSize) {
             this.pageable = true;
-          }else{
+          } else {
             this.pageable = false;
           }
           this.currentStep = this.currentStep + 1;
@@ -232,9 +234,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
           }
           this.gridData = resp;
-          if(this.gridData.length > this.SOpageSize){
+          if (this.gridData.length > this.SOpageSize) {
             this.SOpagable = true;
-          }else{
+          } else {
             this.SOpagable = false;
           }
         }
@@ -301,9 +303,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             }
           }
           this.AllConsolidateData = resp["ShipmentHdr"];
-          if(this.AllConsolidateData.length > this.SPpageSize){
+          if (this.AllConsolidateData.length > this.SPpageSize) {
             this.SPpagable = true;
-          }else{
+          } else {
             this.SPpagable = false;
           }
           this.currentStep = this.currentStep + 1;
@@ -368,7 +370,7 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "SONoFrom") {
               this.SrNoFrom = data[0].DocNum;
             }
@@ -406,11 +408,25 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  GetDataForSalesOredr(fieldName) {
-
+  GetDataForSalesOredr(fieldName, event) {
+    let soNum;
+    if (fieldName == "SONoFrom") {
+      soNum = this.SrNoFrom;
+    }
+    else if (fieldName == "SONoTo") {
+      soNum = this.SrNoTo
+    }
+    if ((soNum == "" || soNum == null || soNum == undefined) && (event == 'blur')) {
+      return;
+    }
+    if(event != 'blur') {
+      soNum = ""
+    }
+    let uc;
+    uc = this.UseContainer == true ? "Y":"N";
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForSalesOrderLookup(this.UseContainer).subscribe(
+    this.commonservice.GetDataForSalesOrderLookup(uc, soNum).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -419,13 +435,32 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.serviceData = data;
-          if (fieldName == "SrNO") {
-            this.lookupfor = "SerialNoFrom";
-          } else if (fieldName == "SrNOTO") {
-            this.lookupfor = "SerialNoTo";
-          }
 
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "SONoFrom") {
+                this.SrNoFrom = data[0].DocNum;
+              }
+              else if (fieldName == "SONoTo") {
+                this.SrNoTo = data[0].DocNum;
+              }
+            } else {
+              if (fieldName == "SONoFrom") {
+                this.SrNoFrom = "";
+              }
+              else if (fieldName == "SONoTo") {
+                this.SrNoTo = "";
+              }
+              this.toastr.error('', this.translate.instant("InvalidSONo"));
+            }
+          } else {
+            this.serviceData = data;
+            if (fieldName == "SONoFrom") {
+              this.lookupfor = "SerialNoFrom";
+            } else if (fieldName == "SONoTo") {
+              this.lookupfor = "SerialNoTo";
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -442,10 +477,23 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  GetDataForShipToCode(fieldName) {
+  GetDataForShipToCode(fieldName, event) {
+    let ccode;
+    if (fieldName == "ShipFrom") {
+      ccode = this.ShipFrom;
+    }
+    else if (fieldName == "ShipTo") {
+      ccode = this.ShipTo
+    }
+    if ((ccode == "" || ccode == null || ccode == undefined) && event == 'blur') {
+      return;
+    }
+    if(event != 'blur') {
+      ccode = ""
+    }
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetShipToAddress().subscribe(
+    this.commonservice.GetShipToAddress(ccode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -454,47 +502,26 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.serviceData = data;
-          // if (fieldName == "SrNO") {
-          //   this.lookupfor = "SerialNoFrom";
-          // } else if (fieldName == "SrNOTO") {
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "ShipFrom") {
+                this.ShipFrom = data[0].Address;
+              }
+              else if (fieldName == "ShipTo") {
+                this.ShipTo = data[0].Address;
+              }
+            } else {
+              if (fieldName == "ShipFrom") {
+                this.ShipFrom = "";
+              }
+              else if (fieldName == "ShipTo") {
+                this.ShipTo = "";
+              }
+              this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
+            }
+          } else {
+            this.serviceData = data;
             this.lookupfor = fieldName;
-          // }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-  }
-
-  GetDataForCustomer(fieldName) {
-    this.showLoader = true;
-    this.hideLookup = false;
-    this.commonservice.GetDataForCustomerLookup().subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          this.serviceData = data;
-
-          if (fieldName == "CustFrom") {
-            this.lookupfor = "CustomerFrom";
-          }
-          else if (fieldName == "CustTo") {
-            this.lookupfor = "CustomerTo";
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -512,11 +539,23 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  GetDataForWareHouse(fieldName) {
-
+  GetDataForCustomer(fieldName, event) {
+    let ccode;
+    if (fieldName == "CustFrom") {
+      ccode = this.CustomerFrom;
+    }
+    else if (fieldName == "CustTo") {
+      ccode = this.CustomerTo
+    }
+    if ((ccode == "" || ccode == null || ccode == undefined) && (event == 'blur')) {
+      return;
+    }
+    if(event != 'blur') {
+      ccode = ""
+    }
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForWHSLookup().subscribe(
+    this.commonservice.GetDataForCustomerLookup(ccode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -525,11 +564,80 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.serviceData = data;
-          if (fieldName == "Whs") {
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "CustFrom") {
+                this.CustomerFrom = data[0].CardCode;
+              }
+              else if (fieldName == "CustTo") {
+                this.CustomerTo = data[0].CardCode;
+              }
+            } else {
+              if (fieldName == "CustFrom") {
+                this.CustomerFrom = "";
+              }
+              else if (fieldName == "CustTo") {
+                this.CustomerTo = "";
+              }
+              this.toastr.error('', this.translate.instant("Invalid_CC"));
+            }
+          } else {
+            this.serviceData = data;
+            if (fieldName == "CustFrom") {
+              this.lookupfor = "CustomerFrom";
+            }
+            else if (fieldName == "CustTo") {
+              this.lookupfor = "CustomerTo";
+            }
+          }
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GetDataForWareHouse(event) {
+    let whs = this.WareHouse;
+    if ((whs == "" || whs == null || whs == undefined) && (event == 'blur')) {
+      return;
+    }
+    if(event != 'blur') {
+      whs = ""
+    }
+    this.showLoader = true;
+   // this.hideLookup = false;
+    this.commonservice.GetDataForWHSLookup(whs).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (event == 'blur') {
+            if (data.length > 0) {
+              this.WareHouse = data.OUTPUT[0].WhsCode;
+            } else {
+              this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+              this.WareHouse = "";
+            }
+          } else {
+            this.serviceData = data;
             this.lookupfor = "WareHouse";
+            this.hideLookup = false;
           }
-
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -610,10 +718,23 @@ export class ShipmentWizardViewComponent implements OnInit {
     return result;
   }
 
-  GetDataForItemCode(fieldName) {
+  GetDataForItemCode(fieldName, event) {
+    let value;
+    if (fieldName == "ItmFrm") {
+      value = this.ItemFrom;
+    }
+    else if (fieldName == "ItmTo") {
+      value = this.ItemTo
+    }
+    if ((value == undefined || value == "") && event == 'blur') {
+      return;
+    }
+    if(event != 'blur'){
+      value = "";
+    }
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetDataForItemCodeLookup().subscribe(
+    this.commonservice.GetDataForItemCodeLookup(value).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -622,15 +743,32 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.serviceData = data;
-          if (fieldName == "ItmFrm") {
-            this.lookupfor = "ItemFrom";
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "ItmFrm") {
+                this.ItemFrom = data[0].ItemCode;
+              }
+              else if (fieldName == "ItmTo") {
+                this.ItemTo = data[0].ItemCode;
+              }
+            } else {
+              if (fieldName == "ItmFrm") {
+                this.ItemFrom = "";
+              }
+              else if (fieldName == "ItmTo") {
+                this.ItemTo = "";
+              }
+              this.toastr.error('', this.translate.instant("InvalidItemCode"));
+            }
+          } else {
+            this.serviceData = data;
+            if (fieldName == "ItmFrm") {
+              this.lookupfor = "ItemFrom";
+            }
+            else if (fieldName == "ItmTo") {
+              this.lookupfor = "ItemTo";
+            }
           }
-          else if (fieldName == "ItmTo") {
-            this.lookupfor = "ItemTo";
-          }
-
-
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -744,7 +882,7 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "ShipFrom") {
               this.ShipFrom = data[0].Address;
             }
@@ -782,7 +920,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  
+
   IsValidCustomerCode(fieldName) {
     let ccode;
     if (fieldName == "CustFrom") {
@@ -804,7 +942,7 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = data[0].CardCode;
             }

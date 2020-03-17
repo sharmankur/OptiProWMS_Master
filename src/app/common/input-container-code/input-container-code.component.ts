@@ -32,14 +32,17 @@ export class InputContainerCodeComponent implements OnInit {
   CreateFlag: boolean = false;
   TempContnrId: any = '';
   TempContnrCode: any = '';
+  clickFlag : boolean = false;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
-    private containerCreationService: ContainerCreationService, private router: Router) { }
+    private containerCreationService: ContainerCreationService, private router: Router) {       
+    }
 
   ngOnInit() {
     this.showLookup = true;
     this.showNoButton = true;
     this.CreateFlag = false;
+    this.clickFlag = false;
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
@@ -55,7 +58,7 @@ export class InputContainerCodeComponent implements OnInit {
     if (status == "yes") {
       if (this.containerCode == undefined || this.containerCode == '') {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
-        return
+        return;
       }
       this.GenerateShipContainer();
     } else if (status == "cancel" || status == "no") {
@@ -104,6 +107,11 @@ export class InputContainerCodeComponent implements OnInit {
   }
 
   onParentContainerChange(){
+
+    if(this.parentContainerCode == '' || this.parentContainerCode == undefined){
+      return;
+    }
+
     this.showLoader = true;
     this.containerCreationService.GetCountOfParentContainer(this.parentContainerCode).subscribe(
       (data: any) => {
@@ -134,41 +142,49 @@ export class InputContainerCodeComponent implements OnInit {
   }
 
   onContainerCodeChange(){
-    this.showLoader = true;
-    this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          if(data[0].Count > 0){
-            this.toastr.error('', this.translate.instant("DuplicateContCode"));
-            this.containerCode = '';
-            return;
-          }
-          else{
-            this.GenerateShipContainer();
-          }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+    this.CreateFlag = false;
+    this.GenerateShipContainer();
+    // this.showLoader = true;
+    // this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
+    //   (data: any) => {
+    //     this.showLoader = false;
+    //     if (data != undefined) {
+    //       if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+    //         this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+    //           this.translate.instant("CommonSessionExpireMsg"));
+    //         return;
+    //       }
+    //       if(data[0].Count > 0){
+    //         this.toastr.error('', this.translate.instant("DuplicateContCode"));
+    //         this.containerCode = '';
+    //         return;
+    //       }
+    //       else{
+    //         this.GenerateShipContainer();
+    //       }
+    //     } else {
+    //       this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+    //     }
+    //   },
+    //   error => {
+    //     this.showLoader = false;
+    //     if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+    //       this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+    //     }
+    //     else {
+    //       this.toastr.error('', error);
+    //     }
+    //   }
+    // );
   }
 
   GenerateShipContainer() {
+
+    if(this.CreateFlag){
+      return;
+    }
+
+    this.CreateFlag = true;
 
     if(this.ShowParentField && (this.parentContainerCode == "" || this.parentContainerCode == undefined)){
       this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));

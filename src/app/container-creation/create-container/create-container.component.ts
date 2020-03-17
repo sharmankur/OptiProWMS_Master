@@ -23,7 +23,7 @@ export class CreateContainerComponent implements OnInit {
   showLoader: boolean = false;
   containerType: any;
   parentContainerType: any = '';
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   createMode: number;
   purposeArray: any = [];
   createModeArray: any = [];
@@ -48,7 +48,7 @@ export class CreateContainerComponent implements OnInit {
   itemPackQty: number = 0;
   action: string = "";
   fromContainerDetails: any = [];
-  purpose: string = "Shipping";
+  purpose: string = "";//Shipping";
   noOfPackToGen: number = 1;
   oSaveModel: any = {};
   fromType: string = "";
@@ -70,10 +70,10 @@ export class CreateContainerComponent implements OnInit {
   SelectedWOItemCode: any= '';
   partsQty: any = 0;
   RemQtyWO: any = 0;
-  ContStatus: any = 'New';
+  ContStatus: any = "New";
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
-
+  
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private ccmain: CcmainComponent, private ctrmasterService: CTRMasterService) {
@@ -81,6 +81,8 @@ export class CreateContainerComponent implements OnInit {
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
     translate.onLangChange.subscribe(() => {
+      this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
+      this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
     });
   }
 
@@ -102,6 +104,7 @@ export class CreateContainerComponent implements OnInit {
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
+    this.ContStatus = "New";
     // this.GetContainerNumber();    
   }
 
@@ -529,7 +532,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_WONUMBER: this.workOrder,
       OPTM_TASKHDID: this.taskId,
       OPTM_OPERATION: this.operationNo,
-      OPTM_QUANTITY: this.IsWIPCont ? this.partsQty : 0,
+      OPTM_QUANTITY: this.IsWIPCont ? (Number(this.partsQty).toFixed(Number(localStorage.getItem("DecimalPrecision")))) : 0,
       OPTM_SOURCE: this.IsWIPCont ? 1 : 3,    
       OPTM_ParentContainerType: this.parentContainerType,
       OPTM_ParentPerQty: this.ParentPerQty,  
@@ -547,7 +550,7 @@ export class CreateContainerComponent implements OnInit {
           OPTM_BIN: '',
           OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
           OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
-          OPTM_WEIGHT: (this.fromContainerDetails[i].IWeight1 == null || this.fromContainerDetails[i].IWeight1 == undefined) ? 0 : this.fromContainerDetails[i].IWeight1
+          OPTM_WEIGHT: (this.fromContainerDetails[i].IWeight1 == null || this.fromContainerDetails[i].IWeight1 == undefined) ? 1 : this.fromContainerDetails[i].IWeight1
         });
       }
   
@@ -1151,7 +1154,8 @@ export class CreateContainerComponent implements OnInit {
           this.binNo = ''
         }
         else {
-          this.binNo = resp[0].BinCode
+          this.binNo = resp[0].BinCode;
+          this.GetInventoryData();
         }
         result = true;
       },
@@ -1285,6 +1289,7 @@ export class CreateContainerComponent implements OnInit {
               }
             }
           }
+          this.updateWeigth();
           this.batchSerialData = data.BatchWiseInventory;
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -1380,7 +1385,7 @@ export class CreateContainerComponent implements OnInit {
 
   lastSelectedTracking: any = ""
   onShowBSClick(event, index) {
-    console.log("onShowBSClick index: " + index);
+    //console.log("onShowBSClick index: " + index);
     this.lastSelectedTracking = event.OPTM_TRACKING
     this.partPerQty = event.OPTM_PARTS_PERCONT
     localStorage.setItem("PartPerQty", this.partPerQty)
@@ -1407,7 +1412,33 @@ export class CreateContainerComponent implements OnInit {
         if (event.OPTM_ITEMCODE == tempList[i].ITEMCODE) {
           tempList[i].OldData = false;
           tempList[i].Balance = 0
-          tempList[i].QuantityToAdd = 0;
+
+          if(event.OPTM_TRACKING == "N" && event.QuantityToAdd != 0){
+            let diff = parseFloat(event.AvlQty) - parseFloat(event.QuantityToAdd);             
+            tempList[i].Quantity = Number(diff).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+            tempList[i].QuantityToAdd = Number(event.QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision")));             
+            tempList[i].OldData = true;           
+
+            if(this.selectedBatchSerial.length == 0){
+              this.selectedBatchSerial.push({
+                ITEMCODE: tempList[i].ITEMCODE,
+                LOTNO: tempList[i].LOTNO,
+                Quantity: Number(tempList[i].Quantity).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
+                BinCode: tempList[i].BinCode,
+                OldData: tempList[i].OldData,
+                Balance: tempList[i].Balance,
+                QuantityToAdd: tempList[i].QuantityToAdd,
+                OPTM_TRACKING: event.OPTM_TRACKING,
+                TOTALQTY: "NaN"
+              })
+            }                    
+          }
+          else if(event.QuantityToAdd == 0){
+            this.selectedBatchSerial = [];
+            tempList[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            tempList[i].Quantity = Number(event.AvlQty).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+          }
+         
           this.lookupData.push({
             ITEMCODE: tempList[i].ITEMCODE,
             LOTNO: tempList[i].LOTNO,

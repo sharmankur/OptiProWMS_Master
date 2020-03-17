@@ -29,3 +29,16 @@
 .minus-m5{
     margin-left: -5px;
 }
+.toggle-anchor{
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: inline-block;
+    .toggle-anchor-text{
+        top: 1px;
+    position: relative;
+    }
+}
+.kiarrowchevrondown::before{
+    content: "\e015";
+}

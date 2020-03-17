@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
 import { ContainerBatchserialService } from '../../services/container-batchserial.service';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-container-batchserial',
@@ -40,10 +41,11 @@ export class ContainerBatchserialComponent implements OnInit {
   ShimpmentArray: any = [];
   Tracking: any = '';
   SHPStatus: any = '';
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   lookupData: any = [];
   BatchSerialData : any = [];
   showOtherLookup: boolean = false;
+  isColumnFilterView: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
@@ -54,6 +56,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.SelectedBin = localStorage.getItem("ShipBin");
     this.ShimpmentArray = JSON.parse(localStorage.getItem("ShipmentArrData"));   
     this.SelectedShipmentId = this.ShimpmentArray[0].OPTM_SHIPMENTID;
+    this.isColumnFilterView = false;
     if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
       this.IsShipment = true;
     }
@@ -394,6 +397,7 @@ export class ContainerBatchserialComponent implements OnInit {
 
   fillBatchSerialDataInGrid(){
 
+    this.isColumnFilterView = false;
     this.showLoader = true;
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
       (data: any) => {
@@ -428,6 +432,9 @@ export class ContainerBatchserialComponent implements OnInit {
           
           if(this.ContainerBatchSerials.length > 10){
             this.ShowGridPaging = true;          
+          }
+          else{
+            this.ShowGridPaging = false;
           }
           for(let i =0; i<this.ContainerBatchSerials.length; i++){
             this.ContainerBatchSerials[i].Selected = false;
@@ -756,5 +763,16 @@ export class ContainerBatchserialComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  onFilterChange(checkBox:any,grid:GridComponent){
+    if(checkBox.checked==false){
+      this.clearFilter(grid);
+    }
+  }
+
+  clearFilter(grid:GridComponent){      
+    //grid.filter.filters=[];    
+    //this.clearFilters();
   }
 }
