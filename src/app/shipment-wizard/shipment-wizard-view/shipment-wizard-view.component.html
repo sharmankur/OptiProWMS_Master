@@ -389,11 +389,11 @@
 
                                     <kendo-grid-column field="SalesUOM" width="100" title="{{'UOM'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="SalesOpenQty" width="80" class="grid-right-align-column"
+                                    <kendo-grid-column field="ShipmentQty" width="80" class="grid-right-align-column"
                                         title="{{'OpnQty'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <span class="font-weight-bold">
-                                                {{dataItem.SalesOpenQty|numberFormat}}</span>
+                                                {{dataItem.ShipmentQty|numberFormat}}</span>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column width="80" class="grid-right-align-column" title="{{'Shipment_Qty'|translate}}">
@@ -438,27 +438,27 @@
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" [(ngModel)]="CHKCustomer" [disabled]="true" id="Customer"
                                                 class="k-checkbox" name="Customer" />
-                                            <label class="k-checkbox-label" for="Customer">"{{'Customer'|translate}}"</label>
+                                            <label class="k-checkbox-label" for="Customer">{{'Customer'|translate}}</label>
                                         </div>
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" [(ngModel)]="CHKShipto" [disabled]="true" id="Shipto"
                                                 class="k-checkbox" name="Shipto" />
-                                            <label class="k-checkbox-label" for="Shipto">"{{'ShipTo'|translate}}"</label>
+                                            <label class="k-checkbox-label" for="Shipto">{{'ShipTo'|translate}}</label>
                                         </div>
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" id="Item" [(ngModel)]="CHKItem" class="k-checkbox"
                                                 name="Item" />
-                                            <label class="k-checkbox-label" for="Item">"{{'ItemCode'|translate}}"</label>
+                                            <label class="k-checkbox-label" for="Item">{{'ItemCode'|translate}}</label>
                                         </div>
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" [(ngModel)]="CHKSOno" id="SOno" class="k-checkbox"
                                                 name="SOno" />
-                                            <label class="k-checkbox-label" for="SOno">"{{'SalesOrder'|translate}}"</label>
+                                            <label class="k-checkbox-label" for="SOno">{{'SalesOrder'|translate}}</label>
                                         </div>
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" [(ngModel)]="CHKDueDate" id="DueDate" class="k-checkbox"
                                                 name="DueDate" />
-                                            <label class="k-checkbox-label" for="DueDate">"{{'DueDate'|translate}}"</label>
+                                            <label class="k-checkbox-label" for="DueDate">{{'DueDate'|translate}}</label>
                                         </div>
                                     </div>
                                     <!-- col end -->
@@ -505,7 +505,7 @@
                             <!-- STEP 5 START -->
                             <div [ngClass]="{show:currentStep == 5}" class="wizard-content">
                                 <kendo-grid [data]="GetCreateShipMentData" [pageSize]="pageSize" [skip]="skip"
-                                    [pageable]="pageable" [height]="200" [selectable]="true">
+                                    [pageable]="pageable" [selectable]="true">
                                     <kendo-grid-column field="OPTM_SHIPMENT_CODE" title="{{'Shipment_Code'|translate}}"
                                         class="text-left"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BPCODE" title="{{'Customer'|translate}}">
