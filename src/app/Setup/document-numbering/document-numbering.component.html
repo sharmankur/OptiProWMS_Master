@@ -1,0 +1,77 @@
+<div class="opti_container position-relative bg-white rounded">
+        <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+            <div class="opti_container_inner" [perfectScrollbar]=" ">
+    
+                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                  Document Number
+                </h3>
+               
+    
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shipment-widget-box">
+                            
+                            <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
+                                <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
+         
+                        <kendo-grid class="no-shadow" [data]="DocGridData" [resizable]="true" [sortable]="true" [selectable]="true"
+                            #gridItem>
+                                <kendo-grid-column title="Business Object" [width]="100" >
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <kendo-dropdownlist  [data]="ddlBusiness" textField="text" 
+                                            valueField="value" [(ngModel)]="dataItem.OPTM_BUSINESS_OBJECT" 
+                                            (valueChange)="onChangeBusinessObject($event, dataItem, rowIndex,gridItem)"  [valuePrimitive]="true"
+                                           
+                                            [ngModelOptions]="{standalone: true}" class="form-control-sm form-control w-100" 
+                                            
+                                            ></kendo-dropdownlist>
+                                        </ng-template>
+                                    </kendo-grid-column>
+    
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_CODE" title="Item Code" [width]="18" >
+                                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_CODE}} id="display_name"
+                                            min="0" #display_name >
+                                        <div class="input-group-append">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+    
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)"  field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
+                                        <span class="k-icon k-i-delete" role="presentation"></span>
+                                    </button>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="fix-footer-btnBar">
+                    <div class="col-sm-12 col-12">
+                        <hr />
+                    </div>
+                    <div class="col-sm-12 col-12">
+                       
+                        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                            Add/Update</button>
+                    </div>
+                </div>
+        </form>
+    
+    </div>
+    
+    <span [hidden]="hideLookup">
+        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+    </span>
+    
+    <div class="opti_loader full-section" *ngIf="showLoader">
+        <div class="opti_spinner"></div>
+    </div>

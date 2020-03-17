@@ -36,16 +36,16 @@
                         <span class="text">{{'Setup'|translate}}</span>
                     </a>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
-                            <a  class="dropdown-item">
+                        <li id="16001" role="menuitem" (click)="listClick($event, 'setup/trans-setup')" [ngStyle]="{'display':'flex'}">
+                            <a  class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/setup">
                                 <svg viewBox="0 0 416 416" class="icon">
                                     <use xlink:href="#transactionStepSetup"></use>
                                 </svg>
                                 <span class="text">{{'Transaction_Step_Setup'|translate}}</span>
                             </a>
                         </li>
-                        <li id="16002" role="menuitem" (click)="listClick($event, 'document_numbering')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item">
+                        <li id="16002" role="menuitem" (click)="listClick($event, 'setup/doc-number')" [ngStyle]="{'display':'flex'}">
+                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/setup">
                                 <svg viewBox="0 0 470.586 470.586" class="icon">
                                     <use xlink:href="#documentNumbering"></use>
                                 </svg>
