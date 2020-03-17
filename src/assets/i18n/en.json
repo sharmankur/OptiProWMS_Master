@@ -946,8 +946,35 @@
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
   "PCTNotSameChild": "Parent container type can't be same as chile container type.",
   "Allocated": "Allocated",
+  "MaintainPicklist": "Maintain Picklist",
+  "PickListBasic": "Pick List Basic",
+  "fromShipment": "From Shipment",
+  "toShipment": "To Shipment",
+  "PlanShift": "Plan Shift",
+  "PlanDate": "Plan Date",
+  "PlanDateAndTime": "Plan Date and Time",
   
-
+  "MaintainPickList":"Maintain Pick Lists",
+  "PlanDateTime":"Plan date and time",
+  "WarehouseShift":"Warehouse Shift",
+  "ClustureId":"Clusture ID",
+  "PicklistId":"Picklist ID",
+  "PickType":"Pick Type",
+  "PickOperation":"Pick Operation",
+  "TotalNumber":"Total Number",
+  
+  "MaintainPickTasks":"Maintain Pick Tasks",
+  "Zone":"Zone",
+  "PickFromBin":"Pick From Bin",
+  "TransferMeans":"Transfer Means",
+  "BatchSerialQuantity":"Batch/Serial Quantity",
+  "AssignedUserGroup":"Assigned User Group",
+  "TargetWarehouse":"Target Warehouse",
+  "Release":"Release",
+  "AutoRelease":"Auto Release",
+  "Batch_SerialNumber":"Batch/Serial Number", 
+  "TotalQuantity":"Total Quantity",  
+  
   "Dummy": "Dummy"
   
 }

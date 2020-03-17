@@ -5,6 +5,8 @@ import { PickTaskService } from '../../services/picktask.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
+import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { CommonData } from '../../models/CommonData';
 
 @Component({
   selector: 'app-picking-list',
@@ -13,11 +15,18 @@ import { Commonservice } from '../../services/commonservice.service';
 })
 export class PickingListComponent implements OnInit {
 
+  // this component for maintainance picking
   showLookupLoader: boolean = true;
   ShipmentList: any[];
   showLoader: boolean = false;
 
-  constructor(private picktaskService: PickTaskService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
+  WarehouseId: any = '';
+  serviceData: any[];
+  lookupfor: string;
+  showLookup: boolean = false;
+  
+  constructor(private picktaskService: PickTaskService,  private router: Router, private toastr: ToastrService, private translate: TranslateService,
+    private commonservice: Commonservice, private containerCreationService: ContainerCreationService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -51,6 +60,8 @@ export class PickingListComponent implements OnInit {
       "OPTM_WHSCODE": "Warehouse123"
     },
   ];
+
+  commonData: any = new CommonData();
   public items: any[] = [];
   public mySelection: number[] = [];
   public pageSize = 10;
@@ -61,7 +72,8 @@ export class PickingListComponent implements OnInit {
 
   ngOnInit() {
     this.picktaskService.clearLocaStorage();
-    this.getShipmentList()
+    this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
+   // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
   }
 
@@ -88,10 +100,7 @@ export class PickingListComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          // for (var i = 0; i < data.length; i++) {
-          //   data[i].OPTM_CONT_PERPARENT = data[i].OPTM_CONT_PERPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          //   data[i].OPTM_CONT_PARTOFPARENT = data[i].OPTM_CONT_PARTOFPARENT.toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          // }
+          
           this.ShipmentList = data;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -112,5 +121,94 @@ export class PickingListComponent implements OnInit {
 
   ShowBatchSerials(){
     
+  }
+
+
+
+  async onWhseChange() {
+    if (this.WarehouseId == undefined || this.WarehouseId == "") {
+      return;
+    }
+    this.showLookup = false;
+    var result = false;
+    await this.containerCreationService.IsValidWhseCode(this.WarehouseId).then(
+      resp => {
+        this.showLookup = false;
+        if (resp != null && resp != undefined)
+          if (resp.ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
+            return;
+          }
+        if (resp.length == 0) {
+          this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
+          this.WarehouseId = ''
+        } else {
+          this.WarehouseId = resp[0].WhsCode
+        }
+        result = true;
+      },
+      error => {
+        result = false;
+        this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+        this.showLookup = false;
+      }
+    );
+    return result;
+  }
+
+
+  GetWhseCode() {
+    this.commonservice.GetWhseCode().subscribe(
+      (data: any) => {
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "WareHouse";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  statusArray: any = [];
+  StatusValue:any='';
+  onStatusChange($event) {
+    this.StatusValue = $event.Value;
+  }
+
+  getLookupDataValue($event) {
+    if ($event != null && $event == "close") {
+      return;
+    }
+    else {
+      if (this.lookupfor == "WareHouse") {
+        this.WarehouseId = $event.WhsCode;
+      }
+      else if (this.lookupfor == "BinList") {
+        //this.BinId = $event.BinCode;
+      }
+
+    }
+  }
+
+  onArrowBtnClick() {
+    this.router.navigate(['home/shipment']);
+  }
+
+  onCancelClick() {
+    this.router.navigate(['home/dashboard']);
   }
 }
