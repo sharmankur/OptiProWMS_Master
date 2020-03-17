@@ -59,6 +59,12 @@
             color: #3e5b99;
         }
     }
+    .steps-box.done{      
+       i{
+        color: #e0e0e0;
+       }
+     
+   }
         
         .step-line{
             position: relative;
@@ -79,7 +85,8 @@
             transition: all 0.3s;
         }
         .steps-box.done a{
-            background: #3e5b99;
+            background: #7aaf69;
+            border-color: #7aaf69;
         }
         .steps-box:nth-child(1).done  ~ .step-line::before{
             width: 30%;

@@ -616,7 +616,7 @@ export class ShipmentWizardViewComponent implements OnInit {
       whs = ""
     }
     this.showLoader = true;
-    this.hideLookup = false;
+   // this.hideLookup = false;
     this.commonservice.GetDataForWHSLookup(whs).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -636,6 +636,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           } else {
             this.serviceData = data;
             this.lookupfor = "WareHouse";
+            this.hideLookup = false;
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
