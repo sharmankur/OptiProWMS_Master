@@ -12,8 +12,18 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_CPackRule'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
+                                <input type="text" class="form-control form-control-sm" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
                                     [disabled]=isUpdate>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="OPTM_RULE_DESC" [(ngModel)]="OPTM_RULE_DESC" placeholder="{{'CT_Description'|translate}}"
+                                    >
                             </div>
                         </div>
                     </div>
@@ -117,18 +127,14 @@
 
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-
-                                    <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name"
-                                        min="0" #display_name >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE" value={{dataItem.OPTM_ITEMCODE}} id="display_name" #display_name (blur)="IsValidItemCode(idx, display_name.value, display_name)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetItemCodeList(idx)">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
-
                             </ng-template>
                         </kendo-grid-column>
 
@@ -139,19 +145,19 @@
                             </ng-template>
                         </kendo-grid-column>
 
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
                                     #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
                             </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-right" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                     <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PACKING_MATWT" value={{dataItem.OPTM_PACKING_MATWT}} id="display_name"
                                         #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
                                 </ng-template>
                             </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center" [width]="10" title="">
+                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-center" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>

@@ -19,15 +19,15 @@ export class ContainergroupviewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
 
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService,private router: Router,
-    private contnrServ: ContainerGroupService, private contrMainComp : ContainergroupmainComponent) { 
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private router: Router,
+    private contnrServ: ContainerGroupService, private contrMainComp: ContainergroupmainComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
     translate.onLangChange.subscribe(() => {
     });
   }
-  
+
   ngOnInit() {
     this.GetDataForContainerGroups();
   }
@@ -62,7 +62,7 @@ export class ContainergroupviewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getLookupKey(event) {
     localStorage.setItem("CG_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.contrMainComp.cgComponent = 2;
@@ -73,42 +73,40 @@ export class ContainergroupviewComponent implements OnInit {
     localStorage.setItem("Action", "copy");
     this.contrMainComp.cgComponent = 2;
   }
-  
+
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
+  OnAddClick() {
     localStorage.setItem("CG_ROW", "");
     localStorage.setItem("Action", "");
     this.contrMainComp.cgComponent = 2;
   }
 
-  OnDeleteSelected(event){
-    if(event.length <= 0){
+  OnDeleteSelected(event) {
+    if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
     }
-    var cgDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      cgDeleteArry.push({
-        OPTM_CONTAINER_GROUP: event[i].OPTM_CONTAINER_GROUP,
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    }
-    this.DeleteContnrGroup(cgDeleteArry);
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
-    var cgDeleteArry: any[] = [];
-    cgDeleteArry.push({
-        OPTM_CONTAINER_GROUP: event[0],
-        CompanyDBId: localStorage.getItem("CompID")
-      });
-    this.DeleteContnrGroup(cgDeleteArry);
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  DeleteContnrGroup(ddDeleteArry){
+  DeleteContnrGroup(ddDeleteArry) {
     this.showLoader = true;
     this.contnrServ.DeleteFromContainerGroup(ddDeleteArry).subscribe(
       (data: any) => {
@@ -119,9 +117,9 @@ export class ContainergroupviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataForContainerGroups();
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -138,6 +136,55 @@ export class ContainergroupviewComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any = [];
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("Delete"):
+          var cgDeleteArry: any[] = [];
+          cgDeleteArry.push({
+            OPTM_CONTAINER_GROUP: this.event.OPTM_CONTAINER_GROUP,
+            CompanyDBId: localStorage.getItem("CompID")
+          });
+          this.DeleteContnrGroup(cgDeleteArry);
+          break;
+        case ("DeleteSelected"):
+          if (this.event.length <= 0) {
+            this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+            return;
+          }
+          var cgDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            cgDeleteArry.push({
+              OPTM_CONTAINER_GROUP: this.event[i].OPTM_CONTAINER_GROUP,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteContnrGroup(cgDeleteArry);
+          break;
+
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+
+        }
+      }
+    }
   }
 
 }

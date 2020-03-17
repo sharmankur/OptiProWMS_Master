@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
 import { ContainerBatchserialService } from '../../services/container-batchserial.service';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-container-batchserial',
@@ -40,10 +41,11 @@ export class ContainerBatchserialComponent implements OnInit {
   ShimpmentArray: any = [];
   Tracking: any = '';
   SHPStatus: any = '';
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   lookupData: any = [];
   BatchSerialData : any = [];
   showOtherLookup: boolean = false;
+  isColumnFilterView: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
@@ -54,6 +56,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.SelectedBin = localStorage.getItem("ShipBin");
     this.ShimpmentArray = JSON.parse(localStorage.getItem("ShipmentArrData"));   
     this.SelectedShipmentId = this.ShimpmentArray[0].OPTM_SHIPMENTID;
+    this.isColumnFilterView = false;
     if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
       this.IsShipment = true;
     }
@@ -394,6 +397,7 @@ export class ContainerBatchserialComponent implements OnInit {
 
   fillBatchSerialDataInGrid(){
 
+    this.isColumnFilterView = false;
     this.showLoader = true;
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
       (data: any) => {
@@ -428,6 +432,9 @@ export class ContainerBatchserialComponent implements OnInit {
           
           if(this.ContainerBatchSerials.length > 10){
             this.ShowGridPaging = true;          
+          }
+          else{
+            this.ShowGridPaging = false;
           }
           for(let i =0; i<this.ContainerBatchSerials.length; i++){
             this.ContainerBatchSerials[i].Selected = false;
@@ -678,7 +685,7 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }          
-          this.BatchSerialData = data;        
+          this.BatchSerialData = data.BatchWiseInventory;        
 
           for(let i=0; i<this.BatchSerialData.length;i++){
             this.BatchSerialData[i].Quantity = Number(this.BatchSerialData[i].Quantity).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
@@ -717,12 +724,12 @@ export class ContainerBatchserialComponent implements OnInit {
     this.showOtherLookup = false;
     this.showLookup = false;
     if($event.length == 0){
-     alert(1);
+     //alert(1);
     }
     var code = $event[0].ITEMCODE;    
   }
 
-  getLookupValue($event) {
+  getLookupDataValue($event) {
     this.showOtherLookup = false;
     this.showLookup = false;
 
@@ -731,15 +738,14 @@ export class ContainerBatchserialComponent implements OnInit {
     }
     else {     
        if (this.lookupfor == "WareHouse") {
-        this.WarehouseId = $event[0];
+        this.WarehouseId = $event.WhsCode;
        } 
       else if (this.lookupfor == "BinList") {
-        this.BinId = $event[0];
+        this.BinId = $event.BinCode;
       }    
-      else if(this.lookupfor == "ContainsItem"){
-        this.ContainsItemID =  $event[0];
-      }
-      
+      // else if(this.lookupfor == "ContainsItem"){
+      //   this.ContainsItemID =  $event.OPTM_ITEMCODE;
+      // }      
      }
   }
 
@@ -757,5 +763,16 @@ export class ContainerBatchserialComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  onFilterChange(checkBox:any,grid:GridComponent){
+    if(checkBox.checked==false){
+      this.clearFilter(grid);
+    }
+  }
+
+  clearFilter(grid:GridComponent){      
+    //grid.filter.filters=[];    
+    //this.clearFilters();
   }
 }

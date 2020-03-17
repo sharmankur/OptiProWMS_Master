@@ -42,6 +42,7 @@ import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ContainerMaintenanceModule } from '../container-maintenance/container-maintenance.module';
 import { SetupModule } from '../Setup/setup.module';
+import { BinRangeModule } from '../bin-range/bin-range.module';
 
 @NgModule({
   imports: [
@@ -78,7 +79,9 @@ import { SetupModule } from '../Setup/setup.module';
     ShipmentModule,
     DateInputsModule,
     ContainerMaintenanceModule,
-    SetupModule
+    SetupModule,
+    BinRangeModule,
+    ContainerMaintenanceModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
     ContainerShipmentComponent,ContainerBatchserialComponent,GeneratePickComponent],

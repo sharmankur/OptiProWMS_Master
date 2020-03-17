@@ -61,7 +61,7 @@ export class CarrierViewComponent implements OnInit {
     );
   }
 
-  getLookupValue(event) {
+  getLookupData(event) {
     localStorage.setItem("DD_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.carrierMainComponent.carrierComponent = 2;
@@ -84,6 +84,10 @@ export class CarrierViewComponent implements OnInit {
   }
 
   OnDeleteSelected(event) {
+    if(event.length <= 0){
+      this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+      return;
+    }
     this.event = event;
     this.dialogFor = "DeleteSelected";
     this.yesButtonText = this.translate.instant("yes");
@@ -139,7 +143,7 @@ export class CarrierViewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -148,7 +152,7 @@ export class CarrierViewComponent implements OnInit {
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
-            OPTM_CARRIERID: this.event[0],
+            OPTM_CARRIERID: this.event.OPTM_CARRIERID,
             CompanyDBId: localStorage.getItem("CompID")
           });
           this.DeleteFromCarrier(ddDeleteArry);

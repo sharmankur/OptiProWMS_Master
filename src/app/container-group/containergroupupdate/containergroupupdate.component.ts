@@ -14,7 +14,7 @@ import { ContainerGroupService } from '../../services/container-group.service';
 export class ContainergroupupdateComponent implements OnInit {
 
   CG_ID: string;
-  CG_DESC: string;
+  CG_DESC: string="";
   CG_ROW: any;
   BtnTitle: string;
   isUpdate: boolean = false;
@@ -27,8 +27,8 @@ export class ContainergroupupdateComponent implements OnInit {
     let CG_ROW = localStorage.getItem("CG_ROW")
     if(CG_ROW != undefined && CG_ROW != ""){
     this.CG_ROW = JSON.parse(localStorage.getItem("CG_ROW"));
-      this.CG_ID = this.CG_ROW[0];
-      this.CG_DESC = this.CG_ROW[1];
+      this.CG_ID = this.CG_ROW.OPTM_CONTAINER_GROUP;
+      this.CG_DESC = this.CG_ROW.OPTM_DESC;
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");

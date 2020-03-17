@@ -39,10 +39,10 @@ export class CTRUpdateComponent implements OnInit {
     let CtrRow = localStorage.getItem("CTR_ROW")
     if(CtrRow != undefined && CtrRow != ""){
     this.CTR_ROW = JSON.parse(localStorage.getItem("CTR_ROW"));
-      this.CTR_ContainerType = this.CTR_ROW[0];
-      this.CTR_ParentContainerType = this.CTR_ROW[1];
-      this.CTR_ConainerPerParent = this.CTR_ROW[2];
-      this.CTR_ConatainerPartofParent = this.CTR_ROW[3];
+      this.CTR_ContainerType = this.CTR_ROW.OPTM_CONTAINER_TYPE;
+      this.CTR_ParentContainerType = this.CTR_ROW.OPTM_PARENT_CONTTYPE;
+      this.CTR_ConainerPerParent = this.CTR_ROW.OPTM_CONT_PERPARENT;
+      this.CTR_ConatainerPartofParent = this.CTR_ROW.OPTM_CONT_PARTOFPARENT;
       if(localStorage.getItem("Action") == "copy"){
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
@@ -69,6 +69,10 @@ export class CTRUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CTR_ParentContainerType_Blank_Msg"));
       return false;
     }
+    else if(this.CTR_ContainerType == this.CTR_ParentContainerType){
+      this.toastr.error('', this.translate.instant("PCTNotSameChild"));
+      return false;
+    }    
     else if(this.CTR_ConainerPerParent == "NaN" || this.CTR_ConainerPerParent == undefined || Number(this.CTR_ConainerPerParent) <= 0 ){
       this.toastr.error('', this.translate.instant("CPPErrMsg"));
       return false;
@@ -204,11 +208,11 @@ export class CTRUpdateComponent implements OnInit {
             result = true;
           }else{
             this.CTR_ContainerType = "";
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
           this.CTR_ContainerType = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
       error => {
@@ -253,11 +257,11 @@ export class CTRUpdateComponent implements OnInit {
             result = true;
           }else{
             this.CTR_ParentContainerType = "";
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
           this.CTR_ParentContainerType = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("InvalidContainerType"));
         }
       },
       error => {

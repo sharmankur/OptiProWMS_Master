@@ -17,10 +17,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsCode'
-                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()">
+                                    [(ngModel)]="whsCode" id="whsCode" (blur)="onWhseChangeBlur()" [disabled]=disableCode>
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetWhseCode()">
+                                        (mousedown)="GetWhseCode()" [disabled]=disableCode>
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
@@ -32,8 +32,13 @@
 
                 <!-- col start -->
                 <div class="col-sm-6">
+                    <div class="form-group row">
+                    <label for="whsCode" class="col-sm-3 col-form-label">{{'WarehouseCode'|translate}}</label>
+                        <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" name='whsname' [(ngModel)]="whsName"
                         id="whsName" [disabled]=true placeholder="{{'WHSName'|translate}}" />
+                        </div>
+                    </div>
                 </div>
                 <!-- col end -->
             </div>
@@ -48,10 +53,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name='whsZone'
-                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()">
+                                    [(ngModel)]="whsZone" id="whsZone" (blur)="onWhsZoneBlur()" [disabled]=disableZone>
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                        (mousedown)="GetDataForWhsZone()">
+                                        (mousedown)="GetDataForWhsZone()" [disabled]=disableZone>
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
@@ -63,7 +68,7 @@
                
             </div>
             <!-- row end -->
-            <!-- row start -->
+            <!-- row start --> 
             <div class="row">
  <!-- col start -->
  <div class="col-sm-6">
@@ -73,11 +78,11 @@
         <div class="col-sm-9">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control form-control-sm" name='binrange'
-                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()">
+                    [(ngModel)]="binRange" id="binRange"  (blur)="onBinRangeBlur()" [disabled]=disableBinRange>
                 <div class="input-group-append has-seprate-btn">
                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                        (mousedown)="GetBinRange()">
-                        <i class="opti-icon-hammenu"></i>
+                        (mousedown)="GetBinRange()" [disabled]=disableBinRange>
+                        <i class="opti-icon-search"></i>
                     </button>
                 </div>
             </div>

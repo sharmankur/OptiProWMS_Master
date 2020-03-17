@@ -22,7 +22,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
   countNumberRow: number = 0;
   finalString: string = "";
   made_changes: any;
-  commonData: any = new CommonData();
+  commonData: any = new CommonData(this.translate);
   selectedOperation: string;
   selectedType: string;
   operations: any = [];

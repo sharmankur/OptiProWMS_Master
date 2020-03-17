@@ -67,7 +67,7 @@ export class CTRViewComponent implements OnInit {
   }
 
 
-  getLookupValue(event) {
+  getlookupSelectedItem(event) {
     localStorage.setItem("CTR_ROW", JSON.stringify(event));
     localStorage.setItem("Action", "");
     this.ctrmainComponent.ctrComponent = 2;
@@ -150,7 +150,7 @@ export class CTRViewComponent implements OnInit {
   yesButtonText: string;
   noButtonText: string;
   dialogFor: string;
-  event: any[] = [];
+  event: any = [];
 
   getConfirmDialogValue($event) {
     this.showConfirmDialog = false;
@@ -160,8 +160,8 @@ export class CTRViewComponent implements OnInit {
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
             CompanyDBId: localStorage.getItem("CompID"),
-            OPTM_CONTAINER_TYPE: this.event[0],
-            OPTM_PARENT_CONTTYPE: this.event[1],
+            OPTM_CONTAINER_TYPE: this.event.OPTM_CONTAINER_TYPE,
+            OPTM_PARENT_CONTTYPE: this.event.OPTM_PARENT_CONTTYPE,
           });
           this.DeleteFromContainerRelationship(ddDeleteArry);
           break;

@@ -7,7 +7,7 @@
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Whs_User_GroupMapping'|translate}}
             </h3>
-            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupvalue)="getGridItemClick($event)"
+            <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupkey)="getGridItemClick($event)"
             (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
             (copyItem)="onCopyItemClick($event)"></app-lookup>
         </div>
@@ -20,7 +20,7 @@
                 {{'Cancel'|translate}}</button>
 
             <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
-                <span class="k-icon k-i-check" role="presentation"></span> {{'CT_Add'|translate}}</button>
+                <span class="k-icon k-i-plus"  role="presentation"></span> {{'CT_Add'|translate}}</button>
              </div>
             </div>
       

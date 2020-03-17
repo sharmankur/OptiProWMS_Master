@@ -48,7 +48,7 @@
         format="{{column.format}}" width="{{column.width}}" minResizableWidth="{{column.width}}" headerClass={{column.headerClass}}
         class={{column.class}}></kendo-grid-column>
 
-    <kendo-grid-column [sortable]="false" title="Action" filter="numeric" [filterable]="false" [width]="100">
+    <kendo-grid-column class="text-left" [sortable]="false" title="Action" filter="numeric" [filterable]="false" [width]="100">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
             <button type="button" class="btn btn-danger k-button btn-sm mr-10 " (click)="onEditClick(dataItem)" title="Edit">
                     <i class="k-icon k-i-edit"></i>

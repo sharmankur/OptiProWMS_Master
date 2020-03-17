@@ -7,7 +7,7 @@
                     {{'Container_Group'|translate}}
                 </h3>
       
-                <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)" (deleteClick)="onDeleteRowClick($event)" 
+                <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupKey($event)" (deleteClick)="onDeleteRowClick($event)" 
                 (deleteSelectedItems)="OnDeleteSelected($event)" (copyItem)="onCopyItemClick($event)"></app-lookup>
                 
             </div>
@@ -29,3 +29,8 @@
       <div class="opti_loader full-section" *ngIf="showLoader">
         <div class="opti_spinner"></div>
       </div>
+
+      <span *ngIf="showConfirmDialog">
+            <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+                (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+        </span>

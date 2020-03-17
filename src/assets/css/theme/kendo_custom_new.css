@@ -4277,7 +4277,7 @@ body .k-grid tr.k-grid-norecords td{
       overflow: visible; }
       .k-grid .k-hierarchy-cell > .k-icon {
         /* padding: 0.75rem 0; */
-          padding: 3px 0;
+          padding: 0;
         width: 100%;
         height: 100%;
         line-height: 1.5;
@@ -12875,6 +12875,7 @@ body .k-grid td button.btn-success.k-button.k-primary.simple-btn:hover,
 .btn-success.k-button:focus,.btn-success.k-button:active,
 .btn-success:not(:disabled):not(.disabled):active{
   background: #3e5b99;
+  color: #fff;
   
 }
 .btn-success,.btn-success:hover, .btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle{

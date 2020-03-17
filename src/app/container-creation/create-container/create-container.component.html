@@ -5,7 +5,112 @@
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'CreateContainer'|translate}}
             </h3>
+<!-- Row 1 -->
+<div class="row" *ngIf="IsWIPCont">
+        <div class="col-12">
+            <!-- row start -->
+            <div class="row">             
 
+                <!-- col start -->
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'WO'|translate}}</label>
+                        <div class="input-group col-sm-7">
+                                <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                                        name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderChangeBlur()">
+                                <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                   <!-- col start -->
+                   <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Produced'|translate}}</label>
+                        <div class="col-sm-7">
+                                <div class="">
+                                    <div class="">
+                                            <input type="text" class="form-control form-control-sm text-right" id="ProducedQtyId"
+                                   name="ProducedQtyId" [(ngModel)]="ProducedQty" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                  <!-- col start -->
+                  <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Rejected'|translate}}</label>
+                        <div class="col-sm-7">
+                            <div class="">                                
+                                   <input type="text" class="form-control form-control-sm text-right" name='RejectedQtyId'
+                                   [(ngModel)]="RejectedQty" id="RejectedQtyId" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col end -->
+            </div>
+        </div>
+    </div>
+    <!-- Row 10 -->
+ <div class="row" *ngIf="IsWIPCont">
+        <div class="col-12">
+            <!-- row start -->
+            <div class="row">            
+
+                <!-- col start -->
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="containerWeigth" class="col-sm-5 col-form-label">{{'TaskId/Opn#'|translate}}</label>
+                        <div class="col-sm-7">
+                            <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm" id="taskId"
+                                    name="taskId" [(ngModel)]="taskId" disabled>
+                                    <input type="text" class="form-control form-control-sm ml-1 text-right" id="OperationNoId"
+                                    name="OperationNoId" [(ngModel)]="operationNo" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                   <!-- col start -->
+                   <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Passed'|translate}}</label>
+                        <div class="col-sm-7">
+                                <div class="">                                    
+                                    <input type="text" class="form-control form-control-sm text-right" name='PassedQtyId'
+                                    [ngModel]="PassedQty" id="PassedQtyId"
+                                    disabled>                                  
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- col end -->
+                  <!-- col start -->              
+                <div class="col-sm-4">
+                        <div class="form-group row">
+                            <label for="RejectedNC" class="col-sm-5 col-form-label">{{'NC'|translate}}</label>
+                            <div class="col-sm-7">
+                                <div class="">
+                                    <input type="text" class="form-control form-control-sm text-right" name='NCQtyId'
+                                        [(ngModel)]="NCQty" id="NCQtyId" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- col end -->
+            </div>
+        </div>
+    </div>
+  
+ 
             <!-- Row 1 -->
             <div class="row">
                 <div class="col-12">
@@ -31,7 +136,7 @@
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Login_Warehouse'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Login_Warehouse'|translate}}"
+                                    <input type="text" class="form-control form-control-sm" id="whse" 
                                         name="whse" [(ngModel)]="whse" (blur)="onWhseChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
@@ -45,6 +150,32 @@
 
                             <!-- col start -->
                             <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Cont_Code'|translate}}</label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group input-group-sm">
+                                                    <!-- <input type="text" class="form-control form-control-sm mr-1" name='containerId'
+                                                        [(ngModel)]="containerId" id="containerId" disabled> -->
+                                                    <input type="text" class="form-control form-control-sm" name='containerCode'
+                                                        [(ngModel)]="containerCode" id="containerCode" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                               </div>
+                            <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+
+                        <div class="col-sm-4">
                                 <div class="form-group row">
                                     <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
                                     <div class="col-sm-7">
@@ -56,22 +187,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- col end -->
-                    </div>
-                </div>
-            </div>
 
-            <!-- Row 2 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
                            <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'BinCode'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="binNo" placeholder="{{'BinCode'|translate}}"
+                                    <input type="text" class="form-control form-control-sm" id="binNo"
                                         name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
@@ -82,43 +204,93 @@
                             </div>
                         </div>
                         <!-- col end -->
- <!-- col start -->
- <div class="col-sm-4">
-    <div class="form-group row">
-        <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'ContainerType'|translate}}</label>
-        <div class="input-group col-sm-7">
-            <input type="text" class="form-control form-control-sm" id="containerTypeId"
-                placeholder="{{'ContainerType'|translate}}" name="containerType" [(ngModel)]="containerType"
-                (blur)="onContainerTypeChangeBlur('child')">
-            <div class="input-group-append has-seprate-btn">
-                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
-                    <i class="opti-icon-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- col end -->
-
-
-<div class="col-sm-4">
-    <!-- col start -->
-    <div class="form-group row">
-        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'ContainerCode'|translate}}</label>
-        <div class="col-sm-7">
-            <div class="input-group input-group-sm">
-                <div class="input-group input-group-sm">
-                    <!-- <input type="text" class="form-control form-control-sm mr-1" name='containerId'
-                        [(ngModel)]="containerId" id="containerId" disabled> -->
-                    <input type="text" class="form-control form-control-sm" name='containerCode'
-                        [(ngModel)]="containerCode" id="containerCode" disabled>
+                    <!-- col start -->
+                    <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Status'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" class="form-control form-control-sm" name='ContStatusId'
+                                                [ngModel]="ContStatus" id="ContStatusId" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- col end -->                 
+                       
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- col end -->
-</div>
-                       
+
+        <!-- Row 2 -->
+        <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+
+                    <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Cont_Type'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="containerTypeId"
+                                       name="containerType" [(ngModel)]="containerType"
+                                        (blur)="onContainerTypeChangeBlur('child')">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <!-- col start -->
+                        <!-- <div class="col-sm-4" >
+                            <div class="form-group row">
+                                <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
+                                            [ngModel]="itemPackQty|numberFormat" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
+                                            disabled>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
+                                    <div class="input-group col-sm-7">
+                                        <input type="text" class="form-control form-control-sm" id="soNumber" 
+                                            name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- col end -->
+                    <!-- col start -->
+                    <div class="col-sm-4">
+                        <div class="form-group row">
+                            <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Length'|translate}}</label>
+                            <div class="col-sm-7">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm text-right" name='width'
+                                            [ngModel]="length|numberFormat" (ngModelChange)="length=$event" id="length" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->                 
+                        
                     </div>
                 </div>
             </div>
@@ -131,13 +303,13 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="parentContainerType"
-                                        placeholder="{{'CTR_Parent_CT'|translate}}" name="parentContainerType"
-                                        [(ngModel)]="parentContainerType" (blur)="onContainerTypeChangeBlur('parent')">
+                                        name="parentContainerType"
+                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')"> 
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('parent')">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -147,39 +319,51 @@
                         <!-- col end -->
 
                         <!-- col start -->
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="itemPackQty" class="col-sm-5 col-form-label">{{'ItemPackQty'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm text-right" name='itemPackQty'
-                                            [ngModel]="itemPackQty|numberFormat" (ngModelChange)="itemPackQty=$event" id="itemPackQty"
-                                            disabled>
-                                        <input type="text" class="form-control form-control-sm ml-1 text-right" name='itemPack'
-                                            [(ngModel)]="itemPack" id="itemPack" disabled>
+                                        <input type="text" class="form-control form-control-sm text-right" name='noOfPackToGen'
+                                            [(ngModel)]="noOfPackToGen" id="noOfPackToGen">                                       
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- col end -->
-                              <!-- col start -->
-                              <div class="col-sm-4">
+                        </div> -->
+
+                        <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                    <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
                                     <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
-                                            placeholder="{{'AutoPackRule'|translate}}" name="autoPackRule" [(ngModel)]="autoPackRule"
-                                            (blur)="onAutoPackRuleChangeBlur()">
+                                        <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                                            name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
                                         <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-    
                             </div>
-                            <!-- col end -->
+
+
+
+                        <!-- col end -->
+                       <!-- col start -->
+                       <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Width'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="">
+                                        <div class="">
+                                            <input type="text" class="form-control form-control-sm text-right" name='width'
+                                                [ngModel]="width|numberFormat" (ngModelChange)="width=$event" id="width" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
     
                     </div>
                 </div>
@@ -194,47 +378,46 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Length'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='width'
-                                                [ngModel]="length|numberFormat" (ngModelChange)="length=$event" id="length" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-                          <!-- col start -->
-                          <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm text-right" name='noOfPackToGen'
-                                            [(ngModel)]="noOfPackToGen" id="noOfPackToGen">
-                                        <!-- <input type="text" class="form-control form-control-sm ml-1" name='noOfPackToGen1'
-                                            [(ngModel)]="noOfPackToGen1" id="noOfPackToGen1" placeholder="{{'0'}}"
-                                            disabled>
-                                        <input type="text" class="form-control form-control-sm ml-1" name='noOfPackToGen2'
-                                            [(ngModel)]="noOfPackToGen2" id="noOfPackToGen2" placeholder="{{'0'}}"
-                                            disabled> -->
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
+                                       name="autoPackRule" [(ngModel)]="autoPackRule"
+                                        (blur)="onAutoPackRuleChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                         <!-- col end -->
+                          <!-- col start -->
+                          <div class="col-sm-4">
+                            <div class="form-group row" *ngIf="false">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="soNumber" 
+                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Width'|translate}}</label>
+                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'CT_Height'|translate}}</label>
                                 <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='width'
-                                                [ngModel]="width|numberFormat" (ngModelChange)="width=$event" id="width" disabled>
+                                    <div class="">
+                                        <div class="">
+                                            <input type="text" class="form-control form-control-sm text-right" name='height'
+                                                [ngModel]="height|numberFormat" (ngModelChange)="height=$event" id="height" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -261,82 +444,17 @@
                                         <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div>    
                         </div>
+                               
                         <!-- col end -->
-
                         <!-- col start -->
                         <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'CT_Height'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name='height'
-                                                [ngModel]="height|numberFormat" (ngModelChange)="height=$event" id="height" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-                           <!-- col start -->
-                           <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
-                                <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="soNumber" placeholder="{{'SONumber'|translate}}"
-                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Row 8 -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- row start -->
-                    <div class="row">
-                     
-
-                        <!-- col start -->
-                        <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label for="CustomerTo" class="col-sm-5 col-form-label">{{'MaxWeigth'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm text-right" name="maxWeigth"
-                                                id="maxWeigth" [ngModel]="maxWeigth|numberFormat" (ngModelChange)="maxWeigth=$event"  disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col end -->
-                           <!-- col start -->
-                           <div class="col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group row" *ngIf="false">
                                 <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                                <!-- <div class="col-sm-7">
-                                    <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm" name='CustomerTo'
-                                            [(ngModel)]="CustomerTo" id="CustomerTo">
-                                    </div>
-                                </div> -->
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                        name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()"
-                                        placeholder="{{'ContainerGroupingCode'|translate}}">
+                                        name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
                                             <i class="opti-icon-search"></i>
@@ -346,14 +464,18 @@
                             </div>
                         </div>
                         <!-- col end -->
-                          <!-- col start -->
-                          <div class="col-sm-4">
+
+                        
+                           <!-- col start -->
+                           <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth'|translate}}</label>
+                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'MaxWeight/ContainerWeigth'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
-                                        <input type="number" class="form-control form-control-sm text-right" name='containerWeigth'
+                                        <input type="text" class="form-control form-control-sm text-right" name='containerWeigth'
                                             [ngModel]="containerWeigth|numberFormat" (ngModelChange)="containerWeigth=$event" id="containerWeigth" disabled>
+                                        <input type="text" class="form-control form-control-sm text-right ml-1" name="maxWeigth"
+                                        id="maxWeigth" [ngModel]="maxWeigth|numberFormat" (ngModelChange)="maxWeigth=$event" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -361,118 +483,7 @@
                         <!-- col end -->
                     </div>
                 </div>
-            </div>
-
-
-
- <!-- Row 9 -->
- <div class="row" *ngIf="IsWIPCont">
-        <div class="col-12">
-            <!-- row start -->
-            <div class="row">             
-
-                <!-- col start -->
-                <div class="col-sm-4">
-                    <div class="form-group row">
-                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'WO'|translate}}</label>
-                        <div class="input-group col-sm-7">
-                                <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                        name="workOrder" [(ngModel)]="workOrder" placeholder="{{'WO'|translate}}">
-                                <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <!-- col end -->
-                   <!-- col start -->
-                   <div class="col-sm-4">
-                    <div class="form-group row">
-                        <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'Operation'|translate}}</label>
-                        <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name='operationNo'
-                                            [(ngModel)]="operationNo" id="operationNo" placeholder="{{'Operation'|translate}}" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <!-- col end -->
-                  <!-- col start -->
-                  <div class="col-sm-4">
-                    <div class="form-group row">
-                        <label for="containerWeigth" class="col-sm-5 col-form-label">{{'PT_TaskId'|translate}}</label>
-                        <div class="col-sm-7">
-                            <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" id="taskId"
-                                    name="taskId" [(ngModel)]="taskId" placeholder="{{'PT_TaskId'|translate}}" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- col end -->
-            </div>
-        </div>
-    </div>
-
-  <!-- Row 10 -->
- <div class="row" *ngIf="IsWIPCont">
-        <div class="col-12">
-            <!-- row start -->
-            <div class="row">            
-
-                <!-- col start -->
-                <div class="col-sm-4">
-                    <div class="form-group row">
-                        <label for="CustomerTo" class="col-sm-5 col-form-label">{{'Produced_Qty'|translate}}</label>
-                        <div class="input-group col-sm-7">
-                                <input type="text" class="form-control form-control-sm" id="ProducedQtyId"
-                                        name="ProducedQtyId" [(ngModel)]="ProducedQty" disabled> 
-                            </div>
-                    </div>
-                </div>
-                <!-- col end -->
-                   <!-- col start -->
-                   <div class="col-sm-4">
-                    <div class="form-group row">
-                        <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'Passed_Qty'|translate}}</label>
-                        <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
-                                    <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm" name='PassedQtyId'
-                                            [(ngModel)]="PassedQty" id="PassedQtyId" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <!-- col end -->
-                  <!-- col start -->              
-                <div class="col-sm-4">
-                        <div class="form-group row">
-                            <label for="RejectedNC" class="col-sm-5 col-form-label">{{'Rejected/NC'|translate}}</label>
-                            <div class="col-sm-7">
-                                <div class="input-group input-group-sm">
-                                    <input type="number" class="form-control form-control-sm text-right" name='RejectedQtyId'
-                                        [ngModel]="RejectedQty" id="RejectedQtyId"
-                                        disabled>
-                                    <input type="text" class="form-control form-control-sm ml-1 text-right" name='NCQtyId'
-                                        [(ngModel)]="NCQty" id="NCQtyId" disabled>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- col end -->
-            </div>
-        </div>
-    </div>
-
-
-
+            </div> 
 
             <div>
                 <!-- <div class="row mt-3">
@@ -492,10 +503,11 @@
                     
                     </div>
                 </div> -->
+                <br> 
                 <div class="row">
                     <div class="col-12">
                         <kendo-grid class="no-shadow" [data]="fromContainerDetails" [resizable]="true" [sortable]="true"
-                            [selectable]="true" id="gridItem" #gridItem>
+                            [selectable]="true" id="gridItem" [height]="200" #gridItem >
                             <!-- grid template start -->
                             <ng-template kendoGridToolbarTemplate>
                                 <span class="grid-toolbar-title">{{'OtherItemsTitle'|translate}}</span>
@@ -511,16 +523,16 @@
                                     <dl class="opti_mobile_grid_dl">
                                         <dt>{{dataItem.OPTM_ITEMCODE}}</dt>
                                         <dd>{{dataItem.OPTM_PARTS_PERCONT}}</dd>
-                                        <dt></dt>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
-                                        <dd></dd>
+                                        <dt>{{dataItem.OPTM_CONTAINERID}}</dt>
+                                        <dd>{{dataItem.AvlQty}}</dd>
+                                        <dd>{{dataItem.OPTM_MIN_FILLPRCNT}}</dd>
+                                        <dd>{{dataItem.BinCode}}</dd>
+                                        <dd>{{dataItem.QuantityToAdd}}</dd>
                                     </dl>
                                     <dl class="opti_mobile_grid_dl">
                                         <dt>{{'#'}}</dt>
                                         <dt>{{'ItemCode'|translate}}</dt>
-                                        <dd>{{'Quantity'|translate}}</dd>
+                                        <dd>{{'Item_Container_Quantity'|translate}}</dd>
                                         <dt>{{'Container'|translate}}</dt>
                                         <dd>{{'AvailableQty'|translate}}</dd>
                                         <dd>{{'InvQty'|translate}}</dd>
@@ -530,17 +542,21 @@
                             </kendo-grid-column>
                             <!-- grid for mobile end -->
 
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45" title="{{'ItemCode'|translate}}">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name="ITEMCODE" value={{dataItem.OPTM_ITEMCODE}}
-                                            id="display_name" min="0" #display_name>
-                                    </div>
-                                </ng-template> -->
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45"  headerClass="text-left" title="{{'ItemCode'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_ITEMCODE}}</span>
+                                <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    {{dataItem.OPTM_ITEMCODE}}</span>
+                                </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Quantity'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
+                            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Item_Container_Quantity'|translate}}"
+                                headerClass="text-left" class="text-right">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}
+                                </ng-template> -->
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" title="{{'Container'|translate}}"
@@ -558,33 +574,49 @@
                                 </ng-template>
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="AvlQty" [width]="45" title="{{'AvailableQty'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty}}
-                                </ng-template>
+                                headerClass="text-left" class="text-right">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.AvlQty}}
+                                </ng-template> -->
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.AvlQty}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.AvlQty}}</span>
+                                </ng-template>                                
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" [width]="45" title="{{'InvQty'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.OPTM_MIN_FILLPRCNT}}
-                                </ng-template>
+                                headerClass="text-left" class="text-right">                                
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_MIN_FILLPRCNT}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.OPTM_MIN_FILLPRCNT}}</span>
+                                </ng-template>  
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" [width]="60" title="{{'BinNo'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" field="BinCode" headerClass="text-left" [width]="60" title="{{'BinNo'|translate}}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.BinCode}}</span>
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                        {{dataItem.BinCode}}</span>
+                                </ng-template> 
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="QuantityToAdd" [width]="45" title="{{'QtyAdded'|translate}}"
-                                headerClass="text-center" class="text-right">
-                                <!-- <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.QuantityToAdd|numberFormat}}
-                                </ng-template> -->
+                                headerClass="text-left" class="text-right">                                
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm text-right" name="qtytoadd"
                                             value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
-                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
+                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> <!--[disabled]="dataItem.isDesable"-->
                                     </div>
+                                    <!-- <div class="input-group input-group-sm" *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode">
+                                        <input type="text" class="form-control form-control-sm text-right" class="font-weight-bold" name="qtytoadd"
+                                            value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
+                                            #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> 
+                                    </div> -->
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" [width]="45" headerClass="text-center" class="text-center">
+                            <kendo-grid-column media="(min-width: 768px)" [width]="45" headerClass="text-left" title="{{'Action'|translate}}" class="text-left">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon text-center"
-                                        (click)="onShowBSClick(dataItem, rowIndex)">
+                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
+                                        (click)="onShowBSClick(dataItem, rowIndex)" [disabled]="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" >
                                         <span class="opti-icon-search" role="presentation"></span>
                                     </button>
                                 </ng-template>
@@ -629,7 +661,7 @@
                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
                                 <!-- <a class="dropdown-item" (click)="onResetClick()">{{'Login_Reset'|translate}}</a> -->
-                                <a class="dropdown-item">{{'ResetCounter'|translate}}</a>
+                                <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
                                 <a class="dropdown-item">{{'PrintLabel'|translate}}</a>
                                 <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
                             </div>
@@ -641,11 +673,11 @@
 </div>
 
 <span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
 </span>
 
 <span *ngIf="showLookup==false && showOtherLookup==true">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event)"></app-common-lookup>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

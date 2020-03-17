@@ -46,6 +46,7 @@ const routes: Routes = [
       { path: 'shipment', loadChildren: "../shipment/shipment.module#ShipmentModule" },
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
+      { path: 'binranges', loadChildren: "../bin-range/bin-range.module#BinRangeModule" },
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
       { path: 'container-creationWIP', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },

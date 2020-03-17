@@ -1,141 +1,149 @@
 <!-- left panel start -->
 <section id="opti_LeftPanelID" class="position-relative">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 text-center opti_vertical-align opti_device-logo-outer">
-                    <!-- logo -->
-                    <section class="opti_logo opti_device-logo text-primary">
-    <img src="assets/images/logo/logo2.png" style="width: 98px;">
-                        <!-- <svg viewBox="0 0 819.5 338" class="opti_large-logo" style="height:45px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center opti_vertical-align opti_device-logo-outer">
+                <!-- logo -->
+                <section class="opti_logo opti_device-logo text-primary">
+                    <img src="assets/images/logo/logo2.png" style="width: 98px;">
+                    <!-- <svg viewBox="0 0 819.5 338" class="opti_large-logo" style="height:45px;">
                             <use xlink:href="#logo2"></use>
                         </svg>
                         <svg viewBox="0 0 60.4 65.8" class="opti_small-logo" style="height:45px;">
                             <use xlink:href="#logo_icon"></use>
                         </svg> -->
-    
-                        <!-- <h4>Shipping Solution</h4> -->
-                    </section>
-                    <div id="sidebarCollapse-alt" class="opti_vertical-align">
-                        <svg viewBox="0 0 512 512" class="icon">
-                            <use xlink:href="#home"></use>
-                        </svg>
-                    </div>
+
+                    <!-- <h4>Shipping Solution</h4> -->
+                </section>
+                <div id="sidebarCollapse-alt" class="opti_vertical-align">
+                    <svg viewBox="0 0 512 512" class="icon">
+                        <use xlink:href="#home"></use>
+                    </svg>
                 </div>
             </div>
         </div>
-    
-        <section class="opti_left-navigation position-relative" [perfectScrollbar]="">
-            <ul class="opti_left-nav-ul">
-    
-                <li class="dropdown" dropdown id="SETUP" [ngStyle]="{'display':'flex'}" [insideClick]="true" >
-                    <a dropdownToggle class="dropdown-toggle">
-                        <svg viewBox="0 0 512 512" class="icon">
-                            <use xlink:href="#setup"></use>
-                        </svg>
-                        <span class="text">{{'Setup'|translate}}</span>
-                    </a>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16001" role="menuitem" (click)="listClick($event, 'setup/trans-setup')" [ngStyle]="{'display':'flex'}">
-                            <a  class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/setup">
-                                <svg viewBox="0 0 416 416" class="icon">
-                                    <use xlink:href="#transactionStepSetup"></use>
-                                </svg>
-                                <span class="text">{{'Transaction_Step_Setup'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16002" role="menuitem" (click)="listClick($event, 'setup/doc-number')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/setup">
-                                <svg viewBox="0 0 470.586 470.586" class="icon">
-                                    <use xlink:href="#documentNumbering"></use>
-                                </svg>
-                                <span class="text">{{'Document_Numbering'|translate}}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-    
-                <li class="dropdown" dropdown id="16003" [insideClick]="true">
-                    <a dropdownToggle class="dropdown-toggle" [ngStyle]="{'display':'flex'}">
-                        <svg viewBox="0 0 64 64" class="icon">
-                            <use xlink:href="#master"></use>
-                        </svg>
-                        <span class="text">{{'DropdownMenu_Masters'|translate}}</span>
-                    </a>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16004" role="menuitem" (click)="listClick($event, 'whse-bin-layout')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/whse-bin-layout">
-                                <svg viewBox="0 0 512 511" class="icon">
-                                    <use xlink:href="#warehouseBinLayout"></use>
-                                </svg>
-                                <span class="text">{{'Warehouse_Bin_Layout'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16005" role="menuitem" (click)="listClick($event, 'binrule')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/binrule">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#binRules"></use>
-                                </svg>
-                                <span class="text">{{'Bin_Rules'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16006" role="menuitem" (click)="listClick($event, 'whsUGMapping')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/whsUGMapping">
-                                <svg viewBox="0 0 512.001 512" class="icon">
-                                    <use xlink:href="#whsUGMapping"></use>
-                                </svg>
-                                <span class="text">{{'WhsUGMapping'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16007" role="menuitem" (click)="listClick($event, 'containertype')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/containertype">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#containerType"></use>
-                                </svg>
-                                <span class="text">{{'ContainerType'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16008" role="menuitem" (click)="listClick($event, 'containertyperelation')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/containertyperelation">
-                                <svg viewBox="0 0 90 90" class="icon">
-                                    <use xlink:href="#containerTypeRelations"></use>
-                                </svg>
-                                <span class="text">{{'ContainerTypeRelation'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16009" role="menuitem" (click)="listClick($event, 'containerautorule')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/containerautorule">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#containerAutoRule"></use>
-                                </svg>
-                                <span class="text">{{'ContainerAutoRule'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16010" role="menuitem" (click)="listClick($event, 'container-group')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/container-group">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#containerGroups"></use>
-                                </svg>
-                                <span class="text">{{'Container_Groups'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16011" role="menuitem" (click)="listClick($event, 'dockdoor')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/dockdoor">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#dockDoor"></use>
-                                </svg>
-                                <span class="text">{{'Dock_Door'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16012" role="menuitem" (click)="listClick($event, 'carrier')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/carrier">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#carrier"></use>
-                                </svg>
-                                <span class="text">{{'DropdownMenu_Carrier'|translate}}</span>
-                            </a>
-                        </li>
-                        <!-- <li id="16013" role="menuitem" (click)="listClick($event, 'Configuration_Paramter')" [ngStyle]="{'display':'flex'}">
+    </div>
+
+    <section class="opti_left-navigation position-relative" [perfectScrollbar]="">
+        <ul class="opti_left-nav-ul">
+
+            <li class="dropdown"  [autoClose]="false"  dropdown id="SETUP" [ngStyle]="{'display':'flex'}" [insideClick]="true">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 512 512" class="icon">
+                        <use xlink:href="#setup"></use>
+                    </svg>
+                    <span class="text">{{'Setup'|translate}}</span>
+                </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 416 416" class="icon">
+                                <use xlink:href="#transactionStepSetup"></use>
+                            </svg>
+                            <span class="text">{{'Transaction_Step_Setup'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16002" role="menuitem" (click)="listClick($event, 'document_numbering')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 470.586 470.586" class="icon">
+                                <use xlink:href="#documentNumbering"></use>
+                            </svg>
+                            <span class="text">{{'Document_Numbering'|translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown"  [autoClose]="false"  dropdown id="16003" [insideClick]="true">
+                <a dropdownToggle class="dropdown-toggle" [ngStyle]="{'display':'flex'}">
+                    <svg viewBox="0 0 64 64" class="icon">
+                        <use xlink:href="#master"></use>
+                    </svg>
+                    <span class="text">{{'DropdownMenu_Masters'|translate}}</span>
+                </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="16004" role="menuitem" (click)="listClick($event, 'binranges')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/binranges">
+                            <svg viewBox="0 0 512 511" class="icon">
+                                <use xlink:href="#warehouseBinLayout"></use>
+                            </svg>
+                            <span class="text">{{'BinRange'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16004" role="menuitem" (click)="listClick($event, 'whse-bin-layout')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/whse-bin-layout">
+                            <svg viewBox="0 0 512 511" class="icon">
+                                <use xlink:href="#warehouseBinLayout"></use>
+                            </svg>
+                            <span class="text">{{'Warehouse_Bin_Layout'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16005" role="menuitem" (click)="listClick($event, 'binrule')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/binrule">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#binRules"></use>
+                            </svg>
+                            <span class="text">{{'Bin_Rules'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16006" role="menuitem" (click)="listClick($event, 'whsUGMapping')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/whsUGMapping">
+                            <svg viewBox="0 0 512.001 512" class="icon">
+                                <use xlink:href="#whsUGMapping"></use>
+                            </svg>
+                            <span class="text">{{'WhsUGMapping'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16007" role="menuitem" (click)="listClick($event, 'containertype')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/containertype">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#containerType"></use>
+                            </svg>
+                            <span class="text">{{'ContainerType'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16008" role="menuitem" (click)="listClick($event, 'containertyperelation')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/containertyperelation">
+                            <svg viewBox="0 0 90 90" class="icon">
+                                <use xlink:href="#containerTypeRelations"></use>
+                            </svg>
+                            <span class="text">{{'ContainerTypeRelation'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16009" role="menuitem" (click)="listClick($event, 'containerautorule')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/containerautorule">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#containerAutoRule"></use>
+                            </svg>
+                            <span class="text">{{'ContainerAutoRule'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16010" role="menuitem" (click)="listClick($event, 'container-group')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/container-group">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#containerGroups"></use>
+                            </svg>
+                            <span class="text">{{'Container_Groups'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16011" role="menuitem" (click)="listClick($event, 'dockdoor')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/dockdoor">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#dockDoor"></use>
+                            </svg>
+                            <span class="text">{{'Dock_Door'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16012" role="menuitem" (click)="listClick($event, 'carrier')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/carrier">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#carrier"></use>
+                            </svg>
+                            <span class="text">{{'DropdownMenu_Carrier'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li id="16013" role="menuitem" (click)="listClick($event, 'Configuration_Paramter')" [ngStyle]="{'display':'flex'}">
                             <a class="dropdown-item">
                                 <svg viewBox="0 0 8500 6050" class="icon">
                                     <use xlink:href="#outbound"></use>
@@ -151,81 +159,81 @@
                                 <span class="text">{{'DropdownMenu_Masking'|translate}}</span>
                             </a>
                         </li> -->
-                    </ul>
-                </li>
-    
-                <li class="dropdown" dropdown id="16013" [insideClick]="true" [ngStyle]="{'display':'flex'}">
-                    <a dropdownToggle class="dropdown-toggle">
-                        <svg viewBox="0 0 480 480" class="icon">
-                            <use xlink:href="#transaction"></use>
-                        </svg>
-                        <span class="text">{{'Transactions'|translate}}</span>
-                    </a>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16014" role="menuitem" (click)="listClick($event, 'container-creation')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/container-creation">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <use xlink:href="#containerCreation"></use>
-                                </svg>
-                                <span class="text">{{'ContainerCreation'|translate}}</span>
-                            </a>
-                        </li>
+                </ul>
+            </li>
 
-                        <li id="16017" role="menuitem" (click)="listClick($event, 'container-creationWIP')" [ngStyle]="{'display':'flex'}">
-                                <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/container-creationWIP">
-                                    <svg viewBox="0 0 24 24" class="icon">
-                                        <use xlink:href="#containerCreation"></use>
-                                    </svg>
-                                    <span class="text">{{'ContainerCreationWIP'|translate}}</span>
-                                </a>
-                            </li>
-    
-                        <li id="16015" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/shipmentwizard">
-                                <svg viewBox="0 0 64 64" class="icon">
-                                    <use xlink:href="#shipmentWizard"></use>
-                                </svg>
-                                <span class="text">{{'Shipment_Wizard'|translate}}</span>
-                            </a>
-                        </li>
-    
-                        <li id="16016" (click)="listClick($event, 'genearetpicklist')" [ngClass]="{'active': selectedItem == 'genearetpicklist'}"
-                            [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/genearetpicklist">
-                                <svg viewBox="0 0 503.572 503.572" class="icon">
-                                    <use xlink:href="#generatePicklistShipments"></use>
-                                </svg>
-                                <span class="text">Generate Picklist Shipments</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-    
-                <li class="dropdown" dropdown id="16017" [insideClick]="true" [ngStyle]="{'display':'flex'}">
-                    <a dropdownToggle class="dropdown-toggle">
-                        <svg viewBox="0 0 511 512" class="icon">
-                            <use xlink:href="#maintenance"></use>
-                        </svg>
-                        <span class="text">{{'Maintenance'|translate}}</span>
-                    </a>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li id="16018" role="menuitem" (click)="listClick($event, 'container-maintenance')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item">
-                                <svg viewBox="0 0 511 512" class="icon">
-                                    <use xlink:href="#containerMaintenance"></use>
-                                </svg>
-                                <span class="text">{{'Container_Maintenance'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16019" role="menuitem" (click)="listClick($event, 'Container_List')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/Container_List">
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#containerList"></use>
-                                </svg>
-                                <span class="text">{{'Container_List'|translate}}</span>
-                            </a>
-                        </li>
-                        <!-- <li id="16022" role="menuitem" (click)="listClick($event, 'BatchSerial_List')" [ngStyle]="{'display':'flex'}">
+            <li class="dropdown"  [autoClose]="false"  dropdown id="16013" [insideClick]="true" [ngStyle]="{'display':'flex'}">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 480 480" class="icon">
+                        <use xlink:href="#transaction"></use>
+                    </svg>
+                    <span class="text">{{'Transactions'|translate}}</span>
+                </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="16014" role="menuitem" (click)="listClick($event, 'container-creation')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/container-creation">
+                            <svg viewBox="0 0 24 24" class="icon">
+                                <use xlink:href="#containerCreation"></use>
+                            </svg>
+                            <span class="text">{{'ContainerCreation'|translate}}</span>
+                        </a>
+                    </li>
+
+                    <li id="16017" role="menuitem" (click)="listClick($event, 'container-creationWIP')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/container-creationWIP">
+                            <svg viewBox="0 0 24 24" class="icon">
+                                <use xlink:href="#containerCreation"></use>
+                            </svg>
+                            <span class="text">{{'ContainerCreationWIP'|translate}}</span>
+                        </a>
+                    </li>
+
+                    <li id="16015" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/shipmentwizard">
+                            <svg viewBox="0 0 64 64" class="icon">
+                                <use xlink:href="#shipmentWizard"></use>
+                            </svg>
+                            <span class="text">{{'Shipment_Wizard'|translate}}</span>
+                        </a>
+                    </li>
+
+                    <li id="16016" (click)="listClick($event, 'genearetpicklist')" [ngClass]="{'active': selectedItem == 'genearetpicklist'}"
+                        [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/genearetpicklist">
+                            <svg viewBox="0 0 503.572 503.572" class="icon">
+                                <use xlink:href="#generatePicklistShipments"></use>
+                            </svg>
+                            <span class="text">Generate Picklist Shipments</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown"  [autoClose]="false"  dropdown id="16017" [insideClick]="true" [ngStyle]="{'display':'flex'}">
+                <a dropdownToggle class="dropdown-toggle">
+                    <svg viewBox="0 0 511 512" class="icon">
+                        <use xlink:href="#maintenance"></use>
+                    </svg>
+                    <span class="text">{{'Maintenance'|translate}}</span>
+                </a>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li id="16018" role="menuitem" (click)="listClick($event, 'container-maintenance')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 511 512" class="icon">
+                                <use xlink:href="#containerMaintenance"></use>
+                            </svg>
+                            <span class="text">{{'Container_Maintenance'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16019" role="menuitem" (click)="listClick($event, 'Container_List')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/Container_List">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#containerList"></use>
+                            </svg>
+                            <span class="text">{{'Container_List'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li id="16022" role="menuitem" (click)="listClick($event, 'BatchSerial_List')" [ngStyle]="{'display':'flex'}">
                             <a class="dropdown-item">
                                 <svg viewBox="0 0 8500 6050" class="icon">
                                     <use xlink:href="#outbound"></use>
@@ -233,34 +241,34 @@
                                 <span class="text">{{'BatchSerial_List'|translate}}</span>
                             </a>
                         </li> -->
-                        <li id="16020" (click)="listClick($event, 'shipment')" [ngClass]="{'active': selectedItem == 'shipment'}" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  >
-                                <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#shippingSolution"></use>
-                                </svg>
-                                <span class="text">{{'DropdownMenu_Shipment'|translate}}</span>
-                            </a>
-                        </li>
-                        <li id="16021" (click)="listClick($event, 'picking')" [ngClass]="{'active': selectedItem == 'picking'}" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item"  routerLinkActive="nav-active" routerLink="/home/picking/picking-list">
-                                <svg viewBox="0 0 966.25 966" class="icon">
-                                    <use xlink:href="#picking"></use>
-                                </svg>
-                                <span class="text">{{'PickList'|translate}}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </section>
-    
-        <section id="opti_LeftPanelFooterLogo">
-            <img src="assets/images/logo/poweredbylogo.svg" alt="powered logo">
-        </section>
-    
-    
+                    <li id="16020" (click)="listClick($event, 'shipment')" [ngClass]="{'active': selectedItem == 'shipment'}" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item">
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#shippingSolution"></use>
+                            </svg>
+                            <span class="text">{{'DropdownMenu_Shipment'|translate}}</span>
+                        </a>
+                    </li>
+                    <li id="16021" (click)="listClick($event, 'picking')" [ngClass]="{'active': selectedItem == 'picking'}" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/picking/picking-list">
+                            <svg viewBox="0 0 966.25 966" class="icon">
+                                <use xlink:href="#picking"></use>
+                            </svg>
+                            <span class="text">{{'PickList'|translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </section>
-    <!-- left panel end -->
-    
-    <!-- <a routerLink='dashboard'>Dashboard</a><br>
+
+    <section id="opti_LeftPanelFooterLogo">
+        <img src="assets/images/logo/poweredbylogo.svg" alt="powered logo">
+    </section>
+
+
+</section>
+<!-- left panel end -->
+
+<!-- <a routerLink='dashboard'>Dashboard</a><br>
     <a routerLink='purchaseinquiry'> Purchase Inquery</a> -->
