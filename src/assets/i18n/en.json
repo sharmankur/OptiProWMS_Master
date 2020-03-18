@@ -34,7 +34,7 @@
 
   "WhsUGMapping": "Whse-Group-Mapping",
   "Bin_Rules": "Bin Rules",
-  "Warehouse_Bin_Layout": "Warehouse Bin Layout",
+  "Warehouse_Bin_Layout": "Warehouse Layout",
   "Container_Groups": "Container Groups",
   "Configuration_Paramter": "Configuration Paramter",
   "ContainerType": "Container Type",
@@ -777,7 +777,7 @@
   "BinCanNotBlankMsg": "Bin code can't be blank.",
   "WhseNotBlankMsg": "Warehouse can't be blank.",
   "InvalidContainerType": "Invalid container type",
-  "WarehouseBinLayout": "Warehouse Bin Layout",
+  "WarehouseBinLayout": "Warehouse Layout",
   "DefaultShip_StageBin": "Ship Stage",
   "DefaultWIP_FG_StageBin": "WIP FG Stage",
   "DefaultWIP_RM_StageBin": "WIP RM Stage",

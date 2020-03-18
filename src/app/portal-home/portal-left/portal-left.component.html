@@ -28,7 +28,7 @@
     <section class="opti_left-navigation position-relative" [perfectScrollbar]="">
         <ul class="opti_left-nav-ul">
 
-            <li class="dropdown"  [autoClose]="false"  dropdown id="SETUP" [ngStyle]="{'display':'none'}" [insideClick]="true">
+            <li class="dropdown"  [autoClose]="false"  dropdown id="SETUP" [ngStyle]="{'display':'flex'}" [insideClick]="true">
                 <a dropdownToggle class="dropdown-toggle">
                     <svg viewBox="0 0 512 512" class="icon">
                         <use xlink:href="#setup"></use>
@@ -36,7 +36,7 @@
                     <span class="text">{{'Setup'|translate}}</span>
                 </a>
                 <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'none'}">
+                    <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 416 416" class="icon">
                                 <use xlink:href="#transactionStepSetup"></use>
@@ -44,7 +44,7 @@
                             <span class="text">{{'Transaction_Step_Setup'|translate}}</span>
                         </a>
                     </li>
-                    <li id="16002" role="menuitem" (click)="listClick($event, 'document_numbering')" [ngStyle]="{'display':'none'}">
+                    <li id="16002" role="menuitem" (click)="listClick($event, 'document_numbering')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 470.586 470.586" class="icon">
                                 <use xlink:href="#documentNumbering"></use>
