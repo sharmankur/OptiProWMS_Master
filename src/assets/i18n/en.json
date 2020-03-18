@@ -981,6 +981,9 @@
   "InvalidContainerCode": "Invalid container code",
   "SameContainerValidMsg": "Parent and Child container should not same",
   "BusinessObject": "Business Object",
+  "ContainerDetails": "Container Details",
+  "ShipmentDetails": "Shipment Details",
+  
 
   "Dummy": "Dummy"
   

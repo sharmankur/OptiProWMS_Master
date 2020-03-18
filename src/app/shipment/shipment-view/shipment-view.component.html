@@ -198,7 +198,7 @@
             <div>
                 <a  class="toggle-anchor" (click)="showShipDetails(0)">
                     <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[0]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
-                    <span class="toggle-anchor-text"> Shipment Details</span>
+                    <span class="toggle-anchor-text"> {{'ShipmentDetails'|translate}}</span>
                 </a>
             </div>
             <div class="toggle-anchor-details" *ngIf="showShipDetailsEnable[0]">
@@ -243,7 +243,7 @@
             <div *ngIf="UseContainer">
                 <a  class="toggle-anchor" (click)="showShipDetails(1)">
                     <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
-                    <span class="toggle-anchor-text"> Shipment Details</span>
+                    <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
                 </a>
             </div>
             <div *ngIf="showShipDetailsEnable[1] && UseContainer">
@@ -299,7 +299,7 @@
             <div>
                 <a  class="toggle-anchor" (click)="showShipDetails(2)">
                     <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[2]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
-                    <span class="toggle-anchor-text"> Shipment Details</span>
+                    <span class="toggle-anchor-text"> {{'ItemDetails'|translate}}</span>
                 </a>
             </div>
             <div *ngIf="showShipDetailsEnable[2]">
