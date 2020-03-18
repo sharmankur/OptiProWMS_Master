@@ -70,10 +70,11 @@ export class CreateContainerComponent implements OnInit {
   SelectedWOItemCode: any= '';
   partsQty: any = 0;
   RemQtyWO: any = 0;
-  ContStatus: any = "New";
+  ContStatus: any = "";
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
-  
+  IsDisableRule: boolean = false;
+
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private ccmain: CcmainComponent, private ctrmasterService: CTRMasterService) {
@@ -83,11 +84,15 @@ export class CreateContainerComponent implements OnInit {
     translate.onLangChange.subscribe(() => {
       this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
       this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
+      this.ContStatus = this.translate.instant("CStatusNew");
+      if(this.IsWIPCont){
+        this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
+      }
     });
   }
 
   ngOnInit() {
-    console.log("ngOnInit");
+    //console.log("ngOnInit");
     localStorage.setItem("FromWhere", "");
     localStorage.setItem("ContainerOperationData", "");
     if (window.location.href.indexOf("WIP") > -1) {
@@ -99,13 +104,17 @@ export class CreateContainerComponent implements OnInit {
     }
     this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
-    this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
+    this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();    
     this.defaultPurpose = this.purposeArray[0];
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.createMode = this.defaultCreateMode.Value;
-    this.ContStatus = "New";
-    // this.GetContainerNumber();    
+    this.ContStatus = this.translate.instant("CStatusNew");
+    // this.GetContainerNumber();  
+    
+    if(this.IsWIPCont){
+      this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
+    }
   }
 
   getParentContainerType(action){  
@@ -222,6 +231,7 @@ export class CreateContainerComponent implements OnInit {
   }
 
   async onContainerTypeChange(event: string) {
+    this.autoPackRule = '';
     var value = "";
     if (event == 'parent') {
       value = this.parentContainerType
@@ -579,8 +589,13 @@ export class CreateContainerComponent implements OnInit {
 
           if (data.length <= 0) {  
             this.workOrder = '';
+            this.whse = '';
+            this.binNo = '';
             this.toastr.error('', this.translate.instant("InvalidWONo"));
-          }         
+          } 
+          else{
+            this.onWhseChange();
+          }        
           
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -612,7 +627,7 @@ export class CreateContainerComponent implements OnInit {
           if (data.length > 0) {  
            this.ProducedQty = data[0].OPTM_QTYPRODUCED;
            this.PassedQty  = data[0].OPTM_QTYACCEPTED;
-           this.RejectedQty = data[0].OPTM_QTYACCEPTED;
+           this.RejectedQty = data[0].OPTM_QTYREJECTED;
            this.NCQty = data[0].OPTM_NCQTY;
           }         
           
@@ -699,10 +714,14 @@ export class CreateContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectWhseMsg"));
       return false;
     }
-    if (this.autoPackRule == undefined || this.autoPackRule == "") {
-      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
-      return false;
-    }
+
+    if(this.createMode != 3){
+      if (this.autoPackRule == undefined || this.autoPackRule == "") {
+        this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+        return false;
+      }
+    }    
+
     if (this.binNo == undefined || this.binNo == "") {
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return false;
@@ -715,27 +734,37 @@ export class CreateContainerComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.fromContainerDetails.length; i++) {
-      if (this.fromContainerDetails[i].QuantityToAdd != this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
-        this.toastr.error('', this.translate.instant("AddedQtyValid"));
-        return false;
-      }
+    if(this.fromContainerDetails.length > 0){
 
-      if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
-        if (parseFloat(this.fromContainerDetails[i].QuantityToAdd) > parseFloat(this.fromContainerDetails[i].AvlQty)) {
-          this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
-          return false;
+      if(this.IsWIPCont && this.fromContainerDetails.length == 1 && this.fromContainerDetails[0].OPTM_ITEMCODE == this.SelectedWOItemCode){
+        //console.log("WIP - Single Item same as WO Item");
+      }
+      else{
+        for (var i = 0; i < this.fromContainerDetails.length; i++) {
+
+          if(!this.IsWIPCont || (this.IsWIPCont && this.fromContainerDetails[i].OPTM_ITEMCODE != this.SelectedWOItemCode)){
+            if (this.fromContainerDetails[i].QuantityToAdd != this.fromContainerDetails[i].OPTM_PARTS_PERCONT) {
+              this.toastr.error('', this.translate.instant("AddedQtyValid"));
+              return false;
+            }
+      
+            if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
+              if (parseFloat(this.fromContainerDetails[i].QuantityToAdd) > parseFloat(this.fromContainerDetails[i].AvlQty)) {
+                this.toastr.error('', this.translate.instant("ITEMQtyValidMSG"));
+                return false;
+              }
+            }
+          } 
+          else{
+           // console.log("WIP - Muliple Item and same as WO Item");
+          }        
         }
-      }
-    }
-
-    // if(this.IsWIPCont){
-    //  let Sum = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
-    //   if(Sum >  parseFloat(this.RemQtyWO)){
-    //     this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
-    //     return;
-    //   }
-    // }
+      }      
+    }     
+    else if(this.createMode == 1){
+      this.toastr.error('', this.translate.instant("Inv_Items_Mandatory"));
+      return false;
+    }    
 
     // for (var i = 0; i < this.fromContainerDetails.length; i++) {
     //   if (this.fromContainerDetails[i].OPTM_TRACKING == "N") {
@@ -750,7 +779,13 @@ export class CreateContainerComponent implements OnInit {
 
   onCheckChange() {
     this.autoClose = !this.autoClose;
-    console.log("onCheckChange: " + ((this.autoClose == true) ? 'Y' : 'N'))
+    if(this.autoClose){
+      this.ContStatus = this.translate.instant("CClosedNew");
+    }
+    else{
+      this.ContStatus = this.translate.instant("CStatusNew");
+    }
+    //console.log("onCheckChange: " + ((this.autoClose == true) ? 'Y' : 'N'))
   }
 
   fromContainer: boolean = false
@@ -990,13 +1025,23 @@ export class CreateContainerComponent implements OnInit {
   // }
 
   onPurposeSelectChange(event) {
-    console.log(event);
     this.purpose = event.Name;
   }
 
   onCreateModeSelectChange(event) {
-    console.log(event);
     this.createMode = event.Value;
+    if(!this.IsWIPCont && event.Name == this.translate.instant("Manual")){
+      this.IsDisableRule = true;
+    }
+    else{
+      this.IsDisableRule = false;
+    }
+    this.autoPackRule = '';
+    this.autoRuleId = '';
+    this.packType = 0;
+    this.partsQty = 0; 
+    this.fromContainerDetails = [];
+    this.parentContainerType = '';
   }
 
   onAutoPackRuleChangeBlur() {
@@ -1026,16 +1071,29 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.selectedBatchSerial = [];
-          this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL;
-          for (var j = 0; j < this.fromContainerDetails.length; j++) {
-            if(this.IsWIPCont && this.fromContainerDetails[j].OPTM_ITEMCODE == this.SelectedWOItemCode){
-              this.fromContainerDetails[j].QuantityToAdd = Number(this.partsQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            }            
-            else{
-              this.fromContainerDetails[j].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            }
-            this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            this.fromContainerDetails[j].AvlQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+
+          //Case Warehouse and if create mode is Manual/Manual Rule based then create blank container -
+          if(!this.IsWIPCont && this.createMode != 1){          
+            this.fromContainerDetails = [];
+          }
+          else{ 
+             this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL; 
+
+              //Case WIP and if create mode is Manual Rule based then only Work Order Item in Inventory Grid should be present-
+              if(this.IsWIPCont && this.createMode == 2){  
+                this.fromContainerDetails = this.fromContainerDetails.filter(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
+              }
+                           
+              for (var j = 0; j < this.fromContainerDetails.length; j++) {
+                if(this.IsWIPCont && this.fromContainerDetails[j].OPTM_ITEMCODE == this.SelectedWOItemCode){
+                  this.fromContainerDetails[j].QuantityToAdd = Number(this.partsQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+                }            
+                else{
+                  this.fromContainerDetails[j].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+                }
+                this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+                this.fromContainerDetails[j].AvlQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+              }            
           }
 
           result = true;
@@ -1515,6 +1573,11 @@ export class CreateContainerComponent implements OnInit {
           this.height = $event.OPTM_HEIGHT;
           this.maxWeigth = $event.OPTM_MAXWEIGHT;
           this.parentContainerType = '';
+          this.autoPackRule = '';
+          this.autoRuleId = '';
+          this.packType = 0;
+          this.partsQty = 0; 
+          this.fromContainerDetails = [];
         }
       } 
       else if(this.lookupfor == "ParentCTList"){
@@ -1560,6 +1623,8 @@ export class CreateContainerComponent implements OnInit {
         this.autoPackRule = '';
         this.fromContainerDetails = [];
         this.selectedBatchSerial = [];
+        this.whse = $event.OPTM_WHSE;        
+        this.onWorkOrderChangeBlur();
       }
     }
   }
@@ -1609,7 +1674,7 @@ export class CreateContainerComponent implements OnInit {
       }
     }
     this.updateWeigth()
-    console.log("getLookupKey sumQty: " + sumQty);
+    //console.log("getLookupKey sumQty: " + sumQty);
   }
 
   updateBSSelectedList() {
@@ -1853,7 +1918,7 @@ export class CreateContainerComponent implements OnInit {
   async validateBeforeSubmit(): Promise<any> {
     this.isValidateCalled = true;
     var currentFocus = document.activeElement.id;
-    console.log("validateBeforeSubmit current focus: " + currentFocus);
+    //console.log("validateBeforeSubmit current focus: " + currentFocus);
 
     if (currentFocus != undefined) {
       if (currentFocus == "containerTypeId") {

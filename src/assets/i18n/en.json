@@ -679,7 +679,8 @@
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
   "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
-
+  "EnterAutoPackDesc": "Please enter Description",
+  
   "Schedule": "Schedule",
   "Containers": "Containers",
   "Stage_Unstage": "Stage/Unstage",
@@ -944,6 +945,7 @@
   "Invalid_CC": "Invalid Customer Code.",
   "Invalid_ShipToCode": "Invalid ShipToCode.",
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
+  "Invalid_Shipment_Id": "Invalid Shipment ID",
   "PCTNotSameChild": "Parent container type can't be same as chile container type.",
   "Allocated": "Allocated", 
   "Selection_Criteria": "Selection Criteria",
@@ -980,7 +982,9 @@
   "CloseContainer": "Close Container",
   "InvalidContainerCode": "Invalid container code",
   "SameContainerValidMsg": "Parent and Child container should not same",
-
+  "ContCode": "Cont. Code",
+  "Inv_Items_Mandatory": "Add Inventory Items",
+  
   "Dummy": "Dummy"
   
 }

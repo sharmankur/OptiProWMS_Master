@@ -256,6 +256,14 @@ export class ShipmentViewComponent implements OnInit {
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
         }
       }
+      if(this.ShipmentLineDetails.length < 1){
+        for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
+          if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
+            this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_BINDTL[i]);
+          }
+        }
+      }
     }else{
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {

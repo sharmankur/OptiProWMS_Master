@@ -587,7 +587,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CT_ContainerType");
+    this.lookupTitle = this.translate.instant("AutoPackRule");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
