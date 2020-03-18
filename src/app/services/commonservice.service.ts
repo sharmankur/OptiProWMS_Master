@@ -1047,27 +1047,27 @@ export class Commonservice {
         OPTM_CONTCODE: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseClick", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.httpOptions);
   }
 
   ReopenClick(containerId): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        CONTAINERID: containerId
+        OPTM_CONTCODE: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenClick", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenContainer", jObject, this.httpOptions);
   }
 
   DamagedClick(containerId): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        CONTAINERID: containerId
+        OPTM_CONTCODE: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/DamagedClick", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/SetContainersDamaged", jObject, this.httpOptions);
   }
 
   CancelClick(containerId): Observable<any> {

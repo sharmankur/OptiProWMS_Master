@@ -388,7 +388,15 @@ export class ContMaintnceMainComponent implements OnInit {
             return;
           }
 
-
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', data[0].RESULT)
+              //this.toastr.success('', "ContainerCancelledMsg")
+              this.onContainerCodeChange(this.containerCode);
+            } else {
+              this.toastr.error('', data[0].RESULT)
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -406,11 +414,11 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onReopenClick() {
-    if (this.containerId == undefined || this.containerId == "") {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.commonservice.ReopenClick(this.containerId).subscribe(
+    this.commonservice.ReopenClick(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -420,7 +428,15 @@ export class ContMaintnceMainComponent implements OnInit {
             return;
           }
 
-
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', data[0].RESULT)
+              //this.toastr.success('', "ContainerCancelledMsg")
+              this.onContainerCodeChange(this.containerCode);
+            } else {
+              this.toastr.error('', data[0].RESULT)
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -438,11 +454,11 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onSetDamagedClick() {
-    if (this.containerId == undefined || this.containerId == "") {
+    if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
     this.showLoader = true;
-    this.commonservice.DamagedClick(this.containerId).subscribe(
+    this.commonservice.DamagedClick(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -452,7 +468,15 @@ export class ContMaintnceMainComponent implements OnInit {
             return;
           }
 
-
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', data[0].RESULT)
+              //this.toastr.success('', "ContainerCancelledMsg")
+              this.onContainerCodeChange(this.containerCode);
+            } else {
+              this.toastr.error('', data[0].RESULT)
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -488,7 +512,7 @@ export class ContMaintnceMainComponent implements OnInit {
             if (data[0].RESULT == "Data Saved") {
               this.toastr.success('', data[0].RESULT)
               //this.toastr.success('', "ContainerCancelledMsg")
-              this.onContainerCodeChange("");
+              this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
             }
