@@ -671,6 +671,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
           this.whseCode = ''
         } else {
           this.whseCode = resp[0].WhsCode
+          this.whseDescr = resp[0].WhsName
         }
         result = true;
       },

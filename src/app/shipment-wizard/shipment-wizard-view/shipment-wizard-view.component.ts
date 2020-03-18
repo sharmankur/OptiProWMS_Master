@@ -146,6 +146,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
+  onOKClick(){
+    this.currentStep = 1;
+  }  
+
   onStepClick(currentStep) {
 
     //this.currentStep = currentStep;
@@ -234,6 +238,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
           }
           this.gridData = resp;
+          for(var i=0; i<this.gridData.length; i++){
+            this.gridData[i].ShipmentQty = this.gridData[i].SalesOpenQty;
+          }
           if (this.gridData.length > this.SOpageSize) {
             this.SOpagable = true;
           } else {
@@ -613,7 +620,7 @@ export class ShipmentWizardViewComponent implements OnInit {
       return;
     }
     if(event != 'blur') {
-      whs = ""
+      whs = "";
     }
     this.showLoader = true;
    // this.hideLookup = false;
@@ -628,7 +635,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           }
           if (event == 'blur') {
             if (data.length > 0) {
-              this.WareHouse = data.OUTPUT[0].WhsCode;
+              this.WareHouse = data[0].WhsCode;
             } else {
               this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
               this.WareHouse = "";

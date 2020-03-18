@@ -71,16 +71,32 @@ export class ShipmentViewComponent implements OnInit {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.onCheckChange();
       this.shiment_status_array = this.commonData.shiment_status_array();
-      this.Container_status_array = this.commonData.Container_Status_DropDown();
+      this.Container_status_array = this.Container_Status_DropDown();
     });
   }
-  showShipDetailsEnable = [false,false,false];
+
+  Container_Status_DropDown() {
+    return [
+      { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+      { "Value": 2, "Name": this.translate.instant("Open") },
+      { "Value": 3, "Name": this.translate.instant("CClosedNew") },
+      { "Value": 4, "Name": this.translate.instant("CReopenedNew") },
+      { "Value": 5, "Name": this.translate.instant("CAssignedNew") },
+      { "Value": 6, "Name": this.translate.instant("CShippedNew") },
+      { "Value": 7, "Name": this.translate.instant("Returned") },
+      { "Value": 8, "Name": this.translate.instant("CDamagedNew") },
+      { "Value": 9, "Name": this.translate.instant("CCancelledNew") }
+    ];
+  }
+
+  showShipDetailsEnable = [false, false, false];
   showShipDetails(index) {
     this.showShipDetailsEnable[index] = !this.showShipDetailsEnable[index]
   }
+
   ngOnInit() {
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.commonData.Container_Status_DropDown();
+    this.Container_status_array = this.Container_Status_DropDown();
     this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
@@ -100,7 +116,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   IsValidShipmentCode(fieldName) {
-    if(this.ShipmentCode == undefined || this.ShipmentCode == ""){
+    if (this.ShipmentCode == undefined || this.ShipmentCode == "") {
       return;
     }
     this.showLoader = true;
@@ -188,6 +204,7 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }
+          this.shipmentLines = [];
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
           if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
             this.pagable1 = true;
@@ -249,7 +266,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     //BatchSer Details
     this.ShipmentLineDetails = [];
-    if(this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0){
+    if (this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0) {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
           this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -419,7 +436,7 @@ export class ShipmentViewComponent implements OnInit {
       || this.ScheduleDatetime.toDateString() == "") {
       this.toastr.error('', this.translate.instant("ScheduleTimeBlank"));
       return false;
-    } 
+    }
     //else if (this.DockDoor == undefined || this.DockDoor == "") {
     //   this.toastr.error('', this.translate.instant("InvalidDock_Door"));
     //   return false;

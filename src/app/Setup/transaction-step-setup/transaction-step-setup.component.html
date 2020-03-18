@@ -1,0 +1,16 @@
+<kendo-grid #gridUser [data]="GridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true" [pageSize]="10" [skip]="skip" [pageable]="true"
+>
+  
+    <kendo-grid-column width="280" field="OPTM_PARAM_NAME" title="{{'Parameter_Name'|translate}}"></kendo-grid-column>
+      
+    <kendo-grid-column field="OPTm_PARAM_DESC" width="280" title="{{'Parameter_Desc'|translate}}"></kendo-grid-column>
+    <kendo-grid-column field="OPTM_OWNING_FUNCTION" width="200"    title="{{'OwingFunction'|translate}}"></kendo-grid-column>
+    <kendo-grid-column field="OPTM_VALUE_DATATYPE" width="80"    title="{{'DataType'|translate}}"></kendo-grid-column>
+    <kendo-grid-column  width="200"   title="{{'ParameterValue'|translate}}">
+            <ng-template kendoGridCellTemplate let-dataItem let-companyRowIndex="rowIndex">
+                <input type="text"  class="form-control form-control-sm" [value]="dataItem.OPTM_PARAM_VALUE" 
+                (change)="ParameterValueSelectionChange($event,dataItem,companyRowIndex)"> 
+            </ng-template>
+        </kendo-grid-column>
+    
+</kendo-grid>
