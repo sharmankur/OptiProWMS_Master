@@ -11,8 +11,6 @@ import { SetupRoutingModule } from './setup-routing.module';
 import { TransactionStepSetupComponent } from './transaction-step-setup/transaction-step-setup.component';
 import { DocumentNumberingComponent } from './document-numbering/document-numbering.component';
 
-
-
 @NgModule({
   declarations: [TransactionStepSetupComponent,DocumentNumberingComponent],
   imports: [
