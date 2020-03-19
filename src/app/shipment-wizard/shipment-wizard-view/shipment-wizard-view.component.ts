@@ -208,6 +208,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   GetSalesWizardData() {
 
     this.SetParameter = [];
+    let uc;
+    uc = this.UseContainer == true ? "Y":"N";
     this.SetParameter.push({
       FROMCARDCODE: this.CustomerFrom,
       TOCARDCODE: this.CustomerTo,
@@ -224,6 +226,7 @@ export class ShipmentWizardViewComponent implements OnInit {
       OPENQTYTO: this.OpenQtyTo,
       NOOFFOPENLINESFROM: this.NoofOpenLinesFrom,
       NOOFFOPENLINESTO: this.NoofOpenLinesTo,
+      OPTM_CONTUSE: uc,
       CompanyDBId: localStorage.getItem("CompID")
     });
 
@@ -303,7 +306,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           for (let i = 0; i < resp.ShipmentHdr.length; i++) {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
-              if (resp["ShipmentHdr"][i].Shipment_Id === resp["ShipmentDtl"][j].Shipment_Id) {
+              if (resp["ShipmentHdr"][i].SHIPMENT_ID === resp["ShipmentDtl"][j].SHIPMENT_ID) {
                 resp["ShipmentDtl"][j].ShipQty = Number(resp["ShipmentDtl"][j].ShipQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
