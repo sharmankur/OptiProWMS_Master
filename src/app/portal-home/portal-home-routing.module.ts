@@ -13,6 +13,7 @@ import { InventoryTransferbyITRMasterComponent } from '../inventory-transfer/inv
 import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
 import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
 import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate-pick.component';
+import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
 
 
 const routes: Routes = [
@@ -59,7 +60,7 @@ const routes: Routes = [
       { path: 'container-maintenance', loadChildren: "../container-maintenance/container-maintenance.module#ContainerMaintenanceModule" },
       { path: 'setup', loadChildren: "../Setup/setup.module#SetupModule" },
       // { path: 'TransactionStepSetup', loadChildren: "../Setup/setup.module#SetupModule" },
-      // { path: 'DocumentNumbering', loadChildren: "../Setup/setup.module#DocumentNumberingModule" },
+      { path: 'DocumentNumbering', component: DocumentNumberingComponent } ,
       
     ]
 

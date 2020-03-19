@@ -346,7 +346,7 @@
                                     [pageSize]="SOpageSize" [skip]="skip" [pageable]="SOpagable" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
 
                                     <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
-                                        <ng-template kendoGridCellTemplate let-idx="rowIndex">
+                                        <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
                                             <input [kendoGridSelectionCheckbox]="idx" />
                                         </ng-template>
                                     </kendo-grid-checkbox-column>

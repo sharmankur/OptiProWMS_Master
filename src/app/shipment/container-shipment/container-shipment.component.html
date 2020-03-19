@@ -36,16 +36,19 @@
                            <!-- col start -->
                            <div class="col-sm-4">
                                 <div class="form-group row">
-                                    <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
+                                    <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
                                     <div class="col-sm-8">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId id="ContainerCodeId">
+                                        <div class="input-group ">
+                                        <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId" (blur)="onShipmentIdChange()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                                                   
+                            </div>                 
                         <!-- col end -->
                           <!-- col start -->
                           <div class="col-sm-4">
@@ -89,23 +92,17 @@
                             </div>
                         </div>
                         <!-- col end -->
-                           <!-- col start -->
-
+                        <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
+                                <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group ">
-                                    <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId" (blur)="onShipmentIdChange()">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId id="ContainerCodeId">
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <!-- col end -->
                           <!-- col start -->
                           <div class="col-sm-4">
@@ -448,7 +445,7 @@
                 <div class="col-12">
                     <!-- <h5 class="card-header">{{'Container_Items'|translate}}</h5> -->
                     <!-- <div class="card-body"> -->
-                        <kendo-grid [kendoGridBinding]="ContainerItems" [resizable]="true" [height]="350" [pageSize]="pageSize"
+                        <kendo-grid [kendoGridBinding]="ContainerItems" [resizable]="true" [height]="300" [pageSize]="pageSize"
                             [pageable]="ShowGridPaging" [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="isColumnFilterView" >
                             <ng-template kendoGridToolbarTemplate> 
                                 <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>  
