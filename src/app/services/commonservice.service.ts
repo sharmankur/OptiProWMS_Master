@@ -913,6 +913,16 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
   }
 
+  IsValidShipmentId(SHIPMENTID: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTID: SHIPMENTID
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentId", jObject, this.httpOptions);
+  }
+
   IsValidCustomer(CARDCODE: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
