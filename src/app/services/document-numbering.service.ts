@@ -14,34 +14,41 @@ export class DocumentNumberingService {
 
   public config_params: any;
 
-  constructor(private httpclient: HttpClient,private commonService:Commonservice) {
+  constructor(private httpclient: HttpClient, private commonService: Commonservice) {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
-}
+  }
 
 
 
-    GetDocumentallData(): Observable<any> {
-    let Comp=[];
-    Comp.push({CompanyDBId: localStorage.getItem("CompID")});
-      let url=this.config_params.service_url
-      var jObject = { Shipment: JSON.stringify(Comp)};
-      return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/GetDocumentNumberingAllData",jObject, this.commonService.httpOptions);
+  GetDocumentallData(): Observable<any> {
+    let Comp = [];
+    Comp.push({ CompanyDBId: localStorage.getItem("CompID") });
+    let url = this.config_params.service_url
+    var jObject = { Shipment: JSON.stringify(Comp) };
+    return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/GetDocumentNumberingAllData", jObject, this.commonService.httpOptions);
+  }
+
+  GetLookupValue(): Observable<any> {
+    let Comp = [];
+    Comp.push({ CompanyDBId: localStorage.getItem("CompID") });
+    let url = this.config_params.service_url
+    var jObject = { Shipment: JSON.stringify(Comp) };
+    return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/GetLookupValue", jObject, this.commonService.httpOptions);
+  }
+
+
+  AddUpdateDocNumbering(SetParameter: any): Observable<any> {
+    // var DataArray: any = {};
+    // DataArray.DocNumberData = SetParameter;
+    // DataArray.CompanyDBId = localStorage.getItem("CompID")
+    // var jObject = {
+    //   Shipment: JSON.stringify(DataArray)
+    // }
+
+    var jObject = {
+      Shipment: JSON.stringify(SetParameter)
     }
-
-    GetLookupValue(): Observable<any> {
-      let Comp=[];
-      Comp.push({CompanyDBId: localStorage.getItem("CompID")});
-        let url=this.config_params.service_url
-        var jObject = { Shipment: JSON.stringify(Comp)};
-        return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/GetLookupValue",jObject, this.commonService.httpOptions);
-      }
-  
-
-      AddUpdateDocNumbering(SetParameter:any): Observable<any> {
-    
-      let url=this.config_params.service_url
-      var jObject = { Shipment: JSON.stringify(SetParameter)};
-      debugger
-      return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/AddUpdateDocumentNumber?Company="+localStorage.getItem("CompID"), jObject, this.commonService.httpOptions);
-    }
+    return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/AddUpdateDocumentNumber?Company=" + localStorage.getItem("CompID"), jObject, this.commonService.httpOptions);
+    // return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/AddUpdateDocumentNumber", jObject, this.commonService.httpOptions);
+  }
 }

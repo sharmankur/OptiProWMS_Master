@@ -129,7 +129,9 @@
                                                         <input id="SrNoFrom" type="Number" class="form-control form-control-sm"
                                                             name='SrNoFrom' [(ngModel)]="SrNoFrom" (blur)="GetDataForSalesOredr('SONoFrom', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SONoFrom', 'lookup')" [disabled]=isUpdate>
+                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                                (mousedown)="GetDataForSalesOredr('SONoFrom', 'lookup')"
+                                                                [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
                                                             </button>
                                                         </div>
@@ -147,7 +149,9 @@
                                                         <input id="SrNoTo" type="Number" class="form-control form-control-sm"
                                                             name='SrNoTo' [(ngModel)]="SrNoTo" (blur)="GetDataForSalesOredr('SONoTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SONoTo', 'lookup')" [disabled]=isUpdate>
+                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                                (mousedown)="GetDataForSalesOredr('SONoTo', 'lookup')"
+                                                                [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
                                                             </button>
                                                         </div>
@@ -408,9 +412,9 @@
                                     <kendo-grid-column field="SalesOpnQtyInVUOM" width="140" class="grid-right-align-column"
                                         title="{{'OpnQtyInInvUOM'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                                <span class="font-weight-bold">
-                                                    {{dataItem.SalesOpnQtyInVUOM|numberFormat}}</span>
-                                            </ng-template>
+                                            <span class="font-weight-bold">
+                                                {{dataItem.SalesOpnQtyInVUOM|numberFormat}}</span>
+                                        </ng-template>
                                     </kendo-grid-column>
                                     <!-- {{dataItem.dateField | date: 'MM/dd/yyyy'}} -->
                                     <kendo-grid-column field="DelDate" width="100" title="{{'DelvDate'|translate}}">
@@ -472,11 +476,18 @@
                                 <kendo-grid [data]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser
                                     [pageable]="SPpagable" [selectable]="true" (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
 
-                                    <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
-                                        <ng-template kendoGridCellTemplate let-idx="rowIndex">
-                                            <input [kendoGridSelectionCheckbox]="idx" />
-                                        </ng-template>
-                                    </kendo-grid-checkbox-column>
+                                    <ng-template kendoGridToolbarTemplate>
+                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button"
+                                            (click)="onExpandCollapse()" *ngIf="AllConsolidateData.length != 0">
+                                            <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
+                                                <use xlink:href="#collapseAll"></use>
+                                            </svg>
+                                            <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
+                                                <use xlink:href="#expandAll"></use>
+                                            </svg>
+                                        </button>
+                                    </ng-template>
 
                                     <kendo-grid-column field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="CUSTOMER" title="{{'Customer'|translate}}">
@@ -488,7 +499,8 @@
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
-                                            <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
+                                            <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}"
+                                                class="text-right"></kendo-grid-column>
                                             <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
                                             <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
