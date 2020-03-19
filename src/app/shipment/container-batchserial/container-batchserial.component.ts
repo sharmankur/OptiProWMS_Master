@@ -398,6 +398,7 @@ export class ContainerBatchserialComponent implements OnInit {
   fillBatchSerialDataInGrid(){
 
     this.isColumnFilterView = false;
+    this.ShowGridPaging = false;
     this.showLoader = true;
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
       (data: any) => {

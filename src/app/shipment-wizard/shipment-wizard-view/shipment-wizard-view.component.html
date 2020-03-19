@@ -509,7 +509,7 @@
                 <button type="button" *ngIf="currentStep == 1" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button *ngIf="currentStep > 1 && currentStep < 1" (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
+                <button *ngIf="currentStep > 1 && currentStep < 5" (click)="onPrevClick()" class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1"
                     type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
