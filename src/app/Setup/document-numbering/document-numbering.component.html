@@ -29,17 +29,21 @@
                             </ng-template>
                             <kendo-grid-column media="(min-width: 768px)" [width]="50" title="{{'BusinessObject'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                    <kendo-dropdownlist [data]="ddlBusiness" textField="text" valueField="value"
-                                        [(ngModel)]="dataItem.OPTM_BUSINESS_OBJECT" (valueChange)="onChangeBusinessObject($event, dataItem, rowIndex,gridItem)"
+                                    <kendo-dropdownlist tabindex="-1" [data]="ddlBusiness" textField="text" valueField="value"
+                                        [(ngModel)]="dataItem.OPTM_BUSINESS_OBJECT" (valueChange)="onChangeBusinessObject($event, dataItem, rowIndex)"
                                         [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" class="form-control-sm form-control w-100"></kendo-dropdownlist>
+                                    <!-- <kendo-dropdownlist class="form-control" name="selectedType" [data]="ddlBusiness"
+                                        [valuePrimitive]="true" [value]="dataItem.OPTM_BUSINESS_OBJECT" textField="text"
+                                        valueField="value" #selectedvalue (selectionChange)="onChangeBusinessObject($event, dataItem, rowIndex)"></kendo-dropdownlist> -->
                                 </ng-template>
                             </kendo-grid-column>
 
-                            <kendo-grid-column media="(min-width: 768px)" [width]="50" field="OPTM_CODE" title="{{'ItemCode'|translate}}">
+                            <kendo-grid-column media="(min-width: 768px)" [width]="50" field="OPTM_CODE" title="Code">
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_ITEMCODE"
-                                            value={{dataItem.OPTM_CODE}} id="display_name" min="0" #display_name>
+                                            value={{dataItem.OPTM_CODE}} id="display_name" min="0" (blur)="onCodeChange(display_name.value, idx)"
+                                            #display_name>
                                         <div class="input-group-append">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetItemCodeList(idx)">
@@ -67,10 +71,9 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()"
-                    type="button">
-                    <i class="opti-icon-arrow-back"></i>
-                </button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
                     {{'CT_Update'|translate}}</button>
             </div>

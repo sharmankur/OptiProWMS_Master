@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
@@ -30,7 +30,8 @@ export class DocumentNumberingComponent implements OnInit {
   index: number = -1;
   public ddlBusiness: any[];
   public selectedValue: string = '';
-
+  // @ViewChild("display_name") display_name;
+  
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
     private translate: TranslateService, private carmainComponent: CARMainComponent,
     private carmasterService: CARMasterService, private router: Router, private docService: DocumentNumberingService
@@ -62,41 +63,24 @@ export class DocumentNumberingComponent implements OnInit {
   }
 
   GetConsolidatedData() {
-    let tempdata = [];
-    // tempdata.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId") })
     this.docService.GetDocumentallData().subscribe(
       resp => {
-        // empID: this.company_data[index].selectedEmployeeType.empID
-        // for(let i=0; i<resp.length; i++)
-        //     {
-        //         resp[i]["SelectedBusiness"] =resp[i].OPTM_BUSINESS_OBJECT;
-        //        // resp[i]["Action"]='Update'
-        //         //resp[i]["SelectedBusiness"]
-        //     }
         this.DocGridData = resp;
-        debugger
-
       },
       error => {
         console.log("Error:", error);
-        //this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }
         else {
           this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
         }
-
-      },
-      () => {
-      }
-    )
+      });
   }
 
   onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
-
 
   OnAddClick() {
     if (this.DocGridData.length > 0) {
@@ -108,66 +92,32 @@ export class DocumentNumberingComponent implements OnInit {
       this.Save.Comp = [];
       this.Save.Data = [];
 
-      debugger
       this.Save.Data = this.DocGridData;
       this.Save.Comp.push({ CompanyDBId: localStorage.getItem("CompID") });
       this.docService.AddUpdateDocNumbering(this.Save).subscribe(
         resp => {
-
+          console.log("response:", resp);
         },
         error => {
           console.log("Error:", error);
-          //this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
           if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
             this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
           }
           else {
             this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
           }
-
-        },
-        () => {
-        }
-      )
+        });
     }
   }
-  onChangeBusinessObject(e, dataitem, index, gridItem) {
+  onChangeBusinessObject(event, dataitem, index) {
     var IsDDLValueDuplicate = this.DocGridData.filter(function (el) {
       return el.OPTM_BUSINESS_OBJECT == dataitem.OPTM_BUSINESS_OBJECT;
     });
-    if (IsDDLValueDuplicate.length > 0) {
-      alert('Duplicate Value')
-      dataitem.OPTM_BUSINESS_OBJECT = ''
-      this.DocGridData.splice(index, 1);
-      this.DocGridData.push({
-        OPTM_FUNCTION_AREA: dataitem.OPTM_FUNCTION_AREA,
-        OPTM_BUSINESS_OBJECT: "",
-        OPTM_CODE: dataitem.OPTM_CODE,
-        OPTM_DEFAULT: dataitem.OPTM_DEFAULT,
-        OPTM_CONTEXT: dataitem.OPTM_CONTEXT,
-        OPTM_CONTEXT_DESC: dataitem.OPTM_CONTEXT_DESC,
-        OPTM_CONTEXT_MINVALUE: dataitem.OPTM_CONTEXT_MINVALUE,
-        OPTM_CONTEXT_MAXVALUE: dataitem.OPTM_CONTEXT_MAXVALUE,
-        OPTM_CREATEDBY: dataitem.OPTM_CREATEDBY,
-        OPTM_CREATEDATE: dataitem.OPTM_CREATEDATE,
-        OPTM_MODIFIEDBY: dataitem.OPTM_MODIFIEDBY,
-        OPTM_MODIFYDATE: dataitem.OPTM_MODIFYDATE
-      })
-      // for (var i = 0; i < this.DocGridData.length; i++) {
-      //   if (i == index) {
-      //     this.DocGridData[i].OPTM_BUSINESS_OBJECT = ''
-
-      //     break;
-      //   }
-      // }
-      gridItem = [];
-      gridItem = this.DocGridData;
-      // this.DocGridData.push({OPTM_FUNCTION_AREA: "Shipping",OPTM_BUSINESS_OBJECT: "",OPTM_CODE: "",OPTM_DEFAULT: "N",
-      // OPTM_CONTEXT: null,OPTM_CONTEXT_DESC: null,OPTM_CONTEXT_MINVALUE: null,OPTM_CONTEXT_MAXVALUE: null,
-      // OPTM_CREATEDBY: "",OPTM_CREATEDATE: "",OPTM_MODIFIEDBY: null,OPTM_MODIFYDATE: null
-      // });
+    if (IsDDLValueDuplicate.length > 1) {
+      // this.DocGridData.splice(index, 1);
+      // this.DocGridData[index].OPTM_BUSINESS_OBJECT = ''
+      this.toastr.error('', this.translate.instant("DuplicateBusinessMsg"));
     }
-
 
     console.log(this.DocGridData)
   }
@@ -189,7 +139,7 @@ export class DocumentNumberingComponent implements OnInit {
     this.DocGridData.push({
       OPTM_FUNCTION_AREA: "Shipping", OPTM_BUSINESS_OBJECT: "", OPTM_CODE: "", OPTM_DEFAULT: "N",
       OPTM_CONTEXT: null, OPTM_CONTEXT_DESC: null, OPTM_CONTEXT_MINVALUE: null, OPTM_CONTEXT_MAXVALUE: null,
-      OPTM_CREATEDBY: "", OPTM_CREATEDATE: "", OPTM_MODIFIEDBY: null, OPTM_MODIFYDATE: null
+      OPTM_CREATEDBY: null, OPTM_CREATEDATE: null, OPTM_MODIFIEDBY: null, OPTM_MODIFYDATE: null
     });
 
   }
@@ -233,5 +183,60 @@ export class DocumentNumberingComponent implements OnInit {
 
   isValidateCalled: boolean = false;
 
+  OnAddUpdateClick() {
+    for (var i = 0; i < this.DocGridData.length; i++) {
+      if (this.DocGridData[i].OPTM_BUSINESS_OBJECT == undefined || this.DocGridData[i].OPTM_BUSINESS_OBJECT == '') {
+        this.toastr.error('', this.translate.instant("BusObjAndCodeBlank"));
+        return
+      } else if (this.DocGridData[i].OPTM_CODE == undefined || this.DocGridData[i].OPTM_CODE == '') {
+        this.toastr.error('', this.translate.instant("BusObjAndCodeBlank"));
+        return
+      }
+    }
+
+    this.showLoader = true;
+    this.docService.AddUpdateDocNumbering(this.DocGridData).subscribe(
+      data => {
+
+        this.showLoader = false;
+        if (data != undefined && data.OUTPUT.length > 0) {
+          if (data.OUTPUT[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          // this.hideLookup = false;
+          // this.serviceData = data;
+          // this.lookupfor = "DocNumbering";
+          if (data.OUTPUT.length > 0) {
+            if (data.OUTPUT[0].RESULT == "Data Saved") {
+              this.toastr.success('', data.OUTPUT[0].RESULT)
+            } else {
+              this.toastr.error('', data.OUTPUT[0].RESULT)
+            }
+            this.GetConsolidatedData();
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onCodeChange(value, idx) {
+    for (let i = 0; i < this.DocGridData.length; ++i) {
+      if (i === idx) {
+        this.DocGridData[i].OPTM_CODE = value;
+      }
+    }
+  }
 }
 

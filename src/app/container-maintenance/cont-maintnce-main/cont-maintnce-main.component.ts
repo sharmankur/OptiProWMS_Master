@@ -390,8 +390,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', data[0].RESULT)
-              //this.toastr.success('', "ContainerCancelledMsg")
+              this.toastr.success('', "ContainerClosedMsg")
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
@@ -430,8 +429,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', data[0].RESULT)
-              //this.toastr.success('', "ContainerCancelledMsg")
+              this.toastr.success('', "ContainerReopenedMsg")
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
@@ -510,8 +508,8 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', data[0].RESULT)
-              //this.toastr.success('', "ContainerCancelledMsg")
+              // this.toastr.success('', data[0].RESULT)
+              this.toastr.success('', "ContainerCancelledMsg")
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)

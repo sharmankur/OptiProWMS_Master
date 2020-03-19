@@ -986,7 +986,12 @@
   "Inv_Items_Mandatory": "Add Inventory Items",  
   "BusinessObject": "Business Object",
   "ContainerDetails": "Container Details",
-  "ShipmentDetails": "Shipment Details", 
+  "ShipmentDetails": "Shipment Details",
+  "BusObjAndCodeBlank": "Business object and code can't be blank",
+  "ContainerReopenedMsg": "Container reopened successfully",
+  "ContainerCancelledMsg": "Container cancelled successfully",
+  "ContainerClosedMsg": "Container closed successfully",
+  "DuplicateBusinessMsg": "You can't add duplicate business object",
 
   "Dummy": "Dummy"
   

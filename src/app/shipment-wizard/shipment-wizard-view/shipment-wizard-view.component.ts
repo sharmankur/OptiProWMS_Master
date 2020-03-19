@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GridDataResult, GridComponent } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -985,5 +985,20 @@ export class ShipmentWizardViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  isExpand: boolean = false;
+  onExpandCollapse() {
+    this.isExpand = !this.isExpand;
+    // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
+
+    for (var i = 0; i < this.AllConsolidateData.length; i++) {
+      if (this.isExpand) {
+        this.grid.expandRow(i)
+      } else {
+        this.grid.collapseRow(i);
+      }
+    }
   }
 }
