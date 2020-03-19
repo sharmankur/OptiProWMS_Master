@@ -95,7 +95,14 @@
                             <div class="form-group row">
                                 <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId">
+                                    <div class="input-group ">
+                                    <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId" (blur)="onShipmentIdChange()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetShipmentIdForShipment()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                         </div> 
@@ -482,8 +489,8 @@
                                         </div>
                                     </ng-template>
                                 </kendo-grid-checkbox-column>  
-                            <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}"></kendo-grid-column>
-                            <kendo-grid-column field="OPTM_CONTCODE" width="155" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}" *ngIf=false></kendo-grid-column>
+                            <kendo-grid-column field="OPTM_CONTCODE" width="155" title="{{'ContCode'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_CONTTYPE" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                             <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
@@ -554,7 +561,7 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item">{{'Select_Shipment'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" (click)="GetShipmentIdForShipment()">{{'Select_Shipment'|translate}}</a>
                             <a class="dropdown-item cursor-pointer" (click)="onShipmentBtnPress('Remove')">{{'Remove_from_shipment'|translate}}</a>
                             <a class="dropdown-item">{{'Return_by_customer'|translate}}</a>
                             <a class="dropdown-item cursor-pointer" (click)="onSetDamagedPress()">{{'Set_Damaged'|translate}}</a>

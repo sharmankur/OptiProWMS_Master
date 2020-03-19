@@ -34,7 +34,7 @@
 
   "WhsUGMapping": "Whse-Group-Mapping",
   "Bin_Rules": "Bin Rules",
-  "Warehouse_Bin_Layout": "Warehouse Bin Layout",
+  "Warehouse_Bin_Layout": "Warehouse Layout",
   "Container_Groups": "Container Groups",
   "Configuration_Paramter": "Configuration Paramter",
   "ContainerType": "Container Type",
@@ -679,7 +679,8 @@
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
   "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
-
+  "EnterAutoPackDesc": "Please enter Description",
+  
   "Schedule": "Schedule",
   "Containers": "Containers",
   "Stage_Unstage": "Stage/Unstage",
@@ -777,7 +778,7 @@
   "BinCanNotBlankMsg": "Bin code can't be blank.",
   "WhseNotBlankMsg": "Warehouse can't be blank.",
   "InvalidContainerType": "Invalid container type",
-  "WarehouseBinLayout": "Warehouse Bin Layout",
+  "WarehouseBinLayout": "Warehouse Layout",
   "DefaultShip_StageBin": "Ship Stage",
   "DefaultWIP_FG_StageBin": "WIP FG Stage",
   "DefaultWIP_RM_StageBin": "WIP RM Stage",
@@ -944,6 +945,7 @@
   "Invalid_CC": "Invalid Customer Code.",
   "Invalid_ShipToCode": "Invalid ShipToCode.",
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
+  "Invalid_Shipment_Id": "Invalid Shipment ID",
   "PCTNotSameChild": "Parent container type can't be same as chile container type.",
   "Allocated": "Allocated", 
   "Selection_Criteria": "Selection Criteria",
@@ -980,6 +982,8 @@
   "CloseContainer": "Close Container",
   "InvalidContainerCode": "Invalid container code",
   "SameContainerValidMsg": "Parent and Child container should not same",
+  "ContCode": "Cont. Code",
+  "Inv_Items_Mandatory": "Add Inventory Items",  
   "BusinessObject": "Business Object",
   "ContainerDetails": "Container Details",
   "ShipmentDetails": "Shipment Details",
@@ -988,6 +992,7 @@
   "ContainerCancelledMsg": "Container cancelled successfully",
   "ContainerClosedMsg": "Container closed successfully",
   "DuplicateBusinessMsg": "You can't add duplicate business object",
+
   "Dummy": "Dummy"
   
 }

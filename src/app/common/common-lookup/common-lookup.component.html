@@ -6,7 +6,7 @@
     </kendo-dialog-titlebar>
     <kendo-grid [kendoGridBinding]="serviceData" [filterable]=isColumnFilter [groupable]=isColumnGroup [selectable]="true"
         [sort]="state.sort" [filter]="state.filter" [resizable]="true" [skip]="skip" (selectionChange)="on_item_select($event)"
-        style="max-height:400px" class="no-shadow" [pageSize]="lookupPageSize" [pageable]="lookupPagable">
+        style="max-height:400px" class="no-shadow cursor-pointer" [pageSize]="lookupPageSize" [pageable]="lookupPagable">
 
         <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="1">
             <kendo-pager-prev-buttons></kendo-pager-prev-buttons>

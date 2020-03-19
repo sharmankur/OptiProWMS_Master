@@ -73,7 +73,7 @@
                 <div class="col-md-12">
                     <div class="card shipment-widget-box">
                         <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                            <span class="k-icon k-i-plus" role="presentation"></span>Add Row</button></h5>                        
+                            <span class="k-icon k-i-plus" role="presentation"></span>{{'Masking_AddRow'|translate}}</button></h5>                        
      
                     <kendo-grid class="no-shadow" [data]="autoRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
@@ -157,7 +157,7 @@
                                         #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
                                 </ng-template>
                             </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-center" [width]="10" title="{{'Action'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" headerClass="text-left" class="text-center" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                     <span class="k-icon k-i-delete" role="presentation"></span>

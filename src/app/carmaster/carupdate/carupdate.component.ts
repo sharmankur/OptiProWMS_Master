@@ -94,11 +94,14 @@ export class CARUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CAR_ContainerPackRule_Blank_Msg"));
       return false;
     }
+    else if(this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined){
+      this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
+      return false;
+    }
     else if (this.CAR_ContainerType == '' || this.CAR_ContainerType == undefined) {
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
       return false;
     }
-
     else if (this.CAR_PackType == undefined) {
       this.toastr.error('', this.translate.instant("CAR_Pack_Type_Blank_Msg"));
       return false;

@@ -146,6 +146,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
+  onOKClick(){
+    this.currentStep = 1;
+  }  
+
   onStepClick(currentStep) {
 
     //this.currentStep = currentStep;
