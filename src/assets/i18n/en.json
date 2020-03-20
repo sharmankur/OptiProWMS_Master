@@ -992,6 +992,10 @@
   "ContainerCancelledMsg": "Container cancelled successfully",
   "ContainerClosedMsg": "Container closed successfully",
   "DuplicateBusinessMsg": "You can't add duplicate business object",
+  "ContainerPackRule": "Cont. Pack Rule",
+  "AddItemToCont": "Add Item To Container",
+  "ScanItem": "Scan Item",
+  "AddedItemToCont": "Item Added To Container",
 
   "Dummy": "Dummy"
   
