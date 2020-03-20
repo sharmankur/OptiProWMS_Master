@@ -215,10 +215,7 @@
                                     <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <span >
-                                                {{dataItem.OPTM_QTY_FULFILLED|numberFormat}}</span>
-                                        </ng-template>
+                                        
                                     </kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
                                 </kendo-grid>

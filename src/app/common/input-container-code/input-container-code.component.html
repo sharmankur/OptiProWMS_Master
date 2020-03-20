@@ -24,6 +24,20 @@
                     [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled>
             </div>
         </div>
+
+        <div class="form-group row form-check-inline">       
+            <div class="input-group input-group-sm">
+                <input type="radio" class="form-check-input col-sm-4" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" 
+                value="Add" [disabled]="!ShowParentField">{{'CT_Add'|translate}}
+                <input type="radio" class="form-check-input col-sm-4" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" 
+                value="Remove" [disabled]="!ShowParentField">{{'Remove'|translate}}
+            </div>           
+        </div>
+        <!-- <div class="form-group row form-check-inline">
+       
+            <input type="radio" class="form-check-input" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" value="Remove">{{'Remove'|translate}}
+       
+        </div> -->
         <div class="form-group row mt-2">
             <div class="input-group input-group-sm">
                 <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>

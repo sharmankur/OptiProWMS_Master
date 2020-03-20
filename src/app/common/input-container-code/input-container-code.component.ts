@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerCreationService } from '../../services/container-creation.service';
 import { Commonservice } from '../../services/commonservice.service';
+import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-input-container-code',
@@ -33,6 +34,7 @@ export class InputContainerCodeComponent implements OnInit {
   TempContnrId: any = '';
   TempContnrCode: any = '';
   clickFlag : boolean = false;
+  RadioAction: any = '';
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router) {       
@@ -43,6 +45,7 @@ export class InputContainerCodeComponent implements OnInit {
     this.showNoButton = true;
     this.CreateFlag = false;
     this.clickFlag = false;
+    this.RadioAction = "Add";
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
@@ -56,12 +59,12 @@ export class InputContainerCodeComponent implements OnInit {
 
   public close(status) {
     if (status == "yes") {
-      if (this.containerCode == undefined || this.containerCode == '') {
-        this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
-        return;
+        if (this.containerCode == undefined || this.containerCode == '') {
+          this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
+          return;
+        }  
       }
-      this.GenerateShipContainer();
-    } else if (status == "cancel" || status == "no") {
+      else if (status == "cancel" || status == "no") {
       if(this.CreateFlag){
         this.isYesClick.emit({
           Status: "yes",
@@ -111,7 +114,8 @@ export class InputContainerCodeComponent implements OnInit {
     if(this.parentContainerCode == '' || this.parentContainerCode == undefined){
       return;
     }
-
+    //alert(this.RadioAction);
+    
     this.showLoader = true;
     this.containerCreationService.GetCountOfParentContainer(this.parentContainerCode).subscribe(
       (data: any) => {
@@ -203,8 +207,9 @@ export class InputContainerCodeComponent implements OnInit {
 
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
     this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;   
 
+    if(this.RadioAction == "Add"){
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
       (data: any) => {
@@ -262,5 +267,62 @@ export class InputContainerCodeComponent implements OnInit {
         }
       }
     );
+   }
+   else{
+    this.showLoader = true;
+    this.containerCreationService.RemoveShipContainer(this.oSaveModel).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        this.CreateFlag = true;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if(data == null || data.length == 0){
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            return;
+          } 
+
+          if(data != null && data.length > 0){
+            if(data[0].RESULT != undefined && data[0].RESULT != null){
+              if(data[0].RESULT == "Success"){
+                this.toastr.success('', this.translate.instant("ContainerRemovedSuccessMsg")); 
+              }
+              else{
+                this.toastr.success('', data[0].RESULT); 
+                return;
+              }              
+            } 
+            else{
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+              return;
+            }  
+
+           // this.TempContnrId = data[0].OPTM_CONTAINERID;
+           // this.TempContnrCode = this.containerCode;
+           // this.containerCode = '';
+
+            if(this.ShowParentField){
+              this.onParentContainerChange();
+            }           
+          } 
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+   }    
   }
 }
