@@ -6,108 +6,156 @@
                 {{'AddItemToCont'|translate}}
             </h3>
             <div class="col-12 row">
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
-                            <input type="text" id="purpose" name="purpose" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="purpose" placeholder="{{'Purpose'|translate}}" (blur)="onParentContainerChange()"
-                                [disabled]="!ShowParentField">
+                            <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray" textField="Name"
+                                valueField="Value" id="purpose" name="purpose" [(ngModel)]="defaultPurpose"
+                                #selectedvalue (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                            <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" disabled>
+                            <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
-                            <input type="text" id="binCode" name="binCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="binCode" placeholder="{{'BinCode'|translate}}" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row mt-2">
-                        <div class="input-group input-group-sm">
-                            <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
-                            <input type="text" id="containerType" name="containerType" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="containerType" placeholder="{{'ContainerType'|translate}}" (blur)="onContainerCodeChange()">
+                            <input type="text" id="binCode" name="binCode" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="binCode" placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
-                            <label class="col-sm-4 col-form-label">{{'ContainerPackRule'|translate}}</label>
-                            <input type="text" id="contPackRule" name="contPackRule" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="contPackRule" placeholder="{{'ContainerPackRule'|translate}}" (blur)="onParentContainerChange()"
-                                [disabled]="!ShowParentField">
+                            <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
+                            <input type="text" class="form-control form-control-sm" id="containerTypeId" name="containerType"
+                                [(ngModel)]="containerType" (blur)="onContainerTypeChangeBlur()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="input-group input-group-sm">
+                            <label class="col-sm-4 col-form-label">{{'Parent Container Type'|translate}}</label>
+                            <input type="text" id="contPackRule" name="contPackRule" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="contPackRule" placeholder="{{'Parent Container Type'|translate}}" (blur)="onParentContainerChange()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="input-group input-group-sm">
+                            <label class="col-sm-4 col-form-label">{{'Auto Pack Rule'|translate}}</label>
+                            <input type="text" id="contPackRule" name="contPackRule" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="contPackRule" placeholder="{{'Auto Pack Rule'|translate}}" (blur)="onParentContainerChange()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                            <input type="text" id="groupCode" name="groupCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="groupCode" placeholder="{{'ContainerGroupingCode'|translate}}" disabled>
+                            <input type="text" id="groupCode" name="groupCode" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="groupCode" placeholder="{{'ContainerGroupingCode'|translate}}">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
-                            <input type="text" id="soNumber" name="binCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group row mt-2">
-                        <div class="input-group input-group-sm">
-                            <label class="col-sm-4 col-form-label">{{'NoOfPackToGen'|translate}}</label>
-                            <input type="text" id="noOfPack" name="noOfPack" class="col-sm-8 form-control form-control-sm mr-3"
-                                [(ngModel)]="noOfPack" placeholder="{{'NoOfPackToGen'|translate}}" (blur)="onContainerCodeChange()">
+                            <input type="text" id="soNumber" name="binCode" class="col-sm-8 form-control form-control-sm"
+                                [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 ml-3">
-                    <div class="panel-body opti_position-relative mt-2">
-                        <div class="form-group row mt-3">
-                            <div class="input-group input-group-sm">
-                                <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
-                                <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                    [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onContainerCodeChange()">
-                                <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm mr-3"
-                                    [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group row mt-2">
-                            <fieldset class="d-block w-100">
-                                <div class="d-flex align-items-center w-100">
-                                    <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
-                                        <input type="radio" #addItem name="addItem" id="addItem" (click)="handleCheckChange($event)"
-                                            class="k-radio" [checked]="radioSelected == 1" />
-                                        <label class="k-radio-label" for="addItem">{{'CT_Add'|translate}}</label>
-                                    </div>
-                                    <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('remove')">
-                                        <input type="radio" #removeItem name="removeItem" id="removeItem" class="k-radio"
-                                            (click)="handleCheckChange($event)" [checked]="radioSelected == 2" />
-                                        <label class="k-radio-label" for="removeItem">{{'Remove'|translate}}</label>
-                                    </div>
+                <div class="card col-sm-5 ml-3">
+                    <div>
+                        <h4 class="border-bottom d-flex pt-1 pb-3 mb-2 mt-2">
+                            {{'ScanAndAddTtl'|translate}}
+                        </h4>
+                    </div>
+                    <div class="mr-2 ml-2 mt-2">
+                        <div>
+                            <div class="form-group row mt-3">
+                                <div class="input-group input-group-sm">
+                                    <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
+                                    <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                                        [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onContainerCodeChange()">
+                                    <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm"
+                                        [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled>
                                 </div>
-                            </fieldset>
-                        </div>
-                        <div class="form-group row mt-2">
-                            <div class="input-group input-group-sm">
-                                <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
-                                <input type="text" id="containerCode" name="scanItem" class="col-sm-8 form-control form-control-sm mr-3"
-                                    [(ngModel)]="scanItem" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()">
-                                <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm mr-3"
-                                    [(ngModel)]="count">
+                            </div>
+                            <div class="form-group row mt-3">
+                                <fieldset class="d-block w-100">
+                                    <div class="d-flex align-items-center w-100">
+                                        <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
+                                            <input type="radio" #addItem name="addItem" id="addItem" (click)="handleCheckChange($event)"
+                                                class="k-radio" [checked]="radioSelected == 1" />
+                                            <label class="k-radio-label" for="addItem">{{'CT_Add'|translate}}</label>
+                                        </div>
+                                        <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('remove')">
+                                            <input type="radio" #removeItem name="removeItem" id="removeItem" class="k-radio"
+                                                (click)="handleCheckChange($event)" [checked]="radioSelected == 2" />
+                                            <label class="k-radio-label" for="removeItem">{{'Remove'|translate}}</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="form-group row mt-3">
+                                <div class="input-group input-group-sm">
+                                    <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
+                                    <input type="text" id="containerCode" name="scanItem" class="col-sm-8 form-control form-control-sm mr-3"
+                                        [(ngModel)]="scanItem" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()">
+                                    <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm "
+                                        [(ngModel)]="count">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group row mt-2">
-                            <div class="input-group input-group-sm">
-                                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1">
-                                    {{'PrintLabel'|translate}}
-                                </button>
+                        <div class="fix-footer-btnBar">
+                            <div class="col-sm-12 col-12">
+                                <div class="float-right form-group row">
+                                    <div class="input-group input-group-sm">
+                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text">
+                                            {{'PrintLabel'|translate}}
+                                        </button>
+                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2">
+                                            {{'Confirm'|translate}}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,41 +216,6 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onScanAndCreateClick('ScanAndCreate')"
-                            [disabled]="!scanCreateEnable">
-                            {{'ScanCreate'|translate}}
-                        </button> -->
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCreateClick('Create')">
-                    {{'Create'|translate}}
-                </button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
-                    {{'Login_Reset'|translate}}
-                </button>
-                <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onResetClick()">
-                            {{'ResetCounter'|translate}}
-                        </button>
-                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onPrintLabelClick()">
-                            {{'PrintLabel'|translate}}
-                        </button>
-                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onContainerOperationClick()">
-                            {{'ContainerOperation'|translate}}
-                        </button> -->
-
-                <div class="btn-group  toggle-btn-outer">
-                    <div class="dropdown show">
-                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="opti-icon-more"></i>
-                        </a>
-                        <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                            <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Login_Reset'|translate}}</a> -->
-                            <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
-                            <a class="dropdown-item cursor-pointer">{{'PrintLabel'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </form>

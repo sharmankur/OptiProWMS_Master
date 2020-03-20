@@ -997,6 +997,7 @@
   "ScanItem": "Scan Item",
   "AddedItemToCont": "Item Added To Container",
   "BuildParentContainer": "Build Parent Container",
+  "ScanAndAddTtl": "Scan item and add to container",
 
   "Dummy": "Dummy"
   
