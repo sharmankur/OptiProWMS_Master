@@ -996,6 +996,7 @@
   "AddItemToCont": "Add Item To Container",
   "ScanItem": "Scan Item",
   "AddedItemToCont": "Item Added To Container",
+  "BuildParentContainer": "Build Parent Container",
 
   "Dummy": "Dummy"
   

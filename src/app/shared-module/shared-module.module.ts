@@ -16,6 +16,7 @@ import { StatePersistingServiceService } from '../services/state-persisting-serv
 import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
 import { InputContainerCodeComponent } from '../common/input-container-code/input-container-code.component';
 import { TrnaslateLazyModule } from 'src/translate-lazy.module';
+import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -24,10 +25,10 @@ import { TrnaslateLazyModule } from 'src/translate-lazy.module';
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent],
+    PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent, InputParentContainerComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent, InputParentContainerComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent, InputParentContainerComponent]
     
 })
 export class SharedModule { }

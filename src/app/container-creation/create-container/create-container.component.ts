@@ -75,6 +75,13 @@ export class CreateContainerComponent implements OnInit {
   ParentPerQty: any = 0;
   IsDisableRule: boolean = false;
 
+  dialogMsg: string = ""
+  yesButtonText: string = "";
+  noButtonText: string = "";
+  inputDialogFor: any;
+  titleMessage: any;
+  showInputDialogFlag: boolean = false;
+
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private ccmain: CcmainComponent, private ctrmasterService: CTRMasterService) {
@@ -445,6 +452,16 @@ export class CreateContainerComponent implements OnInit {
     this.operationNo = ""
   }
 
+  showParentInputDialogFlag: boolean = false;
+  showCreateParentContnrDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.inputDialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showInputDialogFlag = false;
+    this.showParentInputDialogFlag = true;
+    this.titleMessage = msg;
+  }
+
   onScanAndCreateClick() {
     if (!this.validateFields()) {
       return;
@@ -459,12 +476,12 @@ export class CreateContainerComponent implements OnInit {
       this.translate.instant("ConfirmContainerCode"));
   }
 
-  dialogMsg: string = ""
-  yesButtonText: string = "";
-  noButtonText: string = "";
-  inputDialogFor: any;
-  titleMessage: any;
-  showInputDialogFlag: boolean = false;
+  // dialogMsg: string = ""
+  // yesButtonText: string = "";
+  // noButtonText: string = "";
+  // inputDialogFor: any;
+  // titleMessage: any;
+  // showInputDialogFlag: boolean = false;
   showInputDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
     this.inputDialogFor = dialogFor;
     this.yesButtonText = yesbtn;
@@ -491,6 +508,10 @@ export class CreateContainerComponent implements OnInit {
           if(this.IsWIPCont){
             this.GetDataofSelectedTask();
           }
+          break;
+
+          case ("CreateParentContainer"):
+          alert(1);
           break;
       }
     }
@@ -578,6 +599,11 @@ export class CreateContainerComponent implements OnInit {
         });
       }
     }    
+  }
+
+  onBuildParentContClick(){
+    this.showCreateParentContnrDialog("CreateParentContainer", this.translate.instant("Confirm"), this.translate.instant("Cancel"),
+    this.translate.instant("ConfirmContainerCode"));
   }
 
   onWorkOrderChangeBlur() {
