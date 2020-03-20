@@ -38,6 +38,7 @@ GetSalesOrder(SetParameter:any): Observable<any> {
         OPENQTYTO:SetParameter[0].OPENQTYTO,
         NOOFFOPENLINESFROM:SetParameter[0].NOOFFOPENLINESFROM,
         NOOFFOPENLINESTO:SetParameter[0].NOOFFOPENLINESTO,
+        OPTM_CONTUSE:SetParameter[0].OPTM_CONTUSE,
         CompanyDBId: localStorage.getItem("CompID")
         }])
       };
