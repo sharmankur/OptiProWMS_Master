@@ -88,6 +88,9 @@ export class CreateContainerComponent implements OnInit {
       if(this.IsWIPCont){
         this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
       }
+      else{
+        this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual_Rule_Based"));
+      }
     });
   }
 
@@ -114,6 +117,9 @@ export class CreateContainerComponent implements OnInit {
     
     if(this.IsWIPCont){
       this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
+    }
+    else{
+      this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual_Rule_Based"));
     }
   }
 
@@ -472,8 +478,8 @@ export class CreateContainerComponent implements OnInit {
     if ($event.Status == "yes") {
       switch ($event.From) {
         case ("ScanAndCreate"):
-          this.containerId = $event.ContainerId;
-          this.containerCode = $event.ContainerCode;
+          this.containerId = ($event.ContainerId == undefined || '' || null ) ? this.containerId : $event.ContainerId;
+          this.containerCode = ($event.ContainerCode == undefined || '' || null ) ? this.containerCode : $event.ContainerCode;;
           this.parentContainerCode = $event.ParentContainerCode;
           this.count = $event.Count;
           //this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));

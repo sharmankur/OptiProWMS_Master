@@ -805,7 +805,7 @@
   "CreatedDate": "Created Date",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
   "SelectWhsCodeFirst": "Please select Wareshouse code first",
-
+  
   "CTLengthMsg": "Container length should be greater than 0.",
   "CTwidthMsg": "Container width should be greater than 0.",
   "CTHeightMsg": "Container height should be greater than 0.",
