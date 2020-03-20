@@ -549,4 +549,11 @@ export class ContMaintnceMainComponent implements OnInit {
       }
     }
   }
+
+  onAddItemClick(){
+    localStorage.setItem("ContainerId", this.containerId)
+    localStorage.setItem("ContainerCode", this.containerCode)
+    localStorage.setItem("From", "CMaintenance")
+    this.contMaintenance.cmComponent = 2;
+  }
 }
