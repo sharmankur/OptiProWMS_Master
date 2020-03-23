@@ -57,6 +57,13 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GenerateShipContainer", jObject, this.commonService.httpOptions);
   }
+  
+  RemoveShipContainer(oSaveModel: any): Observable<any> {
+    var jObject = {
+      Shipment: JSON.stringify(oSaveModel)
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/RemoveShipContainer", jObject, this.commonService.httpOptions);
+  }
 
   GetOtherItemsFromContDTL(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
     let jObject = {

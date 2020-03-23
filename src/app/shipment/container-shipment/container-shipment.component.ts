@@ -214,6 +214,73 @@ export class ContainerShipmentComponent implements OnInit {
     }
   }
 
+  GetShipmentIdForShipment() {
+    this.showLoader = true;
+    this.commonservice.GetShipmentIdForShipment().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }  
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "ShipmentList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onShipmentIdChange(){
+    if(this.ShipmentId == undefined || this.ShipmentId == ""){
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidShipmentId(this.ShipmentId).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.ShipmentId = data[0].OPTM_SHIPMENTID;
+          } else {
+            this.ShipmentId = "";
+            this.toastr.error('', this.translate.instant("Invalid_Shipment_Id"));
+          }
+        } else {
+          this.ShipmentId = "";
+          this.toastr.error('', this.translate.instant("Invalid_Shipment_Id"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   GetWhseCode() {
     this.commonservice.GetWhseCode().subscribe(
       (data: any) => {
@@ -737,6 +804,9 @@ export class ContainerShipmentComponent implements OnInit {
       }
       else if (this.lookupfor == "ContainsItem") {
         this.ContainsItemID = $event.OPTM_ITEMCODE;
+      }
+      else if(this.lookupfor == "ShipmentList"){
+        this.ShipmentId = $event.OPTM_SHIPMENTID;
       }
       // else if(this.lookupfor == "Workorder"){
       //   this.WOId = $event[0];

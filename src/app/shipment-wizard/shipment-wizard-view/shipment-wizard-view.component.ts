@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GridDataResult, GridComponent } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -146,6 +146,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
+  onOKClick(){
+    this.currentStep = 1;
+  }  
+
   onStepClick(currentStep) {
 
     //this.currentStep = currentStep;
@@ -204,6 +208,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   GetSalesWizardData() {
 
     this.SetParameter = [];
+    let uc = this.UseContainer == true ? "Y":"N";
     this.SetParameter.push({
       FROMCARDCODE: this.CustomerFrom,
       TOCARDCODE: this.CustomerTo,
@@ -220,6 +225,7 @@ export class ShipmentWizardViewComponent implements OnInit {
       OPENQTYTO: this.OpenQtyTo,
       NOOFFOPENLINESFROM: this.NoofOpenLinesFrom,
       NOOFFOPENLINESTO: this.NoofOpenLinesTo,
+      OPTM_CONTUSE: uc,
       CompanyDBId: localStorage.getItem("CompID")
     });
 
@@ -234,6 +240,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
           }
           this.gridData = resp;
+          for(var i=0; i<this.gridData.length; i++){
+            this.gridData[i].ShipmentQty = this.gridData[i].SalesOpenQty;
+          }
           if (this.gridData.length > this.SOpageSize) {
             this.SOpagable = true;
           } else {
@@ -296,7 +305,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           for (let i = 0; i < resp.ShipmentHdr.length; i++) {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
-              if (resp["ShipmentHdr"][i].Shipment_Id === resp["ShipmentDtl"][j].Shipment_Id) {
+              if (resp["ShipmentHdr"][i].SHIPMENT_ID === resp["ShipmentDtl"][j].SHIPMENT_ID) {
                 resp["ShipmentDtl"][j].ShipQty = Number(resp["ShipmentDtl"][j].ShipQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
@@ -613,7 +622,7 @@ export class ShipmentWizardViewComponent implements OnInit {
       return;
     }
     if(event != 'blur') {
-      whs = ""
+      whs = "";
     }
     this.showLoader = true;
    // this.hideLookup = false;
@@ -628,7 +637,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           }
           if (event == 'blur') {
             if (data.length > 0) {
-              this.WareHouse = data.OUTPUT[0].WhsCode;
+              this.WareHouse = data[0].WhsCode;
             } else {
               this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
               this.WareHouse = "";
@@ -978,5 +987,20 @@ export class ShipmentWizardViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  isExpand: boolean = false;
+  onExpandCollapse() {
+    this.isExpand = !this.isExpand;
+    // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
+
+    for (var i = 0; i < this.AllConsolidateData.length; i++) {
+      if (this.isExpand) {
+        this.grid.expandRow(i)
+      } else {
+        this.grid.collapseRow(i);
+      }
+    }
   }
 }

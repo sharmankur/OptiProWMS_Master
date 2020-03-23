@@ -221,6 +221,9 @@ export class CommonLookupComponent implements OnInit {
     } else if(this.lookupfor == "WOLIST" || this.lookupfor == "WOFrom" || this.lookupfor == "WOTo") {
       this.workOrderList();
     }
+    else if(this.lookupfor == "DocNumbering") {
+      this.DocumentNumberingView();
+    }
 
     this.clearFilters();
     this.isColumnFilter = false
@@ -296,7 +299,30 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
-
+  DocumentNumberingView()
+    {
+      this.table_head = [
+        {
+          field: 'Code',
+          title: this.translate.instant("Masking_Code"),
+          type: 'text',
+          width: '100'
+        },
+        {
+          field: 'Name',
+          title: this.translate.instant("CardName"),
+          type: 'text',
+          width: '100'
+        }
+        
+      ];
+      this.lookupTitle = this.translate.instant("ItemsList");
+      if (this.serviceData !== undefined) {
+        if (this.serviceData.length > 0) {
+          this.dialogOpened = true;
+        }
+      }
+    }
   showItemCodeListByRuleId() {
     this.table_head = [
       {
@@ -587,7 +613,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CT_ContainerType");
+    this.lookupTitle = this.translate.instant("AutoPackRule");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

@@ -112,7 +112,7 @@ export class PortalLeftComponent implements OnInit {
     this.selectedItem = module;
 
 
-
+    
     localStorage.setItem("ProdReceptItem", '');
     localStorage.setItem("FromReceiptProd", 'false');
     localStorage.setItem("GoodsReceiptModel", '');
@@ -131,7 +131,14 @@ export class PortalLeftComponent implements OnInit {
       localStorage.setItem("towhseId", localStorage.getItem("whseId"));
       localStorage.setItem("fromwhseId", localStorage.getItem("whseId"));
     }
+    else if (module == "TransactionStepSetup") {
+      localStorage.setItem("TransStepSetup", "TransactionStepSetup");
+    }
+    else if (module == "DocumentNumbering") {
+      localStorage.setItem("DocNumbering", "DocumentNumbering");
+    }else if (module == "DocumentNumbering") {
     
+    }
     this.closeRightSidebar(event);
     this.router.navigate(['home/' + module]);
   }

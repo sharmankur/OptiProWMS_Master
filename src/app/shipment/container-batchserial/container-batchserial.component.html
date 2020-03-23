@@ -107,7 +107,7 @@
                     <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
                     <!-- <div class="card-body"> -->
                         <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
-                            [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [filterable]=isColumnFilterView
+                            [height]="330" [pageSize]="pageSize" [skip]="skip" [pageable]="ShowGridPaging" (pageChange)="pageChange($event)" [filterable]=isColumnFilterView
                             [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
                             <ng-template kendoGridToolbarTemplate> 
                                 <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>   

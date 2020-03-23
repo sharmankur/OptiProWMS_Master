@@ -13016,3 +13016,9 @@ body kendo-grid .k-grid-header{
     color: #292b2c;
     background-color: rgba(41, 43, 44, 0.065); }
 }
+
+.exp-coll-icon{
+    width: 15px;
+    height: 15px;
+    fill: #fff;
+}

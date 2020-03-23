@@ -20,6 +20,7 @@ import { PickListStatusPipe } from '../common/pick-list-status.pipe';
 import { PickOperationPipe } from '../common/pick-operation.pipe';
 import { PickTypePipe } from '../common/pick-type.pipe';
 import { TransferMeansPipe } from '../common/transfer-means.pipe';
+import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -28,9 +29,9 @@ import { TransferMeansPipe } from '../common/transfer-means.pipe';
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent],
-  exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
+    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent,InputParentContainerComponent],
+  exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,InputParentContainerComponent,
     DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })

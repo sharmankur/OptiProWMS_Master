@@ -34,7 +34,7 @@
 
   "WhsUGMapping": "Whse-Group-Mapping",
   "Bin_Rules": "Bin Rules",
-  "Warehouse_Bin_Layout": "Warehouse Bin Layout",
+  "Warehouse_Bin_Layout": "Warehouse Layout",
   "Container_Groups": "Container Groups",
   "Configuration_Paramter": "Configuration Paramter",
   "ContainerType": "Container Type",
@@ -679,7 +679,8 @@
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
   "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
-
+  "EnterAutoPackDesc": "Please enter Description",
+  
   "Schedule": "Schedule",
   "Containers": "Containers",
   "Stage_Unstage": "Stage/Unstage",
@@ -777,7 +778,7 @@
   "BinCanNotBlankMsg": "Bin code can't be blank.",
   "WhseNotBlankMsg": "Warehouse can't be blank.",
   "InvalidContainerType": "Invalid container type",
-  "WarehouseBinLayout": "Warehouse Bin Layout",
+  "WarehouseBinLayout": "Warehouse Layout",
   "DefaultShip_StageBin": "Ship Stage",
   "DefaultWIP_FG_StageBin": "WIP FG Stage",
   "DefaultWIP_RM_StageBin": "WIP RM Stage",
@@ -804,7 +805,7 @@
   "CreatedDate": "Created Date",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
   "SelectWhsCodeFirst": "Please select Wareshouse code first",
-
+  
   "CTLengthMsg": "Container length should be greater than 0.",
   "CTwidthMsg": "Container width should be greater than 0.",
   "CTHeightMsg": "Container height should be greater than 0.",
@@ -944,7 +945,6 @@
   "Invalid_CC": "Invalid Customer Code.",
   "Invalid_ShipToCode": "Invalid ShipToCode.",
   "Invalid_ShipmentCode": "Invalid Shipment Code.",
-  "PCTNotSameChild": "Parent container type can't be same as chile container type.", 
   "MaintainPicklist": "Maintain Picklist",
   "PickListBasic": "Pick List Basic",
   "fromShipment": "From Shipment",
@@ -974,6 +974,8 @@
   "Batch_SerialNumber":"Batch/Serial No", 
   "TotalQuantity":"Total Quantity",  
   
+  "Invalid_Shipment_Id": "Invalid Shipment ID",
+  "PCTNotSameChild": "Parent container type can't be same as child container type.",
   "Allocated": "Allocated", 
   "Selection_Criteria": "Selection Criteria",
   "SO_Lines": "SO Lines",
@@ -1026,6 +1028,23 @@
   "Name_ForkLift": "ForkLift",
   "Name_Crane":"Crane",
   "validateRelease": "You can not select items other then new status",
+  "ContCode": "Cont. Code",
+  "Inv_Items_Mandatory": "Add Inventory Items",  
+  "BusinessObject": "Business Object",
+  "ContainerDetails": "Container Details",
+  "ShipmentDetails": "Shipment Details",
+  "BusObjAndCodeBlank": "Business object and code can't be blank",
+  "ContainerReopenedMsg": "Container reopened successfully",
+  "ContainerCancelledMsg": "Container cancelled successfully",
+  "ContainerClosedMsg": "Container closed successfully",
+  "DuplicateBusinessMsg": "You can't add duplicate business object",
+  "ContainerPackRule": "Cont. Pack Rule",
+  "AddItemToCont": "Add Item To Container",
+  "ScanItem": "Scan Item",
+  "AddedItemToCont": "Item Added To Container",
+  "BuildParentContainer": "Build Parent Container",
+  "ScanAndAddTtl": "Scan item and add to container",
+
   "Dummy": "Dummy"
   
 }

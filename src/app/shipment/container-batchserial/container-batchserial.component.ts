@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
 import { ContainerBatchserialService } from '../../services/container-batchserial.service';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent ,PageChangeEvent} from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-container-batchserial',
@@ -46,6 +46,7 @@ export class ContainerBatchserialComponent implements OnInit {
   BatchSerialData : any = [];
   showOtherLookup: boolean = false;
   isColumnFilterView: boolean = false;
+  skip: any = 0;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
@@ -336,6 +337,10 @@ export class ContainerBatchserialComponent implements OnInit {
   //   );
   // }
 
+  pageChange(event: PageChangeEvent){
+    this.skip = event.skip;
+  }
+
   onItemCodeChange($event){
     this.setDataInTempGrid();
     this.ContainsItemID = $event.OPTM_ITEMCODE;
@@ -346,7 +351,9 @@ export class ContainerBatchserialComponent implements OnInit {
   }
 
   getDataFromTempGrid() {
+    this.pageChange({skip: 0, take: this.pageSize});
     this.ContainerBatchSerials = [];
+    this.skip = 0;
     var index = -1;
     let flag = false;
     if(this.TempGridData.length > 0){
@@ -354,6 +361,12 @@ export class ContainerBatchserialComponent implements OnInit {
          index = this.TempGridData[tempIdx].findIndex(r=>r.ITEMCODE == this.ContainsItemID);    
          if(index > -1){
           this.ContainerBatchSerials = this.TempGridData[tempIdx];
+          if(this.ContainerBatchSerials.length >  this.pageSize){
+            this.ShowGridPaging = true;
+          }
+          else{
+            this.ShowGridPaging = false;
+          }
           flag = true;
          } 
       } 
@@ -397,7 +410,9 @@ export class ContainerBatchserialComponent implements OnInit {
 
   fillBatchSerialDataInGrid(){
 
+    this.pageChange({skip: 0, take: this.pageSize});
     this.isColumnFilterView = false;
+    this.ShowGridPaging = false;
     this.showLoader = true;
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
       (data: any) => {
@@ -430,7 +445,7 @@ export class ContainerBatchserialComponent implements OnInit {
          // this.RowCount = 0;
           this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
           
-          if(this.ContainerBatchSerials.length > 10){
+          if(this.ContainerBatchSerials.length > this.pageSize){
             this.ShowGridPaging = true;          
           }
           else{

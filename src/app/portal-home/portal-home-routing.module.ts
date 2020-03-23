@@ -13,6 +13,8 @@ import { InventoryTransferbyITRMasterComponent } from '../inventory-transfer/inv
 import { ContainerShipmentComponent } from '../shipment/container-shipment/container-shipment.component';
 import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
 import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate-pick.component';
+import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
+
 
 const routes: Routes = [
 
@@ -55,7 +57,11 @@ const routes: Routes = [
       { path: 'Container_List', component: ContainerShipmentComponent } ,
       { path: 'BatchSerial_List', component: ContainerBatchserialComponent } ,
       { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
-      { path: 'container-maintenance', loadChildren: "../container-maintenance/container-maintenance.module#ContainerMaintenanceModule" }
+      { path: 'container-maintenance', loadChildren: "../container-maintenance/container-maintenance.module#ContainerMaintenanceModule" },
+      { path: 'setup', loadChildren: "../Setup/setup.module#SetupModule" },
+      // { path: 'TransactionStepSetup', loadChildren: "../Setup/setup.module#SetupModule" },
+      { path: 'DocumentNumbering', component: DocumentNumberingComponent } ,
+      
     ]
 
   }

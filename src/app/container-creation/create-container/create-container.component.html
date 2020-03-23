@@ -307,9 +307,9 @@
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="parentContainerType"
                                         name="parentContainerType"
-                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')"> 
+                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="!IsDisableRule"> 
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')" [disabled]="!IsDisableRule">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -382,9 +382,9 @@
                                 <div class="input-group col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
                                        name="autoPackRule" [(ngModel)]="autoPackRule"
-                                        (blur)="onAutoPackRuleChangeBlur()">
+                                        (blur)="onAutoPackRuleChangeBlur()" [disabled]="IsDisableRule">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" [disabled]="IsDisableRule" (mousedown)="getAutoPackRule()">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -545,7 +545,7 @@
                             <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45"  headerClass="text-left" title="{{'ItemCode'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                 <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_ITEMCODE}}</span>
-                                <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
                                     {{dataItem.OPTM_ITEMCODE}}</span>
                                 </ng-template>
                             </kendo-grid-column>
@@ -555,7 +555,7 @@
                                 </ng-template> -->
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
-                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
                                         {{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
                                 </ng-template>
                             </kendo-grid-column>
@@ -579,7 +579,7 @@
                                 </ng-template> -->
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.AvlQty}}</span>
-                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
                                         {{dataItem.AvlQty}}</span>
                                 </ng-template>                                
                             </kendo-grid-column>
@@ -587,14 +587,14 @@
                                 headerClass="text-left" class="text-right">                                
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_MIN_FILLPRCNT}}</span>
-                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
                                         {{dataItem.OPTM_MIN_FILLPRCNT}}</span>
                                 </ng-template>  
                             </kendo-grid-column>
                             <kendo-grid-column media="(min-width: 768px)" field="BinCode" headerClass="text-left" [width]="60" title="{{'BinNo'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.BinCode}}</span>
-                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold">
+                                    <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
                                         {{dataItem.BinCode}}</span>
                                 </ng-template> 
                             </kendo-grid-column>
@@ -607,7 +607,7 @@
                                             #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> <!--[disabled]="dataItem.isDesable"-->
                                     </div>
                                     <!-- <div class="input-group input-group-sm" *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode">
-                                        <input type="text" class="form-control form-control-sm text-right" class="font-weight-bold" name="qtytoadd"
+                                        <input type="text" class="form-control form-control-sm text-right" class="font-weight-bold text-primary" name="qtytoadd"
                                             value={{dataItem.QuantityToAdd|numberFormat}} id="qtytoadd" min="0"
                                             #qtytoadd (change)="onQtyChange(qtytoadd.value, idx)" disabled> 
                                     </div> -->
@@ -659,11 +659,12 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                                <!-- <a class="dropdown-item" (click)="onResetClick()">{{'Login_Reset'|translate}}</a> -->
+                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
+                                <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Login_Reset'|translate}}</a> -->
                                 <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
-                                <a class="dropdown-item">{{'PrintLabel'|translate}}</a>
-                                <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
+                                <a class="dropdown-item cursor-pointer">{{'PrintLabel'|translate}}</a>
+                                <a class="dropdown-item cursor-pointer" (click)="onBuildParentContClick()">{{'BuildParentContainer'|translate}}</a>
+                                <a class="dropdown-item cursor-pointer" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
                             </div>
                         </div>
                     </div>
@@ -688,3 +689,8 @@
     <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
         [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
 </span>
+
+<span *ngIf="showParentInputDialogFlag">
+        <app-input-parent-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+            [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-parent-container>
+    </span>
