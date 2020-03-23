@@ -5,6 +5,7 @@ import { ComonConfirmDialogComponent } from '../common/comon-confirm-dialog/como
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { FormsModule } from '@angular/forms';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import {ConfirmDialogComponent} from '../common/confirm-dialog/confirm-dialog/confirm-dialog.component';
 import {ConfirmdialogService} from '../common/confirm-dialog/confirmdialog.service';
 import {DisplayPdfComponent} from '../printing-label/display-pdf/display-pdf.component';
@@ -21,10 +22,13 @@ import { PickOperationPipe } from '../common/pick-operation.pipe';
 import { PickTypePipe } from '../common/pick-type.pipe';
 import { TransferMeansPipe } from '../common/transfer-means.pipe';
 import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
     FormsModule,
+    InputsModule,
+    DropDownsModule ,
     DialogsModule,PdfViewerModule,
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],

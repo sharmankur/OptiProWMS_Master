@@ -675,7 +675,7 @@
   "SelectBinCodeMsg": "Please select bin code",
   "ContainerCode": "Container Code",
   "ConfirmContainerCode": "Scan and Create Container",
-  "ContainerCodeBlankMsg": "Container code can not blank.",
+  "ContainerCodeBlankMsg": "Container code can't be blank.",
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
   "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
@@ -1044,7 +1044,10 @@
   "AddedItemToCont": "Item Added To Container",
   "BuildParentContainer": "Build Parent Container",
   "ScanAndAddTtl": "Scan item and add to container",
-
+  "NoOfPacksToGenerate": "No of packs to generate",  
+  "ScanItemInContainer" : "Scan Item in Container",
+  "Child_Cont_List" : "Child Container List",
+      
   "Dummy": "Dummy"
   
 }
