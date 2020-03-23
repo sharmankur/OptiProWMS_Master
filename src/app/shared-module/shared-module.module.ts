@@ -17,6 +17,10 @@ import { StatePersistingServiceService } from '../services/state-persisting-serv
 import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
 import { InputContainerCodeComponent } from '../common/input-container-code/input-container-code.component';
 import { TrnaslateLazyModule } from 'src/translate-lazy.module';
+import { PickListStatusPipe } from '../common/pick-list-status.pipe';
+import { PickOperationPipe } from '../common/pick-operation.pipe';
+import { PickTypePipe } from '../common/pick-type.pipe';
+import { TransferMeansPipe } from '../common/transfer-means.pipe';
 import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 @NgModule({  
@@ -29,10 +33,10 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent, InputParentContainerComponent],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent, InputParentContainerComponent],
-  exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent, InputParentContainerComponent]
+    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent,InputParentContainerComponent],
+  exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,InputParentContainerComponent,
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })
 export class SharedModule { }
