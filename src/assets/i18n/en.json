@@ -675,7 +675,7 @@
   "SelectBinCodeMsg": "Please select bin code",
   "ContainerCode": "Container Code",
   "ConfirmContainerCode": "Scan and Create Container",
-  "ContainerCodeBlankMsg": "Container code can not blank.",
+  "ContainerCodeBlankMsg": "Container code can't be blank.",
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
   "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
