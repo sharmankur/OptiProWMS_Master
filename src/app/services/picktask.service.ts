@@ -147,5 +147,37 @@ export class PickTaskService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Pallet/IsPalletValidForGRPO", jObject, this.commonService.httpOptions);
   }
+
+
+  FillPickListDataInGrid(FROMSHIPMENTID:any,TOSHIPMENTID:any, OPTM_WHSECODE:any, OPTM_PICKLISTBASIS:any, OPTM_PLANSHIFT:any, OPTM_STATUS:any,
+    OPTM_PLANDATE:any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        FROMSHIPMENTID: FROMSHIPMENTID,
+        TOSHIPMENTID: TOSHIPMENTID,
+        OPTM_WHSECODE: OPTM_WHSECODE,         
+        OPTM_STATUS: OPTM_STATUS,
+        OPTM_PICKLISTBASIS: OPTM_PICKLISTBASIS,
+        OPTM_PLANSHIFT: OPTM_PLANSHIFT,
+        OPTM_PLANDATE: OPTM_PLANDATE,
+       
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetPickListData", jObject, this.commonService.httpOptions);
+  }
+
+
+  updateReleaseStatusForPickListItems(OPTM_PICKLIST_CODE_List:any): Observable<any> {
+      var arrRequestBody=[];
+      for(let i=0;i<OPTM_PICKLIST_CODE_List.length;i++){
+         var obj = {CompanyDBId: localStorage.getItem("CompID"), OPTM_PICKLIST_CODE: OPTM_PICKLIST_CODE_List[i]}
+         arrRequestBody.push(obj);
+      }
+    let jObject = {
+      Shipment: JSON.stringify(arrRequestBody)
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/ReleasePickList", jObject, this.commonService.httpOptions);
+  }
 }
 

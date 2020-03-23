@@ -16,6 +16,10 @@ import { StatePersistingServiceService } from '../services/state-persisting-serv
 import { CommonLookupComponent } from '../common/common-lookup/common-lookup.component';
 import { InputContainerCodeComponent } from '../common/input-container-code/input-container-code.component';
 import { TrnaslateLazyModule } from 'src/translate-lazy.module';
+import { PickListStatusPipe } from '../common/pick-list-status.pipe';
+import { PickOperationPipe } from '../common/pick-operation.pipe';
+import { PickTypePipe } from '../common/pick-type.pipe';
+import { TransferMeansPipe } from '../common/transfer-means.pipe';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -24,10 +28,10 @@ import { TrnaslateLazyModule } from 'src/translate-lazy.module';
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe, InputDialogComponent, InputContainerCodeComponent],
+    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent],
   entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })
 export class SharedModule { }

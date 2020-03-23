@@ -315,6 +315,20 @@ export class CommonData {
         ];
     }
 
+    PickListEnum(){
+        return [
+            { "Value": 1, "Name": this.translate.instant("DropdownMenu_Shipment") },
+            { "Value": 2, "Name": this.translate.instant("SalesOrder")},
+            { "Value": 3, "Name": this.translate.instant("WorkOrder")}
+        ];
+    }
+
+    PlanShiftEnum(){
+        return [
+            { "Value": 1, "Name": 1 }
+        ];
+    }
+
     validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
 
         if(SelectedDataArray.length == 0){
@@ -359,5 +373,70 @@ export class CommonData {
              return true;
         }
 
+    }
+
+
+    
+
+    /**
+     * Pick list screen status field enmum.
+     */
+    PickListStatusEnum(){
+        return [
+            { "Value": 1, "Name": "CStatusNew" },
+            { "Value": 2, "Name": "Status_Release" },
+            { "Value": 3, "Name": "CAssignedNew" },
+            { "Value": 4, "Name": "Selected" },
+            { "Value": 5, "Name": "Status_Part_Picked" },
+            { "Value": 6, "Name": "Status_Picked" },
+            { "Value": 7, "Name": "CClosedNew" }
+
+        ];
+    }
+
+    /**
+     * Pick operation field enmum.
+     */
+    PickOperationEnum(){
+        return [
+            { "Value": 1, "Name": "Name_Pick" },
+            { "Value": 2, "Name": "Name_Pack" },
+            { "Value": 3, "Name": "Name_Putaway" },
+            { "Value": 4, "Name": "Receive" },
+            { "Value": 5, "Name": "Name_Ship" },
+            { "Value": 6, "Name": "Name_Returns" },
+            { "Value": 7, "Name": "Name_Move" }
+
+        ];
+    }
+
+         /**
+     * Pick operation field enmum.
+     */
+      PickTypeEnum(){
+        return [
+            { "Value": 1, "Name": "Batch_Picking" },
+            { "Value": 2, "Name": "Cluster_Picking" },
+            { "Value": 3, "Name": "Container_Picking" },
+            { "Value": 4, "Name": "Discreate_Picking" },
+            { "Value": 5, "Name": "Zone_Picking" }
+        ];
+    }
+
+   /**
+    * Pick operation field enmum.
+    */
+    TransferMeansTypeEnum(){
+        return [
+            { "Value": 1, "Name": "Manual" },
+            { "Value": 2, "Name": "Name_ForkLift" },
+            { "Value": 3, "Name": "Name_Crane" }
+        ];
+    }
+   
+
+    
+    getPickListValue(value:any){
+        //this.PickListStatusEnum().indexOf("Name" value)
     }
 }
