@@ -377,8 +377,12 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
             </kendo-grid-column>
-            <kendo-grid-column media="(min-width: 768px)" field="OPTM_TASK_QTY" headerClass="text-left"
+            <kendo-grid-column media="(min-width: 768px)" field="OPTM_TASK_QTY"headerClass="text-right" class="text-right"
                 [width]="60" title="{{'BatchSerialQuantity'|translate}}">
+               
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.OPTM_TASK_QTY  |numberFormat }}
+                     </ng-template>
                 <!-- <ng-template kendoGridCellTemplate let-dataItem>
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
