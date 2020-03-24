@@ -196,7 +196,20 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
 
                 <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>             
+                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button> 
+                    
+                <div class="btn-group  toggle-btn-outer">
+                    <div class="dropdown show">
+                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="opti-icon-more"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Return_by_customer'|translate}}</a>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

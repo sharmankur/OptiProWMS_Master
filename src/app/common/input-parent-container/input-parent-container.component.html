@@ -108,34 +108,34 @@
             <div class="card col-sm-5 ml-3">
                 <div>
                     <h5 class="border-bottom d-flex pt-1 pb-3 mb-2 mt-2">
-                        {{'ScanItemInContainer'|translate}}
+                        {{'ScanContainer'|translate}}
                     </h5>
-                    <!-- <label>{{'ScanItemInContainer'|translate}}</label> -->
+                    
                 </div>
                 <div class="mr-2 ml-2 mt-2">
                     <div>
-                        <div class="form-group row mt-3">
+                        <div class="form-group row">
                             <div class="input-group input-group-sm">
-                                <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
+                                <label class="col-sm-4 col-form-label">{{'Parent_Cont_Code'|translate}}</label>
                                 <input type="text" id="parentcontainerCode" name="parentcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                    [(ngModel)]="parentcontainerCode" placeholder="{{'Parent_Container_Code'|translate}}" (blur)="onParentContainerCodeChange()">
-                                <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm"
-                                    [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Count'|translate}}" disabled>
+                                    [(ngModel)]="parentcontainerCode" (blur)="onParentContainerCodeChange()">                                
+                                <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm"
+                                [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>  
                             </div>
                         </div>
-                        <div class="form-group row form-check-inline">                                                           
+                        <div class="form-group form-check-inline ml-1">                                                           
                                 <input type="radio" class="form-check-input" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" 
                                 value="Add">
                                 <label class="col-form-label" for="addItem">{{'CT_Add'|translate}}</label>
                                 <input type="radio" class="form-check-input ml-3" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" 
                                 value="Remove">
-                                <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                              
-                            
+                                <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                            
                         </div>
-                        <div class="form-group row mt-3">
+                        <div class="form-group row">
                             <div class="input-group input-group-sm">
+                                <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <input type="text" id="childcontainerCode" name="childcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                    [(ngModel)]="childcontainerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onItemCodeChange()">
+                                    [(ngModel)]="childcontainerCode" (blur)="onItemCodeChange()">
                                 <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm "
                                     [(ngModel)]="count"> -->
                             </div>

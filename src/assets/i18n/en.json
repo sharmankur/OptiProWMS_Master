@@ -761,6 +761,9 @@
   "Parent_Container_Code": "Parent Container Code",
   "Remaining_Qty": "Remaining Qty",
   "Count": "Count",
+  "Parent_Count": "Parent Container Count",
+  "Parent_Cont_Code": "Parent Cont.",
+  "ParentContDoesNotExists":"Parent Container does not exists.",
 
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",
@@ -1048,6 +1051,7 @@
 
   "NoOfPacksToGenerate": "No of packs to generate",  
   "ScanItemInContainer" : "Scan Item in Container",
+  "ScanContainer" : "Scan Containers",
   "Child_Cont_List" : "Child Container List",
   "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
       

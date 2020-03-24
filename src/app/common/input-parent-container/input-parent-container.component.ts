@@ -31,7 +31,7 @@ export class InputParentContainerComponent implements OnInit {
   packType: any;
   showLoader: boolean = false;
   showLookup: boolean=false
-  serviceData: any = []
+  serviceData: any = [];
   lookupfor: any;
   whse: any;
   binNo: any;
@@ -45,6 +45,8 @@ export class InputParentContainerComponent implements OnInit {
   parentcontainerCode: any = '';
   public opened: boolean = true;  
   childcontainerCode: any = '';
+  oCreateModel: any = {};
+  IsParentCodeValid: boolean = false;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
@@ -671,7 +673,39 @@ export class InputParentContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CTR_ParentContainerType_Blank_Msg"));
       return;
     }
+  }
 
+  IsvalidParentCode(){
+    this.showLoader = true;
+    this.containerCreationService.GetAllContainer(this.parentcontainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+           this.IsParentCodeValid = false;
+           this.toastr.warning('', this.translate.instant("ParentContDoesNotExists"));
+          } else {
+            this.IsParentCodeValid = true;       
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   onParentContainerCodeChange(){
@@ -680,8 +714,8 @@ export class InputParentContainerComponent implements OnInit {
 
     if(this.parentcontainerCode == '' || this.parentcontainerCode == undefined){
       return;
-    }   
-
+    } 
+    this.addItemList = [];
     this.showLoader = true;
     this.containerCreationService.GetConatinersAddedInParentContainer(this.parentcontainerCode).subscribe(
       (data: any) => {
@@ -702,6 +736,90 @@ export class InputParentContainerComponent implements OnInit {
             this.count = 0;
           } 
 
+          this.IsvalidParentCode();
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  generateParentContnr(){
+    this.showLoader = true;
+    this.containerCreationService.GenerateShipContainer(this.oCreateModel).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+
+            if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
+              this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+              return;
+            }
+            this.insertChildContnr();
+           // this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+          }
+        } else {
+          //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  insertChildContnr(){
+    this.showLoader = true;
+    this.containerCreationService.InsertContainerinContainer(this.parentcontainerCode, this.childcontainerCode, this.RadioAction,
+      this.containerType, this.parentContainerType).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+        if (data.length > 0) {
+          if (data[0].RESULT != undefined && data[0].RESULT != null) {
+
+          if (data[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+            this.childcontainerCode = '';
+            this.parentcontainerCode();
+          }
+          else {
+            this.toastr.error('', data[0].RESULT);
+          }
+        }
+        else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -730,53 +848,56 @@ export class InputParentContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));
       this.childcontainerCode = '';
       return;
+    }   
+
+    if(!this.IsParentCodeValid){
+      this.oCreateModel.HeaderTableBindingData = [];
+    
+      this.oCreateModel.HeaderTableBindingData.push({
+        OPTM_SONO: this.soNumber,
+        OPTM_CONTAINERID: 0,
+        OPTM_CONTTYPE: this.containerType,
+        OPTM_CONTAINERCODE: "" + this.childcontainerCode,
+        OPTM_WEIGHT: 0,
+        OPTM_AUTOCLOSE_ONFULL: 'N',
+        OPTM_AUTORULEID: 0,
+        OPTM_WHSE: this.whse,
+        OPTM_BIN: this.binNo,
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        OPTM_MODIFIEDBY: '',
+        Length: length,
+        Width: 0,
+        Height: 0,
+        ItemCode: "",
+        NoOfPacks: "1",
+        OPTM_TASKID: 1,
+        CompanyDBId: localStorage.getItem("CompID"),
+        Username: localStorage.getItem("UserId"),
+        UserId: localStorage.getItem("UserId"),
+        GUID: localStorage.getItem("GUID"),
+        Action: "",
+        OPTM_PARENTCODE: this.parentcontainerCode,
+        OPTM_GROUP_CODE: 0,
+        OPTM_CREATEMODE: 0,
+        OPTM_PERPOSE: this.defaultPurpose,
+        OPTM_FUNCTION: "Shipping",
+        OPTM_OBJECT: "Container",
+        OPTM_WONUMBER: 0,
+        OPTM_TASKHDID: 0,
+        OPTM_OPERATION: 0,
+        OPTM_QUANTITY: 0,
+        OPTM_SOURCE: 0,    
+        OPTM_ParentContainerType: this.parentContainerType,
+        OPTM_ParentPerQty: 0,  
+        IsWIPCont: false  
+      });
+
+      this.generateParentContnr();
     }
-
-    this.showLoader = true;
-    this.containerCreationService.InsertContainerinContainer(this.parentcontainerCode, this.childcontainerCode, this.RadioAction,
-      this.containerType, this.parentContainerType).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          if (data.length > 0) {
-            if(data[0].RESULT != undefined && data[0].RESULT != null){
-
-              if(data[0].RESULT == "Data Saved"){
-                this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
-                this.childcontainerCode = '';
-                this.parentcontainerCode();
-              }
-              else{
-                this.toastr.error('', data[0].RESULT);
-              }
-            }  
-            else {              
-              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-            } 
-          } else {
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-          }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-
-  }
+    else{
+      this.insertChildContnr();
+    }
+ }
 
   public close(status) {
    
