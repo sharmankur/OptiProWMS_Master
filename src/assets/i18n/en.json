@@ -1047,6 +1047,7 @@
   "NoOfPacksToGenerate": "No of packs to generate",  
   "ScanItemInContainer" : "Scan Item in Container",
   "Child_Cont_List" : "Child Container List",
+  "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
       
   "Dummy": "Dummy"
   

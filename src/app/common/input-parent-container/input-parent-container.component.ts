@@ -697,7 +697,10 @@ export class InputParentContainerComponent implements OnInit {
           if(data.length != undefined){
             this.count = data.length;
             this.addItemList = data;
-          }    
+          }   
+          else{
+            this.count = 0;
+          } 
 
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -740,15 +743,26 @@ export class InputParentContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length == 0) {
-            // this.soNumber = ''
-            // this.toastr.error('', this.translate.instant("InvalidSO"));
+          if (data.length > 0) {
+            if(data[0].RESULT != undefined && data[0].RESULT != null){
+
+              if(data[0].RESULT == "Data Saved"){
+                this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+                this.childcontainerCode = '';
+                this.parentcontainerCode();
+              }
+              else{
+                this.toastr.error('', data[0].RESULT);
+              }
+            }  
+            else {              
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            } 
           } else {
-            //this.soNumber = data[0].DocEntry
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
         } else {
-          // this.soNumber = ''
-          // this.toastr.error('', this.translate.instant("InvalidSO"));
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
