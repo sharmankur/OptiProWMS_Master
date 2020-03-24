@@ -189,13 +189,22 @@
                     </li>
 
                     <li id="16023" role="menuitem" (click)="listClick($event, 'build-parent-container')" [ngStyle]="{'display':'flex'}">
-                            <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/build-parent-container">
-                                <svg viewBox="0 0 24 24" class="icon">
-                                    <use xlink:href="#containerCreation"></use>
-                                </svg>
-                                <span class="text">{{'BuildParentContainer'|translate}}</span>
-                            </a>
-                        </li>
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/build-parent-container">
+                            <svg viewBox="0 0 503.572 503.572" class="icon">
+                                <use xlink:href="#generatePicklistShipments"></use>
+                            </svg>
+                            <span class="text">{{'BuildParentContainer'|translate}}</span>
+                        </a>
+                    </li>
+
+                    <li id="16024" role="menuitem" (click)="listClick($event, 'add-item-container')" [ngStyle]="{'display':'flex'}">
+                        <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/add-item-container">
+                            <svg viewBox="0 0 503.572 503.572" class="icon">
+                                <use xlink:href="#generatePicklistShipments"></use>
+                            </svg>
+                            <span class="text">{{'AddItemToCont'|translate}}</span>
+                        </a>
+                    </li>
 
                     <li id="16015" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/shipmentwizard">

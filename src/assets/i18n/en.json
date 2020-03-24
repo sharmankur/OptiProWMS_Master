@@ -763,7 +763,7 @@
   "Count": "Count",
   "Parent_Count": "Parent Container Count",
   "Parent_Cont_Code": "Parent Cont.",
-  "ParentContDoesNotExists":"Parent Container does not exists.",
+  "ParentContDoesNotExists":"Parent Container does not exists",
 
   "WhsUserGroup_WHS_ZONE": "Warehouse Zone",
   "WhsUserGroup_Bin_Range": "Bin Range",

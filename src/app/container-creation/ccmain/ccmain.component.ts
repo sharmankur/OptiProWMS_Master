@@ -11,6 +11,12 @@ export class CcmainComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (window.location.href.indexOf("build") > -1) {
+      this.ccComponent = 3;
+    }
+    else{
+      this.ccComponent = 1;
+    }
   }
 
 }
