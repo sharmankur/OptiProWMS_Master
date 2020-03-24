@@ -139,18 +139,19 @@
                                     <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-8 form-control form-control-sm mr-3"
                                         [(ngModel)]="scanItemCode" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()">
                                     <input type="number" id="itemQty" name="itemQty" class="col-sm-4 form-control form-control-sm "
-                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" placeholder="{{'Quantity'|translate}}">
+                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" placeholder="{{'Quantity'|translate}}"
+                                        (blur)="onItemQtyChange()">
                                 </div>
                             </div>
 
                             <div class="form-group row mt-3" *ngIf="bsVisible">
                                 <div class="input-group input-group-sm">
                                     <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
-                                    <input type="text" id="scanBSrItemCode" name="scanBSrItemCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanBSrItemCode" placeholder="{{'Batch_Serial'|translate}}" (blur)="onBSItemCodeChange()">
+                                    <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-8 form-control form-control-sm mr-3"
+                                        [(ngModel)]="scanBSrLotNo" placeholder="{{'Batch_Serial'|translate}}" (blur)="onBSItemCodeChange()">
                                     <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-4 form-control form-control-sm "
                                         [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                        placeholder="{{'Quantity'|translate}}">
+                                        placeholder="{{'Quantity'|translate}}" (blur)="onBSQtyChange()">
                                 </div>
                             </div>
                         </div>
@@ -196,22 +197,25 @@
                                 <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45"
                                     headerClass="text-left" title="{{'ItemCode'|translate}}">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span class="font-weight-bold text-primary">
-                                            {{dataItem.OPTM_ITEMCODE}}</span>
+                                        <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEMCODE}}</label>
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONT_QTY" [width]="45" title="{{'Item_Container_Quantity'|translate}}"
                                     headerClass="text-left" class="text-right">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span class="font-weight-bold text-primary">
-                                            {{dataItem.OPTM_CONT_QTY|numberFormat}}</span>
+                                        <label class="col-sm-3 col-form-label">{{dataItem.OPTM_CONT_QTY|numberFormat}}</label>
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEM_QTY" [width]="45" title="{{'BalanceQty'|translate}}"
+                                <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEM_QTY" [width]="45" title="{{'ItemQty'|translate}}"
                                     headerClass="text-left" class="text-right">
                                     <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                        <span class="font-weight-bold text-primary">
-                                            {{dataItem.OPTM_ITEM_QTY|numberFormat}}</span>
+                                        <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEM_QTY|numberFormat}}</label>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column media="(min-width: 768px)" field="OPTM_BALANCE_QTY" [width]="45" title="{{'BalanceQty'|translate}}"
+                                    headerClass="text-left" class="text-right">
+                                    <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                        <label class="col-sm-3 col-form-label">{{dataItem.OPTM_BALANCE_QTY|numberFormat}}</label>
                                     </ng-template>
                                 </kendo-grid-column>
                                 <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
@@ -240,7 +244,8 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2" (mousedown)="onUpdateClick()">
+                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    (mousedown)="onUpdateClick()">
                     {{'CT_Update'|translate}}
                 </button>
             </div>

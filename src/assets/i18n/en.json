@@ -648,6 +648,7 @@
   "ContainerCreation": "Container Creation",
   "ContainerCreationWIP": "Container Creation (WIP)",
   "CreateContainer": "Create Container",
+  "CreateContainerWIP": "Create Container (WIP)",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
   "Task": "Task",
@@ -1044,10 +1045,15 @@
   "AddedItemToCont": "Item Added To Container",
   "BuildParentContainer": "Build Parent Container",
   "ScanAndAddTtl": "Scan item and add to container",
+
   "NoOfPacksToGenerate": "No of packs to generate",  
   "ScanItemInContainer" : "Scan Item in Container",
   "Child_Cont_List" : "Child Container List",
+  "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
       
+  "BtchSrNBlank": "Batch/Serial/None Track can't be blank",
+  "ItemQty": "Item Qty",
+  
   "Dummy": "Dummy"
   
 }

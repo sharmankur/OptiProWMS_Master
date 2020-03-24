@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Commonservice } from 'src/app/services/commonservice.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { CcmainComponent } from 'src/app/container-creation/ccmain/ccmain.compon
 import { ToastrService } from 'ngx-toastr';
 import { CARMasterService } from 'src/app/services/carmaster.service';
 import { CommonData } from 'src/app/models/CommonData';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-add-item-to-cont',
@@ -37,7 +38,8 @@ export class AddItemToContComponent implements OnInit {
   bsItemQty: number = 0;
   fillPer: any;
   itemRuleQty: any;
-  scanedItemList: any = []
+  scanedItemList: any = [];
+  scanBSrLotNo: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -55,9 +57,9 @@ export class AddItemToContComponent implements OnInit {
     this.defaultPurpose = this.purposeArray[0];
     this.purpose = this.defaultPurpose.Name;
 
-    // this.scanedItemList.HeaderTableBindingData = [];
+    this.scanedItemList.OPTM_CONT_HDR = [];
     this.scanedItemList.OtherBtchSerDTL = [];
-    // this.scanedItemList.OtherBtchSerDTL = [];
+    this.scanedItemList.OtherBtchSerDTL = [];
   }
 
   onRadioMouseDown(id) {
@@ -602,7 +604,7 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.containerCreationService.IsValidItemCode(this.autoRuleId, this.scanItemCode).subscribe(
+    this.containerCreationService.IsValidItemCode(this.autoRuleId, this.scanItemCode, this.whse, this.binNo).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
@@ -611,18 +613,31 @@ export class AddItemToContComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          // OPTM_MIN_FILLPRCNT: 100
+          // OPTM_PARTS_PERCONT: 2
+          // ITEMCODE: "C11"
+          // LOTTRACKINGTYPE: "N"
+          // TOTALQTY: 15064
           if (data.length == 0) {
             this.scanItemCode = ''
             this.toastr.error('', this.translate.instant("InvalidItemCode"));
           } else {
-            this.scanItemCode = data[0].OPTM_ITEMCODE
-
+            this.scanItemCode = data[0].ITEMCODE
+            if (data[0].LOTTRACKINGTYPE != undefined && data[0].LOTTRACKINGTYPE != "N") {
+              this.bsVisible = true;
+            } else {
+              this.bsVisible = false;
+              this.scanedItemList.OtherItemsDTL
+            }
             this.scanedItemList.push({
               OPTM_ITEMCODE: this.scanItemCode,
               OPTM_CONT_QTY: 0,
               OPTM_MIN_FILLPRCNT: data[0].OPTM_MIN_FILLPRCNT,
               OPTM_ITEM_QTY: data[0].OPTM_PARTS_PERCONT,
-              OPTM_RULEID: data[0].OPTM_RULEID
+              OPTM_INV_QTY: data[0].TOTALQTY,
+              // OPTM_RULEID: data[0].OPTM_RULEID,
+              OPTM_TRACKING: data[0].LOTTRACKINGTYPE,
+              OPTM_BALANCE_QTY: 0
             })
           }
         } else {
@@ -639,6 +654,73 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     );
+  }
+
+  IsValidBtchSer() {
+    if ((this.scanBSrLotNo == undefined || this.scanBSrLotNo == "")) {
+      return;
+    }
+
+    if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
+      this.toastr.error('', this.translate.instant("CAR_ItemCode_Blank_Msg"));
+      this.scanBSrLotNo = ''
+      return;
+    }
+
+    this.showLoader = true;
+    this.containerCreationService.IsValidBtchSer(this.scanItemCode, this.scanBSrLotNo, this.whse, this.binNo).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+            this.scanBSrLotNo = ''
+            this.toastr.error('', this.translate.instant("InvalidItemCode"));
+          } else {
+            
+          }
+        } else {
+          this.scanBSrLotNo = ''
+          this.toastr.error('', this.translate.instant("InvalidItemCode"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onItemQtyChange() {
+    if (this.itemQty == undefined || this.itemQty == 0) {
+      return
+    }
+
+    for (var i = 0; i < this.scanedItemList.length; i++) {
+      if(this.scanItemCode == this.scanedItemList[i].OPTM_ITEMCODE){
+        this.scanedItemList[0].OPTM_BALANCE_QTY = this.itemQty;
+      }
+    }
+  }
+
+  onBSQtyChange() {
+    if (this.bsItemQty == undefined || this.bsItemQty == 0) {
+      return
+    }
+
+    for (var i = 0; i < this.scanedItemList.length; i++) {
+      if(this.scanBSrLotNo == this.scanedItemList[i].scanBSrLotNo){
+        this.scanedItemList
+      }
+    }
   }
 
   getAutoPackRule() {
@@ -696,7 +778,7 @@ export class AddItemToContComponent implements OnInit {
     if (this.containerCode == undefined || this.containerCode == "") {
       return;
     }
-    
+
     this.showLoader = true;
     this.containerCreationService.GetAllContainer(this.containerCode).subscribe(
       (data: any) => {
@@ -752,5 +834,24 @@ export class AddItemToContComponent implements OnInit {
 
     // }
     this.addItemToContainer();
+  }
+
+  public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
+    return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+  }
+
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  isExpand: boolean = false;
+  onExpandCollapse() {
+    this.isExpand = !this.isExpand;
+    // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
+
+    for (var i = 0; i < this.scanedItemList.length; i++) {
+      if (this.isExpand) {
+        this.grid.expandRow(i)
+      } else {
+        this.grid.collapseRow(i);
+      }
+    }
   }
 }

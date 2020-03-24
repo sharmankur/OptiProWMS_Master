@@ -1536,7 +1536,8 @@ export class CreateContainerComponent implements OnInit {
           else if(event.QuantityToAdd == 0){
             this.selectedBatchSerial = [];
             tempList[i].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            tempList[i].Quantity = Number(event.AvlQty).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
+            //Commented due to bug fix - avl qty is showing wrong for all items in column
+           // tempList[i].Quantity = Number(event.AvlQty).toFixed(Number(localStorage.getItem("DecimalPrecision"))); 
           }
          
           this.lookupData.push({
