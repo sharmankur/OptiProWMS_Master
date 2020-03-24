@@ -648,6 +648,7 @@
   "ContainerCreation": "Container Creation",
   "ContainerCreationWIP": "Container Creation (WIP)",
   "CreateContainer": "Create Container",
+  "CreateContainerWIP": "Create Container (WIP)",
   "Operation": "Operation#",
   "CreateMode": "Create Mode",
   "Task": "Task",

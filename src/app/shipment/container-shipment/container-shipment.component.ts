@@ -519,6 +519,11 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   onContainsItemChange() {
+
+    if(this.ContainsItemID == '' || this.ContainsItemID == undefined){
+      return;
+    }
+
     this.showLoader = true;
     this.containerShipmentService.IsValidContainsItemCode(this.ContainsItemID, this.IsShipment, this.SelectedShipmentId).subscribe(
       (data: any) => {
