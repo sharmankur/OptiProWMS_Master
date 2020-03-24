@@ -12,10 +12,11 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { CcmainComponent } from './ccmain/ccmain.component';
 import { ContainerOperationComponent } from './container-operation/container-operation.component';
+import { BuildParentContainerComponent } from './build-parent-container/build-parent-container.component';
 
 
 @NgModule({
-  declarations: [CreateContainerComponent, CcmainComponent, ContainerOperationComponent],
+  declarations: [CreateContainerComponent, CcmainComponent, ContainerOperationComponent, BuildParentContainerComponent],
   imports: [
     CommonModule,
     ContainerCreationRoutingModule,

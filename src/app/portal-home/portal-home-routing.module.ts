@@ -14,6 +14,7 @@ import { ContainerShipmentComponent } from '../shipment/container-shipment/conta
 import { ContainerBatchserialComponent } from '../shipment/container-batchserial/container-batchserial.component';
 import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate-pick.component';
 import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
+import { BuildParentContainerComponent } from '../container-creation/build-parent-container/build-parent-container.component';
 
 
 const routes: Routes = [
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: 'picking', loadChildren: "../picking/picking.module#PickingModule" },
       { path: 'container-creation', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
       { path: 'container-creationWIP', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
+      { path: 'build-parent-container', loadChildren: "../container-creation/container-creation.module#ContainerCreationModule" },
       { path: 'container-group', loadChildren:"../container-group/container-group.module#ContainerGroupModule"},     
       { path: 'whse-bin-layout', loadChildren: "../whse-bin-layout/whse-bin-layout.module#WhseBinLayoutModule" },
       { path:'binrule', loadChildren: "../binrule/binrule.module#BinruleModule" },
