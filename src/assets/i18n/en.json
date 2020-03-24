@@ -1044,6 +1044,7 @@
   "AddedItemToCont": "Item Added To Container",
   "BuildParentContainer": "Build Parent Container",
   "ScanAndAddTtl": "Scan item and add to container",
+  "BtchSrNBlank": "Batch/Serial/None Track can't be blank",
 
   "Dummy": "Dummy"
   
