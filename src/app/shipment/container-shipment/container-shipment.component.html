@@ -95,7 +95,7 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
+                                <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Cont_Code'|translate}}</label>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId id="ContainerCodeId">
@@ -221,9 +221,9 @@
                         <!-- col end -->
                           <!-- col start -->
                           <div class="col-sm-4">
-                            <div class="form-group row">
+                            <div class="form-group ml-1">
                                 <div>
-                                    <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                                    <button type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
                                 </div>
                             </div>
                         </div>
@@ -536,20 +536,6 @@
                             <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Select_Shipment'|translate}}</button> -->
                 <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onShipmentBtnPress('Assign')">
                     <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
-                
-                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Remove_from_shipment'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onReturnPress()"
-                            *ngIf="!IsShipment"> -->
-                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Return_by_customer'|translate}}</button> -->
-                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSetDamagedPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation"></span>{{'Set_Damaged'|translate}}</button> -->
-                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onCloseContainerPress()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Close_Container'|translate}}</button>
-                        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onPostToInventoryPress()"
-                            *ngIf="!IsShipment"> -->
-                <!-- <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Post_To_Inventory'|translate}}</button> -->
 
                 <div class="btn-group  toggle-btn-outer">
                     <div class="dropdown show">
@@ -559,11 +545,11 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item cursor-pointer" (click)="GetShipmentIdForShipment()">{{'Select_Shipment'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onShipmentBtnPress('Remove')">{{'Remove_from_shipment'|translate}}</a>
-                            <a class="dropdown-item">{{'Return_by_customer'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onSetDamagedPress()">{{'Set_Damaged'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onCloseContainerPress()">{{'Close_Container'|translate}}</a>
-                            <a class="dropdown-item">{{'Post_To_Inventory'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;" (click)="onShipmentBtnPress('Remove')">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Return_by_customer'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Set_Damaged'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Close_Container'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Post_To_Inventory'|translate}}</a>
                         </div>
                     </div>
                 </div>

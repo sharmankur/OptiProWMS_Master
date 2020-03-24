@@ -662,7 +662,8 @@
                                 <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
                                 <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Login_Reset'|translate}}</a> -->
                                 <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
-                                <a class="dropdown-item cursor-pointer">{{'PrintLabel'|translate}}</a>
+                                <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'PrintLabel'|translate}}</a>
+                                <a *ngIf="IsWIPCont" class="dropdown-item cursor-pointer" (click)="onBuildParentContClick()">{{'BuildParentContainer'|translate}}</a>
                                 <a class="dropdown-item cursor-pointer" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a>
                             </div>
                         </div>
@@ -688,3 +689,8 @@
     <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
         [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
 </span>
+
+<span *ngIf="showParentInputDialogFlag">
+        <app-input-parent-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+            [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-parent-container>
+    </span>

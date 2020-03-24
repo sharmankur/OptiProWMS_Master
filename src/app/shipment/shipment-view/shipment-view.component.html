@@ -215,10 +215,7 @@
                                     <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <span >
-                                                {{dataItem.OPTM_QTY_FULFILLED|numberFormat}}</span>
-                                        </ng-template>
+                                        
                                     </kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
                                 </kendo-grid>
@@ -286,7 +283,7 @@
                                 <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
                                     <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="150" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerCode'|translate}}" width="150" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QUANTITY" title="{{'PartQty'|translate}}" width="75" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>

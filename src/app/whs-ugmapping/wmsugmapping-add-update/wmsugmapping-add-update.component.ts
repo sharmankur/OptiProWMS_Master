@@ -247,7 +247,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
           this.binRange = ''
         } else {
-          this.binRange = resp[0]
+          this.binRange = resp[0].OPTM_BIN_RANGE
         }
         result = true;
       },
@@ -347,7 +347,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
           this.toastr.error('', this.translate.instant("InvalidWhsZoneErrorMsg"));
           this.whsZone = ''
         } else {
-          this.whsZone = resp[0]
+          this.whsZone = resp[0].OPTM_WHSZONE;
         }
         result = true;
       },
@@ -563,15 +563,15 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       return;
     }
     else  if (this.lookupfor == "WareHouse") {
-        this.whsCode = $event[0];
-        this.whsName = $event[1];
+        this.whsCode = $event.WhsCode;
+        this.whsName = $event.WhsName;
         this.whsZone = ""
       }else if(this.lookupfor == "GroupCode"){
-        this.assignValueForGroup(this.forWhich,$event[0]);
+        this.assignValueForGroup(this.forWhich,$event.OPTM_GROUPCODE);
       } else if(this.lookupfor == "BinRangeList"){
-        this.binRange = $event[1];
+        this.binRange = $event.OPTM_BIN_RANGE;
       } else if(this.lookupfor== "WhsZoneList"){
-        this.whsZone = $event[1];
+        this.whsZone = $event.OPTM_WHSZONE;
       }
     }
 

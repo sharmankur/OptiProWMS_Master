@@ -101,6 +101,7 @@ export class ShipmentWizardViewComponent implements OnInit {
 
       if (this.currentStep === 1) {
         if (this.WareHouse != "" && this.WareHouse != undefined) {
+          // this.HoldSelectedRow.SOLines = [];
           this.GetSalesWizardData();
         }
         else {
@@ -146,9 +147,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
-  onOKClick(){
+  onOKClick() {
     this.currentStep = 1;
-  }  
+  }
 
   onStepClick(currentStep) {
 
@@ -208,8 +209,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   GetSalesWizardData() {
 
     this.SetParameter = [];
-    let uc;
-    uc = this.UseContainer == true ? "Y":"N";
+    let uc = this.UseContainer == true ? "Y" : "N";
     this.SetParameter.push({
       FROMCARDCODE: this.CustomerFrom,
       TOCARDCODE: this.CustomerTo,
@@ -241,7 +241,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
           }
           this.gridData = resp;
-          for(var i=0; i<this.gridData.length; i++){
+          for (var i = 0; i < this.gridData.length; i++) {
             this.gridData[i].ShipmentQty = this.gridData[i].SalesOpenQty;
           }
           if (this.gridData.length > this.SOpageSize) {
@@ -429,11 +429,11 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((soNum == "" || soNum == null || soNum == undefined) && (event == 'blur')) {
       return;
     }
-    if(event != 'blur') {
+    if (event != 'blur') {
       soNum = ""
     }
     let uc;
-    uc = this.UseContainer == true ? "Y":"N";
+    uc = this.UseContainer == true ? "Y" : "N";
     this.showLoader = true;
     this.hideLookup = false;
     this.commonservice.GetDataForSalesOrderLookup(uc, soNum).subscribe(
@@ -498,7 +498,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((ccode == "" || ccode == null || ccode == undefined) && event == 'blur') {
       return;
     }
-    if(event != 'blur') {
+    if (event != 'blur') {
       ccode = ""
     }
     this.showLoader = true;
@@ -560,7 +560,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((ccode == "" || ccode == null || ccode == undefined) && (event == 'blur')) {
       return;
     }
-    if(event != 'blur') {
+    if (event != 'blur') {
       ccode = ""
     }
     this.showLoader = true;
@@ -622,11 +622,11 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((whs == "" || whs == null || whs == undefined) && (event == 'blur')) {
       return;
     }
-    if(event != 'blur') {
+    if (event != 'blur') {
       whs = "";
     }
     this.showLoader = true;
-   // this.hideLookup = false;
+    // this.hideLookup = false;
     this.commonservice.GetDataForWHSLookup(whs).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -739,7 +739,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     if ((value == undefined || value == "") && event == 'blur') {
       return;
     }
-    if(event != 'blur'){
+    if (event != 'blur') {
       value = "";
     }
     this.showLoader = true;

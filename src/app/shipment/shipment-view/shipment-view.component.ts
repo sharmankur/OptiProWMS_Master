@@ -71,21 +71,22 @@ export class ShipmentViewComponent implements OnInit {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.onCheckChange();
       this.shiment_status_array = this.commonData.shiment_status_array();
-      this.Container_status_array = this.Container_Status_DropDown();
+      this.Container_status_array = this.commonData.Container_Status_DropDown();
+      this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     });
   }
 
   Container_Status_DropDown() {
     return [
-      { "Value": 1, "Name": this.translate.instant("CStatusNew") },
-      { "Value": 2, "Name": this.translate.instant("Open") },
-      { "Value": 3, "Name": this.translate.instant("CClosedNew") },
-      { "Value": 4, "Name": this.translate.instant("CReopenedNew") },
-      { "Value": 5, "Name": this.translate.instant("CAssignedNew") },
-      { "Value": 6, "Name": this.translate.instant("CShippedNew") },
-      { "Value": 7, "Name": this.translate.instant("Returned") },
-      { "Value": 8, "Name": this.translate.instant("CDamagedNew") },
-      { "Value": 9, "Name": this.translate.instant("CCancelledNew") }
+      "New",
+      "Open",
+      "Closed",
+      "Reopened",
+      "Assigned",
+      "Shipped",
+      "Returned",
+      "Damaged",
+      "Cancelled",
     ];
   }
 
@@ -96,7 +97,7 @@ export class ShipmentViewComponent implements OnInit {
 
   ngOnInit() {
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.Container_Status_DropDown();
+    this.Container_status_array = this.commonData.Container_Status_DropDown();
     this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
