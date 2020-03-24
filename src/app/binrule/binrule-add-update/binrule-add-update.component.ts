@@ -519,26 +519,26 @@ export class BinruleAddUpdateComponent implements OnInit {
         return;
       }
       else  if (this.lookupfor == "WareHouse") {
-          this.whsCode = $event[0];
-          this.whsName = $event[1];
+          this.whsCode = $event.WhsCode;
+          this.whsName = $event.WhsName;
           this.whsZone = "";
         }else if(this.lookupfor== "WhsZoneList"){ 
-          this.whsZone = $event[1];
+          this.whsZone = $event.OPTM_WHSZONE;
         }else if (this.lookupfor == "BinList") {
 
           for (let i = 0; i < this.binRuleArray.length; ++i) {
             if (i === this.index) {
               if(this.fromWhere == 1){
-                this.binRuleArray[i].OPTM_STORAGE_FROM_BIN = $event[0];
+                this.binRuleArray[i].OPTM_STORAGE_FROM_BIN = $event.BinCode;
               }else
               if(this.fromWhere == 2){
-                this.binRuleArray[i].OPTM_STORAGE_TO_BIN = $event[0];
+                this.binRuleArray[i].OPTM_STORAGE_TO_BIN = $event.BinCode;
               } else 
               if(this.fromWhere == 3){
-                this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = $event[0];
+                this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = $event.BinCode;
               } else
               if(this.fromWhere == 4){
-                this.binRuleArray[i].OPTM_PICK_DROP_BIN = $event[0];
+                this.binRuleArray[i].OPTM_PICK_DROP_BIN = $event.BinCode;
               } 
               
             }
