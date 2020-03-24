@@ -32,7 +32,7 @@ export class PickingListComponent implements OnInit {
   commonData: any = new CommonData(this.translate);
   public items: any[] = [];
   public mySelection: number[] = [];
-  public pageSize = 10;
+  public pageSize =  Commonservice.pageSize;
   public skip = 0;
   public mobileMedia = "(max-width: 767px)";
   public desktopMedia = "(min-width: 768px)";
@@ -44,6 +44,7 @@ export class PickingListComponent implements OnInit {
   planDate: any =''// new Date();
   public ShipmentCodeFrom: any = '';
   public ShipmentCodeTo: any ='';
+  //pageSize: number = Commonservice.pageSize;
   constructor(private picktaskService: PickTaskService,  private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private commonservice: Commonservice, private containerCreationService: ContainerCreationService) {
     let userLang = navigator.language.split('-')[0];
@@ -297,8 +298,8 @@ export class PickingListComponent implements OnInit {
   }
 
   ShowGridPaging:boolean=false;
-  PickItemList:any;
-  PickTaskList:any;
+  PickItemList:any = [];
+  PickTaskList:any = [];
   selectedItemPickTaskList:any=[];
   FillPickListDataInGrid() {
     var PickListBasicVal= this.PickListBasis.Value;
@@ -408,6 +409,17 @@ export class PickingListComponent implements OnInit {
     }
     return status;
   }
+
+  // need to confirm is this required or not for getting value for update.
+  ChangePriority(event, dataItem, companyRowIndex) {
+    dataItem.OPTM_PRIORITY = event.target.value
+  }
+  ChangeUserGroup(event, dataItem, companyRowIndex) {
+    dataItem.OPTM_USER_GRP = event.target.value;
+  }
+  changePlanDateTime(event, dataItem, companyRowIndex){
+    dataItem.OPTM_PLANDATETIME = event.target.value;
+  }
   updateReleaseStatus(){ 
     if(this.selectedPLItems.length==0){
       this.toastr.error('', this.translate.instant("PL_ReleaseStatusItemsValidate"));
@@ -427,13 +439,17 @@ export class PickingListComponent implements OnInit {
               this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
-            }
-          } else {
-             var result = data[0].Result;
+            }else {
+             var result = data.OUTPUT[0].RESULT;
              if(result == "Data Saved")
-            this.toastr.error('', this.translate.instant("PL_StatusUpdateSuccess"));
+            this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
+            this.PickItemList = [];
+            this.PickTaskList = [];
             this.FillPickListDataInGrid();
           }
+         }else{
+          // show error.
+         }
         },
         error => {
           this.showLoader = false;

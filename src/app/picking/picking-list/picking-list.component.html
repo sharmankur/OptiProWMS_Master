@@ -135,7 +135,8 @@
 <div class="row">
     <div class="col-12">
         <kendo-grid class="no-shadow" [data]="PickItemList" [resizable]="true" [sortable]="true" [selectable]="true"
-            id="gridItem" [height]="180"  [pageable]="ShowGridPaging"  #gridItem  (selectionChange)="onPickListItemClick($event)" >
+            id="gridItem" [height]="180"  [pageSize]="pageSize" [pageable]="ShowGridPaging"  #gridItem 
+             (selectionChange)="onPickListItemClick($event)" >
             <!-- grid template start -->
             <ng-template kendoGridToolbarTemplate>
                 <span class="grid-toolbar-title">{{'MaintainPickList'|translate}}</span>
@@ -207,10 +208,6 @@
                 <ng-template kendoGridCellTemplate let-dataItem>
                     {{dataItem.OPTM_PLANDATETIME | date: 'MM/dd/yyyy'}}
                 </ng-template>
-                <!-- <ng-template kendoGridCellTemplate let-dataItem>
-                    need to check how to format data
-                    <span class="font-weight-bold">{{dataItem.OPTM_PICKLIST_ID}}</span>
-                </ng-template> -->
             </kendo-grid-column>
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHSECODE" [width]="45"
                 title="{{'WhseCode'|translate}}" headerClass="text-left" class="text-left">
@@ -305,7 +302,7 @@
 <div class="row">
     <div class="col-12">
         <kendo-grid class="no-shadow" [data]="selectedItemPickTaskList" [resizable]="true" [sortable]="true" [selectable]="true"
-            id="gridItem" [height]="180" #gridItem >
+            id="gridItem" [height]="180" #gridItem [pageSize]="pageSize" [pageable]="ShowGridPaging" >
             <!-- grid template start -->
             <ng-template kendoGridToolbarTemplate>
                 <span class="grid-toolbar-title">{{'MaintainPickTasks'|translate}}</span>
