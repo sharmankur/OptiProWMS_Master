@@ -81,6 +81,7 @@ export class CreateContainerComponent implements OnInit {
   inputDialogFor: any;
   titleMessage: any;
   showInputDialogFlag: boolean = false;
+  statusArray: any = [];
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -91,6 +92,7 @@ export class CreateContainerComponent implements OnInit {
     translate.onLangChange.subscribe(() => {
       this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
       this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();
+      this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
       this.ContStatus = this.translate.instant("CStatusNew");
       if(this.IsWIPCont){
         this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
@@ -115,6 +117,7 @@ export class CreateContainerComponent implements OnInit {
     this.ccmain.ccComponent = 1;
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.createModeArray = this.commonData.container_creation_create_mode_string_dropdown();    
+    this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
     this.defaultPurpose = this.purposeArray[0];
     this.defaultCreateMode = this.createModeArray[0];
     this.purpose = this.defaultPurpose.Name;
@@ -445,11 +448,12 @@ export class CreateContainerComponent implements OnInit {
     this.containerCode = ""
     this.containerId = ""
     this.soNumber = "";
-    this.parentContainerType = ""
+    this.parentContainerType = "";
     // this.fromContainer = false;
-    this.workOrder = ""
-    this.taskId = ""
-    this.operationNo = ""
+    this.workOrder = "";
+    this.taskId = "";
+    this.operationNo = "";
+    this.ContStatus = this.translate.instant("CStatusNew");
   }
 
   showParentInputDialogFlag: boolean = false;
@@ -492,6 +496,7 @@ export class CreateContainerComponent implements OnInit {
 
   getInputDialogValue($event) {
     this.showInputDialogFlag = false;
+    this.showParentInputDialogFlag = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
         case ("ScanAndCreate"):
@@ -501,7 +506,7 @@ export class CreateContainerComponent implements OnInit {
           this.count = $event.Count;
           //this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
           this.selectedBatchSerial = [];
-          this.ContStatus = '';
+          this.ContStatus = this.setContainerStatus($event.ContnrStatus);
           // this.GetContainerNumber();
           this.GetInventoryData()
 
@@ -511,7 +516,7 @@ export class CreateContainerComponent implements OnInit {
           break;
 
           case ("CreateParentContainer"):
-          alert(1);
+         // alert(1);
           break;
       }
     }
@@ -603,7 +608,7 @@ export class CreateContainerComponent implements OnInit {
 
   onBuildParentContClick(){
     this.showCreateParentContnrDialog("CreateParentContainer", this.translate.instant("Confirm"), this.translate.instant("Cancel"),
-    this.translate.instant("ConfirmContainerCode"));
+    this.translate.instant("Parent_Cont"));
   }
 
   onWorkOrderChangeBlur() {
@@ -712,13 +717,14 @@ export class CreateContainerComponent implements OnInit {
             this.GetInventoryData();
             this.containerId = data[0].OPTM_CONTAINERID;
             this.containerCode = data[0].OPTM_CONTCODE;
+            this.ContStatus = this.setContainerStatus(data[0].OPTM_STATUS);
             this.selectedBatchSerial = [];
             if(this.IsWIPCont){
               // this.ProducedQty = parseFloat(this.ProducedQty) + parseFloat(this.partsQty);
               // this.PassedQty = parseFloat(this.ProducedQty);
               this.GetDataofSelectedTask();
             }
-            this.ContStatus = '';
+            
             // this.GetContainerNumber();
           }
         } else {
@@ -735,6 +741,10 @@ export class CreateContainerComponent implements OnInit {
         }
       }
     );
+  }
+
+  setContainerStatus(status) {
+    return this.statusArray[Number(status) - 1].Name;   
   }
 
   validateFields() {

@@ -247,12 +247,12 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
             </kendo-grid-column>
-            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICKLIST_BASIS" 
+            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICK_TYPE" 
             [width]="45" title="{{'PickType'|translate}}"
                 headerClass="text-left" class="text-left">
                 
                 <ng-template kendoGridCellTemplate let-dataItem>
-                    {{dataItem.OPTM_PICKLIST_BASIS | pickType}}
+                    {{dataItem.OPTM_PICK_TYPE | pickType}}
                      </ng-template>
             </kendo-grid-column>
 

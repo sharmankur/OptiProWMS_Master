@@ -35,6 +35,7 @@ export class InputContainerCodeComponent implements OnInit {
   TempContnrCode: any = '';
   clickFlag : boolean = false;
   RadioAction: any = '';
+  status: number=0;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router) {       
@@ -72,7 +73,8 @@ export class InputContainerCodeComponent implements OnInit {
           ContainerId: this.TempContnrId,
           ContainerCode: this.TempContnrCode,
           ParentContainerCode: this.parentContainerCode,
-          Count: 0
+          Count: 0,
+          ContnrStatus : this.status
         });
       }
       else{
@@ -81,7 +83,8 @@ export class InputContainerCodeComponent implements OnInit {
           From: this.fromWhere,
           ContainerCode: "",
           ParentContainerCode: "",
-          Count: 0
+          Count: 0,
+          ContnrStatus : this.status
         });                
       }
       this.opened = false;      
@@ -235,6 +238,7 @@ export class InputContainerCodeComponent implements OnInit {
             this.TempContnrId = data[0].OPTM_CONTAINERID;
             this.TempContnrCode = this.containerCode;
             this.containerCode = '';
+            this.status = data[0].OPTM_STATUS;
 
             if(this.ShowParentField){
               this.onParentContainerChange();

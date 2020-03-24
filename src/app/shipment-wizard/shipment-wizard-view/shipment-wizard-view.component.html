@@ -343,7 +343,7 @@
                             <!-- STEP 2 START -->
                             <div [ngClass]="{show:currentStep == 2}" class="wizard-content">
                                 <kendo-grid #gridUser [kendoGridBinding]="gridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true"
-                                    [pageSize]="SOpageSize" [skip]="skip" [pageable]="SOpagable" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
+                                    [skip]="skip" [pageable]="false" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
 
                                     <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
@@ -433,7 +433,7 @@
 
                             <!-- STEP 4 START -->
                             <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
-                                <kendo-grid [data]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable" [selectable]="true"
+                                <kendo-grid [data]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable" [selectable]="{enabled: true, checkboxOnly: true}"
                                     (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
 
                                     <ng-template kendoGridToolbarTemplate>
@@ -448,6 +448,12 @@
                                             </svg>
                                         </button>
                                     </ng-template>
+
+                                    <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
+                                        <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
+                                            <input [kendoGridSelectionCheckbox]="idx" />
+                                        </ng-template>
+                                    </kendo-grid-checkbox-column>
 
                                     <kendo-grid-column field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="CUSTOMER" title="{{'Customer'|translate}}">

@@ -627,6 +627,7 @@ export class AddItemToContComponent implements OnInit {
               this.bsVisible = true;
             } else {
               this.bsVisible = false;
+              this.scanedItemList.OtherItemsDTL
             }
             this.scanedItemList.push({
               OPTM_ITEMCODE: this.scanItemCode,

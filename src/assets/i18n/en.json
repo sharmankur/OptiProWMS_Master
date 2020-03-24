@@ -1044,8 +1044,14 @@
   "AddedItemToCont": "Item Added To Container",
   "BuildParentContainer": "Build Parent Container",
   "ScanAndAddTtl": "Scan item and add to container",
-  "BtchSrNBlank": "Batch/Serial/None Track can't be blank",
 
+  "NoOfPacksToGenerate": "No of packs to generate",  
+  "ScanItemInContainer" : "Scan Item in Container",
+  "Child_Cont_List" : "Child Container List",
+      
+  "BtchSrNBlank": "Batch/Serial/None Track can't be blank",
+  "ItemQty": "Item Qty",
+  
   "Dummy": "Dummy"
   
 }
