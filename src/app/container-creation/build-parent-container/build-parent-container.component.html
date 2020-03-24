@@ -1,1 +1,238 @@
-<p>build-parent-container works!</p>
+<div class="opti_container position-relative bg-white rounded">
+        <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+            <div class="opti_container_inner" [perfectScrollbar]=" ">
+    
+                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                    {{'AddItemToCont'|translate}}
+                </h3>
+                <div class="col-12 row">
+                        <div class="col-sm-5">
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
+                                    <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray" textField="Name"
+                                        valueField="Value" id="purpose" name="purpose" [(ngModel)]="defaultPurpose" #selectedvalue
+                                        (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
+                                    <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
+                                    <input type="text" id="binNoId" name="binNoId" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="binNo" placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
+                                    <input type="text" class="form-control form-control-sm" id="containerTypeId" name="containerType"
+                                        [(ngModel)]="containerType"  placeholder="{{'ContainerType'|translate}}" (blur)="onContainerTypeChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
+                                    <input type="text" id="parentContainerTypeid" name="parentContainerTypeid" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="parentContainerType" placeholder="{{'Parent_Cont_Type'|translate}}" (blur)="getParentContainerType('blur')">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                    <input type="text" id="autoPackRuleId" name="autoPackRuleId" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="autoRuleId" placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
+                                    <input type="text" id="containerGroupCodeId" name="containerGroupCodeId" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="containerGroupCode" placeholder="{{'ContainerGroupingCode'|translate}}" (blur)="IsValidContainerGroupBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetDataForContainerGroup()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
+                                    <input type="text" id="soNumberId" name="soNumberId" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group row">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-4 col-form-label">{{'NoOfPacksToGenerate'|translate}}</label>
+                                    <input type="text" id="NoOfPacksToGenerateId" name="NoOfPacksToGenerateId" class="col-sm-8 form-control form-control-sm"
+                                        [(ngModel)]="NoOfPacksToGenerate" disabled>                        
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="card col-sm-5 ml-3">
+                            <div>
+                                <h5 class="border-bottom d-flex pt-1 pb-3 mb-2 mt-2">
+                                    {{'ScanContainer'|translate}}
+                                </h5>
+                                
+                            </div>
+                            <div class="mr-2 ml-2 mt-2">
+                                <div>
+                                    <div class="form-group row">
+                                        <div class="input-group input-group-sm">
+                                            <label class="col-sm-4 col-form-label">{{'Parent_Cont_Code'|translate}}</label>
+                                            <input type="text" id="parentcontainerCode" name="parentcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                                                [(ngModel)]="parentcontainerCode" (blur)="onParentContainerCodeChange()">                                
+                                            <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm"
+                                            [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>  
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-check-inline ml-1">                                                           
+                                            <input type="radio" class="form-check-input" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" 
+                                            value="Add">
+                                            <label class="col-form-label" for="addItem">{{'CT_Add'|translate}}</label>
+                                            <input type="radio" class="form-check-input ml-3" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" 
+                                            value="Remove">
+                                            <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                            
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="input-group input-group-sm">
+                                            <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
+                                            <input type="text" id="childcontainerCode" name="childcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                                                [(ngModel)]="childcontainerCode" (blur)="onItemCodeChange()">
+                                            <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm "
+                                                [(ngModel)]="count"> -->
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="fix-footer-btnBar">
+                                    <div class="col-sm-12 col-12">
+                                        <div class="float-right form-group row">
+                                            <div class="input-group input-group-sm">
+                                                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
+                                                    {{'PrintLabel'|translate}}
+                                                </button>
+                                                <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2">
+                                                    {{'Confirm'|translate}}
+                                                </button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                            <div class="col-12">
+                                <kendo-grid class="no-shadow" [data]="addItemList" [resizable]="true" [sortable]="true"
+                                    [selectable]="true" id="gridItem" #gridItem>
+            
+                                    <ng-template kendoGridToolbarTemplate>
+                                        <span class="grid-toolbar-title">{{'Child_Cont_List'|translate}}</span>
+                                    </ng-template>
+            
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" headerClass="text-left"
+                                        title="{{'ContainerId'|translate}}">
+                                    </kendo-grid-column>
+            
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTCODE" [width]="45" headerClass="text-left"
+                                        title="{{'ContainerCode'|translate}}">
+                                    </kendo-grid-column>
+            
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTTYPE" [width]="45" headerClass="text-left"
+                                        title="{{'Container_Type'|translate}}">
+                                    </kendo-grid-column>
+            
+                                    <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="45" headerClass="text-left"
+                                        title="{{'ItemCode'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_ITEMCODE}}</span>
+                                            <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
+                                                {{dataItem.OPTM_ITEMCODE}}</span>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="45" title="{{'Item_Container_Quantity'|translate}}"
+                                        headerClass="text-left" class="text-right">
+                                       
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <span *ngIf="!IsWIPCont || (IsWIPCont && dataItem.OPTM_ITEMCODE != SelectedWOItemCode)">{{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
+                                            <span *ngIf="IsWIPCont && dataItem.OPTM_ITEMCODE == SelectedWOItemCode" class="font-weight-bold text-primary">
+                                                {{dataItem.OPTM_PARTS_PERCONT|numberFormat}}</span>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="45" title="{{'Container'|translate}}"
+                                        *ngIf="fromContainer">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_CONTAINERID"
+                                                    value={{dataItem.OPTM_CONTAINERID}} id="contId" min="0" #contId>
+                                                <div class="input-group-append">
+                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetListOfContainerBasedOnRule(dataItem, idx)">
+                                                        <i class="opti-icon-hammenu"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column> -->
+                                </kendo-grid>
+                            </div>
+                        </div>
+            </div>
+    
+            <div class="fix-footer-btnBar">
+                <div class="col-sm-12 col-12">
+                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span>
+                        {{'Cancel'|translate}}</button>                    
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <span *ngIf="showLookup">
+        <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
+    </span> 
+        
+    <div class="opti_loader full-section" *ngIf="showLoader">
+        <div class="opti_spinner"></div>
+    </div>
