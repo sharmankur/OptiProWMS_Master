@@ -514,7 +514,7 @@ export class ContainerBatchserialComponent implements OnInit {
     if(isCheck){
 
       if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
-        this.toastr.error('', "Open Qty is zero");  
+        this.toastr.error('', this.translate.instant("ZeroOpenQty")); 
         checkedselectedvalue.checked = false;
         return;      
       }
@@ -523,9 +523,9 @@ export class ContainerBatchserialComponent implements OnInit {
 
       if(CalQty == -1){
         if(this.SelectedRowsforShipmentArr.length == 0)
-          this.toastr.error('', "Assigned Qty cannot be greater than Open Qty");        
+          this.toastr.error('', this.translate.instant("OpenQtyCheck"));
         else
-          this.toastr.error('', "Total quantities added cannot be greater than Open Qty");        
+          this.toastr.error('', this.translate.instant("TotalQtyCheck"));        
       
        // dataitem.Selected = false;  
         this.ContainerBatchSerials[idx].Selected = false;  
@@ -620,19 +620,28 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length > 0){
-            if(data[0].RESULT != '' && data[0].RESULT != null){
-              this.toastr.error('', data[0].RESULT);
-            }
-            else{
-              this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
+          if(data.length > 0){           
+            if(data[0].RESULT == 'Shipment updated'){
+             // this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
+              this.toastr.success('', data[0].RESULT);
               this.SelectedRowsforShipmentArr = [];
               this.TempGridData = [];
               let OpenQty = this.OpenQty - this.SelectedQty;
               this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
               this.fillBatchSerialDataInGrid();
             }
-          }
+            else{
+              if(data[0].RESULT != '' && data[0].RESULT != null){
+                this.toastr.error('', data[0].RESULT);
+              }
+              else{
+                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+              }
+            }
+          } 
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }      
                
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -672,7 +681,7 @@ export class ContainerBatchserialComponent implements OnInit {
       this.ContainerBatchSerials[rowindex].QtytoAssign = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
     }
     else{
-      this.toastr.error('',"Assigned Qty cannot be greater than Available Qty");
+      this.toastr.error('',this.translate.instant("QtyCheck"));
       this.ContainerBatchSerials[rowindex].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
       this.ContainerBatchSerials[rowindex].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
       return;

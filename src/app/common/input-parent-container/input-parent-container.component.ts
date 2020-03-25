@@ -48,6 +48,7 @@ export class InputParentContainerComponent implements OnInit {
   oCreateModel: any = {};
   IsParentCodeValid: boolean = false;
   purposeId: any = '';
+  NoOfPacksToGenerate: any = 1;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
@@ -713,6 +714,8 @@ export class InputParentContainerComponent implements OnInit {
 
   onParentContainerCodeChange(){
 
+    this.childcontainerCode = '';
+
     this.validateAllFields();
 
     if(this.parentcontainerCode == '' || this.parentcontainerCode == undefined){
@@ -813,7 +816,11 @@ export class InputParentContainerComponent implements OnInit {
           if (data[0].RESULT != undefined && data[0].RESULT != null) {
 
           if (data[0].RESULT == "Data Saved") {
-            this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+            if(this.RadioAction == 'Add'){
+              this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+            }else{
+              this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+            }
             this.childcontainerCode = '';
             this.onParentContainerCodeChange();
           }
