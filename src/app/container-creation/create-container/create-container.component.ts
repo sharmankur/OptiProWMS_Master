@@ -74,6 +74,7 @@ export class CreateContainerComponent implements OnInit {
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
   IsDisableRule: boolean = true;
+  IsDisableParentCT : boolean = false;
 
   dialogMsg: string = ""
   yesButtonText: string = "";
@@ -127,11 +128,18 @@ export class CreateContainerComponent implements OnInit {
     
     if(this.IsWIPCont){
       this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual"));
+      this.IsDisableParentCT = true;
       this.IsDisableRule = false;
     }
     else{
       this.createModeArray = this.createModeArray.filter(val => val.Name != this.translate.instant("Manual_Rule_Based"));
-      this.IsDisableRule = true;
+      this.IsDisableParentCT = false;
+      if(this.createMode == 1){
+        this.IsDisableRule = false;
+      }
+      else{
+        this.IsDisableRule = true;
+      }
     }
   }
 
@@ -542,7 +550,7 @@ export class CreateContainerComponent implements OnInit {
     } else {
       purps = "N"
     }    
-    
+
 
     //Push data of header table into BatchSerial model
     this.oSaveModel.HeaderTableBindingData.push({
@@ -1081,6 +1089,14 @@ export class CreateContainerComponent implements OnInit {
     // else{
     //   this.IsDisableRule = false;
     // }
+
+    if(this.createMode == 3){
+      this.IsDisableRule = true;
+    }
+    else{
+      this.IsDisableRule = false;
+    }
+
     this.autoPackRule = '';
     this.autoRuleId = '';
     this.packType = 0;

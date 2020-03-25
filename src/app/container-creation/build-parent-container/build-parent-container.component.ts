@@ -40,6 +40,7 @@ export class BuildParentContainerComponent implements OnInit {
   childcontainerCode: any = '';
   oCreateModel: any = {};
   IsParentCodeValid: boolean = false;
+  purposeId: any = '';
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
@@ -55,10 +56,12 @@ export class BuildParentContainerComponent implements OnInit {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.defaultPurpose = this.purposeArray[0];
     this.purpose = this.defaultPurpose.Name;
+    this.purposeId = this.defaultPurpose.Value;
   }
 
   onPurposeSelectChange(event) {
     this.purpose = event.Name;
+    this.purposeId = event.Value;
   }
 
   getLookupDataValue($event) {
@@ -845,12 +848,14 @@ export class BuildParentContainerComponent implements OnInit {
 
     if(!this.IsParentCodeValid){
       this.oCreateModel.HeaderTableBindingData = [];
+      this.oCreateModel.OtherItemsDTL = [];
+      this.oCreateModel.OtherBtchSerDTL = [];
     
       this.oCreateModel.HeaderTableBindingData.push({
-        OPTM_SONO: this.soNumber,
+        OPTM_SONO: (this.soNumber == '' || this.soNumber == undefined) ? 0 :this.soNumber ,
         OPTM_CONTAINERID: 0,
-        OPTM_CONTTYPE: this.containerType,
-        OPTM_CONTAINERCODE: "" + this.childcontainerCode,
+        OPTM_CONTTYPE: this.parentContainerType,
+        OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
         OPTM_WEIGHT: 0,
         OPTM_AUTOCLOSE_ONFULL: 'N',
         OPTM_AUTORULEID: 0,
@@ -872,7 +877,7 @@ export class BuildParentContainerComponent implements OnInit {
         OPTM_PARENTCODE: this.parentcontainerCode,
         OPTM_GROUP_CODE: 0,
         OPTM_CREATEMODE: 0,
-        OPTM_PERPOSE: this.defaultPurpose,
+        OPTM_PERPOSE: this.purposeId,
         OPTM_FUNCTION: "Shipping",
         OPTM_OBJECT: "Container",
         OPTM_WONUMBER: 0,
