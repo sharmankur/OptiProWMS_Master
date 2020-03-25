@@ -3,7 +3,7 @@
             <div class="opti_container_inner" [perfectScrollbar]=" ">
     
                 <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                    {{'AddItemToCont'|translate}}
+                    {{'BuildParentContainer'|translate}}
                 </h3>
                 <div class="col-12 row">
                         <div class="col-sm-5">
@@ -161,10 +161,11 @@
                             </div>
                         </div>
                     </div>
-    
+
+                    <div>
                     <div class="row">
                             <div class="col-12">
-                                <kendo-grid class="no-shadow" [data]="addItemList" [resizable]="true" [sortable]="true"
+                                <kendo-grid class="no-shadow" [data]="addItemList" [height]="200" [resizable]="true" [sortable]="true"
                                     [selectable]="true" id="gridItem" #gridItem>
             
                                     <ng-template kendoGridToolbarTemplate>
@@ -217,6 +218,7 @@
                                 </kendo-grid>
                             </div>
                         </div>
+                    </div>
             </div>
     
             <div class="fix-footer-btnBar">
