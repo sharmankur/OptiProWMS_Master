@@ -60,6 +60,11 @@ export class DockdoorupdateComponent implements OnInit {
     // this.onAddUpdateClick();
   }
 
+  openConfirmForDelete(rowIndex, gridItem){
+    this.DDdetailArray.splice(rowIndex, 1);
+    gridItem = this.DDdetailArray;
+  }
+
   validateFields(): boolean {
     if (this.DD_ID == '' || this.DD_ID == undefined) {
       this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
@@ -225,7 +230,7 @@ export class DockdoorupdateComponent implements OnInit {
     );
   }
 
-  IsValidBinCode(index, bincode) {
+  IsValidBinCode(index, bincode, display_name) {
     if(bincode == undefined || bincode == ""){
       return;
     }
@@ -244,11 +249,13 @@ export class DockdoorupdateComponent implements OnInit {
           } else {
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
             this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+            display_name.value = "";
           }
 
         } else {
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+          display_name.value = "";
         }
       },
       error => {

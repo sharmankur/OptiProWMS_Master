@@ -684,7 +684,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     return result;
   }
   
-  IsValidWareHouseBinRange(index, value) {
+  IsValidWareHouseBinRange(index, value, display_name) {
     if(value == undefined || value == ""){
       return;
     }
@@ -702,10 +702,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
           }else{
             this.whseZoneList[index].OPTM_BIN_RANGE = "";
+            display_name.value = "";
+            this.toastr.error('', "Invalid Bin Ranges");
           }
         } else {
           this.whseZoneList[index].OPTM_BIN_RANGE = "";
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          display_name.value = "";
+          this.toastr.error('', "Invalid Bin Ranges");
         }
       },
       error => {
