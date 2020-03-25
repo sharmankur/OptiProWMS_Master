@@ -15,6 +15,7 @@ import { ContainerBatchserialComponent } from '../shipment/container-batchserial
 import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate-pick.component';
 import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
 import { BuildParentContainerComponent } from '../container-creation/build-parent-container/build-parent-container.component';
+import { AddItemToContComponent } from '../container-maintenance/add-item-to-cont/add-item-to-cont.component';
 
 
 const routes: Routes = [
@@ -63,7 +64,7 @@ const routes: Routes = [
       { path: 'setup', loadChildren: "../Setup/setup.module#SetupModule" },
       // { path: 'TransactionStepSetup', loadChildren: "../Setup/setup.module#SetupModule" },
       { path: 'DocumentNumbering', component: DocumentNumberingComponent } ,
-      
+      { path: 'add-item-container', component: AddItemToContComponent } ,
     ]
 
   }

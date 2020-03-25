@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CARMasterService } from 'src/app/services/carmaster.service';
 import { CommonData } from 'src/app/models/CommonData';
 import { GridComponent } from '@progress/kendo-angular-grid';
+import { ContMaintnceComponent } from '../cont-maintnce/cont-maintnce.component';
 
 @Component({
   selector: 'app-add-item-to-cont',
@@ -41,10 +42,11 @@ export class AddItemToContComponent implements OnInit {
   oSaveModel: any = {};
   scanBSrLotNo: any;
   noOfPack: number = 1;
+  from: any;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
-    private ccmain: CcmainComponent) {
+    private contMaintenance: ContMaintnceComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -62,11 +64,16 @@ export class AddItemToContComponent implements OnInit {
     this.oSaveModel.OtherItemsDTL = [];
     this.oSaveModel.OtherBtchSerDTL = [];
     // this.oSaveModel.OtherItemsDTL.TempLotNoList = [];
+    this.from = localStorage.getItem("From")
   }
 
   onCancelClick() {
-    // this.router.navigate(['home/dashboard']);
-    this.ccmain.ccComponent = 1;
+    // if(this.from == "CMaintenance"){
+    //   this.contMaintenance.cmComponent = 1;
+    // } else {
+      this.router.navigate(['home/dashboard']);
+    // }
+    // localStorage.setItem("From", "")
   }
 
   onRadioMouseDown(id) {
