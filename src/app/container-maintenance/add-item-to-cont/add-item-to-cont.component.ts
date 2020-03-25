@@ -40,6 +40,7 @@ export class AddItemToContComponent implements OnInit {
   itemRuleQty: any;
   oSaveModel: any = {};
   scanBSrLotNo: any;
+  noOfPack: number = 1;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -83,13 +84,17 @@ export class AddItemToContComponent implements OnInit {
       this.radioSelected = 1
       this.addItemOpn = "Add"
     }
-    console.log("on radio handleCheckChange");
     this.checkChangeEvent = event;
     console.log("check change:" + this.checkChangeEvent);
-    console.log(this.checkChangeEvent);
 
-
-    console.log("by element: plt" + event.toElement.name)
+    this.scanItemCode = ''
+    this.itemQty = 0
+    this.scanBSrLotNo = ''
+    this.bsItemQty = 0
+    this.oSaveModel.OPTM_CONT_HDR = [];
+    this.oSaveModel.OtherItemsDTL = [];
+    this.oSaveModel.OtherBtchSerDTL = [];
+    this.bsVisible = false;
   }
 
   purpose: any
@@ -530,7 +535,7 @@ export class AddItemToContComponent implements OnInit {
         this.oSaveModel.OPTM_CONT_HDR = [];
         this.oSaveModel.OtherItemsDTL = [];
         this.oSaveModel.OtherBtchSerDTL = [];
-        this.oSaveModel.OtherItemsDTL.TempLotNoList = [];
+        // this.oSaveModel.OtherItemsDTL.TempLotNoList = [];
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event.WhsCode;
         this.binNo = "";
@@ -566,7 +571,8 @@ export class AddItemToContComponent implements OnInit {
       // OPTM_ITEMCODE: itemCode,
       OPTM_RULEID: this.autoRuleId,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
-      OPTM_OPERATION: this.addItemOpn
+      OPTM_OPERATION: this.addItemOpn,
+      OPTM_NO_OF_PACK: this.noOfPack
     })
 
     this.showLoader = true;
@@ -591,7 +597,14 @@ export class AddItemToContComponent implements OnInit {
               this.scanItemCode = "";
               this.itemQty = 0;
             }
-
+            this.scanItemCode = ''
+            this.itemQty = 0
+            this.scanBSrLotNo = ''
+            this.bsItemQty = 0
+            this.oSaveModel.OPTM_CONT_HDR = [];
+            this.oSaveModel.OtherItemsDTL = [];
+            this.oSaveModel.OtherBtchSerDTL = [];
+            this.bsVisible = false;
           } else {
             this.toastr.error('', this.translate.instant(data[0].RESULT));
           }
@@ -622,11 +635,11 @@ export class AddItemToContComponent implements OnInit {
       return;
     }
 
-    if (this.autoRuleId == undefined || this.autoRuleId == "") {
-      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
-      this.scanItemCode = ''
-      return;
-    }
+    // if (this.autoRuleId == undefined || this.autoRuleId == "") {
+    //   this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+    //   this.scanItemCode = ''
+    //   return;
+    // }
 
     this.showLoader = true;
     this.containerCreationService.IsValidItemCode(this.autoRuleId, this.scanItemCode, this.whse, this.binNo).subscribe(
@@ -773,7 +786,11 @@ export class AddItemToContComponent implements OnInit {
     //For send on server
     for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
       if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
-        this.oSaveModel.OtherItemsDTL[0].OPTM_BALANCE_QTY = this.itemQty;
+        if(this.itemQty > this.oSaveModel.OtherItemsDTL[0].OPTM_ITEM_QTY){
+          this.toastr.error('', this.translate.instant("Balance quantity can't be greater than available item qty"));
+        } else {
+          this.oSaveModel.OtherItemsDTL[0].OPTM_BALANCE_QTY = this.itemQty;
+        }
       }
     }
   }
@@ -802,6 +819,58 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     }
+
+    if(!this.updateQtyItemCodeWise()){
+      for (var i = 0; i < this.oSaveModel.OtherBtchSerDTL.length; i++) {
+        if (this.scanItemCode == this.oSaveModel.OtherBtchSerDTL[i].OPTM_ITEMCODE) {
+          if (this.scanBSrLotNo == this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER) {
+            this.oSaveModel.OtherBtchSerDTL[i].OPTM_QUANTITY = 0;
+          }
+        }
+      } 
+
+      for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
+        if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
+          for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
+            if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
+              this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = 0;
+            }
+          }
+        }
+      }
+      this.bsItemQty = 0
+    }
+  }
+
+  updateQtyItemCodeWise() {
+    var otherItems = this.oSaveModel.OtherItemsDTL;
+    for (var i = 0; i < otherItems.length; i++) {
+      var bsQtySum = 0
+      for (var j = 0; j < this.oSaveModel.OtherBtchSerDTL.length; j++) {
+        if (otherItems[i].OPTM_ITEMCODE == this.oSaveModel.OtherBtchSerDTL[j].OPTM_ITEMCODE) {
+          bsQtySum = bsQtySum + Number("" + this.oSaveModel.OtherBtchSerDTL[j].OPTM_QUANTITY)
+        }
+      }
+      var bnc = Number(""+otherItems[i].OPTM_BALANCE_QTY);
+      // otherItems[i].OPTM_BALANCE_QTY = Number(""+otherItems[i].OPTM_BALANCE_QTY) - bsQtySum
+      var value = true;
+      if(bsQtySum > bnc){
+        value = false
+        this.toastr.error('', this.translate.instant("Sum of batch/serial qty can't be greater than balance qty"));
+      }
+    }
+    this.oSaveModel.OtherItemsDTL = otherItems
+    return value;
+    // this.oSaveModel.OtherItemsDTL
+    // for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
+    //   if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
+    //     for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
+    //       if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
+    //         this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = this.bsItemQty;
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   getAutoPackRule() {
