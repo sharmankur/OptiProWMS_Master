@@ -808,7 +808,7 @@ export class BuildParentContainerComponent implements OnInit {
           if (data[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
             this.childcontainerCode = '';
-            this.parentcontainerCode();
+            this.onParentContainerCodeChange();
           }
           else {
             this.toastr.error('', data[0].RESULT);
@@ -877,7 +877,7 @@ export class BuildParentContainerComponent implements OnInit {
         Username: localStorage.getItem("UserId"),
         UserId: localStorage.getItem("UserId"),
         GUID: localStorage.getItem("GUID"),
-        Action: "",
+        Action: "Y",
         OPTM_PARENTCODE: this.parentcontainerCode,
         OPTM_GROUP_CODE: 0,
         OPTM_CREATEMODE: 0,

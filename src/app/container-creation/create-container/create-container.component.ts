@@ -575,7 +575,7 @@ export class CreateContainerComponent implements OnInit {
       Username: localStorage.getItem("UserId"),
       UserId: localStorage.getItem("UserId"),
       GUID: localStorage.getItem("GUID"),
-      Action: "",
+      Action: "N",
       OPTM_PARENTCODE: parentCode,
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
