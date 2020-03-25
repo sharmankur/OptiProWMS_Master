@@ -59,6 +59,10 @@ export class BuildParentContainerComponent implements OnInit {
     this.purposeId = this.defaultPurpose.Value;
   }
 
+  onCancelClick(){
+    this.router.navigate(['home/dashboard']);
+  }
+
   onPurposeSelectChange(event) {
     this.purpose = event.Name;
     this.purposeId = event.Value;
