@@ -723,6 +723,11 @@ export class CreateContainerComponent implements OnInit {
               return;
             }
 
+            if(data[0].RESULT != undefined && data[0].RESULT != null){
+              this.toastr.error('', data[0].RESULT);
+              return;
+            }
+
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             // this.onResetClick();
             this.GetInventoryData();
