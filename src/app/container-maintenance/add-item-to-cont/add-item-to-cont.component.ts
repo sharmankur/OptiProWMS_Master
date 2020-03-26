@@ -582,6 +582,21 @@ export class AddItemToContComponent implements OnInit {
       OPTM_NO_OF_PACK: this.noOfPack
     })
 
+    let tempArr = [];
+    for(let itemp=0; itemp<this.oSaveModel.OtherItemsDTL.length; itemp++){
+      tempArr.push({
+        OPTM_ITEMCODE: this.oSaveModel.OtherItemsDTL[itemp].OPTM_ITEMCODE,
+        OPTM_CONT_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_CONT_QTY,
+        OPTM_MIN_FILLPRCNT: this.oSaveModel.OtherItemsDTL[itemp].OPTM_MIN_FILLPRCNT,
+        OPTM_ITEM_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_ITEM_QTY,
+        OPTM_INV_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_INV_QTY,
+        // OPTM_RULE_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_PARTS_PERCONT,
+        OPTM_TRACKING: this.oSaveModel.OtherItemsDTL[itemp].OPTM_TRACKING,
+        OPTM_BALANCE_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_BALANCE_QTY,
+      });
+    }
+    this.oSaveModel.OtherItemsDTL = tempArr;    
+
     this.showLoader = true;
     this.containerCreationService.InsertItemInContainerNew(this.oSaveModel).subscribe(
       data => {
@@ -793,10 +808,10 @@ export class AddItemToContComponent implements OnInit {
     //For send on server
     for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
       if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
-        if(this.itemQty > this.oSaveModel.OtherItemsDTL[0].OPTM_ITEM_QTY){
+        if(this.itemQty > this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY){
           this.toastr.error('', this.translate.instant("Balance quantity can't be greater than available item qty"));
         } else {
-          this.oSaveModel.OtherItemsDTL[0].OPTM_BALANCE_QTY = this.itemQty;
+          this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = this.itemQty;
         }
       }
     }

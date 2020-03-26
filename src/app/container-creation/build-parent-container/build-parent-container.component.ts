@@ -77,6 +77,7 @@ export class BuildParentContainerComponent implements OnInit {
      else {
        if (this.lookupfor == "CTList") {        
          this.containerType = $event.OPTM_CONTAINER_TYPE;
+         this.parentContainerType = '';
        } 
        else if(this.lookupfor == "ParentCTList"){
          this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
