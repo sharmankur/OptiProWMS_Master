@@ -591,6 +591,7 @@ export class ContainerBatchserialComponent implements OnInit {
       } 
     }
 
+    this.showLoader = true;
     //this.SelectedRowsforShipmentArr = this.SelectedRowsforShipmentArr.filter(val => val.AssignQty != Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision"))));   
 
     let oSaveData:any = {};
