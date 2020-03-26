@@ -99,9 +99,9 @@
                 </div>
                 <div class="form-group row">
                     <div class="input-group input-group-sm">
-                        <label class="col-sm-4 col-form-label">{{'NoOfPacksToGenerate'|translate}}</label>
-                        <input type="text" id="NoOfPacksToGenerateId" name="NoOfPacksToGenerateId" class="col-sm-8 form-control form-control-sm text-right"
-                            [(ngModel)]="NoOfPacksToGenerate" disabled>                        
+                        <label class="col-sm-4 col-form-label">{{'NoOfPackToGen'|translate}}</label>
+                        <input type="text" id="noOfPack" name="noOfPack" class="col-sm-8 form-control form-control-sm text-right"
+                            [(ngModel)]="NoOfPacksToGenerate" placeholder="{{'NoOfPackToGen'|translate}}" disabled>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="mr-2 ml-2 mt-2">
                     <div>
-                        <div class="form-group row">
+                        <div class="form-group row mt-3">
                             <div class="input-group input-group-sm">
                                 <label class="col-sm-4 col-form-label">{{'Parent_Cont_Code'|translate}}</label>
                                 <input type="text" id="parentcontainerCode" name="parentcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
@@ -123,7 +123,7 @@
                                 [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>  
                             </div>
                         </div>
-                        <div class="form-group form-check-inline ml-1">                                                           
+                        <div class="form-group form-check-inline ml-1 mt-3">                                                           
                                 <input type="radio" class="form-check-input" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" 
                                 value="Add">
                                 <label class="col-form-label" for="addItem">{{'CT_Add'|translate}}</label>
@@ -131,7 +131,7 @@
                                 value="Remove">
                                 <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                            
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row mt-3">
                             <div class="input-group input-group-sm">
                                 <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <input type="text" id="childcontainerCode" name="childcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
