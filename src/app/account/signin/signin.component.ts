@@ -155,7 +155,9 @@ export class SigninComponent implements OnInit {
                 return;
             }
         //    this.getLicenseData();
-
+           var tenantId= this.getTenantIdFromCompanyId(this.selectedItem)
+           //console.log("selectedTenentId:",tenantId);
+           localStorage.setItem("TenantId", tenantId);
             localStorage.setItem("CompID", this.selectedItem);
             localStorage.setItem("whseId", "01");
             localStorage.setItem("UserId", this.userName);
@@ -167,7 +169,22 @@ export class SigninComponent implements OnInit {
             this.router.navigateByUrl('home/dashboard'); 
        }
     }
-
+     tenantId:any= "";
+    private getTenantIdFromCompanyId(selectedCompany:any){
+    
+        for(let i =0; i < this.arrayUserCompanies.length; i++){
+            if(this.arrayUserCompanies[i].OPTM_COMPID === selectedCompany){
+              // var selectedComapny = this.arrayUserCompanies[i];
+                this.tenantId = this.arrayUserCompanies[i].OPTM_TENANTKEY;
+                break;
+            }
+           
+        }
+        return this.tenantId;
+    //    var  selectedComapny =this.arrayUserCompanies.filter(item=>item.OPTM_COMPID ===selectedComapny);
+    //     return tenantId = selectedCompany.OPTM_TENANTKEY;
+    }
+    arrayUserCompanies:any =[];
     private validateUserLogin() {
         //alert('validateUserLogin: ');
         this.signinService.ValidateUserLogin(this.userName, this.password).subscribe(
@@ -176,7 +193,9 @@ export class SigninComponent implements OnInit {
                 if (data != null && data != undefined && data.Table.length > 0) {
                     if (data.AuthenticationDetails != null && data.AuthenticationDetails.length > 0) {
                         let access_token = data.AuthenticationDetails[0].token_type + " " + data.AuthenticationDetails[0].access_token;
+                        this.arrayUserCompanies = data.Table;
                         localStorage.setItem('accessToken', access_token);
+                        localStorage.setItem('tenentId', "tid");
                         this.commonService.updateHeader();
                         this.userDetails = data.Table;
                         this.handleValidationUserSuccessResponse();

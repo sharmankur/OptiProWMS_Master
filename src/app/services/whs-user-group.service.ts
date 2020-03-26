@@ -81,7 +81,7 @@ export class WhsUserGroupService {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_TENANTKEY: "T21"      
+        OPTM_TENANTKEY: localStorage.getItem("TenantId")      
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForUserGroup", jObject, this.commonService.httpOptions);
@@ -91,7 +91,7 @@ export class WhsUserGroupService {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_TENANTKEY: "T21",  
+        OPTM_TENANTKEY: localStorage.getItem("TenantId") ,  
         OPTM_GROUPCODE: userGroup     
       }])
     };

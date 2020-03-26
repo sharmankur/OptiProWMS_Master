@@ -28,8 +28,8 @@
 
 
     <kendo-grid-checkbox-column title="Select" [width]="25">
-        <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
-            <div class="custom-control custom-checkbox">
+        <ng-template *ngIf="serviceData?.length > 0" kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+            <div  class="custom-control custom-checkbox">
                 <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
                     id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
                 <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
