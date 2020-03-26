@@ -621,6 +621,8 @@ export class ContainerShipmentComponent implements OnInit {
       return;
     }
 
+    this.showLoader = true; 
+    
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
