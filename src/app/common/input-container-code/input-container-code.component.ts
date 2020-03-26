@@ -26,7 +26,7 @@ export class InputContainerCodeComponent implements OnInit {
   lookupfor: string;
   containerCode: string = "";
   parentContainerCode: string = "";
-  count: any = 0;
+  count: number = 0;
   ShowParentField : boolean = true;
   RemainingQty : any = 0;
   TotalQty : any=0;
@@ -47,6 +47,7 @@ export class InputContainerCodeComponent implements OnInit {
     this.CreateFlag = false;
     this.clickFlag = false;
     this.RadioAction = "Add";
+    this.count = 0;
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
@@ -113,7 +114,7 @@ export class InputContainerCodeComponent implements OnInit {
   }
 
   onParentContainerChange(){
-
+    this.count = 0;
     if(this.parentContainerCode == '' || this.parentContainerCode == undefined){
       return;
     }
@@ -129,7 +130,13 @@ export class InputContainerCodeComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.count= data[0].Count;  
+          if(data[0].Count == undefined){
+            this.count= data[0].COUNT;  
+          }
+          else{
+            this.count= data[0].Count;  
+          }
+         
           this.TotalQty =  this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentPerQty;  
           this.RemainingQty = this.TotalQty - this.count;     
         } else {

@@ -1054,9 +1054,15 @@
   "ScanContainer" : "Scan Containers",
   "Child_Cont_List" : "Child Container List",
   "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
+  "Container_Removed_From_Parent": "Container removed from Parent Container successfully",
       
   "BtchSrNBlank": "Batch/Serial/None Track can't be blank",
   "ItemQty": "Item Qty",
+  "QtyCheck": "Assigned Qty cannot be greater than Available Qty",
+  "OpenQtyCheck": "Assigned Qty cannot be greater than Open Qty",
+  "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
+  "ZeroOpenQty": "Open Qty is zero",
+  "GeneratePicklistShipments": "Generate Picklist Shipments",
   
   "Dummy": "Dummy"
   

@@ -40,6 +40,8 @@ export class BuildParentContainerComponent implements OnInit {
   childcontainerCode: any = '';
   oCreateModel: any = {};
   IsParentCodeValid: boolean = false;
+  purposeId: any = '';
+  NoOfPacksToGenerate: any = 1;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
@@ -55,10 +57,16 @@ export class BuildParentContainerComponent implements OnInit {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.defaultPurpose = this.purposeArray[0];
     this.purpose = this.defaultPurpose.Name;
+    this.purposeId = this.defaultPurpose.Value;
+  }
+
+  onCancelClick(){
+    this.router.navigate(['home/dashboard']);
   }
 
   onPurposeSelectChange(event) {
     this.purpose = event.Name;
+    this.purposeId = event.Value;
   }
 
   getLookupDataValue($event) {
@@ -69,6 +77,7 @@ export class BuildParentContainerComponent implements OnInit {
      else {
        if (this.lookupfor == "CTList") {        
          this.containerType = $event.OPTM_CONTAINER_TYPE;
+         this.parentContainerType = '';
        } 
        else if(this.lookupfor == "ParentCTList"){
          this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
@@ -703,6 +712,8 @@ export class BuildParentContainerComponent implements OnInit {
 
   onParentContainerCodeChange(){
 
+    this.childcontainerCode = '';
+
     this.validateAllFields();
 
     if(this.parentcontainerCode == '' || this.parentcontainerCode == undefined){
@@ -799,9 +810,14 @@ export class BuildParentContainerComponent implements OnInit {
           if (data[0].RESULT != undefined && data[0].RESULT != null) {
 
           if (data[0].RESULT == "Data Saved") {
-            this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+
+            if(this.RadioAction == 'Add'){
+              this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+            }else{
+              this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+            }
             this.childcontainerCode = '';
-            this.parentcontainerCode();
+            this.onParentContainerCodeChange();
           }
           else {
             this.toastr.error('', data[0].RESULT);
@@ -845,12 +861,14 @@ export class BuildParentContainerComponent implements OnInit {
 
     if(!this.IsParentCodeValid){
       this.oCreateModel.HeaderTableBindingData = [];
+      this.oCreateModel.OtherItemsDTL = [];
+      this.oCreateModel.OtherBtchSerDTL = [];
     
       this.oCreateModel.HeaderTableBindingData.push({
-        OPTM_SONO: this.soNumber,
+        OPTM_SONO: (this.soNumber == '' || this.soNumber == undefined) ? 0 :this.soNumber ,
         OPTM_CONTAINERID: 0,
-        OPTM_CONTTYPE: this.containerType,
-        OPTM_CONTAINERCODE: "" + this.childcontainerCode,
+        OPTM_CONTTYPE: this.parentContainerType,
+        OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
         OPTM_WEIGHT: 0,
         OPTM_AUTOCLOSE_ONFULL: 'N',
         OPTM_AUTORULEID: 0,
@@ -868,11 +886,11 @@ export class BuildParentContainerComponent implements OnInit {
         Username: localStorage.getItem("UserId"),
         UserId: localStorage.getItem("UserId"),
         GUID: localStorage.getItem("GUID"),
-        Action: "",
+        Action: "Y",
         OPTM_PARENTCODE: this.parentcontainerCode,
         OPTM_GROUP_CODE: 0,
         OPTM_CREATEMODE: 0,
-        OPTM_PERPOSE: this.defaultPurpose,
+        OPTM_PERPOSE: this.purposeId,
         OPTM_FUNCTION: "Shipping",
         OPTM_OBJECT: "Container",
         OPTM_WONUMBER: 0,

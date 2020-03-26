@@ -621,6 +621,8 @@ export class ContainerShipmentComponent implements OnInit {
       return;
     }
 
+    this.showLoader = true; 
+    
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
@@ -670,14 +672,26 @@ export class ContainerShipmentComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            if (data.length > 0) {
-              if (data[0].RESULT != '' && data[0].RESULT != null) {
-                this.toastr.error('', data[0].RESULT);
+            if (data.length > 0) {            
+              if (data[0].RESULT != '' && data[0].RESULT != null) {                
+                if(data[0].RESULT == 'Shipment updated'){
+                  this.toastr.success('', data[0].RESULT);
+                  this.fillDataInGridWithShipment();
+                }
+                else{
+                  this.toastr.error('', data[0].RESULT);
+                  
+                }                
               }
               else {
-                this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
-                this.fillDataInGridWithShipment();
+                // this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
+                // this.fillDataInGridWithShipment();
+                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+               
               }
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
             }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

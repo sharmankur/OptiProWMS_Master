@@ -139,6 +139,13 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertItemInContainer", jObject, this.commonService.httpOptions);
   }
 
+  InsertItemInContainerNew(oSaveModel: any): Observable<any> {
+    var jObject = {
+      Shipment: JSON.stringify(oSaveModel)
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertItemInContainer", jObject, this.commonService.httpOptions);
+  }
+
   InsertContainerinContainer(containerId: any, containerChildID: any, opn: any, containerType: any, parentContainerType: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
