@@ -1062,6 +1062,7 @@
   "OpenQtyCheck": "Assigned Qty cannot be greater than Open Qty",
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
+  "GeneratePicklistShipments": "Generate Picklist Shipments",
   
   "Dummy": "Dummy"
   

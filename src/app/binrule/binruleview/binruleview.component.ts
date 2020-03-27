@@ -171,6 +171,7 @@ export class BinruleviewComponent implements OnInit {
             return;
           }
           if(data[0].RESULT == this.translate.instant("DataSaved")){
+            this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
             this.GetDataForBinRule();
           }else{
             this.toastr.error('', data[0].RESULT);
