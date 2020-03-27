@@ -865,7 +865,7 @@ export class BuildParentContainerComponent implements OnInit {
       this.oCreateModel.OtherBtchSerDTL = [];
     
       this.oCreateModel.HeaderTableBindingData.push({
-        OPTM_SONO: (this.soNumber == '' || this.soNumber == undefined) ? 0 :this.soNumber ,
+        OPTM_SONO: (this.soNumber == undefined) ? '' :this.soNumber ,
         OPTM_CONTAINERID: 0,
         OPTM_CONTTYPE: this.parentContainerType,
         OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
@@ -887,7 +887,7 @@ export class BuildParentContainerComponent implements OnInit {
         UserId: localStorage.getItem("UserId"),
         GUID: localStorage.getItem("GUID"),
         Action: "Y",
-        OPTM_PARENTCODE: this.parentcontainerCode,
+        OPTM_PARENTCODE: '',
         OPTM_GROUP_CODE: 0,
         OPTM_CREATEMODE: 0,
         OPTM_PERPOSE: this.purposeId,
