@@ -870,7 +870,7 @@ export class InputParentContainerComponent implements OnInit {
       this.oCreateModel.OtherBtchSerDTL = [];
     
       this.oCreateModel.HeaderTableBindingData.push({
-        OPTM_SONO: (this.soNumber == '' || this.soNumber == undefined) ? 0 :this.soNumber ,
+        OPTM_SONO: (this.soNumber == undefined) ? '' :this.soNumber ,
         OPTM_CONTAINERID: 0,
         // OPTM_CONTTYPE: this.containerType,
         // OPTM_CONTAINERCODE: "" + this.childcontainerCode,
