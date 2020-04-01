@@ -535,7 +535,7 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.toastr.error('', data[0].RESULT);
