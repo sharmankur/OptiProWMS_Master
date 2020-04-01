@@ -329,11 +329,12 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetDataofSelectedTask", jObject, this.commonService.httpOptions);
   }
 
-  GetItemAndBtchSerDetailBasedOnContainerID(containerId): Observable<any> {
+  GetItemAndBtchSerDetailBasedOnContainerID(containerId, code): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        CONTAINERID: containerId
+        CONTAINERID: containerId,
+        OPTM_CONTCODE: code
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/GetItemAndBtchSerDetailBasedOnContainerID", jObject, this.commonService.httpOptions);
