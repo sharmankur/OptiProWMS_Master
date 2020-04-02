@@ -74,7 +74,7 @@
                                     <!-- (change)="updateItemCode(display_name, display_name.value, idx)" -->
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SHIP_STAGEBIN" value={{dataItem.OPTM_SHIP_STAGEBIN}} id="display_name"
-                                        min="0" #display_name (blur)="IsValidBinCode(idx, display_name.value)">
+                                        min="0" #display_name (blur)="IsValidBinCode(idx, display_name.value, display_name)">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetStageBinList(idx)">
                                             <i class="opti-icon-search"></i>

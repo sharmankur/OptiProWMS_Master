@@ -31,6 +31,7 @@ export class ContMaintnceMainComponent implements OnInit {
   purpose: any;
   volume: any;
   containerItems: any = []
+  childContainerList: any = [];
   pageSize: number = 10
   pageable: boolean = false;
   ExpandCollapseBtn: string = ""
@@ -271,7 +272,7 @@ export class ContMaintnceMainComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.GetItemAndBtchSerDetailBasedOnContainerID(this.containerId).subscribe(
+    this.containerCreationService.GetItemAndBtchSerDetailBasedOnContainerID(this.containerId, this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -303,6 +304,9 @@ export class ContMaintnceMainComponent implements OnInit {
                 }
               }
             }
+
+            // prepare child container and items list
+            this.prepareGridDataForChildContainer(data);
             console.log("");
           }
         } else {
@@ -319,6 +323,56 @@ export class ContMaintnceMainComponent implements OnInit {
         }
       }
     );
+  }
+
+  prepareGridDataForChildContainer(data: any) {
+    var childConts = data.ChlidContainerDeiail
+    var childContItems = data.ChildContItemDeiail
+    var batchSerailsData = data.ChildContBtchSerDeiail
+
+    for (var i = 0; i < childContItems.length; i++) {
+      childContItems[i].ItemBatchSerailData = []
+      for (var j = 0; j < batchSerailsData.length; j++) {
+        if (childContItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE) {
+          childContItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
+        } 
+        else if (childContItems[i].OPTM_TRACKING == "N") {
+          childContItems[i].ItemBatchSerailData.push({
+            TEMP_ID: -1
+          });
+        }
+      }
+    }
+
+    // var childContItems = data.ChildContItemDeiail
+    // for (var i = 0; i < childContItems.length; i++) {
+    //   this.childContainerList[i].childCoontItems = []
+    //   this.childContainerList.push({
+    //     OPTM_CONTAINERID: childContItems[i].OPTM_CONTAINERID,
+    //     OPTM_CONTCODE: childContItems[i].OPTM_CONTCODE,
+    //     OPTM_CONTTYPE: childContItems[i].OPTM_CONTTYPE,
+    //     OPTM_STATUS: childContItems[i].OPTM_STATUS,
+    //   })
+    // }
+
+
+    this.childContainerList = []
+    for (var i = 0; i < childConts.length; i++) {
+      var items = []
+      for (var j = 0; j < childContItems.length; j++) {
+        if (childConts[i].OPTM_CONTAINERID == childContItems[j].OPTM_CONTAINERID 
+          || childConts[i].OPTM_CONTCODE == childContItems[j].OPTM_CONTAINERID) {
+            items.push(childContItems[j])
+        }
+      }
+      this.childContainerList.push({
+        OPTM_CONTAINERID: childConts[i].OPTM_CONTAINERID,
+        OPTM_CONTCODE: childConts[i].OPTM_CONTCODE,
+        OPTM_CONTTYPE: childConts[i].OPTM_CONTTYPE,
+        OPTM_STATUS: childConts[i].OPTM_STATUS,
+        childContItems: items
+      })
+    }
   }
 
   prepareDataForGrid() {
@@ -390,7 +444,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', "ContainerClosedMsg")
+              this.toastr.success('', this.translate.instant("ContainerClosedMsg"))
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
@@ -428,8 +482,8 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length > 0) {
-            if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', "ContainerReopenedMsg")
+            if (data[0].RESULT == "Data Saved" || data[0].RESULT == "Data saved.") {
+              this.toastr.success('', this.translate.instant("ContainerReopenedMsg"))
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
@@ -509,7 +563,7 @@ export class ContMaintnceMainComponent implements OnInit {
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
               // this.toastr.success('', data[0].RESULT)
-              this.toastr.success('', "ContainerCancelledMsg")
+              this.toastr.success('', this.translate.instant("ContainerCancelledMsg"))
               this.onContainerCodeChange(this.containerCode);
             } else {
               this.toastr.error('', data[0].RESULT)
@@ -550,7 +604,44 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  onAddItemClick(){
+  // public showOnlyBeveragesDetails1(dataItem: any, index: number): boolean {
+  //   return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+  // }
+
+  @ViewChild(GridComponent, { static: false }) grid1: GridComponent;
+  isExpand1: boolean = false;
+  onExpandCollapse1() {
+    this.isExpand1 = !this.isExpand1;
+
+    for (var i = 0; i < this.childContainerList.length; i++) {
+      if (this.isExpand1) {
+        this.grid1.expandRow(i)
+      } else {
+        this.grid1.collapseRow(i);
+      }
+    }
+  }
+
+  public showOnlyBeveragesDetails2(dataItem: any, index: number): boolean {
+    // return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S" || dataItem.OPTM_TRACKING === "L";
+    return true
+  }
+
+  @ViewChild(GridComponent, { static: false }) grid2: GridComponent;
+  isExpand2: boolean = false;
+  onExpandCollapse2() {
+    this.isExpand2 = !this.isExpand2;
+
+    for (var i = 0; i < this.childContainerList.childContItems.length; i++) {
+      if (this.isExpand2) {
+        this.grid2.expandRow(i)
+      } else {
+        this.grid2.collapseRow(i);
+      }
+    }
+  }
+
+  onAddItemClick() {
     localStorage.setItem("ContainerId", this.containerId)
     localStorage.setItem("ContainerCode", this.containerCode)
     localStorage.setItem("From", "CMaintenance")

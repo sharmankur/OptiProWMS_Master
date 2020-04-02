@@ -89,10 +89,12 @@ export class CommonLookupComponent implements OnInit {
     if (this.fromWhere == "CreateContainer") {
       this.selectedValues = []
       this.qtyAdded = 0
-      for (var i = 0; i < this.serviceData.length; i++) {
-        if (this.serviceData[i].OldData) {
-          this.selectedValues.push(this.serviceData[i])
-          this.qtyAdded = this.qtyAdded + Number("" + this.serviceData[i].QuantityToAdd)
+      if(this.serviceData != undefined){
+        for (var i = 0; i < this.serviceData.length; i++) {
+          if (this.serviceData[i].OldData) {
+            this.selectedValues.push(this.serviceData[i])
+            this.qtyAdded = this.qtyAdded + Number("" + this.serviceData[i].QuantityToAdd)
+          }
         }
       }
     }
