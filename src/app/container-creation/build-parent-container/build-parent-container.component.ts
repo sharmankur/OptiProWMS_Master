@@ -747,7 +747,7 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  getCountofParentCont(){
+  getCountofParentContAfterSave(){
     this.addItemList = [];
     this.showLoader = true;
     this.containerCreationService.GetConatinersAddedInParentContainer(this.parentcontainerCode).subscribe(
@@ -764,12 +764,19 @@ export class BuildParentContainerComponent implements OnInit {
           if(data.length != undefined){
             this.count = data.length;
             this.RemQty = this.ParentPerQty - this.count;
-            this.addItemList = data;
+                       
+            if(this.RemQty == 0){
+              this.parentcontainerCode = '';  
+              this.count = 0;
+              this.addItemList = [];
+            }
+            else{
+              this.addItemList = data;
+            }
           }   
           else{
             this.count = 0;
           } 
-
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -898,7 +905,7 @@ export class BuildParentContainerComponent implements OnInit {
             }
             this.childcontainerCode = '';
             //this.onParentContainerCodeChange();
-            this.getCountofParentCont();
+            this.getCountofParentContAfterSave();
           }
           else {
             this.toastr.error('', data[0].RESULT);

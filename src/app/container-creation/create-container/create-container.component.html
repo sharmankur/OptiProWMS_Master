@@ -443,7 +443,7 @@
                                 <div class="col-sm-7">
                                     <div class="opti_input-group-checkbox">
                                         <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
-                                            (change)="onCheckChange()" />
+                                            (change)="onCheckChange()" [disabled]="createMode == 3" />
                                         <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
                                     </div>
                                 </div>
