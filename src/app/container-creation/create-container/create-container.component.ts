@@ -570,7 +570,7 @@ export class CreateContainerComponent implements OnInit {
       Height: height,
       ItemCode: "",
       NoOfPacks: "1",
-      OPTM_TASKID: 1,
+      OPTM_TASKID: 0, //change
       CompanyDBId: localStorage.getItem("CompID"),
       Username: localStorage.getItem("UserId"),
       UserId: localStorage.getItem("UserId"),
@@ -596,7 +596,7 @@ export class CreateContainerComponent implements OnInit {
       for (var i = 0; i < this.fromContainerDetails.length; i++) {
         this.oSaveModel.OtherItemsDTL.push({
           OPTM_ITEMCODE: this.fromContainerDetails[i].OPTM_ITEMCODE,
-          OPTM_QUANTITY: this.fromContainerDetails[i].QuantityToAdd,
+          OPTM_QUANTITY: Number(this.fromContainerDetails[i].QuantityToAdd).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
           OPTM_CONTAINER: "",
           OPTM_AVLQUANTITY: 0,
           OPTM_INVQUANTITY: 0,
@@ -623,6 +623,10 @@ export class CreateContainerComponent implements OnInit {
   }
 
   onWorkOrderChangeBlur() {
+
+    if(this.workOrder == '' || this.workOrder == undefined){
+      return;
+    }
 
     this.showLoader = true;
     this.commonservice.IsValidWONumber(this.workOrder).subscribe(

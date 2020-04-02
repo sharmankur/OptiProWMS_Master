@@ -263,7 +263,8 @@ export class ContainerCreationService {
   GetWorkOrderList(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        WONUMBER: ''
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);

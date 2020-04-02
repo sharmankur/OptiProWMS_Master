@@ -28,7 +28,7 @@ export class BuildParentContainerComponent implements OnInit {
   lookupfor: any;
   whse: any;
   binNo: any;
-  containerGroupCode: any
+  containerGroupCode: any = '';
   parentContainerType: any ='';
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
@@ -42,6 +42,8 @@ export class BuildParentContainerComponent implements OnInit {
   IsParentCodeValid: boolean = false;
   purposeId: any = '';
   NoOfPacksToGenerate: any = 1;
+  RemQty: number = 0;
+
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
@@ -541,32 +543,6 @@ export class BuildParentContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          //this.selectedBatchSerial = [];
-
-          //Case Warehouse and if create mode is Manual/Manual Rule based then create blank container -
-          // if(!this.IsWIPCont && this.createMode != 1){          
-          //   this.fromContainerDetails = [];
-          // }
-          // else{ 
-          //    this.fromContainerDetails = data.OPTM_CONT_AUTORULEDTL; 
-
-          //     //Case WIP and if create mode is Manual Rule based then only Work Order Item in Inventory Grid should be present-
-          //     if(this.IsWIPCont && this.createMode == 2){  
-          //       this.fromContainerDetails = this.fromContainerDetails.filter(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
-          //     }
-                           
-          //     for (var j = 0; j < this.fromContainerDetails.length; j++) {
-          //       if(this.IsWIPCont && this.fromContainerDetails[j].OPTM_ITEMCODE == this.SelectedWOItemCode){
-          //         this.fromContainerDetails[j].QuantityToAdd = Number(this.partsQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          //       }            
-          //       else{
-          //         this.fromContainerDetails[j].QuantityToAdd = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          //       }
-          //       this.fromContainerDetails[j].OPTM_MIN_FILLPRCNT = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          //       this.fromContainerDetails[j].AvlQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-          //     }            
-          // }
-
           result = true;
           localStorage.setItem("CAR_Grid_Data", JSON.stringify(data));
          
@@ -689,8 +665,16 @@ export class BuildParentContainerComponent implements OnInit {
             return;
           }
           if (data.length == 0) {
-           this.IsParentCodeValid = false;
-           this.toastr.warning('', this.translate.instant("ParentContDoesNotExists"));
+            this.IsParentCodeValid = false;
+            if(this.RadioAction == 'Add'){
+              this.generateParentContnr();
+            }
+            else{
+              this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+              this.parentcontainerCode = '';
+              this.RemQty = 0;
+              this.childcontainerCode = '';
+            }
           } else {
             this.IsParentCodeValid = true;       
           }
@@ -717,6 +701,10 @@ export class BuildParentContainerComponent implements OnInit {
     this.validateAllFields();
 
     if(this.parentcontainerCode == '' || this.parentcontainerCode == undefined){
+      this.childcontainerCode = '';
+      this.count = 0;
+      this.RemQty = 0;
+      this.addItemList = [];
       return;
     } 
     this.addItemList = [];
@@ -734,6 +722,7 @@ export class BuildParentContainerComponent implements OnInit {
           //this.count= data[0].Count;
           if(data.length != undefined){
             this.count = data.length;
+            this.RemQty = this.ParentPerQty - this.count;
             this.addItemList = data;
           }   
           else{
@@ -758,7 +747,90 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
+  getCountofParentCont(){
+    this.addItemList = [];
+    this.showLoader = true;
+    this.containerCreationService.GetConatinersAddedInParentContainer(this.parentcontainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined && data != null) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          //this.count= data[0].Count;
+          if(data.length != undefined){
+            this.count = data.length;
+            this.RemQty = this.ParentPerQty - this.count;
+            this.addItemList = data;
+          }   
+          else{
+            this.count = 0;
+          } 
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   generateParentContnr(){
+
+    this.oCreateModel.HeaderTableBindingData = [];
+    this.oCreateModel.OtherItemsDTL = [];
+    this.oCreateModel.OtherBtchSerDTL = [];
+  
+    this.oCreateModel.HeaderTableBindingData.push({
+      OPTM_SONO: (this.soNumber == undefined) ? '' :this.soNumber ,
+      OPTM_CONTAINERID: 0,
+      OPTM_CONTTYPE: this.parentContainerType,
+      OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
+      OPTM_WEIGHT: 0,
+      OPTM_AUTOCLOSE_ONFULL: 'N',
+      OPTM_AUTORULEID: 0,
+      OPTM_WHSE: this.whse,
+      OPTM_BIN: this.binNo,
+      OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
+      Length: 0,
+      Width: 0,
+      Height: 0,
+      ItemCode: "",
+      NoOfPacks: "1",
+      OPTM_TASKID: 0, //change
+      CompanyDBId: localStorage.getItem("CompID"),
+      Username: localStorage.getItem("UserId"),
+      UserId: localStorage.getItem("UserId"),
+      GUID: localStorage.getItem("GUID"),
+      Action: "Y",
+      OPTM_PARENTCODE: '',
+      OPTM_GROUP_CODE: this.containerGroupCode,
+      OPTM_CREATEMODE: 3,
+      OPTM_PERPOSE: this.purposeId,
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Container",
+      OPTM_WONUMBER: 0,
+      OPTM_TASKHDID: 0,
+      OPTM_OPERATION: 0,
+      OPTM_QUANTITY: 0,
+      OPTM_SOURCE: 3,    
+      OPTM_ParentContainerType: this.parentContainerType,
+      OPTM_ParentPerQty: this.ParentPerQty,  
+      IsWIPCont: false  
+    });
+
     this.showLoader = true;
     this.containerCreationService.GenerateShipContainer(this.oCreateModel).subscribe(
       (data: any) => {
@@ -775,8 +847,16 @@ export class BuildParentContainerComponent implements OnInit {
               this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
               return;
             }
-            this.insertChildContnr();
-           // this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+
+            if(data[0].RESULT != undefined && data[0].RESULT != null){
+              if(data[0].RESULT == 'Invalid string'){
+                this.toastr.error('', data[0].RESULT);
+                return;
+              }
+            }
+
+            //this.insertChildContnr();
+            this.toastr.success('', this.translate.instant("ParentContainerCreatedSuccessMsg"));
           }
         } else {
           //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -817,7 +897,8 @@ export class BuildParentContainerComponent implements OnInit {
               this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
             }
             this.childcontainerCode = '';
-            this.onParentContainerCodeChange();
+            //this.onParentContainerCodeChange();
+            this.getCountofParentCont();
           }
           else {
             this.toastr.error('', data[0].RESULT);
@@ -845,7 +926,7 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  onItemCodeChange(){  
+  onChildContCodeChange(){  
 
     this.validateAllFields();
 
@@ -857,57 +938,8 @@ export class BuildParentContainerComponent implements OnInit {
       this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));
       this.childcontainerCode = '';
       return;
-    }   
-
-    if(!this.IsParentCodeValid){
-      this.oCreateModel.HeaderTableBindingData = [];
-      this.oCreateModel.OtherItemsDTL = [];
-      this.oCreateModel.OtherBtchSerDTL = [];
-    
-      this.oCreateModel.HeaderTableBindingData.push({
-        OPTM_SONO: (this.soNumber == undefined) ? '' :this.soNumber ,
-        OPTM_CONTAINERID: 0,
-        OPTM_CONTTYPE: this.parentContainerType,
-        OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
-        OPTM_WEIGHT: 0,
-        OPTM_AUTOCLOSE_ONFULL: 'N',
-        OPTM_AUTORULEID: 0,
-        OPTM_WHSE: this.whse,
-        OPTM_BIN: this.binNo,
-        OPTM_CREATEDBY: localStorage.getItem("UserId"),
-        OPTM_MODIFIEDBY: '',
-        Length: length,
-        Width: 0,
-        Height: 0,
-        ItemCode: "",
-        NoOfPacks: "1",
-        OPTM_TASKID: 1,
-        CompanyDBId: localStorage.getItem("CompID"),
-        Username: localStorage.getItem("UserId"),
-        UserId: localStorage.getItem("UserId"),
-        GUID: localStorage.getItem("GUID"),
-        Action: "Y",
-        OPTM_PARENTCODE: '',
-        OPTM_GROUP_CODE: 0,
-        OPTM_CREATEMODE: 0,
-        OPTM_PERPOSE: this.purposeId,
-        OPTM_FUNCTION: "Shipping",
-        OPTM_OBJECT: "Container",
-        OPTM_WONUMBER: 0,
-        OPTM_TASKHDID: 0,
-        OPTM_OPERATION: 0,
-        OPTM_QUANTITY: 0,
-        OPTM_SOURCE: 0,    
-        OPTM_ParentContainerType: this.parentContainerType,
-        OPTM_ParentPerQty: 0,  
-        IsWIPCont: false  
-      });
-
-      this.generateParentContnr();
-    }
-    else{
-      this.insertChildContnr();
-    }
+    }     
+    this.insertChildContnr();
  }
 
 }
