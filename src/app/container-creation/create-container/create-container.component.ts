@@ -899,6 +899,12 @@ export class CreateContainerComponent implements OnInit {
   }
 
   getAutoPackRule() {
+
+    if (this.whse == undefined || this.whse == "" || this.binNo == undefined || this.binNo == "") {
+      this.toastr.error('', this.translate.instant("EnterWHSEandBin"));
+      return;
+    }
+
     if (this.containerType == undefined || this.containerType == "") {
       this.toastr.error('', this.translate.instant("SelectContainerMsg"));
       return;
@@ -1164,6 +1170,18 @@ export class CreateContainerComponent implements OnInit {
 
   onAutoPackRuleChangeBlur() {
     this.soNumber = '';
+    
+    if(this.autoPackRule == '' || this.autoPackRule == undefined){
+      this.fromContainerDetails = [];
+      return;
+    }
+
+    if(this.whse == '' || this.whse == undefined || this.binNo == '' || this.binNo == undefined ){
+      this.autoPackRule = ""; this.autoRuleId = "" ;
+      this.toastr.error('', this.translate.instant("EnterWHSEandBin"));
+      return;
+    }
+
     if (this.isValidateCalled) {
       return;
     }
@@ -1274,6 +1292,10 @@ export class CreateContainerComponent implements OnInit {
 
   async onWhseChange() {
     if (this.whse == undefined || this.whse == "") {
+      this.binNo = "";
+      this.autoRuleId = ''; this.autoPackRule = "";
+      this.soNumber = '';
+      this.fromContainerDetails = [];
       return;
     }
 
@@ -1313,7 +1335,10 @@ export class CreateContainerComponent implements OnInit {
   }
 
   async onBinChange() {
-    if (this.binNo == undefined || this.binNo == "") {
+    if (this.binNo == undefined || this.binNo == "") {    
+      this.autoRuleId = ''; this.autoPackRule = "";
+      this.soNumber = '';
+      this.fromContainerDetails = [];
       return;
     }
 
@@ -1722,8 +1747,14 @@ export class CreateContainerComponent implements OnInit {
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event.WhsCode;
         this.binNo = "";
+        this.autoRuleId = ''; this.autoPackRule = "";
+        this.soNumber = '';
+        this.fromContainerDetails = [];
       } else if (this.lookupfor == "BinList") {
         this.binNo = $event.BinCode;
+        this.autoRuleId = ''; this.autoPackRule = "";
+        this.soNumber = '';
+        this.fromContainerDetails = [];
         this.GetInventoryData();
       } else if (this.lookupfor == "SOList") {
         this.soNumber = $event.DocEntry;

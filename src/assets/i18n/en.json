@@ -1058,6 +1058,7 @@
   "Child_Cont_List" : "Child Container List",
   "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
   "Container_Removed_From_Parent": "Container removed from Parent Container successfully",
+  "EnterWHSEandBin" : "Please select Warehouse and Bin",
       
   "BtchSrNBlank": "Batch/Serial can't be blank",
   "ItemQty": "Item Qty",
