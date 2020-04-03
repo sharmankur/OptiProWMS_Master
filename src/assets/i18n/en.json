@@ -1077,6 +1077,7 @@
   "CloseCont": "Close container",
   "PostToInventory": "Post to inventory",
 
+  "PackValueValidation":"You can not select other then first value",
   "Dummy": "Dummy"
   
 }

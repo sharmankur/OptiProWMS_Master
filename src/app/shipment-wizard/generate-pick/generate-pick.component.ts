@@ -56,7 +56,7 @@ export class GeneratePickComponent implements OnInit {
   pickListBasisIndex = 1;
   pickTypeIndex = 1;
   pickOperationIndex = 1;
-
+  iscontainerpicking: boolean = false;
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -983,11 +983,23 @@ export class GeneratePickComponent implements OnInit {
       this.Pick_Operation = this.PickOperationList[2];
       this.pickOperationIndex = 3;
     } 
-  }
-
-  onPickOperationChange(event) {
+  } 
+ 
+  onPickOperationChange(event,selectedvalue) {
     this.pickOperationIndex = this.PickOperationList.indexOf(event);
     this.pickOperationIndex = this.pickOperationIndex + 1;
+    this.Pick_Operation = "";
+    if(this.Pick_Type == this.PackTypeList[0]){
+      this.toastr.error("", this.translate.instant("PackValueValidation"));
+      selectedvalue.text = this.PickOperationList[0];
+      this.Pick_Operation = this.PickOperationList[0];
+    }else{
+      selectedvalue.text = event;
+      this.Pick_Operation =selectedvalue.dataItem;
+    }
+   
+
+    
   }
 
   //#region "validation"
