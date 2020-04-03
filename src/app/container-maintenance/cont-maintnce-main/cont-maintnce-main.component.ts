@@ -34,6 +34,7 @@ export class ContMaintnceMainComponent implements OnInit {
   childContainerList: any = [];
   pageSize: number = 10
   pageable: boolean = false;
+  pageable2: boolean = false;
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
@@ -369,9 +370,13 @@ export class ContMaintnceMainComponent implements OnInit {
         OPTM_CONTAINERID: childConts[i].OPTM_CONTAINERID,
         OPTM_CONTCODE: childConts[i].OPTM_CONTCODE,
         OPTM_CONTTYPE: childConts[i].OPTM_CONTTYPE,
-        OPTM_STATUS: childConts[i].OPTM_STATUS,
+        OPTM_STATUS: this.getContainerStatus(childConts[i].OPTM_STATUS),
         childContItems: items
       })
+    }
+
+    if(this.childContainerList.length > 10 ){
+      this.pageable2 = true
     }
   }
 
@@ -510,7 +515,7 @@ export class ContMaintnceMainComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.commonservice.DamagedClick(this.containerCode).subscribe(
+    this.commonservice.DamagedClick(this.containerCode, this.containerId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

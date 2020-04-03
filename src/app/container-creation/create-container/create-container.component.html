@@ -20,9 +20,9 @@
                         <label for="CustomerTo" class="col-sm-5 col-form-label">{{'WO'|translate}}</label>
                         <div class="input-group col-sm-7">
                                 <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                        name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderChangeBlur()">
+                                        name="workOrder" [(ngModel)]="workOrder" ><!--(blur)="GetWorkOrderList('blur')"-->
                                 <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList('lookup')">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                 </div>
@@ -137,12 +137,13 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Login_Warehouse'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="whse" 
-                                        name="whse" [(ngModel)]="whse" (blur)="onWhseChangeBlur()">
+                                    <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
+                                        name="autoPackRule" [(ngModel)]="autoPackRule"
+                                        (blur)="onAutoPackRuleChangeBlur()" [disabled]="IsDisableRule">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" [disabled]="IsDisableRule" (mousedown)="getAutoPackRule()">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -179,33 +180,35 @@
                     <div class="row">
 
                         <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group input-group-sm">
-                                            <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
-                                                textField="Name" valueField="Value" id="createMode" name="createMode"
-                                                [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
-                                        </div>
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'CreateMode'|translate}}</label>
+                                <div class="col-sm-7">
+                                    <div class="input-group input-group-sm">
+                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
+                                            textField="Name" valueField="Value" id="createMode" name="createMode"
+                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                           <!-- col start -->
+                        <!-- col start -->                       
+                        
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'BinCode'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="binNo"
-                                        name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
+                                    <input type="text" class="form-control form-control-sm" id="soNumber" 
+                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <!-- col end -->
                     <!-- col start -->
                     <div class="col-sm-4">
@@ -233,15 +236,14 @@
                     <!-- row start -->
                     <div class="row">
 
-                    <div class="col-sm-4">
+                        <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Cont_Type'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Login_Warehouse'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="containerTypeId"
-                                       name="containerType" [(ngModel)]="containerType"
-                                        (blur)="onContainerTypeChangeBlur('child')">
+                                    <input type="text" class="form-control form-control-sm" id="whse" 
+                                        name="whse" [(ngModel)]="whse" (blur)="onWhseChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -261,23 +263,24 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div> -->                       
+
+                        <!-- col end -->
 
                         <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
-                                    <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" id="soNumber" 
-                                            name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
+                            <div class="form-group row">
+                                <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                                        name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        <!-- col end -->
+                        </div>
                     <!-- col start -->
                     <div class="col-sm-4">
                         <div class="form-group row">
@@ -306,13 +309,12 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'BinCode'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="parentContainerType"
-                                        name="parentContainerType"
-                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="IsDisableParentCT"> 
+                                    <input type="text" class="form-control form-control-sm" id="binNo"
+                                        name="binNo" [(ngModel)]="binNo" (blur)="onBinChangeBlur()">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')" [disabled]="IsDisableParentCT">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
@@ -335,21 +337,17 @@
                         </div> -->
 
                         <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="CustomerFrom" style="white-space: nowrap;" class="col-sm-5 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                                    <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                            name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroupBlur()">                                       
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
+                            <div class="form-group row">
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoCloseWhenFull'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <div class="opti_input-group-checkbox">
+                                        <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
+                                            (change)="onCheckChange($event)" [disabled]="createMode == 3" [checked]="autoClose" />
+                                        <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
                                     </div>
                                 </div>
-                            </div>
-
-
+                            </div>    
+                        </div>
 
                         <!-- col end -->
                        <!-- col start -->
@@ -381,37 +379,32 @@
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoPackRule'|translate}}</label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Cont_Type'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="autoPackRuleId"
-                                       name="autoPackRule" [(ngModel)]="autoPackRule"
-                                        (blur)="onAutoPackRuleChangeBlur()" [disabled]="IsDisableRule">
+                                    <input type="text" class="form-control form-control-sm" id="containerTypeId"
+                                        name="containerType" [(ngModel)]="containerType"
+                                        (blur)="onContainerTypeChangeBlur('child')">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" [disabled]="IsDisableRule" (mousedown)="getAutoPackRule()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- col end -->
-                          <!-- col start -->
-                          <div class="col-sm-4">
-                            <div class="form-group row" *ngIf="false">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'SONumber'|translate}}</label>
-                                <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="soNumber" 
-                                        name="soNumber" [(ngModel)]="soNumber" (blur)="onSONumberChange()">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType('child')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <!-- col end -->
+                        <div class="col-sm-4" >
+                        <div class="form-group row" *ngIf="false">
+                            <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'NoOfPackToGen'|translate}}</label>
+                            <div class="col-sm-7">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-control-sm text-right" name='noOfPackToGen'
+                                        [(ngModel)]="noOfPackToGen" id="noOfPackToGen">                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <!-- col start -->
                         <div class="col-sm-4">
                             <div class="form-group row">
@@ -437,17 +430,21 @@
                     <!-- row start -->
                     <div class="row">
                         <!-- col start -->
+
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'AutoCloseWhenFull'|translate}}</label>
-                                <div class="col-sm-7">
-                                    <div class="opti_input-group-checkbox">
-                                        <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
-                                            (change)="onCheckChange()" />
-                                        <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
+                                <label for="CustomerFrom" class="col-sm-5 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
+                                <div class="input-group col-sm-7">
+                                    <input type="text" class="form-control form-control-sm" id="parentContainerType"
+                                        name="parentContainerType"
+                                        [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="IsDisableParentCT"> 
+                                    <div class="input-group-append has-seprate-btn">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')" [disabled]="IsDisableParentCT">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                                
                         <!-- col end -->
@@ -472,7 +469,7 @@
                            <!-- col start -->
                            <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'MaxWeight/ContainerWeigth'|translate}}</label>
+                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth/MaxWeight'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm text-right" name='containerWeigth'
@@ -662,8 +659,10 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                                <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Login_Reset'|translate}}</a> -->
+                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()" *ngIf="createMode != 2">{{'ScanCreate'|translate}}</a>
+                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()" 
+                                style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="createMode == 2">{{'ScanCreate'|translate}}</a>
+                                
                                 <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
                                 <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'PrintLabel'|translate}}</a>
                                 <!-- <a class="dropdown-item cursor-pointer" (click)="onBuildParentContClick()">{{'BuildParentContainer'|translate}}</a> -->

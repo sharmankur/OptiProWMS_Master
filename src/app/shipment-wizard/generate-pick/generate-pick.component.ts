@@ -56,7 +56,7 @@ export class GeneratePickComponent implements OnInit {
   pickListBasisIndex = 1;
   pickTypeIndex = 1;
   pickOperationIndex = 1;
-
+  iscontainerpicking: boolean = false;
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -976,7 +976,6 @@ export class GeneratePickComponent implements OnInit {
     }
   }
 
-  iscontainerpicking = false;
   onPickTypeChange(event) {
     this.pickTypeIndex = this.PackTypeList.indexOf(event);
     this.pickTypeIndex = this.pickTypeIndex + 1;

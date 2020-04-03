@@ -219,15 +219,32 @@
                             </div>
                         </div>
                         <!-- col end -->
-                          <!-- col start -->
-                          <div class="col-sm-4">
-                            <div class="form-group ml-1">
-                                <div>
-                                    <button type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="BinId" class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                            <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                                            name="containerGroupCode" [(ngModel)]="containerGroupCode" (blur)="IsValidContainerGroup()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <!-- col end -->
+
+                            <div class="col-sm-4 row">
+                                <div class="form-group">
+                                    <div>
+                                        <button type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+
                     </div>
             </div>
 
@@ -441,6 +458,7 @@
     
                 </div> -->
 
+            <!-- <h5>{{SelectedLinkTitle}}</h5> -->
             <div class="row mt-2">
                 <div class="col-12">
                     <!-- <h5 class="card-header">{{'Container_Items'|translate}}</h5> -->
@@ -453,6 +471,7 @@
                                         <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ContainerItems)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" />
                                         <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
                                     </label> 
+                                    <span class="text-bold">{{SelectedLinkTitle}} </span>
                               </ng-template>
 
                               <!-- <ng-template kendoGridToolbarTemplate >
@@ -474,14 +493,14 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue 
                                             (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)" [checked]=selectall
-                                                id="parent_checkbox_{{rowIndex}}"  class="custom-control-input">
+                                                id="parent_checkbox_{{rowIndex}}"  class="custom-control-input" [disabled]="Selectedlink == 1">
                                             <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
                                         </div>
                                     </ng-template>
                                     <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                         <div class="custom-control custom-checkbox">
-                                            <input #chkSelection type="checkbox"  (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
-                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                            <input #chkSelection type="checkbox"  (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected" 
+                                            [disabled]="Selectedlink == 1" id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
                                             <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                         </div>
                                     </ng-template>
@@ -531,11 +550,9 @@
                 </button>
                 <button class="btn btn-danger k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-                <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onSelectShipmentPres()"
-                            *ngIf="!IsShipment">
-                            <span class="k-icon k-i-check" role="presentation" *ngIf="!IsShipment"></span>{{'Select_Shipment'|translate}}</button> -->
-                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onShipmentBtnPress('Assign')">
-                    <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>
+
+                    <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdateBtnPress()" [disabled]="Selectedlink == 1">
+                            <span class="k-icon k-i-check" role="presentation"></span>{{'CT_Update'|translate}}</button>
 
                 <div class="btn-group  toggle-btn-outer">
                     <div class="dropdown show">
@@ -544,12 +561,15 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(1)">{{'View_Containers'|translate}}</a>
                             <a class="dropdown-item cursor-pointer" (click)="GetShipmentIdForShipment()">{{'Select_Shipment'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;" (click)="onShipmentBtnPress('Remove')">{{'Remove_from_shipment'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Return_by_customer'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Set_Damaged'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Close_Container'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Post_To_Inventory'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(2)">{{'Assign_to_shipment'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(3)">{{'Remove_from_shipment'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(4)">{{'Return_by_customer'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 5 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(5)">{{'Set_Damaged'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 6 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(6)">{{'Close_Container'|translate}}</a>
+                            <a [ngClass]="Selectedlink == 7 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillDataInGridWithShipment(7)">{{'Post_To_Inventory'|translate}}</a>
+                            <!--style="color: gray; cursor: not-allowed; pointer-events: none;" -->
                         </div>
                     </div>
                 </div>
