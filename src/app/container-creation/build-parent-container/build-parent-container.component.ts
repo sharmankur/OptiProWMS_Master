@@ -855,11 +855,9 @@ export class BuildParentContainerComponent implements OnInit {
               return;
             }
 
-            if(data[0].RESULT != undefined && data[0].RESULT != null){
-              if(data[0].RESULT == 'Invalid string'){
+            if(data[0].RESULT != undefined && data[0].RESULT != null){              
                 this.toastr.error('', data[0].RESULT);
-                return;
-              }
+                return;            
             }
 
             //this.insertChildContnr();

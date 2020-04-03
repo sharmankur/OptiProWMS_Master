@@ -199,6 +199,17 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.commonService.httpOptions);
   }
+  
+  IsValidSONumberBasedOnRule(soNumber: any, RULEID: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SONUMBER: soNumber,
+        RULEID: RULEID
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
+  }
 
   IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any): Observable<any> {
     let jObject = {
@@ -260,11 +271,11 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
 
-  GetWorkOrderList(): Observable<any> {
+  GetWorkOrderList(WorkOrder: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        WONUMBER: ''
+        WONUMBER: WorkOrder
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);

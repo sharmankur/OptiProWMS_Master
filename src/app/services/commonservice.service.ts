@@ -752,12 +752,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
   }
 
-  GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string): Observable<any> {
+  GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string, CreateMode: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         ContainerType: ContainerType,
-        ItemCode: ItemCode
+        ItemCode: ItemCode,
+        OPTM_CREATEMODE: CreateMode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRuleWIP", jObject, this.httpOptions);

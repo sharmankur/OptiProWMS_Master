@@ -662,7 +662,7 @@
   "AutoCloseWhenFull": "Auto Close When Full",
   "SONumber": "SO Number",
   "SOLine": "SO Line",
-  "MaxWeight/ContainerWeigth": "Max Wt/Cont Wt",
+  "ContainerWeigth/MaxWeight": "Cont Wt/Max Wt",
   "AutoPackRule": "Auto Pack Rule",
   "InvQty": "Inv Qty",
   "Create": "Create",
@@ -1066,6 +1066,8 @@
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
   "GeneratePicklistShipments": "Generate Picklist Shipments",
+  "CannotScanCreate": "Cannot Scan & Create container for Serial Tracked item",
+  "InvalidSOAutoRule": "Item in the rule does not belogs to this SO number",
 
   "ViewCont": "View container",
   "AssignToShipment": "Assign to shipment",

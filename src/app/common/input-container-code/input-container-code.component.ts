@@ -352,13 +352,12 @@ export class InputContainerCodeComponent implements OnInit {
             this.TempContnrId = data[0].OPTM_CONTAINERID;
             this.TempContnrCode = this.containerCode;
             this.containerCode = '';
-            this.status = data[0].OPTM_STATUS;
-            this.getCountofParentContType();
+            this.status = data[0].OPTM_STATUS; 
 
-            // if(this.ShowParentField){
-            //   this.onParentContainerChange();
-            // } 
-           
+            if(this.ShowParentField){
+              this.getCountofParentContType();
+            }   
+            
             // this.isYesClick.emit({
             //   Status: "yes",
             //   From: this.fromWhere,
