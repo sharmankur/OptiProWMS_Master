@@ -185,7 +185,7 @@
                         <div class="wizard-box">
                             <div class="wizard-content">
                                 <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
-                                    [resizable]="true" [pageable]="pageable" [selectable]="true">
+                                    [resizable]="true" [pageable]="pageable" [selectable]="true" [height]="200">
                                     <ng-template kendoGridToolbarTemplate>
                                         <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
                                         <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button"
@@ -327,7 +327,7 @@
                         <div class="wizard-box">
                             <div class="wizard-content">
                                 <kendo-grid class="no-shadow" [data]="childContainerList" [resizable]="true" [sortable]="true"
-                                    [selectable]="true" id="gridItem" #gridItem>
+                                    [pageable]="pageable2" [selectable]="true" id="gridItem" #gridItem [height]="200">
 
                                     <ng-template kendoGridToolbarTemplate>
                                         <span class="grid-toolbar-title">{{'Child_Cont_List'|translate}}</span>
@@ -372,20 +372,22 @@
                                                     <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                 </ng-template>
                                             </kendo-grid-column>
-                                            <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails2">
-                                                    <kendo-grid [data]="dataItem.ItemBatchSerailData">
-                                                        <kendo-grid-column width="200" [width]="200" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
-                                                        </kendo-grid-column>
-                                                        <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
-                                                            class="text-right" headerClass="text-center">
-                                                            <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                                                <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
-                                                            </ng-template>
-                                                        </kendo-grid-column>
-                                                        <kendo-grid-column>
-                                                        </kendo-grid-column>
-                                                    </kendo-grid>
-                                                </ng-template>
+                                            <ng-template kendoGridDetailTemplate let-dataItem
+                                                [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails2">
+                                                <kendo-grid [data]="dataItem.ItemBatchSerailData">
+                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_ITEMCODE"
+                                                        title="{{'ItemCode'|translate}}">
+                                                    </kendo-grid-column>
+                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY"
+                                                        title="{{'Quantity'|translate}}" class="text-right" headerClass="text-center">
+                                                        <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                                            <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+                                                    <kendo-grid-column>
+                                                    </kendo-grid-column>
+                                                </kendo-grid>
+                                            </ng-template>
                                         </kendo-grid>
                                     </ng-template>
                                 </kendo-grid>

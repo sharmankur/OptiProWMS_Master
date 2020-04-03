@@ -127,7 +127,7 @@
                                         [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onContainerCodeChange()">
                                     <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm"
                                         [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled> -->
-                                        <input type="text" id="containerStatus" name="containerStatus" class="col-sm-4 form-control form-control-sm"
+                                    <input type="text" id="containerStatus" name="containerStatus" class="col-sm-4 form-control form-control-sm"
                                         [(ngModel)]="containerStatus" disabled>
                                 </div>
                             </div>
@@ -151,7 +151,8 @@
                                 <div class="input-group input-group-sm">
                                     <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
                                     <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanItemCode" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()" [attr.disabled]="disableFields?'':null">
+                                        [(ngModel)]="scanItemCode" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()"
+                                        [attr.disabled]="disableFields?'':null">
                                     <input type="number" id="itemQty" name="itemQty" class="col-sm-4 form-control form-control-sm text-right"
                                         [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" placeholder="{{'Quantity'|translate}}"
                                         (blur)="onItemQtyChange()">
@@ -174,11 +175,11 @@
                             <div class="col-12">
                                 <div class="float-right form-group row">
                                     <div class="input-group input-group-sm">
-                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text">
+                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
                                             {{'PrintLabel'|translate}}
                                         </button>
                                         <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
-                                            (click)="onConfirmClick()">
+                                            (click)="onConfirmClick()" disabled>
                                             {{'Confirm'|translate}}
                                         </button>
                                     </div>
@@ -209,7 +210,7 @@
                                         </button>
                                     </ng-template>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE" 
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE"
                                         headerClass="text-left" title="{{'ItemCode'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEMCODE}}</label>
@@ -233,13 +234,15 @@
                                             <label class="col-sm-3 col-form-label">{{dataItem.OPTM_BALANCE_QTY|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-left" [width]="30" title="{{'Action'|translate}}">
-                                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
-                                                    <span class="k-icon k-i-delete" role="presentation"></span>
-                                                </button>
-                                            </ng-template>
-                                        </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left"
+                                        class="text-left" [width]="30" title="{{'Action'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
+                                                (mousedown)="deleteItemCode(rowIndex, gridItem)">
+                                                <span class="k-icon k-i-delete" role="presentation"></span>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
                                     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
                                         <kendo-grid [data]="dataItem.TempLotNoList">
                                             <kendo-grid-column width="200" [width]="200" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
@@ -256,8 +259,15 @@
                                                     <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                 </ng-template>
                                             </kendo-grid-column>
-                                            <!-- <kendo-grid-column>
-                                            </kendo-grid-column> -->
+                                            <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left"
+                                                class="text-left" [width]="50" title="{{'Action'|translate}}">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
+                                                        (mousedown)="deleteLotNo(rowIndex, dataItem)">
+                                                        <span class="k-icon k-i-delete" role="presentation"></span>
+                                                    </button>
+                                                </ng-template>
+                                            </kendo-grid-column>
                                         </kendo-grid>
                                     </ng-template>
                                 </kendo-grid>
@@ -284,6 +294,11 @@
 
 <span *ngIf="showLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

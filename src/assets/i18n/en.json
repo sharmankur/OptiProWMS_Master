@@ -1063,6 +1063,11 @@
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
   "GeneratePicklistShipments": "Generate Picklist Shipments",
+  "DeleteBatchSrMsg": "Do you want to delete batch/serial?",
+  "DeleteItemCodeMsg": "Do you want to delete item code?",
+  "AutoRuleValidMsg": "Auto rule can't be blank",
+  "ContTypeValidMsg": "Container type can't be blank",
+  "RuleIdInvalidMsg": "Invalid rule id",
   
   "Dummy": "Dummy"
   
