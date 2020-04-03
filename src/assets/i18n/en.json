@@ -1063,7 +1063,7 @@
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
   "GeneratePicklistShipments": "Generate Picklist Shipments",
-  
+  "PackValueValidation":"You can not select other then first value",
   "Dummy": "Dummy"
   
 }
