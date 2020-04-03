@@ -20,9 +20,9 @@
                         <label for="CustomerTo" class="col-sm-5 col-form-label">{{'WO'|translate}}</label>
                         <div class="input-group col-sm-7">
                                 <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                        name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderChangeBlur()">
+                                        name="workOrder" [(ngModel)]="workOrder" ><!--(blur)="GetWorkOrderList('blur')"-->
                                 <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList('lookup')">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                 </div>
@@ -443,7 +443,7 @@
                                 <div class="col-sm-7">
                                     <div class="opti_input-group-checkbox">
                                         <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
-                                            (change)="onCheckChange()" />
+                                            (change)="onCheckChange($event)" [disabled]="createMode == 3" [checked]="autoClose" />
                                         <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
                                     </div>
                                 </div>
@@ -472,7 +472,7 @@
                            <!-- col start -->
                            <div class="col-sm-4">
                             <div class="form-group row">
-                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'MaxWeight/ContainerWeigth'|translate}}</label>
+                                <label for="containerWeigth" class="col-sm-5 col-form-label">{{'ContainerWeigth/MaxWeight'|translate}}</label>
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control form-control-sm text-right" name='containerWeigth'
@@ -662,8 +662,10 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                                <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Login_Reset'|translate}}</a> -->
+                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()" *ngIf="createMode != 2">{{'ScanCreate'|translate}}</a>
+                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()" 
+                                style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="createMode == 2">{{'ScanCreate'|translate}}</a>
+                                
                                 <!-- <a class="dropdown-item">{{'ResetCounter'|translate}}</a> -->
                                 <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'PrintLabel'|translate}}</a>
                                 <!-- <a class="dropdown-item cursor-pointer" (click)="onBuildParentContClick()">{{'BuildParentContainer'|translate}}</a> -->

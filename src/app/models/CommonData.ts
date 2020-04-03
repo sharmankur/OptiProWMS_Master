@@ -273,7 +273,18 @@ export class CommonData {
             { "Value": 9, "Name": this.translate.instant("CCancelledNew") }
         ];
     }
-    
+
+    Container_Shipment_Operations() {
+        return [
+            { "Value": 1, "Name": this.translate.instant("ViewCont") },
+            { "Value": 2, "Name": this.translate.instant("AssignToShipment") },
+            { "Value": 3, "Name": this.translate.instant("RemoveFromShipment") },
+            { "Value": 4, "Name": this.translate.instant("ReturnedByCustomer") },
+            { "Value": 5, "Name": this.translate.instant("SetDamaged") },
+            { "Value": 6, "Name": this.translate.instant("CloseCont") },
+            { "Value": 7, "Name": this.translate.instant("PostToInventory") }
+        ];
+    }    
 
     Shipment_Lines_Status_DropDown() {
         return [

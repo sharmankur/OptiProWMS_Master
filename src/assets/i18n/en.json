@@ -662,7 +662,7 @@
   "AutoCloseWhenFull": "Auto Close When Full",
   "SONumber": "SO Number",
   "SOLine": "SO Line",
-  "MaxWeight/ContainerWeigth": "Max Wt/Cont Wt",
+  "ContainerWeigth/MaxWeight": "Cont Wt/Max Wt",
   "AutoPackRule": "Auto Pack Rule",
   "InvQty": "Inv Qty",
   "Create": "Create",
@@ -695,6 +695,7 @@
   "Container_Code": "Container Code",
   "Contains_Item": "Contains Item",
   "Select_Shipment": "Select Shipment",
+  "View_Containers": "View Containers",
   "Purpose": "Purpose",
   "Warehouse": "Warehouse",
   "Assign_to_shipment": "Assign to shipment",
@@ -729,6 +730,7 @@
   "Materials_assigned_successfully": "Materials assigned to shipment successfully",
   "Enter_shipmentid": "Enter Shipment Id to Assign", 
   "Containers_assigned_successfully" : "Containers assigned to shipment successfully",
+  "Containers_removed_successfully" : "Containers removed from shipment successfully",
   "Row_Count": "Rows Selected",
   "Selected_Qty": "Quantity Allocated",
   "Enter_Assigned_Qty": "Enter Assign Quantity",
@@ -808,6 +810,7 @@
   "WhsZone": "Warehouse Zone",
   "CreatedDate": "Created Date",
   "ContainerCreatedSuccessMsg": "Container created successfully.",
+  "ParentContainerCreatedSuccessMsg": "Parent Container created successfully.",
   "SelectWhsCodeFirst": "Please select Wareshouse code first",
   
   "CTLengthMsg": "Container length should be greater than 0.",
@@ -1069,6 +1072,18 @@
   "ContTypeValidMsg": "Container type can't be blank",
   "RuleIdInvalidMsg": "Invalid rule id",
   
+  "CannotScanCreate": "Cannot Scan & Create container for Serial Tracked item",
+  "InvalidSOAutoRule": "Item in the rule does not belogs to this SO number",
+
+  "ViewCont": "View container",
+  "AssignToShipment": "Assign to shipment",
+  "RemoveFromShipment": "Remove from shipment",
+  "ReturnedByCustomer": "Returned by customer",
+  "SetDamaged": "Set damaged",
+  "CloseCont": "Close container",
+  "PostToInventory": "Post to inventory",
+
+  "PackValueValidation":"You can not select other then first value",
   "Dummy": "Dummy"
   
 }
