@@ -18,41 +18,41 @@ export class GeneratePickComponent implements OnInit {
   hideLookup: boolean = true;
   public mobileMedia = "(max-width: 767px)";
   public desktopMedia = "(min-width: 768px)";
-  WareHouse: string="";
+  WareHouse: string = "";
   showLoader: boolean = false;
-  CustomerFrom: string="";
-  CustomerTo: string="";
-  ShipToCodeFrom: string="";
-  ShipToCodeTo: string="";
-  Dock_DoorFrom: string="";
-  Dock_DoorTo: string="";
-  Schedule_DatetimeFrom: string="";
-  Schedule_DatetimeTo: string="";
-  ItemFrom: string="";
-  ItemTo: string="";
-  CarrierCodeFrom: string="";
-  CarrierCodeTo: string="";
+  CustomerFrom: string = "";
+  CustomerTo: string = "";
+  ShipToCodeFrom: string = "";
+  ShipToCodeTo: string = "";
+  Dock_DoorFrom: string = "";
+  Dock_DoorTo: string = "";
+  Schedule_DatetimeFrom: string = "";
+  Schedule_DatetimeTo: string = "";
+  ItemFrom: string = "";
+  ItemTo: string = "";
+  CarrierCodeFrom: string = "";
+  CarrierCodeTo: string = "";
   PickContainer: boolean;
-  TaskPlanDT: string="";
-  Priority: string="99";
-  SONoFrom: string="";
-  SONoTo: string="";
-  WOFrom: string="";
-  WOTo: string="";
-  ShipIdFrom: string="";
-  ShipIdTo: string="";
-  ShipmentCodeFrom: string="";
-  ShipmentCodeTo: string="";
-  PickListBasis: string="";
-  Pick_Type: string="";
-  Pick_Operation: string="";
+  TaskPlanDT: string = "";
+  Priority: string = "99";
+  SONoFrom: string = "";
+  SONoTo: string = "";
+  WOFrom: string = "";
+  WOTo: string = "";
+  ShipIdFrom: string = "";
+  ShipIdTo: string = "";
+  ShipmentCodeFrom: string = "";
+  ShipmentCodeTo: string = "";
+  PickListBasis: string = "";
+  Pick_Type: string = "";
+  Pick_Operation: string = "";
   PackListBasisArray: any[] = [];
   PackTypeList: any[] = [];
   PickOperationList: any[] = [];
   isSODisabled: boolean;
   isWODisabled: boolean;
   isSHIdDisabled: boolean;
-  Plan_Shift: string="";
+  Plan_Shift: string = "";
   pickListBasisIndex = 1;
   pickTypeIndex = 1;
   pickOperationIndex = 1;
@@ -99,6 +99,7 @@ export class GeneratePickComponent implements OnInit {
     if (soNum == "" || soNum == null || soNum == undefined) {
       return;
     }
+
     this.showLoader = true;
     this.commonservice.IsValidAllocatedShipmentCode(soNum).subscribe(
       (data: any) => {
@@ -109,7 +110,7 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "ShipIdFrom") {
               this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
               this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
@@ -201,7 +202,7 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "ShipFrom") {
               this.ShipToCodeFrom = data[0].Address;
             }
@@ -291,7 +292,7 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = data[0].CardCode;
             }
@@ -366,7 +367,7 @@ export class GeneratePickComponent implements OnInit {
   //#endregion
   //#region "Warehouse"
   IsValidWhseCode() {
-    if(this.WareHouse == undefined || this.WareHouse == ""){
+    if (this.WareHouse == undefined || this.WareHouse == "") {
       return;
     }
     this.showLoader = true;
@@ -590,7 +591,7 @@ export class GeneratePickComponent implements OnInit {
             }
             else if (fieldName == "DDTo") {
               this.Dock_DoorTo = data[0].OPTM_DOCKDOORID;
-            }            
+            }
           } else {
             if (fieldName == "DDFrom") {
               this.Dock_DoorFrom = "";
@@ -655,9 +656,9 @@ export class GeneratePickComponent implements OnInit {
 
   IsValidCarrier(fromField) {
     let CarrierCode;
-    if(fromField == "CCFrom"){
+    if (fromField == "CCFrom") {
       CarrierCode = this.CarrierCodeFrom;
-    }else{
+    } else {
       CarrierCode = this.CarrierCodeTo;
     }
     if (CarrierCode == "" || CarrierCode == null || CarrierCode == undefined) {
@@ -674,23 +675,23 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            if(fromField == "CCFrom"){
+            if (fromField == "CCFrom") {
               this.CarrierCodeFrom = data[0].OPTM_CARRIERID;
-            }else{
+            } else {
               this.CarrierCodeTo = data[0].OPTM_CARRIERID;
             }
           } else {
-            if(fromField == "CCFrom"){
+            if (fromField == "CCFrom") {
               this.CarrierCodeFrom = "";
-            }else{
+            } else {
               this.CarrierCodeTo = "";
             }
             this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
           }
         } else {
-          if(fromField == "CCFrom"){
+          if (fromField == "CCFrom") {
             this.CarrierCodeFrom = "";
-          }else{
+          } else {
             this.CarrierCodeTo = "";
           }
           this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
@@ -730,7 +731,7 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "SONoFrom") {
               this.SONoFrom = data[0].DocNum;
             }
@@ -824,7 +825,7 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {        
+          if (data.length > 0) {
             if (fieldName == "WOFrom") {
               this.WOFrom = data[0].OPTM_WONO;
             }
@@ -982,24 +983,48 @@ export class GeneratePickComponent implements OnInit {
     if (event == this.PackTypeList[2]) {
       this.Pick_Operation = this.PickOperationList[2];
       this.pickOperationIndex = 3;
-    } 
-  } 
- 
-  onPickOperationChange(event,selectedvalue) {
+      this.iscontainerpicking = true;
+    } else {
+      this.iscontainerpicking = false;
+    }
+
+    switch (event) {
+      case this.PackTypeList[0]:
+      case this.PackTypeList[1]:
+      case this.PackTypeList[4]:
+        this.Pick_Operation = this.PickOperationList[0];
+        this.pickOperationIndex = 1;
+        break;
+    }
+  }
+
+  onPickOperationChange(event, selectedvalue) {
     this.pickOperationIndex = this.PickOperationList.indexOf(event);
     this.pickOperationIndex = this.pickOperationIndex + 1;
-    this.Pick_Operation = "";
-    if(this.Pick_Type == this.PackTypeList[0]){
-      this.toastr.error("", this.translate.instant("PackValueValidation"));
-      selectedvalue.text = this.PickOperationList[0];
-      this.Pick_Operation = this.PickOperationList[0];
-    }else{
-      selectedvalue.text = event;
-      this.Pick_Operation =selectedvalue.dataItem;
+    switch (this.Pick_Type) {
+      case this.PackTypeList[0]:
+        if (event == this.PickOperationList[1]) {
+          this.toastr.error("", this.translate.instant("BatchPickingErrMsg"));
+          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          this.pickOperationIndex = 1;
+        }
+        // break;
+      case this.PackTypeList[1]:
+        if (event == this.PickOperationList[1]) {
+          this.toastr.error("", this.translate.instant("ClusterPickingErrMsg"));
+          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          this.pickOperationIndex = 1;
+        }
+        // break;
+      case this.PackTypeList[4]:
+        if (event == this.PickOperationList[1]) {
+          this.toastr.error("", this.translate.instant("ZonePickingErrMsg"));
+          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          this.pickOperationIndex = 1;
+        }
+        // break;
+     
     }
-   
-
-    
   }
 
   //#region "validation"
@@ -1007,18 +1032,18 @@ export class GeneratePickComponent implements OnInit {
     if (this.Pick_Operation == "" || this.Pick_Operation == undefined || this.Pick_Operation == null) {
       this.toastr.error("", this.translate.instant("Pick_Opr_val_Msg"));
       return false;
-    }else if (this.Pick_Type == "" || this.Pick_Type == undefined || this.Pick_Type == null) {
+    } else if (this.Pick_Type == "" || this.Pick_Type == undefined || this.Pick_Type == null) {
       this.toastr.error("", this.translate.instant("Pick_Type_val_Msg"));
       return false;
-    }else if(this.WareHouse == "" || this.WareHouse == undefined || this.WareHouse == null){
+    } else if (this.WareHouse == "" || this.WareHouse == undefined || this.WareHouse == null) {
       this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"));
       return false;
-    }else if(this.Priority == "" || this.Priority == undefined || this.Priority == null){
+    } else if (this.Priority == "" || this.Priority == undefined || this.Priority == null) {
       let priority = Number(this.Priority);
-      if(priority < 1 && priority > 99){
+      if (priority < 1 && priority > 99) {
         this.Priority = "99";
       }
-    }  
+    }
     return true;
   }
   //#endregion
@@ -1029,7 +1054,7 @@ export class GeneratePickComponent implements OnInit {
 
   //#region "Generate"
   onGenerateClick() {
-    if(!this.ValidateFields()){
+    if (!this.ValidateFields()) {
       return;
     }
     this.generatePickList();
@@ -1046,9 +1071,9 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.OUTPUT[0].RESULT == "Picklist created"){
+          if (data.OUTPUT[0].RESULT == "Picklist created") {
             this.toastr.success('', this.translate.instant("Picklist_Created_Msg"));
-          }else{
+          } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {

@@ -1067,6 +1067,10 @@
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
   "GeneratePicklistShipments": "Generate Picklist Shipments",
+
+  "BatchPickingErrMsg": "Pick Container operation is not allowed for Batch Picking",
+  "ClusterPickingErrMsg": "Pick Container operation is not allowed for Cluster Picking",
+  "ZonePickingErrMsg": "Pick Container operation is not allowed for Zone Picking",
   "DeleteBatchSrMsg": "Do you want to delete batch/serial?",
   "DeleteItemCodeMsg": "Do you want to delete item code?",
   "AutoRuleValidMsg": "Auto rule can't be blank",
@@ -1085,8 +1089,9 @@
   "SetDamaged": "Set damaged",
   "CloseCont": "Close container",
   "PostToInventory": "Post to inventory",
-
+  "SumBSValidMsg": "Sum of batch/serial qty can't be greater than balance qty",
   "PackValueValidation":"You can not select other then first value",
+  "ItemQtyBlankMsg": "Item qty can't be blank",
   "Dummy": "Dummy"
   
 }

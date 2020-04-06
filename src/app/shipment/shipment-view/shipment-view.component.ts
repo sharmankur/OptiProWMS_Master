@@ -438,10 +438,10 @@ export class ShipmentViewComponent implements OnInit {
       this.toastr.error('', this.translate.instant("ScheduleTimeBlank"));
       return false;
     }
-    //else if (this.DockDoor == undefined || this.DockDoor == "") {
-    //   this.toastr.error('', this.translate.instant("InvalidDock_Door"));
-    //   return false;
-    // }
+    else if (this.DockDoor == undefined || this.DockDoor == "") {
+      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+      return false;
+    }
     // else if (this.CarrierCode == undefined || this.CarrierCode == "") {
     //   this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
     //   return false;

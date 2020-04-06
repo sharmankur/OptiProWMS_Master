@@ -867,6 +867,7 @@ export class AddItemToContComponent implements OnInit {
         // OPTM_RULE_QTY: data[0].OPTM_PARTS_PERCONT,
         OPTM_TRACKING: this.scanCurrentItemData[0].LOTTRACKINGTYPE,
         OPTM_BALANCE_QTY: (this.autoRuleId == "" || this.autoRuleId == undefined) ? this.scanCurrentItemData[0].OPTM_PARTS_PERCONT : this.itemQty,
+        OPTM_REMAIN_BAL_QTY: (this.autoRuleId == "" || this.autoRuleId == undefined) ? this.scanCurrentItemData[0].OPTM_PARTS_PERCONT : this.itemQty,
         TempLotNoList: [],
       })
     }
@@ -876,6 +877,7 @@ export class AddItemToContComponent implements OnInit {
       for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
         if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
           this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = this.itemQty;
+          this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = this.itemQty;
           this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY = this.itemQty;
         }
       }
@@ -884,11 +886,13 @@ export class AddItemToContComponent implements OnInit {
         if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
           if (this.itemQty > this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY) {
             this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = 0
+            this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = 0
             this.itemQty = 0
             this.toastr.error('', this.translate.instant("Balance qty can't be greater than available item qty"));
             return;
           } else {
             this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = this.itemQty;
+            this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = this.itemQty;
           }
         }
       }
@@ -899,9 +903,9 @@ export class AddItemToContComponent implements OnInit {
     var sum = 0
     for (var i = 0; i < this.oSaveModel.OtherBtchSerDTL.length; i++) {
       if (this.scanItemCode == this.oSaveModel.OtherBtchSerDTL[i].OPTM_ITEMCODE) {
-        if (this.scanBSrLotNo == this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER) {
-          sum = sum + Number("" + this.oSaveModel.OtherBtchSerDTL[i].OPTM_QUANTITY)
-        }
+        // if (this.scanBSrLotNo == this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER) {
+        sum = sum + Number("" + this.oSaveModel.OtherBtchSerDTL[i].OPTM_QUANTITY)
+        // }
       }
     }
     sum = sum + this.bsItemQty;
@@ -911,44 +915,76 @@ export class AddItemToContComponent implements OnInit {
         var qty = this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY;
         if (qty > 0) {
           if (sum > qty) {
-            return false;
+            return -1;
           }
         }
       }
     }
-    return true;
+    return sum;
   }
 
   onBSQtyChange() {
     if (this.itemQty == undefined || this.itemQty == 0) {
       this.bsItemQty = 0
-      this.toastr.error('', this.translate.instant("Item qty can't be blank"));
+      this.toastr.error('', this.translate.instant("ItemQtyBlankMsg"));
       return
     }
     if (this.bsItemQty == undefined || this.bsItemQty == 0) {
       return
     }
     // this.updateGridOnLotNoScan(this.scanCurrentLotNoData)
-    if (!this.validateBSQty()) {
+    var sumOfAllLots = this.validateBSQty()
+    if (sumOfAllLots == -1) {
       this.bsItemQty = 0
-      this.toastr.error('', this.translate.instant("Sum of batch/serial qty can't be greater than balance qty"));
+      this.toastr.error('', this.translate.instant("SumBSValidMsg"));
       return;
+    } else {
+
+    }
+
+    //Update remaining qty in other items list
+    for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
+      if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
+        var remSum = Number("" + this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY) - sumOfAllLots;
+        this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = remSum;
+        break;
+      }
     }
 
     //For send on server
-    this.oSaveModel.OtherBtchSerDTL.push({
-      OPTM_BTCHSER: this.scanBSrLotNo,
-      OPTM_AVL_QTY: this.scanCurrentLotNoData[0].TOTALQTY,
-      OPTM_ITEMCODE: this.scanCurrentLotNoData[0].ITEMCODE,
-      OPTM_TRACKING: this.scanCurrentLotNoData[0].OPTM_TRACKING,
-      OPTM_QUANTITY: this.bsItemQty,
-    })
+    if (!this.isLotNoContain(this.oSaveModel.OtherBtchSerDTL, this.scanBSrLotNo)
+      || this.oSaveModel.OtherBtchSerDTL.length == 0) {
+      this.oSaveModel.OtherBtchSerDTL.push({
+        OPTM_BTCHSER: this.scanBSrLotNo,
+        OPTM_AVL_QTY: this.scanCurrentLotNoData[0].TOTALQTY,
+        OPTM_ITEMCODE: this.scanCurrentLotNoData[0].ITEMCODE,
+        OPTM_TRACKING: this.scanCurrentLotNoData[0].OPTM_TRACKING,
+        OPTM_QUANTITY: this.bsItemQty,
+      })
+    } else {
+      var sumOfLots = 0
+      for (var i = 0; i < this.oSaveModel.OtherBtchSerDTL.length; i++) {
+        if (this.scanItemCode == this.oSaveModel.OtherBtchSerDTL[i].OPTM_ITEMCODE) {
+          if (this.scanBSrLotNo == this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER) {
+            sumOfLots = sumOfLots + Number("" + this.oSaveModel.OtherBtchSerDTL[i].OPTM_QUANTITY);
+          }
+        }
+      }
+
+      for (var i = 0; i < this.oSaveModel.OtherBtchSerDTL.length; i++) {
+        if (this.scanItemCode == this.oSaveModel.OtherBtchSerDTL[i].OPTM_ITEMCODE) {
+          if (this.scanBSrLotNo == this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER) {
+            this.oSaveModel.OtherBtchSerDTL[i].OPTM_QUANTITY = sumOfLots + this.bsItemQty;
+            break;
+          }
+        }
+      }
+    }
 
     // For display list
     for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
       if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
         if (this.scanItemTracking == "S") {
-          // this.oSaveModel.OtherItemsDTL[i].TempLotNoList = []
           for (var j = 0; j < this.bsItemQty; j++) {
             this.oSaveModel.OtherItemsDTL[i].TempLotNoList.push({
               OPTM_BTCHSER: this.scanBSrLotNo,
@@ -959,14 +995,30 @@ export class AddItemToContComponent implements OnInit {
             })
           }
         } else {
-          // this.oSaveModel.OtherItemsDTL[i].TempLotNoList = []
-          this.oSaveModel.OtherItemsDTL[i].TempLotNoList.push({
-            OPTM_BTCHSER: this.scanBSrLotNo,
-            OPTM_AVL_QTY: this.scanCurrentItemData[0].TOTALQTY,
-            OPTM_ITEMCODE: this.scanCurrentItemData[0].ITEMCODE,
-            OPTM_TRACKING: this.scanCurrentItemData[0].OPTM_TRACKING,
-            OPTM_QUANTITY: this.bsItemQty,
-          })
+          if (!this.isLotNoContain(this.oSaveModel.OtherItemsDTL[i].TempLotNoList, this.scanBSrLotNo)
+            || this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length == 0) {
+            this.oSaveModel.OtherItemsDTL[i].TempLotNoList.push({
+              OPTM_BTCHSER: this.scanBSrLotNo,
+              OPTM_AVL_QTY: this.scanCurrentItemData[0].TOTALQTY,
+              OPTM_ITEMCODE: this.scanCurrentItemData[0].ITEMCODE,
+              OPTM_TRACKING: this.scanCurrentItemData[0].OPTM_TRACKING,
+              OPTM_QUANTITY: this.bsItemQty,
+            })
+          } else {
+            var sumOfLots = 0
+            for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
+              if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
+                sumOfLots = sumOfLots + Number("" + this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY);
+              }
+            }
+
+            for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
+              if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
+                this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots + this.bsItemQty;
+                break;
+              }
+            }
+          }
         }
       }
     }
@@ -1109,7 +1161,7 @@ export class AddItemToContComponent implements OnInit {
     oCreateModel.OtherBtchSerDTL = [];
 
     var createMode = 1;
-    if(this.autoRuleId == undefined || this.autoRuleId == ""){
+    if (this.autoRuleId == undefined || this.autoRuleId == "") {
       createMode = 3
     } else {
       createMode = 1
@@ -1235,15 +1287,33 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
-  deleteIndex: any;
-  deleteItem: any;
   deleteLotNo(index: any, item: any) {
-    this.deleteIndex = index;
-    this.deleteItem = item;
-    this.showDialog("DeleteLotNo", this.translate.instant("yes"), this.translate.instant("no"),
-      this.translate.instant("DeleteBatchSrMsg"));
+    for (var i = 0; i < this.oSaveModel.OtherBtchSerDTL.length; i++) {
+      if (this.oSaveModel.OtherBtchSerDTL[i].OPTM_ITEMCODE == item.OPTM_ITEMCODE
+        && this.oSaveModel.OtherBtchSerDTL[i].OPTM_BTCHSER == item.OPTM_BTCHSER) {
+        this.oSaveModel.OtherBtchSerDTL.splice(i, 1);
+        break;
+      }
+    }
+
+    var deletedIndex = 0
+    for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
+      deletedIndex = i;
+      for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
+        if (this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE == item.OPTM_ITEMCODE
+          && this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER == item.OPTM_BTCHSER) {
+            this.oSaveModel.OtherItemsDTL[i].TempLotNoList.splice(j, 1);
+          break
+        }
+      }
+    }
+
+    //update/revert/increase item qty if delete batch/serial
+    this.oSaveModel.OtherItemsDTL[deletedIndex].OPTM_REMAIN_BAL_QTY = this.oSaveModel.OtherItemsDTL[deletedIndex].OPTM_REMAIN_BAL_QTY + item.OPTM_QUANTITY
   }
 
+  deleteIndex: any;
+  deleteItem: any;
   deleteItemCode(index: any, item: any) {
     this.deleteIndex = index;
     this.deleteItem = item;
