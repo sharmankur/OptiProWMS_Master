@@ -1082,8 +1082,9 @@
   "SetDamaged": "Set damaged",
   "CloseCont": "Close container",
   "PostToInventory": "Post to inventory",
-
+  "SumBSValidMsg": "Sum of batch/serial qty can't be greater than balance qty",
   "PackValueValidation":"You can not select other then first value",
+  "ItemQtyBlankMsg": "Item qty can't be blank",
   "Dummy": "Dummy"
   
 }
