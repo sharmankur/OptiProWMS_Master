@@ -1058,6 +1058,7 @@
   "Child_Cont_List" : "Child Container List",
   "Container_Assigned_To_Parent": "Container assigned to Parent Container successfully",
   "Container_Removed_From_Parent": "Container removed from Parent Container successfully",
+  "EnterWHSEandBin" : "Please select Warehouse and Bin",
       
   "BtchSrNBlank": "Batch/Serial can't be blank",
   "ItemQty": "Item Qty",
@@ -1066,6 +1067,10 @@
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
   "GeneratePicklistShipments": "Generate Picklist Shipments",
+
+  "BatchPickingErrMsg": "Pick Container operation is not allowed for Batch Picking",
+  "ClusterPickingErrMsg": "Pick Container operation is not allowed for Cluster Picking",
+  "ZonePickingErrMsg": "Pick Container operation is not allowed for Zone Picking",
   "DeleteBatchSrMsg": "Do you want to delete batch/serial?",
   "DeleteItemCodeMsg": "Do you want to delete item code?",
   "AutoRuleValidMsg": "Auto rule can't be blank",

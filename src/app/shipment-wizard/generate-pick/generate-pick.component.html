@@ -426,9 +426,8 @@
                                             <label for="Pick_Operation" class="col-sm-4 col-form-label">{{'Pick_Operation'|translate}}</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
-                                                    <kendo-dropdownlist [data]="PickOperationList" id="Pick_Operation" #selectedvalue  
-                                                     (selectionChange)="onPickOperationChange($event, selectedvalue)" name="Pick_Operation" [(ngModel)]="Pick_Operation"
-                                                    >
+                                                    <kendo-dropdownlist [data]="PickOperationList" id="Pick_Operation" #selectedvalue (selectionChange)="onPickOperationChange($event, selectedvalue)"
+                                                        name="Pick_Operation" [(ngModel)]="Pick_Operation" [disabled]=iscontainerpicking>
                                                     </kendo-dropdownlist>
                                                 </div>
                                             </div> 
