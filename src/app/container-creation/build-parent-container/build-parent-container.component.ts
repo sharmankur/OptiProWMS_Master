@@ -835,7 +835,9 @@ export class BuildParentContainerComponent implements OnInit {
       OPTM_SOURCE: 3,    
       OPTM_ParentContainerType: this.parentContainerType,
       OPTM_ParentPerQty: this.ParentPerQty,  
-      IsWIPCont: false  
+      IsWIPCont: false,
+      OPTM_WONO: "",
+      OPTM_OPERNO: ""
     });
 
     this.showLoader = true;
@@ -851,7 +853,7 @@ export class BuildParentContainerComponent implements OnInit {
           if (data.length > 0) {
 
             if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
-              this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+              this.toastr.error('', data[0].ErrMsg);
               return;
             }
 
