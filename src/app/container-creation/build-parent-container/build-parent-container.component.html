@@ -121,33 +121,44 @@
                                             <label class="col-sm-4 col-form-label">{{'Parent_Cont_Code'|translate}}</label>
                                             <input type="text" id="parentcontainerCode" name="parentcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
                                                 [(ngModel)]="parentcontainerCode" (blur)="onParentContainerCodeChange()">                                
-                                            <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm"
-                                            [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>  
+                                            <!-- <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm"
+                                            [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>   -->
                                         </div>
                                     </div>
-                                    <div class="form-group form-check-inline ml-1">                                                           
-                                            <input type="radio" class="form-check-input" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" 
-                                            value="Add">
-                                            <label class="col-form-label" for="addItem">{{'CT_Add'|translate}}</label>
-                                            <input type="radio" class="form-check-input ml-3" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" 
-                                            value="Remove">
-                                            <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                            
-                                    </div>
+
                                     <div class="form-group row">
                                         <div class="input-group input-group-sm">
                                             <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                             <input type="text" id="childcontainerCode" name="childcontainerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                                [(ngModel)]="childcontainerCode" (blur)="onItemCodeChange()">
-                                            <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm "
-                                                [(ngModel)]="count"> -->
+                                                [(ngModel)]="childcontainerCode" (blur)="onChildContCodeChange()">                                            
                                         </div>
                                     </div>
+
+                                    <div class="form-group form-check-inline mt-2"> 
+
+                                        <label class="col-sm-3 row col-form-label">{{'Count'|translate}}</label>
+                                        <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm text-right"
+                                        [(ngModel)]="count" placeholder="{{'Count'|translate}}" title="{{'Parent_Count'|translate}}" disabled>    
+
+                                        <label class="col-sm-4 col-form-label ml-3">{{'Remaining_Qty'|translate}}</label>
+                                        <input type="text" id="RemQty" name="RemQty" class="col-sm-2 form-control form-control-sm text-right"
+                                        [(ngModel)]="RemQty" placeholder="{{'Remaining_Qty'|translate}}" title="{{'Remaining_Qty'|translate}}" disabled> 
+                                    
+                                    </div>
+
+                                    <div class="form-group form-check-inline ml-1 mt-2">                                                           
+                                        <input type="radio" class="form-check-input" id="radioAdd" name="radioAdd" [(ngModel)]="RadioAction" value="Add">
+                                        <label class="col-form-label" for="addItem">{{'CT_Add'|translate}}</label>
+                                        <input type="radio" class="form-check-input ml-3" id="radioRemove" name="radioRemove" [(ngModel)]="RadioAction" value="Remove">
+                                        <label class="col-form-label" for="removeItem">{{'Remove'|translate}}</label>                            
+                                    </div>
+
                                 </div>
             
                                 <div class="fix-footer-btnBar">
                                     <div class="col-sm-12 col-12">
                                         <div class="float-right form-group row">
-                                            <div class="input-group input-group-sm">
+                                            <div class="input-group input-group-sm col-sm-2">
                                                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
                                                     {{'PrintLabel'|translate}}
                                                 </button>
@@ -168,7 +179,7 @@
                         <div class="wizard-container mt-3">
                            <div class="wizard-box">
                             <div class="wizard-content">
-                            <kendo-grid class="no-shadow" [data]="addItemList" [height]="200" [resizable]="true" [sortable]="true"
+                            <kendo-grid class="no-shadow" [data]="addItemList" [height]="175" [resizable]="true" [sortable]="true"
                                 [selectable]="true" id="gridItem" #gridItem>
         
                                 <ng-template kendoGridToolbarTemplate>

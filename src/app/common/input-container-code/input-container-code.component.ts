@@ -116,6 +116,8 @@ export class InputContainerCodeComponent implements OnInit {
   onParentContainerChange(){
     this.count = 0;
     if(this.parentContainerCode == '' || this.parentContainerCode == undefined){
+      this.containerCode = '';
+      this.RemainingQty = 0;
       return;
     }
     //alert(this.RadioAction);
@@ -138,7 +140,48 @@ export class InputContainerCodeComponent implements OnInit {
           }
          
           this.TotalQty =  this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentPerQty;  
-          this.RemainingQty = this.TotalQty - this.count;     
+          this.RemainingQty = this.TotalQty - this.count;  
+          this.IsvalidParentCode();   
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsvalidParentCode(){
+    this.showLoader = true;
+    this.containerCreationService.GetAllContainer(this.parentContainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length == 0) {
+          
+          if(this.RadioAction == "Add"){
+            this.CreateFlag = false;
+            this.GenerateShipContainer('Parent');
+          }
+          else{
+             this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+             this.parentContainerCode = '';
+             this.RemainingQty = 0;
+             this.containerCode = '';
+          }
+        } 
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -156,8 +199,13 @@ export class InputContainerCodeComponent implements OnInit {
   }
 
   onContainerCodeChange(){
+
+    if(this.containerCode == "" || this.containerCode == undefined){
+      return;
+    }
+
     this.CreateFlag = false;
-    this.GenerateShipContainer();
+    this.GenerateShipContainer('child');
     // this.showLoader = true;
     // this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
     //   (data: any) => {
@@ -192,7 +240,44 @@ export class InputContainerCodeComponent implements OnInit {
     // );
   }
 
-  GenerateShipContainer() {
+  getCountofParentContType(){
+    this.showLoader = true;
+    this.containerCreationService.GetCountOfParentContainer(this.parentContainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data[0].Count == undefined){
+            this.count= data[0].COUNT;  
+          }
+          else{
+            this.count= data[0].Count;  
+          }
+         
+          this.TotalQty =  this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentPerQty;  
+          this.RemainingQty = this.TotalQty - this.count; 
+          
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  GenerateShipContainer(type) {
 
     if(this.CreateFlag){
       return;
@@ -210,14 +295,22 @@ export class InputContainerCodeComponent implements OnInit {
       return;
     }  
     
-    if(this.containerCode == "" || this.containerCode == undefined){
-      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
-      return;
-    }    
+    if(type == 'child'){
 
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
-    this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;   
+      if(this.containerCode == "" || this.containerCode == undefined){
+        this.toastr.error('', this.translate.instant("Enter_Container_Code"));
+        return;
+      }  
+
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;  
+    }
+    else{
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.parentContainerCode;
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.parentContainerCode;
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = '';  
+    } 
 
     if(this.RadioAction == "Add"){
     this.showLoader = true;
@@ -237,20 +330,34 @@ export class InputContainerCodeComponent implements OnInit {
 
           if(data != null && data.length > 0){
             if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
-              this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
+              this.toastr.error('',data[0].ErrMsg);
               return;
-            }            
-            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));           
+            } 
+
+            if(data[0].RESULT != undefined && data[0].RESULT != null){
+              this.toastr.error('', data[0].RESULT);
+              return;             
+            }
+
+            if(type == 'child'){
+              this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));           
+            }    
+            else{
+              this.toastr.success('', this.translate.instant("ParentContainerCreatedSuccessMsg"));
+              this.getCountofParentContType();
+              return;
+            }   
+
             this.CreateFlag = true;
             this.TempContnrId = data[0].OPTM_CONTAINERID;
             this.TempContnrCode = this.containerCode;
             this.containerCode = '';
-            this.status = data[0].OPTM_STATUS;
+            this.status = data[0].OPTM_STATUS; 
 
             if(this.ShowParentField){
-              this.onParentContainerChange();
-            } 
-           
+              this.getCountofParentContType();
+            }   
+            
             // this.isYesClick.emit({
             //   Status: "yes",
             //   From: this.fromWhere,

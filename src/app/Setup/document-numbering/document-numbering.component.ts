@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
@@ -31,7 +31,7 @@ export class DocumentNumberingComponent implements OnInit {
   public ddlBusiness: any[];
   public selectedValue: string = '';
   // @ViewChild("display_name") display_name;
-  
+
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
     private translate: TranslateService, private carmainComponent: CARMainComponent,
     private carmasterService: CARMasterService, private router: Router, private docService: DocumentNumberingService
@@ -113,12 +113,15 @@ export class DocumentNumberingComponent implements OnInit {
     var IsDDLValueDuplicate = this.DocGridData.filter(function (el) {
       return el.OPTM_BUSINESS_OBJECT == dataitem.OPTM_BUSINESS_OBJECT;
     });
-    if (IsDDLValueDuplicate.length > 1) {
+    this.DocGridData[index].OPTM_BUSINESS_OBJECT = event.value
+    if (IsDDLValueDuplicate.length > 0) {
+      // document.getElementById("display_name").focus()
       // this.DocGridData.splice(index, 1);
-      // this.DocGridData[index].OPTM_BUSINESS_OBJECT = ''
       this.toastr.error('', this.translate.instant("DuplicateBusinessMsg"));
+      setTimeout(() => {
+        this.DocGridData[index].OPTM_BUSINESS_OBJECT = ''
+      }, 100)
     }
-
     console.log(this.DocGridData)
   }
   getLookupValue($event) {

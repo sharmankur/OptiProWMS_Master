@@ -51,6 +51,10 @@ export class ContainerShipmentComponent implements OnInit {
   SOId: string = "";
   isColumnFilterView: boolean = false;
   ContainerBuildSourceArray: any = [];
+  SelectedLinkTitle: any = '';
+  Selectedlink: number = 1;
+  containerGroupCode: string = "";
+  ContainerOperationArray: any = [];
   //statusArrMulti: any = [];
   
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
@@ -62,7 +66,10 @@ export class ContainerShipmentComponent implements OnInit {
         this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
         this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
         this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
-        this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
+        this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();     
+        this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();   
+        this.Selectedlink = 1;
+        this.SelectedLinkTitle = this.ContainerOperationArray[0].Name;
       });
     }
 
@@ -71,6 +78,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
     this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
     this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
+    this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();
     
     // this.statusArrMulti = [];
     // for(let i=0; i<this.statusArray.length; i++){
@@ -100,7 +108,7 @@ export class ContainerShipmentComponent implements OnInit {
 
       this.IsShipment = false;
     }
-    this.fillDataInGridWithShipment();
+    this.fillDataInGridWithShipment(1);
   }
 
   ngOnDestroy() {
@@ -109,11 +117,18 @@ export class ContainerShipmentComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
-  fillDataInGridWithShipment() {
+  setContainerOperation(){
+    return this.ContainerOperationArray[Number(this.Selectedlink) - 1].Name;   
+  }
+
+  fillDataInGridWithShipment(value) {
+    this.Selectedlink = value;
+    this.SelectedLinkTitle = this.setContainerOperation();
+    
     this.isColumnFilterView = false;
     this.showLoader = true;
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
-      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId).subscribe(
+      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId, this.Selectedlink).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -162,15 +177,8 @@ export class ContainerShipmentComponent implements OnInit {
     return this.ContainerBuildSourceArray[Number(builtsource) - 1].Name;   
   }
 
-  onQueryBtnClick() {
-    // if (this.PurposeId != undefined && this.PurposeId != null && this.PurposeId != '') {
-    //   if (this.PurposeId.Value == '1')
-    //     this.shipeligible = "Y";
-    //   else
-    //     this.shipeligible = "N";
-    // }
-
-    this.fillDataInGridWithShipment();
+  onQueryBtnClick() {    
+    this.fillDataInGridWithShipment(this.Selectedlink);
   }
 
   getContainerType() {
@@ -556,6 +564,73 @@ export class ContainerShipmentComponent implements OnInit {
     );
   }
 
+  GetDataForContainerGroup() {
+    this.showLoader = true;
+    this.commonservice.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "GroupCodeList";
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidContainerGroup() {
+    if (this.containerGroupCode == undefined || this.containerGroupCode == "") {
+      return
+    }
+
+    this.showLoader = true;
+    this.commonservice.IsValidContainerGroup(this.containerGroupCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.containerGroupCode = data[0].OPTM_CONTAINER_GROUP;
+          } else {
+            this.containerGroupCode = '';
+            this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   selectContainerRowChange(isCheck, dataitem, idx) {
     if (isCheck) {
       for(let i=0; i<this.ContainerItems.length; i++){
@@ -606,7 +681,13 @@ export class ContainerShipmentComponent implements OnInit {
       }
     }
   }
-   
+
+  onAssignShipmentPress(){
+    this.Selectedlink = 2;
+    this.SelectedLinkTitle = this.setContainerOperation();
+   // this.SelectedLinkTitle = this.translate.instant("Assign_to_shipment");    
+  }
+ 
   onShipmentBtnPress(action) {
 
     if (!this.IsShipment) {
@@ -622,7 +703,7 @@ export class ContainerShipmentComponent implements OnInit {
     }
 
     this.showLoader = true; 
-    
+
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
@@ -631,14 +712,16 @@ export class ContainerShipmentComponent implements OnInit {
       oSaveData.OtherData.push({
         CompanyDBId: localStorage.getItem("CompID"),
         ContnrShipmentId: this.SelectedShipmentId,
-        OPTM_CREATEDBY: localStorage.getItem("UserId")
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        OPTM_GROUP_CODE: this.containerGroupCode
       })
     }
     else {
       oSaveData.OtherData.push({
         CompanyDBId: localStorage.getItem("CompID"),
         ContnrShipmentId: this.ShipmentId,
-        OPTM_CREATEDBY: localStorage.getItem("UserId")
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        OPTM_GROUP_CODE: this.containerGroupCode
       })
     }
 
@@ -662,7 +745,7 @@ export class ContainerShipmentComponent implements OnInit {
     //   tempArr.push(map);
     // }   
     
-    if(action == 'Assign'){
+    if(action == 'Assign'){     
       this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
         (data: any) => {
           this.showLoader = false;
@@ -676,18 +759,14 @@ export class ContainerShipmentComponent implements OnInit {
               if (data[0].RESULT != '' && data[0].RESULT != null) {                
                 if(data[0].RESULT == 'Shipment updated'){
                   this.toastr.success('', data[0].RESULT);
-                  this.fillDataInGridWithShipment();
+                  this.fillDataInGridWithShipment(this.Selectedlink);
                 }
                 else{
-                  this.toastr.error('', data[0].RESULT);
-                  
+                  this.toastr.error('', data[0].RESULT);                  
                 }                
               }
-              else {
-                // this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
-                // this.fillDataInGridWithShipment();
-                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-               
+              else {               
+                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));               
               }
             }
             else {
@@ -718,13 +797,18 @@ export class ContainerShipmentComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            if (data.length > 0) {
-              if (data[0].RESULT != '' && data[0].RESULT != null) {
-                this.toastr.error('', data[0].RESULT);
+            if (data.length > 0) {            
+              if (data[0].RESULT != '' && data[0].RESULT != null) {                
+                if(data[0].RESULT == 'Shipment updated'){
+                  this.toastr.success('', this.translate.instant("Containers_removed_successfully"));
+                  this.fillDataInGridWithShipment(this.Selectedlink);
+                }
+                else{
+                  this.toastr.error('', data[0].RESULT);                  
+                }                
               }
-              else {
-                this.toastr.success('', this.translate.instant("Containers_assigned_successfully"));
-                this.fillDataInGridWithShipment();
+              else {               
+                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));               
               }
             }
           } else {
@@ -742,6 +826,17 @@ export class ContainerShipmentComponent implements OnInit {
         }
       );
     }    
+  }
+
+  onUpdateBtnPress(){      
+    switch (this.Selectedlink) {
+      case (2):
+        this.onShipmentBtnPress('Assign');
+        break;
+      case (3):
+        this.onShipmentBtnPress('Remove');
+        break;        
+    }
   }
 
   // getWorkOrders() {
@@ -827,6 +922,9 @@ export class ContainerShipmentComponent implements OnInit {
       else if(this.lookupfor == "ShipmentList"){
         this.ShipmentId = $event.OPTM_SHIPMENTID;
       }
+      else if (this.lookupfor == "GroupCodeList") {
+        this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
+      } 
       // else if(this.lookupfor == "Workorder"){
       //   this.WOId = $event[0];
       // }
