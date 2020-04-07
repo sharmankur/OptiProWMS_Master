@@ -20,7 +20,7 @@
                         <label for="CustomerTo" class="col-sm-5 col-form-label">{{'WO'|translate}}</label>
                         <div class="input-group col-sm-7">
                                 <input type="text" class="form-control form-control-sm" id="containerGroupCode"
-                                        name="workOrder" [(ngModel)]="workOrder" ><!--(blur)="GetWorkOrderList('blur')"-->
+                                        name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderBlur()"><!--(blur)="GetWorkOrderList('blur')"-->
                                 <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList('lookup')">
                                                 <i class="opti-icon-search"></i>
@@ -186,7 +186,7 @@
                                     <div class="input-group input-group-sm">
                                         <kendo-dropdownlist class="form-control form-control-sm" [data]="createModeArray"
                                             textField="Name" valueField="Value" id="createMode" name="createMode"
-                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
+                                            [(ngModel)]="defaultCreateMode" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)" [disabled]="true"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>

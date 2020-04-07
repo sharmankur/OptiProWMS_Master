@@ -1078,7 +1078,9 @@
   "RuleIdInvalidMsg": "Invalid rule id",
   
   "CannotScanCreate": "Cannot Scan & Create container for Serial Tracked item",
+  "CannotScanCreateWIP": "Cannot Scan & Create container for Serial/Batch Tracked item",
   "InvalidSOAutoRule": "Item in the rule does not belogs to this SO number",
+  "InvalidAutoRule": "Invalid Auto Rule",
 
   "ViewCont": "View container",
   "AssignToShipment": "Assign to shipment",
