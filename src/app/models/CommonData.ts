@@ -404,7 +404,6 @@ export class CommonData {
             { "Value": 3, "Name": "Loose" }
         ];
     }
-   
 
          /**
      * Pick operation field enmum.
