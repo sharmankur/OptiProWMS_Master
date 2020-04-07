@@ -399,16 +399,12 @@ export class CommonData {
      */
     PickOperationEnum(){
         return [
-            { "Value": 1, "Name": "Name_Pick" },
-            { "Value": 2, "Name": "Name_Pack" },
-            { "Value": 3, "Name": "Name_Putaway" },
-            { "Value": 4, "Name": "Receive" },
-            { "Value": 5, "Name": "Name_Ship" },
-            { "Value": 6, "Name": "Name_Returns" },
-            { "Value": 7, "Name": "Name_Move" }
-
+            { "Value": 1, "Name": "PickToTote" },
+            { "Value": 2, "Name": "PickToContainer" },
+            { "Value": 3, "Name": "Loose" }
         ];
     }
+   
 
          /**
      * Pick operation field enmum.
