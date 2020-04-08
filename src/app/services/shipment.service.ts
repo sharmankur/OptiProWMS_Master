@@ -35,7 +35,7 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
   }
   
-  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID): Observable<any> {
+  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -43,6 +43,8 @@ export class ShipmentService {
         OPTM_CARRIER: OPTM_CARRIER,
         OPTM_SCH_DATETIME: OPTM_SCH_DATETIME,
         OPTM_DOCKDOORID: OPTM_DOCKDOORID,
+        OPTM_SHIPMENT_CODE: OPTM_SHIPMENT_CODE,
+        OPTM_SHP_PROCESS: OPTM_SHP_PROCESS,
         OPTM_USERNAME: localStorage.getItem("UserId")
       }])
     }; 
@@ -76,9 +78,16 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/UpdateShipment", jObject, this.commonService.httpOptions);
   }
 
-  DeleteFromContainerAutoRule(ddDeleteArry: any[]): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerAutoRule", jObject, this.commonService.httpOptions);
+  ChangeShippingProcess(SHIPMENTCODE, SHIPMENTPROCESS, SHIPMENTPROCESSNO): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        SHIPMENTCODE: SHIPMENTCODE,
+        SHIPMENTPROCESS: SHIPMENTPROCESS,
+        SHIPMENTPROCESSNO: SHIPMENTPROCESSNO
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/ChangeShippingProcess", jObject, this.commonService.httpOptions);
   }
   
 }

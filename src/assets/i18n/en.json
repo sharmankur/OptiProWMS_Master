@@ -1096,6 +1096,8 @@
 
   "autoAllocateFromGr": "Autoallocate from Gr",
   "ShipmentProcess": "Shipment Process",
+  "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
+  "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
 
   "Dummy": "Dummy"
   

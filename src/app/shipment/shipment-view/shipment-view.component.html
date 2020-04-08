@@ -177,6 +177,48 @@
 
                         <!-- row start -->
                         <div class="row">
+
+                            <!-- col start -->
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control form-control-sm" name='Container_Group' [(ngModel)]=Container_Group id="Container_Group"
+                                                (blur)="IsValidContainerGroup()">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup('CT')">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
+                            <!-- col start -->
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="ShipmentProcess" class="col-sm-4 col-form-label">{{'ShipmentProcess'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <!-- <kendo-dropdownlist [data]="shipmentProcessList" id="shpProcess" #selectedvalue (selectionChange)="onShpProcessChange($event)"
+                                            textField="Name" valueField="Value" id="shpProcess" name="shpProcess" (click)="updateShipmentProcessArray(selectedvalue)"
+                                            [(ngModel)]="shpProcess">
+                                        </kendo-dropdownlist> -->
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" >
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="updateShipmentProcessArray()">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
@@ -192,51 +234,6 @@
                             <!-- col end -->
                         </div>
                         <!-- row end -->
-
-                        <!-- row start -->
-                        <div class="row">
-                            <!-- col start -->
-                            <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="autoAllocateFromGr" class="col-sm-4 col-form-label">{{'autoAllocateFromGr'|translate}}</label>
-                                    <div class="col-sm-8">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" id="autoAllocateFromGr" name="autoAllocateFromGr" 
-                                            [(ngModel)]="autoAllocateFromGr" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col end -->
-                            <!-- col start -->
-                            <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="ShipmentProcess" class="col-sm-4 col-form-label">{{'ShipmentProcess'|translate}}</label>
-                                    <div class="col-sm-8">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="shiment_status_array" id="ShipmentProcess" name="ShipmentProcess" [disabled]=true
-                                            [(ngModel)]="ShipmentProcess" #selectedvalue (selectionChange)="onCreateModeSelectChange($event)"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- col end -->
-                            <!-- col start -->
-                            <!-- <div class="col-sm-4">
-                                <div class="form-group row">
-                                    <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
-                                    <div class="col-sm-8">
-                                        <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='CarrierCode' [(ngModel)]=CarrierCode id="CarrierCode" (blur)="IsValidCarrier()">
-                                            <div class="input-group-append has-seprate-btn">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier('CT')">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- col end -->
-                        </div>
-                        <!-- row end -->
-
                     </div>
                     <!--/ Shipment Form  -->
                 </div>
@@ -436,6 +433,11 @@
 
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getlookupSelectedItem($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

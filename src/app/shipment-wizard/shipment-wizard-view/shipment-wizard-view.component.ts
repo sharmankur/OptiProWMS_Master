@@ -229,9 +229,6 @@ export class ShipmentWizardViewComponent implements OnInit {
 
   //#region "Container Group"
   GetDataForContainerGroup() {
-    if (this.Container_Group == "" || this.Container_Group == null || this.Container_Group == undefined) {
-      return;
-    }
     this.showLoader = true;
     this.commonservice.GetDataForContainerGroup().subscribe(
       (data: any) => {

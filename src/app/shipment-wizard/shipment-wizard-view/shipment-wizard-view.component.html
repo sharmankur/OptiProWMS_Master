@@ -361,9 +361,9 @@
                                                 <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group" (blur)="GetDataForShipToCode('Container_Group', 'blur')" [disabled]=!AutoAllocate>
+                                                        <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group" (blur)="IsValidContainerGroup()" [disabled]=!AutoAllocate>
                                                         <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('Container_Group', 'lookup')" [disabled]=!AutoAllocate>
+                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()" [disabled]=!AutoAllocate>
                                                                 <i class="opti-icon-search"></i>
                                                             </button>
                                                         </div>
