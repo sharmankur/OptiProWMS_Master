@@ -177,12 +177,55 @@
 
                         <!-- row start -->
                         <div class="row">
+
+                            <!-- col start -->
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control form-control-sm" name='Container_Group' [(ngModel)]=Container_Group id="Container_Group"
+                                                (blur)="IsValidContainerGroup()">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup('CT')">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
+                            <!-- col start -->
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="ShipmentProcess" class="col-sm-4 col-form-label">{{'ShipmentProcess'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <!-- <kendo-dropdownlist [data]="shipmentProcessList" id="shpProcess" #selectedvalue (selectionChange)="onShpProcessChange($event)"
+                                            textField="Name" valueField="Value" id="shpProcess" name="shpProcess" (click)="updateShipmentProcessArray(selectedvalue)"
+                                            [(ngModel)]="shpProcess">
+                                        </kendo-dropdownlist> -->
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" >
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="updateShipmentProcessArray()">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- col end -->
+
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <div class="custom-control custom-checkbox minus-m5">
-                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer [disabled]=true/>
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer
+                                                [disabled]=true/>
                                             <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
                                         </div>
                                     </div>
@@ -196,8 +239,8 @@
                 </div>
             </div>
             <div>
-                <a  class="toggle-anchor" (click)="showShipDetails(0)">
-                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[0]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                <a class="toggle-anchor" (click)="showShipDetails(0)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[0]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                     <span class="toggle-anchor-text"> {{'ShipmentDetails'|translate}}</span>
                 </a>
             </div>
@@ -215,7 +258,7 @@
                                     <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY_FULFILLED" width="100" title="{{'Quantity_Fulfilled'|translate}}" class="text-right">
-                                        
+
                                     </kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" width="100" title="{{'Line_status'|translate}}"></kendo-grid-column>
                                 </kendo-grid>
@@ -243,13 +286,13 @@
                 </div>
             </div>
             <div *ngIf="UseContainer">
-                <a  class="toggle-anchor" (click)="showShipDetails(1)">
-                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                <a class="toggle-anchor" (click)="showShipDetails(1)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                     <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
                 </a>
             </div>
             <div *ngIf="showShipDetailsEnable[1] && UseContainer">
-                <div class="row" >
+                <div class="row">
                     <div class="col-sm-6 col-xs-12">
                         <!-- Shipment Lines -->
                         <div class="card shipment-widget-box">
@@ -299,8 +342,8 @@
                 </div>
             </div>
             <div>
-                <a  class="toggle-anchor" (click)="showShipDetails(2)">
-                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[2]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span> 
+                <a class="toggle-anchor" (click)="showShipDetails(2)">
+                    <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[2]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                     <span class="toggle-anchor-text"> {{'ItemDetails'|translate}}</span>
                 </a>
             </div>
@@ -339,8 +382,8 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button> -->
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
-                        <span class="k-icon k-i-close-outline" role="presentation"></span>
-                        {{'Cancel'|translate}}</button>
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
 
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onUpdateClick()">
                     <span role="presentation"></span> {{'CT_Update'|translate}}</button>
@@ -376,9 +419,9 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" (click)="onStageORUnstageShipmentClick()" *ngIf="!isStageDiabled">{{'Stage_Unstage'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item" >{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" >{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" >{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item">{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item">{{'Cancel_Unassign'|translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -390,6 +433,11 @@
 
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getlookupSelectedItem($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

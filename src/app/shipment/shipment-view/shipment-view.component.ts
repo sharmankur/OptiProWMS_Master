@@ -20,6 +20,7 @@ export class ShipmentViewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
   hideLookup: boolean = true;
+  Container_Group: string;
   ShipmentID: string;
   ShipmentCode: string;
   CustomerCode: string;
@@ -90,6 +91,43 @@ export class ShipmentViewComponent implements OnInit {
     ];
   }
 
+  ShipmentProcessEnum() {
+    return [
+      { "Value": 10, "Name": "New" },
+      { "Value": 20, "Name": "Schedule" },
+      { "Value": 30, "Name": "Assign" },
+      { "Value": 40, "Name": "Picking" },
+      { "Value": 50, "Name": "Staging" },
+      { "Value": 60, "Name": "Loading" }
+    ];
+  }
+
+  ShipmentProcessArray() {
+    return [
+      { "Value": 10, "Name": "No_Picking" },
+      { "Value": 10, "Name": "No_Picking-No_Staging" },
+      { "Value": 10, "Name": "No_Schedule" },
+      { "Value": 10, "Name": "No_Schedule-No_Picking" },
+      { "Value": 10, "Name": "No_Schedule-No_Picking-No_Staging" },
+      { "Value": 10, "Name": "No_Staging" },
+      { "Value": 10, "Name": "Standard" },
+      { "Value": 20, "Name": "No_Picking" },
+      { "Value": 20, "Name": "No_Picking-No_Staging" },
+      { "Value": 20, "Name": "No_Staging" },
+      { "Value": 20, "Name": "Standard" },
+      { "Value": 30, "Name": "No_Picking" },
+      { "Value": 30, "Name": "No_Picking-No_Staging" },
+      { "Value": 30, "Name": "No_Staging" },
+      { "Value": 30, "Name": "Standard" },
+      { "Value": 40, "Name": "No_Staging" },
+      { "Value": 40, "Name": "Standard" },
+      { "Value": 50, "Name": "Standard" },
+      { "Value": 60, "Name": "Standard" }
+    ];
+  }
+
+  // no-
+
   showShipDetailsEnable = [false, false, false];
   showShipDetails(index) {
     this.showShipDetailsEnable[index] = !this.showShipDetailsEnable[index]
@@ -116,10 +154,29 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
+  clearFields() {
+    this.CustomerCode = "";
+    this.WarehouseCode = "";
+    this.ScheduleDatetime = undefined;
+    this.ShipStageBin = "";
+    this.DockDoor = "";
+    this.ShipToCode = "";
+    this.CarrierCode = "";
+    this.VehicleNumber = "";
+    this.ReturnOrderRef = ""
+    this.BOLNumber = "";
+    this.shipmentLines = [];
+    this.ShipmentLineDetails = [];
+    this.ShipContainers = [];
+    this.ContainerItems = [];
+    this.SODetails = [];
+  }
+
   IsValidShipmentCode(fieldName) {
     if (this.ShipmentCode == undefined || this.ShipmentCode == "") {
       return;
     }
+    this.clearFields()
     this.showLoader = true;
     this.commonservice.IsValidShipmentCode(this.ShipmentCode).subscribe(
       (data: any) => {
@@ -133,15 +190,22 @@ export class ShipmentViewComponent implements OnInit {
           if (data.length > 0) {
             this.ShipmentID = data[0].OPTM_SHIPMENTID;
             this.ShipmentCode = data[0].OPTM_SHIPMENT_CODE;
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.ShipmentID = "";
             this.ShipmentCode = "";
             this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+            this.clearFields();
           }
+          localStorage.setItem("ShipmentID", this.ShipmentID);
+          localStorage.setItem("ShipmentCode", this.ShipmentCode);
         } else {
           this.ShipmentID = "";
           this.ShipmentCode = "";
           this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+          this.clearFields();
+          localStorage.setItem("ShipmentID", this.ShipmentID);
+          localStorage.setItem("ShipmentCode", this.ShipmentCode);
         }
       },
       error => {
@@ -274,7 +338,7 @@ export class ShipmentViewComponent implements OnInit {
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
         }
       }
-      if(this.ShipmentLineDetails.length < 1){
+      if (this.ShipmentLineDetails.length < 1) {
         for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
           if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
             this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -282,7 +346,7 @@ export class ShipmentViewComponent implements OnInit {
           }
         }
       }
-    }else{
+    } else {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
           this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -328,6 +392,9 @@ export class ShipmentViewComponent implements OnInit {
     if (this.UseContainer == null) {
       this.UseContainer = false;
     }
+    this.StatusValue = OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO;
+    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS && e.Value == OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO);
+    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == "No_Schedule" && e.Value == 10).Name;
     this.onCheckChange();
   }
 
@@ -373,7 +440,88 @@ export class ShipmentViewComponent implements OnInit {
       this.DockDoor = event.OPTM_DOCKDOORID
     } else if (this.lookupfor == "CarrierList") {
       this.CarrierCode = event.OPTM_CARRIERID
+    } else if (this.lookupfor == "GroupCodeList") {
+      this.Container_Group = event.OPTM_CONTAINER_GROUP;
+    } else if (this.lookupfor == "ShipMentProcess") {
+      this.onShpProcessChange(event);
     }
+  }
+
+  StatusValue: any;
+  shpProcess: any;
+  shipmentProcessList: any[] = [];
+  updateShipmentProcessArray(selectedvalue) {
+    this.StatusValue = 10;
+    this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value === this.StatusValue);
+    this.serviceData = this.shipmentProcessList;
+    this.lookupfor = "ShipMentProcess";
+    this.hideLookup = false;
+  }
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any;
+  onShpProcessChange(event) {
+    this.event = event;
+    this.dialogFor = "ShipmentProcess";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("ShipmentProcessChangeMsg");
+  }
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("ShipmentProcess"):
+          // this.shpProcess = this.event.Name
+          this.ChangeShipmentProcess();
+          break;
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("ShipmentProcess"):
+            break;
+        }
+      }
+    }
+  }
+
+  ChangeShipmentProcess() {
+    this.showLoader = true;
+    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.event.Name, this.event.Value).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   OnContainerBtnClick() {
@@ -455,7 +603,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime.toLocaleDateString(),
-      this.DockDoor).subscribe(
+      this.DockDoor, this.ShipmentCode, "20").subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -683,6 +831,75 @@ export class ShipmentViewComponent implements OnInit {
         } else {
           this.CarrierCode = "";
           this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion
+
+  //#region "Container Group"
+  GetDataForContainerGroup() {
+    this.showLoader = true;
+    this.commonservice.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          this.lookupfor = "GroupCodeList";
+          this.hideLookup = false;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidContainerGroup() {
+    if (this.Container_Group == "" || this.Container_Group == null || this.Container_Group == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidContainerGroup(this.Container_Group).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.Container_Group = data[0].OPTM_CONTAINER_GROUP
+          } else {
+            this.Container_Group = '';
+            this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+          }
+        } else {
+          this.Container_Group = '';
+          this.toastr.error('', this.translate.instant("InvalidGroupCode"));
         }
       },
       error => {

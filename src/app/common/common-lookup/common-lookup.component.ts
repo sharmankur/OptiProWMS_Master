@@ -166,8 +166,8 @@ export class CommonLookupComponent implements OnInit {
       this.orderList();
     } else if (this.lookupfor == "PalletList") {
       this.palletList();
-    } else if (this.lookupfor == "ITRList") {
-      this.showITRList();
+    } else if (this.lookupfor == "ShipMentProcess") {
+      this.showShipMentProcessList();
     }
     else if (this.lookupfor == "SerialNoFrom") {
       this.showSrNoList("From");
@@ -1559,16 +1559,16 @@ export class CommonLookupComponent implements OnInit {
     }
   }
 
-  showITRList() {
+  showShipMentProcessList() {
     this.table_head = [
       {
-        field: 'DocNum',
-        title: this.translate.instant("InvTransfer_ITRRequestNo"),
+        field: 'Name',
+        title: this.translate.instant("ShipmentProcess"),
         type: 'text',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("InvTransfer_ITRList");
+    this.lookupTitle = this.translate.instant("ShipmentProcess");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

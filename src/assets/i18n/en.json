@@ -1092,6 +1092,13 @@
   "SumBSValidMsg": "Sum of batch/serial qty can't be greater than balance qty",
   "PackValueValidation":"You can not select other then first value",
   "ItemQtyBlankMsg": "Item qty can't be blank",
+  "AutoAllocate": "AutoAllocate",
+
+  "autoAllocateFromGr": "Autoallocate from Gr",
+  "ShipmentProcess": "Shipment Process",
+  "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
+  "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
+
   "Loaded": "Loaded",
   "Bat/Ser": "Bat/Ser",
   "Dummy": "Dummy"
