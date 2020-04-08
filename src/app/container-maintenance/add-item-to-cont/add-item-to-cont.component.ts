@@ -243,7 +243,8 @@ export class AddItemToContComponent implements OnInit {
           }
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
-          this.whse = ''
+          this.whse = '';
+          this.binNo = '';
         } else {
           this.whse = resp[0].WhsCode
         }
@@ -662,6 +663,7 @@ export class AddItemToContComponent implements OnInit {
               // this.itemBatchSr = "";
             } else {
               this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
+              this.containerCode = '';
               this.scanItemCode = "";
               this.itemQty = 0;
             }
@@ -759,6 +761,11 @@ export class AddItemToContComponent implements OnInit {
             } else {
               this.bsVisible = false;
             }
+
+            if(this.autoRuleId != ""){
+              this.itemQty = data[0].OPTM_PARTS_PERCONT
+            }
+
           }
           this.scanCurrentItemData = data
         } else {
