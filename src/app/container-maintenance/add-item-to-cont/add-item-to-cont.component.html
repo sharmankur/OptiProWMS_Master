@@ -123,14 +123,39 @@
                         <div>
                             <div class="form-group row">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                        [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onContainerCodeChange()">
+                                    <label class="col-sm-3 col-form-label row">{{'Cont_Code'|translate}}</label>
+                                    <input type="text" id="containerCode" name="containerCode" class="col-sm-6 form-control form-control-sm mr-3"
+                                        [(ngModel)]="containerCode" (blur)="onContainerCodeChange()">
                                     <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm"
                                         [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled> -->
-                                    <input type="text" id="containerStatus" name="containerStatus" class="col-sm-4 form-control form-control-sm"
+                                    <input type="text" id="containerStatus" name="containerStatus" class="col-sm-3 form-control form-control-sm"
                                         [(ngModel)]="containerStatus" disabled>
                                 </div>
                             </div>
+
+                            <div class="form-group row mt-2">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
+                                    <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
+                                        [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
+                                        [attr.disabled]="disableFields?'':null">
+                                    <input type="number" id="itemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" 
+                                        (blur)="onItemQtyChange()">
+                                </div>
+                            </div>
+
+                            <div class="form-group row" *ngIf="bsVisible">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
+                                    <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-6 form-control form-control-sm mr-3"
+                                        [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
+                                    <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
+                                        (blur)="onBSQtyChange()">
+                                </div>
+                            </div>
+
                             <div class="form-group row mt-3">
                                 <fieldset class="d-block w-100">
                                     <div class="d-flex align-items-center w-100">
@@ -146,28 +171,6 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-                            <div class="form-group row mt-2">
-                                <div class="input-group input-group-sm">
-                                    <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
-                                    <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-8 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanItemCode" placeholder="{{'ScanItem'|translate}}" (blur)="onItemCodeChange()"
-                                        [attr.disabled]="disableFields?'':null">
-                                    <input type="number" id="itemQty" name="itemQty" class="col-sm-4 form-control form-control-sm text-right"
-                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" placeholder="{{'Quantity'|translate}}"
-                                        (blur)="onItemQtyChange()">
-                                </div>
-                            </div>
-
-                            <div class="form-group row" *ngIf="bsVisible">
-                                <div class="input-group input-group-sm">
-                                    <!-- <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label> -->
-                                    <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-8 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanBSrLotNo" placeholder="{{'Batch_Serial'|translate}}" (blur)="IsValidBtchSer()">
-                                    <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-4 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                        placeholder="{{'Quantity'|translate}}" (blur)="onBSQtyChange()">
-                                </div>
                             </div>
                         </div>
 
@@ -213,7 +216,7 @@
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE"
                                         headerClass="text-left" title="{{'ItemCode'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEMCODE}}</label>
+                                            <label class="col-sm-3 col-form-label text-left">{{dataItem.OPTM_ITEMCODE}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONT_QTY"
