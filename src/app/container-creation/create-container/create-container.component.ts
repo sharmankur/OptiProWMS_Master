@@ -40,7 +40,7 @@ export class CreateContainerComponent implements OnInit {
   parentContainerCode: string = "";
   containerGroupCode: string = "";
   count: any = 0;
-  autoClose: boolean = false;
+  autoClose: boolean = true;
   autoRuleId: string = "";
   whse: string = "";
   binNo: string = "";
@@ -399,7 +399,7 @@ export class CreateContainerComponent implements OnInit {
     this.maxWeigth = 0;
     this.containerWeigth = 0;
     this.containerId = "";
-    this.autoClose = false;
+    this.autoClose = true;
     this.autoRuleId = "";
     this.whse = "";
     this.binNo = "";
@@ -534,7 +534,7 @@ export class CreateContainerComponent implements OnInit {
     //Push data of header table into BatchSerial model
     this.oSaveModel.HeaderTableBindingData.push({
       OPTM_SONO: this.soNumber,
-      OPTM_CONTAINERID: containerId,
+      OPTM_CONTAINERID: containerId ,
       OPTM_CONTTYPE: containerType,
       OPTM_CONTAINERCODE: "" + containerCode,
       OPTM_WEIGHT: this.containerWeigth,
@@ -580,7 +580,7 @@ export class CreateContainerComponent implements OnInit {
           OPTM_AVLQUANTITY: 0,
           OPTM_INVQUANTITY: 0,
           OPTM_BIN: '',
-          OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID,
+          OPTM_CONTAINERID: this.fromContainerDetails[i].OPTM_CONTAINERID == "" ? 0 : this.fromContainerDetails[i].OPTM_CONTAINERID,
           OPTM_TRACKING: this.fromContainerDetails[i].OPTM_TRACKING,
           OPTM_WEIGHT: (this.fromContainerDetails[i].IWeight1 == null || this.fromContainerDetails[i].IWeight1 == undefined) ? 1 : this.fromContainerDetails[i].IWeight1
         });
@@ -835,7 +835,7 @@ export class CreateContainerComponent implements OnInit {
     this.GetInventoryData();
   }
 
-  getAutoPackRule() {
+  getAutoPackRule(action) {
 
     if (this.whse == undefined || this.whse == "" || this.binNo == undefined || this.binNo == "") {
       this.toastr.error('', this.translate.instant("EnterWHSEandBin"));
@@ -852,8 +852,14 @@ export class CreateContainerComponent implements OnInit {
         this.toastr.error('', this.translate.instant("SelectWOMsg"));
         return;
       }
+
+      let rule = '';
+      if(action == 'blur'){
+        rule = this.autoPackRule;
+      }
+
       this.showLoader = true;
-      this.commonservice.GetDataForContainerAutoRuleWIP(this.containerType,this.SelectedWOItemCode, this.createMode).subscribe(
+      this.commonservice.GetDataForContainerAutoRuleWIP(this.containerType,this.SelectedWOItemCode, this.createMode, rule).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -862,6 +868,15 @@ export class CreateContainerComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
+
+            if(action == 'blur'){
+              if(data.length == 0){
+                this.toastr.error('', this.translate.instant("InvalidAutoRule"));    
+                this.autoPackRule = ''; this.autoRuleId = '';            
+              }    
+              return;         
+            }
+
             this.showLookup = true;
             this.serviceData = data;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
@@ -1125,8 +1140,12 @@ export class CreateContainerComponent implements OnInit {
     if (this.isValidateCalled) {
       return;
     } 
-    
-    this.IsValidContainerAutoRule(this.autoPackRule, this.containerType, this.purpose);
+
+    if(this.IsWIPCont){
+      this.getAutoPackRule('blur');
+    }else{
+      this.IsValidContainerAutoRule(this.autoPackRule, this.containerType, this.purpose);
+    }
   }
 
   async IsValidContainerAutoRule(ruleId, ContType, packType) {

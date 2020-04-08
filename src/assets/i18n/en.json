@@ -1099,6 +1099,8 @@
   "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
   "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
 
+  "Loaded": "Loaded",
+  "Bat/Ser": "Bat/Ser",
   "Dummy": "Dummy"
   
 }
