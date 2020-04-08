@@ -640,7 +640,7 @@ export class AddItemToContComponent implements OnInit {
         OPTM_BALANCE_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_BALANCE_QTY
       });
     }
-    this.oSaveModel.OtherItemsDTL = tempArr;    
+    this.oSaveModel.OtherItemsDTL = tempArr;
 
     this.showLoader = true;
     this.containerCreationService.InsertItemInContainerNew(this.oSaveModel).subscribe(
@@ -1113,21 +1113,22 @@ export class AddItemToContComponent implements OnInit {
                   OPTM_BALANCE_QTY: 0,
                   OPTM_REMAIN_BAL_QTY: 0,
                   TempLotNoList: [],
+                  DeleteDisable: true
                 })
               }
             }
-            //  !this.isLotNoContain(this.oSaveModel.OtherItemsDTL[i].TempLotNoList, this.scanBSrLotNo)
-            //  || this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length == 0
-            if (data.ItemDeiail != null && data.BtchSerDeiail != undefined) {
+
+            if (data.BtchSerDeiail != null && data.BtchSerDeiail != undefined) {
               for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
                 for (var j = 0; j < data.BtchSerDeiail.length; j++) {
-                  if (this.oSaveModel.OtherItemsDTL[i]) {
+                  if (this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE = data.BtchSerDeiail[j].OPTM_ITEMCODE) {
                     this.oSaveModel.OtherItemsDTL[i].TempLotNoList.push({
-                      OPTM_BTCHSER: this.scanBSrLotNo,
-                      OPTM_AVL_QTY: this.scanCurrentItemData[0].TOTALQTY,
-                      OPTM_ITEMCODE: this.scanCurrentItemData[0].ITEMCODE,
-                      OPTM_TRACKING: this.scanCurrentItemData[0].OPTM_TRACKING,
-                      OPTM_QUANTITY: this.bsItemQty,
+                      OPTM_BTCHSER: data.BtchSerDeiail[j].OPTM_BTCHSER,
+                      OPTM_AVL_QTY: data.BtchSerDeiail[j].TOTALQTY,
+                      OPTM_ITEMCODE: data.BtchSerDeiail[j].OPTM_ITEMCODE,
+                      // OPTM_TRACKING: data.BtchSerDeiail[j].OPTM_TRACKING,
+                      OPTM_QUANTITY: data.BtchSerDeiail[j].OPTM_QUANTITY,
+                      DeleteDisable: true
                     })
                   }
                 }
@@ -1265,7 +1266,7 @@ export class AddItemToContComponent implements OnInit {
                 this.oSaveModel.OtherItemsDTL = [];
                 this.oSaveModel.OtherBtchSerDTL = [];
                 this.containerStatus = this.getContainerStatus(data[0].OPTM_STATUS);
-               // this.getItemBatchSerialData();
+                this.getItemBatchSerialData();
               }
             }
 
