@@ -116,10 +116,29 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
+  clearFields() {
+    this.CustomerCode = "";
+    this.WarehouseCode = "";
+    this.ScheduleDatetime = undefined;
+    this.ShipStageBin = "";
+    this.DockDoor = "";
+    this.ShipToCode = "";
+    this.CarrierCode = "";
+    this.VehicleNumber = "";
+    this.ReturnOrderRef = ""
+    this.BOLNumber = "";
+    this.shipmentLines = [];
+    this.ShipmentLineDetails = [];
+    this.ShipContainers = [];
+    this.ContainerItems = [];
+    this.SODetails = [];
+  }
+
   IsValidShipmentCode(fieldName) {
     if (this.ShipmentCode == undefined || this.ShipmentCode == "") {
       return;
     }
+    this.clearFields()
     this.showLoader = true;
     this.commonservice.IsValidShipmentCode(this.ShipmentCode).subscribe(
       (data: any) => {
@@ -133,15 +152,22 @@ export class ShipmentViewComponent implements OnInit {
           if (data.length > 0) {
             this.ShipmentID = data[0].OPTM_SHIPMENTID;
             this.ShipmentCode = data[0].OPTM_SHIPMENT_CODE;
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.ShipmentID = "";
             this.ShipmentCode = "";
             this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+            this.clearFields();
           }
+          localStorage.setItem("ShipmentID", this.ShipmentID);
+          localStorage.setItem("ShipmentCode", this.ShipmentCode);
         } else {
           this.ShipmentID = "";
           this.ShipmentCode = "";
           this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+          this.clearFields();
+          localStorage.setItem("ShipmentID", this.ShipmentID);
+          localStorage.setItem("ShipmentCode", this.ShipmentCode);
         }
       },
       error => {
@@ -274,7 +300,7 @@ export class ShipmentViewComponent implements OnInit {
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
         }
       }
-      if(this.ShipmentLineDetails.length < 1){
+      if (this.ShipmentLineDetails.length < 1) {
         for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
           if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
             this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -282,7 +308,7 @@ export class ShipmentViewComponent implements OnInit {
           }
         }
       }
-    }else{
+    } else {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
           this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));

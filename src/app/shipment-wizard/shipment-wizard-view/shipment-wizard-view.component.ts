@@ -18,6 +18,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   lookupfor: string;
   serviceData: any[];
   UseContainer: boolean = false;
+  AutoAllocate: boolean = false;
+  isautoallocateflag: boolean = false;
+  Container_Group: string;
+  Schedule_Datetime: string;
   SOpageSize = 10;
   SOpagable: boolean = false;
   SPpagable: boolean = false;
@@ -73,6 +77,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   public GetCreateShipMentData: any = [];
   dateFormat: string;
   pageable: boolean = false;
+  DockDoor: string;
+  CarrierCode: string;
 
   ngOnInit() {
     // this.HoldSelectedRow = [];
@@ -151,6 +157,15 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.currentStep = 1;
   }
 
+  onCheckChange(){
+    if(!this.AutoAllocate){
+      this.DockDoor = "";
+      this.CarrierCode = "";
+      this.Container_Group = "";
+      this.Schedule_Datetime = "";
+    }
+  }
+
   onStepClick(currentStep) {
 
     //this.currentStep = currentStep;
@@ -158,8 +173,14 @@ export class ShipmentWizardViewComponent implements OnInit {
   CreateShipMentData() {
     this.ConsolidatedDataSelection.Company = [];
     let uc = this.UseContainer == true ? "Y" : "N";
+    let OPTM_AUTO_ALLOCATE = this.AutoAllocate == true ? "Y" : "N";
     this.ConsolidatedDataSelection.Company.push({
       CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
+      OPTM_AUTO_ALLOCATE: OPTM_AUTO_ALLOCATE,
+      OPTM_SCH_DATETIME: this.Schedule_Datetime,
+      OPTM_CONT_GRP: this.Container_Group,
+      OPTM_DOCKDOOR: this.DockDoor,
+      OPTM_CARRIERCODE: this.CarrierCode,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Shipment"
     })
@@ -205,6 +226,224 @@ export class ShipmentWizardViewComponent implements OnInit {
       }
     )
   }
+
+  //#region "Container Group"
+  GetDataForContainerGroup() {
+    if (this.Container_Group == "" || this.Container_Group == null || this.Container_Group == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          this.lookupfor = "GroupCodeList";
+          this.hideLookup = false;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidContainerGroup() {
+    if (this.Container_Group == "" || this.Container_Group == null || this.Container_Group == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidContainerGroup(this.Container_Group).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.Container_Group = data[0].OPTM_CONTAINER_GROUP
+          } else {
+            this.Container_Group = '';
+            this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+          }
+        } else {
+          this.Container_Group = '';
+          this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion
+
+  //#region "Dock Door"
+  GetDataForDockDoor() {
+    if (this.WareHouse == "" || this.WareHouse == null || this.WareHouse == undefined) {
+      this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"))
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.GetDockDoorBasedOnWarehouse(this.WareHouse).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data.Table;
+          this.lookupfor = "DDList";
+          this.hideLookup = false;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidDockDoor() {
+    if (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined) {
+      return;
+    }
+    if (this.WareHouse == "" || this.WareHouse == null || this.WareHouse == undefined) {
+      this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"))
+      return;
+    }    
+    this.showLoader = true;
+    this.commonservice.IsValidDockDoor(this.DockDoor, this.WareHouse).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.DockDoor = data[0].OPTM_DOCKDOORID;
+          } else {
+            this.DockDoor = "";
+            this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+          }
+        } else {
+          this.DockDoor = "";
+          this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion
+  //#region "Carrier Code"
+  GetDataForCarrier() {
+    this.showLoader = true;
+    this.commonservice.GetDataForCarrier().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.serviceData = data;
+          this.lookupfor = "CarrierList";
+          this.hideLookup = false;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidCarrier() {
+    if (this.CarrierCode == "" || this.CarrierCode == null || this.CarrierCode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidCarrier(this.CarrierCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.CarrierCode = data[0].OPTM_CARRIERID;
+          } else {
+            this.CarrierCode = "";
+            this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
+          }
+        } else {
+          this.CarrierCode = "";
+          this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  //#endregion
+
   //get step 2nd data
   GetSalesWizardData() {
 
@@ -864,7 +1103,13 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = $event.WhsCode;
-    }
+    }else if (this.lookupfor == "CarrierList"){
+      this.CarrierCode = $event.OPTM_CARRIERID;
+    }else if (this.lookupfor == "DDList"){
+      this.DockDoor = $event.OPTM_DOCKDOORID;
+    }else if (this.lookupfor == "GroupCodeList") {
+      this.Container_Group = $event.OPTM_CONTAINER_GROUP;
+     } 
   }
 
   OnCancelClick() {

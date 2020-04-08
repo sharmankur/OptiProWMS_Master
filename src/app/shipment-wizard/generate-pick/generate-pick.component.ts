@@ -977,9 +977,10 @@ export class GeneratePickComponent implements OnInit {
   }
 
   onPickTypeChange(event) {
+    this.PickOperationList = [this.translate.instant("PickToTote"),
+    this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
     this.pickTypeIndex = this.PackTypeList.indexOf(event);
     this.pickTypeIndex = this.pickTypeIndex + 1;
-    // alert(this.pickTypeIndex);
     if (event == this.PackTypeList[2]) {
       this.Pick_Operation = this.PickOperationList[2];
       this.pickOperationIndex = 3;
@@ -995,6 +996,10 @@ export class GeneratePickComponent implements OnInit {
         this.Pick_Operation = this.PickOperationList[0];
         this.pickOperationIndex = 1;
         break;
+      case this.PackTypeList[3]:
+        this.Pick_Operation = this.PickOperationList[1];
+        this.pickOperationIndex = 2;
+        break;
     }
   }
 
@@ -1005,25 +1010,25 @@ export class GeneratePickComponent implements OnInit {
       case this.PackTypeList[0]:
         if (event == this.PickOperationList[1]) {
           this.toastr.error("", this.translate.instant("BatchPickingErrMsg"));
-          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          this.Pick_Operation = this.PickOperationList[0];
+          selectedvalue.text = this.PickOperationList[0];
           this.pickOperationIndex = 1;
         }
-        // break;
+        break;
       case this.PackTypeList[1]:
         if (event == this.PickOperationList[1]) {
           this.toastr.error("", this.translate.instant("ClusterPickingErrMsg"));
-          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
           this.pickOperationIndex = 1;
         }
-        // break;
+        break;
       case this.PackTypeList[4]:
         if (event == this.PickOperationList[1]) {
           this.toastr.error("", this.translate.instant("ZonePickingErrMsg"));
-          selectedvalue.value = this.Pick_Operation = this.PickOperationList[0];
+          selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
           this.pickOperationIndex = 1;
         }
-        // break;
-     
+        break;
     }
   }
 
