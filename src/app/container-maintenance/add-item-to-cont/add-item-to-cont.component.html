@@ -186,7 +186,7 @@
                         </div>
 
                         <div class="fix-footer-btnBar">
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <div class="float-right form-group row">
                                     <div class="input-group input-group-sm">
                                         <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text"
@@ -199,7 +199,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
                                                     <label class="col-form-label">{{di.OPTM_AVL_QTY|numberFormat}}</label>
                                                 </ng-template>
                                             </kendo-grid-column> -->
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
+                                            <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Qty_Added'|translate}}"
                                                 class="text-right" headerClass="text-center">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                                     <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
@@ -329,7 +329,7 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
-                    (mousedown)="onUpdateClick()" disabled>
+                    (mousedown)="onUpdateClick()">
                     {{'CT_Update'|translate}}
                 </button>
             </div>
