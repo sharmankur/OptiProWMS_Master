@@ -1103,6 +1103,12 @@
 
   "Loaded": "Loaded",
   "Bat/Ser": "Bat/Ser",
-  "Dummy": "Dummy"
-  
+  "Rule_Qty": "Rule Qty",
+  "Item_Qty": "Item Qty",
+  "Qty_Added": "Qty Added",
+  "Qty_to_Add": "Qty to Add",
+  "Balance_Qty": "Bal Qty",
+  "ScanQty": "Qty",
+  "QtyToAdded": "Qty to Added",
+  "Dummy": "Dummy"  
 }

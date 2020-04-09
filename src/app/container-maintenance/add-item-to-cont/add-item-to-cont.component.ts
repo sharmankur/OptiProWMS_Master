@@ -45,7 +45,9 @@ export class AddItemToContComponent implements OnInit {
   from: any;
   scanItemTracking: any = "";
   containerStatus: any;
-  disableFields: boolean = false
+  disableFields: boolean = false;
+  flagCreate : boolean = false;
+  itemBalanceQty: any = 0
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private contMaintenance: ContMaintnceComponent) {
@@ -95,7 +97,7 @@ export class AddItemToContComponent implements OnInit {
     }
     this.checkChangeEvent = event;
     console.log("check change:" + this.checkChangeEvent);
-
+    this.containerCode = '';
     this.scanItemCode = ''
     this.itemQty = 0
     this.scanBSrLotNo = ''
@@ -243,7 +245,8 @@ export class AddItemToContComponent implements OnInit {
           }
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
-          this.whse = ''
+          this.whse = '';
+          this.binNo = '';
         } else {
           this.whse = resp[0].WhsCode
         }
@@ -626,6 +629,12 @@ export class AddItemToContComponent implements OnInit {
 
     let tempArr = [];
     let tempSaveModel = this.oSaveModel;
+//    tempSaveModel = tempSaveModel.filter(val=>val.OPTM_TRACKING == undefined ? 'L' : val.OPTM_TRACKING);
+
+      // for(let idxFil=0; idxFil<tempSaveModel.OtherBtchSerDTL.length; idxFil++){
+      //   tempSaveModel.OtherBtchSerDTL[idxFil].OPTM_REMAIN_BAL_QTY = 0;
+      // }
+
     for (let itemp = 0; itemp < this.oSaveModel.OtherItemsDTL.length; itemp++) {
 
       tempArr.push({
@@ -639,7 +648,7 @@ export class AddItemToContComponent implements OnInit {
         OPTM_BALANCE_QTY: this.oSaveModel.OtherItemsDTL[itemp].OPTM_BALANCE_QTY
       });
     }
-    this.oSaveModel.OtherItemsDTL = tempArr;    
+    this.oSaveModel.OtherItemsDTL = tempArr;
 
     this.showLoader = true;
     this.containerCreationService.InsertItemInContainerNew(this.oSaveModel).subscribe(
@@ -662,6 +671,7 @@ export class AddItemToContComponent implements OnInit {
               // this.itemBatchSr = "";
             } else {
               this.toastr.success('', this.translate.instant("ItemRemovedSuccessMsg"));
+              this.containerCode = '';
               this.scanItemCode = "";
               this.itemQty = 0;
             }
@@ -674,6 +684,7 @@ export class AddItemToContComponent implements OnInit {
             this.oSaveModel.OtherBtchSerDTL = [];
             this.bsVisible = false;
           } else {
+            debugger
             this.toastr.error('', this.translate.instant(data[0].RESULT));
             this.oSaveModel = tempSaveModel
           }
@@ -758,6 +769,20 @@ export class AddItemToContComponent implements OnInit {
               this.bsVisible = true;
             } else {
               this.bsVisible = false;
+            }
+
+            if(this.autoRuleId != "" && this.flagCreate){
+              this.itemQty = data[0].OPTM_PARTS_PERCONT;
+            }
+            else if(this.autoRuleId != "" && !this.flagCreate){
+              let item = this.itemQty;
+              let scancode = this.scanItemCode
+              this.oSaveModel.OtherItemsDTL.filter(function(obj){
+                  if(obj.OPTM_ITEMCODE == scancode){
+                    item = obj.RemItemQty;
+                  }
+              });  
+              this.itemQty = item;
             }
           }
           this.scanCurrentItemData = data
@@ -860,12 +885,13 @@ export class AddItemToContComponent implements OnInit {
         OPTM_ITEMCODE: this.scanItemCode,
         OPTM_CONT_QTY: 0,
         OPTM_MIN_FILLPRCNT: this.scanCurrentItemData[0].OPTM_MIN_FILLPRCNT,
-        OPTM_ITEM_QTY: this.scanCurrentItemData[0].OPTM_PARTS_PERCONT,
+        OPTM_ITEM_QTY: this.itemQty,
         OPTM_INV_QTY: this.scanCurrentItemData[0].TOTALQTY,
-        // OPTM_RULE_QTY: data[0].OPTM_PARTS_PERCONT,
+        OPTM_RULE_QTY: this.scanCurrentItemData[0].OPTM_PARTS_PERCONT,
         OPTM_TRACKING: this.scanCurrentItemData[0].LOTTRACKINGTYPE,
         OPTM_BALANCE_QTY: (this.autoRuleId == "" || this.autoRuleId == undefined) ? this.scanCurrentItemData[0].OPTM_PARTS_PERCONT : this.itemQty,
         OPTM_REMAIN_BAL_QTY: (this.autoRuleId == "" || this.autoRuleId == undefined) ? this.scanCurrentItemData[0].OPTM_PARTS_PERCONT : this.itemQty,
+        QTY_ADDED: 0,
         TempLotNoList: [],
       })
     }
@@ -947,6 +973,7 @@ export class AddItemToContComponent implements OnInit {
       if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
         var remSum = Number("" + this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY) - sumOfAllLots;
         this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = remSum;
+        this.oSaveModel.OtherItemsDTL[i].QTY_ADDED = sumOfAllLots;
         break;
       }
     }
@@ -1005,6 +1032,7 @@ export class AddItemToContComponent implements OnInit {
               OPTM_QUANTITY: this.bsItemQty,
             })
           } else {
+            
             var sumOfLots = 0
             for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
               if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
@@ -1014,7 +1042,13 @@ export class AddItemToContComponent implements OnInit {
 
             for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
               if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
-                this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots + this.bsItemQty;
+
+                if(this.radioSelected == 1){
+                  this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots + this.bsItemQty;
+                }
+                else{
+                  this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots - this.bsItemQty;
+                }
                 break;
               }
             }
@@ -1101,26 +1135,29 @@ export class AddItemToContComponent implements OnInit {
                   OPTM_MIN_FILLPRCNT: 0,
                   OPTM_ITEM_QTY: data.ItemDeiail[i].OPTM_QUANTITY,
                   OPTM_INV_QTY: 0,
-                  // OPTM_RULE_QTY: data[0].OPTM_PARTS_PERCONT,
+                  OPTM_RULE_QTY: data.ItemDeiail[i].OPTM_QUANTITY,
                   OPTM_TRACKING: data.ItemDeiail[i].OPTM_TRACKING,
                   OPTM_BALANCE_QTY: 0,
                   OPTM_REMAIN_BAL_QTY: 0,
+                  QTY_ADDED: 0,
                   TempLotNoList: [],
+                  RemItemQty: data.ItemDeiail[i].OPTM_QUANTITY,
+                  DeleteDisable: true
                 })
               }
             }
-            //  !this.isLotNoContain(this.oSaveModel.OtherItemsDTL[i].TempLotNoList, this.scanBSrLotNo)
-            //  || this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length == 0
-            if (data.ItemDeiail != null && data.BtchSerDeiail != undefined) {
+
+            if (data.BtchSerDeiail != null && data.BtchSerDeiail != undefined) {
               for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
                 for (var j = 0; j < data.BtchSerDeiail.length; j++) {
-                  if (this.oSaveModel.OtherItemsDTL[i]) {
+                  if (this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE = data.BtchSerDeiail[j].OPTM_ITEMCODE) {
                     this.oSaveModel.OtherItemsDTL[i].TempLotNoList.push({
-                      OPTM_BTCHSER: this.scanBSrLotNo,
-                      OPTM_AVL_QTY: this.scanCurrentItemData[0].TOTALQTY,
-                      OPTM_ITEMCODE: this.scanCurrentItemData[0].ITEMCODE,
-                      OPTM_TRACKING: this.scanCurrentItemData[0].OPTM_TRACKING,
-                      OPTM_QUANTITY: this.bsItemQty,
+                      OPTM_BTCHSER: data.BtchSerDeiail[j].OPTM_BTCHSER,
+                      OPTM_AVL_QTY: 0,
+                      OPTM_ITEMCODE: data.BtchSerDeiail[j].OPTM_ITEMCODE,
+                      // OPTM_TRACKING: data.BtchSerDeiail[j].OPTM_TRACKING,
+                      OPTM_QUANTITY: data.BtchSerDeiail[j].OPTM_QUANTITY,
+                      DeleteDisable: true
                     })
                   }
                 }
@@ -1243,6 +1280,7 @@ export class AddItemToContComponent implements OnInit {
             if (data.length > 0) {
               if (data[0].RESULT != undefined && data[0].RESULT != null) {
                 this.toastr.error('', data[0].RESULT);
+                this.flagCreate = false;
                 return;
               }
               else {
@@ -1258,12 +1296,14 @@ export class AddItemToContComponent implements OnInit {
                 this.oSaveModel.OtherItemsDTL = [];
                 this.oSaveModel.OtherBtchSerDTL = [];
                 this.containerStatus = this.getContainerStatus(data[0].OPTM_STATUS);
-               // this.getItemBatchSerialData();
+                this.getItemBatchSerialData();
+                this.flagCreate = false;
               }
             }
 
             if (data.length == 0) {
               this.generateContainer();
+              this.flagCreate = true;
             }
             //else {
             //   this.containerId = data[0].OPTM_CONTAINERID;
@@ -1468,7 +1508,6 @@ export class AddItemToContComponent implements OnInit {
     }
 
     //update/revert/increase item qty if delete batch/serial
-    // this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_REMAIN_BAL_QTY = this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_REMAIN_BAL_QTY + deletedLotQty
     var sumRemain = 0
     for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
       for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
@@ -1478,6 +1517,7 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     }
+    this.oSaveModel.OtherItemsDTL[deletedItemIndex].QTY_ADDED =  sumRemain
     this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_REMAIN_BAL_QTY = Number("" + this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_BALANCE_QTY) - sumRemain
   }
 
