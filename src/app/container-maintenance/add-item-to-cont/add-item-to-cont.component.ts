@@ -49,6 +49,7 @@ export class AddItemToContComponent implements OnInit {
   flagCreate : boolean = false;
   itemBalanceQty: any = 0
   MapRuleQty: any = 0;
+  SetItemQty: any = 0;
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
     private contMaintenance: ContMaintnceComponent) {
@@ -780,16 +781,33 @@ export class AddItemToContComponent implements OnInit {
               this.bsVisible = false;
             }
 
-            if(this.autoRuleId != "" && this.flagCreate){
+
+            // if(this.autoRuleId != ""){
+            //   if(this.scanItemTracking == 'S' ){
+            //     this.itemQty = 1;
+            //   }
+            //   else if(this.flagCreate){
+            //     this.itemQty = data[0].OPTM_PARTS_PERCONT;
+            //     this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
+            //   }
+            //   else if(!this.flagCreate){
+
+            //   }
+            // }
+
+
+            if(this.autoRuleId != "" && this.flagCreate && this.scanItemTracking != 'S' ){
               this.itemQty = data[0].OPTM_PARTS_PERCONT;
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
 
-              for(let k=0; k<this.oSaveModel.OtherItemsDTL; k++){
-                this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
-              }
+               for(let k=0; k<this.oSaveModel.OtherItemsDTL; k++){
+                 if(this.oSaveModel.OtherItemsDTL[k].OPTM_ITEMCODE == this.scanItemCode){
+                  this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
+                 }                 
+               }            
 
             }
-            else if(this.autoRuleId != "" && !this.flagCreate){
+            else if(this.autoRuleId != "" && !this.flagCreate && this.scanItemTracking != 'S'){
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
               let item = this.itemQty;
               let scancode = this.scanItemCode
@@ -798,13 +816,14 @@ export class AddItemToContComponent implements OnInit {
                     item = obj.RemItemQty;
                   }
               });  
-              this.itemQty = this.MapRuleQty - item;  
-              
-              for(let k=0; k<this.oSaveModel.OtherItemsDTL; k++){
-                this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
-              }
-
+              this.itemQty = this.MapRuleQty - item;
+              this.SetItemQty = this.MapRuleQty - item;
             }
+            
+            if(this.scanItemTracking == 'S'){
+              this.itemQty = 1;
+            }
+
           }
           this.scanCurrentItemData = data
         } else {
@@ -931,11 +950,11 @@ export class AddItemToContComponent implements OnInit {
       for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
         if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
          // if (this.itemQty > this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY) {
-          if (this.itemQty > this.MapRuleQty) {
+          if (this.itemQty > this.SetItemQty) {
             this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = 0
             this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = 0
             this.itemQty = 0
-            this.toastr.error('', this.translate.instant("Balance qty can't be greater than available item qty"));
+            this.toastr.error('', this.translate.instant("BalQtyCheck"));
             return;
           } else {
             this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = this.itemQty;

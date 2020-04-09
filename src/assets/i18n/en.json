@@ -1107,5 +1107,6 @@
   "Qty_to_Add": "Qty to Add",
   "Balance_Qty": "Bal Qty",
   "ScanQty": "Qty",  
+  "BalQtyCheck": "Balance qty can't be greater than available item qty",
   "Dummy": "Dummy"  
 }
