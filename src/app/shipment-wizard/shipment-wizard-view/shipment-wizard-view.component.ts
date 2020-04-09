@@ -20,8 +20,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   UseContainer: boolean = false;
   AutoAllocate: boolean = false;
   isautoallocateflag: boolean = false;
-  Container_Group: string;
-  Schedule_Datetime: string;
+  Container_Group: string="";
+  Schedule_Datetime: string="";
   SOpageSize = 10;
   SOpagable: boolean = false;
   SPpagable: boolean = false;
@@ -77,8 +77,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   public GetCreateShipMentData: any = [];
   dateFormat: string;
   pageable: boolean = false;
-  DockDoor: string;
-  CarrierCode: string;
+  DockDoor: string="";
+  CarrierCode: string="";
 
   ngOnInit() {
     // this.HoldSelectedRow = [];
@@ -107,7 +107,10 @@ export class ShipmentWizardViewComponent implements OnInit {
 
       if (this.currentStep === 1) {
         if (this.WareHouse != "" && this.WareHouse != undefined) {
-          // this.HoldSelectedRow.SOLines = [];
+          if(this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)){
+            this.toastr.error('', this.translate.instant("SchDTValidation"));
+            return;
+          }
           this.GetSalesWizardData();
         }
         else {
@@ -208,7 +211,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             this.pageable = false;
           }
           this.currentStep = this.currentStep + 1;
-          this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
+          if(this.AutoAllocate){
+            this.toastr.success('', this.translate.instant("ShipmentsCreatedAllocated"));
+          }else{
+            this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
+          }
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
