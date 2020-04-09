@@ -505,7 +505,7 @@ export class ShipmentViewComponent implements OnInit {
 
   ChangeShipmentProcess() {
     this.showLoader = true;
-    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.event.Name, this.event.Value).subscribe(
+    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.ShipmentProcessEnum().find(e=>e.Name == this.event.Name).Value, this.StatusValue).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
