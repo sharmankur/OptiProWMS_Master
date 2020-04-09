@@ -167,7 +167,7 @@
                                         [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()" [attr.disabled]="disableFields?'':null">
                                     <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
                                     <input type="number" id="itemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onItemQtyChange()">
+                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onItemQtyChange()" >
                                 </div>
                             </div>
 
@@ -178,7 +178,7 @@
                                         [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
                                     <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
                                     <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBSQtyChange()">
+                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBSQtyChange()" [disabled]="scanItemTracking == 'S'">
                                 </div>
                             </div>
 

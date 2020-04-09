@@ -100,8 +100,7 @@ export class AddItemToContComponent implements OnInit {
     this.checkChangeEvent = event;
     console.log("check change:" + this.checkChangeEvent);
     this.checkChangeEvent.preventDefault();
-    this.showDialog("RadioBtnChange", this.translate.instant("yes"), this.translate.instant("no"),
-      this.translate.instant("DataLostAlert"));
+   
     // this.containerCode = '';
     // this.scanItemCode = ''
     // this.itemQty = 0
@@ -743,7 +742,8 @@ export class AddItemToContComponent implements OnInit {
   }
 
   scanCurrentItemData: any;
-  onItemCodeChange() {
+  onItemCodeChange() { 
+
     if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
       return;
     }
@@ -753,7 +753,7 @@ export class AddItemToContComponent implements OnInit {
       this.scanItemCode = ''
       return;
     }
-
+    this.radioSelected = 1;
     this.showLoader = true;
     this.containerCreationService.IsValidItemCode(this.autoRuleId, this.scanItemCode, this.whse, this.binNo).subscribe(
       data => {
@@ -787,9 +787,12 @@ export class AddItemToContComponent implements OnInit {
             if (this.autoRuleId != "" && this.flagCreate) {
               this.itemQty = data[0].OPTM_PARTS_PERCONT;
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
+              this.SetItemQty = this.MapRuleQty;
 
-              for (let k = 0; k < this.oSaveModel.OtherItemsDTL; k++) {
-                this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
+              for (let k = 0; k < this.oSaveModel.OtherItemsDTL.length; k++) {
+                if(this.oSaveModel.OtherItemsDTL[k].OPTM_ITEMCODE ==   this.scanItemCode){
+                  this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
+                }
               }
 
             }
@@ -803,17 +806,16 @@ export class AddItemToContComponent implements OnInit {
                 }
               });
               this.itemQty = this.MapRuleQty - item;
+              this.SetItemQty = this.MapRuleQty - item;
 
-              for (let k = 0; k < this.oSaveModel.OtherItemsDTL; k++) {
-                this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
+              for (let k = 0; k < this.oSaveModel.OtherItemsDTL.length; k++) {
+                if(this.oSaveModel.OtherItemsDTL[k].OPTM_ITEMCODE == this.scanItemCode){
+                  this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
+                }
               }
-
             }
             
-            if(this.scanItemTracking == 'S'){
-              this.itemQty = 1;
-            }
-
+            
           }
           this.scanCurrentItemData = data
         } else {
@@ -886,7 +888,14 @@ export class AddItemToContComponent implements OnInit {
             this.toastr.error('', this.translate.instant("Plt_InValidBatchSerial"));
           } else {
             this.scanBSrLotNo = data[0].LOTNO
-            this.bsItemQty = 0
+
+            if(this.scanItemTracking == 'S'){
+              this.bsItemQty = 1;
+            }
+            else{
+              this.bsItemQty = 0;
+            }
+            
             this.scanCurrentLotNoData = data
           }
         } else {
