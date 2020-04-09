@@ -46,7 +46,7 @@ export class AddItemToContComponent implements OnInit {
   scanItemTracking: any = "";
   containerStatus: any;
   disableFields: boolean = false;
-  flagCreate : boolean = false;
+  flagCreate: boolean = false;
   itemBalanceQty: any = 0
   MapRuleQty: any = 0;
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
@@ -98,15 +98,18 @@ export class AddItemToContComponent implements OnInit {
     }
     this.checkChangeEvent = event;
     console.log("check change:" + this.checkChangeEvent);
-    this.containerCode = '';
-    this.scanItemCode = ''
-    this.itemQty = 0
-    this.scanBSrLotNo = ''
-    this.bsItemQty = 0
-    this.oSaveModel.OPTM_CONT_HDR = [];
-    this.oSaveModel.OtherItemsDTL = [];
-    this.oSaveModel.OtherBtchSerDTL = [];
-    this.bsVisible = false;
+    this.checkChangeEvent.preventDefault();
+    this.showDialog("RadioBtnChange", this.translate.instant("yes"), this.translate.instant("no"),
+      this.translate.instant("DataLostAlert"));
+    // this.containerCode = '';
+    // this.scanItemCode = ''
+    // this.itemQty = 0
+    // this.scanBSrLotNo = ''
+    // this.bsItemQty = 0
+    // this.oSaveModel.OPTM_CONT_HDR = [];
+    // this.oSaveModel.OtherItemsDTL = [];
+    // this.oSaveModel.OtherBtchSerDTL = [];
+    // this.bsVisible = false;
   }
 
   purpose: any
@@ -628,10 +631,10 @@ export class AddItemToContComponent implements OnInit {
       return
     }
 
-    
+
 
     let newArr = [];
-    for(let idxArr=0; idxArr<this.oSaveModel.OtherItemsDTL.length; idxArr++){
+    for (let idxArr = 0; idxArr < this.oSaveModel.OtherItemsDTL.length; idxArr++) {
       newArr.push(this.oSaveModel.OtherItemsDTL[idxArr]);
     }
 
@@ -780,27 +783,27 @@ export class AddItemToContComponent implements OnInit {
               this.bsVisible = false;
             }
 
-            if(this.autoRuleId != "" && this.flagCreate){
+            if (this.autoRuleId != "" && this.flagCreate) {
               this.itemQty = data[0].OPTM_PARTS_PERCONT;
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
 
-              for(let k=0; k<this.oSaveModel.OtherItemsDTL; k++){
+              for (let k = 0; k < this.oSaveModel.OtherItemsDTL; k++) {
                 this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
               }
 
             }
-            else if(this.autoRuleId != "" && !this.flagCreate){
+            else if (this.autoRuleId != "" && !this.flagCreate) {
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
               let item = this.itemQty;
               let scancode = this.scanItemCode
-              this.oSaveModel.OtherItemsDTL.filter(function(obj){
-                  if(obj.OPTM_ITEMCODE == scancode){
-                    item = obj.RemItemQty;
-                  }
-              });  
-              this.itemQty = this.MapRuleQty - item;  
-              
-              for(let k=0; k<this.oSaveModel.OtherItemsDTL; k++){
+              this.oSaveModel.OtherItemsDTL.filter(function (obj) {
+                if (obj.OPTM_ITEMCODE == scancode) {
+                  item = obj.RemItemQty;
+                }
+              });
+              this.itemQty = this.MapRuleQty - item;
+
+              for (let k = 0; k < this.oSaveModel.OtherItemsDTL; k++) {
                 this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
               }
 
@@ -908,7 +911,7 @@ export class AddItemToContComponent implements OnInit {
         OPTM_MIN_FILLPRCNT: this.scanCurrentItemData[0].OPTM_MIN_FILLPRCNT,
         OPTM_ITEM_QTY: this.itemQty,
         OPTM_INV_QTY: this.scanCurrentItemData[0].TOTALQTY,
-       // OPTM_RULE_QTY: this.scanCurrentItemData[0].OPTM_PARTS_PERCONT,
+        // OPTM_RULE_QTY: this.scanCurrentItemData[0].OPTM_PARTS_PERCONT,
         OPTM_RULE_QTY: this.MapRuleQty,  //sheetal
         OPTM_TRACKING: this.scanCurrentItemData[0].LOTTRACKINGTYPE,
         OPTM_BALANCE_QTY: (this.autoRuleId == "" || this.autoRuleId == undefined) ? this.scanCurrentItemData[0].OPTM_PARTS_PERCONT : this.itemQty,
@@ -930,7 +933,7 @@ export class AddItemToContComponent implements OnInit {
     } else {
       for (var i = 0; i < this.oSaveModel.OtherItemsDTL.length; i++) {
         if (this.scanItemCode == this.oSaveModel.OtherItemsDTL[i].OPTM_ITEMCODE) {
-         // if (this.itemQty > this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY) {
+          // if (this.itemQty > this.oSaveModel.OtherItemsDTL[i].OPTM_ITEM_QTY) {
           if (this.itemQty > this.MapRuleQty) {
             this.oSaveModel.OtherItemsDTL[i].OPTM_BALANCE_QTY = 0
             this.oSaveModel.OtherItemsDTL[i].OPTM_REMAIN_BAL_QTY = 0
@@ -1056,7 +1059,7 @@ export class AddItemToContComponent implements OnInit {
               OPTM_QUANTITY: this.bsItemQty,
             })
           } else {
-            
+
             var sumOfLots = 0
             for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
               if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
@@ -1067,10 +1070,10 @@ export class AddItemToContComponent implements OnInit {
             for (var j = 0; j < this.oSaveModel.OtherItemsDTL[i].TempLotNoList.length; j++) {
               if (this.scanBSrLotNo == this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_BTCHSER) {
 
-                if(this.radioSelected == 1){
+                if (this.radioSelected == 1) {
                   this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots + this.bsItemQty;
                 }
-                else{
+                else {
                   this.oSaveModel.OtherItemsDTL[i].TempLotNoList[j].OPTM_QUANTITY = sumOfLots - this.bsItemQty;
                 }
                 break;
@@ -1159,7 +1162,7 @@ export class AddItemToContComponent implements OnInit {
                   OPTM_MIN_FILLPRCNT: 0,
                   OPTM_ITEM_QTY: data.ItemDeiail[i].OPTM_QUANTITY,
                   OPTM_INV_QTY: 0,
-                 // OPTM_RULE_QTY: data.ItemDeiail[i].OPTM_QUANTITY,
+                  // OPTM_RULE_QTY: data.ItemDeiail[i].OPTM_QUANTITY,
                   OPTM_RULE_QTY: this.MapRuleQty,
                   OPTM_TRACKING: data.ItemDeiail[i].OPTM_TRACKING,
                   OPTM_BALANCE_QTY: 0,
@@ -1545,7 +1548,7 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     }
-    this.oSaveModel.OtherItemsDTL[deletedItemIndex].QTY_ADDED =  sumRemain
+    this.oSaveModel.OtherItemsDTL[deletedItemIndex].QTY_ADDED = sumRemain
     this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_REMAIN_BAL_QTY = Number("" + this.oSaveModel.OtherItemsDTL[deletedItemIndex].OPTM_BALANCE_QTY) - sumRemain
   }
 
@@ -1607,6 +1610,17 @@ export class AddItemToContComponent implements OnInit {
             }
           }
           break;
+        case ("RadioBtnChange"):
+          this.containerCode = '';
+          this.scanItemCode = ''
+          this.itemQty = 0
+          this.scanBSrLotNo = ''
+          this.bsItemQty = 0
+          this.oSaveModel.OPTM_CONT_HDR = [];
+          this.oSaveModel.OtherItemsDTL = [];
+          this.oSaveModel.OtherBtchSerDTL = [];
+          this.bsVisible = false;
+          break
       }
     } else {
       if ($event.Status == "no") {
