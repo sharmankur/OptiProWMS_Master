@@ -134,7 +134,7 @@
                             </div>
 
                             <div class="form-group row mt-3">
-                                <div class="col-sm-6">
+                                <div class="col-sm-8 row">
                                     <fieldset class="d-block w-100">
                                         <div class="d-flex align-items-center w-100">
                                             <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
@@ -150,9 +150,9 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="input-group input-group-sm">
-                                        <label class="col-form-label mr-5">{{'Balance_Qty'|translate}}</label>
+                                        <label class="col-form-label mr-3">{{'Balance_Qty'|translate}}</label>
                                         <input type="text" id="itemBalanceQty" name="itemBalanceQty" class="form-control form-control-sm text-right"
                                             [ngModel]="itemBalanceQty|numberFormat" (ngModelChange)="itemBalanceQty=$event"
                                             disabled>
@@ -175,10 +175,10 @@
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
                                     <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
+                                        [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()" [disabled]="autoRuleId != '' && SetItemQty == 0 && radioSelected == 1">
                                     <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
                                     <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBSQtyChange()" [disabled]="scanItemTracking == 'S'">
+                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBSQtyChange()"> <!-- [disabled]="(scanItemTracking == 'S' || (autoRuleId != '' && SetItemQty == 0 && radioSelected == 1))"-->
                                 </div>
                             </div>
 
