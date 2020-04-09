@@ -134,62 +134,51 @@
                             </div>
 
                             <div class="form-group row mt-3">
-                                <fieldset class="d-block w-100">
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
-                                            <input type="radio" #addItem name="addItem" id="addItem" (click)="handleCheckChange($event)"
-                                                class="k-radio" [checked]="radioSelected == 1" />
-                                            <label class="k-radio-label" for="addItem">{{'CT_Add'|translate}}</label>
+                                <div class="col-sm-6">
+                                    <fieldset class="d-block w-100">
+                                        <div class="d-flex align-items-center w-100">
+                                            <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
+                                                <input type="radio" #addItem name="addItem" id="addItem" (click)="handleCheckChange($event)"
+                                                    class="k-radio" [checked]="radioSelected == 1" />
+                                                <label class="k-radio-label" for="addItem">{{'CT_Add'|translate}}</label>
+                                            </div>
+                                            <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('remove')">
+                                                <input type="radio" #removeItem name="removeItem" id="removeItem" class="k-radio"
+                                                    (click)="handleCheckChange($event)" [checked]="radioSelected == 2" />
+                                                <label class="k-radio-label" for="removeItem">{{'Remove'|translate}}</label>
+                                            </div>
                                         </div>
-                                        <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('remove')">
-                                            <input type="radio" #removeItem name="removeItem" id="removeItem" class="k-radio"
-                                                (click)="handleCheckChange($event)" [checked]="radioSelected == 2" />
-                                            <label class="k-radio-label" for="removeItem">{{'Remove'|translate}}</label>
-                                        </div>
-
-                                    <label class="col-sm-3 col-form-label row ml-4">{{'Balance_Qty'|translate}}</label>
-                                    <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-3 form-control form-control-sm mr-3"
-                                            [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
-                                           disabled>
+                                    </fieldset>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-sm">
+                                        <label class="col-form-label mr-5">{{'Balance_Qty'|translate}}</label>
+                                        <input type="text" id="itemBalanceQty" name="itemBalanceQty" class="form-control form-control-sm text-right"
+                                            [ngModel]="itemBalanceQty|numberFormat" (ngModelChange)="itemBalanceQty=$event"
+                                            disabled>
                                     </div>
-
-                                    
-
-                                </fieldset>
-
-
-                            </div>                           
+                                </div>
+                            </div>
 
                             <div class="form-group row mt-2">
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
                                     <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
-                                        [attr.disabled]="disableFields?'':null">
+                                        [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()" [attr.disabled]="disableFields?'':null">
                                     <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
                                     <input type="number" id="itemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" 
-                                        (blur)="onItemQtyChange()">
+                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onItemQtyChange()">
                                 </div>
                             </div>
-
-                            <!-- <div class="form-group row mt-2">
-                                <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label row">{{'BalanceQty'|translate}}</label>
-                                    <input type="text" id="BalQty" name="BalQty" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanItemCode" disabled>
-                                </div>
-                            </div> -->
 
                             <div class="form-group row" *ngIf="bsVisible">
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
                                     <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-6 form-control form-control-sm mr-3"
                                         [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
-                                    <label class="col-sm-3 col-form-label row">{{'ScanQty'|translate}}</label>
+                                    <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
                                     <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                        (blur)="onBSQtyChange()">
+                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBSQtyChange()">
                                 </div>
                             </div>
 
@@ -200,7 +189,8 @@
                             <div class="col-12">
                                 <div class="float-right form-group row">
                                     <div class="input-group input-group-sm">
-                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
+                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text"
+                                            disabled>
                                             {{'PrintLabel'|translate}}
                                         </button>
                                         <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
@@ -254,40 +244,40 @@
                                         </ng-template>
                                     </kendo-grid-column>  Rule_Qty -->
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEM_QTY"
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_RULE_QTY"
                                         title="{{'Rule_Qty'|translate}}" headerClass="text-center" class="text-right">
                                         <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.Rule_Qty|numberFormat}}</label>                                            
-                                        </ng-template>
-                                    </kendo-grid-column> 
-
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BALANCE_QTY"
-                                    title="{{'Item_Qty'|translate}}" headerClass="text-center" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.Item_Qty|numberFormat}}</label>
+                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_RULE_QTY|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
 
-                                <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BALANCE_QTY"
-                                title="{{'Qty_Added'|translate}}" headerClass="text-center" class="text-right">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                        <label class="col-sm-3 col-form-label">{{dataItem.Qty_Added|numberFormat}}</label>
-                                    </ng-template>
-                                </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEM_QTY"
+                                        title="{{'Item_Qty'|translate}}" headerClass="text-center" class="text-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEM_QTY|numberFormat}}</label>
+                                        </ng-template>
+                                    </kendo-grid-column>
 
-                                <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BALANCE_QTY"
-                                title="{{'Qty_to_Add'|translate}}" headerClass="text-center" class="text-right">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                        <label class="col-sm-3 col-form-label">{{dataItem.Qty_to_Add|numberFormat}}</label>
-                                    </ng-template>
-                                </kendo-grid-column>
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="QTY_ADDED"
+                                        title="{{'Qty_Added'|translate}}" headerClass="text-center" class="text-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                            <label class="col-sm-3 col-form-label">{{dataItem.QTY_ADDED|numberFormat}}</label>
+                                        </ng-template>
+                                    </kendo-grid-column>
 
                                     <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BALANCE_QTY"
-                                        title="{{'BalanceQty'|translate}}" headerClass="text-center" class="text-right">
+                                        title="{{'Qty_to_Add'|translate}}" headerClass="text-center" class="text-right">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+                                            <label class="col-sm-3 col-form-label">{{dataItem.Qty_to_Add|numberFormat}}</label>
+                                        </ng-template>
+                                    </kendo-grid-column> -->
+
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_REMAIN_BAL_QTY"
+                                        title="{{'Qty_to_Add'|translate}}" headerClass="text-center" class="text-right">
                                         <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                             <label class="col-sm-3 col-form-label">{{dataItem.OPTM_REMAIN_BAL_QTY|numberFormat}}</label>
                                         </ng-template>
-                                    </kendo-grid-column> -->
+                                    </kendo-grid-column>
 
                                     <!-- <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left"
                                         class="text-left" [width]="30" title="{{'Action'|translate}}">
@@ -302,12 +292,12 @@
                                         <kendo-grid [data]="dataItem.TempLotNoList">
                                             <kendo-grid-column width="200" [width]="200" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_AVL_QTY" title="{{'Available Qty'|translate}}"
+                                            <!-- <kendo-grid-column width="200" [width]="200" field="OPTM_AVL_QTY" title="{{'Available Qty'|translate}}"
                                                 class="text-right" headerClass="text-center">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                                     <label class="col-form-label">{{di.OPTM_AVL_QTY|numberFormat}}</label>
                                                 </ng-template>
-                                            </kendo-grid-column>
+                                            </kendo-grid-column> -->
                                             <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
                                                 class="text-right" headerClass="text-center">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
@@ -318,7 +308,8 @@
                                                 class="text-left" [width]="50" title="{{'Action'|translate}}">
                                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                                     <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
-                                                        (mousedown)="deleteLotNo(rowIndex, dataItem)"> <!--[attr.disabled]="dataItem.DeleteDisable?'':null"-->
+                                                        (mousedown)="deleteLotNo(rowIndex, dataItem)">
+                                                        <!--[attr.disabled]="dataItem.DeleteDisable?'':null"-->
                                                         <span class="k-icon k-i-delete" role="presentation"></span>
                                                     </button>
                                                 </ng-template>
@@ -352,8 +343,8 @@
 </span>
 
 <span *ngIf="showConfirmDialog">
-    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
-        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">
