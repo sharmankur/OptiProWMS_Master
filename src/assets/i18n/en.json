@@ -1107,6 +1107,6 @@
   "Qty_to_Add": "Qty to Add",
   "Balance_Qty": "Bal Qty",
   "ScanQty": "Qty",
-  "Dummy": "Dummy"
-  
+  "QtyToAdded": "Qty to Added",
+  "Dummy": "Dummy"  
 }
