@@ -1108,5 +1108,7 @@
   "Balance_Qty": "Bal Qty",
   "ScanQty": "Qty",  
   "BalQtyCheck": "Balance qty can't be greater than available item qty",
+  
+  "DataLostAlert": "Your data will be lost. Do you want to continue?", 
   "Dummy": "Dummy"  
 }
