@@ -35,7 +35,7 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
   }
   
-  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS): Observable<any> {
+  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS, OPTM_PROCESS_STEP_NO): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -45,6 +45,7 @@ export class ShipmentService {
         OPTM_DOCKDOORID: OPTM_DOCKDOORID,
         OPTM_SHIPMENT_CODE: OPTM_SHIPMENT_CODE,
         OPTM_SHP_PROCESS: OPTM_SHP_PROCESS,
+        OPTM_PROCESS_STEP_NO: OPTM_PROCESS_STEP_NO,
         OPTM_USERNAME: localStorage.getItem("UserId")
       }])
     }; 

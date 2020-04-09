@@ -1098,6 +1098,8 @@
   "ShipmentProcess": "Shipment Process",
   "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
   "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
+  "ShipmentsCreatedAllocated": "Shipments Created and allocated",
+  "SchDTValidation": "Enter scheduled date and time for auto schedule and auto allocation.",
 
   "Loaded": "Loaded",
   "Bat/Ser": "Bat/Ser",

@@ -64,6 +64,15 @@ export class ShipmentViewComponent implements OnInit {
   isStageDiabled: boolean = true;
   isScheduledDiabled: boolean = false;
   shipmentData: any;
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any;
+  StatusValue: any;
+  shpProcess: any;
+  shipmentProcessList: any[] = [];
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -91,7 +100,7 @@ export class ShipmentViewComponent implements OnInit {
     ];
   }
 
-  ShipmentProcessEnum() {
+  ShipmentStatusEnum() {
     return [
       { "Value": 10, "Name": "New" },
       { "Value": 20, "Name": "Schedule" },
@@ -99,6 +108,18 @@ export class ShipmentViewComponent implements OnInit {
       { "Value": 40, "Name": "Picking" },
       { "Value": 50, "Name": "Staging" },
       { "Value": 60, "Name": "Loading" }
+    ];
+  }
+
+  ShipmentProcessEnum() {
+    return [
+      { "Value": 1, "Name": "Standard" },
+      { "Value": 2, "Name": "No_Picking" },
+      { "Value": 3, "Name": "No_Staging" },
+      { "Value": 4, "Name": "No_Picking-No_Staging" },
+      { "Value": 5, "Name": "No_Schedule" },
+      { "Value": 6, "Name": "No_Schedule-No_Picking" },
+      { "Value": 7, "Name": "No_Schedule-No_Picking-No_Staging" }
     ];
   }
 
@@ -393,8 +414,7 @@ export class ShipmentViewComponent implements OnInit {
       this.UseContainer = false;
     }
     this.StatusValue = OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO;
-    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS && e.Value == OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO);
-    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == "No_Schedule" && e.Value == 10).Name;
+    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name && e.Value == this.StatusValue).Name;
     this.onCheckChange();
   }
 
@@ -447,9 +467,6 @@ export class ShipmentViewComponent implements OnInit {
     }
   }
 
-  StatusValue: any;
-  shpProcess: any;
-  shipmentProcessList: any[] = [];
   updateShipmentProcessArray(selectedvalue) {
     this.StatusValue = 10;
     this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value === this.StatusValue);
@@ -458,12 +475,6 @@ export class ShipmentViewComponent implements OnInit {
     this.hideLookup = false;
   }
 
-  showConfirmDialog: boolean = false;
-  dialogMsg: string;
-  yesButtonText: string;
-  noButtonText: string;
-  dialogFor: string;
-  event: any;
   onShpProcessChange(event) {
     this.event = event;
     this.dialogFor = "ShipmentProcess";
@@ -603,7 +614,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime.toLocaleDateString(),
-      this.DockDoor, this.ShipmentCode, "20").subscribe(
+      this.DockDoor, this.ShipmentCode, this.ShipmentProcessEnum().find(e => e.Name == this.shipmentData.OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Value, "20").subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
