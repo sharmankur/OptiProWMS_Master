@@ -1120,8 +1120,30 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
+  isItemAlreadyExist(dataList: any, code: any) {
+    for (var i = 0; i < dataList.length; i++) {
+      if (dataList[i].OPTM_ITEMCODE == code) {
+        return true
+      }
+    }
+    return false
+  }
+
+  isLotNoAlreadyExist(dataList: any, code: any, lotNo: any) {
+    for (var i = 0; i < dataList.length; i++) {
+      if (dataList[i].OPTM_ITEMCODE == code && dataList[i].OPTM_BTCHSER == lotNo) {
+        return true
+      }
+    }
+    return false
+  }
+
   removeOtherItem() {
     if(this.scanItemTracking != "N"){
+      return
+    }
+
+    if (!this.isItemAlreadyExist(this.alreadySavedData.ItemDeiail, this.scanItemCode)) {
       return
     }
 
@@ -1144,6 +1166,10 @@ export class AddItemToContComponent implements OnInit {
   }
 
   removeOtherBtcSr() {
+    if (!this.isLotNoAlreadyExist(this.alreadySavedData.BtchSerDeiail, this.scanBSrLotNo, this.scanBSrLotNo)) {
+      return
+    }
+
     if (!this.isLotNoContain(this.oSaveModel.OtherBtchSerDTLForRemove, this.scanBSrLotNo)
       || this.oSaveModel.OtherBtchSerDTLForRemove.length == 0) {
       this.oSaveModel.OtherBtchSerDTLForRemove.push({
@@ -1224,6 +1250,7 @@ export class AddItemToContComponent implements OnInit {
     );
   }
 
+  alreadySavedData: any
   getItemBatchSerialData() {
     this.showLoader = true;
     this.containerCreationService.GetItemAndBtchSerDetailBasedOnContainerID(this.containerId, this.containerCode).subscribe(
@@ -1239,6 +1266,7 @@ export class AddItemToContComponent implements OnInit {
           if (data.length == 0) {
 
           } else {
+            this.alreadySavedData = data
             if (data.ItemDeiail != null && data.ItemDeiail != undefined) {
               for (var i = 0; i < data.ItemDeiail.length; i++) {
                 this.oSaveModel.OtherItemsDTL.push({
