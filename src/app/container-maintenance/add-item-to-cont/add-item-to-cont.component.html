@@ -125,18 +125,18 @@
                     <div class="col-sm-12 mt-3">
                         <div class="row">
                             <div class="card row">
-                                <div class="pl-3 pt-1 pr-3 pb-3">
+                                <div class="pl-3 pt-1 pr-3 pb-1">
                                     <h4 class="border-bottom d-flex mt-2">
                                         {{'ScanAndAddTtl'|translate}}
                                     </h4>
                                 </div>
-                                <div class="row pb-3">
+                                <div class="row pb-3 pr-3">
                                     <div class="form-group col-12">
                                         <div class="input-group input-group-sm">
                                             <label
                                                 class="col-sm-3 ml-1 col-form-label row">{{'Cont_Code'|translate}}</label>
                                             <input type="text" id="containerCode" name="containerCode"
-                                                class="col-sm-5 form-control form-control-sm"
+                                                class="col-sm-6 form-control form-control-sm"
                                                 [(ngModel)]="containerCode" (blur)="onContainerCodeChange()">
                                             <input type="text" id="containerStatus" name="containerStatus"
                                                 class="col-sm-3 ml-3 form-control form-control-sm"
@@ -144,8 +144,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row col-12 ml-3 mt-1">
-                                        <div class="col-sm-5 row">
+                                    <div class="form-group row col-12 ml-3 mt-2">
+                                        <div class="col-sm-6">
                                             <fieldset class="d-block w-100">
                                                 <div class="d-flex align-items-center w-100">
                                                     <div class="d-flex align-items-center"
@@ -168,28 +168,28 @@
                                                 </div>
                                             </fieldset>
                                         </div>
-                                        <div class="form-group col-7 ml-3">
+                                        <div class="col-sm-6">
                                             <div class="input-group input-group-sm">
                                                 <label
-                                                    class="col-sm-6 col-form-label">{{'Balance_Qty'|translate}}</label>
+                                                    class="col-sm-5 col-form-label text-right">{{'Balance_Qty'|translate}}</label>
                                                 <input type="text" id="itemBalanceQty" name="itemBalanceQty"
-                                                    class="col-sm-5 form-control form-control-sm text-right"
+                                                    class="col-sm-7 form-control form-control-sm text-right"
                                                     [ngModel]="itemBalanceQty|numberFormat"
                                                     (ngModelChange)="itemBalanceQty=$event" disabled>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group row col-12 ml-3 mt-1">
+                                    <div class="form-group row col-12 ml-3 mt-2">
                                         <div class="input-group input-group-sm">
-                                            <label class="col-sm-2 col-form-label row">{{'ScanItem'|translate}}</label>
+                                            <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
                                             <input type="text" id="scanItemCode" name="scanItemCode"
-                                                class="col-sm-4 form-control form-control-sm mr-3"
+                                                class="col-sm-3 form-control form-control-sm mr-3"
                                                 [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
                                                 [attr.disabled]="disableFields?'':null">
-                                            <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
+                                            <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
                                             <input type="number" id="itemQty" name="itemQty"
-                                                class="col-sm-4 form-control form-control-sm text-right"
+                                                class="col-sm-3 form-control form-control-sm text-right"
                                                 [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
                                                 (blur)="onItemQtyChange()">
                                         </div>
@@ -197,14 +197,14 @@
 
                                     <div class="form-group row col-12 ml-3 mt-1" *ngIf="bsVisible">
                                         <div class="input-group input-group-sm">
-                                            <label class="col-sm-2 col-form-label row">{{'Bat/Ser'|translate}}</label>
+                                            <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
                                             <input type="text" id="scanBSrLotNo" name="scanBSrLotNo"
-                                                class="col-sm-4 form-control form-control-sm mr-3"
+                                                class="col-sm-3 form-control form-control-sm mr-3"
                                                 [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()"
                                                 [disabled]="autoRuleId != '' && SetItemQty == 0 && radioSelected == 1">
-                                            <label class="col-sm-2 col-form-label row">{{'ScanQty'|translate}}</label>
+                                            <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
                                             <input type="number" id="bsItemQty" name="bsItemQty"
-                                                class="col-sm-4 form-control form-control-sm text-right"
+                                                class="col-sm-3 form-control form-control-sm text-right"
                                                 [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
                                                 (blur)="onBSQtyChange()">
                                         </div>
