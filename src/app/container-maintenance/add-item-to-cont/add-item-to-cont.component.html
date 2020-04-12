@@ -183,30 +183,34 @@
                                     <div class="form-group row col-12 ml-3 mt-2">
                                         <div class="input-group input-group-sm">
                                             <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
-                                            <input type="text" id="scanItemCode" name="scanItemCode"
-                                                class="col-sm-3 form-control form-control-sm mr-3"
-                                                [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
-                                                [attr.disabled]="disableFields?'':null">
+                                            <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
+                                                [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()" [attr.disabled]="disableFields?'':null">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetScanItem()">
+                                                        <i class="opti-icon-search"></i>
+                                                    </button>
+                                                </div>
                                             <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
-                                            <input type="number" id="itemQty" name="itemQty"
-                                                class="col-sm-3 form-control form-control-sm text-right"
-                                                [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
-                                                (blur)="onItemQtyChange()">
+                                            <input type="number" id="itemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onScanItemQtyChange()" 
+                                            [disabled] = "scanItemCode == ''" > <!--(blur)="onItemQtyChange()" -->
                                         </div>
                                     </div>
 
                                     <div class="form-group row col-12 ml-3 mt-1" *ngIf="bsVisible">
                                         <div class="input-group input-group-sm">
                                             <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
-                                            <input type="text" id="scanBSrLotNo" name="scanBSrLotNo"
-                                                class="col-sm-3 form-control form-control-sm mr-3"
-                                                [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()"
-                                                [disabled]="autoRuleId != '' && SetItemQty == 0 && radioSelected == 1">
+                                            <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-6 form-control form-control-sm mr-3"
+                                            [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
+                                            <div class="input-group-append has-seprate-btn">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBatchSerial()">
+                                                    <i class="opti-icon-search"></i>
+                                                </button>
+                                            </div>
                                             <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
-                                            <input type="number" id="bsItemQty" name="bsItemQty"
-                                                class="col-sm-3 form-control form-control-sm text-right"
-                                                [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                                (blur)="onBSQtyChange()">
+                                            <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" (blur)="onBatSerQtyChange()"
+                                            [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'"> <!--(blur)="onBSQtyChange()"-->
                                         </div>
                                     </div>
 
@@ -233,19 +237,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                     <div class="row">
                         <div class="col-12">
                             <div class="wizard-container">
                                 <div class="wizard-box">
                                     <div class="wizard-content">
-                                        <kendo-treeview [nodes]="data" textField="text" kendoTreeViewExpandable
+                                        <kendo-treeview [nodes]="DisplayTreeData" textField="Title" kendoTreeViewExpandable
                                             kendoTreeViewSelectable kendoTreeViewHierarchyBinding childrenField="items">
-                                            <!-- [expandBy]="'level'"  [(expandedKeys)]="expandedKeys" -->
-                                            <!-- <ng-template kendoTreeViewNodeTemplate let-dataItem>
-                                                <span
-                                                    [attr.data-branchtype]="dataItem.branchType">{{dataItem.component}}</span>
-                                            </ng-template> -->
+                                            
                                         </kendo-treeview>
                                     </div>
                                 </div>
@@ -253,8 +253,52 @@
 
                         </div>
                     </div>
+                </div> -->
+
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="opti_overflow-auto tree-wrapper">
+                                <div class="tree well">
+                                    <div class="pl-2 pt-2 pr-2">
+                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 mr-1 float-right" type="button">
+                                            <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon" (click)="onExpandCollapseAll('collapse')">
+                                                <use xlink:href="#collapseAll"></use>
+                                            </svg>
+                                            <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon" (click)="onExpandCollapseAll('expand')">
+                                                <use xlink:href="#expandAll"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="ml-3">
+                                        <kendo-treeview [nodes]="data" textField="text" kendoTreeViewExpandable
+                                            kendoTreeViewHierarchyBinding childrenField="items" [(expandedKeys)]="expandedKeys"
+                                            (collapse)="handleCollapse($event)" (expand)="handleExpand($event)">
+                                            <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                                <div>
+                                                    <span class="item-text">
+                                                        {{dataItem.text}}
+                                                    </span>
+                                                    <span class="item-count">
+                                                        ({{dataItem.quantity}})
+                                                    </span>
+                                                </div>
+                                                <!-- <span
+                                                                        [attr.data-branchtype]="dataItem.branchType">{{dataItem.text}}</span> -->
+                                                <!-- <span class="k-icon k-i-file-pdf"></span>
+                                                                            {{dataItem.component}} -->
+                                            </ng-template>
+                                        </kendo-treeview>
+                                    </div>
+                                </div>
+                            </div>
+                
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+            </div>           
         </div>
 
         <div class="fix-footer-btnBar">

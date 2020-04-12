@@ -880,6 +880,7 @@
   "Container_BatchSerial"  : "Batch Serial" ,
   "Batch_Serial": "Batch/Serial",
   "ItemAddedSuccessMsg": "Item added successfully",
+  "ItemUpdatedSuccessMsg": "Item updated into container successfully",
   "ItemRemovedSuccessMsg": "Item removed successfully",
   "ItemDeletedSuccessMsg": "Item deleted successfully",
   "ContainerAddedSuccessMsg": "Container added successfully",
@@ -1110,6 +1111,7 @@
   "Balance_Qty": "Bal Qty",
   "ScanQty": "Qty",  
   "BalQtyCheck": "Balance qty can't be greater than available item qty",
+  "TrackType": "Tracking",
   
   "DataLostAlert": "Your data will be lost. Do you want to continue?", 
   "Dummy": "Dummy"  
