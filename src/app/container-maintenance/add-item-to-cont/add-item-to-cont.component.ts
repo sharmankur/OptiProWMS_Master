@@ -1336,8 +1336,8 @@ export class AddItemToContComponent implements OnInit {
             this.oSubmitModel.OtherBtchSerDTL[indexBS].Operation = "Edit";   
           }          
         }
-        this.oSubmitModel.OtherBtchSerDTL[index].DirtyFlag = true;
-        this.oSubmitModel.OtherBtchSerDTL[index].Operation = action;                   
+        this.oSubmitModel.OtherBtchSerDTL[indexBS].DirtyFlag = true;
+        this.oSubmitModel.OtherBtchSerDTL[indexBS].Operation = action;                   
       }
     }
     }  
