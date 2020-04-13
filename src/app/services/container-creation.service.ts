@@ -229,27 +229,31 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
   }
 
-  IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any): Observable<any> {
+  IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         RULEID: ruleId,
         ITEMCODE: itemCode,
         WHSCODE: whse,
-        BINCODE: bin
+        BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions);
   }
 
-  IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any): Observable<any> {
+  IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any,operation: any, contcode: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_ITEMCODE: itemCode,
         OPTM_BTCHSER: lotNo,
         OPTM_WHSCODE: whse,
-        OPTM_BINCODE: bin
+        OPTM_BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidBtchSer", jObject, this.commonService.httpOptions);

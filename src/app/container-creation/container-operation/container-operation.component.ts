@@ -116,7 +116,7 @@ export class ContainerOperationComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.containerCreationService.IsValidItemCode(this.packingRule, this.itemCode,this.whseCode, this.binCode).subscribe(
+    this.containerCreationService.IsValidItemCode(this.packingRule, this.itemCode,this.whseCode, this.binCode, "", "").subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
