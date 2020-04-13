@@ -272,7 +272,7 @@
                                         </button>
                                     </div>
                                     <div class="ml-3">
-                                        <kendo-treeview [nodes]="data" textField="text" kendoTreeViewExpandable
+                                        <kendo-treeview [nodes]="DisplayTreeData" textField="text" kendoTreeViewExpandable
                                             kendoTreeViewHierarchyBinding childrenField="items" [(expandedKeys)]="expandedKeys"
                                             (collapse)="handleCollapse($event)" (expand)="handleExpand($event)">
                                             <ng-template kendoTreeViewNodeTemplate let-dataItem>

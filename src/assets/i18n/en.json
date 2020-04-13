@@ -1114,5 +1114,7 @@
   "TrackType": "Tracking",
   
   "DataLostAlert": "Your data will be lost. Do you want to continue?", 
+  "ReopenAlert": "Do you want to Reopen Container?", 
+
   "Dummy": "Dummy"  
 }
