@@ -94,11 +94,25 @@ export class ShipmentViewComponent implements OnInit {
       "Reopened",
       "Assigned",
       "Shipped",
+      "Picked",
       "Returned",
       "Damaged",
       "Cancelled",
+      "Loaded"
     ];
   }
+
+  New_Status = 1
+        Scheduled = 2
+        Closed = 3
+        Reopened = 4
+        Assigned = 5
+        Shipped = 6
+        Picked = 7
+        Retuen = 8
+        Damaged = 9
+        Cancelled = 10
+        Loaded = 11
 
   ShipmentStatusEnum() {
     return [
@@ -303,6 +317,9 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_CONT_HDR[i].OPTM_STATUS = this.getContStatusValue(data.OPTM_CONT_HDR[i].OPTM_STATUS);
           }
           this.ShipContainers = data.OPTM_CONT_HDR;
+          if(this.ShipContainers.length > 0){
+            this.UseContainer = true;
+          }
           if (this.ShipContainers != undefined && this.ShipContainers.length > this.pageSize3) {
             this.pagable3 = true;
           }
@@ -468,8 +485,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   updateShipmentProcessArray(selectedvalue) {
-    this.StatusValue = 10;
-    this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value === this.StatusValue);
+    this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value == this.StatusValue);
     this.serviceData = this.shipmentProcessList;
     this.lookupfor = "ShipMentProcess";
     this.hideLookup = false;
@@ -614,7 +630,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime.toLocaleDateString(),
-      this.DockDoor, this.ShipmentCode, this.ShipmentProcessEnum().find(e => e.Name == this.shipmentData.OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Value, "20").subscribe(
+      this.DockDoor, this.ShipmentCode, (this.ShipmentProcessEnum().find(e => e.Name == this.shpProcess)).Value, "20").subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -624,6 +640,7 @@ export class ShipmentViewComponent implements OnInit {
               return;
             }
             if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+              this.toastr.success('', this.translate.instant("shipScheduled"));
               this.GetDataBasedOnShipmentId(this.ShipmentID);
             } else {
               this.toastr.error('', data.OUTPUT[0].RESULT);

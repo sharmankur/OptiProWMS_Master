@@ -68,7 +68,6 @@ export class PortalLeftComponent implements OnInit {
         }
       }
     );
-    //   }    
   }
 
   displayMenuOptions(menus: any[]) {
