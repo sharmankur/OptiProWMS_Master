@@ -1115,6 +1115,17 @@
   
   "DataLostAlert": "Your data will be lost. Do you want to continue?", 
   "ReopenAlert": "Do you want to Reopen Container?", 
+  "Add_to_Parent": "Add to Parent",
+  "View": "View",
+  "Bal": "Bal",
+  "COPurpose": "Purpose:",
+  "COWarehouse": "Warehouse:",
+  "COContainer": "Container:",
+  "COBin": "Bin:",
+  "CORule": "Rule:",
+  "COSONUm": "SO Number:",
+  "COQty": "Container Qty:",
+  "COGr": "Container Group:",
 
   "Dummy": "Dummy"  
 }
