@@ -12,16 +12,16 @@
                             <fieldset class="d-block w-100">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('auto')">
-                                        <input type="radio" #autoradio name="autoradio" id="autoradio" 
-                                        (click)="handleRuleRadioChange($event)"
+                                        <input type="radio" #addItem name="addItem" id="addItem" 
+                                        (click)="handleCheckChange($event)"
                                             class="k-radio" [checked]="radioRuleSelected == 1" />
-                                        <label class="k-radio-label" for="autoradio">{{'Auto_Rule_Based'|translate}}</label>
+                                        <label class="k-radio-label" for="addItem">{{'Auto_Rule_Based'|translate}}</label>
                                     </div>
                                     <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('manual')">
-                                        <input type="radio" #manualradio name="manualradio" id="manualradio" 
-                                        class="k-radio" (click)="handleRuleRadioChange($event)" 
+                                        <input type="radio" #removeItem name="removeItem" id="removeItem" 
+                                        class="k-radio" (click)="handleCheckChange($event)" 
                                         [checked]="radioRuleSelected == 2" />
-                                        <label class="k-radio-label" for="manualradio">{{'Manual'|translate}}</label>
+                                        <label class="k-radio-label" for="removeItem">{{'Manual'|translate}}</label>
                                     </div>
                                 </div>
                             </fieldset>
@@ -144,9 +144,9 @@
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Add_to_Parent'|translate}}</label>
-                            <input type="checkbox" id="checkParent" name='checkParent' class="k-checkbox"
-                            (change)="onParentCheckChange($event)" [checked]="checkParent" />
-                            <label class="k-checkbox-label empty-check" for="checkParent"></label>
+                            <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
+                            (change)="onCheckChange($event)" [checked]="autoClose" />
+                            <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
                         </div>
                     </div>
 
@@ -155,9 +155,9 @@
                             <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
                             <input type="text" class="form-control form-control-sm" id="parentContainerType"
                             name="parentContainerType"
-                            [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="!checkParent"> 
+                            [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="IsDisableParentCT"> 
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType('lookup')" [disabled]="IsDisableParentCT">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
@@ -242,7 +242,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" *ngIf="true">
+                        <div class="form-group row" *ngIf="bsVisible">
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
                                     <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
@@ -274,7 +274,7 @@
                     </div>
                 </div>
 
-                <!-- <div class="col-sm-6">
+                <div class="col-sm-6">
                     <div class="row">
                         <div class="col-12">
                             <div class="opti_overflow-auto tree-wrapper">
@@ -311,7 +311,7 @@
                 
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </div>           
         </div>

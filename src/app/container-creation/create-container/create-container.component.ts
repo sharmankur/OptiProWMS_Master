@@ -11,7 +11,8 @@ import { CTRMasterService } from 'src/app/services/ctrmaster.service';
 
 @Component({
   selector: 'app-create-container',
-  templateUrl: './create-container.component.html',
+  //templateUrl: './create-container.component.html',
+  templateUrl: '../../container-maintenance/add-item-to-cont/add-item-to-cont.component.html',
   styleUrls: ['./create-container.component.scss']
 })
 export class CreateContainerComponent implements OnInit {
@@ -816,6 +817,7 @@ export class CreateContainerComponent implements OnInit {
     //   }
     // }
     return true;
+    
   }
 
   onCheckChange(event) {

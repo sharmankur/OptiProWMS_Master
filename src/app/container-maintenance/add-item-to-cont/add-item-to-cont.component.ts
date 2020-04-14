@@ -57,6 +57,9 @@ export class AddItemToContComponent implements OnInit {
   containerCode: any = "";
   oSubmitModel: any = {};
   DisplayTreeData : any = [];
+  radioSelected: number = 1;
+  radioRuleSelected: number = 1;
+  checkParent: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private containerCreationService: ContainerCreationService, private router: Router, private carmasterService: CARMasterService,
@@ -143,8 +146,7 @@ export class AddItemToContComponent implements OnInit {
     document.getElementById(id).click();
   }
 
-  checkChangeEvent: any;
-  radioSelected: number = 1;
+  checkChangeEvent: any;  
   handleCheckChange(event) {
     if (this.radioSelected == 1) {
       this.radioSelected = 2
@@ -155,12 +157,27 @@ export class AddItemToContComponent implements OnInit {
     }
     this.checkChangeEvent = event;    
   }
+
+  handleRuleRadioChange(event){
+    if (this.radioRuleSelected == 1) {
+      this.radioRuleSelected = 2
+      //this.addItemOpn = "Remove"
+    } else {
+      this.radioRuleSelected = 1
+      //this.addItemOpn = "Add"
+    }
+    this.checkChangeEvent = event; 
+  }
+
+  onParentCheckChange(event){
+    this.checkParent = !this.checkParent;
+  }
  
   onPurposeSelectChange(event) {
     this.purpose = event.Name;
     this.purposeId = event.Value;
   }
-
+  
   setDefaultValues(){
     this.containerCode = '';
     this.containerId = '';
