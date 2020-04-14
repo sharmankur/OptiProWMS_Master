@@ -13,7 +13,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ContainerCreationModule } from '../container-creation/container-creation.module';
 import { ContMaintnceComponent } from './cont-maintnce/cont-maintnce.component';
 import { AddItemToContComponent } from './add-item-to-cont/add-item-to-cont.component';
-import { TreeViewModule } from '@progress/kendo-angular-treeview';
+// import { TreeViewModule } from '@progress/kendo-angular-treeview';
 
 
 @NgModule({
@@ -28,8 +28,8 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
     GridModule,
     DropDownsModule,
     DateInputsModule,
-    ContainerCreationModule,
-    TreeViewModule
+    ContainerCreationModule
+    // TreeViewModule
   ],
   exports: [ContMaintnceComponent],
   providers: [ContMaintnceComponent]

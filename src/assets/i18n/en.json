@@ -1101,6 +1101,7 @@
   "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
   "ShipmentsCreatedAllocated": "Shipments Created and allocated",
   "SchDTValidation": "Enter scheduled date and time for auto schedule and auto allocation.",
+  "shipScheduled": "Shipment Scheduled.",
 
   "Loaded": "Loaded",
   "Bat/Ser": "Bat/Ser",
@@ -1115,6 +1116,7 @@
   
   "DataLostAlert": "Your data will be lost. Do you want to continue?", 
   "ReopenAlert": "Do you want to Reopen Container?", 
+  "ScanContAssignShp": "Scan Container and Assign to Shipment", 
   "Add_to_Parent": "Add to Parent",
   "View": "View",
   "Bal": "Bal",

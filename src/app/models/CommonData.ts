@@ -247,9 +247,11 @@ export class CommonData {
             { "Value": 4, "Name": this.translate.instant("CReopenedNew")},
             { "Value": 5, "Name": this.translate.instant("CAssignedNew")},
             { "Value": 6, "Name": this.translate.instant("CShippedNew")},
+            { "Value": 6, "Name": "Picked"},
             { "Value": 7, "Name": this.translate.instant("Returned")},
             { "Value": 8, "Name": this.translate.instant("CDamagedNew")},
-            { "Value": 9, "Name": this.translate.instant("CCancelledNew")}
+            { "Value": 9, "Name": this.translate.instant("CCancelledNew")},
+            { "Value": 9, "Name": "Loaded"}
         ];
     }
 
