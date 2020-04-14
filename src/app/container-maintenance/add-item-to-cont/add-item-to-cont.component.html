@@ -1,13 +1,17 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-
+                <div class="mobile-show nav-btns">
+                        <button *ngIf="nextEnabled" (click)="onNext()"><i class="opti-icon-arrow-next"></i></button>
+                        <button *ngIf="!nextEnabled" (click)="onBack()"><i class="opti-icon-arrow-back"></i></button>
+                </div>
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'AddItemToCont'|translate}}
+                
             </h3>
-            <div class="col-12 row">
-                <div class="col-sm-5">
-                    <div class="form-group row">
+            <div class="row">
+                <div  [ngClass]="[!nextEnabled ? 'mobile-hide' : '']" class="col-sm-6">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <fieldset class="d-block w-100">
                                 <div class="d-flex align-items-center w-100">
@@ -27,7 +31,7 @@
                             </fieldset>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
                             <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
@@ -36,7 +40,7 @@
                                 (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                             <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
@@ -49,7 +53,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
                             <input type="text" id="binNo" name="binNo" class="col-sm-8 form-control form-control-sm"
@@ -62,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
                             <input type="text" class="form-control form-control-sm" id="containerType"
@@ -76,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row" *ngIf="false">
+                    <div class="form-group" *ngIf="false">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
                             <input type="text" id="parentContainerType" name="parentContainerType"
@@ -90,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'AutoPackRule'|translate}}</label>
                             <input type="text" id="autoRuleId" name="autoRuleId"
@@ -104,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
                             <input type="text" id="containerGroupCode" name="containerGroupCode"
@@ -119,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
                             <input type="text" id="soNumber" name="soNumber"
@@ -133,7 +137,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'NoOfPackToGen'|translate}}</label>
                             <input type="text" id="noOfPack" name="noOfPack"
@@ -141,7 +145,7 @@
                                 placeholder="{{'NoOfPackToGen'|translate}}" disabled>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Add_to_Parent'|translate}}</label>
                             <input type="checkbox" id="checkParent" name='checkParent' class="k-checkbox"
@@ -150,7 +154,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
                             <input type="text" class="form-control form-control-sm" id="parentContainerType"
@@ -166,7 +170,7 @@
                 </div>  
                 
 
-                <div class="card col-sm-5 ml-3">
+                <div  [ngClass]="[nextEnabled ? 'mobile-hide' : '']" class="card col-sm-5">
                     <div>
                         <h5 class="border-bottom d-flex pt-1 pb-3 mb-2 mt-2">
                             {{'ScanAndAddTtl'|translate}}
@@ -175,7 +179,7 @@
                     </div>
                     <div class="mr-2 ml-2 mt-2">
                         <div>
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-4 col-form-label">{{'Cont_Code'|translate}}</label>
                                     <input type="text" id="containerCode" name="containerCode" 
@@ -184,7 +188,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group ">
                             <div class="col-sm-6">
                                 <fieldset class="d-block w-100">
                                     <div class="d-flex align-items-center w-100">
@@ -220,7 +224,7 @@
                             </div> -->
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="input-group input-group-sm">
                                 <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
                                 <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
@@ -242,9 +246,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" *ngIf="true">
+                        <div class="form-group" *ngIf="true">
                                 <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
+                                    <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
                                     <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
                                     class="col-sm-6 form-control form-control-sm mr-3"
                                         [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
@@ -322,7 +326,11 @@
                     (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    <button type="button" [disabled]="nextEnabled" class="mobile-show flex-show k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    (mousedown)="onUpdateClick()">
+                    {{'CT_Update'|translate}}
+                </button>
+                <button type="button"  class=" mobile-hide k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
                     (mousedown)="onUpdateClick()">
                     {{'CT_Update'|translate}}
                 </button>
