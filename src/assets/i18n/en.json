@@ -1116,6 +1116,7 @@
   
   "DataLostAlert": "Your data will be lost. Do you want to continue?", 
   "ReopenAlert": "Do you want to Reopen Container?", 
+  "ScanContAssignShp": "Scan Container and Assign to Shipment", 
 
   "Dummy": "Dummy"  
 }

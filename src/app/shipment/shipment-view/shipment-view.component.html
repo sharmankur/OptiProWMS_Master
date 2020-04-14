@@ -443,3 +443,24 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+
+<kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+    <div class="new-custom-grid">
+        <kendo-dialog-titlebar>
+            {{'ScanContAssignShp'|translate}}
+        </kendo-dialog-titlebar>
+        <div class="px-3">
+            <div class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
+                    <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                        [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="generateContainer()">
+                </div>
+            </div>
+        </div>
+    
+        <kendo-dialog-actions>
+            <button class="ml-1" kendoButton (click)="close_kendo_dialog()" primary="true">Confirm</button>
+        </kendo-dialog-actions>
+    </div>
+</kendo-dialog>

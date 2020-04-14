@@ -73,6 +73,7 @@ export class ShipmentViewComponent implements OnInit {
   StatusValue: any;
   shpProcess: any;
   shipmentProcessList: any[] = [];
+  dialogOpened = false;
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -661,6 +662,14 @@ export class ShipmentViewComponent implements OnInit {
       );
   }
 
+  generateContainer(){
+
+  }
+
+  close_kendo_dialog(){
+    this.dialogOpened = false;
+  }
+
   onStageORUnstageShipmentClick() {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
@@ -677,7 +686,9 @@ export class ShipmentViewComponent implements OnInit {
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataBasedOnShipmentId(this.ShipmentID);
-          } else {
+          } else if(data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container"){ 
+            this.dialogOpened = true;
+          }else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {

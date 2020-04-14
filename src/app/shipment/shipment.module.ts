@@ -10,6 +10,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ShipmentComponent } from './shipment.component';
 import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
 import { ShipmentRoutingModule } from './shipment-routing.module';
+import { DialogsModule } from '../../../node_modules/@progress/kendo-angular-dialog';
 
 @NgModule({
   declarations: [ShipmentComponent, ShipmentViewComponent],
@@ -17,6 +18,7 @@ import { ShipmentRoutingModule } from './shipment-routing.module';
     CommonModule,
     GridModule,
     SharedModule,    
+    DialogsModule,
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,
