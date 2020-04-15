@@ -139,7 +139,7 @@ export class ShipmentWizardViewComponent implements OnInit {
         else {
           this.HoldSelectedRow.ConsolidationsBy.push({
             Customer: this.CHKCustomer, DueDate: this.CHKDueDate,
-            Item: this.CHKItem, ShipTo: this.CHKShipto, SONO: this.CHKSOno
+            Item: this.CHKItem, ShipTo: this.CHKShipto, SONO: this.CHKSOno, OPTM_CONTUSE: this.UseContainer
           })
           this.GetConsolidatedData();
         }

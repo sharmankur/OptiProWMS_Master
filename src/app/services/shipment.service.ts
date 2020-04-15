@@ -79,17 +79,22 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/UpdateShipment", jObject, this.commonService.httpOptions);
   }
 
-  ChangeShippingProcess(SHIPMENTCODE, SHIPMENTPROCESS, SHIPMENTPROCESSNO): Observable<any> {
+  ChangeShippingProcess(SHIPMENTCODE, SHIPMENTPROCESS, SHIPMENTPROCESSNO, OPTM_STATUS): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         SHIPMENTCODE: SHIPMENTCODE,
         SHIPMENTPROCESS: SHIPMENTPROCESS,
-        SHIPMENTPROCESSNO: SHIPMENTPROCESSNO
+        SHIPMENTPROCESSNO: SHIPMENTPROCESSNO,
+        OPTM_STATUS: OPTM_STATUS
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/ChangeShippingProcess", jObject, this.commonService.httpOptions);
   }
   
+  CreateContainerForPacking(oSaveModel): Observable<any> {
+    let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateContainerForPacking", jObject, this.commonService.httpOptions);
+  }
 }
 

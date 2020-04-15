@@ -218,7 +218,9 @@ export class CommonData {
             { "Value": 11, "Name": this.translate.instant("Part_Returned") },
             { "Value": 12, "Name": this.translate.instant("Returned") },
             { "Value": 13, "Name": this.translate.instant("Return_Accepted") },
-            { "Value": 14, "Name": this.translate.instant("CCancelledNew") }
+            { "Value": 14, "Name": this.translate.instant("CCancelledNew") },
+            { "Value": 15, "Name":  "Loading" },
+            { "Value": 16, "Name":  "UnLoaded" }
         ];
     }
 
@@ -246,12 +248,13 @@ export class CommonData {
             { "Value": 3, "Name": this.translate.instant("CClosedNew")},
             { "Value": 4, "Name": this.translate.instant("CReopenedNew")},
             { "Value": 5, "Name": this.translate.instant("CAssignedNew")},
-            { "Value": 6, "Name": this.translate.instant("CShippedNew")},
             { "Value": 6, "Name": "Picked"},
-            { "Value": 7, "Name": this.translate.instant("Returned")},
-            { "Value": 8, "Name": this.translate.instant("CDamagedNew")},
-            { "Value": 9, "Name": this.translate.instant("CCancelledNew")},
-            { "Value": 9, "Name": "Loaded"}
+            { "Value": 7, "Name": "Loaded"},
+            { "Value": 8, "Name": this.translate.instant("CShippedNew")},
+            { "Value": 9, "Name": this.translate.instant("Returned")},
+            { "Value": 10, "Name": this.translate.instant("CDamagedNew")},
+            { "Value": 11, "Name": this.translate.instant("CCancelledNew")}
+         
         ];
     }
 

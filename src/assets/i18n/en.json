@@ -1067,7 +1067,7 @@
   "OpenQtyCheck": "Assigned Qty cannot be greater than Open Qty",
   "TotalQtyCheck" : "Total quantities added cannot be greater than Open Qty",
   "ZeroOpenQty": "Open Qty is zero",
-  "GeneratePicklistShipments": "Generate Picklist Shipments",
+  "GeneratePicklistShipments": "Generate Picklist",
 
   "BatchPickingErrMsg": "Pick Container operation is not allowed for Batch Picking",
   "ClusterPickingErrMsg": "Pick Container operation is not allowed for Cluster Picking",
@@ -1128,6 +1128,7 @@
   "COSONUm": "SO Number:",
   "COQty": "Container Qty:",
   "COGr": "Container Group:",
+  "ShpProcessChange": "Shipment process changed.",
 
   "Dummy": "Dummy"  
 }
