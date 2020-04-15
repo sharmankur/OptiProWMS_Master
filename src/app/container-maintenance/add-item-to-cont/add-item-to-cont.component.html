@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                            <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
+                            <input type="text" #scanWhse id="scanWhse" name="whse" class="col-sm-8 form-control form-control-sm"
                                 [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
-                            <input type="text" id="binNo" name="binNo" class="col-sm-8 form-control form-control-sm"
+                            <input type="text" #scanBinCode id="scanBinCode" name="binNo" class="col-sm-8 form-control form-control-sm"
                                 [(ngModel)]="binNo" placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
-                            <input type="text" class="form-control form-control-sm" id="containerType"
+                            <input type="text" #scanContType class="form-control form-control-sm" id="scanContType"
                                 name="containerType" [(ngModel)]="containerType"
                                 placeholder="{{'ContainerType'|translate}}" (blur)="onContainerTypeChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
@@ -86,7 +86,7 @@
                     <div class="form-group" *ngIf="false">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
-                            <input type="text" id="parentContainerType" name="parentContainerType"
+                            <input type="text" #scanParentContCode id="scanParentContCode" name="parentContainerType"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="parentContainerType"
                                 placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="onParentContainerChange()">
                             <div class="input-group-append has-seprate-btn">
@@ -100,7 +100,7 @@
                     <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'AutoPackRule'|translate}}</label>
-                            <input type="text" id="autoRuleId" name="autoRuleId"
+                            <input type="text" #scanAutoRuleId id="scanAutoRuleId" name="autoRuleId"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="autoRuleId"
                                 placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()"
                                 [disabled]="radioRuleSelected == 2">
@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                            <input type="text" id="containerGroupCode" name="containerGroupCode"
+                            <input type="text" #scanContGroupCode id="scanContGroupCode" name="containerGroupCode"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="containerGroupCode"
                                 placeholder="{{'ContainerGroupingCode'|translate}}"
                                 (blur)="IsValidContainerGroupBlur()">
@@ -130,7 +130,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
-                            <input type="text" id="soNumber" name="soNumber"
+                            <input type="text" #scanSONumber id="scanSONumber" name="soNumber"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="soNumber"
                                 placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
                             <div class="input-group-append has-seprate-btn">
@@ -161,7 +161,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
-                            <input type="text" class="form-control form-control-sm" id="parentContainerType"
+                            <input type="text" #scanParentContType class="form-control form-control-sm" id="scanParentContType"
                             name="parentContainerType"
                             [(ngModel)]="parentContainerType" (blur)="getParentContainerType('blur')" [disabled]="!checkParent"> 
                             <div class="input-group-append has-seprate-btn">
@@ -177,7 +177,7 @@
                     <div class="form-group row">
                         <div class="input-group input-group-sm">
                             <label for="CustomerTo" class="col-sm-4 col-form-label">{{'WO'|translate}}</label>
-                            <input type="text" class="form-control form-control-sm" id="containerGroupCode"
+                            <input type="text" #scanWorkOrder class="form-control form-control-sm" id="scanWorkOrder"
                             name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderBlur()"  [disabled]="radioRuleSelected == 2">
                         <div class="input-group-append has-seprate-btn">
                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetWorkOrderList('lookup')">
