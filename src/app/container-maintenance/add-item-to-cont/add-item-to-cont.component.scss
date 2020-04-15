@@ -77,6 +77,21 @@ img.img-thumbnail {
 .mobile-show{
   display: none;
 }
+.scan-mobile-details{
+  background: #f1f1f1;
+  padding: 5px 0; 
+  margin-bottom: 10px;
+}
+.scan-row{
+  margin: 0;
+  .scan-col{
+    padding: 0 5px;
+  }
+}
+.col-form-label{
+  padding-left: 2px;
+  padding-right: 2px
+}
 @media(max-width:640px){
   .mobile-hide{
     display: none;

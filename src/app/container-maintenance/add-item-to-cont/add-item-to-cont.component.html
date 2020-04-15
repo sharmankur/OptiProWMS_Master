@@ -34,10 +34,13 @@
                     <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
-                            <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
-                                textField="Name" valueField="Value" id="purpose" name="purpose"
-                                [(ngModel)]="defaultPurpose" #selectedvalue
-                                (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                            <div  class="col-sm-8 p-0">
+                                    <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
+                                    textField="Name" valueField="Value" id="purpose" name="purpose"
+                                    [(ngModel)]="defaultPurpose" #selectedvalue
+                                    (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                            </div>
+                           
                         </div>
                     </div>
                     <div class="form-group">
@@ -177,19 +180,63 @@
                         </h5>
                         
                     </div>
-                    <div class="mr-2 ml-2 mt-2">
+                    <div class="mt-2">
+                        <div class="mobile-show scan-mobile-details">
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Purpose:Value</label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Warehouse:Value</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Bin Code:Value</label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Container Type:Value</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Auto Pack Rule:Value</label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Cont. Group Code:Value</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">SO Number:Value</label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">No of Pack To Generate:Value</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Add to Parent:Value</label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                            <label class="col-form-label">Parent Cont. Type:Value</label>
+                                    </div>
+                                </div>
+                        </div>
                         <div>
-                            <div class="form-group">
+                            <div class="form-group row scan-form-row">
+                                <div class="col">
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-4 col-form-label">{{'Cont_Code'|translate}}</label>
                                     <input type="text" id="containerCode" name="containerCode" 
-                                    class="col-sm-8 form-control form-control-sm mr-3"
+                                    class="col-sm-8 form-control form-control-sm "
                                     [(ngModel)]="containerCode" (blur)="onContainerCodeChange()">
                                 </div>
                             </div>
+                            </div>
 
-                            <div class="form-group ">
-                            <div class="col-sm-6">
+                            <div class="form-group row scan-form-row mt-2">
+                            <div class="col">
                                 <fieldset class="d-block w-100">
                                     <div class="d-flex align-items-center w-100">
                                         <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
@@ -224,10 +271,11 @@
                             </div> -->
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row scan-form-row">
+                                <div class="col">
                             <div class="input-group input-group-sm">
-                                <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
-                                <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
+                                <label class="col-sm-5 col-form-label">{{'ScanItem'|translate}}</label>
+                                <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-7 form-control form-control-sm"
                                     [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()" 
                                     [attr.disabled]="disableFields?'':null">
                                 <div class="input-group-append has-seprate-btn">
@@ -236,44 +284,61 @@
                                         <i class="opti-icon-search"></i>
                                     </button>
                                 </div>
-                                <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
+                                </div>
+                                </div>
+                                <div class="col">
+                                <div class="input-group input-group-sm">
+                                <label class="col-sm-5 col-form-label text-right">{{'ScanQty'|translate}}</label>
                                 <input type="number" id="itemQty" name="itemQty" 
-                                class="col-sm-3 form-control form-control-sm text-right"
+                                class="col-sm-7 form-control form-control-sm text-right"
                                     [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
                                         (blur)="onScanItemQtyChange()"
                                     [disabled]="scanItemCode == ''">
+                                    </div>
+                                </div>
                                 <!--(blur)="onItemQtyChange()" -->
-                            </div>
+                          
                         </div>
 
-                        <div class="form-group" *ngIf="true">
+                        <div class="form-group row scan-form-row">
+                            <div class="col">
                                 <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
-                                    <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
-                                    class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
-                                    <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" 
-                                        (mousedown)="GetBatchSerial()">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div>
-                                    <label class="col-sm-3 col-form-label text-right">{{'ScanQty'|translate}}</label>
-                                    <input type="number" id="bsItemQty" name="bsItemQty" 
-                                    class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
-                                        (blur)="onBatSerQtyChange()"
-                                        [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
-
-                                    <label class="col-sm-3 col-form-label text-right">{{'Bal'|translate}}</label>
-                                    <input type="number" id="bsItemQty" name="bsItemQty" 
-                                    class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
-                                        (blur)="onBatSerQtyChange()"
-                                        [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
-                                    <!--(blur)="onBSQtyChange()"-->
+                                        <label class="col-sm-5 col-form-label">{{'Bat/Ser'|translate}}</label>
+                                        <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
+                                        class="col-sm-7 form-control form-control-sm"
+                                            [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" 
+                                            (mousedown)="GetBatchSerial()">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
                                 </div>
-                            </div>                          
+                            </div>
+                            <div class="col">
+                                <div class="input-group input-group-sm">
+                                    <label class="col-sm-5 col-form-label text-right">{{'ScanQty'|translate}}</label>
+                                    <input type="number" id="bsItemQty" name="bsItemQty" 
+                                    class="col-sm-7 form-control form-control-sm text-right"
+                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
+                                        (blur)="onBatSerQtyChange()"
+                                        [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                </div>
+                            </div>
+                            </div>  
+                            <div class="form-group row scan-form-row" >
+                                   
+                                    <div class="col">
+                                                <label class="col-sm-5 col-form-label text-left">{{'Bal'|translate}}</label>
+                                                <input type="number" id="bsItemQty" name="bsItemQty" 
+                                                class="col-sm-7 form-control form-control-sm text-right"
+                                                    [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
+                                                    (blur)="onBatSerQtyChange()"
+                                                    [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                      
+                                    </div>
+                                    <div class="col"></div>
+                                    </div>                            
                         </div>
                     </div>
                 </div>
@@ -315,7 +380,7 @@
                 
                         </div>
                     </div>
-                </div>  -->
+                </div>   -->
 
             </div>           
         </div>
