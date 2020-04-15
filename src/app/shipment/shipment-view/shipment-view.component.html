@@ -207,7 +207,7 @@
                                             [(ngModel)]="shpProcess">
                                         </kendo-dropdownlist> -->
                                         <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" >
+                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="updateShipmentProcessArray()">
                                                     <i class="opti-icon-search"></i>
