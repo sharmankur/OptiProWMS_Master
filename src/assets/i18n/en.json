@@ -1128,6 +1128,9 @@
   "COSONUm": "SO Number:",
   "COQty": "Container Qty:",
   "COGr": "Container Group:",
+  "Diff_WH": "Warehouse of WO is different from selected WH",
+  "WIP_Param": "WIP Parameters",
+  "Barcode": "Barcode",
 
   "Dummy": "Dummy"  
 }
