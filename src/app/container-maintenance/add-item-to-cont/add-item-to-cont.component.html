@@ -338,10 +338,10 @@
                                         <label class="col-sm-5 col-form-label">{{'Bat/Ser'|translate}}</label>
                                         <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
                                         class="col-sm-7 form-control form-control-sm"
-                                            [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()">
+                                            [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()" >
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" 
-                                            (mousedown)="GetBatchSerial()">
+                                            (mousedown)="GetBatchSerial()" [disabled]="radioSelected == 2">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                         </div>

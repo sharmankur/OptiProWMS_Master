@@ -1177,8 +1177,8 @@ export class AddItemToContComponent implements OnInit {
     }
     this.showLoader = true;
     var result = false
-    await this.containerCreationService.IsValidItemCodeScan(this.autoRuleId, this.scanItemCode, this.whse, this.binNo, 1 ,
-      this.containerCode).then(
+     this.containerCreationService.IsValidItemCode(this.autoRuleId, this.scanItemCode, this.whse, this.binNo, 1 ,
+      this.containerCode).subscribe(
       data => {
         this.showLoader = false;
         if (data != undefined && data.length > 0) {
