@@ -199,6 +199,24 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);
   }
 
+  CheckContainerScan(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERCODE: CONTAINERCODE,
+        WHSCODE: WHSCODE,
+        BINCODE: BINCODE,
+        RULEID: RULEID,
+        GROUPCODE: GROUPCODE,
+        SONO: SONO,
+        CONTTYPE: CONTTYPE,
+        PURPOSE: PURPOSE,
+        OPERATION: OPERATION
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions).toPromise();
+  }
+
   IsValidContainerId(containerId: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -243,6 +261,21 @@ export class ContainerCreationService {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions);
+  }
+
+  IsValidItemCodeScan(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId,
+        ITEMCODE: itemCode,
+        WHSCODE: whse,
+        BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions).toPromise();
   }
 
   IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any,operation: any, contcode: any): Observable<any> {
