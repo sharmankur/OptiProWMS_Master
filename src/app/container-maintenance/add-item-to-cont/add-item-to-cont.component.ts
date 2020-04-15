@@ -74,7 +74,13 @@ export class AddItemToContComponent implements OnInit {
       this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     });
   }
-
+  nextEnabled = true;
+  onNext(){
+    this.nextEnabled = false;
+  }
+  onBack(){
+    this.nextEnabled = true;
+  }
   isExpanded: boolean = false;
   expandedKeys: any[] = [];
   public data: any[] = [
