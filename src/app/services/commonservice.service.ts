@@ -831,6 +831,16 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerGroup", jObject, this.httpOptions);
   }
 
+  IsValidContainerGroupScan(groupcode: string): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTAINER_GROUP: groupcode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerGroup", jObject, this.httpOptions).toPromise();
+  }
+
   IsValidBinCode(whse: string, binCode: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
