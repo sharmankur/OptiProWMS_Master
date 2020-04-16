@@ -1131,6 +1131,7 @@
   "Diff_WH": "Warehouse of WO is different from selected WH",
   "WIP_Param": "WIP Parameters",
   "Barcode": "Barcode",
+  "ContPackRule": "Container Pack Rule",
 
   "Dummy": "Dummy"  
 }

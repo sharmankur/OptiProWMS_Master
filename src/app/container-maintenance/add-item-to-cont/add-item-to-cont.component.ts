@@ -994,6 +994,18 @@ export class AddItemToContComponent implements OnInit {
 
       }
       else if(this.lookupfor == "ContItemsList"){
+
+        if(this.autoRuleId != ""  && !this.flagCreate && this.radioSelected == 1){ 
+          if(this.oSubmitModel.OtherItemsDTL.length >0){
+           let index =  this.oSubmitModel.OtherItemsDTL.findIndex(r=>r.OPTM_ITEMCODE == $event.ITEMCODE && r.OPTM_QUANTITY == $event.OPTM_PARTS_PERCONT); 
+           if(index > -1){
+             this.toastr.error('',this.translate.instant("Item is already present with required qty"));
+             this.scanItemCode = '';
+             return;
+           }
+           }
+         }
+
         this.scanItemCode = $event.ITEMCODE;
         this.scanItemTracking = $event.OPTM_TRACKING;
         this.itemQty = 0;
@@ -1198,6 +1210,20 @@ export class AddItemToContComponent implements OnInit {
             this.scanItmCode.nativeElement.focus();
             result = false
           } else {
+
+            if(this.autoRuleId != ""  && !this.flagCreate && this.radioSelected == 1){ 
+             if(this.oSubmitModel.OtherItemsDTL.length >0){
+              let index =  this.oSubmitModel.OtherItemsDTL.findIndex(r=>r.OPTM_ITEMCODE == data[0].ITEMCODE && r.OPTM_QUANTITY == data[0].OPTM_PARTS_PERCONT); 
+              if(index > -1){
+                this.toastr.error('',this.translate.instant("Item is already present with required qty"));
+                this.scanItemCode = '';
+                this.scanItmCode.nativeElement.focus();
+                result = false;
+                return;
+              }
+              }
+            }
+
             this.scanItemCode = data[0].ITEMCODE;
             this.scanItemTracking = data[0].OPTM_TRACKING;
             this.scanBSrLotNo = '';
@@ -1215,44 +1241,7 @@ export class AddItemToContComponent implements OnInit {
               this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
               this.itemQty = this.MapRuleQty;
               this.ValidItemQty = this.MapRuleQty;
-
-              if(!this.flagCreate){ 
-                
               }
-            }   
-            else{
-              // this.itemQty = data[0].TOTALQTY;
-              // this.ValidItemQty = this.itemQty;
-
-              // if(!this.flagCreate){ 
-              // }
-            }        
-
-            // if (this.autoRuleId != "" && this.flagCreate) {
-            //   this.itemQty = data[0].OPTM_PARTS_PERCONT;
-            //   this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
-            //   this.SetItemQty = this.MapRuleQty;
-            // }
-
-            //  if (this.autoRuleId != "" && !this.flagCreate) {
-            //   this.MapRuleQty = data[0].OPTM_PARTS_PERCONT;
-            //   let item = this.itemQty;
-            //   let scancode = this.scanItemCode
-            //   this.oSaveModel.OtherItemsDTL.filter(function (obj) {
-            //     if (obj.OPTM_ITEMCODE == scancode) {
-            //       item = obj.RemItemQty;
-            //     }
-            //   });
-            //   this.itemQty = this.MapRuleQty - item;
-            //   this.ValidItemQty = this.MapRuleQty - item;
-
-            //   // for (let k = 0; k < this.oSaveModel.OtherItemsDTL.length; k++) {
-            //   //   if (this.oSaveModel.OtherItemsDTL[k].OPTM_ITEMCODE == this.scanItemCode) {
-            //   //     this.oSaveModel.OtherItemsDTL[k].OPTM_RULE_QTY = this.MapRuleQty;
-            //   //   }
-            //   // }
-            // }
-
           }
           this.scanCurrentItemData = data
           result = true
@@ -1267,8 +1256,7 @@ export class AddItemToContComponent implements OnInit {
           result = false
           this.scanItmCode.nativeElement.focus();
         }
-        // this.oSaveModel.OtherItemsDTL = []
-        // this.oSaveModel.OtherBtchSerDTL = []
+        
       },
       error => {
         result = false;
@@ -1399,22 +1387,23 @@ export class AddItemToContComponent implements OnInit {
 
     if(this.radioSelected == 2){
       if(this.oSubmitModel.OtherBtchSerDTL.length > 0){
-        for(let iBat=0; iBat<this.oSubmitModel.OtherBtchSerDTL.length; iBat++){
-          if(this.oSubmitModel.OtherBtchSerDTL[iBat].OPTM_BTCHSER == this.scanBSrLotNo){
-            this.bsItemQty = 0;
-
-            if (this.scanItemTracking == 'S') {
-              this.bsItemQty = 1;
-              this.SetDataInSubmitModel();
-              this.scanBSrLotNo = ''; this.bsItemQty = 0;  
-            }
-            return;
-          }else{
-            this.toastr.error('',this.translate.instant("Cannot remove. No item present in Container"));
-          }
+        let index =  this.oSubmitModel.OtherBtchSerDTL.findIndex(r=>r.OPTM_BTCHSER == this.scanBSrLotNo); 
+        if(index > -1){
+          this.bsItemQty = 0;
+          if (this.scanItemTracking == 'S') {
+            this.bsItemQty = 1;
+            this.SetDataInSubmitModel();
+            this.scanBSrLotNo = ''; this.bsItemQty = 0;
         }
+       }else{
+        this.toastr.error('',this.translate.instant("Cannot remove. No item present in Container"));
+        this.scanLotNo.nativeElement.focus()
+        return;
+       }
       }else{
         this.toastr.error('',this.translate.instant("Cannot remove. No item present in Container"));
+        this.scanLotNo.nativeElement.focus()
+        return;
       }
     }else{
       this.showLoader = true;
@@ -1482,14 +1471,16 @@ export class AddItemToContComponent implements OnInit {
       return false;
     }
     if (this.bsItemQty == undefined || this.bsItemQty == 0 || this.bsItemQty < 0) {
-      this.toastr.error('',this.translate.instant("Please enter Batch/Serial Qty"));
-      return;
+      //this.toastr.error('',this.translate.instant("Please enter Batch/Serial Qty"));
+      this.scanBsItemQty.nativeElement.focus();
+      return false;
     }
 
     if (this.bsItemQty > this.ValidBSQty) {
       this.toastr.error('',this.translate.instant("Qty cannot be greater than Available Batch/Serial Qty"));
       this.bsItemQty = 0;
-      return;
+      this.scanBsItemQty.nativeElement.focus();
+      return false; 
     }
 
     this.SetDataInSubmitModel();
@@ -1501,7 +1492,7 @@ export class AddItemToContComponent implements OnInit {
 
   onScanItemQtyChange(){
     if(this.itemQty == 0 || this.itemQty == '' || this.itemQty == undefined){
-      this.toastr.error('', this.translate.instant("Enter Sacnned Item Qty"));
+    //  this.toastr.error('', this.translate.instant("Enter Sacnned Item Qty"));
       this.scanBSrLotNo = ''; this.bsItemQty = 0;
       this.scanItemQty.nativeElement.focus()
       return false;
