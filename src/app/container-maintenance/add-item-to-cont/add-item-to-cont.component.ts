@@ -1276,6 +1276,10 @@ export class AddItemToContComponent implements OnInit {
     return result
   }
 
+  openInternalCont(){
+    
+  }
+
   GetScanItem(){
 
     if (this.containerCode == undefined || this.containerCode == "") {

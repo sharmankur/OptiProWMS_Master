@@ -412,18 +412,31 @@
                                     </div>  
                                     
                                  <div class="fix-footer-btnBar">
+
+                                    <div class="btn-group  toggle-btn-outer">
+                                        <div class="dropdown show">
+                                            <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="opti-icon-more"></i>
+                                            </a>
+                                            <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
+                                                <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;"> {{'Barcode'|translate}}</a>
+                                                <a class="dropdown-item" (click)="onParentContClick()"> {{'+/-ParentCont'|translate}}</a>
+                                                <a class="dropdown-item" (click)="onCloseContClick()"> {{'Close_Container'|translate}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+<!-- 
                                     <div class="col-sm-12 col-12">
                                         <div class="float-right form-group row">
                                             <div class="input-group input-group-sm col-sm-2">
                                                 <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
                                                     {{'Barcode'|translate}}
-                                                </button>
-                                                <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2">
-                                                    {{'Confirm'|translate}}
-                                                </button> -->
+                                                </button>                                               
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                         </div>
                     </div>

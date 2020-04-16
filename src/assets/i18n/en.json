@@ -1133,6 +1133,7 @@
   "WIP_Param": "WIP Parameters",
   "Barcode": "Barcode",
   "ContPackRule": "Container Pack Rule",
-
+  "+/-ParentCont": "+/-To Parent",
+  
   "Dummy": "Dummy"  
 }
