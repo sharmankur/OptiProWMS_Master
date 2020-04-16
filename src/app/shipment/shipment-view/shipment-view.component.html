@@ -207,7 +207,7 @@
                                             [(ngModel)]="shpProcess">
                                         </kendo-dropdownlist> -->
                                         <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" >
+                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="updateShipmentProcessArray()">
                                                     <i class="opti-icon-search"></i>
@@ -226,7 +226,7 @@
                                         <div class="custom-control custom-checkbox minus-m5">
                                             <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer
                                                 [disabled]=true/>
-                                            <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
+                                            <label class="custom-control-label" for="UseContainer">{{'Cont_Shipment'|translate}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -454,13 +454,13 @@
                 <div class="input-group input-group-sm">
                     <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                     <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
-                        [(ngModel)]="containerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="generateContainer()">
+                        [(ngModel)]="containerCode" placeholder="{{'Enter_Container_Code'|translate}}" (blur)="generateContainer()">
                 </div>
             </div>
         </div>
     
         <kendo-dialog-actions>
-            <button class="ml-1" kendoButton (click)="close_kendo_dialog()" primary="true">Confirm</button>
+            <button class="ml-1" kendoButton (click)="onConfirmClick()" primary="true">Confirm</button>
         </kendo-dialog-actions>
     </div>
 </kendo-dialog>

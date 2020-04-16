@@ -172,9 +172,8 @@
                         </div>
                     </div>
 
-                    <hr>
 
-                    <div class="form-group row">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label for="CustomerTo" class="col-sm-4 col-form-label">{{'WO'|translate}}</label>
                             <input type="text" #scanWorkOrder class="form-control form-control-sm" id="scanWorkOrder"
@@ -187,7 +186,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row" >
+                    <div class="form-group " >
                         <div class="input-group input-group-sm">
                             <label for="containerWeigth" class="col-sm-4 col-form-label">{{'PT_TaskId'|translate}}</label>
                             <input type="text" class="form-control form-control-sm text-right" id="taskId"
@@ -195,7 +194,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                         <label for="CustomerTo" class="col-sm-4 col-form-label">{{'FROMOPERNO'|translate}}</label>
                         <input type="text" class="form-control form-control-sm text-right" id="OperationNoId"
@@ -266,7 +265,43 @@
                                 </div>
                             </div>
                             </div>
-
+<!-- Tree Start -->
+                            <div>
+                                <button class="k-button k-primary btn" (click)="onOpenTreeview()"><i [ngClass]="[treeViewShow ? 'opti-icon-remove' : 'opti-icon-add']" class="mr-1"></i> Contents</button>
+                                <div *ngIf="treeViewShow" class="opti_overflow-auto tree-wrapper mt-2">
+                                    <div class="tree well">
+                                        <div class="pl-2 pt-2 pr-2">
+                                            <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
+                                            <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 mr-1 float-right" type="button">
+                                                <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon" (click)="onExpandCollapseAll('collapse')">
+                                                    <use xlink:href="#collapseAll"></use>
+                                                </svg>
+                                                <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon" (click)="onExpandCollapseAll('expand')">
+                                                    <use xlink:href="#expandAll"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="ml-3">
+                                            <kendo-treeview [nodes]="DisplayTreeData" textField="text" kendoTreeViewExpandable
+                                                kendoTreeViewHierarchyBinding childrenField="items" [(expandedKeys)]="expandedKeys"
+                                                (collapse)="handleCollapse($event)" (expand)="handleExpand($event)">
+                                                <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                                    <div>
+                                                        <span class="item-text">
+                                                            {{dataItem.text}}
+                                                        </span>
+                                                        <span class="item-count">
+                                                            ({{dataItem.quantity}})
+                                                        </span>
+                                                    </div>                                              
+                                                </ng-template>
+                                            </kendo-treeview>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+</div>
+<!-- Tree End -->
                             <div class="form-group row scan-form-row mt-2">
                             <div class="col">
                                 <fieldset class="d-block w-100">
@@ -390,7 +425,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6"> 
+                <!-- <div class="col-sm-6"> 
                     <div class="row">
                         <div class="col-12">
                             <div class="opti_overflow-auto tree-wrapper">
@@ -427,7 +462,7 @@
                 
                         </div>
                     </div>
-                </div>  
+                </div>   -->
 
             </div>           
         </div>

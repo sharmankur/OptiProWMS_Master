@@ -134,7 +134,7 @@
 <br>
 <div class="row">
     <div class="col-12">
-        <kendo-grid class="no-shadow" [data]="PickItemList" [resizable]="true" [sortable]="true" [selectable]="true"
+        <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemList" [resizable]="true" [sortable]="true" [selectable]="true"
             id="gridItem" [height]="180"  [pageSize]="pageSize" [pageable]="ShowGridPaging"  #gridItem 
              (selectionChange)="onPickListItemClick($event)" >
             <!-- grid template start -->

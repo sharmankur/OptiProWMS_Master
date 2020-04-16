@@ -100,6 +100,10 @@ export class AddItemToContComponent implements OnInit {
   onBack(){
     this.nextEnabled = true;
   }
+  treeViewShow = false;
+  onOpenTreeview(){
+    this.treeViewShow = !this.treeViewShow
+  }
   isExpanded: boolean = false;
   expandedKeys: any[] = [];
   public data: any[] = [

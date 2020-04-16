@@ -103,18 +103,6 @@ export class ShipmentViewComponent implements OnInit {
     ];
   }
 
-  New_Status = 1
-        Scheduled = 2
-        Closed = 3
-        Reopened = 4
-        Assigned = 5
-        Shipped = 6
-        Picked = 7
-        Retuen = 8
-        Damaged = 9
-        Cancelled = 10
-        Loaded = 11
-
   ShipmentStatusEnum() {
     return [
       { "Value": 10, "Name": "New" },
@@ -318,7 +306,7 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_CONT_HDR[i].OPTM_STATUS = this.getContStatusValue(data.OPTM_CONT_HDR[i].OPTM_STATUS);
           }
           this.ShipContainers = data.OPTM_CONT_HDR;
-          if(this.ShipContainers.length > 0){
+          if (this.ShipContainers.length > 0) {
             this.UseContainer = true;
           }
           if (this.ShipContainers != undefined && this.ShipContainers.length > this.pageSize3) {
@@ -432,7 +420,8 @@ export class ShipmentViewComponent implements OnInit {
       this.UseContainer = false;
     }
     this.StatusValue = OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO;
-    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name && e.Value == this.StatusValue).Name;
+    // this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name && e.Value == this.StatusValue).Name;
+    this.shpProcess = this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name;
     this.onCheckChange();
   }
 
@@ -456,6 +445,7 @@ export class ShipmentViewComponent implements OnInit {
 
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
+      this.clearFields();
       this.ShipmentID = event.OPTM_SHIPMENTID
       this.ShipmentCode = event.OPTM_SHIPMENT_CODE
       localStorage.setItem("ShipmentID", this.ShipmentID);
@@ -522,7 +512,7 @@ export class ShipmentViewComponent implements OnInit {
 
   ChangeShipmentProcess() {
     this.showLoader = true;
-    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.ShipmentProcessEnum().find(e=>e.Name == this.event.Name).Value, this.StatusValue).subscribe(
+    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.ShipmentProcessEnum().find(e => e.Name == this.event.Name).Value, this.StatusValue, this.StatusId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -532,6 +522,7 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -662,15 +653,32 @@ export class ShipmentViewComponent implements OnInit {
       );
   }
 
-  generateContainer(){
-
+  containerCode: string;
+  generateContainer() {
+    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"))
+      return;
+    }
+    this.PrepareModelAndCreateCont(this.containerCode);
   }
 
-  close_kendo_dialog(){
+  onConfirmClick(){
+    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"))
+      return;
+    }
+    this.close_kendo_dialog();
+  }
+
+  close_kendo_dialog() {
     this.dialogOpened = false;
   }
 
   onStageORUnstageShipmentClick() {
+    // this.dialogOpened = true;
+    // if(this.dialogOpened){
+    //   return;
+    // }
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
     }
@@ -685,14 +693,113 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', "Shipment is staged.");
             this.GetDataBasedOnShipmentId(this.ShipmentID);
-          } else if(data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container"){ 
+          } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
+            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
             this.dialogOpened = true;
-          }else {
+          } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  PrepareModelAndCreateCont(containerCode: any) {
+    var oSaveModel: any = {};
+    oSaveModel.HeaderTableBindingData = [];
+    oSaveModel.OtherItemsDTL = [];
+    oSaveModel.OtherBtchSerDTL = [];
+
+    //Push data of header table into BatchSerial model
+    oSaveModel.HeaderTableBindingData.push({
+      OPTM_SHIPMENTID: this.ShipmentID,
+      OPTM_SONO: "",
+      OPTM_CONTAINERID: "",
+      OPTM_CONTTYPE: "Manual",
+      OPTM_CONTAINERCODE: "" + containerCode,
+      OPTM_WEIGHT: "",
+      OPTM_AUTOCLOSE_ONFULL: "Y",
+      OPTM_AUTORULEID: "Manual",
+      OPTM_WHSE: this.WarehouseCode,
+      OPTM_BIN: this.ShipStageBin,
+      OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
+      Length: length,
+      Width: "",
+      Height: "",
+      ItemCode: "",
+      NoOfPacks: "1",
+      OPTM_TASKID: 0, //changed
+      CompanyDBId: localStorage.getItem("CompID"),
+      Username: localStorage.getItem("UserId"),
+      UserId: localStorage.getItem("UserId"),
+      GUID: localStorage.getItem("GUID"),
+      Action: "N",
+      OPTM_PARENTCODE: "",
+      OPTM_GROUP_CODE: 0,
+      OPTM_CREATEMODE: "3",
+      OPTM_PERPOSE: "Y",
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Container",
+      OPTM_WONUMBER: 0,
+      OPTM_TASKHDID: 0,
+      OPTM_OPERATION: "",
+      OPTM_QUANTITY: 1,
+      OPTM_SOURCE: 3,
+      OPTM_ParentContainerType: "",
+      OPTM_ParentPerQty: "",
+      IsWIPCont: false
+    });
+
+    oSaveModel.OtherItemsDTL.push({
+      OPTM_ITEMCODE: "",
+      OPTM_QUANTITY: "",
+      OPTM_CONTAINER: "",
+      OPTM_AVLQUANTITY: 0,
+      OPTM_INVQUANTITY: 0,
+      OPTM_BIN: '',
+      OPTM_CONTAINERID: "",
+      OPTM_TRACKING: "",
+      OPTM_WEIGHT: ""
+    });
+
+    oSaveModel.OtherBtchSerDTL.push({
+      OPTM_BTCHSER: "",
+      OPTM_QUANTITY: "",
+      OPTM_ITEMCODE: ""
+    });
+    
+    this.shipmentService.CreateContainerForPacking(oSaveModel).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+            this.containerCode = "";
+            this.GetDataBasedOnShipmentId(this.ShipmentID);            
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -725,7 +832,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
