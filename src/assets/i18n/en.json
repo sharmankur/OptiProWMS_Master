@@ -1134,6 +1134,10 @@
   "Barcode": "Barcode",
   "ContPackRule": "Container Pack Rule",
   "+/-ParentCont": "+/-To Parent",
-  
+  "PackToGen": "No. of Pack To Gen.",
+  "PackRule": "Pack Rule",
+  "PrntContType": "Parent Cont. Type",
+  "ContGroupCode": "Cont. Group Code",
+
   "Dummy": "Dummy"  
 }
