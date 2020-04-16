@@ -99,11 +99,10 @@
                     </div>
                     <div class="form-group ">
                         <div class="input-group input-group-sm">
-                            <label class="col-sm-4 col-form-label">{{'AutoPackRule'|translate}}</label>
+                            <label class="col-sm-4 col-form-label">{{'ContPackRule'|translate}}</label>
                             <input type="text" #scanAutoRuleId id="scanAutoRuleId" name="autoRuleId"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="autoRuleId"
-                                placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()"
-                                [disabled]="radioRuleSelected == 2">
+                                placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                     (mousedown)="getAutoPackRule()">
@@ -172,6 +171,7 @@
                         </div>
                     </div>
 
+                    <hr>
 
                     <div class="form-group ">
                         <div class="input-group input-group-sm">
@@ -349,6 +349,10 @@
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button" 
                                     (mousedown)="GetScanItem()">
                                         <i class="opti-icon-search"></i>
+                                    </button>
+                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" 
+                                    (mousedown)="openInternalCont()">
+                                        <i class="arrow right"></i>
                                     </button>
                                 </div>
                                 </div>
