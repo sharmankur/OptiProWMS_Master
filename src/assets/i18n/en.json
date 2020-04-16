@@ -609,7 +609,7 @@
   "ShipTo":"Ship To",
   "DueDate":"Due Date",
   "Select":"Select",
-  "SalesOrderEntry": "Sales Order Entry",
+  "SalesOrderEntry": "SO Entry",
   "Enable_Filter": "Enable Filter",
 
   "WHSName":"Warehouse Name",

@@ -1102,4 +1102,14 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CancelContainer", jObject, this.httpOptions);
   }
+
+  CancelOrUnassignShipment(OPTM_SHIPMENTID: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CancelOrUnassignShipment", jObject, this.httpOptions);
+  }
 }
