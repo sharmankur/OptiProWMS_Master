@@ -258,16 +258,21 @@
                             <div class="form-group row scan-form-row">
                                 <div class="col">
                                 <div class="input-group input-group-sm">
-                                    <label class="col-sm-4 col-form-label">{{'Cont_Code'|translate}}</label>
+                                    <label class="col-sm-3 col-form-label">{{'Cont_Code'|translate}}</label>
                                     <input type="text" #scanContCode id="scanContCode" name="containerCode" 
-                                    class="col-sm-8 form-control form-control-sm "
+                                    class="col-sm-9 form-control form-control-sm "
                                     [(ngModel)]="containerCode" (blur)="onContainerCodeChangeBlur()">
+                                    <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" (click)="onOpenTreeview()" class="k-button k-primary btn" type="button" >
+                                                <i class="opti-icon-view-batch"></i>
+                                            </button>                                           
+                                        </div>
                                 </div>
                             </div>
                             </div>
 <!-- Tree Start -->
                             <div>
-                                <button class="k-button k-primary btn" (click)="onOpenTreeview()"><i [ngClass]="[treeViewShow ? 'opti-icon-remove' : 'opti-icon-add']" class="mr-1"></i> Contents</button>
+                                <!-- <button class="k-button k-primary btn" (click)="onOpenTreeview()"><i [ngClass]="[treeViewShow ? 'opti-icon-remove' : 'opti-icon-add']" class="mr-1"></i> Contents</button> -->
                                 <div *ngIf="treeViewShow" class="opti_overflow-auto tree-wrapper mt-2">
                                     <div class="tree well">
                                         <div class="pl-2 pt-2 pr-2">
@@ -341,8 +346,8 @@
                         <div class="form-group row scan-form-row">
                                 <div class="col">
                             <div class="input-group input-group-sm">
-                                <label class="col-sm-5 col-form-label">{{'ScanItem'|translate}}</label>
-                                <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-7 form-control form-control-sm"
+                                <label class="col-sm-3 col-form-label">{{'ScanItem'|translate}}</label>
+                                <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-9 form-control form-control-sm"
                                     [(ngModel)]="scanItemCode" (blur)="onItemCodeChangeBlur()" 
                                     [attr.disabled]="disableFields?'':null">
                                 <div class="input-group-append has-seprate-btn">
@@ -350,33 +355,36 @@
                                     (mousedown)="GetScanItem()">
                                         <i class="opti-icon-search"></i>
                                     </button>
-                                    <button tabIndex="-1" class="k-button k-primary btn" type="button" 
+                                    <!-- <button tabIndex="-1" class="k-button k-primary btn" type="button" 
                                     (mousedown)="openInternalCont()">
                                         <i class="arrow right"></i>
-                                    </button>
+                                    </button> -->
                                 </div>
                                 </div>
                                 </div>
-                                <div class="col">
-                                <div class="input-group input-group-sm">
-                                <label class="col-sm-5 col-form-label text-right">{{'ScanQty'|translate}}</label>
-                                <input type="number" #scanItemQty id="scanItemQty" name="itemQty" 
-                                class="col-sm-7 form-control form-control-sm text-right"
-                                    [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
-                                        (blur)="onScanItemQtyChange()"
-                                    [disabled]="scanItemCode == ''">
-                                    </div>
-                                </div>
+                               
                                 <!--(blur)="onItemQtyChange()" -->
                           
+                        </div>
+                        <div class="form-group row scan-form-row">
+                                <div class="col">
+                                        <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label text-left">{{'ScanQty'|translate}}</label>
+                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty" 
+                                        class="col-sm-9 form-control form-control-sm text-right"
+                                            [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
+                                                (blur)="onScanItemQtyChange()"
+                                            [disabled]="scanItemCode == ''">
+                                            </div>
+                                        </div>
                         </div>
 
                         <div class="form-group row scan-form-row">
                             <div class="col">
                                 <div class="input-group input-group-sm">
-                                        <label class="col-sm-5 col-form-label">{{'Bat/Ser'|translate}}</label>
+                                        <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
                                         <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" 
-                                        class="col-sm-7 form-control form-control-sm"
+                                        class="col-sm-9 form-control form-control-sm"
                                             [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()" >
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" 
@@ -386,37 +394,38 @@
                                         </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="input-group input-group-sm">
-                                    <label class="col-sm-5 col-form-label text-right">{{'ScanQty'|translate}}</label>
-                                    <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty" 
-                                    class="col-sm-7 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
-                                        (blur)="onBatSerQtyChange()"
-                                        [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
-                                </div>
-                            </div>
+                            
                             </div>  
-                            <div class="form-group row scan-form-row" >
-                                   
+                            <div class="form-group row scan-form-row">
                                     <div class="col">
-                                                <label class="col-sm-5 col-form-label text-left">{{'Bal'|translate}}</label>
-                                                <input type="number" id="bsItemQty" name="bsItemQty" 
-                                                class="col-sm-7 form-control form-control-sm text-right"
+                                            <div class="input-group input-group-sm">
+                                                <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
+                                                <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty" 
+                                                class="col-sm-9 form-control form-control-sm text-right"
                                                     [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
                                                     (blur)="onBatSerQtyChange()"
                                                     [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                                <div class="input-group input-group-sm">
+                                                <label class="col-sm-3 col-form-label">{{'Bal'|translate}}</label>
+                                                <input type="number" id="bsItemQty" name="bsItemQty" 
+                                                class="col-sm-9 form-control form-control-sm text-right"
+                                                    [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event" 
+                                                    (blur)="onBatSerQtyChange()"
+                                                    [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                                    </div>
                                       
                                     </div>
-                                    <div class="col"></div>
-                                    </div>  
+                            </div>
                                     
                                  <div class="fix-footer-btnBar">
 
                                     <div class="btn-group  toggle-btn-outer">
                                         <div class="dropdown show">
                                             <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                data-toggle="dropdown" data-placement="top" aria-haspopup="true" aria-expanded="false">
                                                 <i class="opti-icon-more"></i>
                                             </a>
                                             <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
