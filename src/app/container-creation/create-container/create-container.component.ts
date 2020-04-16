@@ -1685,6 +1685,7 @@ export class CreateContainerComponent implements OnInit {
     if ($event != null && $event == "close") {
       return;
     }
+
     else {
       if (this.lookupfor == "CTList") {
         if (this.fromType == 'child') {

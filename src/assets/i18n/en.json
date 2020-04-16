@@ -671,7 +671,7 @@
   "ScanCreate": "Scan and Create",
   "FromContainer": "From Container",
   "SelectContainerMsg": "Please select container type",
-  "SelectAutoPackMsg": "Please select auto pack rule",
+  "SelectAutoPackMsg": "Please select container pack rule",
   "SelectWhseMsg": "Please select warehouse",
   "SelectBinCodeMsg": "Please select bin code",
   "ContainerCode": "Container Code",
@@ -1134,6 +1134,7 @@
   "Barcode": "Barcode",
   "ContPackRule": "Container Pack Rule",
   "+/-ParentCont": "+/-To Parent",
+  "Internal_Cont": "Internal Container",
   
   "Dummy": "Dummy"  
 }

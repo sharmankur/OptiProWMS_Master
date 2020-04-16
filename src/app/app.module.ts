@@ -25,7 +25,6 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     LandingComponent,
-    
   ],
   imports: [
     BrowserModule,

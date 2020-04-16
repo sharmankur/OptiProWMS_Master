@@ -23,6 +23,7 @@ import { PickTypePipe } from '../common/pick-type.pipe';
 import { TransferMeansPipe } from '../common/transfer-means.pipe';
 import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InputInternalContainerComponent } from '../common/input-internal-container/input-internal-container.component';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -33,9 +34,12 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent],
-  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent,InputParentContainerComponent],
+    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent,
+    InputInternalContainerComponent],
+  entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent,InputParentContainerComponent,
+    InputInternalContainerComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,InputParentContainerComponent,
+    InputInternalContainerComponent,
     DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })

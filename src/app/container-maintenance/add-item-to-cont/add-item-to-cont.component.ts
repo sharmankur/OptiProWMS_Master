@@ -67,6 +67,11 @@ export class AddItemToContComponent implements OnInit {
   PartsQty : any = 0;
   AutoRuleDTL : any = [];
   ValidBSQty : any = 0;
+  inputDialogFor: any;
+  titleMessage: any;
+  showInternalDialogFlag: boolean = false;
+  oDataModel: any = {};
+  InternalContainer: boolean =false;
 
   @ViewChild("scanBinCode", {static: false}) scanBinCode;
   @ViewChild("scanWhse", {static: false}) scanWhse;
@@ -165,6 +170,7 @@ export class AddItemToContComponent implements OnInit {
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
     this.radioRuleSelected = 1;
+    this.InternalContainer = false;
 
     this.setDefaultValues();
 
@@ -875,6 +881,11 @@ export class AddItemToContComponent implements OnInit {
       return;
     }
 
+    if (this.autoRuleId == undefined || this.autoRuleId == "") {          
+      this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+      return;
+    }
+
     this.showLoader = true;   
     var result = false
     this.containerCreationService.GetWorkOrderList(this.workOrder).subscribe(
@@ -1060,6 +1071,12 @@ export class AddItemToContComponent implements OnInit {
           this.workOrder = '';
           return;
         }
+
+        if (this.autoRuleId == undefined || this.autoRuleId == "") {          
+          this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
+          return;
+        }
+        
         this.workOrder = $event.OPTM_WONO;
         this.taskId = $event.OPTM_ID;
         this.operationNo = $event.OPTM_FROMOPERNO;
@@ -1182,6 +1199,8 @@ export class AddItemToContComponent implements OnInit {
 
   scanCurrentItemData: any;
   async onItemCodeChange() {
+    this.oDataModel.HeaderTableBindingData = [];
+    this.InternalContainer = false;
     if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
       return;
     }
@@ -1249,6 +1268,18 @@ export class AddItemToContComponent implements OnInit {
           }
           this.scanCurrentItemData = data
           result = true
+
+          this.oDataModel.HeaderTableBindingData.push({
+            OPTM_CREATEMODE:  this.radioRuleSelected,
+            OPTM_PURPOSE: this.purpose,
+            OPTM_WHSE: this.whse,
+            OPTM_BIN: this.binNo,
+            OPTM_CONTAINER_TYPE: this.containerType,
+            OPTM_AUTORULEID: this.autoRuleId,
+            OPTM_CONT_CODE: this.containerCode,
+            OPTM_ITEMCODE: this.scanItemCode
+          });
+
         } else {
           this.scanCurrentItemData = ''
           this.scanItemCode = ''
@@ -1277,7 +1308,14 @@ export class AddItemToContComponent implements OnInit {
   }
 
   openInternalCont(){
-    
+
+    if(this.scanItemCode == undefined || this.scanItemCode == ''){
+      this.toastr.error('', this.translate.instant("SelectItemCode"));      
+      return;
+    }
+
+    this.showInternalDialog("InternalCont", this.translate.instant("Confirm"), this.translate.instant("Cancel"),
+    this.translate.instant("Internal_Cont"));
   }
 
   GetScanItem(){
@@ -1499,6 +1537,13 @@ export class AddItemToContComponent implements OnInit {
   }
 
   onScanItemQtyChange(){
+
+    if(this.scanItemCode == '' || this.scanItemCode == undefined){
+        this.toastr.error('', this.translate.instant("SelectItemCode"));      
+        this.itemQty = 0;
+        return false;
+    }
+
     if(this.itemQty == 0 || this.itemQty == '' || this.itemQty == undefined){
     //  this.toastr.error('', this.translate.instant("Enter Sacnned Item Qty"));
       this.scanBSrLotNo = ''; this.bsItemQty = 0;
@@ -1946,6 +1991,7 @@ export class AddItemToContComponent implements OnInit {
     this.oSubmitModel.OtherItemsDTL = [];
     this.oSubmitModel.OtherBtchSerDTL = [];
     this.oSubmitModel.OPTM_CONT_HDR = [];
+    this.InternalContainer = false;
 
     if (this.containerCode == undefined || this.containerCode == "") {
       return;
@@ -2334,8 +2380,7 @@ export class AddItemToContComponent implements OnInit {
       } else {
         createMode = 2
       }
-    }  
-    
+    }   
 
     var purps = ""
     if (this.purpose == "Shipping") {
@@ -2368,20 +2413,20 @@ export class AddItemToContComponent implements OnInit {
       GUID: localStorage.getItem("GUID"),
       Action: "Y",
       OPTM_PARENTCODE: '',
-      OPTM_GROUP_CODE: 0,
+      OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
       // OPTM_PERPOSE: this.purposeId,
       OPTM_PERPOSE: purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
-      OPTM_WONUMBER: 0,
-      OPTM_TASKHDID: 0,
-      OPTM_OPERATION: 0,
-      OPTM_QUANTITY: 0,
-      OPTM_SOURCE: 0,
+      OPTM_WONUMBER: this.workOrder == '' ? 0 : this.workOrder,
+      OPTM_TASKHDID: this.taskId == '' ? 0 : this.taskId,
+      OPTM_OPERATION: this.operationNo == ''  ? 0 : this.operationNo,
+      OPTM_QUANTITY: this.workOrder == '' ? 0 : this.PartsQty,
+      OPTM_SOURCE: this.workOrder == '' ? 3 : 1,
       OPTM_ParentContainerType: '',
       OPTM_ParentPerQty: 0,
-      IsWIPCont: false
+      IsWIPCont: this.workOrder == '' ? false : true
     });
 
     let callCheckCont = false;
@@ -2448,6 +2493,31 @@ export class AddItemToContComponent implements OnInit {
     );
   }
 
+  onScanAndCreateClick(){
+    
+  }
+
+  getInputDialogValue($event) {
+    this.showInternalDialogFlag = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("ScanAndCreate"):         
+          break;
+
+        case ("InternalContainer"): 
+        
+        this.InternalContainer = true;
+
+         for(let idx=0; idx<$event.BatSerList.length; idx++){
+            this.scanBSrLotNo = $event.BatSerList[idx].LOTNO;
+            this.bsItemQty = $event.BatSerList[idx].Quantity;
+            this.SetDataInSubmitModel();
+         }          
+          break;
+      }
+    }
+  }
+
   getContainerStatus(id) {
     this.disableFields = false;
     if (id == undefined || id == "") {
@@ -2499,6 +2569,14 @@ export class AddItemToContComponent implements OnInit {
     this.noButtonText = nobtn;
     this.showConfirmDialog = true;
     this.dialogMsg = msg;
+  }
+
+  showInternalDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.inputDialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showInternalDialogFlag = true;
+    this.titleMessage = msg;
   }
 
   showConfirmDialog: boolean = false;
