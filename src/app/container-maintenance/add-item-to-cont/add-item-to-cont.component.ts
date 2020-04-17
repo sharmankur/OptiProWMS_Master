@@ -1007,7 +1007,7 @@ export class AddItemToContComponent implements OnInit {
         if(this.radioRuleSelected != 2){
           this.IsValidSONumberBasedOnRule();
         }
-      } else if (this.lookupfor == "GroupCodeList") {
+      } else if (this.lookupfor == "GoupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
       } else if (this.lookupfor == "ContainerIdList") {
 
@@ -1018,7 +1018,7 @@ export class AddItemToContComponent implements OnInit {
           if(this.oSubmitModel.OtherItemsDTL.length >0){
            let index =  this.oSubmitModel.OtherItemsDTL.findIndex(r=>r.OPTM_ITEMCODE == $event.ITEMCODE && r.OPTM_QUANTITY == $event.OPTM_PARTS_PERCONT); 
            if(index > -1){
-             this.toastr.error('',this.translate.instant("Item is already present with required qty"));
+             this.toastr.error('',this.translate.instant("ItemReqQty"));
              this.scanItemCode = '';
              return;
            }
@@ -1057,6 +1057,8 @@ export class AddItemToContComponent implements OnInit {
         } 
          // this.scanCurrentItemData = $event
 
+         this.scanItmCode.nativeElement.focus();
+
        }else if(this.lookupfor == "ContItemBatchSerialList"){
         this.scanBSrLotNo = $event.LOTNO;
         this.bsItemQty = 0;
@@ -1069,6 +1071,7 @@ export class AddItemToContComponent implements OnInit {
          // this.bsItemQty = $event.TOTALQTY;
           this.ValidBSQty =$event.TOTALQTY;
         }
+        this.scanItmCode.nativeElement.focus();
       }else if(this.lookupfor == "WOLIST"){
         if(this.whse != $event.OPTM_WHSE){
           this.toastr.error('', this.translate.instant("Diff_WH"));
@@ -1243,7 +1246,7 @@ export class AddItemToContComponent implements OnInit {
               let index =  this.oSubmitModel.OtherItemsDTL.findIndex(r=>r.OPTM_ITEMCODE == data[0].ITEMCODE && r.OPTM_QUANTITY == data[0].OPTM_PARTS_PERCONT); 
               if(index > -1){
                 this.toastr.error('',this.translate.instant("Item is already present with required qty"));
-                this.scanItemCode = '';
+                this.scanItemCode = ''; this.itemQty = 0;
                 this.scanItmCode.nativeElement.focus();
                 result = false;
                 return;

@@ -436,7 +436,7 @@ export class BuildParentContainerComponent implements OnInit {
     // this.autoPackRule = '';
 
     this.showLoader = true;
-    this.commonservice.IsValidContainerType("").then(
+    this.commonservice.IsValidContainerType(this.containerType).then(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

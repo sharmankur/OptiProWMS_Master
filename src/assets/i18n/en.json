@@ -1142,6 +1142,7 @@
   "PackRule": "Pack Rule",
   "PrntContType": "Parent Cont. Type",
   "ContGroupCode": "Cont. Group Code",
+  "ItemReqQty" : "Item is already present with required qty",
 
   "Dummy": "Dummy"  
 }
