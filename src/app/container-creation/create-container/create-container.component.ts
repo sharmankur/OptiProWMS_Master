@@ -881,7 +881,7 @@ export class CreateContainerComponent implements OnInit {
             }
 
             this.showLookup = true;
-            this.serviceData = data;
+            this.serviceData = data.OPTM_CONT_AUTORULEHDR;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
               if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
                 this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
@@ -926,7 +926,7 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;
+          this.serviceData = data.OPTM_CONT_AUTORULEHDR;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
