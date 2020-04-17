@@ -299,7 +299,7 @@
 
                             </div>
                             <!-- Tree End -->
-                            <div class="form-group row scan-form-row mt-2">
+                            <div *ngIf="!treeViewShow"  class="form-group row scan-form-row mt-2">
                                 <div class="col">
                                     <fieldset class="d-block w-100">
                                         <div class="d-flex align-items-center w-100">
@@ -332,7 +332,7 @@
                             </div> -->
                             </div>
 
-                            <div class="form-group row scan-form-row">
+                            <div *ngIf="!treeViewShow"  class="form-group row scan-form-row">
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanItem'|translate}}</label>
@@ -344,7 +344,7 @@
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (mousedown)="openInternalCont()">
+                                                (mousedown)="openInternalCont()" title="{{'Internal'|translate}}">
                                                 <i class="opti-icon-arrow-next"></i>
                                             </button>
                                         </div>
@@ -354,7 +354,7 @@
                                 <!--(blur)="onItemQtyChange()" -->
 
                             </div>
-                            <div class="form-group row scan-form-row">
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label text-left">{{'ScanQty'|translate}}</label>
@@ -365,7 +365,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row scan-form-row">
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
@@ -373,7 +373,7 @@
                                             [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                (mousedown)="GetBatchSerial()" [disabled]="radioSelected == 2">
+                                                (mousedown)="GetBatchSerial()" [disabled]="radioSelected == 2 || InternalContainer">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                         </div>
@@ -381,13 +381,13 @@
                                 </div>
 
                             </div>
-                            <div class="form-group row scan-form-row">
+                            <div *ngIf="!treeViewShow"  class="form-group row scan-form-row">
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
                                         <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty" class="col-sm-9 form-control form-control-sm text-right"
                                             [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                            (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                            (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S' || InternalContainer">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -395,7 +395,7 @@
                                         <label class="col-sm-3 col-form-label">{{'Bal'|translate}}</label>
                                         <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-9 form-control form-control-sm text-right"
                                             [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                            (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S'">
+                                            (blur)="onBatSerQtyChange()" disabled>
                                     </div>
 
                                 </div>
@@ -412,25 +412,15 @@
                                         </a>
                                         <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
                                             <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
-                                                {{'Barcode'|translate}}</a>
                                             <a class="dropdown-item" (click)="onParentContClick()">
                                                 {{'+/-ParentCont'|translate}}</a>
                                             <a class="dropdown-item" (click)="onCloseContClick()">
                                                 {{'Close_Container'|translate}}</a>
+                                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                    {{'Barcode'|translate}}</a>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- 
-                                    <div class="col-sm-12 col-12">
-                                        <div class="float-right form-group row">
-                                            <div class="input-group input-group-sm col-sm-2">
-                                                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
-                                                    {{'Barcode'|translate}}
-                                                </button>                                               
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -499,6 +489,16 @@
 <span *ngIf="showLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)">
     </app-common-lookup>
+</span>
+
+<span *ngIf="showInternalDialogFlag">
+    <app-input-internal-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oDataModel]="oDataModel"></app-input-internal-container>
+</span>
+
+<span *ngIf="showInputDialogFlag">
+    <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
 </span>
 
 <span *ngIf="showConfirmDialog">
