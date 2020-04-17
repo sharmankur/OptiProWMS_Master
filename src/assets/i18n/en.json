@@ -609,7 +609,7 @@
   "ShipTo":"Ship To",
   "DueDate":"Due Date",
   "Select":"Select",
-  "SalesOrderEntry": "Sales Order Entry",
+  "SalesOrderEntry": "SO Entry",
   "Enable_Filter": "Enable Filter",
 
   "WHSName":"Warehouse Name",
@@ -1138,5 +1138,10 @@
   "ParentContType" : "Select Parent Container Type",
   "Scanned_itm_qty": "Enter Scanned Item Qty",
   
+  "PackToGen": "No. of Pack To Gen.",
+  "PackRule": "Pack Rule",
+  "PrntContType": "Parent Cont. Type",
+  "ContGroupCode": "Cont. Group Code",
+
   "Dummy": "Dummy"  
 }

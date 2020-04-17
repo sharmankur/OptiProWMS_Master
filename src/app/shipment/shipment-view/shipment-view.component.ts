@@ -524,6 +524,9 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
+            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
+            this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -675,10 +678,6 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onStageORUnstageShipmentClick() {
-    // this.dialogOpened = true;
-    // if(this.dialogOpened){
-    //   return;
-    // }
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
     }
@@ -794,7 +793,8 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             this.containerCode = "";
-            this.GetDataBasedOnShipmentId(this.ShipmentID);            
+            this.onStageORUnstageShipmentClick();
+            // this.GetDataBasedOnShipmentId(this.ShipmentID);            
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -1060,4 +1060,40 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
   //#endregion
+
+  cancelAndUnassign(){
+    if (this.ShipmentCode == "" || this.ShipmentCode == null || this.ShipmentCode == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', "Your shipment is cancel or unassigned");
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }
