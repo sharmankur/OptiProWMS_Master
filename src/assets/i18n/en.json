@@ -1135,6 +1135,8 @@
   "ContPackRule": "Container Pack Rule",
   "+/-ParentCont": "+/-To Parent",
   "Internal_Cont": "Internal Container",
+  "ParentContType" : "Select Parent Container Type",
+  "Scanned_itm_qty": "Enter Scanned Item Qty",
   
   "Dummy": "Dummy"  
 }

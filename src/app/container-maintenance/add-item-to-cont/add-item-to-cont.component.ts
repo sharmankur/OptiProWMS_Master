@@ -72,6 +72,7 @@ export class AddItemToContComponent implements OnInit {
   showInternalDialogFlag: boolean = false;
   oDataModel: any = {};
   InternalContainer: boolean =false;
+  showInputDialogFlag: boolean= false;
 
   @ViewChild("scanBinCode", {static: false}) scanBinCode;
   @ViewChild("scanWhse", {static: false}) scanWhse;
@@ -187,6 +188,7 @@ export class AddItemToContComponent implements OnInit {
 
   checkChangeEvent: any;  
   handleCheckChange(event,action) {
+    this.treeViewShow = false;
     if(action == 'add'){
       this.radioSelected = 1;
       this.addItemOpn = "Add"
@@ -197,6 +199,7 @@ export class AddItemToContComponent implements OnInit {
     else{
       this.radioSelected = 3;
       this.addItemOpn = "View"
+      this.treeViewShow = true;
     }   
     this.checkChangeEvent = event;    
   }
@@ -246,6 +249,7 @@ export class AddItemToContComponent implements OnInit {
     this.oSubmitModel.OtherItemsDTL =[];
     this.oSubmitModel.OtherBtchSerDTL =[];
     this.DisplayTreeData = [];
+    this.workOrder=''; this.operationNo=0; this.taskId=0;
   }
 
   onAutoPackRuleChangeBlur(){
@@ -870,7 +874,7 @@ export class AddItemToContComponent implements OnInit {
   }
   onWorkOrderChange(){
 
-    this.workOrder == ''; this.taskId = ''; this.operationNo = ''; 
+    this.workOrder == ''; this.taskId = 0; this.operationNo = 0; 
     if (this.whse == undefined || this.whse == "") {          
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
@@ -1076,7 +1080,7 @@ export class AddItemToContComponent implements OnInit {
           this.toastr.error('', this.translate.instant("SelectAutoPackMsg"));
           return;
         }
-        
+
         this.workOrder = $event.OPTM_WONO;
         this.taskId = $event.OPTM_ID;
         this.operationNo = $event.OPTM_FROMOPERNO;
@@ -1539,7 +1543,7 @@ export class AddItemToContComponent implements OnInit {
   onScanItemQtyChange(){
 
     if(this.scanItemCode == '' || this.scanItemCode == undefined){
-        this.toastr.error('', this.translate.instant("SelectItemCode"));      
+       // this.toastr.error('', this.translate.instant("SelectItemCode"));      
         this.itemQty = 0;
         return false;
     }
@@ -1636,6 +1640,7 @@ export class AddItemToContComponent implements OnInit {
         let diff = this.oSubmitModel.OtherItemsDTL[index].OPTM_QUANTITY - this.itemQty;
         if(diff < 0){
           this.toastr.error('', this.translate.instant("Cannot remove greater qty from lesser qty"));
+          this.bsItemQty = 0;
           return;
         }else if(diff == 0){
           this.oSubmitModel.OtherItemsDTL.splice(index,1);
@@ -1743,6 +1748,7 @@ export class AddItemToContComponent implements OnInit {
       } 
       else{
         this.toastr.error('', this.translate.instant("Cannot remove. Item is not Scanned to remove"));
+        this.bsItemQty = 0; this.scanBSrLotNo = '';
         return;
       }
     }
@@ -1774,6 +1780,7 @@ export class AddItemToContComponent implements OnInit {
         }
         else{
           this.toastr.error('', this.translate.instant("Cannot remove. Batch is not Scanned to remove"));
+          this.scanBSrLotNo = ''; this.bsItemQty = 0;
           return;
        }
       }
@@ -1794,6 +1801,7 @@ export class AddItemToContComponent implements OnInit {
             let diff = this.oSubmitModel.OtherBtchSerDTL[indexBS].OPTM_QUANTITY - this.bsItemQty;
             if(diff < 0){
               this.toastr.error('', this.translate.instant("Cannot remove greater qty from lesser qty"));
+              this.bsItemQty = 0;
               return;
             }else if(diff == 0){
               this.oSubmitModel.OtherBtchSerDTL.splice(indexBS,1)
@@ -2395,7 +2403,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_CONTTYPE: this.containerType,
       OPTM_CONTAINERCODE: this.containerCode,
       OPTM_WEIGHT: 0,
-      OPTM_AUTOCLOSE_ONFULL: 'N',
+      OPTM_AUTOCLOSE_ONFULL: this.autoRuleId == '' ? 'N' : 'Y',
       OPTM_AUTORULEID: (this.autoRuleId == undefined) ? '' : this.autoRuleId,
       OPTM_WHSE: this.whse,
       OPTM_BIN: this.binNo,
@@ -2422,7 +2430,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_WONUMBER: this.workOrder == '' ? 0 : this.workOrder,
       OPTM_TASKHDID: this.taskId == '' ? 0 : this.taskId,
       OPTM_OPERATION: this.operationNo == ''  ? 0 : this.operationNo,
-      OPTM_QUANTITY: this.workOrder == '' ? 0 : this.PartsQty,
+      OPTM_QUANTITY: this.workOrder == '' ? 0 : (this.PartsQty == 0 ? this.MapRuleQty : this.PartsQty),
       OPTM_SOURCE: this.workOrder == '' ? 3 : 1,
       OPTM_ParentContainerType: '',
       OPTM_ParentPerQty: 0,
@@ -2493,15 +2501,131 @@ export class AddItemToContComponent implements OnInit {
     );
   }
 
+  showInputDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.inputDialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showInputDialogFlag = true;
+    this.titleMessage = msg;
+  }
+
+  validateScanFields(){
+    if(!this.checkParent){
+      this.toastr.error('',this.translate.instant("ParentContType"));
+      return;
+    }
+
+    if(this.scanItemCode == '' || this.scanItemCode == undefined){
+      this.toastr.error('',this.translate.instant("SelectItemCode"));
+      return;
+    }
+
+    if(this.itemQty == 0){
+      this.toastr.error('',this.translate.instant("Scanned_itm_qty"));
+      return;
+    }
+
+    if(this.oSubmitModel.OtherItemsDTL.length > 0){
+      for(let widx=0; widx<this.oSubmitModel.OtherItemsDTL.length; widx++){
+        if(this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'S' || this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'B'){
+          this.toastr.error('', this.translate.instant("CannotScanCreateWIP"));
+          return;
+        }
+      }      
+    }else{
+      this.toastr.error('',this.translate.instant("SelectItemCode"));
+      return;
+    }
+  }
+
   onScanAndCreateClick(){
+
+    this.validateScanFields();  
     
+    this.oSaveModel.HeaderTableBindingData = [];
+    this.oSaveModel.OtherItemsDTL = [];
+    this.oSaveModel.OtherBtchSerDTL = [];
+
+    this.oSaveModel.HeaderTableBindingData.push({
+      OPTM_SONO: this.soNumber,
+      OPTM_CONTAINERID: 0 ,
+      OPTM_CONTTYPE: this.containerType,
+      OPTM_CONTAINERCODE: "" + this.containerCode,
+      OPTM_WEIGHT: 1,
+      OPTM_AUTOCLOSE_ONFULL: ((this.autoRuleId == '') ? 'N' : 'Y'),
+      OPTM_AUTORULEID: this.autoRuleId,
+      OPTM_WHSE: this.whse,
+      OPTM_BIN: this.binNo,
+      OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
+      Length: length,
+      Width: 1,
+      Height: 1,
+      ItemCode: "",
+      NoOfPacks: "1",
+      OPTM_TASKID: 0, //changed
+      CompanyDBId: localStorage.getItem("CompID"),
+      Username: localStorage.getItem("UserId"),
+      UserId: localStorage.getItem("UserId"),
+      GUID: localStorage.getItem("GUID"),
+      Action: "N",
+      OPTM_PARENTCODE: '',
+      OPTM_GROUP_CODE: this.containerGroupCode,
+      OPTM_CREATEMODE: this.radioRuleSelected,
+      OPTM_PERPOSE: this.purpose,
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Container",
+      OPTM_WONUMBER: this.workOrder,
+      OPTM_TASKHDID: this.taskId,
+      OPTM_OPERATION: this.operationNo,
+      OPTM_QUANTITY: this.autoRuleId == '' ? 0 : this.autoRuleId,
+      OPTM_SOURCE: this.autoRuleId == '' ? 3 : 1,    
+      OPTM_ParentContainerType: this.parentContainerType,
+      OPTM_ParentPerQty: this.PartsQty == 0 ? this.MapRuleQty : this.PartsQty,  
+      IsWIPCont: this.workOrder == '' ? false :  true
+    });
+
+    if(this.oSubmitModel.OtherItemsDTL.length > 0){
+      for (var i = 0; i < this.oSubmitModel.OtherItemsDTL.length; i++) {
+        this.oSaveModel.OtherItemsDTL.push({
+          OPTM_ITEMCODE: this.oSubmitModel.OtherItemsDTL[i].OPTM_ITEMCODE,
+          OPTM_QUANTITY: Number(this.oSubmitModel.OtherItemsDTL[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision"))),
+          OPTM_CONTAINER: "",
+          OPTM_AVLQUANTITY: 0,
+          OPTM_INVQUANTITY: 0,
+          OPTM_BIN: '',
+          OPTM_CONTAINERID: 0,
+          OPTM_TRACKING: this.oSubmitModel.OtherItemsDTL[i].OPTM_TRACKING,
+          OPTM_WEIGHT: 1
+        });
+      }      
+    }    
+ 
+
+    this.showInputDialog("ScanAndCreate", this.translate.instant("Confirm"), this.translate.instant("Cancel"),
+    this.translate.instant("ConfirmContainerCode"));
   }
 
   getInputDialogValue($event) {
     this.showInternalDialogFlag = false;
+    this.showInputDialogFlag = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
-        case ("ScanAndCreate"):         
+        case ("ScanAndCreate"): 
+
+        //  this.containerId = ($event.ContainerId == undefined || '' || null ) ? this.containerId : $event.ContainerId;
+         // this.containerCode = ($event.ContainerCode == undefined || '' || null ) ? this.containerCode : $event.ContainerCode;;
+          // this.parentContainerCode = $event.ParentContainerCode;
+          // this.count = $event.Count;
+          // this.selectedBatchSerial = [];
+          // this.ContStatus = this.setContainerStatus($event.ContnrStatus);
+          // this.GetContainerNumber();
+         // this.GetInventoryData()
+         console.log("Parent Cont Code : ");
+         console.log($event.ParentContainerCode);
+
+         console.log("Child Cont Code : ");
+         console.log($event.ContainerCode);
           break;
 
         case ("InternalContainer"): 
@@ -2512,6 +2636,7 @@ export class AddItemToContComponent implements OnInit {
             this.scanBSrLotNo = $event.BatSerList[idx].LOTNO;
             this.bsItemQty = $event.BatSerList[idx].Quantity;
             this.SetDataInSubmitModel();
+            this.scanBSrLotNo = ''; this.bsItemQty = 0;
          }          
           break;
       }
