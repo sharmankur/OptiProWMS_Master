@@ -2155,7 +2155,8 @@ export class AddItemToContComponent implements OnInit {
               if (data[0].RESULT != undefined && data[0].RESULT != null) {
                 this.toastr.error('', data[0].RESULT);
                 this.flagCreate = false;
-                this.containerCode = '';                 
+                this.containerCode = ''; 
+                this.setDefaultValues();                
                 return;
               }
               else {
@@ -2510,37 +2511,70 @@ export class AddItemToContComponent implements OnInit {
   }
 
   validateScanFields(){
-    if(!this.checkParent){
-      this.toastr.error('',this.translate.instant("ParentContType"));
-      return;
-    }
+    // if(!this.checkParent){
+    //   this.toastr.error('',this.translate.instant("ParentContType"));
+    //   return false;
+    // }
 
-    if(this.scanItemCode == '' || this.scanItemCode == undefined){
-      this.toastr.error('',this.translate.instant("SelectItemCode"));
-      return;
-    }
+    // if(this.scanItemCode == '' || this.scanItemCode == undefined){
+    //   this.toastr.error('',this.translate.instant("SelectItemCode"));
+    //   return false;
+    // }
 
-    if(this.itemQty == 0){
-      this.toastr.error('',this.translate.instant("Scanned_itm_qty"));
-      return;
-    }
+    // if(this.itemQty == 0){
+    //   this.toastr.error('',this.translate.instant("Scanned_itm_qty"));
+    //   return false;
+    // }
 
     if(this.oSubmitModel.OtherItemsDTL.length > 0){
       for(let widx=0; widx<this.oSubmitModel.OtherItemsDTL.length; widx++){
         if(this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'S' || this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'B'){
           this.toastr.error('', this.translate.instant("CannotScanCreateWIP"));
-          return;
+          return false;
         }
       }      
     }else{
       this.toastr.error('',this.translate.instant("SelectItemCode"));
-      return;
+      return false;
     }
   }
 
   onScanAndCreateClick(){
 
-    this.validateScanFields();  
+    // if (!this.validateScanFields()) {
+    //   return;
+    // } 
+    
+    if(this.oSubmitModel.OtherItemsDTL.length > 0){
+      for(let widx=0; widx<this.oSubmitModel.OtherItemsDTL.length; widx++){
+        if(this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'S' || this.oSubmitModel.OtherItemsDTL[widx].OPTM_TRACKING == 'B'){
+          this.toastr.error('', this.translate.instant("CannotScanCreateWIP"));
+          return ;
+        }
+      }      
+    }else{
+      this.toastr.error('',this.translate.instant("SelectItemCode"));
+      return ;
+    }
+
+    var createMode =1;
+    if(this.radioRuleSelected == 1){
+      createMode = 1;
+    }else{
+      if (this.autoRuleId == undefined || this.autoRuleId == "") {
+        createMode = 3
+      } else {
+        createMode = 2
+      }
+    }   
+
+    var purps = ""
+    if (this.purpose == "Shipping") {
+      purps = "Y"
+    } else {
+      purps = "N"
+    }
+
     
     this.oSaveModel.HeaderTableBindingData = [];
     this.oSaveModel.OtherItemsDTL = [];
@@ -2571,8 +2605,8 @@ export class AddItemToContComponent implements OnInit {
       Action: "N",
       OPTM_PARENTCODE: '',
       OPTM_GROUP_CODE: this.containerGroupCode,
-      OPTM_CREATEMODE: this.radioRuleSelected,
-      OPTM_PERPOSE: this.purpose,
+      OPTM_CREATEMODE: createMode,
+      OPTM_PERPOSE: purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: this.workOrder,
