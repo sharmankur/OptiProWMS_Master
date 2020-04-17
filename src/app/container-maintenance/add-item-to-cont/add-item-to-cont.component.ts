@@ -1078,7 +1078,7 @@ export class AddItemToContComponent implements OnInit {
          // this.bsItemQty = $event.TOTALQTY;
           this.ValidBSQty =$event.TOTALQTY;
         }
-        this.scanBsItemQty.nativeElement.focus();
+      //  this.scanBsItemQty.nativeElement.focus();
       }else if(this.lookupfor == "WOLIST"){
         if(this.whse != $event.OPTM_WHSE){
           this.toastr.error('', this.translate.instant("Diff_WH"));
@@ -2307,17 +2307,18 @@ export class AddItemToContComponent implements OnInit {
           if (data[0].RESULT == "Data Saved") {
             
               this.toastr.success('', this.translate.instant("ItemUpdatedSuccessMsg"));
-              this.getCreatedContainer();
-              // this.scanItemCode = "";
-              // this.itemQty = 0;
+             // this.getCreatedContainer();
+
+              this.scanItemCode = "";
+              this.itemQty = 0;
               // this.containerCode = '';
               // this.containerStatus = '';             
-              // this.scanBSrLotNo = ''
-              // this.bsItemQty = 0
+              this.scanBSrLotNo = ''
+              this.bsItemQty = 0
               // this.oSubmitModel.OPTM_CONT_HDR = [];
               // this.oSubmitModel.OtherItemsDTL = [];
               // this.oSubmitModel.OtherBtchSerDTL = [];            
-              // this.bsVisible = false;
+              this.bsVisible = false;
               // this.DisplayTreeData = [];  
           } else {
             this.toastr.error('', this.translate.instant(data[0].RESULT));
