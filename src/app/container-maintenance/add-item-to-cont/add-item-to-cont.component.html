@@ -19,7 +19,7 @@
                                         <!--(mousedown)="onRadioMouseDown('auto')"-->
                                         <input type="radio" #autoradio name="autoradio" id="autoradio" (click)="handleRuleRadioChange($event)"
                                             class="k-radio" [checked]="radioRuleSelected == 1" />
-                                        <label class="k-radio-label" for="autoradio">{{'Auto_Rule_Based'|translate}}</label>
+                                        <label class="k-radio-label ml-0" for="autoradio">{{'Auto_Rule_Based'|translate}}</label>
                                     </div>
                                     <div class="d-flex align-items-center ml-3">
                                         <!-- (mousedown)="onRadioMouseDown('manual')"-->
@@ -141,7 +141,7 @@
                             <label class="col-sm-4 col-form-label">{{'Add_to_Parent'|translate}}</label>
                             <input type="checkbox" id="checkParent" name='checkParent' class="k-checkbox" (change)="onParentCheckChange($event)"
                                 [checked]="checkParent" [disabled]="radioRuleSelected == 1" />
-                            <label class="k-checkbox-label empty-check" for="checkParent"></label>
+                            <label class="k-checkbox-label empty-check ml-0 check-parent-input" for="checkParent"></label>
                         </div>
                     </div>
 
@@ -254,6 +254,24 @@
                                                 type="button">
                                                 <i class="opti-icon-view-batch"></i>
                                             </button>
+                                            <div class="btn-group">
+                                                    <div class="dropdown show">
+                                                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
+                                                            data-toggle="dropdown" data-placement="top" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            <i class="opti-icon-more"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
+                                                            <a class="dropdown-item cursor-pointer" (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
+                                                            <a class="dropdown-item" (click)="onParentContClick()">
+                                                                {{'+/-ParentCont'|translate}}</a>
+                                                            <a class="dropdown-item" (click)="onCloseContClick()">
+                                                                {{'Close_Container'|translate}}</a>
+                                                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                                    {{'Barcode'|translate}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>  
                                         </div>
                                     </div>
                                 </div>
@@ -358,7 +376,7 @@
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label text-left">{{'ScanQty'|translate}}</label>
-                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty" class="col-sm-9 form-control form-control-sm text-right"
+                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onScanItemQtyChange()"
                                             [disabled]="scanItemCode == ''">
                                     </div>
@@ -385,12 +403,16 @@
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
-                                        <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty" class="col-sm-9 form-control form-control-sm text-right"
+                                        <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
                                             (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S' || InternalContainer">
+                                            <label class="col-sm-3 col-form-label custom-pl-2">{{'Bal'|translate}}</label>
+                                            <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                                [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
+                                                (blur)="onBatSerQtyChange()" disabled>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <!-- <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'Bal'|translate}}</label>
                                         <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-9 form-control form-control-sm text-right"
@@ -398,9 +420,9 @@
                                             (blur)="onBatSerQtyChange()" disabled>
                                     </div>
 
-                                </div>
+                                </div> -->
                             </div>
-
+<!-- 
                             <div class="fix-footer-btnBar">
 
                                 <div class="btn-group  toggle-btn-outer">
@@ -421,7 +443,7 @@
                                         </div>
                                     </div>
                                 </div>                                
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
