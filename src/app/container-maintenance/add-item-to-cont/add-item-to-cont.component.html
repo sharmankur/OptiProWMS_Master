@@ -388,7 +388,7 @@
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
                                         <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-9 form-control form-control-sm"
-                                            [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()">
+                                            [(ngModel)]="scanBSrLotNo" (blur)="onBatchSerialBlur()" [disabled]="radioSelected == 2 || InternalContainer">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (mousedown)="GetBatchSerial()" [disabled]="radioSelected == 2 || InternalContainer">

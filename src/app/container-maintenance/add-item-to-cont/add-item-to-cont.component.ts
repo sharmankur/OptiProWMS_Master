@@ -73,6 +73,7 @@ export class AddItemToContComponent implements OnInit {
   oDataModel: any = {};
   InternalContainer: boolean =false;
   showInputDialogFlag: boolean= false;
+  AutoService : any = [];
 
   @ViewChild("scanBinCode", {static: false}) scanBinCode;
   @ViewChild("scanWhse", {static: false}) scanWhse;
@@ -232,6 +233,7 @@ export class AddItemToContComponent implements OnInit {
   }
 
   onParentCheckChange(event){
+    this.parentContainerType = '';
     this.checkParent = !this.checkParent;
   }
  
@@ -994,6 +996,10 @@ export class AddItemToContComponent implements OnInit {
         this.packType = $event.OPTM_CONTUSE;        
         this.bsVisible = false;
         this.setDefaultValues(); 
+
+        this.AutoRuleDTL = this.AutoService.filter(r=> r.OPTM_RULEID == $event.OPTM_RULEID);
+      
+        //this.AutoRuleDTL = $event.OPTM_CONT_AUTORULEDTL;        
         this.GetInventoryData();
       } else if (this.lookupfor == "WareHouse") {
         this.whse = $event.WhsCode;
@@ -1019,7 +1025,7 @@ export class AddItemToContComponent implements OnInit {
            let index =  this.oSubmitModel.OtherItemsDTL.findIndex(r=>r.OPTM_ITEMCODE == $event.ITEMCODE && r.OPTM_QUANTITY == $event.OPTM_PARTS_PERCONT); 
            if(index > -1){
              this.toastr.error('',this.translate.instant("ItemReqQty"));
-             this.scanItemCode = '';
+             this.scanItemCode = ''; this.itemQty = 0;
              return;
            }
            }
@@ -1057,7 +1063,8 @@ export class AddItemToContComponent implements OnInit {
         } 
          // this.scanCurrentItemData = $event
 
-         this.scanItmCode.nativeElement.focus();
+      //   this.scanItmCode.nativeElement.focus();
+
 
        }else if(this.lookupfor == "ContItemBatchSerialList"){
         this.scanBSrLotNo = $event.LOTNO;
@@ -1071,7 +1078,7 @@ export class AddItemToContComponent implements OnInit {
          // this.bsItemQty = $event.TOTALQTY;
           this.ValidBSQty =$event.TOTALQTY;
         }
-        this.scanItmCode.nativeElement.focus();
+        this.scanBsItemQty.nativeElement.focus();
       }else if(this.lookupfor == "WOLIST"){
         if(this.whse != $event.OPTM_WHSE){
           this.toastr.error('', this.translate.instant("Diff_WH"));
@@ -1346,6 +1353,11 @@ export class AddItemToContComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
+
+          for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
+            this.serviceData[iBtchIndex].TOTALQTY = Number(this.serviceData[iBtchIndex].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }
+
           this.lookupfor = "ContItemsList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -1384,6 +1396,11 @@ export class AddItemToContComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
+
+          for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
+            this.serviceData[iBtchIndex].TOTALQTY = Number(this.serviceData[iBtchIndex].TOTALQTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          }
+
           this.lookupfor = "ContItemBatchSerialList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -1843,7 +1860,8 @@ export class AddItemToContComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;
+          this.serviceData = data.OPTM_CONT_AUTORULEHDR;
+          this.AutoService = data.OPTM_CONT_AUTORULEDTL;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
@@ -2484,7 +2502,7 @@ export class AddItemToContComponent implements OnInit {
             this.itemQty = 0;
             this.bsItemQty = 0;            
             this.containerStatus = this.getContainerStatus(data[0].OPTM_STATUS)
-
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             if(callCheckCont){
               this.getCreatedContainer();
             }

@@ -408,6 +408,7 @@ export class InputContainerCodeComponent implements OnInit {
             if(data[0].RESULT != undefined && data[0].RESULT != null){
               if(data[0].RESULT == "Success"){
                 this.toastr.success('', this.translate.instant("ContainerRemovedSuccessMsg")); 
+                
               }
               else{
                 this.toastr.success('', data[0].RESULT); 

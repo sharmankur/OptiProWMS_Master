@@ -422,6 +422,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'TOTALQTY',
         title: this.translate.instant("Quantity"),
         type: 'text',
+        class: 'text-right',
         width: '100'
       },
     ];
