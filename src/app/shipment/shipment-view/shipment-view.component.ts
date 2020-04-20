@@ -1062,11 +1062,11 @@ export class ShipmentViewComponent implements OnInit {
   //#endregion
 
   cancelAndUnassign(){
-    if (this.ShipmentCode == "" || this.ShipmentCode == null || this.ShipmentCode == undefined) {
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CancelOrUnassignShipment(this.ShipmentCode).subscribe(
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentID).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

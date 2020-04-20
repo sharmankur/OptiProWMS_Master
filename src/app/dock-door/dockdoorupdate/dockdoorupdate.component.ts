@@ -285,7 +285,7 @@ export class DockdoorupdateComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.WHSCODE = data.OUTPUT[0].WhsCode;
+            this.WHSCODE = data[0].WhsCode;
           } else {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WHSCODE = "";

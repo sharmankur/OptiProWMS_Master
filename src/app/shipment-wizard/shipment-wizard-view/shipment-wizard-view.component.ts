@@ -112,6 +112,9 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)) {
             this.toastr.error('', this.translate.instant("SchDTValidation"));
             return;
+          }else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
+            this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+            return;
           }
           this.HoldSelectedRow.SOLines = [];
           this.GetSalesWizardData();
@@ -183,7 +186,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.ConsolidatedDataSelection.Company.push({
       CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
       OPTM_AUTO_ALLOCATE: OPTM_AUTO_ALLOCATE,
-      OPTM_SCH_DATETIME: this.Schedule_Datetime,
+      OPTM_SCH_DATETIME: new Date(this.Schedule_Datetime).toLocaleDateString(),
       OPTM_CONT_GRP: this.Container_Group,
       OPTM_DOCKDOOR: this.DockDoor,
       OPTM_CARRIERCODE: this.CarrierCode,
@@ -509,12 +512,21 @@ export class ShipmentWizardViewComponent implements OnInit {
       }
     }
   }
-
+  
+  onQtyChange(){
+    alert("hi");
+  }
 
   //get step 2nd data
   GetSalesWizardData() {
     this.SetParameter = [];
     let uc = this.UseContainer == true ? "Y" : "N";
+    if(this.DueDateFrom != ""){
+      this.DueDateFrom = new Date(this.DueDateFrom).toLocaleDateString();
+    }
+    if(this.DueDateTo != ""){
+      this.DueDateTo = new Date(this.DueDateTo).toLocaleDateString();
+    }
     this.SetParameter.push({
       FROMCARDCODE: this.CustomerFrom,
       TOCARDCODE: this.CustomerTo,
@@ -1155,7 +1167,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.WareHouse = data.OUTPUT[0].WhsCode;
+            this.WareHouse = data[0].WhsCode;
           } else {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WareHouse = "";
