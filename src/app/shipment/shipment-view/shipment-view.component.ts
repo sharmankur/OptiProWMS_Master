@@ -691,8 +691,10 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', "Shipment is staged.");
+          if(data.OUTPUT[0].RESULT == "Data Saved For Unstage"){
+            this.toastr.success('', this.translate.instant("ShipmentUnstaged"));
+          }else if (data.OUTPUT[0].RESULT == "Data Saved For Stage") {
+            this.toastr.success('', this.translate.instant("ShipmentStaged"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
             // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
@@ -1076,7 +1078,7 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', "Your shipment is cancel or unassigned");
+            this.toastr.success('', this.translate.instant("CancelAndUnassignedMSg"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
