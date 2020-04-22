@@ -525,7 +525,7 @@ export class ShipmentViewComponent implements OnInit {
             this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
+            this.runningProcessName == "ShippingProcess"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -677,6 +677,7 @@ export class ShipmentViewComponent implements OnInit {
     this.dialogOpened = false;
   }
 
+  runningProcessName = "";
   onStageORUnstageShipmentClick() {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
@@ -697,7 +698,7 @@ export class ShipmentViewComponent implements OnInit {
             this.toastr.success('', this.translate.instant("ShipmentStaged"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
+            this.runningProcessName = "Stage"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -795,8 +796,12 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             this.containerCode = "";
-            this.onStageORUnstageShipmentClick();
-            // this.GetDataBasedOnShipmentId(this.ShipmentID);            
+            if(this.runningProcessName == "Stage"){
+              this.onStageORUnstageShipmentClick();
+            }else if(this.runningProcessName == "ShippingProcess"){
+              this.ChangeShipmentProcess();
+            }
+            this.runningProcessName = "";
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
