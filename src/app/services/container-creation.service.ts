@@ -57,6 +57,23 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GenerateShipContainer", jObject, this.commonService.httpOptions);
   }
+   
+  SaveReportProgress(TaskId: any, OPTMID: any, Qty: any): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        TaskId: 0,
+        OPTMID: OPTMID,
+        ScanLPNVal: 2,
+        ContCount: 1,
+        ProducedQty: Qty ,
+        AcceptedQty: Qty ,
+        RejectedQty: 0,
+        NCQty: 0
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/SaveReportProgress", jObject, this.commonService.httpOptions);
+  }
   
   RemoveShipContainer(oSaveModel: any): Observable<any> {
     var jObject = {
@@ -237,12 +254,13 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.commonService.httpOptions);
   }
   
-  IsValidSONumberBasedOnRule(soNumber: any, RULEID: any): Observable<any> {
+  IsValidSONumberBasedOnRule(soNumber: any, RULEID: any, WH: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         SONUMBER: soNumber,
-        RULEID: RULEID
+        RULEID: RULEID,
+        WAREHOUSE: WH
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
@@ -303,14 +321,15 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/CheckScanAndCreateVisiblity", jObject, this.commonService.httpOptions);
   }
 
-  GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any): Observable<any> {
+  GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any, ContainerId:any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         RULEID: ruleId,
         ITEMCODE: itemCode,
         WHSCODE: whse,
-        BINCODE: binCode
+        BINCODE: binCode,
+        CONTAINERID: ContainerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfContainerBasedOnRule", jObject, this.commonService.httpOptions);
@@ -327,11 +346,13 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
 
-  GetWorkOrderList(WorkOrder: any): Observable<any> {
+  GetWorkOrderList(WorkOrder: any, Whse: any, AutoRule: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        WONUMBER: WorkOrder
+        WONUMBER: WorkOrder,
+        WHSCODE: Whse,
+        RULEID: AutoRule
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);

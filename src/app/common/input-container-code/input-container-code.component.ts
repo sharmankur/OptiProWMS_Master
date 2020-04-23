@@ -159,8 +159,20 @@ export class InputContainerCodeComponent implements OnInit {
   }
 
   IsvalidParentCode(){
+
+    let operation = 1;
+    if(this.RadioAction == "Add"){
+      operation = 1;
+    }else{
+      operation = 2;
+    }   
+
     this.showLoader = true;
-    this.containerCreationService.GetAllContainer(this.parentContainerCode).subscribe(
+    this.containerCreationService.CheckContainer(this.parentContainerCode, this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE ,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN, this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_GROUP_CODE,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_SONO, this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentContainerType,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_PERPOSE,operation,this.oSaveModel.HeaderTableBindingData[0].OPTM_CREATEMODE).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -169,45 +181,52 @@ export class InputContainerCodeComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length == 0) {
-          
-          if(this.RadioAction == "Add"){
-            this.CreateFlag = false;
-            this.GenerateShipContainer('Parent');
+
+          if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+            this.parentContainerCode = '';
+            this.RemainingQty = 0;
+            this.containerCode = '';
+            return;
           }
-          else{
-             this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
-             this.parentContainerCode = '';
-             this.RemainingQty = 0;
-             this.containerCode = '';
+          else if(data.OPTM_CONT_HDR.length == 0){
+            if(this.RadioAction == "Add"){
+              this.CreateFlag = false;
+              this.GenerateShipContainer('Parent');
+            }
+            else{
+               this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+               this.parentContainerCode = '';
+               this.RemainingQty = 0;
+               this.containerCode = '';
+            }
           }
-        } 
-        } else {
+          else if(data.OPTM_CONT_HDR.length > 0){
+            if(data.OPTM_CONT_HDR[0].OPTM_STATUS == 3){
+              this.toastr.error('', this.translate.instant("ParentContClosed"));
+              this.parentContainerCode = '';
+              this.RemainingQty = 0;
+              this.containerCode = '';
+              return;
+            }
+          }
+        }else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-  }
+      );
 
-  onContainerCodeChange(){
-
-    if(this.containerCode == "" || this.containerCode == undefined){
-      return;
-    }
-
-    this.CreateFlag = false;
-    this.GenerateShipContainer('child');
     // this.showLoader = true;
-    // this.containerCreationService.IsDuplicateContainerCode(this.containerCode).subscribe(
+    // this.containerCreationService.GetAllContainer(this.parentContainerCode).subscribe(
     //   (data: any) => {
     //     this.showLoader = false;
     //     if (data != undefined) {
@@ -216,14 +235,19 @@ export class InputContainerCodeComponent implements OnInit {
     //           this.translate.instant("CommonSessionExpireMsg"));
     //         return;
     //       }
-    //       if(data[0].Count > 0){
-    //         this.toastr.error('', this.translate.instant("DuplicateContCode"));
-    //         this.containerCode = '';
-    //         return;
+    //       if (data.length == 0) {
+          
+    //       if(this.RadioAction == "Add"){
+    //         this.CreateFlag = false;
+    //         this.GenerateShipContainer('Parent');
     //       }
     //       else{
-    //         this.GenerateShipContainer();
+    //          this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+    //          this.parentContainerCode = '';
+    //          this.RemainingQty = 0;
+    //          this.containerCode = '';
     //       }
+    //     } 
     //     } else {
     //       this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
     //     }
@@ -238,6 +262,144 @@ export class InputContainerCodeComponent implements OnInit {
     //     }
     //   }
     // );
+  }
+
+  assignParentCont(){
+    if (this.parentContainerCode != undefined && this.parentContainerCode != '' && this.ShowParentField) {
+      this.showLoader = true;
+      this.containerCreationService.InsertContainerinContainer(this.parentContainerCode, this.containerCode, this.RadioAction,
+        this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE, this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentContainerType).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+          if (data.length > 0) {
+            if (data[0].RESULT != undefined && data[0].RESULT != null) {
+  
+            //if (data[0].RESULT == "Data Saved") {
+              if (data[0].RESULT.indexOf("Data Saved") > -1) {
+              if(this.RadioAction == 'Add'){
+                this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+              }else{
+                this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+              }
+              this.containerCode = '';
+              this.CreateFlag = true;
+              // this.TempContnrId = data[0].OPTM_CONTAINERID;
+              // this.TempContnrCode = this.containerCode;
+              // this.containerCode = '';
+              // this.status = data[0].OPTM_STATUS; 
+
+              this.getCountofParentContType();
+              
+            }
+            else {
+              this.toastr.error('', data[0].RESULT);
+            }
+          }
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+    }
+    else{
+      this.toastr.error('', this.translate.instant("Cont_already_exists"));
+      this.containerCode = '';
+      return;
+    }
+  }
+
+  onContainerCodeChange(){
+
+    if(this.containerCode == "" || this.containerCode == undefined){
+      return;
+    }
+
+    let operation = 1;
+    if(this.RadioAction == "Add"){
+      operation = 1;
+    }else{
+      operation = 2;
+    }
+
+    this.showLoader = true;
+    this.containerCreationService.CheckContainer(this.containerCode, this.oSaveModel.HeaderTableBindingData[0].OPTM_WHSE ,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_BIN, this.oSaveModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_GROUP_CODE,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_SONO, this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTTYPE,
+    this.oSaveModel.HeaderTableBindingData[0].OPTM_PERPOSE, operation, this.oSaveModel.HeaderTableBindingData[0].OPTM_CREATEMODE).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
+            // this.toastr.error('', data[0].RESULT);
+            // this.containerCode = '';           
+            // return;
+            this.assignParentCont();
+          }
+          else if(data.OPTM_CONT_HDR.length == 0){
+            if(this.RadioAction == "Add"){
+              this.CreateFlag = false;
+              this.GenerateShipContainer('child'); 
+            }
+            else if(this.RadioAction == "Remove"){
+               this.toastr.error('', this.translate.instant("Cont_Does_Not_Exists"));
+               this.containerCode = '';
+            }
+          }
+          else if(data.OPTM_CONT_HDR.length > 0){
+            // if(data.OPTM_CONT_HDR[0].OPTM_STATUS == 3){
+            //   this.toastr.error('', this.translate.instant("ParentContClosed"));
+            //   this.parentContainerCode = '';
+            //   this.RemainingQty = 0;
+            //   this.containerCode = '';
+            //   return;
+            // }
+            this.assignParentCont();
+          }
+        }else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+
+    // this.CreateFlag = false;
+    // this.GenerateShipContainer('child');    
   }
 
   getCountofParentContType(){
@@ -279,6 +441,11 @@ export class InputContainerCodeComponent implements OnInit {
 
   GenerateShipContainer(type) {
 
+    let tempModel:any = {};
+    tempModel.HeaderTableBindingData  = [];
+    tempModel.OtherItemsDTL = [];
+    tempModel.OtherBtchSerDTL = [];
+
     if(this.CreateFlag){
       return;
     }
@@ -290,11 +457,12 @@ export class InputContainerCodeComponent implements OnInit {
       return;
     }
 
-    if(this.ShowParentField && this.RemainingQty <= 0){
+    if(this.ShowParentField && this.RemainingQty <= 0 ){
       this.toastr.error('', this.translate.instant("Cannot_Create_Container"));
       return;
-    }  
+    }    
     
+
     if(type == 'child'){
 
       if(this.containerCode == "" || this.containerCode == undefined){
@@ -304,17 +472,26 @@ export class InputContainerCodeComponent implements OnInit {
 
       this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.containerCode;
       this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.containerCode;
-      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode;  
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = this.parentContainerCode; 
+      
+      tempModel.HeaderTableBindingData = this.oSaveModel.HeaderTableBindingData;
+      tempModel.OtherItemsDTL = this.oSaveModel.OtherItemsDTL;
+      tempModel.OtherBtchSerDTL = this.oSaveModel.OtherBtchSerDTL;
     }
     else{
       this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTCODE = this.parentContainerCode;
       this.oSaveModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = this.parentContainerCode;
-      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = '';  
+      this.oSaveModel.HeaderTableBindingData[0].OPTM_PARENTCODE = '';        
+      
+      tempModel.HeaderTableBindingData = this.oSaveModel.HeaderTableBindingData;
+      tempModel.HeaderTableBindingData[0].OPTM_CONTTYPE = this.oSaveModel.HeaderTableBindingData[0].OPTM_ParentContainerType;
+      tempModel.OtherItemsDTL = [];
+      tempModel.OtherBtchSerDTL = [];
     } 
 
     if(this.RadioAction == "Add"){
     this.showLoader = true;
-    this.containerCreationService.GenerateShipContainer(this.oSaveModel).subscribe(
+    this.containerCreationService.GenerateShipContainer(tempModel).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

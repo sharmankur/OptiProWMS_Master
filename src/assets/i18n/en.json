@@ -1143,6 +1143,21 @@
   "PrntContType": "Parent Cont. Type",
   "ContGroupCode": "Cont. Group Code",
   "ItemReqQty" : "Item is already present with required qty",
-
+  "AvlQtyIsLess" : "Qty is not available for item - ",
+  "AddItemToUpdate": "Plese add item to assign it to container",
+  "Scanned_itm_qty_itm": "Enter item qty for - ",
+  "CustomerName": "Customer Name",
+  "CustomerId": "Customer Id",
+  "NoBatchSerialQtyToAdd": "No available qty of batch/serial to add",
+  "ParentContClosed": "Parent Container is Closed",
+  "Cont_Does_Not_Exists": "Container does not exists. Cannot remove.",
+  "Cont_already_exists": "Container already exists",
+  "NoDataFound": "No data found",
+  "NoSOFound": "No Sales Order found",
+  "NoContFound": "No Container found",
+  "CannotRemoveCont": "Cannot remove. No item present in Container",
+  "QtyCannotGreater": "Qty cannot be greater than Available Batch/Serial Qty",
+  "ScannedQtyCannotGreater": "Scanned item qty cannot be greater than available qty",
+  
   "Dummy": "Dummy"  
 }

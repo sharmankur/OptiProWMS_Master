@@ -91,9 +91,9 @@
                                 <div class="input-group input-group-sm">
                                     <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
                                     <input type="text" id="soNumberId" name="soNumberId" class="col-sm-8 form-control form-control-sm"
-                                        [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
+                                        [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" (blur)="IsValidSONumberBasedOnRule('blur')">
                                     <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="IsValidSONumberBasedOnRule('lookup')">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>

@@ -321,7 +321,7 @@ export class CreateContainerComponent implements OnInit {
   }
 
   IsValidSONumberBasedOnRule(){
-    this.containerCreationService.IsValidSONumberBasedOnRule(this.soNumber,this.autoRuleId).subscribe(
+    this.containerCreationService.IsValidSONumberBasedOnRule(this.soNumber,this.autoRuleId,'').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1770,7 +1770,6 @@ export class CreateContainerComponent implements OnInit {
 
 
   getLookupKey($event) {
-
     //console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
@@ -1933,7 +1932,7 @@ export class CreateContainerComponent implements OnInit {
   GetListOfContainerBasedOnRule(data) {
     this.showLoader = true;
     var result = false;
-    this.containerCreationService.GetListOfContainerBasedOnRule(this.autoPackRule, data.OPTM_ITEMCODE, this.whse, this.binNo).subscribe(
+    this.containerCreationService.GetListOfContainerBasedOnRule(this.autoPackRule, data.OPTM_ITEMCODE, this.whse, this.binNo, '').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -2011,7 +2010,7 @@ export class CreateContainerComponent implements OnInit {
       return;
     }
     this.showLoader = true;   
-    this.containerCreationService.GetWorkOrderList(this.workOrder).subscribe(
+    this.containerCreationService.GetWorkOrderList(this.workOrder,this.whse,this.autoPackRule).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -2057,7 +2056,7 @@ export class CreateContainerComponent implements OnInit {
  
    this.showLoader = true;
     var result = false;
-    this.containerCreationService.GetWorkOrderList('').subscribe(
+    this.containerCreationService.GetWorkOrderList('',this.whse,this.autoPackRule).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

@@ -958,7 +958,10 @@ export class Commonservice {
   GetWorkOrderList(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        WONUMBER: '',
+        WHSCODE: '',
+        RULEID: 0
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.httpOptions);

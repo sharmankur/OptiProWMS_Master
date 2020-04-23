@@ -25,19 +25,30 @@ export class InputInternalContainerComponent implements OnInit {
   showLookup: boolean = false;
   serviceData: any[];
   lookupfor: string;
+  forInternal: boolean = false;
+  ParentContainerCode: any = '';
+  ChildContnrCode: any = '';
+
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
      private router: Router, private containerCreationService:ContainerCreationService) { }
 
   ngOnInit() {
   this.IntContainerCode = '';
+
+    if(this.oDataModel.HeaderTableBindingData[0].ShowLookupFor == "Internal"){
+      this.forInternal = true;
+    }else{
+      this.forInternal = false;
+      this.ChildContnrCode =  this.oDataModel.HeaderTableBindingData[0].OPTM_CONTCODE;
+    }
   }
 
-  GetListOfContainerBasedOnRule() {
+  GetListOfContainerBasedOnRule(action) {
     this.showLoader = true;
     this.containerCreationService.GetListOfContainerBasedOnRule(this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
       this.oDataModel.HeaderTableBindingData[0].OPTM_ITEMCODE, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE,
-      this.oDataModel.HeaderTableBindingData[0].OPTM_BIN).subscribe(
+      this.oDataModel.HeaderTableBindingData[0].OPTM_BIN,this.IntContainerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -46,11 +57,27 @@ export class InputInternalContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookup = true;
-          this.serviceData = data;
-          this.lookupfor = "ContainerIdList";
+
+          if(action == 'lookup'){            
+            if(data.length == 0){
+              this.toastr.error('',this.translate.instant("NoContFound"));
+              return;
+            }
+            this.showLookup = true;
+            this.serviceData = data;
+            this.lookupfor = "ContainerIdList";
+          }else{
+            if(data.length == 0){
+              this.IntContainerCode = '';
+              this.toastr.error('', this.translate.instant("InvalidContainerId"));
+              return;
+            }
+            this.IntContainerCode = data[0].OPTM_CONTAINERID;
+            this.GetListOfBatchSerOfSelectedContainerID(data[0].OPTM_CONTAINERID, data[0].OPTM_ITEMCODE); 
+          }
+         
         } else {
-          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -63,6 +90,220 @@ export class InputInternalContainerComponent implements OnInit {
         }
       }
     );
+  }
+
+  onParentContainerCodeChange(){
+    if(this.ParentContainerCode == '' || this.ParentContainerCode == undefined){      
+      return;
+    }     
+
+    this.showLoader = true;
+    this.containerCreationService.CheckContainer(this.ParentContainerCode, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE ,
+      this.oDataModel.HeaderTableBindingData[0].OPTM_BIN, this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
+      this.oDataModel.HeaderTableBindingData[0].OPTM_GROUP_CODE,
+      this.oDataModel.HeaderTableBindingData[0].OPTM_SONO, this.oDataModel.HeaderTableBindingData[0].OPTM_ParentContainerType,
+      this.oDataModel.HeaderTableBindingData[0].OPTM_PERPOSE, 1,this.oDataModel.HeaderTableBindingData[0].OPTM_CREATEMODE).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+
+            if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
+              this.toastr.error('', data[0].RESULT);
+              this.ParentContainerCode = '';
+              return;
+            }
+            else if(data.OPTM_CONT_HDR.length == 0){
+              this.oDataModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = "" + this.ParentContainerCode;
+              this.generateParentContnr();
+            }
+            else if(data.OPTM_CONT_HDR.length > 0){
+              if(data.OPTM_CONT_HDR[0].OPTM_STATUS == 3){
+                this.toastr.error('', this.translate.instant("ParentContClosed"));
+                this.ParentContainerCode = '';
+                return;
+              }
+            }
+
+
+           // if (data.length > 0) {
+            //  //Container is already created but there is some error
+          //     if (data[0].RESULT != undefined && data[0].RESULT != null) {
+          //       this.toastr.error('', data[0].RESULT);
+          //       this.ParentContainerCode = '';
+          //       return;
+          //     }
+          //     else {
+               
+          //       if(data[0].OPTM_STATUS == 3){
+          //         this.toastr.error('', "Parent Container is Closed");
+          //         this.ParentContainerCode = '';
+          //         return;
+          //       }
+          //  }          
+          // } else if (data.length == 0) {
+          //   this.oDataModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = "" + this.ParentContainerCode;
+          //   this.generateParentContnr();
+          // } else {
+          //   this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          // }
+        }else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+      
+
+
+    // this.showLoader = true;
+    // this.containerCreationService.GetAllContainer(this.ParentContainerCode).subscribe(
+    //   (data: any) => {
+    //     this.showLoader = false;
+    //     if (data != undefined) {
+    //       if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+    //         this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+    //           this.translate.instant("CommonSessionExpireMsg"));
+    //         return;
+    //       }
+    //       if (data.length == 0) {
+           
+    //         this.oDataModel.HeaderTableBindingData[0].OPTM_CONTAINERCODE = "" + this.ParentContainerCode;
+    //         this.generateParentContnr();
+           
+           
+    //       } else {
+            
+                
+    //       }
+    //     } else {
+    //       this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+    //     }
+    //   },
+    //   error => {
+    //     this.showLoader = false;
+    //     if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+    //       this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+    //     }
+    //     else {
+    //       this.toastr.error('', error);
+    //     }
+    //   }
+    // );
+  }
+
+  generateParentContnr(){
+    this.showLoader = true;
+    this.containerCreationService.GenerateShipContainer(this.oDataModel).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+
+            if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
+              this.toastr.error('', data[0].ErrMsg);
+              return;
+            }
+
+            if(data[0].RESULT != undefined && data[0].RESULT != null){              
+                this.toastr.error('', data[0].RESULT);
+                return;            
+            }
+
+            this.toastr.success('', this.translate.instant("ParentContainerCreatedSuccessMsg"));
+          }
+        } else {
+          //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onConfirmParentClick(){
+    if (this.ParentContainerCode == undefined || this.ParentContainerCode == '') {
+      this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));
+      return;
+    }   
+
+    this.showLoader = true;
+    this.containerCreationService.InsertContainerinContainer(this.ParentContainerCode, this.ChildContnrCode, "",
+    this.oDataModel.HeaderTableBindingData[0].OPTM_CHILDCONTTYPE, this.oDataModel.HeaderTableBindingData[0].OPTM_ParentContainerType).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+        if (data.length > 0) {
+          if (data[0].RESULT != undefined && data[0].RESULT != null) {
+
+          //if (data[0].RESULT == "Data Saved") {           
+            if (data[0].RESULT.indexOf("Data Saved") > -1) {
+              if (data[0].RESULT.indexOf("Add") > -1) {
+                this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));  
+              }else{
+                this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+              }            
+
+              this.isYesClick.emit({
+              Status: "yes",
+              From: "AddToParentContainer",
+              ParentContainerCode: this.ParentContainerCode
+            });
+          }
+          else {
+            this.toastr.error('', data[0].RESULT);
+          }
+        }
+        else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+
   }
 
   getLookupDataValue($event) {
@@ -112,25 +353,45 @@ export class InputInternalContainerComponent implements OnInit {
   }
 
   public close(status) {   
-    if (status == "cancel" || status == "no") {   
-     this.isYesClick.emit({
-       Status: "no",
-       From: "InternalContainer",
-       IntContainerCode: "",
-       BatSerList : []       
-     });                
+    if (status == "cancel" || status == "no") { 
+      if(this.forInternal){
+        this.isYesClick.emit({
+          Status: "no",
+          From: "InternalContainer",
+          IntContainerCode: "",
+          BatSerList : []       
+        });  
+      } else{ 
+        this.isYesClick.emit({
+          Status: "no",
+          From: "AddToParentContainer",
+          ParentContainerCode: "" 
+        }); 
+    }               
    }
    else{
-    if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
-      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
-      return;
+    if(this.forInternal){
+      if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
+        this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
+        return;
+      }
+      this.isYesClick.emit({
+        Status: "yes",
+        From: "InternalContainer",
+        IntContainerCode: this.IntContainerCode,
+        BatSerList : this.bsrListByContainerId
+      });  
     }
-    this.isYesClick.emit({
-      Status: "yes",
-      From: "InternalContainer",
-      IntContainerCode: this.IntContainerCode,
-      BatSerList : this.bsrListByContainerId
-    });  
+    else{    
+
+     this.onConfirmParentClick();
+
+    // this.isYesClick.emit({
+    //   Status: "yes",
+    //   From: "AddToParentContainer",
+    //   ParentContainerCode: this.ParentContainerCode
+    // }); 
+   } 
    }
  }
 

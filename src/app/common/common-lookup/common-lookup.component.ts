@@ -244,6 +244,12 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
+        field: 'OPTM_FGCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_FROMOPERNO',
         title: this.translate.instant("FROMOPERNO"),
         type: 'text',
@@ -461,8 +467,20 @@ export class CommonLookupComponent implements OnInit {
     this.table_head = [
       {
         field: 'DocEntry',
-        title: 'SO#',
+        title: this.translate.instant("SO_NUM"),
         type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'CardCode',
+        title: this.translate.instant("CustomerId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'CardName',
+        title: this.translate.instant("CustomerName"),
+        type: 'text',
         width: '100'
       }
       //,

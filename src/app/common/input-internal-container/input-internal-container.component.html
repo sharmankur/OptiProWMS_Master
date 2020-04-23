@@ -4,18 +4,26 @@
         </kendo-dialog-titlebar>
         <div class="px-3">
             
-            <div class="form-group row mt-2">
+            <div *ngIf="forInternal" class="form-group row mt-2">
                 <div class="input-group input-group-sm">
-                    <label class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
+                    <label class="col-sm-3 col-form-label">{{'ContainerId'|translate}}</label>
                     <input type="text" id="IntContainerCode" name="IntContainerCode" class="col-sm-6 form-control form-control-sm mr-3"
-                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="onIntContainerCodeChange()"
-                        disabled>
+                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerId'|translate}}" (blur)="GetListOfContainerBasedOnRule('blur')"
+                        >
                     <div class="input-group-append has-seprate-btn">
                         <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                            (mousedown)="GetListOfContainerBasedOnRule()">
+                            (mousedown)="GetListOfContainerBasedOnRule('lookup')">
                             <i class="opti-icon-search"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div *ngIf="!forInternal" class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <label class="col-sm-3 col-form-label">{{'Parent_Container_Code'|translate}}</label>
+                    <input type="text" id="ParentContainerCode" name="ParentContainerCode" class="col-sm-6 form-control form-control-sm mr-3"
+                        [(ngModel)]="ParentContainerCode" placeholder="{{'Parent_Container_Code'|translate}}" (blur)="onParentContainerCodeChange()">                    
                 </div>
             </div>
            
