@@ -525,7 +525,7 @@ export class ShipmentViewComponent implements OnInit {
             this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
+            this.runningProcessName == "ShippingProcess"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -677,6 +677,7 @@ export class ShipmentViewComponent implements OnInit {
     this.dialogOpened = false;
   }
 
+  runningProcessName = "";
   onStageORUnstageShipmentClick() {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
@@ -691,11 +692,13 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', "Shipment is staged.");
+          if(data.OUTPUT[0].RESULT == "Data Saved For Unstage"){
+            this.toastr.success('', this.translate.instant("ShipmentUnstaged"));
+          }else if (data.OUTPUT[0].RESULT == "Data Saved For Stage") {
+            this.toastr.success('', this.translate.instant("ShipmentStaged"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            // this.toastr.error('', "Shipment not assigned any container. Please assign a container");
+            this.runningProcessName = "Stage"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -793,8 +796,12 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             this.containerCode = "";
-            this.onStageORUnstageShipmentClick();
-            // this.GetDataBasedOnShipmentId(this.ShipmentID);            
+            if(this.runningProcessName == "Stage"){
+              this.onStageORUnstageShipmentClick();
+            }else if(this.runningProcessName == "ShippingProcess"){
+              this.ChangeShipmentProcess();
+            }
+            this.runningProcessName = "";
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -1062,11 +1069,11 @@ export class ShipmentViewComponent implements OnInit {
   //#endregion
 
   cancelAndUnassign(){
-    if (this.ShipmentCode == "" || this.ShipmentCode == null || this.ShipmentCode == undefined) {
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CancelOrUnassignShipment(this.ShipmentCode).subscribe(
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentID).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1076,7 +1083,7 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
-            this.toastr.success('', "Your shipment is cancel or unassigned");
+            this.toastr.success('', this.translate.instant("CancelAndUnassignedMSg"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);

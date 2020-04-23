@@ -46,6 +46,7 @@ export class SigninComponent implements OnInit {
     readonlyFlag: boolean = false;
     public arrConfigData: any[];
     public config_params: any;
+    tenantId: any = "";
 
     constructor(private router: Router, private signinService: SigninService,
         private commonService: Commonservice, private toastr: ToastrService,
@@ -83,7 +84,7 @@ export class SigninComponent implements OnInit {
         element.className = "";
         element.classList.add("opti_body-login");
         element.classList.add("opti_account-module");
-        console.log('service_url:   '+ localStorage.getItem("service_url") );
+        console.log('service_url:   ' + localStorage.getItem("service_url"));
         if (localStorage.getItem("service_url") != null && localStorage.getItem("service_url") != undefined
             && localStorage.getItem("service_url") != "") {
 
@@ -94,7 +95,7 @@ export class SigninComponent implements OnInit {
             // alert("serviceURL null:"+JSON.stringify(url));
             this.httpClientSer.get('./assets/config.json').subscribe(
                 data => {
-                    console.log('service_url after fetch:   '+ data[0]);
+                    console.log('service_url after fetch:   ' + data[0]);
                     sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
                     this.getPSURL();
                     this.signinService.loadConfig();
@@ -136,7 +137,7 @@ export class SigninComponent implements OnInit {
     * Function for login
     */
     public async login() {
-      // this.isCompleteLoginVisible = true;
+        // this.isCompleteLoginVisible = true;
 
         window.localStorage.setItem('IsMenuLoaded', 'false');
         if (this.userName == "" || this.password == "") {
@@ -147,17 +148,17 @@ export class SigninComponent implements OnInit {
         this.showLoader = true;
         if (!this.isCompleteLoginVisible) {
             this.validateUserLogin();
-        } 
+        }
         else {
             this.selectedItem = document.getElementById("compId").innerText.trim();
             if (this.validateFields()) {
                 this.showLoader = false;
                 return;
             }
-        //    this.getLicenseData();
-           var tenantId= this.getTenantIdFromCompanyId(this.selectedItem)
-           //console.log("selectedTenentId:",tenantId);
-           localStorage.setItem("TenantId", tenantId);
+            //    this.getLicenseData();
+            var tenantId = this.getTenantIdFromCompanyId(this.selectedItem)
+            //console.log("selectedTenentId:",tenantId);
+            localStorage.setItem("TenantId", tenantId);
             localStorage.setItem("CompID", this.selectedItem);
             localStorage.setItem("whseId", "01");
             localStorage.setItem("UserId", this.userName);
@@ -166,25 +167,25 @@ export class SigninComponent implements OnInit {
 
             localStorage.setItem("DecimalPrecision", "2");
             localStorage.setItem("DecimalSeparator", ".");
-            this.router.navigateByUrl('home/dashboard'); 
-       }
+            this.router.navigateByUrl('home/dashboard');
+        }
     }
-     tenantId:any= "";
-    private getTenantIdFromCompanyId(selectedCompany:any){
-    
-        for(let i =0; i < this.arrayUserCompanies.length; i++){
-            if(this.arrayUserCompanies[i].OPTM_COMPID === selectedCompany){
-              // var selectedComapny = this.arrayUserCompanies[i];
+
+    private getTenantIdFromCompanyId(selectedCompany: any) {
+
+        for (let i = 0; i < this.arrayUserCompanies.length; i++) {
+            if (this.arrayUserCompanies[i].OPTM_COMPID === selectedCompany) {
+                // var selectedComapny = this.arrayUserCompanies[i];
                 this.tenantId = this.arrayUserCompanies[i].OPTM_TENANTKEY;
                 break;
             }
-           
+
         }
         return this.tenantId;
-    //    var  selectedComapny =this.arrayUserCompanies.filter(item=>item.OPTM_COMPID ===selectedComapny);
-    //     return tenantId = selectedCompany.OPTM_TENANTKEY;
+        //    var  selectedComapny =this.arrayUserCompanies.filter(item=>item.OPTM_COMPID ===selectedComapny);
+        //     return tenantId = selectedCompany.OPTM_TENANTKEY;
     }
-    arrayUserCompanies:any =[];
+    arrayUserCompanies: any = [];
     private validateUserLogin() {
         //alert('validateUserLogin: ');
         this.signinService.ValidateUserLogin(this.userName, this.password).subscribe(
@@ -253,15 +254,15 @@ export class SigninComponent implements OnInit {
     }
 
     private handleLicenseDataSuccessResponse() {
-        console.log("log","handleLicense: start");
+        console.log("log", "handleLicense: start");
         // alert("in handle license data success response");
         this.selectedWhse = document.getElementById("whseId").innerText.trim();
         this.showLoader = false;
         if (this.licenseData.length > 1) {
-            console.log("log","handleLicense: start data>1");
+            console.log("log", "handleLicense: start data>1");
             if (this.licenseData[1].ErrMessage == "" || this.licenseData[1].ErrMessage == null) {
                 if (this.licenseData[0].Message == "True") {
-                    console.log("log","handleLicense:message true");
+                    console.log("log", "handleLicense:message true");
                     this.selectedItem = document.getElementById("compId").innerText.trim();
                     localStorage.setItem("GUID", this.licenseData[1].GUID);
                     localStorage.setItem("CompID", this.selectedItem);
@@ -300,19 +301,19 @@ export class SigninComponent implements OnInit {
                         this.setCookie('CompID', "", 365);
                         this.setCookie('whseId', "", 365);
                     }
-                    console.log("log","handleLicense:abouve routing");
+                    console.log("log", "handleLicense:abouve routing");
                     this.router.navigate(['home/dashboard']);
-                } else if(this.licenseData[0].Message == "NotFound") {
+                } else if (this.licenseData[0].Message == "NotFound") {
                     this.toastr.error('', this.translate.instant("SignIn_Msg_NotFound"));
                     this.showFullPageLoader = false;
-                } else if(this.licenseData[0].Message == "Unauthorized") {
+                } else if (this.licenseData[0].Message == "Unauthorized") {
                     this.toastr.error('', this.translate.instant("SignIn_Msg_Unauthorized"));
                     this.showFullPageLoader = false;
-                } else if(this.licenseData[0].Message == "BadRequest") {
+                } else if (this.licenseData[0].Message == "BadRequest") {
                     this.toastr.error('', this.translate.instant("SignIn_Msg_BadRequest"));
                     this.showFullPageLoader = false;
                 } else {
-                    console.log("log","handleLicense:else");
+                    console.log("log", "handleLicense:else");
                     this.toastr.error('', this.translate.instant("SignIn_Msg_Default"));
                     this.showFullPageLoader = false;
                 }
@@ -347,7 +348,7 @@ export class SigninComponent implements OnInit {
         for (var i = 0; i < this.companyName.length; i++) {
             if (this.getCookie('CompID') == this.companyName[i]) {
                 this.selectedItem = this.companyName[i];
-            //    this.setWarehouseList();
+                //    this.setWarehouseList();
             }
         }
     }

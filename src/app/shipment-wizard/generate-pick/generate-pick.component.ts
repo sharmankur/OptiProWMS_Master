@@ -381,7 +381,7 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.WareHouse = data.OUTPUT[0].WhsCode;
+            this.WareHouse = data[0].WhsCode;
           } else {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WareHouse = "";
@@ -1067,7 +1067,7 @@ export class GeneratePickComponent implements OnInit {
 
   generatePickList() {
     this.showLoader = true;
-    this.commonservice.GeneratePickList(this.Priority, this.pickListBasisIndex, this.pickOperationIndex, this.pickTypeIndex, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo, this.Plan_Shift, this.TaskPlanDT).subscribe(
+    this.commonservice.GeneratePickList(this.Priority, this.pickListBasisIndex, this.pickOperationIndex, this.pickTypeIndex, this.WareHouse, this.CustomerFrom, this.CustomerTo, this.ShipToCodeFrom, this.ShipToCodeTo, this.ShipIdFrom, this.ShipIdTo, this.Dock_DoorFrom, this.Dock_DoorTo, this.Schedule_DatetimeFrom, this.Schedule_DatetimeTo, this.ItemFrom, this.ItemTo, this.CarrierCodeFrom, this.CarrierCodeTo, this.SONoFrom, this.SONoTo, this.WOFrom, this.WOTo, this.Plan_Shift, new Date(this.TaskPlanDT).toLocaleDateString()).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

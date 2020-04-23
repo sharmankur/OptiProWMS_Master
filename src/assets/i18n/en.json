@@ -1137,7 +1137,9 @@
   "Internal_Cont": "Internal Container",
   "ParentContType" : "Select Parent Container Type",
   "Scanned_itm_qty": "Enter Scanned Item Qty",
-  
+  "CancelAndUnassignedMSg":"Your shipment is cancel and unassigned",
+  "ShipmentUnstaged.": "Shipment is unstaged.",
+  "ShipmentStaged": "Shipment is staged.",
   "PackToGen": "No. of Pack To Gen.",
   "PackRule": "Pack Rule",
   "PrntContType": "Parent Cont. Type",
