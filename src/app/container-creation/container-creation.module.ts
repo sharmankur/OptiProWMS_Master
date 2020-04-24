@@ -13,6 +13,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { CcmainComponent } from './ccmain/ccmain.component';
 import { ContainerOperationComponent } from './container-operation/container-operation.component';
 import { BuildParentContainerComponent } from './build-parent-container/build-parent-container.component';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { BuildParentContainerComponent } from './build-parent-container/build-pa
     SharedModule,
     GridModule,
     DropDownsModule,
-    DateInputsModule
+    DateInputsModule,
+    TreeViewModule
   ],
   exports: [CcmainComponent, ContainerOperationComponent],
   providers: [CcmainComponent, ContainerOperationComponent]

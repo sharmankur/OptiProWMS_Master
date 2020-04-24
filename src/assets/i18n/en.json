@@ -657,7 +657,7 @@
   "ItemPackQty": "Item Pack Quantity",
   "PassedQty": "Passed Quantity",
   "RejectQty": "Reject Quantity",
-  "NoOfPackToGen": "No of Pack To Generate",
+  "NoOfPackToGen": "No of Pack To Gen.",
   "NCQty": "NC Quantity",
   "AutoCloseWhenFull": "Auto Close When Full",
   "SONumber": "SO Number",
@@ -1160,6 +1160,8 @@
   "CannotRemoveCont": "Cannot remove. No item present in Container",
   "QtyCannotGreater": "Qty cannot be greater than Available Batch/Serial Qty",
   "ScannedQtyCannotGreater": "Scanned item qty cannot be greater than available qty",
+  "AddContainer": "Add Container",
+  "AddItem": "Add Item",
   
   "Dummy": "Dummy"  
 }
