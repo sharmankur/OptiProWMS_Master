@@ -336,6 +336,7 @@
                                     </div>
                                     <!-- row end -->
 
+                                    <div class="auto-allocate-box">
                                     <!-- row start -->
                                     <div class="row">
                                         <!-- col start -->
@@ -429,6 +430,7 @@
                                         <!-- col end -->
                                     </div>
                                     <!-- row end -->
+                                </div>
 
                                 </div>
                             </div>
@@ -548,8 +550,8 @@
                                     (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
 
                                     <ng-template kendoGridToolbarTemplate>
-                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
-                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse()" *ngIf="AllConsolidateData.length != 0">
+                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}} sdf</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse(gridUser)" *ngIf="AllConsolidateData.length != 0">
                                             <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
                                                 <use xlink:href="#collapseAll"></use>
                                             </svg>
@@ -593,6 +595,7 @@
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
+                                        <div class="custom-child-grid">
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
                                             <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                             <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
@@ -600,6 +603,7 @@
                                             <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
 
                                         </kendo-grid>
+                                    </div>
                                     </ng-template>
                                 </kendo-grid>
 

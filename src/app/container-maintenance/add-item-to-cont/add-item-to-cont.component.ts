@@ -1560,13 +1560,7 @@ export class AddItemToContComponent implements OnInit {
       this.calculateBalanceQty(this.MapRuleQty);
     }else{
       this.calculateBalanceQty(this.MapItemQty);
-    }   
-    
-    if(this.oSubmitModel.OtherItemsDTL.length > 0){
-      this.enableCloseCont = true;
-    }else{
-      this.enableCloseCont = false;
-    }
+    } 
   }
 
   onScanItemQtyChange(){
@@ -1988,8 +1982,15 @@ export class AddItemToContComponent implements OnInit {
               }
             }
            
-            this.displayTreeDataValue();
+         //   this.displayTreeDataValue();
           }
+
+          if(!this.showAddToParent && this.oSubmitModel.OtherItemsDTL.length > 0){
+            this.enableCloseCont = true;
+          }else{
+            this.enableCloseCont = false;
+          }
+          this.DisplayTreeData();                        
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -2048,6 +2049,52 @@ export class AddItemToContComponent implements OnInit {
     this.oSubmitModel.OtherBtchSerDTL = [];   
     this.getItemBatchSerialData();
     this.flagCreate = false;
+  }
+
+  onCloseContClick(){
+    if (this.containerCode == undefined || this.containerCode == "") {
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.CloseClick(this.containerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved") {
+              this.toastr.success('', this.translate.instant("ContainerClosedMsg"));              
+              this.radioSelected = 3;
+              this.treeViewShow = true; 
+              this.enableCloseCont = false;    
+              if(this.checkParent && this.parentContainerType != '')
+                this.showAddToParent = true;  
+              else
+                this.showAddToParent = false;           
+            } else {
+              this.toastr.error('', data[0].RESULT);
+            }
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 
   CheckDataLoss(){
@@ -2143,10 +2190,14 @@ export class AddItemToContComponent implements OnInit {
               this.flagCreate = false;               
               
               if(data.OPTM_CONT_HDR[0].OPTM_STATUS == 3){ //If Container is closed
-                this.showAddToParent = true;  
+                if(this.checkParent && this.parentContainerType != '')
+                  this.showAddToParent = true;  
+                else
+                  this.showAddToParent = false;           
                 this.SetContainerData();
                 this.radioSelected = 3;
-                this.treeViewShow = true;                  
+                this.treeViewShow = true; 
+                this.enableCloseCont = false;                 
               }else{
                 this.showAddToParent = false;  
                 this.containerCode = '';
@@ -2181,7 +2232,7 @@ export class AddItemToContComponent implements OnInit {
                   this.translate.instant("ReopenAlert"));
                 }
               }                            
-              this.SetContainerData();            
+              this.SetContainerData();                         
               result = true;
             }           
                      
@@ -2231,7 +2282,7 @@ export class AddItemToContComponent implements OnInit {
               return;
             }
 
-            if (data.length > 0) {
+           // if (data.length > 0) {
 
               this.containerId = data.OPTM_CONT_HDR[0].OPTM_CONTAINERID;
               this.containerCode = data.OPTM_CONT_HDR[0].OPTM_CONTCODE;
@@ -2239,34 +2290,18 @@ export class AddItemToContComponent implements OnInit {
               this.SetContainerData();
 
               if(data.OPTM_CONT_HDR[0].OPTM_STATUS == 3){
-                this.showAddToParent = true;
+                if(this.checkParent && this.parentContainerType != '')
+                this.showAddToParent = true;  
+                 else
+                this.showAddToParent = false; 
+              //  this.showAddToParent = true;
                 this.DisableScanFields = true;
               }else{
                 this.showAddToParent = false;
                 this.DisableScanFields = false;
               } 
-
-              this.DisplayTreeData();
-
-              //Container is already created but there is some error
-              // if (data[0].RESULT != undefined && data[0].RESULT != null) {
-              //   this.toastr.error('', data[0].RESULT);
-              //   this.flagCreate = false;
-              //   this.containerCode = ''; 
-              //   this.setDefaultValues();                
-              //   return;
-              // }
-              // else {
-               
-              //   this.containerId = data[0].OPTM_CONTAINERID;
-              //   this.containerCode = data[0].OPTM_CONTCODE;
-              //   this.containerStatus = this.getContainerStatus(data[0].OPTM_STATUS); 
-                                           
-              //   this.SetContainerData();
-              // }            
-            }
-
-                     
+              //this.DisplayTreeData();                        
+            //}                    
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
