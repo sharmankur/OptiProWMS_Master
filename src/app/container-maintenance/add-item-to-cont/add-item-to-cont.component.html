@@ -447,7 +447,7 @@
                                         {{'PrintLabel'|translate}}
                                     </button> -->
                                     <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text"
-                                    (click)="onConfirmClick()">
+                                    (click)="onConfirmClick()" [disabled]="DisableScanFields || radioSelected == 3">
                                         {{'Confirm'|translate}}
                                     </button>
                                 </div>

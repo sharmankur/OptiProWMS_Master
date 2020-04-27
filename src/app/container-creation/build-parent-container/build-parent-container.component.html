@@ -107,10 +107,10 @@
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
                             <input type="text" id="soNumberId" name="soNumberId"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="soNumber"
-                                placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
+                                placeholder="{{'SONumber'|translate}}" (blur)="IsValidSONumberBasedOnRule('blur')">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                    (mousedown)="getSOrderList()">
+                                    (mousedown)="IsValidSONumberBasedOnRule('lookup')">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
