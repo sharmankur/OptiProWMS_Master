@@ -18,7 +18,7 @@
   }
   
   p, span, strong, div{
-  color: #72767d;
+  color: #15171b;
   }
 
   section#opti_TopBarID, body kendo-dialog .k-window-titlebar {
@@ -85,7 +85,8 @@ button{
 
 .k-indicator-container,
   a, h1, h2, h3, h4, h5, h6{
-      color: var(--kendo-primary-color);
+      color: #15171b;
+       /* var(--kendo-primary-color); */
   }
 
 a:hover{

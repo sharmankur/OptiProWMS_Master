@@ -108,13 +108,12 @@
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="autoRuleId"
                                 placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                    (mousedown)="openRuleItems()" title="{{'View_Rule_Items'|translate}}"
-                                    [disabled]="RuleItems.length == 0">
-                                    <i class="opti-icon-arrow-next"></i>
-                                </button>
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                    (mousedown)="getAutoPackRule('lookup')">
+                               <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                (mousedown)="openRuleItems()" title="{{'View_Rule_Items'|translate}}"
+                                [disabled]="RuleItems.length == 0">
+                                <i class="opti-icon-next" style="font-size: 9px;"></i> 
+                              </button>
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule('lookup')">
                                     <i class="opti-icon-search"></i>
                                 </button>
 
