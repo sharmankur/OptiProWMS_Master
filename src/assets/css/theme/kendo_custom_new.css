@@ -18,7 +18,7 @@
   }
   
   p, span, strong, div{
-  color: #72767d;
+  color: #15171b;
   }
 
   section#opti_TopBarID, body kendo-dialog .k-window-titlebar {
@@ -85,7 +85,8 @@ button{
 
 .k-indicator-container,
   a, h1, h2, h3, h4, h5, h6{
-      color: var(--kendo-primary-color);
+      color: #15171b;
+       /* var(--kendo-primary-color); */
   }
 
 a:hover{
@@ -4174,7 +4175,9 @@ body .k-grid tr.k-grid-norecords td{
     cursor: default; }
     .k-pager-numbers .k-state-selected.k-link,
     .k-pager-numbers .k-state-selected:hover.k-link {
-      color: #ffffff; }
+      color: #ffffff;
+      background-color: #3e5b99;
+    }
   
   .k-pager-nav + .k-pager-nav,
   .k-pager-nav + .k-pager-numbers,
@@ -13006,6 +13009,10 @@ body kendo-grid .k-grid-header{
 }
 .dropdown-item.nav-active{
   background: #f3f8ff;
+}
+
+.custom-child-grid{
+  width:51%;
 }
 
 @media only screen and (min-width: 768) {

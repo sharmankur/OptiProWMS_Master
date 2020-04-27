@@ -91,6 +91,9 @@ export class AddItemToContComponent implements OnInit {
   RuleItems: any = [];
   MapItemQty: any = 0;
   NonSuccess: boolean = false;
+  showHideEnable: boolean = false;
+  nextEnabled = true;
+  CreateContainerTxt: any = ''
   enableCloseCont:boolean = false;
 
   @ViewChild("scanBinCode", {static: false}) scanBinCode;
@@ -118,12 +121,17 @@ export class AddItemToContComponent implements OnInit {
       this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     });
   }
-  nextEnabled = true;
+  
+  showHideDetails() {
+    this.showHideEnable = !this.showHideEnable
+  }
   onNext(){
     this.nextEnabled = false;
+    this.CreateContainerTxt = this.translate.instant("AddItem")
   }
   onBack(){
     this.nextEnabled = true;
+    this.CreateContainerTxt = this.translate.instant("CreateContainer")
   }
   treeViewShow = false;
   onOpenTreeview(){
@@ -157,6 +165,7 @@ export class AddItemToContComponent implements OnInit {
   // public fetchChildren = (item: any) => of(item.items);
 
   ngOnInit() {
+    this.CreateContainerTxt = this.translate.instant("CreateContainer")
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.defaultPurpose = this.purposeArray[0];
     this.purpose = this.defaultPurpose.Name;

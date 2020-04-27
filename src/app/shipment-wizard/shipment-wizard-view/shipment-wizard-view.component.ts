@@ -1356,17 +1356,18 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
   isExpand: boolean = false;
-  onExpandCollapse() {
+  onExpandCollapse(grid) {
+    debugger
     this.isExpand = !this.isExpand;
     // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
 
     for (var i = 0; i < this.AllConsolidateData.length; i++) {
       if (this.isExpand) {
-        this.grid.expandRow(i)
+        grid.expandRow(i)
       } else {
-        this.grid.collapseRow(i);
+        grid.collapseRow(i);
       }
     }
   }
