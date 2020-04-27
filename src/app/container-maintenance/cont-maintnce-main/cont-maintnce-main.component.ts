@@ -208,7 +208,7 @@ export class ContMaintnceMainComponent implements OnInit {
     if (id == 1) {
       return this.translate.instant("CStatusNew");
     } else if (id == 2) {
-      return this.translate.instant("CScheduledNew");
+      return this.translate.instant("Open");
     } else if (id == 3) {
       return this.translate.instant("CClosedNew");
     } else if (id == 4) {
@@ -216,14 +216,16 @@ export class ContMaintnceMainComponent implements OnInit {
     } else if (id == 5) {
       return this.translate.instant("CAssignedNew");
     } else if (id == 6) {
-      return this.translate.instant("CShippedNew");
+      return this.translate.instant("Status_Picked");
     } else if (id == 7) {
-      return this.translate.instant("CPickedNew");
+      return this.translate.instant("Loaded");
     } else if (id == 8) {
-      return this.translate.instant("CReturnNew");
+      return this.translate.instant("CShippedNew");
     } else if (id == 9) {
-      return this.translate.instant("CDamagedNew");
+      return this.translate.instant("Returned");
     } else if (id == 10) {
+      return this.translate.instant("CDamagedNew");
+    } else if (id == 11) {     
       return this.translate.instant("CCancelledNew");
     }
   }

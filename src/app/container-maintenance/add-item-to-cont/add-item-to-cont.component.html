@@ -281,9 +281,9 @@
                                                         <a *ngIf="!showAddToParent" class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;"
                                                             (click)="onAddToParentClick()">
                                                             {{'+/-ParentCont'|translate}}</a>
-                                                        <!-- <a *ngIf="oSubmitModel.OtherItemsDTL.length > 0" class="dropdown-item" (click)="onCloseContClick()">
-                                                            {{'Close_Container'|translate}}</a> -->
-                                                        <a class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                         <a *ngIf="enableCloseCont" class="dropdown-item cursor-pointer" (click)="onCloseContClick()">
+                                                            {{'Close_Container'|translate}}</a> 
+                                                        <a *ngIf="!enableCloseCont"  class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                                 {{'Close_Container'|translate}}</a>
                                                         <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                             {{'Barcode'|translate}}</a>
