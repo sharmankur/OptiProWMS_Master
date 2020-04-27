@@ -657,7 +657,7 @@
   "ItemPackQty": "Item Pack Quantity",
   "PassedQty": "Passed Quantity",
   "RejectQty": "Reject Quantity",
-  "NoOfPackToGen": "No of Pack To Generate",
+  "NoOfPackToGen": "No of Pack To Gen.",
   "NCQty": "NC Quantity",
   "AutoCloseWhenFull": "Auto Close When Full",
   "SONumber": "SO Number",
@@ -1174,6 +1174,9 @@
   "Cannotremovebatser": "Cannot remove. Batch/Serial is not present to remove",
   "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
   "View_Rule_Items": "View Rule Items",
-    
+      
+  "AddContainer": "Add Container",
+  "AddItem": "Add Item",
+  
   "Dummy": "Dummy"  
 }
