@@ -475,7 +475,7 @@ export class InputParentContainerComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule().subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

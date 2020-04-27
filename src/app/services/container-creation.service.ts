@@ -58,14 +58,14 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GenerateShipContainer", jObject, this.commonService.httpOptions);
   }
    
-  SaveReportProgress(TaskId: any, OPTMID: any, Qty: any): Observable<any> {
+  SaveReportProgress(OPTMID: any, Qty: any): Observable<any> {
     let jObject = {
-      Shipment: JSON.stringify([{
+      REPORTPROGRESSDETAILS: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         TaskId: 0,
         OPTMID: OPTMID,
         ScanLPNVal: 2,
-        ContCount: 1,
+        ContainerCount: 1,
         ProducedQty: Qty ,
         AcceptedQty: Qty ,
         RejectedQty: 0,

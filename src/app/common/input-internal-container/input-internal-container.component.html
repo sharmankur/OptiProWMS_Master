@@ -6,9 +6,9 @@
             
             <div *ngIf="forInternal" class="form-group row mt-2">
                 <div class="input-group input-group-sm">
-                    <label class="col-sm-3 col-form-label">{{'ContainerId'|translate}}</label>
+                    <label class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
                     <input type="text" id="IntContainerCode" name="IntContainerCode" class="col-sm-6 form-control form-control-sm mr-3"
-                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerId'|translate}}" (blur)="GetListOfContainerBasedOnRule('blur')"
+                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="GetListOfContainerBasedOnRule('blur')"
                         >
                     <div class="input-group-append has-seprate-btn">
                         <button tabIndex="-1" class="k-button k-primary btn" type="button"

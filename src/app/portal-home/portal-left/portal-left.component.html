@@ -177,6 +177,7 @@
                             <svg viewBox="0 0 511 512" class="icon">
                                 <use xlink:href="#containerMaintenance"></use>
                             </svg>
+                             <!-- <span class="text">{{'AddItemToCont'|translate}}</span> -->
                             <span class="text">{{'CreateContainer'|translate}}</span>
                         </a>
                     </li>
@@ -190,15 +191,14 @@
                         </a>
                     </li>
 
-                    <li id="16024" role="menuitem" (click)="listClick($event, 'add-item-container')" [ngStyle]="{'display':'flex'}">
+                    <!-- <li id="16024" role="menuitem" (click)="listClick($event, 'add-item-container')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/add-item-container">
                             <svg viewBox="0 0 511 512" class="icon">
                                 <use xlink:href="#containerMaintenance"></use>
-                            </svg>
-                            <!-- <span class="text">{{'AddItemToCont'|translate}}</span> -->
+                            </svg>                           
                             <span class="text">{{'CreateContainer'|translate}}</span> 
                         </a>
-                    </li>                   
+                    </li>  -->
 
                     <li id="16015" (click)="listClick($event, 'shipmentwizard')" [ngClass]="{'active': selectedItem == 'shipmentwizard'}" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/shipmentwizard">

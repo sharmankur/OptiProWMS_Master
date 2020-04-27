@@ -45,6 +45,13 @@ export class InputInternalContainerComponent implements OnInit {
   }
 
   GetListOfContainerBasedOnRule(action) {
+
+    if(action == 'blur'){
+      if (this.IntContainerCode == undefined || this.IntContainerCode == "") {
+        return;
+      }
+    }
+
     this.showLoader = true;
     this.containerCreationService.GetListOfContainerBasedOnRule(this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
       this.oDataModel.HeaderTableBindingData[0].OPTM_ITEMCODE, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE,

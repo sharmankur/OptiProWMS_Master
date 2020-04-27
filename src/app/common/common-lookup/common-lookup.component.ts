@@ -229,6 +229,8 @@ export class CommonLookupComponent implements OnInit {
       this.showContItemsList();
     }else if(this.lookupfor == "ContItemBatchSerialList"){
       this.showContItemBatchSerialList();
+    }else if(this.lookupfor == "RULEITEMS"){
+      this.showRuleItemList();
     }
 
     this.clearFilters();
@@ -433,6 +435,36 @@ export class CommonLookupComponent implements OnInit {
       },
     ];
     this.lookupTitle = this.translate.instant("BatchSerialList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showRuleItemList(){
+    this.table_head = [
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_TRACKING',
+        title: this.translate.instant("TrackType"),
+        type: 'text',
+        width: '100'
+      }
+      // ,{
+      //   field: 'AvlQty',
+      //   title: this.translate.instant("Quantity"),
+      //   type: 'text',
+      //   class: 'text-right',
+      //   width: '100'
+      // },
+    ];
+    this.lookupTitle = this.translate.instant("View_Rule_Items");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

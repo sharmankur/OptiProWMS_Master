@@ -496,7 +496,7 @@ export class BuildParentContainerComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule().subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -899,7 +899,7 @@ export class BuildParentContainerComponent implements OnInit {
             this.count = data.length;
             this.RemQty = this.ParentPerQty - this.count;
             this.addItemList = data;
-            this.DisplayTreeData();
+            this.displayTreeDataValue();
           }   
           else{
             this.count = 0;

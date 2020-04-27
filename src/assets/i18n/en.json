@@ -1160,6 +1160,20 @@
   "CannotRemoveCont": "Cannot remove. No item present in Container",
   "QtyCannotGreater": "Qty cannot be greater than Available Batch/Serial Qty",
   "ScannedQtyCannotGreater": "Scanned item qty cannot be greater than available qty",
-  
+  "ContainerCreatedClosedSuccessMsg": "Container created successfully and it is closed",
+  "ReportProgressSuccess": "Progress is reported successfully",
+  "ReportProgressError": "Error in reporting progress",
+  "Expand/Collapse": "Expand/Collapse",
+  "SerialItemCannotAdd": "Serial is already present",
+  "Select_Container": "Select Container",
+  "EnterItemCode": "Please enter item code",
+  "Rule_Items": "Rule Items",
+  "NoRuleItem": "No item in the rule found",
+  "NoRuleItemRP": "No item in the rule found for reporting progress",
+  "Cannotremoveitm": "Cannot remove. Item is not present to remove",
+  "Cannotremovebatser": "Cannot remove. Batch/Serial is not present to remove",
+  "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
+  "View_Rule_Items": "View Rule Items",
+    
   "Dummy": "Dummy"  
 }

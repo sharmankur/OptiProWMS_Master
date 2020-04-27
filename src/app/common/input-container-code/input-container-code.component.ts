@@ -502,7 +502,7 @@ export class InputContainerCodeComponent implements OnInit {
           }
 
           if(data == null || data.length == 0){
-            this.toastr.error('', this.translate.instant("Code_not_generated"));
+            this.toastr.error('', this.translate.instant("Code_not_generated")); 
           } 
 
           if(data != null && data.length > 0){
