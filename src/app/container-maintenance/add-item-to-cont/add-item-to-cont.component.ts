@@ -186,6 +186,9 @@ export class AddItemToContComponent implements OnInit {
   }
 
   onCancelClick() { 
+    if(this.checkDirtyFlag('Cancel') == true){
+      return;
+    }
     this.router.navigate(['home/dashboard']);  
   }
 
@@ -211,11 +214,11 @@ export class AddItemToContComponent implements OnInit {
     //this.checkChangeEvent = event;    
   }
 
-  checkDirtyFlag(){
+  checkDirtyFlag(Action){
     if(this.oSubmitModel.OtherItemsDTL.length > 0){
       for(let cFlag=0; cFlag<this.oSubmitModel.OtherItemsDTL.length; cFlag++){
         if(this.oSubmitModel.OtherItemsDTL[cFlag].DirtyFlag == true){
-          this.showDialog("DirtyFlag", this.translate.instant("yes"), this.translate.instant("no"),
+          this.showDialog(Action, this.translate.instant("yes"), this.translate.instant("no"),
           this.translate.instant("DataLostAlert"));
           return true;
         }
@@ -225,7 +228,7 @@ export class AddItemToContComponent implements OnInit {
   }
 
   handleRuleRadioChange(event){
-    if(this.checkDirtyFlag() == true){
+    if(this.checkDirtyFlag('DirtyFlag') == true){
       return;
     }
     if (this.radioRuleSelected == 1) {
@@ -2356,9 +2359,9 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     );
-  }
+  } 
 
-  onUpdateClick() {
+  onUpdateClick() {   
    
     if(this.oSubmitModel.OtherItemsDTL.length == 0){
       this.toastr.error('',this.translate.instant("AddItemToUpdate"));
@@ -2920,21 +2923,7 @@ export class AddItemToContComponent implements OnInit {
     this.showParentDialogFlag = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
-        case ("ScanAndCreate"): 
-
-        //  this.containerId = ($event.ContainerId == undefined || '' || null ) ? this.containerId : $event.ContainerId;
-         // this.containerCode = ($event.ContainerCode == undefined || '' || null ) ? this.containerCode : $event.ContainerCode;;
-          // this.parentContainerCode = $event.ParentContainerCode;
-          // this.count = $event.Count;
-          // this.selectedBatchSerial = [];
-          // this.ContStatus = this.setContainerStatus($event.ContnrStatus);
-          // this.GetContainerNumber();
-         // this.GetInventoryData()
-         console.log("Parent Cont Code : ");
-         console.log($event.ParentContainerCode);
-
-         console.log("Child Cont Code : ");
-         console.log($event.ContainerCode);
+        case ("ScanAndCreate"):         
           break;
 
         case ("InternalContainer"): 
@@ -2949,8 +2938,7 @@ export class AddItemToContComponent implements OnInit {
          }          
           break;
 
-        case ("AddToParentContainer"):
-            // this.ParentContainerCode 
+        case ("AddToParentContainer"):            
         break;
       }
     }
@@ -3026,11 +3014,14 @@ export class AddItemToContComponent implements OnInit {
           }
           break;
         }
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);  
+          break;
+        }
       }
     } else {
       if ($event.Status == "no") {
-        switch ($event.From) {
-         
+        switch ($event.From) {         
           case ("ReopenConfirm"):            
             this.containerStatus = '';  
             this.setDefaultValues(); 
@@ -3041,6 +3032,8 @@ export class AddItemToContComponent implements OnInit {
           } else {
             this.radioRuleSelected = 2;
           } 
+        break;
+        case ("Cancel"): 
         break;
         }
       }
