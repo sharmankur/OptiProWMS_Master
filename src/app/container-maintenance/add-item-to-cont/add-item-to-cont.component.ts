@@ -1644,7 +1644,11 @@ export class AddItemToContComponent implements OnInit {
       this.calculateBalanceQty(this.MapRuleQty);
     }else{
       this.calculateBalanceQty(this.MapItemQty);
-    }    
+    }   
+    
+    if(this.oSubmitModel.OtherItemsDTL.length > 0){
+      //this.enable
+    }
   }
 
   onScanItemQtyChange(){
