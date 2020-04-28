@@ -80,6 +80,22 @@ export class ShipmentWizardViewComponent implements OnInit {
   DockDoor: string;
   CarrierCode: string;
 
+
+
+  @ViewChild('cform',{static:false}) cform;
+  @ViewChild('custTo',{static:false}) custTo;
+  @ViewChild('soFrom',{static:false}) soFrom;
+  @ViewChild('soTo',{static:false}) soTo;
+  @ViewChild('itemFrom',{static:false}) itemFrom;
+  @ViewChild('itemTo',{static:false}) itemTo;
+  @ViewChild('shipToCodeFrom',{static:false}) shipToCodeFrom;
+  @ViewChild('shipToCodeTo',{static:false}) shipToCodeTo;
+  @ViewChild('openQtyFrom',{static:false}) openQtyFrom;
+  @ViewChild('openQtyTo',{static:false}) openQtyTo;
+  @ViewChild('openLinesFrom',{static:false}) openLinesFrom;
+  @ViewChild('openLinesTo',{static:false}) openLinesTo;
+  @ViewChild('whse',{static:false}) whse;
+
   ngOnInit() {
     // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
@@ -89,6 +105,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.ConsolidatedDataSelection.Company = [];
     this.dateFormat = localStorage.getItem("DATEFORMAT");
   }
+  ngAfterViewInit(){
+    console.log("ngAfterInit");
+    this.cform.nativeElement.focus();
+  } 
 
   onPrevClick() {
     if (this.currentStep > 1) {
@@ -693,9 +713,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             } else {
               if (fieldName == "SONoFrom") {
                 this.SrNoFrom = "";
+                this.soFrom.nativeElement.focus();
               }
               else if (fieldName == "SONoTo") {
                 this.SrNoTo = "";
+                this.soTo.nativeElement.focus();
               }
               this.toastr.error('', this.translate.instant("InvalidSONo"));
             }
@@ -821,9 +843,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             } else {
               if (fieldName == "CustFrom") {
                 this.CustomerFrom = "";
+                this.cform.nativeElement.focus();
               }
               else if (fieldName == "CustTo") {
                 this.CustomerTo = "";
+                this.custTo.nativeElement.focus();
               }
               this.toastr.error('', this.translate.instant("Invalid_CC"));
             }
@@ -831,9 +855,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             this.serviceData = data;
             if (fieldName == "CustFrom") {
               this.lookupfor = "CustomerFrom";
+              this.cform.nativeElement.focus();
             }
             else if (fieldName == "CustTo") {
               this.lookupfor = "CustomerTo";
+              this.custTo.nativeElement.focus();
             }
           }
 

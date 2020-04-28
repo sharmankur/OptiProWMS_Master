@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AutoRuleModel } from '../../models/Inbound/autoRuleModel';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,13 @@ import { BinRuleRowModel } from '../../models/binrule/BinRuleRowModel';
 export class BinruleAddUpdateComponent implements OnInit {
 
 
+  @ViewChild('whsCodeLabel',{static:false}) whsCodeLabel;
+  @ViewChild('whsZoneLabel',{static:false}) whsZoneLabel;
+  @ViewChild('storage_from_bin',{static:false}) storage_from_bin;
   
+
+ // @ViewChild('storage_from_bin',{static:false}) storage_from_bin;
+
   public binRuleArray: BinRuleRowModel[] = [];
   
   PurposeList: any[] = ["Shipping", "WIP","Receiving","Transfer"];
@@ -88,6 +94,10 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(){
+    console.log("ngAfterInit");
+    this.whsCodeLabel.nativeElement.focus();
+  } 
    prepareAndSetDataForUpdateAndCopy(){
     var selectedData = JSON.parse(localStorage.getItem("binRule_Grid_Data"));
     let OPTM_SHP_BINRULES_HDR = selectedData.OPTM_SHP_BINRULES_HDR;
@@ -203,8 +213,10 @@ export class BinruleAddUpdateComponent implements OnInit {
             return;
           }
         if (resp.length == 0) {
+          
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whsCode = ''
+          this.whsCodeLabel.nativeElement.focus();
         } else {
           this.whsCode = resp[0].WhsCode;
           this.whsName = resp[0].WhsName;
@@ -274,6 +286,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
     if(this.whsCode==undefined && this.whsCode==null || this.whsCode==""){
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      this.whsZone= "";
      return;
     }
     this.showLookup = false;
@@ -289,6 +302,7 @@ export class BinruleAddUpdateComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsZoneErrorMsg"));
           this.whsZone = ''
+          this.whsZoneLabel.nativeElement.focus();
         } else {
           this.whsZone = resp[0].OPTM_WHSZONE;
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { PickTaskService } from '../../services/picktask.service';
@@ -57,6 +57,21 @@ export class GeneratePickComponent implements OnInit {
   pickTypeIndex = 1;
   pickOperationIndex = 1;
   iscontainerpicking: boolean = false;
+  @ViewChild('cform',{static:false}) cform;
+  @ViewChild('custTo',{static:false}) custTo;
+  @ViewChild('shipForm',{static:false}) shipForm;
+  @ViewChild('shipTo',{static:false}) shipTo;
+  @ViewChild('whse',{static:false}) whse;
+  @ViewChild('shipIdFrom',{static:false}) shipIdFromField;
+  @ViewChild('shipIdTo',{static:false}) shipIdToField;
+  @ViewChild('dockDoorFrom',{static:false}) dockDoorFrom;
+  @ViewChild('dockDoorTo',{static:false}) dockDoorTo;
+  @ViewChild('itemFrom',{static:false}) itemFrom;
+  @ViewChild('itemTo',{static:false}) itemTo;
+  @ViewChild('carrierCodeFrom',{static:false}) carrierCodeFrom;
+  @ViewChild('carrierCodeTo',{static:false}) carrierCodeTo;
+  @ViewChild('priority',{static:false}) priority;
+  
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -70,6 +85,10 @@ export class GeneratePickComponent implements OnInit {
     this.initialize();
   }
 
+  ngAfterViewInit(){
+    console.log("ngAfterInit");
+    this.cform.nativeElement.focus();
+  } 
   initialize() {
     this.PackListBasisArray = ["Shipment",
       this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
@@ -122,18 +141,22 @@ export class GeneratePickComponent implements OnInit {
           } else {
             if (fieldName == "ShipIdFrom") {
               this.ShipIdFrom = this.ShipmentCodeFrom = "";
+              this.shipIdFromField.nativeElement.focus();
             }
             else if (fieldName == "ShipIdTo") {
               this.ShipIdTo = this.ShipmentCodeTo = "";
+              this.shipIdToField.nativeElement.focus();
             }
             this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
           }
         } else {
           if (fieldName == "ShipIdFrom") {
             this.ShipIdFrom = this.ShipmentCodeFrom = "";
+            this.shipIdFromField.nativeElement.focus();
           }
           else if (fieldName == "ShipIdTo") {
             this.ShipIdTo = this.ShipmentCodeTo = "";
+            this.shipIdToField.nativeElement.focus();
           }
           this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
         }
@@ -212,18 +235,22 @@ export class GeneratePickComponent implements OnInit {
           } else {
             if (fieldName == "ShipFrom") {
               this.ShipToCodeFrom = "";
+              this.shipForm.nativeElement.focus();
             }
             else if (fieldName == "ShipTo") {
               this.ShipToCodeTo = "";
+              this.shipTo.nativeElement.focus();
             }
             this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
           }
         } else {
           if (fieldName == "ShipFrom") {
             this.ShipToCodeFrom = "";
+            this.shipForm.nativeElement.focus();
           }
           else if (fieldName == "ShipTo") {
             this.ShipToCodeTo = "";
+            this.shipTo.nativeElement.focus();
           }
           this.toastr.error('', this.translate.instant("Invalid_ShipToCode"));
         }
@@ -302,18 +329,22 @@ export class GeneratePickComponent implements OnInit {
           } else {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = "";
+              this.cform.nativeElement.focus();
             }
             else if (fieldName == "CustTo") {
               this.CustomerTo = "";
+              this.custTo.nativeElement.focus();
             }
             this.toastr.error('', this.translate.instant("Invalid_CC"));
           }
         } else {
           if (fieldName == "CustFrom") {
             this.CustomerFrom = "";
+            this.cform.nativeElement.focus();
           }
           else if (fieldName == "CustTo") {
             this.CustomerTo = "";
+            this.custTo.nativeElement.focus();
           }
           this.toastr.error('', this.translate.instant("Invalid_CC"));
         }
@@ -383,10 +414,12 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             this.WareHouse = data.OUTPUT[0].WhsCode;
           } else {
+            this.whse.nativeElement.focus();
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WareHouse = "";
           }
         } else {
+          this.whse.nativeElement.focus();
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WareHouse = "";
         }
@@ -549,6 +582,7 @@ export class GeneratePickComponent implements OnInit {
           this.lookupfor = fromField;
           this.hideLookup = false;
         } else {
+          this.dockDoorFrom.nativeElement.focus();
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
@@ -595,18 +629,22 @@ export class GeneratePickComponent implements OnInit {
           } else {
             if (fieldName == "DDFrom") {
               this.Dock_DoorFrom = "";
+              this.dockDoorFrom.nativeElement.focus();
             }
             else if (fieldName == "DDTo") {
               this.Dock_DoorTo = "";
+              this.dockDoorTo.nativeElement.focus();
             }
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
           }
         } else {
           if (fieldName == "DDFrom") {
             this.Dock_DoorFrom = "";
+            this.dockDoorFrom.nativeElement.focus();
           }
           else if (fieldName == "DDTo") {
             this.Dock_DoorTo = "";
+            this.dockDoorTo.nativeElement.focus();
           }
           this.toastr.error('', this.translate.instant("InvalidDock_Door"));
         }
