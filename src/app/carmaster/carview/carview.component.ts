@@ -43,7 +43,7 @@ export class CARViewComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          this.serviceData = data;
+          this.serviceData = data.OPTM_CONT_AUTORULEHDR;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");

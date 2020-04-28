@@ -57,6 +57,23 @@ export class ContainerCreationService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GenerateShipContainer", jObject, this.commonService.httpOptions);
   }
+   
+  SaveReportProgress(OPTMID: any, Qty: any): Observable<any> {
+    let jObject = {
+      REPORTPROGRESSDETAILS: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        TaskId: 0,
+        OPTMID: OPTMID,
+        ScanLPNVal: 2,
+        ContainerCount: 1,
+        ProducedQty: Qty ,
+        AcceptedQty: Qty ,
+        RejectedQty: 0,
+        NCQty: 0
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/SaveReportProgress", jObject, this.commonService.httpOptions);
+  }
   
   RemoveShipContainer(oSaveModel: any): Observable<any> {
     var jObject = {
@@ -180,7 +197,7 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
   }
 
-  CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE): Observable<any> {
+  CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -191,10 +208,30 @@ export class ContainerCreationService {
         GROUPCODE: GROUPCODE,
         SONO: SONO,
         CONTTYPE: CONTTYPE,
-        PURPOSE: PURPOSE
+        PURPOSE: PURPOSE,
+        OPERATION: OPERATION,
+        CREATEMODE: CREATEMODE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);
+  }
+
+  CheckContainerScan(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERCODE: CONTAINERCODE,
+        WHSCODE: WHSCODE,
+        BINCODE: BINCODE,
+        RULEID: RULEID,
+        GROUPCODE: GROUPCODE,
+        SONO: SONO,
+        CONTTYPE: CONTTYPE,
+        PURPOSE: PURPOSE,
+        OPERATION: OPERATION
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions).toPromise();
   }
 
   IsValidContainerId(containerId: any): Observable<any> {
@@ -217,38 +254,58 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.commonService.httpOptions);
   }
   
-  IsValidSONumberBasedOnRule(soNumber: any, RULEID: any): Observable<any> {
+  IsValidSONumberBasedOnRule(soNumber: any, RULEID: any, WH: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         SONUMBER: soNumber,
-        RULEID: RULEID
+        RULEID: RULEID,
+        WAREHOUSE: WH
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
   }
 
-  IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any): Observable<any> {
+  IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         RULEID: ruleId,
         ITEMCODE: itemCode,
         WHSCODE: whse,
-        BINCODE: bin
+        BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions);
   }
 
-  IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any): Observable<any> {
+  IsValidItemCodeScan(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Promise<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        RULEID: ruleId,
+        ITEMCODE: itemCode,
+        WHSCODE: whse,
+        BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions).toPromise();
+  }
+
+  IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any,operation: any, contcode: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_ITEMCODE: itemCode,
         OPTM_BTCHSER: lotNo,
         OPTM_WHSCODE: whse,
-        OPTM_BINCODE: bin
+        OPTM_BINCODE: bin,
+        OPERATION: operation,
+        CONTAINERCODE: contcode
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidBtchSer", jObject, this.commonService.httpOptions);
@@ -264,14 +321,15 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/CheckScanAndCreateVisiblity", jObject, this.commonService.httpOptions);
   }
 
-  GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any): Observable<any> {
+  GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any, ContainerId:any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         RULEID: ruleId,
         ITEMCODE: itemCode,
         WHSCODE: whse,
-        BINCODE: binCode
+        BINCODE: binCode,
+        CONTAINERID: ContainerId
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfContainerBasedOnRule", jObject, this.commonService.httpOptions);
@@ -288,11 +346,13 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
 
-  GetWorkOrderList(WorkOrder: any): Observable<any> {
+  GetWorkOrderList(WorkOrder: any, Whse: any, AutoRule: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        WONUMBER: WorkOrder
+        WONUMBER: WorkOrder,
+        WHSCODE: Whse,
+        RULEID: AutoRule
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);

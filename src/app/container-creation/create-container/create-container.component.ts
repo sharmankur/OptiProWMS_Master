@@ -12,6 +12,7 @@ import { CTRMasterService } from 'src/app/services/ctrmaster.service';
 @Component({
   selector: 'app-create-container',
   templateUrl: './create-container.component.html',
+  //templateUrl: '../../container-maintenance/add-item-to-cont/add-item-to-cont.component.html',
   styleUrls: ['./create-container.component.scss']
 })
 export class CreateContainerComponent implements OnInit {
@@ -210,6 +211,7 @@ export class CreateContainerComponent implements OnInit {
     );
   }
 
+
   getContainerType(type) {
     this.showLoader = true;
     this.containerCreationService.GetContainerType().subscribe(
@@ -319,7 +321,7 @@ export class CreateContainerComponent implements OnInit {
   }
 
   IsValidSONumberBasedOnRule(){
-    this.containerCreationService.IsValidSONumberBasedOnRule(this.soNumber,this.autoRuleId).subscribe(
+    this.containerCreationService.IsValidSONumberBasedOnRule(this.soNumber,this.autoRuleId,'').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -816,6 +818,7 @@ export class CreateContainerComponent implements OnInit {
     //   }
     // }
     return true;
+
   }
 
   onCheckChange(event) {
@@ -878,7 +881,7 @@ export class CreateContainerComponent implements OnInit {
             }
 
             this.showLookup = true;
-            this.serviceData = data;
+            this.serviceData = data.OPTM_CONT_AUTORULEHDR;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
               if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
                 this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
@@ -913,7 +916,7 @@ export class CreateContainerComponent implements OnInit {
     else{
     
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule().subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -923,7 +926,7 @@ export class CreateContainerComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;
+          this.serviceData = data.OPTM_CONT_AUTORULEHDR;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
@@ -1682,6 +1685,7 @@ export class CreateContainerComponent implements OnInit {
     if ($event != null && $event == "close") {
       return;
     }
+
     else {
       if (this.lookupfor == "CTList") {
         if (this.fromType == 'child') {
@@ -1766,7 +1770,6 @@ export class CreateContainerComponent implements OnInit {
 
 
   getLookupKey($event) {
-
     //console.log("getLookupKey key");
     this.showOtherLookup = false;
     this.showLookup = false;
@@ -1929,7 +1932,7 @@ export class CreateContainerComponent implements OnInit {
   GetListOfContainerBasedOnRule(data) {
     this.showLoader = true;
     var result = false;
-    this.containerCreationService.GetListOfContainerBasedOnRule(this.autoPackRule, data.OPTM_ITEMCODE, this.whse, this.binNo).subscribe(
+    this.containerCreationService.GetListOfContainerBasedOnRule(this.autoPackRule, data.OPTM_ITEMCODE, this.whse, this.binNo, '').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -2007,7 +2010,7 @@ export class CreateContainerComponent implements OnInit {
       return;
     }
     this.showLoader = true;   
-    this.containerCreationService.GetWorkOrderList(this.workOrder).subscribe(
+    this.containerCreationService.GetWorkOrderList(this.workOrder,this.whse,this.autoPackRule).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -2053,7 +2056,7 @@ export class CreateContainerComponent implements OnInit {
  
    this.showLoader = true;
     var result = false;
-    this.containerCreationService.GetWorkOrderList('').subscribe(
+    this.containerCreationService.GetWorkOrderList('',this.whse,this.autoPackRule).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

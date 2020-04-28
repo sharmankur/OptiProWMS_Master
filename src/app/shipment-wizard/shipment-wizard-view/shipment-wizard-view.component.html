@@ -336,6 +336,7 @@
                                     </div>
                                     <!-- row end -->
 
+                                    <div class="auto-allocate-box">
                                     <!-- row start -->
                                     <div class="row">
                                         <!-- col start -->
@@ -343,7 +344,8 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" id="AutoAllocate"  (change)="onCheckChange()" class="custom-control-input" name="AutoAllocate" [(ngModel)]=AutoAllocate />
+                                                        <input type="checkbox" id="AutoAllocate" (change)="onCheckChange()" class="custom-control-input" name="AutoAllocate" [(ngModel)]=AutoAllocate
+                                                        />
                                                         <label class="custom-control-label" for="AutoAllocate">{{'AutoAllocate'|translate}}</label>
                                                     </div>
                                                 </div>
@@ -361,7 +363,8 @@
                                                 <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group" (blur)="IsValidContainerGroup()" [disabled]=!AutoAllocate>
+                                                        <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group"
+                                                            (blur)="IsValidContainerGroup()" [disabled]=!AutoAllocate>
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()" [disabled]=!AutoAllocate>
                                                                 <i class="opti-icon-search"></i>
@@ -395,7 +398,8 @@
                                                 <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="DockDoor" id="DockDoor" [(ngModel)]="DockDoor" (blur)="IsValidDockDoor()" [disabled]=!AutoAllocate>
+                                                        <input type="text" class="form-control form-control-sm" name="DockDoor" id="DockDoor" [(ngModel)]="DockDoor" (blur)="IsValidDockDoor()"
+                                                            [disabled]=!AutoAllocate>
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor()" [disabled]=!AutoAllocate>
                                                                 <i class="opti-icon-search"></i>
@@ -412,10 +416,10 @@
                                                 <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="CarrierCode" id="CarrierCode" [(ngModel)]="CarrierCode" (blur)="IsValidCarrier()" [disabled]=!AutoAllocate>
-                                                        <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier()"
+                                                        <input type="text" class="form-control form-control-sm" name="CarrierCode" id="CarrierCode" [(ngModel)]="CarrierCode" (blur)="IsValidCarrier()"
                                                             [disabled]=!AutoAllocate>
+                                                        <div class="input-group-append has-seprate-btn">
+                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier()" [disabled]=!AutoAllocate>
                                                                 <i class="opti-icon-search"></i>
                                                             </button>
                                                         </div>
@@ -426,6 +430,7 @@
                                         <!-- col end -->
                                     </div>
                                     <!-- row end -->
+                                </div>
 
                                 </div>
                             </div>
@@ -433,37 +438,55 @@
 
                             <!-- STEP 2 START -->
                             <div [ngClass]="{show:currentStep == 2}" class="wizard-content">
-                                <kendo-grid #gridUser [kendoGridBinding]="gridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true"
-                                    [skip]="skip" [pageable]="false" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
+                                <kendo-grid #gridUser [kendoGridBinding]="gridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true" (pageChange)="pageChange($event)" [pageSize]="SOpageSize" [skip]="skip" [pageable]="SOpagable" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
 
-                                    <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
+                                    <!-- <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
                                             <input [kendoGridSelectionCheckbox]="idx" />
                                         </ng-template>
+                                    </kendo-grid-checkbox-column> -->
+                                    <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
+                                        <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="parent_checkbox" #SelectallSOcheckedvalue (change)="on_Selectall_SO(SelectallSOcheckedvalue.checked)"
+                                                    [checked]=selectallSO id="parent_checkbox_{{rowIndex}}" class="custom-control-input"
+                                                    [disabled]="Selectedlink == 1">
+                                                <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input #chkSOSelection type="checkbox" (change)="selectSORowChange(chkSOSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
+                                                    [disabled]="Selectedlink == 1" id="chkbox-{{idx}}" class="custom-control-input"
+                                                    name="columnfilter" />
+                                                <label class="custom-control-label" for="chkbox-{{idx}}"></label>
+                                            </div>
+                                        </ng-template>
                                     </kendo-grid-checkbox-column>
-                                    <kendo-grid-column width="100" field="CUSTOMER" title="{{'Customer'|translate}}">
+                                    <kendo-grid-column width="80" field="CUSTOMER" title="{{'Customer'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="SODocNum" editor="numeric" class="grid-right-align-column" width="110" title="{{'SalesOrderEntry'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="SODocNum" editor="numeric" class="grid-right-align-column" width="70" title="{{'SalesOrderEntry'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="LN" width="40" title="{{'LN'|translate}}" class="grid-right-align-column"></kendo-grid-column>
                                     <kendo-grid-column field="ITEMKEY" width="120" title="{{'ItemCode'|translate}}">
                                     </kendo-grid-column>
                                     <kendo-grid-column field="ItemCode" width="120" title="{{'GrdItemCode'|translate}}">
-                                    </kendo-grid-column>
-
-                                    <kendo-grid-column field="SalesUOM" width="100" title="{{'UOM'|translate}}">
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="ShipmentQty" width="80" class="grid-right-align-column" title="{{'OpnQty'|translate}}">
+                                    </kendo-grid-column>                                   
+                                    <kendo-grid-column field="ShipmentQty" width="80" class="grid-right-align-column" title="{{'OpnQty'|translate}}" >
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <span class="font-weight-bold">
                                                 {{dataItem.ShipmentQty|numberFormat}}</span>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column width="80" class="grid-right-align-column" title="{{'Shipment_Qty'|translate}}">
+                                    <kendo-grid-column width="90" class="grid-right-align-column" title="{{'Shipment_Qty'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem let-companyRowIndex="rowIndex">
                                             <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.SalesOpenQty|numberFormat" (change)="ChangeSalesQty($event,dataItem,companyRowIndex)">
-
                                         </ng-template>
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="DelDate" width="100" title="{{'DelvDate'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            {{dataItem.DelDate | date: 'MM/dd/yyyy'}}
+                                        </ng-template>
+                                    </kendo-grid-column>                                    
                                     <kendo-grid-column field="InvntryUom" width="80" title="{{'InvUOM'|translate}}">
                                     </kendo-grid-column>
                                     <kendo-grid-column field="SalesOpnQtyInVUOM" width="140" class="grid-right-align-column" title="{{'OpnQtyInInvUOM'|translate}}">
@@ -472,16 +495,11 @@
                                                 {{dataItem.SalesOpnQtyInVUOM|numberFormat}}</span>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <!-- {{dataItem.dateField | date: 'MM/dd/yyyy'}} -->
-                                    <kendo-grid-column field="DelDate" width="100" title="{{'DelvDate'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            {{dataItem.DelDate | date: 'MM/dd/yyyy'}}
-                                        </ng-template>
+                                    <kendo-grid-column field="SalesUOM" width="100" title="{{'UOM'|translate}}">
                                     </kendo-grid-column>
-                                    <!-- <kendo-grid-column field="DelDate" format='{0:MM/dd/yyyy}' title="{{'DelvDate'|translate}}"></kendo-grid-column> -->
                                     <kendo-grid-column field="ShipTo" width="100" title="{{'ShipTo'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="WhsCode" width="120" title="{{'WHSCODE'|translate}}">
+                                    <kendo-grid-column field="WhsCode" width="70" title="{{'Warehouse'|translate}}">
                                     </kendo-grid-column>
                                     <kendo-grid-column field="U_OPTM_SHP_CONTTYPE" width="120" title="{{'SHP_CONTTYPE'|translate}}">
                                     </kendo-grid-column>
@@ -502,6 +520,10 @@
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" [(ngModel)]="CHKShipto" [disabled]="true" id="Shipto" class="k-checkbox" name="Shipto" />
                                             <label class="k-checkbox-label" for="Shipto">{{'ShipTo'|translate}}</label>
+                                        </div>
+                                        <div class="k-form-field d-flex mrb-5" *ngIf="UseContainer">
+                                            <input type="checkbox" [(ngModel)]="UseContainer" [disabled]="true" id="Container" class="k-checkbox" name="Container" />
+                                            <label class="k-checkbox-label" for="Container">{{'Container'|translate}}</label>
                                         </div>
                                         <div class="k-form-field d-flex mrb-5">
                                             <input type="checkbox" id="Item" [(ngModel)]="CHKItem" class="k-checkbox" name="Item" />
@@ -524,12 +546,12 @@
 
                             <!-- STEP 4 START -->
                             <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
-                                <kendo-grid [data]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable" [selectable]="{enabled: true, checkboxOnly: true}"
+                                <kendo-grid [kendoGridBinding]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable" [selectable]="{enabled: true, checkboxOnly: true}" 
                                     (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
 
                                     <ng-template kendoGridToolbarTemplate>
-                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
-                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse()" *ngIf="AllConsolidateData.length != 0">
+                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}} sdf</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse(gridUser)" *ngIf="AllConsolidateData.length != 0">
                                             <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
                                                 <use xlink:href="#collapseAll"></use>
                                             </svg>
@@ -539,9 +561,28 @@
                                         </button>
                                     </ng-template>
 
-                                    <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
+                                    <!-- <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
                                             <input [kendoGridSelectionCheckbox]="idx" />
+                                        </ng-template>
+                                    </kendo-grid-checkbox-column> -->
+
+                                    <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
+                                        <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
+                                                    [checked]=selectall id="parent_checkbox1_{{rowIndex}}" class="custom-control-input"
+                                                   >
+                                                <label class="custom-control-label" for="parent_checkbox1_{{rowIndex}}"></label>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input #chkSelection type="checkbox" (change)="selectRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
+                                                    id="chkbox1-{{idx}}" class="custom-control-input"
+                                                    name="columnfilter1" />
+                                                <label class="custom-control-label" for="chkbox1-{{idx}}"></label>
+                                            </div>
                                         </ng-template>
                                     </kendo-grid-checkbox-column>
 
@@ -550,10 +591,11 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column field="WAREHOUSE_CODE" title="{{'WHSCODE'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Ship_To" title="{{'PT_Ship_To'|translate}}">
+                                    <kendo-grid-column field="SHIP_TO" title="{{'PT_Ship_To'|translate}}">
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
+                                        <div class="custom-child-grid">
                                         <kendo-grid [data]="dataItem.ShipmentChildData">
                                             <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
                                             <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
@@ -561,6 +603,7 @@
                                             <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
 
                                         </kendo-grid>
+                                    </div>
                                     </ng-template>
                                 </kendo-grid>
 

@@ -2,6 +2,17 @@ body{
     //////////////////////////////////////////////////////////////////
     // Some basic css
     //////////////////////////////////////////////////////////////////
+    /* Chrome, Safari, Edge, Opera */
+input[type=number]:disabled::-webkit-outer-spin-button,
+input[type=number]:disabled::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number]:disabled {
+  -moz-appearance: textfield;
+}
     .opti_position-relative {
         position: relative;
     }

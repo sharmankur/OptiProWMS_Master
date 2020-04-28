@@ -14,93 +14,118 @@ import { CARMasterService } from 'src/app/services/carmaster.service';
 })
 export class BuildParentContainerComponent implements OnInit {
 
-  purposeArray: any= [];
+  purposeArray: any = [];
   commonData: any = new CommonData(this.translate);
   defaultPurpose: any;
-  purpose: any='';
+  purpose: any = '';
   addItemList: any = [];
   autoRuleId: any;
   containerType: any;
   packType: any;
   showLoader: boolean = false;
-  showLookup: boolean=false
+  showLookup: boolean = false
   serviceData: any = [];
   lookupfor: any;
   whse: any;
   binNo: any;
   containerGroupCode: any = '';
-  parentContainerType: any ='';
+  parentContainerType: any = '';
   ParentCTAray: any = [];
   ParentPerQty: any = 0;
   soNumber: any = '';
   RadioAction: string = "Add";
   count: number = 0;
   parentcontainerCode: any = '';
-  public opened: boolean = true;  
+  public opened: boolean = true;
   childcontainerCode: any = '';
   oCreateModel: any = {};
   IsParentCodeValid: boolean = false;
   purposeId: any = '';
   NoOfPacksToGenerate: any = 1;
   RemQty: number = 0;
-
+  purps: any = "Y";
+  nextEnabled = true;
+  BuildParentContainerTxt: any;
+  showHideEnable:boolean = false;
+  showHideDetails() {
+    this.showHideEnable = !this.showHideEnable
+  }
+  onNext() {
+    this.nextEnabled = false;
+    this.BuildParentContainerTxt = this.translate.instant("AddContainer")
+  }
+  onBack() {
+    this.nextEnabled = true;
+    this.BuildParentContainerTxt = this.translate.instant("BuildParentContainer")
+  }
+  treeViewShow = false;
+  onOpenTreeview() {
+    this.treeViewShow = !this.treeViewShow
+  }
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
-    private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) { 
-      let userLang = navigator.language.split('-')[0];
-      userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
-      translate.use(userLang);
-      translate.onLangChange.subscribe(() => {
-        this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
-      });
-    }
+    private containerCreationService: ContainerCreationService, private carmasterService: CARMasterService, private router: Router) {
+    let userLang = navigator.language.split('-')[0];
+    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+    translate.use(userLang);
+    translate.onLangChange.subscribe(() => {
+      this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
+    });
+  }
 
   ngOnInit() {
+    this.BuildParentContainerTxt = this.translate.instant("BuildParentContainer")
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.defaultPurpose = this.purposeArray[0];
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
   }
 
-  onCancelClick(){
+  onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
   onPurposeSelectChange(event) {
     this.purpose = event.Name;
     this.purposeId = event.Value;
+
+    if (this.purpose == "Shipping") {
+      this.purps = "Y"
+    } else {
+      this.purps = "N"
+    }
   }
 
   getLookupDataValue($event) {
-     this.showLookup = false;
-     if ($event != null && $event == "close") {
-       return;
-     }
-     else {
-       if (this.lookupfor == "CTList") {        
-         this.containerType = $event.OPTM_CONTAINER_TYPE;
-         this.parentContainerType = '';
-       } 
-       else if(this.lookupfor == "ParentCTList"){
-         this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
-         this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
-       }
-       else if (this.lookupfor == "CARList") {
-         this.autoRuleId = $event.OPTM_RULEID;
-         this.packType = $event.OPTM_CONTUSE;      
-        
-       } else if (this.lookupfor == "WareHouse") {
-         this.whse = $event.WhsCode;
-         this.binNo = "";
-       } else if (this.lookupfor == "BinList") {
-         this.binNo = $event.BinCode;        
-       } else if (this.lookupfor == "SOList") {
-         this.soNumber = $event.DocEntry;
-       } else if (this.lookupfor == "GroupCodeList") {
-         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
-        }       
-     }
-   }
+    this.showLookup = false;
+    if ($event != null && $event == "close") {
+      return;
+    }
+    else {
+      if (this.lookupfor == "CTList") {
+        this.containerType = $event.OPTM_CONTAINER_TYPE;
+        this.parentContainerType = '';
+      }
+      else if (this.lookupfor == "ParentCTList") {
+        this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
+        this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
+      }
+      else if (this.lookupfor == "CARList") {
+        this.autoRuleId = $event.OPTM_RULEID;
+        this.packType = $event.OPTM_CONTUSE;
+
+      } else if (this.lookupfor == "WareHouse") {
+        this.whse = $event.WhsCode;
+        this.binNo = "";
+      } else if (this.lookupfor == "BinList") {
+        this.binNo = $event.BinCode;
+      } else if (this.lookupfor == "SOList") {
+        this.soNumber = $event.DocEntry;
+      } else if (this.lookupfor == "GroupCodeList") {
+        this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
+      }
+    }
+  }
 
   GetWhseCode() {
     this.showLoader = true;
@@ -133,6 +158,10 @@ export class BuildParentContainerComponent implements OnInit {
   }
 
   onWhseChangeBlur() {
+
+    this.binNo = ''; this.parentcontainerCode = ''; this.childcontainerCode = '';
+    this.RemQty = 0; this.count = 0;
+    this.soNumber = ''; this.addItemList = [];
     if (this.whse == undefined || this.whse == "") {
       return;
     }
@@ -205,7 +234,7 @@ export class BuildParentContainerComponent implements OnInit {
       return;
     }
 
-    if(this.whse == "" || this.whse == undefined){
+    if (this.whse == "" || this.whse == undefined) {
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
@@ -369,14 +398,14 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  getParentContainerType(action){  
+  getParentContainerType(action) {
 
-    if(this.containerType == "" || this.containerType == undefined || this.containerType == null){
+    if (this.containerType == "" || this.containerType == undefined || this.containerType == null) {
       this.toastr.error('', this.translate.instant("EnterContainerType"));
       return;
     }
 
-    if(action == 'blur' && this.parentContainerType == ''){
+    if (action == 'blur' && this.parentContainerType == '') {
       return;
     }
 
@@ -389,33 +418,33 @@ export class BuildParentContainerComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
               this.translate.instant("CommonSessionExpireMsg"));
             return;
-          }  
-          if(action == 'lookup'){
-            this.serviceData = data;             
-            this.showLookup = true;          
+          }
+          if (action == 'lookup') {
+            this.serviceData = data;
+            this.showLookup = true;
             this.lookupfor = "ParentCTList";
-          }else{
+          } else {
             this.ParentCTAray = data;
 
-            if(this.ParentCTAray.length > 0){             
-              let index = this.ParentCTAray.findIndex(r=>r.OPTM_PARENT_CONTTYPE == this.parentContainerType);  
-              if(index == -1){
+            if (this.ParentCTAray.length > 0) {
+              let index = this.ParentCTAray.findIndex(r => r.OPTM_PARENT_CONTTYPE == this.parentContainerType);
+              if (index == -1) {
                 this.parentContainerType = '';
                 this.ParentPerQty = 0;
                 this.toastr.error('', this.translate.instant("InvalidParentContType"));
                 return;
-              }  
-              else{
+              }
+              else {
                 this.ParentPerQty = this.ParentCTAray[index].OPTM_CONT_PERPARENT;
-              }           
+              }
             }
-            else{
+            else {
               this.parentContainerType = '';
               this.toastr.error('', this.translate.instant("InvalidParentContType"));
               return;
             }
           }
-          
+
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -436,7 +465,7 @@ export class BuildParentContainerComponent implements OnInit {
     // this.autoPackRule = '';
 
     this.showLoader = true;
-    this.commonservice.IsValidContainerType("").then(
+    this.commonservice.IsValidContainerType(this.containerType).then(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -448,7 +477,7 @@ export class BuildParentContainerComponent implements OnInit {
           if (data != null && data.length >= 1) {
             this.containerType = data[0].OPTM_CONTAINER_TYPE;
           } else {
-            this.containerType = "";this.containerType = "";
+            this.containerType = ""; this.containerType = "";
             this.toastr.error('', this.translate.instant("InvalidContainerType"));
           }
         } else {
@@ -475,7 +504,7 @@ export class BuildParentContainerComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule().subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -485,7 +514,7 @@ export class BuildParentContainerComponent implements OnInit {
             return;
           }
           this.showLookup = true;
-          this.serviceData = data;
+          this.serviceData = data.OPTM_CONT_AUTORULEHDR;
           for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
             if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = this.translate.instant("yes");
@@ -516,11 +545,11 @@ export class BuildParentContainerComponent implements OnInit {
         }
       }
     );
-    
+
   }
 
   onAutoPackRuleChangeBlur() {
-   
+
     this.IsValidContainerAutoRule(this.autoRuleId, this.containerType, this.packType);
   }
 
@@ -545,7 +574,7 @@ export class BuildParentContainerComponent implements OnInit {
           }
           result = true;
           localStorage.setItem("CAR_Grid_Data", JSON.stringify(data));
-         
+
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -564,33 +593,20 @@ export class BuildParentContainerComponent implements OnInit {
     return result;
   }
 
-  public getSOrderList() {
-    this.showLookup = false;
-    this.containerCreationService.GetOpenSONumber().subscribe(
-      resp => {
-        this.showLookup = false;
-        if (resp != null && resp != undefined)
-          if (resp.ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
-            return;
-          }
-        this.serviceData = resp;
-        this.lookupfor = "SOList";
-        this.showLookup = true;
-      },
-      error => {
-        this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
-        this.showLookup = false;
-      }
-    );
-  }
+  IsValidSONumberBasedOnRule(action) {
 
-  onSONumberChange() {
-    if (this.soNumber == undefined || this.soNumber == "") {
+    if (action == 'blur') {
+      if (this.soNumber == undefined || this.soNumber == "") {
+        return;
+      }
+    }
+
+    if (this.whse == "" || this.whse == undefined) {
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
-    this.showLoader = true;
-    this.containerCreationService.IsValidSONumber(this.soNumber).subscribe(
+
+    this.containerCreationService.IsValidSONumberBasedOnRule(this.soNumber, "", this.whse).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -599,15 +615,30 @@ export class BuildParentContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length == 0) {
-            this.soNumber = ''
-            this.toastr.error('', this.translate.instant("InvalidSO"));
+          if (action == 'blur') {
+            if (data.length == 0) {
+              this.soNumber = '';
+              this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
+            } else {
+              this.soNumber = data[0].DocEntry
+            }
           } else {
-            this.soNumber = data[0].DocEntry
+            if (data.length == 0) {
+              this.toastr.error('', this.translate.instant("NoDataFound"));
+              return;
+            }
+            this.serviceData = data;
+            for (let sidx = 0; sidx < this.serviceData.length; sidx++) {
+              if (this.serviceData[sidx].CardName == null || this.serviceData[sidx].CardName == undefined) {
+                this.serviceData[sidx].CardName = '';
+              }
+            }
+            this.lookupfor = "SOList";
+            this.showLookup = true;
           }
         } else {
-          this.soNumber = ''
-          this.toastr.error('', this.translate.instant("InvalidSO"));
+          this.soNumber = '';
+          this.toastr.error('', this.translate.instant("NoDataFound"));
         }
       },
       error => {
@@ -622,30 +653,88 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  validateAllFields(){
+  // public getSOrderList() {
+  //   this.showLookup = false;
+  //   this.containerCreationService.GetOpenSONumber().subscribe(
+  //     resp => {
+  //       this.showLookup = false;
+  //       if (resp != null && resp != undefined)
+  //         if (resp.ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
+  //           return;
+  //         }
+  //       this.serviceData = resp;
+  //       this.lookupfor = "SOList";
+  //       this.showLookup = true;
+  //     },
+  //     error => {
+  //       this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+  //       this.showLookup = false;
+  //     }
+  //   );
+  // }
 
-    if(this.whse == "" || this.whse == undefined){
+  // onSONumberChange() {
+  //   if (this.soNumber == undefined || this.soNumber == "") {
+  //     return;
+  //   }
+  //   this.showLoader = true;
+  //   this.containerCreationService.IsValidSONumber(this.soNumber).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         if (data.length == 0) {
+  //           this.soNumber = ''
+  //           this.toastr.error('', this.translate.instant("InvalidSO"));
+  //         } else {
+  //           this.soNumber = data[0].DocEntry
+  //         }
+  //       } else {
+  //         this.soNumber = ''
+  //         this.toastr.error('', this.translate.instant("InvalidSO"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
+
+  validateAllFields() {
+
+    if (this.whse == "" || this.whse == undefined) {
       this.parentcontainerCode = '';
       this.childcontainerCode = '';
       this.toastr.error('', this.translate.instant("SelectWhseMsg"));
       return;
     }
-  
-    if(this.binNo == "" || this.binNo == undefined){
+
+    if (this.binNo == "" || this.binNo == undefined) {
       this.parentcontainerCode = '';
       this.childcontainerCode = '';
       this.toastr.error('', this.translate.instant("SelectBinCodeMsg"));
       return;
     }
 
-    if(this.containerType == "" || this.containerType == undefined){
+    if (this.containerType == "" || this.containerType == undefined) {
       this.parentcontainerCode = '';
       this.childcontainerCode = '';
       this.toastr.error('', this.translate.instant("EnterContainerType"));
       return;
     }
 
-    if(this.parentContainerType == "" || this.parentContainerType == undefined){
+    if (this.parentContainerType == "" || this.parentContainerType == undefined) {
       this.parentcontainerCode = '';
       this.childcontainerCode = '';
       this.toastr.error('', this.translate.instant("CTR_ParentContainerType_Blank_Msg"));
@@ -653,60 +742,154 @@ export class BuildParentContainerComponent implements OnInit {
     }
   }
 
-  IsvalidParentCode(){
+  IsvalidParentCode() {
+
+    let operation = 1;
+    if (this.RadioAction == "Add") {
+      operation = 1;
+    } else {
+      operation = 2;
+    }
+
     this.showLoader = true;
-    this.containerCreationService.GetAllContainer(this.parentcontainerCode).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          if (data.length == 0) {
-            this.IsParentCodeValid = false;
-            if(this.RadioAction == 'Add'){
-              this.generateParentContnr();
+    this.containerCreationService.CheckContainer(this.parentcontainerCode, this.whse,
+      this.binNo, "",
+      this.containerGroupCode,
+      this.soNumber, this.parentContainerType,
+      this.purps, operation, 3).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
             }
-            else{
-              this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+
+            if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
+              this.toastr.error('', data.OUTPUT[0].RESULT);
               this.parentcontainerCode = '';
-              this.RemQty = 0;
-              this.childcontainerCode = '';
+              return;
             }
-          } else {
-            this.IsParentCodeValid = true;       
+            else if (data.OPTM_CONT_HDR.length == 0) {
+              this.IsParentCodeValid = false;
+              if (this.RadioAction == 'Add') {
+                this.generateParentContnr();
+              } else {
+                this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+                this.parentcontainerCode = '';
+                this.RemQty = 0;
+                this.childcontainerCode = '';
+              }
+            }
+            else if (data.OPTM_CONT_HDR.length > 0) {
+              if (data.OPTM_CONT_HDR[0].OPTM_STATUS == 3) {
+                this.toastr.error('', this.translate.instant("ParentContClosed"));
+                this.parentcontainerCode = '';
+                return;
+              }
+              this.IsParentCodeValid = true;
+            }
+
+            //   if (data.length > 0) {
+            //     //Container is already created but there is some error
+            //     if (data[0].RESULT != undefined && data[0].RESULT != null) {
+            //       this.toastr.error('', data[0].RESULT);
+            //       this.parentcontainerCode = '';
+            //       return;
+            //     }
+            //     else {               
+            //       if(data[0].OPTM_STATUS == 3){
+            //         this.toastr.error('', "Parent Container is Closed");
+            //         this.parentcontainerCode = '';
+            //         return;
+            //       }
+
+            //       this.IsParentCodeValid = true;      //If correct container found
+            //  }          
+            // } else if (data.length == 0) {
+            //   this.IsParentCodeValid = false;
+            //   if(this.RadioAction == 'Add'){
+            //     this.generateParentContnr();
+            //   }else{
+            //     this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+            //     this.parentcontainerCode = '';
+            //     this.RemQty = 0;
+            //     this.childcontainerCode = '';
+            //   }
+            // } else {
+            //   this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            // }
           }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
         }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
+
+
+    // this.showLoader = true;
+    // this.containerCreationService.GetAllContainer(this.parentcontainerCode).subscribe(
+    //   (data: any) => {
+    //     this.showLoader = false;
+    //     if (data != undefined) {
+    //       if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+    //         this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+    //           this.translate.instant("CommonSessionExpireMsg"));
+    //         return;
+    //       }
+    //       if (data.length == 0) {
+    //         this.IsParentCodeValid = false;
+    //         if(this.RadioAction == 'Add'){
+    //           this.generateParentContnr();
+    //         }
+    //         else{
+    //           this.toastr.error('', this.translate.instant("ParentContDoesNotExists"));
+    //           this.parentcontainerCode = '';
+    //           this.RemQty = 0;
+    //           this.childcontainerCode = '';
+    //         }
+    //       } else {
+    //         this.IsParentCodeValid = true;       
+    //       }
+    //     } else {
+    //       this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+    //     }
+    //   },
+    //   error => {
+    //     this.showLoader = false;
+    //     if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+    //       this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+    //     }
+    //     else {
+    //       this.toastr.error('', error);
+    //     }
+    //   }
+    // );
   }
 
-  onParentContainerCodeChange(){
+  onParentContainerCodeChange() {
 
     this.childcontainerCode = '';
 
     this.validateAllFields();
 
-    if(this.parentcontainerCode == '' || this.parentcontainerCode == undefined){
+    if (this.parentcontainerCode == '' || this.parentcontainerCode == undefined) {
       this.childcontainerCode = '';
       this.count = 0;
       this.RemQty = 0;
       this.addItemList = [];
       return;
-    } 
+    }
     this.addItemList = [];
     this.showLoader = true;
     this.containerCreationService.GetConatinersAddedInParentContainer(this.parentcontainerCode).subscribe(
@@ -720,14 +903,15 @@ export class BuildParentContainerComponent implements OnInit {
           }
 
           //this.count= data[0].Count;
-          if(data.length != undefined){
+          if (data.length != undefined) {
             this.count = data.length;
             this.RemQty = this.ParentPerQty - this.count;
             this.addItemList = data;
-          }   
-          else{
+            this.displayTreeDataValue();
+          }
+          else {
             this.count = 0;
-          } 
+          }
 
           this.IsvalidParentCode();
 
@@ -747,7 +931,7 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  getCountofParentContAfterSave(){
+  getCountofParentContAfterSave() {
     this.addItemList = [];
     this.showLoader = true;
     this.containerCreationService.GetConatinersAddedInParentContainer(this.parentcontainerCode).subscribe(
@@ -761,22 +945,22 @@ export class BuildParentContainerComponent implements OnInit {
           }
 
           //this.count= data[0].Count;
-          if(data.length != undefined){
+          if (data.length != undefined) {
             this.count = data.length;
             this.RemQty = this.ParentPerQty - this.count;
-                       
-            if(this.RemQty == 0){
-              this.parentcontainerCode = '';  
+
+            if (this.RemQty == 0) {
+              this.parentcontainerCode = '';
               this.count = 0;
               this.addItemList = [];
             }
-            else{
+            else {
               this.addItemList = data;
             }
-          }   
-          else{
+          }
+          else {
             this.count = 0;
-          } 
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -793,14 +977,14 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  generateParentContnr(){
+  generateParentContnr() {
 
     this.oCreateModel.HeaderTableBindingData = [];
     this.oCreateModel.OtherItemsDTL = [];
     this.oCreateModel.OtherBtchSerDTL = [];
-  
+
     this.oCreateModel.HeaderTableBindingData.push({
-      OPTM_SONO: (this.soNumber == undefined) ? '' :this.soNumber ,
+      OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
       OPTM_CONTAINERID: 0,
       OPTM_CONTTYPE: this.parentContainerType,
       OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
@@ -825,16 +1009,17 @@ export class BuildParentContainerComponent implements OnInit {
       OPTM_PARENTCODE: '',
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: 3,
-      OPTM_PERPOSE: this.purposeId,
+      //OPTM_PERPOSE: this.purposeId,
+      OPTM_PERPOSE: this.purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: 0,
       OPTM_TASKHDID: 0,
       OPTM_OPERATION: 0,
       OPTM_QUANTITY: 0,
-      OPTM_SOURCE: 3,    
+      OPTM_SOURCE: 3,
       OPTM_ParentContainerType: this.parentContainerType,
-      OPTM_ParentPerQty: this.ParentPerQty,  
+      OPTM_ParentPerQty: this.ParentPerQty,
       IsWIPCont: false,
       OPTM_WONO: "",
       OPTM_OPERNO: ""
@@ -852,14 +1037,14 @@ export class BuildParentContainerComponent implements OnInit {
           }
           if (data.length > 0) {
 
-            if(data[0].ErrMsg != undefined && data[0].ErrMsg != null){
+            if (data[0].ErrMsg != undefined && data[0].ErrMsg != null) {
               this.toastr.error('', data[0].ErrMsg);
               return;
             }
 
-            if(data[0].RESULT != undefined && data[0].RESULT != null){              
-                this.toastr.error('', data[0].RESULT);
-                return;            
+            if (data[0].RESULT != undefined && data[0].RESULT != null) {
+              this.toastr.error('', data[0].RESULT);
+              return;
             }
 
             //this.insertChildContnr();
@@ -881,72 +1066,122 @@ export class BuildParentContainerComponent implements OnInit {
     );
   }
 
-  insertChildContnr(){
+  insertChildContnr() {
     this.showLoader = true;
     this.containerCreationService.InsertContainerinContainer(this.parentcontainerCode, this.childcontainerCode, this.RadioAction,
       this.containerType, this.parentContainerType).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-        if (data.length > 0) {
-          if (data[0].RESULT != undefined && data[0].RESULT != null) {
-
-          if (data[0].RESULT == "Data Saved") {
-
-            if(this.RadioAction == 'Add'){
-              this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
-            }else{
-              this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
             }
-            this.childcontainerCode = '';
-            //this.onParentContainerCodeChange();
-            this.getCountofParentContAfterSave();
+            if (data.length > 0) {
+              if (data[0].RESULT != undefined && data[0].RESULT != null) {
+
+                //if (data[0].RESULT == "Data Saved") {
+                if (data[0].RESULT.indexOf("Data Saved") > -1) {
+                  if (this.RadioAction == 'Add') {
+                    this.toastr.success('', this.translate.instant("Container_Assigned_To_Parent"));
+                  } else {
+                    this.toastr.success('', this.translate.instant("Container_Removed_From_Parent"));
+                  }
+                  this.childcontainerCode = '';
+                  //this.onParentContainerCodeChange();
+                  this.getCountofParentContAfterSave();
+                }
+                else {
+                  this.toastr.error('', data[0].RESULT);
+                }
+              }
+              else {
+                this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+              }
+            } else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
           }
           else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', error);
           }
         }
-        else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-        } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
+      );
   }
 
-  onChildContCodeChange(){  
+  onChildContCodeChange() {
 
     this.validateAllFields();
 
-    if(this.childcontainerCode == "" || this.childcontainerCode == undefined){
+    if (this.childcontainerCode == "" || this.childcontainerCode == undefined) {
       return;
     }
 
-    if(this.parentcontainerCode == "" || this.parentcontainerCode == undefined){
+    if (this.parentcontainerCode == "" || this.parentcontainerCode == undefined) {
       this.toastr.error('', this.translate.instant("Enter_Parent_ContCode"));
       this.childcontainerCode = '';
       return;
-    }     
+    }
     this.insertChildContnr();
- }
+  }
 
+  DisplayTreeData: any = []
+  displayTreeDataValue() {
+    var DisplayTreeChildData = [];
+    for (let treeidx = 0; treeidx < this.addItemList.length; treeidx++) {
+      DisplayTreeChildData.push({
+        text: this.addItemList[treeidx].OPTM_CONTCODE,
+        quantity: 0,
+        // items: childArr
+      })
+    }
+
+    this.DisplayTreeData.push({
+      text: this.parentcontainerCode,
+      quantity: DisplayTreeChildData.length,
+      items: DisplayTreeChildData
+    })
+  }
+
+  radioSelected: any = 1;
+  checkChangeEvent: any;
+  addItemOpn: any;
+  handleCheckChange(event, action) {
+    this.treeViewShow = false;
+    if (action == 'add') {
+      this.radioSelected = 1;
+      this.addItemOpn = "Add"
+    } else if (action == 'remove') {
+      this.radioSelected = 2;
+      this.addItemOpn = "Remove";
+    } else {
+      this.radioSelected = 3;
+      this.addItemOpn = "View"
+      this.treeViewShow = true;
+    }
+    this.checkChangeEvent = event;
+  }
+
+  isExpanded: boolean = false;
+  isExpand: boolean = false;
+  expandedKeys: any[] = [];
+  onExpandCollapseAll(event) {
+    console.log("onExpandCollapseAll: " + event)
+    this.expandedKeys = [];
+    this.isExpand = !this.isExpand
+    if (event == 'expand') {
+      for (let i = 0; i < this.addItemList.length; i++) {
+        this.expandedKeys.push("" + i)
+      }
+    }
+  }
 }

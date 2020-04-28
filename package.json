@@ -24,6 +24,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@progress/kendo-angular-buttons": "^4.0.0",
     "@progress/kendo-angular-charts": "^3.3.2",
+    "@progress/kendo-angular-common": "^1.2.2",
     "@progress/kendo-angular-dateinputs": "2 - 3",
     "@progress/kendo-angular-dialog": "^3.10.1",
     "@progress/kendo-angular-dropdowns": "2 - 3",
@@ -31,8 +32,9 @@
     "@progress/kendo-angular-grid": "^3.4.0",
     "@progress/kendo-angular-inputs": "2 - 5",
     "@progress/kendo-angular-intl": "^1.4.0",
-    "@progress/kendo-angular-l10n": "^1.1.0",
+    "@progress/kendo-angular-l10n": "^1.4.1",
     "@progress/kendo-angular-popup": "^2.0.0",
+    "@progress/kendo-angular-treeview": "^4.1.2",
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.0.0",
     "@progress/kendo-theme-bootstrap": "^2.13.4",
@@ -49,9 +51,9 @@
     "ngx-toastr": "^8.10.2",
     "popper.js": "^1.14.3",
     "rxjs": "~6.4.0",
+    "rxjs-compat": "^6.0.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "rxjs-compat": "^6.0.0"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.23",

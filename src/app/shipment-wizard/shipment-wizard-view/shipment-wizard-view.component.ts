@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { GridDataResult, GridComponent } from '@progress/kendo-angular-grid';
+import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,9 +20,9 @@ export class ShipmentWizardViewComponent implements OnInit {
   UseContainer: boolean = false;
   AutoAllocate: boolean = false;
   isautoallocateflag: boolean = false;
-  Container_Group: string;
-  Schedule_Datetime: string;
-  SOpageSize = 10;
+  Container_Group: string = "";
+  Schedule_Datetime: string = "";
+  SOpageSize = 12;
   SOpagable: boolean = false;
   SPpagable: boolean = false;
   SPpageSize = 10;
@@ -77,8 +77,8 @@ export class ShipmentWizardViewComponent implements OnInit {
   public GetCreateShipMentData: any = [];
   dateFormat: string;
   pageable: boolean = false;
-  DockDoor: string;
-  CarrierCode: string;
+  DockDoor: string = "";
+  CarrierCode: string = "";
 
 
 
@@ -113,6 +113,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   onPrevClick() {
     if (this.currentStep > 1) {
       this.currentStep = this.currentStep - 1;
+      this.pageChange({ skip: 0, take: this.pageSize });
     }
   }
 
@@ -122,12 +123,20 @@ export class ShipmentWizardViewComponent implements OnInit {
     return result;
   }
   onNextClick() {
+    this.pageChange({ skip: 0, take: this.pageSize });
     let CheckValue = false;
     if (this.currentStep < this.maxStep) {
 
       if (this.currentStep === 1) {
         if (this.WareHouse != "" && this.WareHouse != undefined) {
-          // this.HoldSelectedRow.SOLines = [];
+          if (this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)) {
+            this.toastr.error('', this.translate.instant("SchDTValidation"));
+            return;
+          }else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
+            this.toastr.error('', this.translate.instant("InvalidDock_Door"));
+            return;
+          }
+          this.HoldSelectedRow.SOLines = [];
           this.GetSalesWizardData();
         }
         else {
@@ -156,7 +165,7 @@ export class ShipmentWizardViewComponent implements OnInit {
         else {
           this.HoldSelectedRow.ConsolidationsBy.push({
             Customer: this.CHKCustomer, DueDate: this.CHKDueDate,
-            Item: this.CHKItem, ShipTo: this.CHKShipto, SONO: this.CHKSOno
+            Item: this.CHKItem, ShipTo: this.CHKShipto, SONO: this.CHKSOno, OPTM_CONTUSE: this.UseContainer
           })
           this.GetConsolidatedData();
         }
@@ -177,8 +186,8 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.currentStep = 1;
   }
 
-  onCheckChange(){
-    if(!this.AutoAllocate){
+  onCheckChange() {
+    if (!this.AutoAllocate) {
       this.DockDoor = "";
       this.CarrierCode = "";
       this.Container_Group = "";
@@ -197,7 +206,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.ConsolidatedDataSelection.Company.push({
       CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId"), OPTM_USE_CONTAINER: uc,
       OPTM_AUTO_ALLOCATE: OPTM_AUTO_ALLOCATE,
-      OPTM_SCH_DATETIME: this.Schedule_Datetime,
+      OPTM_SCH_DATETIME: new Date(this.Schedule_Datetime).toLocaleDateString(),
       OPTM_CONT_GRP: this.Container_Group,
       OPTM_DOCKDOOR: this.DockDoor,
       OPTM_CARRIERCODE: this.CarrierCode,
@@ -206,7 +215,6 @@ export class ShipmentWizardViewComponent implements OnInit {
     })
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
-
         if (resp != undefined && resp != null) {
           for (let i = 0; i < resp.ShipmentHdr.length; i++) {
             resp["ShipmentHdr"][i]["ShipmentChildData"] = []
@@ -215,7 +223,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           for (let i = 0; i < resp.ShipmentHdr.length; i++) {
             if (resp["ShipmentHdr"][i].SELECT === "") resp["ShipmentHdr"][i].SELECT = false;
             for (let j = 0; j < resp.ShipmentDtl.length; j++) {
-              if (resp["ShipmentHdr"][i].OPTM_DOCENTRY === resp["ShipmentDtl"][j].OPTM_DOCENTRY) {
+              if (resp["ShipmentHdr"][i].OPTM_SHIPMENTID === resp["ShipmentDtl"][j].OPTM_SHIPMENTID) {
                 resp["ShipmentDtl"][j].OPTM_QTY = Number(resp["ShipmentDtl"][j].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
                 resp["ShipmentHdr"][i]["ShipmentChildData"].push(resp["ShipmentDtl"][j]);
               }
@@ -228,7 +236,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             this.pageable = false;
           }
           this.currentStep = this.currentStep + 1;
-          this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
+          if (this.AutoAllocate) {
+            this.toastr.success('', this.translate.instant("ShipmentsCreatedAllocated"));
+          } else {
+            this.toastr.success('', this.translate.instant("CreatedShipmentMsg"));
+          }
         }
         else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -358,7 +370,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     if (this.WareHouse == "" || this.WareHouse == null || this.WareHouse == undefined) {
       this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"))
       return;
-    }    
+    }
     this.showLoader = true;
     this.commonservice.IsValidDockDoor(this.DockDoor, this.WareHouse).subscribe(
       (data: any) => {
@@ -461,11 +473,80 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
   //#endregion
 
+  pageChange(event: PageChangeEvent) {
+    this.skip = event.skip;
+  }
+
+  selectSORowChange(isCheck, dataitem, idx) {
+    if (isCheck) {
+      this.gridData[idx].Selected = true;
+      let result = this.HoldSelectedRow.SOLines.find(e => e.SODocEntry == dataitem.SODocEntry && e.LN == dataitem.LN);
+      if (result == undefined) {
+        this.HoldSelectedRow.SOLines.push(dataitem);
+      }
+    } else {
+      this.gridData[idx].Selected = false;
+      for (let i = 0; i < this.HoldSelectedRow.SOLines.length; i++) {
+        if (this.HoldSelectedRow.SOLines[i].SODocEntry === dataitem.SODocEntry && this.HoldSelectedRow.SOLines[i].LN === dataitem.LN) {
+          this.HoldSelectedRow.SOLines.splice(i, 1);
+        }
+      }
+    }
+
+    // if (selection.selectedRows.length > 0) {
+    //   this.HoldSelectedRow.SOLines.push(selection.selectedRows[0].dataItem)
+    // }
+    // else if (selection.deselectedRows.length > 0) {
+    //   let SO = selection.deselectedRows[0].dataItem.SO
+    //   let LN = selection.deselectedRows[0].dataItem.LN
+    //   for (let i = 0; i < this.HoldSelectedRow.SOLines.length; i++) {
+    //     if (this.HoldSelectedRow.SOLines[i].SO === SO && this.HoldSelectedRow.SOLines[i].LN === LN) {
+    //       this.HoldSelectedRow.SOLines.splice(i, 1);
+    //     }
+    //   }
+    // }
+  }
+
+  selectallSO: boolean;
+  on_Selectall_SO(checkedvalue) {
+    var isExist = 0;
+    // this.CheckedData = []
+    this.selectallSO = false
+    if (checkedvalue == true) {
+      if (this.gridData.length > 0) {
+        this.selectallSO = true
+        this.HoldSelectedRow.SOLines = [];
+        for (let i = 0; i < this.gridData.length; ++i) {
+          this.gridData[i].Selected = true;
+          this.HoldSelectedRow.SOLines.push(this.gridData[i])
+        }
+      }
+    }
+    else {
+      this.selectallSO = false
+      if (this.gridData.length > 0) {
+        for (let i = 0; i < this.gridData.length; ++i) {
+          this.gridData[i].Selected = false;
+          this.HoldSelectedRow.SOLines = [];
+        }
+      }
+    }
+  }
+  
+  onQtyChange(){
+    alert("hi");
+  }
+
   //get step 2nd data
   GetSalesWizardData() {
-
     this.SetParameter = [];
     let uc = this.UseContainer == true ? "Y" : "N";
+    if(this.DueDateFrom != ""){
+      this.DueDateFrom = new Date(this.DueDateFrom).toLocaleDateString();
+    }
+    if(this.DueDateTo != ""){
+      this.DueDateTo = new Date(this.DueDateTo).toLocaleDateString();
+    }
     this.SetParameter.push({
       FROMCARDCODE: this.CustomerFrom,
       TOCARDCODE: this.CustomerTo,
@@ -531,6 +612,46 @@ export class ShipmentWizardViewComponent implements OnInit {
     }*/
   }
 
+  selectall: boolean = false;
+  on_Selectall_checkbox_checked(checkedvalue) {
+    var isExist = 0;
+    // this.CheckedData = []
+    this.selectall = false
+    if (checkedvalue == true) {
+      if (this.AllConsolidateData.length > 0) {
+        this.selectall = true
+        this.ConsolidatedDataSelection.SelectedRows = [];
+        for (let i = 0; i < this.AllConsolidateData.length; ++i) {
+          this.AllConsolidateData[i].Selected = true;
+          this.ConsolidatedDataSelection.SelectedRows.push(this.AllConsolidateData[i])
+        }
+      }
+    }
+    else {
+      this.selectall = false
+      if (this.AllConsolidateData.length > 0) {
+        for (let i = 0; i < this.AllConsolidateData.length; ++i) {
+          this.AllConsolidateData[i].Selected = false;
+          this.ConsolidatedDataSelection.SelectedRows = [];
+        }
+      }
+    }
+  }
+
+  selectRowChange(isCheck, dataItem, idx) {
+    if (isCheck) {
+      this.AllConsolidateData[idx].Selected = true;
+      this.ConsolidatedDataSelection.SelectedRows.push(dataItem)
+    } else {
+      this.AllConsolidateData[idx].Selected = false;
+      for (let i = 0; i < this.ConsolidatedDataSelection.SelectedRows.length; i++) {
+        if (this.ConsolidatedDataSelection.SelectedRows[i].Shipment_Id === dataItem.Shipment_Id && this.ConsolidatedDataSelection.SelectedRows[i].Customer === dataItem.Customer) {
+          this.ConsolidatedDataSelection.SelectedRows.splice(i, 1);
+        }
+      }
+    }
+  }
+
   gridConsilidateDataSelectionChange(selection, Data) {
     if (Data.selectedRows.length > 0) {
       this.ConsolidatedDataSelection.SelectedRows.push(Data.selectedRows[0].dataItem)
@@ -546,6 +667,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     console.log(this.ConsolidatedDataSelection.SelectedRows);
   }
+
   GetConsolidatedData() {
     let tempdata = [];
     //this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
@@ -568,6 +690,8 @@ export class ShipmentWizardViewComponent implements OnInit {
               }
             }
           }
+          this.selectall = false
+          this.ConsolidatedDataSelection.SelectedRows = [];
           this.AllConsolidateData = resp["ShipmentHdr"];
           if (this.AllConsolidateData.length > this.SPpageSize) {
             this.SPpagable = true;
@@ -1069,7 +1193,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.WareHouse = data.OUTPUT[0].WhsCode;
+            this.WareHouse = data[0].WhsCode;
           } else {
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WareHouse = "";
@@ -1126,13 +1250,13 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = $event.WhsCode;
-    }else if (this.lookupfor == "CarrierList"){
+    } else if (this.lookupfor == "CarrierList") {
       this.CarrierCode = $event.OPTM_CARRIERID;
-    }else if (this.lookupfor == "DDList"){
+    } else if (this.lookupfor == "DDList") {
       this.DockDoor = $event.OPTM_DOCKDOORID;
-    }else if (this.lookupfor == "GroupCodeList") {
+    } else if (this.lookupfor == "GroupCodeList") {
       this.Container_Group = $event.OPTM_CONTAINER_GROUP;
-     } 
+    }
   }
 
   OnCancelClick() {
@@ -1258,17 +1382,18 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
   isExpand: boolean = false;
-  onExpandCollapse() {
+  onExpandCollapse(grid) {
+    debugger
     this.isExpand = !this.isExpand;
     // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
 
     for (var i = 0; i < this.AllConsolidateData.length; i++) {
       if (this.isExpand) {
-        this.grid.expandRow(i)
+        grid.expandRow(i)
       } else {
-        this.grid.collapseRow(i);
+        grid.collapseRow(i);
       }
     }
   }

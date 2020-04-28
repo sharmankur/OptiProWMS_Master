@@ -64,6 +64,16 @@ export class ShipmentViewComponent implements OnInit {
   isStageDiabled: boolean = true;
   isScheduledDiabled: boolean = false;
   shipmentData: any;
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any;
+  StatusValue: any;
+  shpProcess: any;
+  shipmentProcessList: any[] = [];
+  dialogOpened = false;
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -85,13 +95,15 @@ export class ShipmentViewComponent implements OnInit {
       "Reopened",
       "Assigned",
       "Shipped",
+      "Picked",
       "Returned",
       "Damaged",
       "Cancelled",
+      "Loaded"
     ];
   }
 
-  ShipmentProcessEnum() {
+  ShipmentStatusEnum() {
     return [
       { "Value": 10, "Name": "New" },
       { "Value": 20, "Name": "Schedule" },
@@ -99,6 +111,18 @@ export class ShipmentViewComponent implements OnInit {
       { "Value": 40, "Name": "Picking" },
       { "Value": 50, "Name": "Staging" },
       { "Value": 60, "Name": "Loading" }
+    ];
+  }
+
+  ShipmentProcessEnum() {
+    return [
+      { "Value": 1, "Name": "Standard" },
+      { "Value": 2, "Name": "No_Picking" },
+      { "Value": 3, "Name": "No_Staging" },
+      { "Value": 4, "Name": "No_Picking-No_Staging" },
+      { "Value": 5, "Name": "No_Schedule" },
+      { "Value": 6, "Name": "No_Schedule-No_Picking" },
+      { "Value": 7, "Name": "No_Schedule-No_Picking-No_Staging" }
     ];
   }
 
@@ -282,6 +306,9 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_CONT_HDR[i].OPTM_STATUS = this.getContStatusValue(data.OPTM_CONT_HDR[i].OPTM_STATUS);
           }
           this.ShipContainers = data.OPTM_CONT_HDR;
+          if (this.ShipContainers.length > 0) {
+            this.UseContainer = true;
+          }
           if (this.ShipContainers != undefined && this.ShipContainers.length > this.pageSize3) {
             this.pagable3 = true;
           }
@@ -393,8 +420,8 @@ export class ShipmentViewComponent implements OnInit {
       this.UseContainer = false;
     }
     this.StatusValue = OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO;
-    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS && e.Value == OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO);
-    this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == "No_Schedule" && e.Value == 10).Name;
+    // this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name && e.Value == this.StatusValue).Name;
+    this.shpProcess = this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name;
     this.onCheckChange();
   }
 
@@ -418,6 +445,7 @@ export class ShipmentViewComponent implements OnInit {
 
   getlookupSelectedItem(event) {
     if (this.lookupfor == "ShipmentList") {
+      this.clearFields();
       this.ShipmentID = event.OPTM_SHIPMENTID
       this.ShipmentCode = event.OPTM_SHIPMENT_CODE
       localStorage.setItem("ShipmentID", this.ShipmentID);
@@ -447,23 +475,13 @@ export class ShipmentViewComponent implements OnInit {
     }
   }
 
-  StatusValue: any;
-  shpProcess: any;
-  shipmentProcessList: any[] = [];
   updateShipmentProcessArray(selectedvalue) {
-    this.StatusValue = 10;
-    this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value === this.StatusValue);
+    this.shipmentProcessList = this.ShipmentProcessArray().filter(element => element.Value == this.StatusValue);
     this.serviceData = this.shipmentProcessList;
     this.lookupfor = "ShipMentProcess";
     this.hideLookup = false;
   }
 
-  showConfirmDialog: boolean = false;
-  dialogMsg: string;
-  yesButtonText: string;
-  noButtonText: string;
-  dialogFor: string;
-  event: any;
   onShpProcessChange(event) {
     this.event = event;
     this.dialogFor = "ShipmentProcess";
@@ -494,7 +512,7 @@ export class ShipmentViewComponent implements OnInit {
 
   ChangeShipmentProcess() {
     this.showLoader = true;
-    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.event.Name, this.event.Value).subscribe(
+    this.shipmentService.ChangeShippingProcess(this.ShipmentCode, this.ShipmentProcessEnum().find(e => e.Name == this.event.Name).Value, this.StatusValue, this.StatusId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -504,7 +522,11 @@ export class ShipmentViewComponent implements OnInit {
             return;
           }
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
+            this.runningProcessName == "ShippingProcess"
+            this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -603,7 +625,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime.toLocaleDateString(),
-      this.DockDoor, this.ShipmentCode, "20").subscribe(
+      this.DockDoor, this.ShipmentCode, (this.ShipmentProcessEnum().find(e => e.Name == this.shpProcess)).Value, "20").subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -613,6 +635,7 @@ export class ShipmentViewComponent implements OnInit {
               return;
             }
             if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+              this.toastr.success('', this.translate.instant("shipScheduled"));
               this.GetDataBasedOnShipmentId(this.ShipmentID);
             } else {
               this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -633,6 +656,28 @@ export class ShipmentViewComponent implements OnInit {
       );
   }
 
+  containerCode: string;
+  generateContainer() {
+    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"))
+      return;
+    }
+    this.PrepareModelAndCreateCont(this.containerCode);
+  }
+
+  onConfirmClick(){
+    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"))
+      return;
+    }
+    this.close_kendo_dialog();
+  }
+
+  close_kendo_dialog() {
+    this.dialogOpened = false;
+  }
+
+  runningProcessName = "";
   onStageORUnstageShipmentClick() {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return false;
@@ -647,13 +692,121 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+          if(data.OUTPUT[0].RESULT == "Data Saved For Unstage"){
+            this.toastr.success('', this.translate.instant("ShipmentUnstaged"));
+          }else if (data.OUTPUT[0].RESULT == "Data Saved For Stage") {
+            this.toastr.success('', this.translate.instant("ShipmentStaged"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
+            this.runningProcessName = "Stage"
+            this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  PrepareModelAndCreateCont(containerCode: any) {
+    var oSaveModel: any = {};
+    oSaveModel.HeaderTableBindingData = [];
+    oSaveModel.OtherItemsDTL = [];
+    oSaveModel.OtherBtchSerDTL = [];
+
+    //Push data of header table into BatchSerial model
+    oSaveModel.HeaderTableBindingData.push({
+      OPTM_SHIPMENTID: this.ShipmentID,
+      OPTM_SONO: "",
+      OPTM_CONTAINERID: "",
+      OPTM_CONTTYPE: "Manual",
+      OPTM_CONTAINERCODE: "" + containerCode,
+      OPTM_WEIGHT: "",
+      OPTM_AUTOCLOSE_ONFULL: "Y",
+      OPTM_AUTORULEID: "Manual",
+      OPTM_WHSE: this.WarehouseCode,
+      OPTM_BIN: this.ShipStageBin,
+      OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      OPTM_MODIFIEDBY: '',
+      Length: length,
+      Width: "",
+      Height: "",
+      ItemCode: "",
+      NoOfPacks: "1",
+      OPTM_TASKID: 0, //changed
+      CompanyDBId: localStorage.getItem("CompID"),
+      Username: localStorage.getItem("UserId"),
+      UserId: localStorage.getItem("UserId"),
+      GUID: localStorage.getItem("GUID"),
+      Action: "N",
+      OPTM_PARENTCODE: "",
+      OPTM_GROUP_CODE: 0,
+      OPTM_CREATEMODE: "3",
+      OPTM_PERPOSE: "Y",
+      OPTM_FUNCTION: "Shipping",
+      OPTM_OBJECT: "Container",
+      OPTM_WONUMBER: 0,
+      OPTM_TASKHDID: 0,
+      OPTM_OPERATION: "",
+      OPTM_QUANTITY: 1,
+      OPTM_SOURCE: 3,
+      OPTM_ParentContainerType: "",
+      OPTM_ParentPerQty: "",
+      IsWIPCont: false
+    });
+
+    oSaveModel.OtherItemsDTL.push({
+      OPTM_ITEMCODE: "",
+      OPTM_QUANTITY: "",
+      OPTM_CONTAINER: "",
+      OPTM_AVLQUANTITY: 0,
+      OPTM_INVQUANTITY: 0,
+      OPTM_BIN: '',
+      OPTM_CONTAINERID: "",
+      OPTM_TRACKING: "",
+      OPTM_WEIGHT: ""
+    });
+
+    oSaveModel.OtherBtchSerDTL.push({
+      OPTM_BTCHSER: "",
+      OPTM_QUANTITY: "",
+      OPTM_ITEMCODE: ""
+    });
+    
+    this.shipmentService.CreateContainerForPacking(oSaveModel).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
+            this.containerCode = "";
+            if(this.runningProcessName == "Stage"){
+              this.onStageORUnstageShipmentClick();
+            }else if(this.runningProcessName == "ShippingProcess"){
+              this.ChangeShipmentProcess();
+            }
+            this.runningProcessName = "";
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+          // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -686,7 +839,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
-            this.toastr.error('', data[0].RESULT);
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -914,4 +1067,40 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
   //#endregion
+
+  cancelAndUnassign(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("CancelAndUnassignedMSg"));
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

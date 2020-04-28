@@ -225,6 +225,12 @@ export class CommonLookupComponent implements OnInit {
     }
     else if(this.lookupfor == "DocNumbering") {
       this.DocumentNumberingView();
+    } else if(this.lookupfor == "ContItemsList"){
+      this.showContItemsList();
+    }else if(this.lookupfor == "ContItemBatchSerialList"){
+      this.showContItemBatchSerialList();
+    }else if(this.lookupfor == "RULEITEMS"){
+      this.showRuleItemList();
     }
 
     this.clearFilters();
@@ -236,6 +242,12 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_WONO',
         title: this.translate.instant("WorkOrderNo"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_FGCODE',
+        title: this.translate.instant("ItemCode"),
         type: 'text',
         width: '100'
       },
@@ -325,6 +337,7 @@ export class CommonLookupComponent implements OnInit {
         }
       }
     }
+
   showItemCodeListByRuleId() {
     this.table_head = [
       {
@@ -342,6 +355,116 @@ export class CommonLookupComponent implements OnInit {
       // },
     ];
     this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContItemsList(){
+    this.table_head = [
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',        
+        width: '100'
+      }
+      ,
+      {
+        field: 'OPTM_TRACKING',
+        title: this.translate.instant("TrackType"),
+        type: 'text',
+        width: '100'
+      },{
+        field: 'OPTM_PARTS_PERCONT',
+        title: this.translate.instant("Rule_Qty"),
+        type: 'text',
+        class: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'TOTALQTY',
+        title: this.translate.instant("Item_Qty"),
+        type: 'text',
+        class: 'text-right',
+        width: '100'
+      },
+
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContItemBatchSerialList(){
+    this.table_head = [
+      {
+        field: 'LOTNO',
+        title: this.translate.instant("Batch_Serial"),
+        type: 'text',
+        width: '100'
+      }
+      ,
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },{
+        field: 'WHSCODE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'BINNO',
+        title: this.translate.instant("Bin_No"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'TOTALQTY',
+        title: this.translate.instant("Quantity"),
+        type: 'text',
+        class: 'text-right',
+        width: '100'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("BatchSerialList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showRuleItemList(){
+    this.table_head = [
+      {
+        field: 'ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_TRACKING',
+        title: this.translate.instant("TrackType"),
+        type: 'text',
+        width: '100'
+      }
+      // ,{
+      //   field: 'AvlQty',
+      //   title: this.translate.instant("Quantity"),
+      //   type: 'text',
+      //   class: 'text-right',
+      //   width: '100'
+      // },
+    ];
+    this.lookupTitle = this.translate.instant("View_Rule_Items");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -376,8 +499,20 @@ export class CommonLookupComponent implements OnInit {
     this.table_head = [
       {
         field: 'DocEntry',
-        title: 'SO#',
+        title: this.translate.instant("SO_NUM"),
         type: 'numeric',
+        width: '100'
+      },
+      {
+        field: 'CardCode',
+        title: this.translate.instant("CustomerId"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'CardName',
+        title: this.translate.instant("CustomerName"),
+        type: 'text',
         width: '100'
       }
       //,

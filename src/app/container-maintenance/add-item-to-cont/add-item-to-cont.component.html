@@ -1,188 +1,544 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-
+            <div class="mobile-show nav-btns">
+                <button *ngIf="nextEnabled" (click)="onNext()"><i class="opti-icon-arrow-next"></i></button>
+                <button *ngIf="!nextEnabled" (click)="onBack()"><i class="opti-icon-arrow-back"></i></button>
+            </div>
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                {{'AddItemToCont'|translate}}
+                <!-- {{'AddItemToCont'|translate}} -->
+                {{CreateContainerTxt}}
             </h3>
-            <div class="col-12 row">
-                <div class="col-sm-6">
-                    <div class="form-group row">
+            <div class="row">
+                <div [ngClass]="[!nextEnabled ? 'mobile-hide' : '']" class="col-sm-6">
+                    <div class="form-group ">
+                        <div class="input-group input-group-sm">
+                            <fieldset class="d-block w-100">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <!--(mousedown)="onRadioMouseDown('auto')"-->
+                                        <input type="radio" #autoradio name="autoradio" id="autoradio"
+                                            (click)="handleRuleRadioChange($event)" class="k-radio"
+                                            [checked]="radioRuleSelected == 1" />
+                                        <label class="k-radio-label ml-0"
+                                            for="autoradio">{{'Auto_Rule_Based'|translate}}</label>
+                                    </div>
+                                    <div class="d-flex align-items-center ml-3">
+                                        <!-- (mousedown)="onRadioMouseDown('manual')"-->
+                                        <input type="radio" #manualradio name="manualradio" id="manualradio"
+                                            class="k-radio" (click)="handleRuleRadioChange($event)"
+                                            [checked]="radioRuleSelected == 2" />
+                                        <label class="k-radio-label" for="manualradio">{{'Manual'|translate}}</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
-                            <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray" textField="Name"
-                                valueField="Value" id="purpose" name="purpose" [(ngModel)]="defaultPurpose"
-                                #selectedvalue (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                            <div class="col-sm-8 p-0">
+                                <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray"
+                                    textField="Name" valueField="Value" id="purpose" name="purpose"
+                                    [(ngModel)]="defaultPurpose" #selectedvalue
+                                    (selectionChange)="onPurposeSelectChange($event)"></kendo-dropdownlist>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                            <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
+                            <input type="text" #scanWhse id="scanWhse" name="whse"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="whse"
+                                placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="GetWhseCode()">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
-                            <input type="text" id="binNo" name="binNo" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="binNo" placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
+                            <input type="text" #scanBinCode id="scanBinCode" name="binNo"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="binNo"
+                                placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="GetBinCode()">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
-                            <input type="text" class="form-control form-control-sm" id="containerType" name="containerType"
-                                [(ngModel)]="containerType" placeholder="{{'ContainerType'|translate}}" (blur)="onContainerTypeChangeBlur()">
+                            <input type="text" #scanContType class="form-control form-control-sm" id="scanContType"
+                                name="containerType" [(ngModel)]="containerType"
+                                placeholder="{{'ContainerType'|translate}}" (blur)="onContainerTypeChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="getContainerType()">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row" *ngIf="false">
-                        <div class="input-group input-group-sm">
+                    <div class="form-group" *ngIf="false">
+                        <!-- <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'CTR_Parent_CT'|translate}}</label>
-                            <input type="text" id="parentContainerType" name="parentContainerType" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="parentContainerType" placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="onParentContainerChange()">
+                            <input type="text" #scanParentContCode id="scanParentContCode" name="parentContainerType"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="parentContainerType"
+                                placeholder="{{'CTR_Parent_CT'|translate}}" (blur)="onParentContainerChange()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getParentContainerType()">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group ">
                         <div class="input-group input-group-sm">
-                            <label class="col-sm-4 col-form-label">{{'AutoPackRule'|translate}}</label>
-                            <input type="text" id="autoRuleId" name="autoRuleId" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="autoRuleId" placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()">
+                            <label class="col-sm-4 col-form-label">{{'ContPackRule'|translate}}</label>
+                            <input type="text" #scanAutoRuleId id="scanAutoRuleId" name="autoRuleId"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="autoRuleId"
+                                placeholder="{{'AutoPackRule'|translate}}" (blur)="onAutoPackRuleChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule()">
+                               <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                (mousedown)="openRuleItems()" title="{{'View_Rule_Items'|translate}}"
+                                [disabled]="RuleItems.length == 0">
+                                <i class="opti-icon-next" style="font-size: 9px;"></i> 
+                              </button>
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getAutoPackRule('lookup')">
                                     <i class="opti-icon-search"></i>
                                 </button>
+
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                            <input type="text" id="containerGroupCode" name="containerGroupCode" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="containerGroupCode" placeholder="{{'ContainerGroupingCode'|translate}}"
+                            <input type="text" #scanContGroupCode id="scanContGroupCode" name="containerGroupCode"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="containerGroupCode"
+                                placeholder="{{'ContainerGroupingCode'|translate}}"
                                 (blur)="IsValidContainerGroupBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetDataForContainerGroup()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (click)="GetDataForContainerGroup()">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
-                            <input type="text" id="soNumber" name="soNumber" class="col-sm-8 form-control form-control-sm"
-                                [(ngModel)]="soNumber" placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChange()">
+                            <input type="text" #scanSONumber id="scanSONumber" name="soNumber"
+                                class="col-sm-8 form-control form-control-sm" [(ngModel)]="soNumber"
+                                placeholder="{{'SONumber'|translate}}" (blur)="onSONumberChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getSOrderList()">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    (mousedown)="IsValidSONumberBasedOnRule('lookup')">
                                     <i class="opti-icon-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'NoOfPackToGen'|translate}}</label>
-                            <input type="text" id="noOfPack" name="noOfPack" class="col-sm-8 form-control form-control-sm text-right"
-                                [(ngModel)]="noOfPack" placeholder="{{'NoOfPackToGen'|translate}}" disabled>
+                            <input type="text" id="noOfPack" name="noOfPack"
+                                class="col-sm-8 form-control form-control-sm text-right" [(ngModel)]="noOfPack"
+                                placeholder="{{'NoOfPackToGen'|translate}}" disabled>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group">
                         <div class="input-group input-group-sm">
+                            <label class="col-sm-4 col-form-label">{{'Add_to_Parent'|translate}}</label>
+                            <input type="checkbox" id="checkParent" name='checkParent' class="k-checkbox"
+                                (change)="onParentCheckChange($event)" [checked]="checkParent" />
+                            <label class="k-checkbox-label empty-check ml-0 check-parent-input"
+                                for="checkParent"></label>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
+                            <input type="text" #scanParentContType class="form-control form-control-sm"
+                                id="scanParentContType" name="parentContainerType" [(ngModel)]="parentContainerType"
+                                (blur)="getParentContainerType('blur')" [disabled]="!checkParent">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    [disabled]="!checkParent" (mousedown)="getParentContainerType('lookup')">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group ">
+                        <div class="input-group input-group-sm">
+                            <label for="CustomerTo" class="col-sm-4 col-form-label">{{'WO'|translate}}</label>
+                            <input type="text" #scanWorkOrder class="form-control form-control-sm" id="scanWorkOrder"
+                                name="workOrder" [(ngModel)]="workOrder" (blur)="onWorkOrderBlur()"
+                                [disabled]="radioRuleSelected == 2">
+                            <div class="input-group-append has-seprate-btn">
+                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                    [disabled]="radioRuleSelected == 2" (click)="GetWorkOrderList('lookup')">
+                                    <i class="opti-icon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="input-group input-group-sm">
+                            <label for="containerWeigth"
+                                class="col-sm-4 col-form-label">{{'PT_TaskId'|translate}}</label>
+                            <input type="text" class="form-control form-control-sm text-right" id="taskId" name="taskId"
+                                [(ngModel)]="taskId" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="input-group input-group-sm">
+                            <label for="CustomerTo" class="col-sm-4 col-form-label">{{'FROMOPERNO'|translate}}</label>
+                            <input type="text" class="form-control form-control-sm text-right" id="OperationNoId"
+                                name="OperationNoId" [(ngModel)]="operationNo" disabled>
                         </div>
                     </div>
                 </div>
-                <div class="card col-sm-5 ml-3">
+
+                <div [ngClass]="[nextEnabled ? 'mobile-hide' : '']" class="card col-sm-5">
                     <div>
-                        <h4 class="border-bottom d-flex pt-1 pb-1 mb-2 mt-2">
+                        <h5 class="border-bottom d-flex pt-1 pb-3 mb-2 mt-2">
                             {{'ScanAndAddTtl'|translate}}
-                        </h4>
+                        </h5>
                     </div>
-                    <div class="mr-2 ml-2 mt-1">
-                        <div>
-                            <div class="form-group row">
-                                <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label row">{{'Cont_Code'|translate}}</label>
-                                    <input type="text" id="containerCode" name="containerCode" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="containerCode" (blur)="onContainerCodeChange()">
-                                    <!-- <input type="text" id="count" name="count" class="col-sm-4 form-control form-control-sm"
-                                        [(ngModel)]="count" placeholder="{{'Count'|translate}}" disabled> -->
-                                    <input type="text" id="containerStatus" name="containerStatus" class="col-sm-3 form-control form-control-sm"
-                                        [(ngModel)]="containerStatus" disabled>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mt-2">
-                                <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label row">{{'ScanItem'|translate}}</label>
-                                    <input type="text" id="scanItemCode" name="scanItemCode" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanItemCode" (blur)="onItemCodeChange()"
-                                        [attr.disabled]="disableFields?'':null">
-                                    <input type="number" id="itemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" 
-                                        (blur)="onItemQtyChange()">
-                                </div>
-                            </div>
-
-                            <div class="form-group row" *ngIf="bsVisible">
-                                <div class="input-group input-group-sm">
-                                    <label class="col-sm-3 col-form-label row">{{'Bat/Ser'|translate}}</label>
-                                    <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-6 form-control form-control-sm mr-3"
-                                        [(ngModel)]="scanBSrLotNo" (blur)="IsValidBtchSer()">
-                                    <input type="number" id="bsItemQty" name="bsItemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                        [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
-                                        (blur)="onBSQtyChange()">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mt-3">
-                                <fieldset class="d-block w-100">
-                                    <div class="d-flex align-items-center w-100">
-                                        <div class="d-flex align-items-center" (mousedown)="onRadioMouseDown('add')">
-                                            <input type="radio" #addItem name="addItem" id="addItem" (click)="handleCheckChange($event)"
-                                                class="k-radio" [checked]="radioSelected == 1" />
-                                            <label class="k-radio-label" for="addItem">{{'CT_Add'|translate}}</label>
-                                        </div>
-                                        <div class="d-flex align-items-center ml-3" (mousedown)="onRadioMouseDown('remove')">
-                                            <input type="radio" #removeItem name="removeItem" id="removeItem" class="k-radio"
-                                                (click)="handleCheckChange($event)" [checked]="radioSelected == 2" />
-                                            <label class="k-radio-label" for="removeItem">{{'Remove'|translate}}</label>
-                                        </div>
+                    <div class="mt-2">
+                        <div class="mobile-show mb-2">
+                            <a class="toggle-anchor" (click)="showHideDetails()">
+                                <span [ngClass]="{kiarrowchevrondown:showHideEnable}"
+                                    class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
+                                <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
+                            </a>
+                        </div>
+                        <div class="toggle-anchor-details mb-2" *ngIf="showHideEnable">
+                            <div class="mobile-show scan-mobile-details">
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'Purpose'|translate}}: </label>
                                     </div>
-                                </fieldset>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{purpose}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'Warehouse'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{whse}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'BinCode'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{binNo}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'ContainerType'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{containerType}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'PackRule'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{autoRuleId}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'ContGroupCode'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{containerGroupCode}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'SONumber'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{soNumber}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'PackToGen'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{noOfPack}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-5 scan-col">
+                                        <label class="col-form-label">{{'Add_to_Parent'|translate}}: </label>
+                                    </div>
+                                    <div class="col-7 scan-col">
+                                        <label class="col-form-label">{{checkParent=='true'?'Yes':'No'}}</label>
+                                    </div>
+                                </div>
+                                <div class="row scan-row">
+                                    <div class="col-6 scan-col">
+                                        <label class="col-form-label">{{'PrntContType'|translate}}: </label>
+                                    </div>
+                                    <div class="col-6 scan-col">
+                                        <label class="col-form-label">{{parentContainerType}}</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="fix-footer-btnBar">
-                            <div class="col-12">
-                                <div class="float-right form-group row">
+                        <div>
+                            <div class="form-group row scan-form-row">
+                                <div class="col">
                                     <div class="input-group input-group-sm">
-                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
-                                            {{'PrintLabel'|translate}}
-                                        </button>
-                                        <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
-                                            (click)="onConfirmClick()" disabled>
+                                        <label class="col-sm-3 col-form-label">{{'Cont_Code'|translate}}</label>
+                                        <input type="text" #scanContCode id="scanContCode" name="containerCode"
+                                            class="col-sm-9 form-control form-control-sm " [(ngModel)]="containerCode"
+                                            (blur)="onContainerCodeChangeBlur()">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" (click)="onOpenTreeview()"
+                                                class="k-button k-primary btn" title="{{'ViewItems'|translate}}"
+                                                type="button">
+                                                <i class="opti-icon-view-batch"></i>
+                                            </button>
+                                            <div class="btn-group">
+                                                <div class="dropdown show">
+                                                    <a class="btn btn-success btn-sm toggle-btn" href="#" role="button"
+                                                        id="dropdownMenuLink" data-toggle="dropdown"
+                                                        data-placement="top" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="opti-icon-more"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu mr-3 mb-1"
+                                                        aria-labelledby="dropdownMenuLink">
+                                                        <!-- <a *ngIf="autoRuleId != ''" class="dropdown-item cursor-pointer"
+                                                            (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a> -->
+                                                        <!-- <a *ngIf="autoRuleId == ''" class="dropdown-item cursor-pointer"
+                                                            style="color: gray; cursor: not-allowed; pointer-events: none;"
+                                                            (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a> -->
+                                                        <a *ngIf="showAddToParent" class="dropdown-item cursor-pointer"
+                                                            (click)="onAddToParentClick()">
+                                                            {{'+/-ParentCont'|translate}}</a>
+                                                        <a *ngIf="!showAddToParent" class="dropdown-item"
+                                                            style="color: gray; cursor: not-allowed; pointer-events: none;"
+                                                            (click)="onAddToParentClick()">
+                                                            {{'+/-ParentCont'|translate}}</a>
+                                                         <a *ngIf="enableCloseCont" class="dropdown-item cursor-pointer" (click)="onCloseContClick()">
+                                                            {{'Close_Container'|translate}}</a> 
+                                                        <a *ngIf="!enableCloseCont"  class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                                {{'Close_Container'|translate}}</a>
+                                                        <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                            {{'Barcode'|translate}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tree Start -->
+                            <div>
+                                <!-- <button class="k-button k-primary btn" (click)="onOpenTreeview()"><i [ngClass]="[treeViewShow ? 'opti-icon-remove' : 'opti-icon-add']" class="mr-1"></i> Contents</button> -->
+                                <div *ngIf="treeViewShow" class="opti_overflow-auto tree-wrapper mt-2">
+                                    <div class="tree well">
+                                        <div class="pl-2 pt-2 pr-2">
+                                            <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
+                                            <button tabIndex="-1"
+                                                class="k-button k-primary btn mt-1 mb-1 mr-1 float-right" type="button"
+                                                title="{{'Expand/Collapse'|translate}}">
+                                                <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon"
+                                                    (click)="onExpandCollapseAll('collapse')">
+                                                    <use xlink:href="#collapseAll"></use>
+                                                </svg>
+                                                <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon"
+                                                    (click)="onExpandCollapseAll('expand')">
+                                                    <use xlink:href="#expandAll"></use>
+                                                </svg>
+                                            </button>
+                                            <button tabIndex="-1"
+                                                class="k-button k-primary btn mt-1 mb-1 mr-1 float-right" type="button"
+                                                (click)="treeViewShow = false" title="{{'Close'|translate}}">
+                                                <span class="k-icon k-i-close-outline" role="presentation"></span>
+                                            </button>
+                                        </div>
+                                        <div class="ml-3">
+                                            <kendo-treeview [nodes]="DisplayTreeData" textField="text"
+                                                kendoTreeViewExpandable kendoTreeViewHierarchyBinding
+                                                childrenField="items" [(expandedKeys)]="expandedKeys"
+                                                (collapse)="handleCollapse($event)" (expand)="handleExpand($event)">
+                                                <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                                    <div>
+                                                        <span class="item-text">
+                                                            {{dataItem.text}}
+                                                        </span>
+                                                        <span class="item-count">
+                                                            ({{dataItem.quantity}})
+                                                        </span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-treeview>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tree End -->
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row mt-2">
+                                <div class="col">
+                                    <fieldset class="d-block w-100">
+                                        <div class="d-flex align-items-center w-100">
+                                            <div class="d-flex align-items-center"
+                                                (mousedown)="onRadioMouseDown('add')">
+                                                <input type="radio" #addItem name="addItem" id="addItem"
+                                                    (click)="handleCheckChange($event,'add')" class="k-radio"
+                                                    [checked]="radioSelected == 1" />
+                                                <label class="k-radio-label"
+                                                    for="addItem">{{'CT_Add'|translate}}</label>
+                                            </div>
+                                            <div class="d-flex align-items-center ml-3"
+                                                (mousedown)="onRadioMouseDown('remove')">
+                                                <input type="radio" #removeItem name="removeItem" id="removeItem"
+                                                    class="k-radio" (click)="handleCheckChange($event,'remove')"
+                                                    [checked]="radioSelected == 2" />
+                                                <label class="k-radio-label"
+                                                    for="removeItem">{{'Remove'|translate}}</label>
+                                            </div>
+                                            <div class="d-flex align-items-center ml-3">
+                                                <input type="radio" #viewItem name="viewItem" id="viewItem"
+                                                    class="k-radio" (click)="handleCheckChange($event,'view')"
+                                                    [checked]="radioSelected == 3" />
+                                                <label class="k-radio-label" for="viewItem">{{'View'|translate}}</label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
+                                <div class="col">
+                                    <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label">{{'ScanItem'|translate}}</label>
+                                        <input type="text" id="scanItemCode" name="scanItemCode"
+                                            class="col-sm-9 form-control form-control-sm" [(ngModel)]="scanItemCode"
+                                            (blur)="onItemCodeChangeBlur()"
+                                            [disabled]="DisableScanFields || radioSelected == 3">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                (mousedown)="GetScanItem()"
+                                                [disabled]="DisableScanFields || radioSelected == 3">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                (mousedown)="openInternalCont()"
+                                                title="{{'Select_Container'|translate}}"
+                                                [disabled]="DisableScanFields || radioSelected == 3">
+                                                <i class="opti-icon-arrow-next"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--(blur)="onItemQtyChange()" -->
+
+                            </div>
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
+                                <div class="col">
+                                    <!-- <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label text-left">{{'ScanQty'|translate}}</label>
+                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event" (blur)="onScanItemQtyChange()"
+                                            [disabled]="scanItemCode == '' || DisableScanFields">
+                                    </div> -->
+                                    <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
+                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty"
+                                            class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
+                                            (blur)="onScanItemQtyChange()"
+                                            [disabled]="scanItemCode == '' || DisableScanFields || radioSelected == 3">
+                                        <label
+                                            class="col-sm-3 col-form-label custom-pl-2  mobile-hide text-right">{{'Bal'|translate}}</label>
+                                        <label
+                                            class="col-sm-3 col-form-label custom-pl-2  mobile-show">{{'Bal'|translate}}</label>
+                                        <input type="number" id="itemBalQty" name="itemBalQty"
+                                            class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="itemBalQty|numberFormat" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="!treeViewShow && bsVisible" class="form-group row scan-form-row">
+                                <div class="col">
+                                    <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
+                                        <input type="text" id="scanBSrLotNo" name="scanBSrLotNo"
+                                            class="col-sm-9 form-control form-control-sm" [(ngModel)]="scanBSrLotNo"
+                                            (blur)="onBatchSerialBlur()"
+                                            [disabled]="InternalContainer || DisableScanFields || radioSelected == 3">
+                                        <div class="input-group-append has-seprate-btn">
+                                            <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                (mousedown)="GetBatchSerial()"
+                                                [disabled]="InternalContainer || DisableScanFields || radioSelected == 3">
+                                                <i class="opti-icon-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div *ngIf="!treeViewShow && bsVisible" class="form-group row scan-form-row">
+                                <div class="col">
+                                    <div class="input-group input-group-sm">
+                                        <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
+                                        <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty"
+                                            class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
+                                            (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S' || InternalContainer || DisableScanFields 
+                                            || radioSelected == 3">
+                                        <label
+                                            class="col-sm-3 col-form-label custom-pl-2  mobile-hide text-right">{{'Bal'|translate}}</label>
+                                        <label
+                                            class="col-sm-3 col-form-label custom-pl-2  mobile-show">{{'Bal'|translate}}</label>
+                                        <input type="number" id="bsBalQty" name="bsBalQty"
+                                            class="col-sm-3 form-control form-control-sm text-right"
+                                            [ngModel]="bsBalanceQty|numberFormat" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-12 ml-3">
+                                <div class="float-right form-group row">
+                                    <div class="input-group input-group-sm col-sm-2">
+                                        <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
+                                        {{'PrintLabel'|translate}}
+                                    </button> -->
+                                        <button type="button"
+                                            class="k-button k-primary k-button btn-sm btn-icon-with-text"
+                                            (click)="onConfirmClick()"
+                                            [disabled]="DisableScanFields || radioSelected == 3">
                                             {{'Confirm'|translate}}
                                         </button>
                                     </div>
@@ -192,101 +548,20 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="wizard-container mt-3">
-                        <div class="wizard-box">
-                            <div class="wizard-content">
-                                <kendo-grid class="no-shadow" [data]="oSaveModel.OtherItemsDTL" [resizable]="true"
-                                    [sortable]="true" [selectable]="true" id="gridItem" #gridItem>
-                                    <ng-template kendoGridToolbarTemplate>
-                                        <span class="grid-toolbar-title">{{'AddedItemToCont'|translate}}</span>
-                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button"
-                                            (click)="onExpandCollapse()" *ngIf="oSaveModel.OtherItemsDTL.length != 0">
-                                            <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
-                                                <use xlink:href="#collapseAll"></use>
-                                            </svg>
-                                            <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
-                                                <use xlink:href="#expandAll"></use>
-                                            </svg>
-                                        </button>
-                                    </ng-template>
-
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE"
-                                        headerClass="text-left" title="{{'ItemCode'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="col-sm-3 col-form-label text-left">{{dataItem.OPTM_ITEMCODE}}</label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONT_QTY"
-                                        title="{{'Item_Container_Quantity'|translate}}" headerClass="text-center" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_CONT_QTY|numberFormat}}</label>
-                                        </ng-template>
-                                    </kendo-grid-column> -->
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEM_QTY"
-                                        title="{{'ItemQty'|translate}}" headerClass="text-center" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_ITEM_QTY|numberFormat}}</label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BALANCE_QTY"
-                                        title="{{'BalanceQty'|translate}}" headerClass="text-center" class="text-right">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                            <label class="col-sm-3 col-form-label">{{dataItem.OPTM_REMAIN_BAL_QTY|numberFormat}}</label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left"
-                                        class="text-left" [width]="30" title="{{'Action'|translate}}">
-                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
-                                                (mousedown)="deleteItemCode(rowIndex, gridItem)" [attr.disabled]="dataItem.DeleteDisable?'':null">
-                                                <span class="k-icon k-i-delete" role="presentation"></span>
-                                            </button>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
-                                        <kendo-grid [data]="dataItem.TempLotNoList">
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
-                                            </kendo-grid-column>
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_AVL_QTY" title="{{'Available Qty'|translate}}"
-                                                class="text-right" headerClass="text-center">
-                                                <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                                    <label class="col-form-label">{{di.OPTM_AVL_QTY|numberFormat}}</label>
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
-                                                class="text-right" headerClass="text-center">
-                                                <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                                    <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                            <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left"
-                                                class="text-left" [width]="50" title="{{'Action'|translate}}">
-                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
-                                                        (mousedown)="deleteLotNo(rowIndex, dataItem)" [attr.disabled]="dataItem.DeleteDisable?'':null">
-                                                        <span class="k-icon k-i-delete" role="presentation"></span>
-                                                    </button>
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                        </kendo-grid>
-                                    </ng-template>
-                                </kendo-grid>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
         <div class="fix-footer-btnBar">
             <div class="col-sm-12 col-12">
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
+                    (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                <button type="button" [disabled]="nextEnabled"
+                    class="mobile-show flex-show k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    (mousedown)="onUpdateClick()">
+                    {{'CT_Update'|translate}}
+                </button>
+                <button type="button"
+                    class=" mobile-hide k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
                     (mousedown)="onUpdateClick()">
                     {{'CT_Update'|translate}}
                 </button>
@@ -296,12 +571,31 @@
 </div>
 
 <span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)">
+    </app-common-lookup>
+</span>
+
+<span *ngIf="showInternalDialogFlag">
+    <app-input-internal-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText"
+        [fromWhere]="inputDialogFor" [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)"
+        [oDataModel]="oDataModel"></app-input-internal-container>
+</span>
+
+<span *ngIf="showParentDialogFlag">
+    <app-input-internal-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText"
+        [fromWhere]="inputDialogFor" [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)"
+        [oDataModel]="oParentModel"></app-input-internal-container>
+</span>
+
+<span *ngIf="showInputDialogFlag">
+    <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel">
+    </app-input-container-code>
 </span>
 
 <span *ngIf="showConfirmDialog">
-    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
-        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

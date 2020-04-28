@@ -202,12 +202,8 @@
                                 <div class="form-group row">
                                     <label for="ShipmentProcess" class="col-sm-4 col-form-label">{{'ShipmentProcess'|translate}}</label>
                                     <div class="col-sm-8">
-                                        <!-- <kendo-dropdownlist [data]="shipmentProcessList" id="shpProcess" #selectedvalue (selectionChange)="onShpProcessChange($event)"
-                                            textField="Name" valueField="Value" id="shpProcess" name="shpProcess" (click)="updateShipmentProcessArray(selectedvalue)"
-                                            [(ngModel)]="shpProcess">
-                                        </kendo-dropdownlist> -->
                                         <div class="input-group ">
-                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" >
+                                            <input type="text" class="form-control form-control-sm" name='shpProcess' [(ngModel)]=shpProcess id="shpProcess" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
                                                 <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="updateShipmentProcessArray()">
                                                     <i class="opti-icon-search"></i>
@@ -226,7 +222,7 @@
                                         <div class="custom-control custom-checkbox minus-m5">
                                             <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer
                                                 [disabled]=true/>
-                                            <label class="custom-control-label" for="UseContainer">{{'Use_Container'|translate}}</label>
+                                            <label class="custom-control-label" for="UseContainer">{{'Cont_Shipment'|translate}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -300,8 +296,8 @@
                             <div class="card-body">
                                 <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
                                     <kendo-grid-column field="OPTM_SHIPMENTID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-left"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="150"></kendo-grid-column>
+                                    <kendo-grid-column *ngIf="false" field="OPTM_CONTAINERID" title="{{'ContainerId'|translate}}" width="90" class="text-left"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTCODE" title="{{'ContainerCode'|translate}}" width="160"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}" width="90"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
@@ -326,7 +322,7 @@
                                 <kendo-grid [data]="ContainerItems" [resizable]="true" [pageSize]="pageSize4" [skip]="skip" [height]="gridheight" [pageable]="pagable4">
                                     <kendo-grid-column field="OPTM_SHIPMENT_ID" title="{{'PT_ShipmentId'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_SHIPMENT_LINEID" title="{{'Shipment_Lines'|translate}}" class="text-right" width="75" *ngIf=false></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerCode'|translate}}" width="150" class="text-left"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTAINERID" title="{{'ContainerCode'|translate}}" width="160" class="text-left"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}" width="100"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QUANTITY" title="{{'PartQty'|translate}}" width="75" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_UOM" title="{{'UOM'|translate}}" width="75"></kendo-grid-column>
@@ -362,7 +358,7 @@
                                     <kendo-grid-column field="OPTM_BIN" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BTCHSER" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right"></kendo-grid-column>
-                                    <kendo-grid-column field="" width="95" title="{{'ContainerId'|translate}}"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_CONTAINER_ID" width="95" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
                                 </kendo-grid>
                             </div>
                         </div>
@@ -421,7 +417,7 @@
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
                             <a class="dropdown-item">{{'Accept_Return'|translate}}</a>
                             <a class="dropdown-item">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -443,3 +439,24 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+
+<kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+    <div class="new-custom-grid">
+        <kendo-dialog-titlebar>
+            {{'ScanContAssignShp'|translate}}
+        </kendo-dialog-titlebar>
+        <div class="px-3">
+            <div class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
+                    <input type="text" id="containerCode" name="containerCode" class="col-sm-8 form-control form-control-sm mr-3"
+                        [(ngModel)]="containerCode" placeholder="{{'Enter_Container_Code'|translate}}" (blur)="generateContainer()">
+                </div>
+            </div>
+        </div>
+    
+        <kendo-dialog-actions>
+            <button class="ml-1" kendoButton (click)="onConfirmClick()" primary="true">Confirm</button>
+        </kendo-dialog-actions>
+    </div>
+</kendo-dialog>

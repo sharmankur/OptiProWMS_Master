@@ -1,0 +1,50 @@
+.nav-btns{
+    position: relative;
+    button{
+      position: absolute;
+      right: 0;
+      top: 0
+    }
+  }
+  .mobile-show{
+    display: none;
+  }
+  .scan-mobile-details{
+    background: #f1f1f1;
+    padding: 5px 0; 
+    margin-bottom: 10px;
+  }
+  .scan-row{
+    margin: 0;
+    .scan-col{
+      padding: 0 5px;
+    }
+  }
+  .col-form-label{
+    padding-left: 2px;
+    padding-right: 2px
+  }
+  @media(max-width:640px){
+    .mobile-hide{
+      display: none;
+    }
+    .mobile-show{
+      display: block;
+    }
+    .mobile-show.flex-show{
+    display: inline-flex; 
+    }
+  }
+  .toggle-anchor{
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: inline-block;
+    .toggle-anchor-text{
+        top: 1px;
+    position: relative;
+    }
+}
+.kiarrowchevrondown::before{
+    content: "\e015";
+}
