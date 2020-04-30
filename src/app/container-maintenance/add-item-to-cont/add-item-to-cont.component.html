@@ -224,14 +224,14 @@
                         </h5>
                     </div>
                     <div class="mt-2">
-                        <div>
+                        <div class="mobile-show mb-2">
                             <a class="toggle-anchor" (click)="showHideDetails()">
                                 <span [ngClass]="{kiarrowchevrondown:showHideEnable}"
                                     class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                                 <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
                             </a>
                         </div>
-                        <div class="toggle-anchor-details" *ngIf="showHideEnable">
+                        <div class="toggle-anchor-details mb-2" *ngIf="showHideEnable">
                             <div class="mobile-show scan-mobile-details">
                                 <div class="row scan-row">
                                     <div class="col-5 scan-col">
@@ -350,13 +350,11 @@
                                                             style="color: gray; cursor: not-allowed; pointer-events: none;"
                                                             (click)="onAddToParentClick()">
                                                             {{'+/-ParentCont'|translate}}</a>
-                                                        <!-- <a *ngIf="oSubmitModel.OtherItemsDTL.length > 0" class="dropdown-item" (click)="onCloseContClick()">
-                                                            {{'Close_Container'|translate}}</a> -->
-                                                        <a class="dropdown-item" (click)="onCloseContClick()"
-                                                            style="color: gray; cursor: not-allowed; pointer-events: none;">
-                                                            {{'Close_Container'|translate}}</a>
-                                                        <a class="dropdown-item"
-                                                            style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                         <a *ngIf="enableCloseCont" class="dropdown-item cursor-pointer" (click)="onCloseContClick()">
+                                                            {{'Close_Container'|translate}}</a> 
+                                                        <a *ngIf="!enableCloseCont"  class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                                {{'Close_Container'|translate}}</a>
+                                                        <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                             {{'Barcode'|translate}}</a>
                                                     </div>
                                                 </div>
@@ -531,12 +529,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-12 ml-3">
+                            <div *ngIf="!treeViewShow" class="col-sm-12 col-12 ml-3">
                                 <div class="float-right form-group row">
-                                    <div class="input-group input-group-sm col-sm-2">
-                                        <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
-                                        {{'PrintLabel'|translate}}
-                                    </button> -->
+                                    <div class="input-group input-group-sm col-sm-2">                                       
                                         <button type="button"
                                             class="k-button k-primary k-button btn-sm btn-icon-with-text"
                                             (click)="onConfirmClick()"
@@ -550,24 +545,23 @@
                     </div>
                 </div>
             </div>
-
-            <div class="fix-footer-btnBar">
-                <div class="col-sm-12 col-12">
-                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
-                        (mousedown)="onCancelClick()">
-                        <span class="k-icon k-i-close-outline" role="presentation"></span>
-                        {{'Cancel'|translate}}</button>
-                    <button type="button" [disabled]="nextEnabled"
-                        class="mobile-show flex-show k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
-                        (mousedown)="onUpdateClick()">
-                        {{'CT_Update'|translate}}
-                    </button>
-                    <button type="button"
-                        class=" mobile-hide k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
-                        (mousedown)="onUpdateClick()">
-                        {{'CT_Update'|translate}}
-                    </button>
-                </div>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
+                    (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button type="button" [disabled]="nextEnabled"
+                    class="mobile-show flex-show k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    (mousedown)="onUpdateClick()">
+                    {{'CT_Update'|translate}}
+                </button>
+                <button type="button"
+                    class=" mobile-hide k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2"
+                    (mousedown)="onUpdateClick()">
+                    {{'CT_Update'|translate}}
+                </button>
             </div>
         </div>
     </form>

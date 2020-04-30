@@ -53,13 +53,15 @@ export class CommonLookupComponent implements OnInit {
   }
 
   close_kendo_dialog() {
+    
     if (this.lookupfor == "PhyCntItemList") {
       this.router.navigate(['home/dashboard']);
-    } else {
-      this.dialogOpened = false;
+    } else {      
       this.lookupvalue.emit('close')
     }
+    this.dialogOpened = false;
   }
+  
   public state: State = {
     skip: 0,
     take: 5,
@@ -456,15 +458,15 @@ export class CommonLookupComponent implements OnInit {
         type: 'text',
         width: '100'
       }
-      // ,{
-      //   field: 'AvlQty',
-      //   title: this.translate.instant("Quantity"),
-      //   type: 'text',
-      //   class: 'text-right',
-      //   width: '100'
-      // },
+      ,{
+        field: 'OPTM_PARTS_PERCONT',
+        title: this.translate.instant("Rule_Qty"),
+        type: 'text',
+        class: 'text-right',
+        width: '100'
+      }
     ];
-    this.lookupTitle = this.translate.instant("View_Rule_Items");
+    this.lookupTitle = this.translate.instant("Rule_Items");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

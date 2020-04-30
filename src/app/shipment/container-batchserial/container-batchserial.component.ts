@@ -47,6 +47,8 @@ export class ContainerBatchserialComponent implements OnInit {
   showOtherLookup: boolean = false;
   isColumnFilterView: boolean = false;
   skip: any = 0;
+  SelectedShipmentCode: any = '';
+  SelectedShipmentStatus: any = '';
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
@@ -57,6 +59,8 @@ export class ContainerBatchserialComponent implements OnInit {
     this.SelectedBin = localStorage.getItem("ShipBin");
     this.ShimpmentArray = JSON.parse(localStorage.getItem("ShipmentArrData"));   
     this.SelectedShipmentId = this.ShimpmentArray[0].OPTM_SHIPMENTID;
+    this.SelectedShipmentCode = this.ShimpmentArray[0].OPTM_SHIPMENT_CODE;
+    this.SelectedShipmentStatus = this.ShimpmentArray[0].OPTM_SHIPMENT_STATUS;
     this.isColumnFilterView = false;
     if(this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null){
       this.IsShipment = true;
@@ -341,6 +345,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.skip = event.skip;
   }
 
+
   onItemCodeChange($event){
     this.setDataInTempGrid();
     this.ContainsItemID = $event.OPTM_ITEMCODE;
@@ -458,6 +463,68 @@ export class ContainerBatchserialComponent implements OnInit {
             this.ContainerBatchSerials[i].AvailableQty = Number(data[i].AvailableQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
             this.ContainerBatchSerials[i].SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           }         
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onRemoveShipmentPress(){
+
+    if(this.SelectedRowsforShipmentArr.length == 0){
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+    
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+
+    this.SelectedRowsforShipmentArr[i].QtytoAssign = parseFloat(this.SelectedRowsforShipmentArr[i].QtytoAssign);
+    if(this.SelectedRowsforShipmentArr[i].LOTNO == undefined){
+      this.SelectedRowsforShipmentArr[i].LOTNO = '';
+    } 
+
+    tempArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      OPTM_SHIPMENTCODE: this.SelectedShipmentCode,
+      OPTM_STATUS: this.SelectedShipmentStatus,
+      OPTM_ITEMCODE: this.SelectedRowsforShipmentArr[i].ITEMCODE, 
+      OPTM_BTCHSER: this.SelectedRowsforShipmentArr[i].LOTNO      
+    });
+   }
+    this.containerBatchserialService.RemoveBatchSerialFromShipment(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {            
+            if (data[0].RESULT != '' && data[0].RESULT != null) {                
+              if(data[0].RESULT == 'Shipment updated'){
+                //this.toastr.success('', this.translate.instant("Containers_removed_successfully"));
+                //this.fillBatchSerialDataInGrid();
+              }
+              else{
+                this.toastr.error('', data[0].RESULT);                  
+              }                
+            }
+            else {               
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));               
+            }
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

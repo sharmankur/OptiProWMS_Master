@@ -124,6 +124,14 @@
                                 [(ngModel)]="NoOfPacksToGenerate" placeholder="{{'NoOfPackToGen'|translate}}" disabled>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="input-group input-group-sm">
+                            <label class="col-sm-4 col-form-label">{{'AutoCloseWhenFull'|translate}}</label>
+                            <input type="checkbox" id="autoCloseWhenFull" name='autoCloseWhenFull' class="k-checkbox"
+                            (change)="onCheckChange($event)" [checked]="autoClose" />
+                        <label class="k-checkbox-label empty-check" for="autoCloseWhenFull"></label>
+                        </div>
+                    </div>
                 </div>
                 <div [ngClass]="[nextEnabled ? 'mobile-hide' : '']" class="card col-sm-5">
                     <div>
@@ -132,7 +140,7 @@
                         </h5>
                     </div>
                     <div>
-                        <div>
+                        <div class="mobile-show mb-2">
                             <a class="toggle-anchor" (click)="showHideDetails()">
                                 <span [ngClass]="{kiarrowchevrondown:showHideEnable}"
                                     class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
@@ -227,15 +235,12 @@
                                                 aria-haspopup="true" aria-expanded="false">
                                                 <i class="opti-icon-more"></i>
                                             </a>
-                                            <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                                                <!-- <a class="dropdown-item cursor-pointer"
-                                                    (click)="onScanAndCreateClick()">{{'ScanCreate'|translate}}</a>
-                                                <a class="dropdown-item" (click)="onParentContClick()"
-                                                    style="color: gray; cursor: not-allowed; pointer-events: none;">
-                                                    {{'+/-ParentCont'|translate}}</a> -->
-                                                <a class="dropdown-item" (click)="onCloseContClick()"
+                                            <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">                                                
+                                                <a *ngIf="!enableCloseCont" class="dropdown-item" (click)="onCloseContClick()"
                                                     style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                     {{'Close_Container'|translate}}</a>
+                                                <a *ngIf="enableCloseCont" class="dropdown-item cursor-pointer" (click)="onCloseContClick()">
+                                                    {{'Close_Container'|translate}}</a> 
                                                 <a class="dropdown-item"
                                                     style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                     {{'Barcode'|translate}}</a>
@@ -245,16 +250,16 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row scan-form-row">
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
                                 <div class="input-group input-group-sm ml-3 mr-3">
                                     <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
                                     <input type="text" id="childcontainerCode" name="childcontainerCode"
                                         class="col-sm-8 form-control form-control-sm" [(ngModel)]="childcontainerCode"
-                                        (blur)="onChildContCodeChange()">
+                                        (blur)="onChildContCodeChange()" [disabled]="radioSelected == 3 || IsDisableScanChild">
                                 </div>
                             </div>
 
-                            <div class="form-group row scan-form-row mt-2">
+                            <div *ngIf="!treeViewShow" class="form-group row scan-form-row mt-2">
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-5 col-form-label">{{'Count'|translate}}</label>
@@ -339,6 +344,11 @@
                                             <use xlink:href="#expandAll"></use>
                                         </svg>
                                     </button>
+                                    <button tabIndex="-1"
+                                        class="k-button k-primary btn mt-1 mb-1 mr-1 float-right" type="button"
+                                        (click)="treeViewShow = false" title="{{'Close'|translate}}">
+                                        <span class="k-icon k-i-close-outline" role="presentation"></span>
+                                    </button>
                                 </div>
                                 <div class="ml-3">
                                     <kendo-treeview [nodes]="DisplayTreeData" textField="text" kendoTreeViewExpandable
@@ -406,6 +416,11 @@
         </div>
     </form>
 </div>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>
 
 <span *ngIf="showLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)">
