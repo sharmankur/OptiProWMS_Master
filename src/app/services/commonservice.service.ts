@@ -1117,4 +1117,24 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/CancelOrUnassignShipment", jObject, this.httpOptions);
   }
+
+
+   /**
+    * This API method will return base64 string for pdf format for print.
+    * @param item 
+    * @param binNo 
+    * @param noOfCopies 
+    */
+   printingServiceForContainer(noOfContainer:any ,noOfCopies:any){
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_FUNCTION:"shipping",
+        OPTM_OBJECT: "container",
+        OPTM_NOOFCONT: noOfContainer,
+        OPTM_NOOFCOPY: noOfCopies
+      }])
+    };
+   return this.httpclient.post(this.config_params.service_url  + "/api/ShipContainer/PrintingServices", jObject, this.httpOptions);
+  }
 }

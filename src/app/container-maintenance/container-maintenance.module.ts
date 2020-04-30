@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ContainerMaintenanceRoutingModule } from './container-maintenance-routing.module';
 import { ContMaintnceMainComponent } from './cont-maintnce-main/cont-maintnce-main.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -26,6 +26,7 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
     TrnaslateLazyModule,
     SharedModule,
     GridModule,
+    DialogsModule,
     DropDownsModule,
     DateInputsModule,
     ContainerCreationModule,
