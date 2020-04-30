@@ -298,7 +298,16 @@ export class ShipmentViewComponent implements OnInit {
           if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
             this.pagable1 = true;
           }
-          localStorage.setItem("ShipmentArrData", JSON.stringify(this.shipmentLines));
+
+          let setShipmentdata = [];
+          setShipmentdata = this.shipmentLines;
+
+          for(let sidx=0; sidx<setShipmentdata.length; sidx++){
+            setShipmentdata[sidx].OPTM_SHIPMENT_CODE = data.OPTM_SHPMNT_HDR[0].OPTM_SHIPMENT_CODE ;
+            setShipmentdata[sidx].OPTM_SHIPMENT_STATUS = data.OPTM_SHPMNT_HDR[0].OPTM_STATUS ;
+          }
+
+          localStorage.setItem("ShipmentArrData", JSON.stringify(setShipmentdata));
           // SO Detail, Container Items, BtchSer Detail
           this.updateGridonShipmentLineId(this.shipmentLines[0].OPTM_LINEID);
           //Container Header 
@@ -415,6 +424,7 @@ export class ShipmentViewComponent implements OnInit {
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
+    this.Container_Group = OPTM_SHPMNT_HDR[0].OPTM_CONT_GRP;
     this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
     if (this.UseContainer == null) {
       this.UseContainer = false;
@@ -525,7 +535,7 @@ export class ShipmentViewComponent implements OnInit {
             this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            this.runningProcessName == "ShippingProcess"
+            this.runningProcessName = "ShippingProcess"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);

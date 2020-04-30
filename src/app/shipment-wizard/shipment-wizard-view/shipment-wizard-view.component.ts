@@ -112,7 +112,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)) {
             this.toastr.error('', this.translate.instant("SchDTValidation"));
             return;
-          }else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
+          } else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
             return;
           }
@@ -512,8 +512,8 @@ export class ShipmentWizardViewComponent implements OnInit {
       }
     }
   }
-  
-  onQtyChange(){
+
+  onQtyChange() {
     alert("hi");
   }
 
@@ -521,10 +521,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   GetSalesWizardData() {
     this.SetParameter = [];
     let uc = this.UseContainer == true ? "Y" : "N";
-    if(this.DueDateFrom != ""){
+    if (this.DueDateFrom != "") {
       this.DueDateFrom = new Date(this.DueDateFrom).toLocaleDateString();
     }
-    if(this.DueDateTo != ""){
+    if (this.DueDateTo != "") {
       this.DueDateTo = new Date(this.DueDateTo).toLocaleDateString();
     }
     this.SetParameter.push({
@@ -1359,7 +1359,6 @@ export class ShipmentWizardViewComponent implements OnInit {
   @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
   isExpand: boolean = false;
   onExpandCollapse(grid) {
-    debugger
     this.isExpand = !this.isExpand;
     // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
 

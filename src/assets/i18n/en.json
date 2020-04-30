@@ -679,7 +679,7 @@
   "ContainerCodeBlankMsg": "Container code can't be blank.",
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
-  "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
+  "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity. Cannot create container.",
   "EnterAutoPackDesc": "Please enter Description",
   
   "Schedule": "Schedule",
@@ -707,7 +707,6 @@
   "Set_Damaged": "Set Damaged",
   "Close_Container": "Close Container",
   "Query" : "Query",
-  "Post_To_Inventory": "Post To Inventory",
   "Container_Items": "Container Items",
   "Container_Id": "Container Id",
   "Wt_of_Items": "Wt of Items",
@@ -917,7 +916,6 @@
   "FROMOPRCODE": "Operation Code",
   "WOList": "Work Order List",
   "WorkCenter": "Work Center",
-  "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
   "Invalid_Stagebin_msg":"Please select stage bin.", 
   "InventoryStatus": "Inventory Status",
@@ -1089,7 +1087,6 @@
   "ReturnedByCustomer": "Returned by customer",
   "SetDamaged": "Set damaged",
   "CloseCont": "Close container",
-  "PostToInventory": "Post to inventory",
   "SumBSValidMsg": "Sum of batch/serial qty can't be greater than balance qty",
   "PackValueValidation":"You can not select other then first value",
   "ItemQtyBlankMsg": "Item qty can't be blank",
@@ -1097,6 +1094,7 @@
 
   "autoAllocateFromGr": "Autoallocate from Gr",
   "ShipmentProcess": "Shipment Process",
+  "ShipmentPreview": "Shipment Preview",
   "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
   "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
   "ShipmentsCreatedAllocated": "Shipments Created and allocated",
@@ -1174,7 +1172,10 @@
   "Cannotremovebatser": "Cannot remove. Batch/Serial is not present to remove",
   "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
   "View_Rule_Items": "View Rule Items",
-      
+  "SetDamagedMsg": "Container set as Damaged successfully",
+  "ContIsClosed": "Container is Closed",
+  "CannotCreateCont": "Cannot create container",
+        
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
   "AutoAllocation": "Auto Allocation", 

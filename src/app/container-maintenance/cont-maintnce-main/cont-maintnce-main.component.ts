@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
 import { ContMaintnceComponent } from '../cont-maintnce/cont-maintnce.component';
 import { GridComponent } from '@progress/kendo-angular-grid';
+import { ContainerShipmentService } from 'src/app/services/container-shipment.service';
 
 @Component({
   selector: 'app-cont-maintnce-main',
@@ -27,9 +28,9 @@ export class ContMaintnceMainComponent implements OnInit {
   containerStatus: any;
   binCode: any;
   inventoryStatus: any;
-  weight: any;
+  weight: any = 0;
   purpose: any;
-  volume: any;
+  volume: any = 0;
   containerItems: any = []
   childContainerList: any = [];
   pageSize: number = 10
@@ -38,7 +39,9 @@ export class ContMaintnceMainComponent implements OnInit {
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
-    private router: Router, private containerCreationService: ContainerCreationService, private contMaintenance: ContMaintnceComponent) { }
+    private router: Router, private containerCreationService: ContainerCreationService, 
+    private contMaintenance: ContMaintnceComponent,
+    private containerShipmentService: ContainerShipmentService) { }
 
   ngOnInit() {
     localStorage.setItem("From", "")
@@ -131,8 +134,15 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
+  setDefaultValues(){
+    this.containerStatus = ''; this.packProcess = '';
+    this.warehouse = ''; this.inventoryStatus = ''; this.binCode = '';
+    this.purpose = ''; this.weight = 0; this.volume = 0;
+  }
+
   onContainerCodeChange(code) {
     if (code == undefined || code == "") {
+      this.setDefaultValues();
       return;
     }
     this.showLoader = true;
@@ -436,10 +446,30 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onCloseClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
+      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
       return;
     }
+
+    let oSaveData: any = {};
+    oSaveData.SelectedRows = [];
+
+      oSaveData.SelectedRows.push({
+        //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.containerCode, 
+        CONTAINERID: ''
+      })
+
+      let tempArray = [];
+        tempArray.push({
+          CompanyDBId: localStorage.getItem("CompID"),
+          OPTM_CONTCODE: this.containerCode, 
+          CONTAINERID: ''
+        });     
+
     this.showLoader = true;
-    this.commonservice.CloseClick(this.containerCode).subscribe(
+    //this.commonservice.CloseClick(this.containerCode).subscribe(
+      this.containerShipmentService.CloseContainer(tempArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -475,6 +505,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onReopenClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
+      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
       return;
     }
     this.showLoader = true;
@@ -514,10 +545,32 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onSetDamagedClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
+      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
       return;
     }
+
+    let oSaveData: any = {};
+    oSaveData.SelectedRows = [];
+
+   
+      oSaveData.SelectedRows.push({
+        //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.containerCode, 
+        CONTAINERID: this.containerId
+      });  
+      
+      let tempArray = [];
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.containerCode, 
+        CONTAINERID: this.containerId
+      });   
+
+
     this.showLoader = true;
-    this.commonservice.DamagedClick(this.containerCode, this.containerId).subscribe(
+    //this.commonservice.DamagedClick(this.containerCode, this.containerId).subscribe(
+      this.containerShipmentService.SetDamagedContainer(tempArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -528,8 +581,8 @@ export class ContMaintnceMainComponent implements OnInit {
           }
 
           if (data.length > 0) {
-            if (data[0].RESULT == "Data Saved") {
-              this.toastr.success('', data[0].RESULT)
+            if (data[0].RESULT == "Data updated") {
+              this.toastr.success('',this.translate.instant("SetDamagedMsg"));
               //this.toastr.success('', "ContainerCancelledMsg")
               this.onContainerCodeChange(this.containerCode);
             } else {
@@ -554,6 +607,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onSetCancelClick() {
     if (this.containerId == undefined || this.containerId == "") {
+      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
       return;
     }
     this.showLoader = true;
