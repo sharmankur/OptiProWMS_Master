@@ -574,7 +574,7 @@
 </div>
 
 <span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)='closeDialog()' (lookupkey)="getLookupDataValue($event)">
     </app-common-lookup>
 </span>
 

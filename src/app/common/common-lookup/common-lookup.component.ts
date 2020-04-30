@@ -862,6 +862,12 @@ export class CommonLookupComponent implements OnInit {
         type: 'text',
         width: '100'
       },
+      {
+        field: 'OPTM_USE_CONTAINER',
+        title: this.translate.instant("ShipmentContainers"),
+        type: 'text',
+        width: '100'
+      },
     ];
     this.lookupTitle = this.translate.instant("PT_ShipmentList");
     if (this.serviceData !== undefined) {

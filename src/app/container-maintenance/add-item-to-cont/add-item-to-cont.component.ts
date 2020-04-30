@@ -902,6 +902,10 @@ export class AddItemToContComponent implements OnInit {
     );
   }
 
+  closeDialog(){
+    this.showLookup = false;
+  }
+
   getLookupDataValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {

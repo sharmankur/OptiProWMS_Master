@@ -337,100 +337,100 @@
                                     <!-- row end -->
 
                                     <div class="auto-allocate-box">
-                                    <!-- row start -->
-                                    <div class="row">
-                                        <!-- col start -->
-                                        <div class="col-sm-6">
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" id="AutoAllocate" (change)="onCheckChange()" class="custom-control-input" name="AutoAllocate" [(ngModel)]=AutoAllocate
-                                                        />
-                                                        <label class="custom-control-label" for="AutoAllocate">{{'AutoAllocate'|translate}}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- col end -->
-                                    </div>
-                                    <!-- row end -->
-
-                                    <!-- row start -->
-                                    <div class="row">
-                                        <!-- col start -->
-                                        <div class="col-sm-6">
-                                            <div class="form-group row">
-                                                <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
-                                                <div class="col-sm-7">
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group"
-                                                            (blur)="IsValidContainerGroup()" [disabled]=!AutoAllocate>
-                                                        <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()" [disabled]=!AutoAllocate>
-                                                                <i class="opti-icon-search"></i>
-                                                            </button>
+                                        <!-- row start -->
+                                        <div class="row">
+                                            <!-- col start -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" id="AutoAllocate" (change)="onCheckChange()" class="custom-control-input" name="AutoAllocate" [(ngModel)]=AutoAllocate
+                                                            />
+                                                            <label class="custom-control-label" for="AutoAllocate">{{'AutoAllocate'|translate}}</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- col end -->
                                         </div>
-                                        <!-- col end -->
+                                        <!-- row end -->
 
-                                        <!-- col start -->
-                                        <div class="col-sm-6">
-                                            <div class="form-group row">
-                                                <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
-                                                <div class="col-sm-7">
-                                                    <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate></kendo-datepicker>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- col end -->
-
-                                    </div>
-                                    <!-- row end -->
-
-                                    <!-- row start -->
-                                    <div class="row">
-                                        <!-- col start -->
-                                        <div class="col-sm-6">
-                                            <div class="form-group row">
-                                                <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}</label>
-                                                <div class="col-sm-7">
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="DockDoor" id="DockDoor" [(ngModel)]="DockDoor" (blur)="IsValidDockDoor()"
-                                                            [disabled]=!AutoAllocate>
-                                                        <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor()" [disabled]=!AutoAllocate>
-                                                                <i class="opti-icon-search"></i>
-                                                            </button>
+                                        <!-- row start -->
+                                        <div class="row">
+                                            <!-- col start -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="Container_Group" class="col-sm-4 col-form-label">{{'Container_Group'|translate}}</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control form-control-sm" name="Container_Group" id="Container_Group" [(ngModel)]="Container_Group"
+                                                                (blur)="IsValidContainerGroup()" [disabled]=!AutoAllocate>
+                                                            <div class="input-group-append has-seprate-btn">
+                                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup()" [disabled]=!AutoAllocate>
+                                                                    <i class="opti-icon-search"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- col end -->
+
+                                            <!-- col start -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
+                                                    <div class="col-sm-7">
+                                                        <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate></kendo-datepicker>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- col end -->
+
                                         </div>
-                                        <!-- col end -->
-                                        <!-- col start -->
-                                        <div class="col-sm-6">
-                                            <div class="form-group row">
-                                                <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
-                                                <div class="col-sm-7">
-                                                    <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="CarrierCode" id="CarrierCode" [(ngModel)]="CarrierCode" (blur)="IsValidCarrier()"
-                                                            [disabled]=!AutoAllocate>
-                                                        <div class="input-group-append has-seprate-btn">
-                                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier()" [disabled]=!AutoAllocate>
-                                                                <i class="opti-icon-search"></i>
-                                                            </button>
+                                        <!-- row end -->
+
+                                        <!-- row start -->
+                                        <div class="row">
+                                            <!-- col start -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control form-control-sm" name="DockDoor" id="DockDoor" [(ngModel)]="DockDoor" (blur)="IsValidDockDoor()"
+                                                                [disabled]=!AutoAllocate>
+                                                            <div class="input-group-append has-seprate-btn">
+                                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForDockDoor()" [disabled]=!AutoAllocate>
+                                                                    <i class="opti-icon-search"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- col end -->
+                                            <!-- col start -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="CarrierCode" class="col-sm-4 col-form-label">{{'DropdownMenu_CarrierCode'|translate}}</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group ">
+                                                            <input type="text" class="form-control form-control-sm" name="CarrierCode" id="CarrierCode" [(ngModel)]="CarrierCode" (blur)="IsValidCarrier()"
+                                                                [disabled]=!AutoAllocate>
+                                                            <div class="input-group-append has-seprate-btn">
+                                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCarrier()" [disabled]=!AutoAllocate>
+                                                                    <i class="opti-icon-search"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- col end -->
                                         </div>
-                                        <!-- col end -->
+                                        <!-- row end -->
                                     </div>
-                                    <!-- row end -->
-                                </div>
 
                                 </div>
                             </div>
@@ -438,7 +438,9 @@
 
                             <!-- STEP 2 START -->
                             <div [ngClass]="{show:currentStep == 2}" class="wizard-content">
-                                <kendo-grid #gridUser [kendoGridBinding]="gridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true" (pageChange)="pageChange($event)" [pageSize]="SOpageSize" [skip]="skip" [pageable]="SOpagable" (selectionChange)="gridUserSelectionChange(gridUser, $event)">
+                                <kendo-grid #gridUser [kendoGridBinding]="gridData" [selectable]="{enabled: true, checkboxOnly: true}" [resizable]="true"
+                                    (pageChange)="pageChange($event)" [pageSize]="SOpageSize" [skip]="skip" [pageable]="SOpagable"
+                                    (selectionChange)="gridUserSelectionChange(gridUser, $event)">
 
                                     <!-- <kendo-grid-checkbox-column [width]="60" title="{{'Select'|translate}}" width="30">
                                         <ng-template kendoGridCellTemplate let-idx="rowIndex" let-dataItem="dataItem">
@@ -470,8 +472,8 @@
                                     <kendo-grid-column field="ITEMKEY" width="120" title="{{'ItemCode'|translate}}">
                                     </kendo-grid-column>
                                     <kendo-grid-column field="ItemCode" width="120" title="{{'GrdItemCode'|translate}}">
-                                    </kendo-grid-column>                                   
-                                    <kendo-grid-column field="ShipmentQty" width="80" class="grid-right-align-column" title="{{'OpnQty'|translate}}" >
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="ShipmentQty" width="80" class="grid-right-align-column" title="{{'OpnQty'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <span class="font-weight-bold">
                                                 {{dataItem.ShipmentQty|numberFormat}}</span>
@@ -486,7 +488,7 @@
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             {{dataItem.DelDate | date: 'MM/dd/yyyy'}}
                                         </ng-template>
-                                    </kendo-grid-column>                                    
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="InvntryUom" width="80" title="{{'InvUOM'|translate}}">
                                     </kendo-grid-column>
                                     <kendo-grid-column field="SalesOpnQtyInVUOM" width="140" class="grid-right-align-column" title="{{'OpnQtyInInvUOM'|translate}}">
@@ -546,12 +548,13 @@
 
                             <!-- STEP 4 START -->
                             <div [ngClass]="{show:currentStep == 4}" class="wizard-content">
-                                <kendo-grid [kendoGridBinding]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable" [selectable]="{enabled: true, checkboxOnly: true}" 
-                                    (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
+                                <kendo-grid [kendoGridBinding]="AllConsolidateData" [pageSize]="SPpageSize" [skip]="skip" #gridUser [pageable]="SPpagable"
+                                    [selectable]="{enabled: true, checkboxOnly: true}" (selectionChange)="gridConsilidateDataSelectionChange(gridUser, $event)">
 
                                     <ng-template kendoGridToolbarTemplate>
-                                        <span class="grid-toolbar-title">{{'ContainerItems'|translate}} sdf</span>
-                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse(gridUser)" *ngIf="AllConsolidateData.length != 0">
+                                        <span class="grid-toolbar-title">{{'ShipmentPreview'|translate}}</span>
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse(gridUser)"
+                                            *ngIf="AllConsolidateData.length != 0">
                                             <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
                                                 <use xlink:href="#collapseAll"></use>
                                             </svg>
@@ -571,16 +574,14 @@
                                         <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
-                                                    [checked]=selectall id="parent_checkbox1_{{rowIndex}}" class="custom-control-input"
-                                                   >
+                                                    [checked]=selectall id="parent_checkbox1_{{rowIndex}}" class="custom-control-input">
                                                 <label class="custom-control-label" for="parent_checkbox1_{{rowIndex}}"></label>
                                             </div>
                                         </ng-template>
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                             <div class="custom-control custom-checkbox">
                                                 <input #chkSelection type="checkbox" (change)="selectRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
-                                                    id="chkbox1-{{idx}}" class="custom-control-input"
-                                                    name="columnfilter1" />
+                                                    id="chkbox1-{{idx}}" class="custom-control-input" name="columnfilter1" />
                                                 <label class="custom-control-label" for="chkbox1-{{idx}}"></label>
                                             </div>
                                         </ng-template>
@@ -596,19 +597,15 @@
 
                                     <ng-template kendoGridDetailTemplate let-dataItem>
                                         <div class="custom-child-grid">
-                                        <kendo-grid [data]="dataItem.ShipmentChildData">
-                                            <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
-                                            <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
-                                            </kendo-grid-column>
-                                            <kendo-grid-column field="ShipQty" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
-
-                                        </kendo-grid>
-                                    </div>
+                                            <kendo-grid [data]="dataItem.ShipmentChildData">
+                                                <kendo-grid-column *ngIf="false" field="SHIPMENT_ID" title="{{'ShipMentId'|translate}}" class="text-right"></kendo-grid-column>
+                                                <kendo-grid-column field="ITEM_CODE" title="{{'ItemCode'|translate}}">
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="ShipQty"  headerClass="text-right" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
                                     </ng-template>
                                 </kendo-grid>
-
-
-
                             </div>
                             <!-- STEP 4 END -->
 
@@ -618,22 +615,18 @@
                                     <kendo-grid-column field="OPTM_SHIPMENT_CODE" title="{{'Shipment_Code'|translate}}" class="text-left"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BPCODE" title="{{'Customer'|translate}}">
                                     </kendo-grid-column>
-
                                     <kendo-grid-column field="OPTM_SHIPTO" title="{{'ShipTo'|translate}}">
                                     </kendo-grid-column>
-
                                     <kendo-grid-column field="OPTM_WHSCODE" title="{{'WHSCODE'|translate}}">
                                     </kendo-grid-column>
-
-
                                     <ng-template kendoGridDetailTemplate let-dataItem>
-                                        <kendo-grid [data]="dataItem.ShipmentChildData">
-                                            <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
-                                            </kendo-grid-column>
-                                            <kendo-grid-column field="OPTM_QTY" class="grid-right-align-column" title="{{'Quantity'|translate}}"></kendo-grid-column>
-                                            <!-- <kendo-grid-column field="OPTM_SHIPQTY" title"{{'Quantity'|translate}}"></kendo-grid-column> -->
-
-                                        </kendo-grid>
+                                        <div class="custom-child-grid">
+                                            <kendo-grid [data]="dataItem.ShipmentChildData">
+                                                <kendo-grid-column field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="OPTM_QTY" class="grid-right-align-column" headerClass="text-right" title="{{'Quantity'|translate}}"></kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
                                     </ng-template>
                                 </kendo-grid>
                             </div>

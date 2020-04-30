@@ -415,6 +415,7 @@ export class ShipmentViewComponent implements OnInit {
     this.VehicleNumber = OPTM_SHPMNT_HDR[0].OPTM_VEHICLENO;
     this.ReturnOrderRef = OPTM_SHPMNT_HDR[0].OPTM_RETURN_ORDER_REF;
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
+    this.Container_Group = OPTM_SHPMNT_HDR[0].OPTM_CONT_GRP;
     this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
     if (this.UseContainer == null) {
       this.UseContainer = false;
@@ -525,7 +526,7 @@ export class ShipmentViewComponent implements OnInit {
             this.toastr.success('', this.translate.instant("ShpProcessChange"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else if (data.OUTPUT[0].RESULT == "Shipment not assigned any container. Please assign a container") {
-            this.runningProcessName == "ShippingProcess"
+            this.runningProcessName = "ShippingProcess"
             this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
