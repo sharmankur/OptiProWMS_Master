@@ -28,6 +28,7 @@ export class InputInternalContainerComponent implements OnInit {
   forInternal: boolean = false;
   ParentContainerCode: any = '';
   ChildContnrCode: any = '';
+  ContID : any = 0;
 
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
@@ -46,16 +47,20 @@ export class InputInternalContainerComponent implements OnInit {
 
   GetListOfContainerBasedOnRule(action) {
 
+    let IntCode = '';
     if(action == 'blur'){
       if (this.IntContainerCode == undefined || this.IntContainerCode == "") {
         return;
       }
+      IntCode = this.IntContainerCode
+    }else{     
+      IntCode = '';
     }
 
     this.showLoader = true;
     this.containerCreationService.GetListOfContainerBasedOnRule(this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
       this.oDataModel.HeaderTableBindingData[0].OPTM_ITEMCODE, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE,
-      this.oDataModel.HeaderTableBindingData[0].OPTM_BIN,this.IntContainerCode).subscribe(
+      this.oDataModel.HeaderTableBindingData[0].OPTM_BIN,IntCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -79,7 +84,8 @@ export class InputInternalContainerComponent implements OnInit {
               this.toastr.error('', this.translate.instant("InvalidContainerId"));
               return;
             }
-            this.IntContainerCode = data[0].OPTM_CONTAINERID;
+            this.IntContainerCode = data[0].OPTM_CONTCODE;
+            this.ContID = data[0].OPTM_CONTAINERID;
             this.GetListOfBatchSerOfSelectedContainerID(data[0].OPTM_CONTAINERID, data[0].OPTM_ITEMCODE); 
           }
          
@@ -321,7 +327,8 @@ export class InputInternalContainerComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "ContainerIdList") {       
-        this.IntContainerCode = $event.OPTM_CONTAINERID;
+        this.IntContainerCode = $event.OPTM_CONTCODE;
+        this.ContID = $event.OPTM_CONTAINERID;
         this.GetListOfBatchSerOfSelectedContainerID($event.OPTM_CONTAINERID, $event.OPTM_ITEMCODE);        
       }
     }
@@ -341,6 +348,7 @@ export class InputInternalContainerComponent implements OnInit {
             return;
           }
           this.bsrListByContainerId = data;
+
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -366,6 +374,7 @@ export class InputInternalContainerComponent implements OnInit {
           Status: "no",
           From: "InternalContainer",
           IntContainerCode: "",
+          ContId: 0,
           BatSerList : []       
         });  
       } else{ 
@@ -386,6 +395,7 @@ export class InputInternalContainerComponent implements OnInit {
         Status: "yes",
         From: "InternalContainer",
         IntContainerCode: this.IntContainerCode,
+        ContId: this.ContID,
         BatSerList : this.bsrListByContainerId
       });  
     }

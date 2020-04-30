@@ -37,6 +37,11 @@ export class ContainerBatchserialService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignMaterialToShipment", jObject, this.commonService.httpOptions);
   }
 
+  RemoveBatchSerialFromShipment(oSaveArray:any){
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveBatchSerialFromShipment", jObject, this.commonService.httpOptions);
+  }
+
   GetItemsOpenQuantity(ContnrShipmentId:number){
 
     let jObject = {

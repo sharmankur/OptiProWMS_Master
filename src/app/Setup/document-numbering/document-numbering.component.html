@@ -11,7 +11,7 @@
                     <div class="card shipment-widget-box">
                         <kendo-grid class="no-shadow" [data]="DocGridData" [resizable]="true" [sortable]="true"
                             [selectable]="true" #gridItem>
-                            <ng-template kendoGridToolbarTemplate>
+                            <!-- <ng-template kendoGridToolbarTemplate>
                                 <form class="k-form opti_show-hide-grid-column-filter float-left opti_hide-in-mobile pl-0 pt-0">
                                     <div class="k-form-field d-flex">
                                         <input #chkFilter type="checkbox" (change)="onFilterChange(chkFilter,gridItem)"
@@ -26,16 +26,16 @@
                                     <span class="k-icon k-i-plus" role="presentation"></span>
                                     {{'Masking_AddRow'|translate}}</button>
 
-                            </ng-template>
-                            <kendo-grid-column media="(min-width: 768px)" [width]="50" title="{{'BusinessObject'|translate}}">
-                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            </ng-template> -->
+                            <kendo-grid-column media="(min-width: 768px)" [width]="50" title="{{'BusinessObject'|translate}}" field="OPTM_BUSINESS_OBJECT">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex"> -->
                                     <!-- <kendo-dropdownlist tabindex="-1" [data]="ddlBusiness" textField="text" valueField="value"
                                         [(ngModel)]="dataItem.OPTM_BUSINESS_OBJECT" (valueChange)="onChangeBusinessObject($event, dataItem, rowIndex)"
                                         [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" class="form-control-sm form-control w-100"></kendo-dropdownlist> -->
-                                    <kendo-dropdownlist class="form-control" name="selectedType" [data]="ddlBusiness"
+                                    <!-- <kendo-dropdownlist class="form-control" name="selectedType" [data]="ddlBusiness"
                                         [valuePrimitive]="true" [value]="dataItem.OPTM_BUSINESS_OBJECT" textField="text"
-                                        valueField="value" #selectedvalue (selectionChange)="onChangeBusinessObject($event, dataItem, rowIndex)"></kendo-dropdownlist>
-                                </ng-template>
+                                        valueField="value" #selectedvalue (selectionChange)="onChangeBusinessObject($event, dataItem, rowIndex)"></kendo-dropdownlist> -->
+                                <!-- </ng-template> -->
                             </kendo-grid-column>
 
                             <kendo-grid-column media="(min-width: 768px)" [width]="50" field="OPTM_CODE" title="Code">
@@ -53,14 +53,14 @@
                                     </div>
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center"
+                            <!-- <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center"
                                 [width]="10" title="{{'Action'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
                                         <span class="k-icon k-i-delete" role="presentation"></span>
                                     </button>
                                 </ng-template>
-                            </kendo-grid-column>
+                            </kendo-grid-column> -->
                         </kendo-grid>
                     </div>
                 </div>

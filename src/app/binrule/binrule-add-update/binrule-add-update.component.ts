@@ -81,6 +81,8 @@ export class BinruleAddUpdateComponent implements OnInit {
       this.isUpdate = false;
       this.BtnTitle = this.translate.instant("CT_Add");
       this.prepareAndSetDataForUpdateAndCopy();
+      // this.purpose = ''
+      // this.ruleType = ''
     } else if (localStorage.getItem("brAction") == "update") {
       this.isUpdate = true;
       this.BtnTitle = this.translate.instant("CT_Update");

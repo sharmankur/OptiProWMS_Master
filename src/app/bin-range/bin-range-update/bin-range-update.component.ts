@@ -47,6 +47,10 @@ export class BinRangeUpdateComponent implements OnInit {
       this.Description = this.BinRangesRow.OPTM_RANGE_DESC;
       if (localStorage.getItem("Action") == "copy") {
         this.isUpdate = false;
+        //this.WHSCODE = ''
+        this.BinRange = ''
+        // this.FromBinCode = '';
+        // this.ToBinCode = '';
         this.BtnTitle = this.translate.instant("CT_Add");
       } else {
         this.isUpdate = true;
@@ -104,6 +108,8 @@ export class BinRangeUpdateComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event.WhsCode;
+      this.FromBinCode = '';
+      this.ToBinCode = '';
     }else if (this.lookupfor == "From_BinList") {
       this.FromBinCode = $event.BinCode;
     }else if (this.lookupfor == "To_BinList") {
@@ -127,14 +133,20 @@ export class BinRangeUpdateComponent implements OnInit {
           }
           if(data.length > 0){
             this.WHSCODE = data[0].WhsCode;
+            this.FromBinCode = '';
+            this.ToBinCode = '';
           }else{
             this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
             this.WHSCODE = "";
+            this.FromBinCode = '';
+            this.ToBinCode = '';
           }
           
         } else {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WHSCODE = "";
+          this.FromBinCode = '';
+          this.ToBinCode = '';
         }
       },
       error => {

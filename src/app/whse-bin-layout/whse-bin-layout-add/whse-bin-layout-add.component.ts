@@ -289,12 +289,25 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
         }
       } else if (this.lookupfor == "BinRangeList") {
+        if(this.isBinRangeExist($event.OPTM_BIN_RANGE)){
+          this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
+          return;
+        }
         for (var i = 0; i < this.whseZoneList.length; i++) {
           if (i == this.index) {
             this.whseZoneList[i].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
           }
         }
       }
+    }
+  }
+
+  isBinRangeExist(value){
+    let data = this.whseZoneList.filter(item => item.OPTM_BIN_RANGE === value)
+    if(data.length > 0){
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -699,6 +712,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if(data.OPTM_SHP_WHSE_BINS.length > 0){
+            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
+              this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
+              // this.whseZoneList[index].OPTM_BIN_RANGE = ''
+              return
+            }
             this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
           }else{
             this.whseZoneList[index].OPTM_BIN_RANGE = "";

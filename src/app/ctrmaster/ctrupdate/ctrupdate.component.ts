@@ -16,7 +16,7 @@ export class CTRUpdateComponent implements OnInit {
 
   CTR_ParentContainerType: string;
   CTR_ConainerPerParent: string;
-  CTR_ConatainerPartofParent: string;
+  CTR_ConatainerPartofParent: any;
   CTR_ContainerType: string;
   CTR_ROW: any;
   BtnTitle: string;
@@ -44,6 +44,8 @@ export class CTRUpdateComponent implements OnInit {
       this.CTR_ConainerPerParent = this.CTR_ROW.OPTM_CONT_PERPARENT;
       this.CTR_ConatainerPartofParent = this.CTR_ROW.OPTM_CONT_PARTOFPARENT;
       if(localStorage.getItem("Action") == "copy"){
+        this.CTR_ContainerType = ''
+        this.CTR_ParentContainerType = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       }else{
@@ -335,10 +337,13 @@ export class CTRUpdateComponent implements OnInit {
 
   formatCTR_ConainerPerParent() {
     this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
+    this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   formatCTR_ConatainerPartofParent() {
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    // this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
   }
 
   isValidateCalled: boolean = false;

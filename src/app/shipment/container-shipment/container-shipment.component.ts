@@ -27,6 +27,7 @@ export class ContainerShipmentComponent implements OnInit {
   ContainerTypeId: any = '';
   ContainerTypeArray: any = [];
   ShipmentId: any = '';
+  ShipmentCode: any = '';
   InvPostStatusArray: any = [];
   InvPostStatusId: any = {Value: ''};
   InvPostStatusValue: any = '';
@@ -55,6 +56,7 @@ export class ContainerShipmentComponent implements OnInit {
   Selectedlink: number = 1;
   containerGroupCode: string = "";
   ContainerOperationArray: any = [];
+  ShipmentStatus: any = '';
   //statusArrMulti: any = [];
   
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
@@ -147,10 +149,10 @@ export class ContainerShipmentComponent implements OnInit {
 
             for (let i = 0; i < this.ContainerItems.length; i++) {
               this.ContainerItems[i].Selected = false;
-              this.ContainerItems[i].OPTM_QUANTITY = Number(this.ContainerItems[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              this.ContainerItems[i].OPTM_WEIGHT = Number(this.ContainerItems[i].OPTM_WEIGHT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              this.ContainerItems[i].OPTM_STATUS = this.setContainerStatus(this.ContainerItems[i].OPTM_STATUS);
-              this.ContainerItems[i].OPTM_BUILT_SOURCE = this.setBuiltSource(this.ContainerItems[i].OPTM_BUILT_SOURCE);
+              this.ContainerItems[i].OPTM_QUANTITY = this.ContainerItems[i].OPTM_QUANTITY == null || '' || undefined ? 0 : Number(this.ContainerItems[i].OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+              this.ContainerItems[i].OPTM_WEIGHT = this.ContainerItems[i].OPTM_WEIGHT == null || '' || undefined ? 0 :  Number(this.ContainerItems[i].OPTM_WEIGHT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+              this.ContainerItems[i].OPTM_STATUS = this.getContainerStatus(this.ContainerItems[i].OPTM_STATUS);              
+              this.ContainerItems[i].OPTM_BUILT_SOURCE = this.ContainerItems[i].OPTM_BUILT_SOURCE == 0 ? '' : this.setBuiltSource(this.ContainerItems[i].OPTM_BUILT_SOURCE);
               this.ContainerItems[i].OPTM_SHIPELIGIBLE = (this.ContainerItems[i].OPTM_SHIPELIGIBLE) == 'Y' ? 'Yes' : 'No';
             }
           } else {
@@ -169,8 +171,42 @@ export class ContainerShipmentComponent implements OnInit {
       );
   }
 
+  getContainerStatus(id) {
+    if (id == undefined || id == "") {
+      return //this.translate.instant("CStatusNew");
+    }
+    id = Number("" + id)
+
+    if (id == 1) {
+      return this.translate.instant("CStatusNew");
+    } else if (id == 2) {
+      return this.translate.instant("Open");
+    } else if (id == 3) {
+      return this.translate.instant("CClosedNew");
+    } else if (id == 4) {
+      return this.translate.instant("CReopenedNew");
+    } else if (id == 5) {
+      return this.translate.instant("CAssignedNew");
+    } else if (id == 6) {
+      return this.translate.instant("Status_Picked");
+    } else if (id == 7) {
+      return this.translate.instant("Loaded");
+    } else if (id == 8) {
+      return this.translate.instant("CShippedNew");
+    } else if (id == 9) {
+      return this.translate.instant("Returned");
+    } else if (id == 10) {
+      return this.translate.instant("CDamagedNew");
+    } else if (id == 11) {     
+      return this.translate.instant("CCancelledNew");
+    }
+  }
+
   setContainerStatus(status) {
-    return this.statusArray[Number(status) - 1].Name;   
+    let value = Number(status) - 1;
+    let idx = this.statusArray.findIndex(r=>r.Value == value);
+    return this.statusArray[idx].Name;
+   // return this.statusArray[Number(status) - 1].Name;   
   }
 
   setBuiltSource(builtsource){
@@ -268,12 +304,14 @@ export class ContainerShipmentComponent implements OnInit {
           }
           if (data.length > 0) {
             this.ShipmentId = data[0].OPTM_SHIPMENTID;
+            this.ShipmentCode = data[0].OPTM_SHIPMENT_CODE;
+            this.ShipmentStatus = data[0].OPTM_STATUS;
           } else {
-            this.ShipmentId = "";
+            this.ShipmentId = ""; this.ShipmentCode = '';
             this.toastr.error('', this.translate.instant("Invalid_Shipment_Id"));
           }
         } else {
-          this.ShipmentId = "";
+          this.ShipmentId = "";  this.ShipmentCode = '';
           this.toastr.error('', this.translate.instant("Invalid_Shipment_Id"));
         }
       },
@@ -638,9 +676,14 @@ export class ContainerShipmentComponent implements OnInit {
           this.ContainerItems[i].Selected = true;
         }
       }     
-      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTCODE);
+      var index = this.SelectedRowsforShipmentArr.findIndex(r=> r.OPTM_CONTCODE == dataitem.OPTM_CONTCODE);
       if (index == -1){
-        this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTCODE);
+        //this.SelectedRowsforShipmentArr.push(dataitem.OPTM_CONTCODE);
+        this.SelectedRowsforShipmentArr.push({
+          OPTM_CONTCODE: dataitem.OPTM_CONTCODE,
+          OPTM_CONTAINERID: dataitem.OPTM_CONTAINERID,
+          OPTM_STATUS: dataitem.OPTM_STATUS
+        });
       }
     }
     else {
@@ -649,7 +692,7 @@ export class ContainerShipmentComponent implements OnInit {
           this.ContainerItems[i].Selected = false;          
         }
       } 
-      var index = this.SelectedRowsforShipmentArr.indexOf(dataitem.OPTM_CONTCODE);
+      var index = this.SelectedRowsforShipmentArr.findIndex(r=> r.OPTM_CONTCODE == dataitem.OPTM_CONTCODE);
       if (index > -1)
         this.SelectedRowsforShipmentArr.splice(index, 1);
     }
@@ -666,7 +709,12 @@ export class ContainerShipmentComponent implements OnInit {
         this.SelectedRowsforShipmentArr = [];
         for (let i = 0; i < this.ContainerItems.length; ++i) {
           this.ContainerItems[i].Selected = true;
-          this.SelectedRowsforShipmentArr.push(this.ContainerItems[i].OPTM_CONTCODE);
+         // this.SelectedRowsforShipmentArr.push(this.ContainerItems[i].OPTM_CONTCODE);
+         this.SelectedRowsforShipmentArr.push({
+          OPTM_CONTCODE: this.ContainerItems[i].OPTM_CONTCODE,
+          OPTM_CONTAINERID: this.ContainerItems[i].OPTM_CONTAINERID,
+          OPTM_STATUS: this.ContainerItems[i].OPTM_STATUS
+         });
         }
       }
     }
@@ -683,14 +731,196 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   onAssignShipmentPress(){
-    this.Selectedlink = 2;
+    this.Selectedlink = 2; 
     this.SelectedLinkTitle = this.setContainerOperation();
    // this.SelectedLinkTitle = this.translate.instant("Assign_to_shipment");    
+  }
+
+  onSetDamagedPress(){
+    if (this.SelectedRowsforShipmentArr.length == 0) {
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+
+    this.showLoader = false;
+    let oSaveData: any = {};
+    oSaveData.SelectedRows = [];
+    // oSaveData.OtherData = [];
+
+    // if (this.IsShipment) {
+    //   oSaveData.OtherData.push({
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //    // ContnrShipmentId: this.SelectedShipmentId,
+    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+    //    // OPTM_GROUP_CODE: this.containerGroupCode
+    //   })
+    // }
+    // else {
+    //   oSaveData.OtherData.push({
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //    // ContnrShipmentId: this.ShipmentId,
+    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+    //   // OPTM_GROUP_CODE: this.containerGroupCode
+    //   })
+    // }
+
+    // for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+    //   oSaveData.SelectedRows.push({
+    //     //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //     OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i], 
+    //     CONTAINERID: ''
+    //   })
+    // }
+
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+        CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+      })
+    }
+
+    this.containerShipmentService.SetDamagedContainer(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {            
+            if (data[0].RESULT != '' && data[0].RESULT != null) {                
+              if(data[0].RESULT == 'Data updated'){
+                this.toastr.success('', this.translate.instant("SetDamagedMsg"));
+                this.fillDataInGridWithShipment(this.Selectedlink);
+              }
+              else{
+                this.toastr.error('', data[0].RESULT);                  
+              }                
+            }
+            else {               
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));               
+            }
+          }
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onCloseContainerPress(){
+    if (this.SelectedRowsforShipmentArr.length == 0) {
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+
+    this.showLoader = false;
+    let oSaveData: any = {};
+    oSaveData.SelectedRows = [];
+   // oSaveData.OtherData = [];
+
+    // if (this.IsShipment) {
+    //   oSaveData.OtherData.push({
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //    // ContnrShipmentId: this.SelectedShipmentId,
+    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+    //    // OPTM_GROUP_CODE: this.containerGroupCode
+    //   })
+    // }
+    // else {
+    //   oSaveData.OtherData.push({
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //    // ContnrShipmentId: this.ShipmentId,
+    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+    //   // OPTM_GROUP_CODE: this.containerGroupCode
+    //   })
+    // }
+
+    // for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+    //   oSaveData.SelectedRows.push({
+    //     Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i])
+    //   })
+    // }
+
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      oSaveData.SelectedRows.push({
+        //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE, 
+        CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+      })
+    }
+
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+        CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+      })
+    }
+
+    this.containerShipmentService.CloseContainer(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {            
+            if (data[0].RESULT != '' && data[0].RESULT != null) {                
+              if(data[0].RESULT == 'Data Saved'){
+                this.toastr.success('', this.translate.instant("ContainerClosedMsg"))
+                this.fillDataInGridWithShipment(this.Selectedlink);
+              }
+              else{
+                this.toastr.error('', data[0].RESULT);                  
+              }                
+            }
+            else {               
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));               
+            }
+          }
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
  
   onShipmentBtnPress(action) {
 
-    if (!this.IsShipment) {
+    if (!this.IsShipment && action == 'Assign') {
       if (this.ShipmentId == "" || this.ShipmentId == undefined || this.ShipmentId == null) {
         this.toastr.error('', this.translate.instant("Enter_shipmentid"));
         return;
@@ -707,6 +937,8 @@ export class ContainerShipmentComponent implements OnInit {
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
+
+    if(action == 'Assign'){     
 
     if (this.IsShipment) {
       oSaveData.OtherData.push({
@@ -727,25 +959,10 @@ export class ContainerShipmentComponent implements OnInit {
 
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       oSaveData.SelectedRows.push({
-        Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i])
+        Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE)
       })
-    }
-
-    //let tempArr = [];
-    // this.showLoader = true; 
-
-    // let map = {};
-    // map['CompanyDBId'] = localStorage.getItem("CompID");
-    // map['ContnrShipmentId']= this.SelectedShipmentId;
-    // tempArr.push(map);
-
-    // for(let i=0; i<this.SelectedRowsforShipmentArr.length; i++){
-    //   let map = {};
-    //   map['Container_Id'] = this.SelectedRowsforShipmentArr[i];
-    //   tempArr.push(map);
-    // }   
-    
-    if(action == 'Assign'){     
+    }    
+        
       this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
         (data: any) => {
           this.showLoader = false;
@@ -788,7 +1005,18 @@ export class ContainerShipmentComponent implements OnInit {
       );
     }
     else{
-      this.containerShipmentService.RemoveShipmentFromContainer(oSaveData).subscribe(
+
+      let tempArray = [];
+      for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+        tempArray.push({
+          CompanyDBId: localStorage.getItem("CompID"),
+          OPTM_SHIPMENTCODE: this.IsShipment ? this.SelectedShipmentId : this.ShipmentCode,
+          OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE, 
+          OPTM_STATUS: this.ShipmentStatus
+        })
+      }
+
+      this.containerShipmentService.RemoveShipmentFromContainer(tempArray).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -831,76 +1059,19 @@ export class ContainerShipmentComponent implements OnInit {
   onUpdateBtnPress(){      
     switch (this.Selectedlink) {
       case (2):
-        this.onShipmentBtnPress('Assign');
+        this.onShipmentBtnPress('Assign'); 
         break;
       case (3):
         this.onShipmentBtnPress('Remove');
-        break;        
+        break; 
+      case (5):
+        this.onSetDamagedPress();
+      break; 
+      case (6):
+        this.onCloseContainerPress();
+      break;           
     }
-  }
-
-  // getWorkOrders() {
-  //   this.showLoader = true;
-  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         this.showLookup = true;
-  //         this.serviceData = data;
-
-  //         this.lookupfor = "Workorder";
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-
-  // }
-
-  // getSalesOrders() {
-  //   this.showLoader = true;
-  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         this.showLookup = true;
-  //         this.serviceData = data;
-
-  //         this.lookupfor = "Salesorder";
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
+  }  
 
   getLookupDataValue($event) {
     if ($event != null && $event == "close") {
@@ -921,17 +1092,12 @@ export class ContainerShipmentComponent implements OnInit {
       }
       else if(this.lookupfor == "ShipmentList"){
         this.ShipmentId = $event.OPTM_SHIPMENTID;
+       this.ShipmentCode = $event.OPTM_SHIPMENT_CODE;
+       this.ShipmentStatus = $event.OPTM_STATUS;
       }
       else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
-      } 
-      // else if(this.lookupfor == "Workorder"){
-      //   this.WOId = $event[0];
-      // }
-      // else if(this.lookupfor == "Salesorder"){
-      //   this.SOId = $event[0];
-      // }
-
+      }      
     }
   }
 

@@ -30,6 +30,8 @@ export class ContainergroupupdateComponent implements OnInit {
       this.CG_ID = this.CG_ROW.OPTM_CONTAINER_GROUP;
       this.CG_DESC = this.CG_ROW.OPTM_DESC;
       if(localStorage.getItem("Action") == "copy"){
+        this.CG_ID = '';//this.CG_ROW.OPTM_CONTAINER_GROUP;
+        this.CG_DESC = this.CG_ROW.OPTM_DESC;
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       }else{
