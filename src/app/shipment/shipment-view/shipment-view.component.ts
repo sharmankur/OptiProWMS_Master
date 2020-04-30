@@ -298,7 +298,16 @@ export class ShipmentViewComponent implements OnInit {
           if (this.shipmentLines != undefined && this.shipmentLines.length > this.pageSize1) {
             this.pagable1 = true;
           }
-          localStorage.setItem("ShipmentArrData", JSON.stringify(this.shipmentLines));
+
+          let setShipmentdata = [];
+          setShipmentdata = this.shipmentLines;
+
+          for(let sidx=0; sidx<setShipmentdata.length; sidx++){
+            setShipmentdata[sidx].OPTM_SHIPMENT_CODE = data.OPTM_SHPMNT_HDR[0].OPTM_SHIPMENT_CODE ;
+            setShipmentdata[sidx].OPTM_SHIPMENT_STATUS = data.OPTM_SHPMNT_HDR[0].OPTM_STATUS ;
+          }
+
+          localStorage.setItem("ShipmentArrData", JSON.stringify(setShipmentdata));
           // SO Detail, Container Items, BtchSer Detail
           this.updateGridonShipmentLineId(this.shipmentLines[0].OPTM_LINEID);
           //Container Header 

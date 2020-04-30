@@ -112,13 +112,7 @@
                                 <div class="input-group input-group-sm">
                                     <kendo-dropdownlist class="form-control form-control-sm" [data]="statusArray" textField="Name" valueField="Value" id="status"
                                         name="status" [(ngModel)]="StatusId" #selectedvalue (selectionChange)="onStatusChange($event)"
-                                        [disabled]="IsShipment"></kendo-dropdownlist>
-                                    <!-- <kendo-multiselect [data]="statusArrMulti" [filterable]="true" (valueChange)="valueChange($event)" (filterChange)="filterChange($event)" (open)="open()" (close)="close()" (focus)="focus()" (blur)="blur()">
-                                        </kendo-multiselect> -->
-
-                                    <!-- <kendo-multiselect #selectedvalue [data]="statusArray" [textField]="'Name'" [valueField]="'Value'" [(ngModel)]="StatusId" [valueNormalizer]="valueNormalizer" [allowCustom]="true"  
-                                         [disabled]="IsShipment" (valueChange)="onStatusChange($event)" (blur)="blurMultiSelect($event)" (open)="open($event)" (filterChange)="filterChange($event)">
-                                        </kendo-multiselect> -->
+                                        [disabled]="IsShipment"></kendo-dropdownlist>                                   
                                 </div>
                             </div>
                         </div>
@@ -180,9 +174,7 @@
             <div class="col-12">
                 <!-- row start -->
                 <div class="row">
-
                     <!-- col start -->
-
                     <div class="col-sm-4">
                         <div class="form-group row">
                             <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
@@ -246,218 +238,8 @@
 
                 </div>
             </div>
-
-            <!-- <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="ContainerCodeId" class="col-sm-4 col-form-label">{{'Container_Code'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control form-control-sm" name='ContainerCodeId' [(ngModel)]=ContainerCodeId id="ContainerCodeId">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group ">
-                                        <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID id="ContainsItemID"
-                                            (blur)="onContainsItemChange()">
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="PurposeId" class="col-sm-4 col-form-label">{{'Purpose'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">                                       
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="purposeArray" textField="Name" valueField="Value" id="PurposeId"
-                                            name="PurposeId" [(ngModel)]="PurposeId" #selectedvalue (selectionChange)="onPurposeSelectChange($event)"
-                                            [disabled]="IsShipment"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group ">
-                                        <input type="text" class="form-control form-control-sm" name='WarehouseId' [(ngModel)]=WarehouseId id="WarehouseId" (blur)="onWhseChange()">
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetWhseCode()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>                     
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="StatusId" class="col-sm-4 col-form-label">{{'Status'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="statusArray" textField="Name" valueField="Value" id="status"
-                                            name="status" [(ngModel)]="StatusId" #selectedvalue (selectionChange)="onStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control form-control-sm" name='BinId' [(ngModel)]=BinId id="BinId" (blur)="onBinChange()">
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCode()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>                      
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Container_Type'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control form-control-sm" name='ContainerTypeId' [(ngModel)]=ContainerTypeId id="ContainerTypeId"
-                                            (blur)="onContainerTypeChange()">
-                                        <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainerType()">
-                                                <i class="opti-icon-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId">
-                                </div>                               
-                            </div>
-                        </div>                    
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="ContainerTypeId" class="col-sm-4 col-form-label">{{'Inv_Post_Status'|translate}}</label>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <kendo-dropdownlist class="form-control form-control-sm" [data]="InvPostStatusArray" textField="Name" valueField="Value"
-                                            id="InvPostStatusValue" name="InvPostStatusValue" [(ngModel)]="InvPostStatusId" #selectedvalue
-                                            (selectionChange)="onInvPostStatusChange($event)" [disabled]="IsShipment"></kendo-dropdownlist>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="WOId" class="col-sm-4 col-form-label">{{'WO_NUM'|translate}}</label>
-                                    <div class="col-sm-8">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-sm" name='WOId'
-                                                [(ngModel)]=WOId id="WOId">
-                                          
-                                        </div>                                       
-                                    </div>
-        
-                                </div>
-                            </div>        
-
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="SOId" class="col-sm-4 col-form-label">{{'SO_NUM'|translate}}</label>
-                                    <div class="col-sm-8">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-sm" name='SOId'
-                                                [(ngModel)]=SOId id="SOId"> 
-                                          
-                                        </div>                                       
-                                    </div>
-        
-                                </div>
-                            </div>
             
-                            <div>
-                                <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
-                            </div>
-    
-                        </div>
-                    </div>
-    
-    
-                </div> -->
-
-            <!-- <h5>{{SelectedLinkTitle}}</h5> -->
+            
             <div class="row mt-2">
                 <div class="col-12">
                     <!-- <h5 class="card-header">{{'Container_Items'|translate}}</h5> -->
@@ -472,21 +254,7 @@
                                 <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
                             </label>
                             <span class="text-bold">{{SelectedLinkTitle}} </span>
-                        </ng-template>
-
-                        <!-- <ng-template kendoGridToolbarTemplate >
-                                    <div class="d-flex align-items-center">                                      
-                                        <label class="custom-checkbox mb-0 mr-2 filter-checkbox">                                            
-                                            <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ProductData)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" [disabled]="TenantId == ''" name="FilterColumnView" />
-                                            <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_filter'|translate}}</label>
-                                        </label>                                        
-                                        <button type="button" kendoGridExcelCommand title="{{'Export_to_excel_file'|translate}}" class="ml-auto btn btn-link btn-sm btn-icon p-0">
-                                            <svg viewBox="0 0 512 512" class="icon">
-                                                <use xlink:href="#download"></use>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </ng-template> -->
+                        </ng-template>                      
 
                         <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
                             <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">

@@ -529,12 +529,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-12 ml-3">
+                            <div *ngIf="!treeViewShow" class="col-sm-12 col-12 ml-3">
                                 <div class="float-right form-group row">
-                                    <div class="input-group input-group-sm col-sm-2">
-                                        <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text" disabled>
-                                        {{'PrintLabel'|translate}}
-                                    </button> -->
+                                    <div class="input-group input-group-sm col-sm-2">                                       
                                         <button type="button"
                                             class="k-button k-primary k-button btn-sm btn-icon-with-text"
                                             (click)="onConfirmClick()"

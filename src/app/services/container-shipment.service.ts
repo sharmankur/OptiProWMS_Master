@@ -69,7 +69,18 @@ export class ContainerShipmentService {
 
   RemoveShipmentFromContainer(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveShipmentFromContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveFromShipment", jObject, this.commonService.httpOptions);
   }
+
+  SetDamagedContainer(oSaveArray:any){
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/SetContainersDamaged", jObject, this.commonService.httpOptions);
+  }
+
+  CloseContainer(oSaveArray:any){
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.commonService.httpOptions);
+  } 
+  
   
 }

@@ -679,7 +679,7 @@
   "ContainerCodeBlankMsg": "Container code can't be blank.",
   "CodeGenSuccessMsg": "Code generated successfully.",
   "SelectWOMsg": "Please select work order",
-  "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity",
+  "GreaterOpenQtyCheck": "Quantity cannot be greater than Open Quantity. Cannot create container.",
   "EnterAutoPackDesc": "Please enter Description",
   
   "Schedule": "Schedule",
@@ -1174,7 +1174,10 @@
   "Cannotremovebatser": "Cannot remove. Batch/Serial is not present to remove",
   "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
   "View_Rule_Items": "View Rule Items",
-      
+  "SetDamagedMsg": "Container set as Damaged successfully",
+  "ContIsClosed": "Container is Closed",
+  "CannotCreateCont": "Cannot create container",
+        
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
   
