@@ -1177,6 +1177,7 @@
   "SetDamagedMsg": "Container set as Damaged successfully",
   "ContIsClosed": "Container is Closed",
   "CannotCreateCont": "Cannot create container",
+  "View_BatchSer": "View Batch/Serial",
         
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
