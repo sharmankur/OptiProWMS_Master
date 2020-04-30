@@ -42,8 +42,8 @@ export class DockdoorupdateComponent implements OnInit {
         this.DDdetailArray[i].OPTM_DEFAULT_BOOL = this.DDdetailArray[i].OPTM_DEFAULT == "Y" ? true : false;
       }
       if (localStorage.getItem("Action") == "copy") {
-        // this.DD_ID = ''
-        this.WHSCODE = ''
+        this.DD_ID = ''
+        // this.WHSCODE = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       } else {

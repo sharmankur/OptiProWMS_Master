@@ -289,14 +289,15 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
         }
       } else if (this.lookupfor == "BinRangeList") {
+        if(this.whseZoneList[this.index].OPTM_BIN_RANGE == $event.OPTM_BIN_RANGE){
+          return
+        }
+
         if(this.isBinRangeExist($event.OPTM_BIN_RANGE)){
           this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-          return;
-        }
-        for (var i = 0; i < this.whseZoneList.length; i++) {
-          if (i == this.index) {
-            this.whseZoneList[i].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
-          }
+          this.whseZoneList[this.index].OPTM_BIN_RANGE = ''
+        } else {
+          this.whseZoneList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
         }
       }
     }
@@ -712,12 +713,16 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if(data.OPTM_SHP_WHSE_BINS.length > 0){
-            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
-              this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-              // this.whseZoneList[index].OPTM_BIN_RANGE = ''
+            if(this.whseZoneList[index].OPTM_BIN_RANGE == data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE){
               return
             }
-            this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+
+            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
+              this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
+              this.whseZoneList[index].OPTM_BIN_RANGE = ''
+            } else {
+              this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+            }
           }else{
             this.whseZoneList[index].OPTM_BIN_RANGE = "";
             display_name.value = "";
