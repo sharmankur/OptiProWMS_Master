@@ -30,6 +30,7 @@ export class CarrierUpdateComponent implements OnInit {
       this.carrierId = this.DD_ROW.OPTM_CARRIERID;
       this.carrierDesc = this.DD_ROW.OPTM_DESC;
       if (localStorage.getItem("Action") == "copy") {
+        this.carrierId = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       } else {

@@ -1177,6 +1177,9 @@
       
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
+  "AutoAllocation": "Auto Allocation", 
+  "BinRangeExistMsg": "Bin range already exist",
+  "BinExistMsg": "Bin already exist",
   
   "Dummy": "Dummy"  
 }
