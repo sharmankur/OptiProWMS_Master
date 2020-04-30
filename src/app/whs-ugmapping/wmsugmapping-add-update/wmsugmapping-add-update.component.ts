@@ -64,6 +64,9 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
       this.isUpdate = false;
       this.BtnTitle = this.translate.instant("CT_Add");
       this.prepareAndSetDataForUpdateAndCopy();
+      this.whsCode = ''
+      this.whsZone = ''
+      this.binRange = ''
     } else if (localStorage.getItem("UGAction") == "update") {
       this.isUpdate = true;
   

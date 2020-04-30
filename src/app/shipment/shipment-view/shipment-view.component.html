@@ -185,9 +185,9 @@
                                     <div class="col-sm-8">
                                         <div class="input-group ">
                                             <input type="text" class="form-control form-control-sm" name='Container_Group' [(ngModel)]=Container_Group id="Container_Group"
-                                                (blur)="IsValidContainerGroup()">
+                                                (blur)="IsValidContainerGroup()" [disabled]=true>
                                             <div class="input-group-append has-seprate-btn">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup('CT')">
+                                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForContainerGroup('CT')" [disabled]=true>
                                                     <i class="opti-icon-search"></i>
                                                 </button>
                                             </div>

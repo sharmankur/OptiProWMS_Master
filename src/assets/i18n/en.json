@@ -707,7 +707,6 @@
   "Set_Damaged": "Set Damaged",
   "Close_Container": "Close Container",
   "Query" : "Query",
-  "Post_To_Inventory": "Post To Inventory",
   "Container_Items": "Container Items",
   "Container_Id": "Container Id",
   "Wt_of_Items": "Wt of Items",
@@ -917,7 +916,6 @@
   "FROMOPRCODE": "Operation Code",
   "WOList": "Work Order List",
   "WorkCenter": "Work Center",
-  "PostToInv": "Post To Inventory",
   "ReOpen": "Reopen",
   "Invalid_Stagebin_msg":"Please select stage bin.", 
   "InventoryStatus": "Inventory Status",
@@ -1089,7 +1087,6 @@
   "ReturnedByCustomer": "Returned by customer",
   "SetDamaged": "Set damaged",
   "CloseCont": "Close container",
-  "PostToInventory": "Post to inventory",
   "SumBSValidMsg": "Sum of batch/serial qty can't be greater than balance qty",
   "PackValueValidation":"You can not select other then first value",
   "ItemQtyBlankMsg": "Item qty can't be blank",
@@ -1097,6 +1094,7 @@
 
   "autoAllocateFromGr": "Autoallocate from Gr",
   "ShipmentProcess": "Shipment Process",
+  "ShipmentPreview": "Shipment Preview",
   "ShipmentProcessLoadMsg": "Shipment loaded. Cannot change shipment process.",
   "ShipmentProcessChangeMsg": "Change is not reversible. Continue?",
   "ShipmentsCreatedAllocated": "Shipments Created and allocated",
@@ -1181,6 +1179,13 @@
         
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
+  "NumberOfCopies": "Number of copies",
+  "EnterFields": "Fields can not be blank",
+  "NoOfContainers": "Number of Containers",
+  "ReportTitle": "Print Report",
+  "AutoAllocation": "Auto Allocation", 
+  "BinRangeExistMsg": "Bin range already exist",
+  "BinExistMsg": "Bin already exist",
   
   "Dummy": "Dummy"  
 }

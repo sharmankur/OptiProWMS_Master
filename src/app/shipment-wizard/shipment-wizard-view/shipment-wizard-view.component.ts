@@ -80,6 +80,22 @@ export class ShipmentWizardViewComponent implements OnInit {
   DockDoor: string = "";
   CarrierCode: string = "";
 
+
+
+  @ViewChild('cform',{static:false}) cform;
+  @ViewChild('custTo',{static:false}) custTo;
+  @ViewChild('soFrom',{static:false}) soFrom;
+  @ViewChild('soTo',{static:false}) soTo;
+  @ViewChild('itemFrom',{static:false}) itemFrom;
+  @ViewChild('itemTo',{static:false}) itemTo;
+  @ViewChild('shipToCodeFrom',{static:false}) shipToCodeFrom;
+  @ViewChild('shipToCodeTo',{static:false}) shipToCodeTo;
+  @ViewChild('openQtyFrom',{static:false}) openQtyFrom;
+  @ViewChild('openQtyTo',{static:false}) openQtyTo;
+  @ViewChild('openLinesFrom',{static:false}) openLinesFrom;
+  @ViewChild('openLinesTo',{static:false}) openLinesTo;
+  @ViewChild('whse',{static:false}) whse;
+
   ngOnInit() {
     // this.HoldSelectedRow = [];
     this.HoldSelectedRow.ConsolidationsBy = [];
@@ -89,6 +105,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.ConsolidatedDataSelection.Company = [];
     this.dateFormat = localStorage.getItem("DATEFORMAT");
   }
+  ngAfterViewInit(){
+    console.log("ngAfterInit");
+    this.cform.nativeElement.focus();
+  } 
 
   onPrevClick() {
     if (this.currentStep > 1) {
@@ -112,7 +132,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)) {
             this.toastr.error('', this.translate.instant("SchDTValidation"));
             return;
-          }else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
+          } else if (this.AutoAllocate && (this.DockDoor == "" || this.DockDoor == null || this.DockDoor == undefined)) {
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
             return;
           }
@@ -512,8 +532,8 @@ export class ShipmentWizardViewComponent implements OnInit {
       }
     }
   }
-  
-  onQtyChange(){
+
+  onQtyChange() {
     alert("hi");
   }
 
@@ -521,10 +541,10 @@ export class ShipmentWizardViewComponent implements OnInit {
   GetSalesWizardData() {
     this.SetParameter = [];
     let uc = this.UseContainer == true ? "Y" : "N";
-    if(this.DueDateFrom != ""){
+    if (this.DueDateFrom != "") {
       this.DueDateFrom = new Date(this.DueDateFrom).toLocaleDateString();
     }
-    if(this.DueDateTo != ""){
+    if (this.DueDateTo != "") {
       this.DueDateTo = new Date(this.DueDateTo).toLocaleDateString();
     }
     this.SetParameter.push({
@@ -817,9 +837,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             } else {
               if (fieldName == "SONoFrom") {
                 this.SrNoFrom = "";
+                this.soFrom.nativeElement.focus();
               }
               else if (fieldName == "SONoTo") {
                 this.SrNoTo = "";
+                this.soTo.nativeElement.focus();
               }
               this.toastr.error('', this.translate.instant("InvalidSONo"));
             }
@@ -945,9 +967,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             } else {
               if (fieldName == "CustFrom") {
                 this.CustomerFrom = "";
+                this.cform.nativeElement.focus();
               }
               else if (fieldName == "CustTo") {
                 this.CustomerTo = "";
+                this.custTo.nativeElement.focus();
               }
               this.toastr.error('', this.translate.instant("Invalid_CC"));
             }
@@ -955,9 +979,11 @@ export class ShipmentWizardViewComponent implements OnInit {
             this.serviceData = data;
             if (fieldName == "CustFrom") {
               this.lookupfor = "CustomerFrom";
+              this.cform.nativeElement.focus();
             }
             else if (fieldName == "CustTo") {
               this.lookupfor = "CustomerTo";
+              this.custTo.nativeElement.focus();
             }
           }
 
@@ -1359,7 +1385,6 @@ export class ShipmentWizardViewComponent implements OnInit {
   @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
   isExpand: boolean = false;
   onExpandCollapse(grid) {
-    debugger
     this.isExpand = !this.isExpand;
     // this.ExpandCollapseBtn = (this.isExpand) ? this.translate.instant("CollapseAll") : this.translate.instant("ExpandAll")
 

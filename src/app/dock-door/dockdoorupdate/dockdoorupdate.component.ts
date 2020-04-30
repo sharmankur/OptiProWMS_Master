@@ -42,6 +42,8 @@ export class DockdoorupdateComponent implements OnInit {
         this.DDdetailArray[i].OPTM_DEFAULT_BOOL = this.DDdetailArray[i].OPTM_DEFAULT == "Y" ? true : false;
       }
       if (localStorage.getItem("Action") == "copy") {
+        // this.DD_ID = ''
+        this.WHSCODE = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       } else {
@@ -371,11 +373,24 @@ export class DockdoorupdateComponent implements OnInit {
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event[0];
     } else if (this.lookupfor == "BinList") {
+      if(this.isBinExist($event[0])){
+        this.toastr.error('', this.translate.instant("BinExistMsg"));
+        return
+      }
       for (let i = 0; i < this.DDdetailArray.length; ++i) {
         if (i === this.index) {
           this.DDdetailArray[i].OPTM_SHIP_STAGEBIN = $event[0];
         }
       }
+    }
+  }
+
+  isBinExist(value){
+    let data = this.DDdetailArray.filter(item => item.OPTM_SHIP_STAGEBIN === value)
+    if(data.length > 0){
+      return true;
+    } else {
+      return false;
     }
   }
 

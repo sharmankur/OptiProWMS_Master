@@ -46,6 +46,7 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Tare_Width = this.CT_ROW.OPTM_TARE_WT;
       this.formatCT_Tare_Width();
       if(localStorage.getItem("Action") == "copy"){
+        this.CT_ContainerType = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("CT_Add");
       }else{

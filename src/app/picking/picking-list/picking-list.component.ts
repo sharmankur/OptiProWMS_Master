@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GridDataResult, GridComponent } from '@progress/kendo-angular-grid';
 import { Router } from '@angular/router';
 import { PickTaskService } from '../../services/picktask.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -44,6 +44,11 @@ export class PickingListComponent implements OnInit {
   planDate: any =''// new Date();
   public ShipmentCodeFrom: any = '';
   public ShipmentCodeTo: any ='';
+
+
+  @ViewChild('wareHouse',{static:false}) wareHouse;
+  @ViewChild('fromShipment',{static:false}) fromShipment;
+  @ViewChild('toShipment',{static:false}) toShipment;
   //pageSize: number = Commonservice.pageSize;
   constructor(private picktaskService: PickTaskService,  private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private commonservice: Commonservice, private containerCreationService: ContainerCreationService) {
@@ -67,6 +72,12 @@ export class PickingListComponent implements OnInit {
    // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
   }
+
+
+  ngAfterViewInit(){
+    console.log("ngAfterInit");
+    this.wareHouse.nativeElement.focus();
+  } 
 
   onShipmentSelection(row) {
     localStorage.setItem("ShipDetail", JSON.stringify(row.dataItem));
@@ -161,6 +172,7 @@ export class PickingListComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.WarehouseId = ''
+          this.wareHouse.nativeElement.focus();
         } else {
           this.WarehouseId = resp[0].WhsCode
         }
@@ -210,11 +222,13 @@ export class PickingListComponent implements OnInit {
           } else {
             if (fieldName == "ShipIdFrom") {
              // this.ShipIdFrom = this.ShipmentCodeFrom = "";
-             this.ShipmentCodeFrom = "";
+             this.ShipmentCodeFrom = ""; 
+             this.fromShipment.nativeElement.focus();
             }
             else if (fieldName == "ShipIdTo") {
             //  this.ShipIdTo = this.ShipmentCodeTo = "";
             this.ShipmentCodeTo = "";
+            this.toShipment.nativeElement.focus();
             }
             this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
           }
@@ -469,4 +483,52 @@ export class PickingListComponent implements OnInit {
   onCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
+
+  selectall: boolean;
+  on_Selectall_checkbox_checked(checkedvalue) {
+    var isExist = 0;
+    // this.CheckedData = []
+    this.selectall = false
+    if (checkedvalue == true) {
+      if (this.PickItemList.length > 0) {
+        this.selectall = true
+     //   this.SelectedRowsforShipmentArr = [];
+     this.selectedPLItems = [];
+     this.selectedPLItemsDataForValidate = [];
+        for (let i = 0; i < this.PickItemList.length; ++i) {
+          var dataItem = this.PickItemList[i];
+          var itemId= dataItem.OPTM_PICKLIST_CODE;
+          this.selectedPLItems.push(itemId);
+          this.selectedPLItemsDataForValidate.push(dataItem);
+          this.PickItemList[i].Selected = true;
+        }
+      }
+    }
+    else {
+      this.selectall = false
+      // this.selectedValues = [];
+      if (this.PickItemList.length > 0) {
+        for (let i = 0; i < this.PickItemList.length; ++i) {
+          this.PickItemList[i].Selected = false;
+          this.selectedPLItems = [];
+          this.selectedPLItemsDataForValidate = [];
+        }
+      }
+    }
+  }
+
+
+  isColumnFilterView: boolean = false;
+
+  onFilterChange(checkBox:any,grid:GridComponent){
+    if(checkBox.checked==false){
+      this.clearFilter(grid);
+    }
+  }
+
+  clearFilter(grid:GridComponent){      
+    grid.filter.filters=[];    
+    //this.clearFilters();
+  }
+
 }
