@@ -381,7 +381,8 @@
                                                 <div class="form-group row">
                                                     <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                                     <div class="col-sm-7">
-                                                        <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate></kendo-datepicker>
+                                                        <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate 
+                                                        (valueChange)="onScheduleDateChange($event)"></kendo-datepicker>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1185,6 +1185,7 @@
   "AutoAllocation": "Auto Allocation", 
   "BinRangeExistMsg": "Bin range already exist",
   "BinExistMsg": "Bin already exist",
+  "SchDateValMsg": "Schedule date can't be less than current date",
   
   "Dummy": "Dummy"  
 }

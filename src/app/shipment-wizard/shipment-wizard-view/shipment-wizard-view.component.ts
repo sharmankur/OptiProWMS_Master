@@ -1396,4 +1396,15 @@ export class ShipmentWizardViewComponent implements OnInit {
       }
     }
   }
+
+  onScheduleDateChange(event){
+    console.log("onScheduleDateChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_Datetime = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+  }
 }

@@ -1135,4 +1135,26 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
+
+  onSchDateFromChange(event){
+    console.log("onSchDateFromChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_DatetimeFrom = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+  }
+
+  onSchDateToChange(event){
+    console.log("onSchDateToChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_DatetimeTo = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+  }
 }
