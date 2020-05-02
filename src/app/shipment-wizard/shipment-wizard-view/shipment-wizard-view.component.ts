@@ -1382,7 +1382,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
   isExpand: boolean = false;
   onExpandCollapse(grid) {
     this.isExpand = !this.isExpand;
