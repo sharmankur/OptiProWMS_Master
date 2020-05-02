@@ -354,7 +354,7 @@
                                                             {{'Close_Container'|translate}}</a> 
                                                         <a *ngIf="!enableCloseCont"  class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                                 {{'Close_Container'|translate}}</a>
-                                                        <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                        <a class="dropdown-item"  (click)="onPrintLabelClick()" style="color: black; cursor: not-allowed; pointer-events: all;">
                                                             {{'Barcode'|translate}}</a>
                                                     </div>
                                                 </div>
@@ -389,7 +389,7 @@
                                             </button>
                                         </div>
                                         <div class="ml-3">
-                                            <kendo-treeview [nodes]="DisplayTreeData" textField="text"
+                                            <!-- <kendo-treeview [nodes]="DisplayTreeData" textField="text"
                                                 kendoTreeViewExpandable kendoTreeViewHierarchyBinding
                                                 childrenField="items" [(expandedKeys)]="expandedKeys"
                                                 (collapse)="handleCollapse($event)" (expand)="handleExpand($event)">
@@ -403,7 +403,7 @@
                                                         </span>
                                                     </div>
                                                 </ng-template>
-                                            </kendo-treeview>
+                                            </kendo-treeview> -->
                                         </div>
                                     </div>
                                 </div>
@@ -598,3 +598,64 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+ <div> 
+    <app-display-pdf *ngIf="displayPDF" [base64String]='base64String' [fileName]='fileName' (pdfClose)="closePDF($event)"></app-display-pdf>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div> 
+
+<!-- Print label dialog-->
+<kendo-dialog [width]="500" [height]="200" *ngIf="showPrintDialog" (close)="close_kendo_dialog()">
+    <kendo-dialog-titlebar>
+    {{'ReportTitle'|translate}}
+    </kendo-dialog-titlebar>
+    <form class="form-with-fix-btnBar">
+        <div class="form-group ">
+            <div class="input-group input-group-sm">
+                <label class="col-sm-4 col-form-label">{{'NoOfContainers'|translate}}</label>
+                <div class="col-sm-8 p-0">
+                    <input type="text" #scanNoOfContainer id="containerCode" name="noOfContainers" [(ngModel)]="noOfContainers"
+                        class="form-control form-control-sm" placeholder="{{'NoOfContainers'|translate}}"
+                        >
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group input-group-sm">
+                <label class="col-sm-4 col-form-label">{{'NumberOfCopies'|translate}}</label>
+                <div class="col-sm-8 p-0">
+                    <input type="text" #noOfCopy id="containerCode" name="containerCode" [(ngModel)]="numberOfCopies"
+                        class="form-control form-control-sm" placeholder="{{'NumberOfCopies'|translate}}">
+                </div>
+            </div>
+        </div>
+         <div class = "ml-0">
+        <div class="input-group-append has-seprate-btn">
+            <button tabIndex="-1" class="k-button k-primary  mt-1 btn" type="button" (mousedown)="PrintClick()">
+                {{'Print'|translate}}
+            </button>
+        </div>
+        </div>
+    </form>
+</kendo-dialog>
+</div> 

@@ -11,7 +11,7 @@
                         <label for="WarehouseId" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                         <div class="col-sm-8">
                             <div class="input-group ">
-                                <input type="text" class="form-control form-control-sm" name='WarehouseId'
+                                <input type="text" #wareHouse class="form-control form-control-sm" name='WarehouseId'
                                     [(ngModel)]=WarehouseId id="WarehouseId" (blur)="onWhseChange()">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -28,7 +28,7 @@
                         <label for="shipmentId" class="col-sm-4 col-form-label">{{'fromShipment'|translate}}</label>
                         <div class="col-sm-8 row">
                             <div class="input-group ">
-                                <input type="text" class="form-control form-control-sm" name='fromShipment'
+                                <input type="text" #fromShipment class="form-control form-control-sm" name='fromShipment'
                                     [(ngModel)]=ShipmentCodeFrom id="fromShipment" (blur)="IsValidShipmentCode('ShipIdFrom')">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -46,8 +46,8 @@
                         <label for="shipmentId" class="col-sm-4 col-form-label">{{'toShipment'|translate}}</label>
                         <div class="col-sm-8 row">
                             <div class="input-group ">
-                                <input type="text" class="form-control form-control-sm" name='toShipment'
-                                    [(ngModel)]=ShipmentCodeTo id="toShipment" (blur)="IsValidShipmentCode('ShipIdFrom')">
+                                <input type="text" #toShipment class="form-control form-control-sm" name='toShipment'
+                                    [(ngModel)]=ShipmentCodeTo id="toShipment" (blur)="IsValidShipmentCode('ShipIdTo')">
                                 <div class="input-group-append has-seprate-btn">
                                     <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                         (mousedown)="GetDataForShipmentId('ShipIdTo')">
@@ -136,9 +136,9 @@
     <div class="col-12">
         <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemList" [resizable]="true" [sortable]="true" [selectable]="true"
             id="gridItem" [height]="250"  [pageSize]="pageSize" [pageable]="ShowGridPaging"  #gridItem 
-             (selectionChange)="onPickListItemClick($event)" >
+             (selectionChange)="onPickListItemClick($event)"   [filterable]="isColumnFilterView" >
             <!-- grid template start -->
-            <ng-template kendoGridToolbarTemplate>
+          <!--  <ng-template kendoGridToolbarTemplate>
                 <span class="grid-toolbar-title">{{'MaintainPickList'|translate}}</span>
             </ng-template>
 
@@ -148,6 +148,15 @@
                         <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ContainerItems)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" />
                         <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
                     </label> 
+              </ng-template>-->
+              <ng-template kendoGridToolbarTemplate> 
+                <span class="grid-toolbar-title">{{'MaintainPickList'|translate}}</span>  
+                    <!-- <label class="custom-checkbox mb-0 mr-2 filter-checkbox">                                            
+                        <input #chkFilterView type="checkbox"  id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" 
+                        (change)="onFilterChange(chkFilter,gridItem)"/>
+                        <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
+                    </label>  -->
+                    <!-- <span class="text-bold">{{'MaintainPickList'|translate}} </span> -->
               </ng-template>
 
             <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
@@ -204,11 +213,15 @@
             <!-- grid for mobile end -->
 
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_PLANDATETIME" [width]="45" headerClass="text-left"
-                title="{{'PlanDateTime'|translate}}">
+                title="{{'PlanDateTime'|translate}}" filter="date" >
                 <ng-template kendoGridCellTemplate let-dataItem>
                     {{dataItem.OPTM_PLANDATETIME | date: 'MM/dd/yyyy'}}
                 </ng-template>
             </kendo-grid-column>
+            <!-- we have to add date picker in grid we will enable it later.
+                     <kendo-datepicker name="pickdt" [(ngModel)]=dataItem.OPTM_PLANDATETIME [format]= dateFormat
+                 (change)="planDateTimeChange($event,dataItem,rowIndex)"  [value]="dataItem.OPTM_PLANDATETIME">
+               </kendo-datepicker> -->
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHSECODE" [width]="40"
                 title="{{'WhseCode'|translate}}" headerClass="text-left" class="text-left">
             </kendo-grid-column>
@@ -228,8 +241,11 @@
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_PRIORITY" [width]="25" 
             title="{{'Priority'|translate}}"
                 headerClass="text-left" class="text-left">
-                <!-- <ng-template kendoGridCellTemplate let-dataItem>
-                     need to check if anything we need  to do like formating etc.
+                <!--
+                     need to uncomment the below for editable etc.
+                 -->
+                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PRIORITY" (change)="ChangePriority($event,dataItem,rowIndex)">
                 </ng-template> -->
             </kendo-grid-column>
 

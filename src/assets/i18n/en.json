@@ -1180,9 +1180,14 @@
         
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
+  "NumberOfCopies": "Number of copies",
+  "EnterFields": "Fields can not be blank",
+  "NoOfContainers": "Number of Containers",
+  "ReportTitle": "Print Report",
   "AutoAllocation": "Auto Allocation", 
   "BinRangeExistMsg": "Bin range already exist",
   "BinExistMsg": "Bin already exist",
+  "SchDateValMsg": "Schedule date can't be less than current date",
   
   "Dummy": "Dummy"  
 }

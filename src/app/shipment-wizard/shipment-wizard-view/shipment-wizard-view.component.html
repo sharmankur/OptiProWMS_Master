@@ -73,7 +73,7 @@
                                                 <label for="CustomerFrom" class="col-sm-4 col-form-label">{{'Customer_From'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name='CustomerFrom' [(ngModel)]="CustomerFrom" id="CustomerFrom"
+                                                        <input  #cform type="text" class="form-control form-control-sm" name='CustomerFrom' [(ngModel)]="CustomerFrom" id="CustomerFrom"
                                                             (blur)="GetDataForCustomer('CustFrom', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustFrom', 'lookup')"
@@ -93,7 +93,7 @@
                                                 <label for="CustomerTo" class="col-sm-4 col-form-label">{{'Customer_To'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name='CustomerTo' [(ngModel)]="CustomerTo" id="CustomerTo" (blur)="GetDataForCustomer('CustTo', 'blur')">
+                                                        <input #custTo type="text" class="form-control form-control-sm" name='CustomerTo' [(ngModel)]="CustomerTo" id="CustomerTo" (blur)="GetDataForCustomer('CustTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForCustomer('CustTo', 'lookup')" [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
@@ -115,7 +115,7 @@
                                                 <label for="SOFrom" class="col-sm-4 col-form-label">{{'SO_From'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input id="SrNoFrom" type="Number" class="form-control form-control-sm" name='SrNoFrom' [(ngModel)]="SrNoFrom" (blur)="GetDataForSalesOredr('SONoFrom', 'blur')">
+                                                        <input #soFrom id="SrNoFrom" type="Number" class="form-control form-control-sm" name='SrNoFrom' [(ngModel)]="SrNoFrom" (blur)="GetDataForSalesOredr('SONoFrom', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SONoFrom', 'lookup')"
                                                                 [disabled]=isUpdate>
@@ -133,7 +133,7 @@
                                                 <label for="SOTo" class="col-sm-4 col-form-label">{{'SO_To'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input id="SrNoTo" type="Number" class="form-control form-control-sm" name='SrNoTo' [(ngModel)]="SrNoTo" (blur)="GetDataForSalesOredr('SONoTo', 'blur')">
+                                                        <input #soTo id="SrNoTo" type="Number" class="form-control form-control-sm" name='SrNoTo' [(ngModel)]="SrNoTo" (blur)="GetDataForSalesOredr('SONoTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForSalesOredr('SONoTo', 'lookup')"
                                                                 [disabled]=isUpdate>
@@ -156,7 +156,7 @@
                                                 <label for="ItemFrom" class="col-sm-4 col-form-label">{{'Item_From'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name='ItemFrom' [(ngModel)]="ItemFrom" id="ItemFrom" (blur)="GetDataForItemCode('ItmFrm', 'blur')">
+                                                        <input #itemFrom type="text" class="form-control form-control-sm" name='ItemFrom' [(ngModel)]="ItemFrom" id="ItemFrom" (blur)="GetDataForItemCode('ItmFrm', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForItemCode('ItmFrm', 'lookup')" [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
@@ -174,7 +174,7 @@
                                                 <label for="ItemTo" class="col-sm-4 col-form-label">{{'Item_To'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name='ItemTo' [(ngModel)]="ItemTo" id="ItemTo" (blur)="GetDataForItemCode('ItmTo', 'blur')">
+                                                        <input #itemTo type="text" class="form-control form-control-sm" name='ItemTo' [(ngModel)]="ItemTo" id="ItemTo" (blur)="GetDataForItemCode('ItmTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForItemCode('ItmTo', 'lookup')" [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
@@ -223,7 +223,7 @@
                                                 <label for="ShipFrom" class="col-sm-4 col-form-label">{{'Ship_From'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="ShipFrom" id="ShipFrom" [(ngModel)]="ShipFrom" (blur)="GetDataForShipToCode('ShipFrom', 'blur')">
+                                                        <input #shipToCodeFrom type="text" class="form-control form-control-sm" name="ShipFrom" id="ShipFrom" [(ngModel)]="ShipFrom" (blur)="GetDataForShipToCode('ShipFrom', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipFrom', 'lookup')"
                                                                 [disabled]=isUpdate>
@@ -241,7 +241,7 @@
                                                 <label for="ShipTo" class="col-sm-4 col-form-label">{{'Ship_To'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name="ShipTo" id="ShipTo" [(ngModel)]="ShipTo" (blur)="GetDataForShipToCode('ShipTo', 'blur')">
+                                                        <input #shipToCodeTo type="text" class="form-control form-control-sm" name="ShipTo" id="ShipTo" [(ngModel)]="ShipTo" (blur)="GetDataForShipToCode('ShipTo', 'blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForShipToCode('ShipTo', 'lookup')"
                                                                 [disabled]=isUpdate>
@@ -262,7 +262,7 @@
                                         <!-- col start -->
                                         <div class="col-sm-6">
                                             <div class="form-group row">
-                                                <label for="OpenQtyFrom" class="col-sm-4 col-form-label">{{'Open_Qty_From'|translate}}</label>
+                                                <label for="OpenQtyFrom" #openQtyFrom class="col-sm-4 col-form-label">{{'Open_Qty_From'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" class="form-control form-control-sm" name="OpenQtyFrom" id="OpenQtyFrom" [(ngModel)]="OpenQtyFrom" (keypress)="numericOnly($event)">
                                                 </div>
@@ -275,7 +275,7 @@
                                             <div class="form-group row">
                                                 <label for="OpenQtyTo" class="col-sm-4 col-form-label">{{'Open_Qty_To'|translate}}</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control form-control-sm" name="OpenQtyTo" id="OpenQtyTo" [(ngModel)]="OpenQtyTo" (keypress)="numericOnly($event)">
+                                                    <input type="text" #openQtyTo class="form-control form-control-sm" name="OpenQtyTo" id="OpenQtyTo" [(ngModel)]="OpenQtyTo" (keypress)="numericOnly($event)">
                                                 </div>
                                             </div>
                                         </div>
@@ -291,7 +291,7 @@
                                             <div class="form-group row">
                                                 <label for="NoofOpenLinesFrom" class="col-sm-4 col-form-label">{{'No_of_Open_Lines_From'|translate}}</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesFrom" name="NoofOpenLinesFrom" id="NoofOpenLinesFrom"
+                                                    <input type="text" #openLinesFrom class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesFrom" name="NoofOpenLinesFrom" id="NoofOpenLinesFrom"
                                                         (keypress)="numericOnly($event)">
                                                 </div>
                                             </div>
@@ -303,7 +303,7 @@
                                             <div class="form-group row">
                                                 <label for="NoofOpenLinesTo" class="col-sm-4 col-form-label">{{'No_of_Open_Lines_To'|translate}}</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesTo" name="NoofOpenLinesTo" id="NoofOpenLinesTo"
+                                                    <input type="text" #openLinesTo class="form-control form-control-sm" [(ngModel)]="NoofOpenLinesTo" name="NoofOpenLinesTo" id="NoofOpenLinesTo"
                                                         (keypress)="numericOnly($event)">
                                                 </div>
                                             </div>
@@ -321,7 +321,7 @@
                                                 <label for="Whse" class="col-sm-4 col-form-label">{{'PT_Warehouse'|translate}}</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
-                                                        <input type="text" class="form-control form-control-sm" name='WareHouse' [(ngModel)]="WareHouse" id="Whse" (blur)="GetDataForWareHouse('blur')">
+                                                        <input type="text" #whse class="form-control form-control-sm" name='WareHouse' [(ngModel)]="WareHouse" id="Whse" (blur)="GetDataForWareHouse('blur')">
                                                         <div class="input-group-append has-seprate-btn">
                                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetDataForWareHouse('Whs')" [disabled]=isUpdate>
                                                                 <i class="opti-icon-search"></i>
@@ -381,7 +381,8 @@
                                                 <div class="form-group row">
                                                     <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                                     <div class="col-sm-7">
-                                                        <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate></kendo-datepicker>
+                                                        <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate 
+                                                        (valueChange)="onScheduleDateChange($event)"></kendo-datepicker>
                                                     </div>
                                                 </div>
                                             </div>
