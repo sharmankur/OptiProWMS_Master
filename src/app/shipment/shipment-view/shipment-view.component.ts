@@ -916,8 +916,8 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-            this.DockDoor = data[0].OPTM_DOCKDOORID;
+          if (data.OPTM_DOCKDOOR.length > 0) {
+            this.DockDoor = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
           } else {
             this.DockDoor = "";
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));

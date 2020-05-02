@@ -585,12 +585,12 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
+          if (data.OPTM_DOCKDOOR.length > 0) {
             if (fieldName == "DDFrom") {
-              this.Dock_DoorFrom = data[0].OPTM_DOCKDOORID;
+              this.Dock_DoorFrom = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
             }
             else if (fieldName == "DDTo") {
-              this.Dock_DoorTo = data[0].OPTM_DOCKDOORID;
+              this.Dock_DoorTo = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
             }
           } else {
             if (fieldName == "DDFrom") {
