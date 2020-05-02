@@ -20,11 +20,14 @@ export class DocumentNumberingService {
 
 
 
-  GetDocumentallData(): Observable<any> {
+  GetDocumentallData(code): Observable<any> {
     let Comp = [];
     Comp.push({ CompanyDBId: localStorage.getItem("CompID") });
     let url = this.config_params.service_url
-    var jObject = { Shipment: JSON.stringify(Comp) };
+    var jObject = { 
+      Shipment: JSON.stringify(Comp),
+      OPTM_CODE: code
+    };
     return this.httpclient.post(this.config_params.service_url + "/api/DocumentNumbering/GetDocumentNumberingAllData", jObject, this.commonService.httpOptions);
   }
 

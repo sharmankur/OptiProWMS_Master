@@ -63,7 +63,7 @@ export class DocumentNumberingComponent implements OnInit {
   }
 
   GetConsolidatedData() {
-    this.docService.GetDocumentallData().subscribe(
+    this.docService.GetDocumentallData("").subscribe(
       resp => {
         this.DocGridData = resp;
       },
@@ -234,12 +234,38 @@ export class DocumentNumberingComponent implements OnInit {
     );
   }
 
+  // onCodeChange(value, idx) {
+  //   for (let i = 0; i < this.DocGridData.length; ++i) {
+  //     if (i === idx) {
+  //       this.DocGridData[i].OPTM_CODE = value;
+  //     }
+  //   }
+  // }
+
   onCodeChange(value, idx) {
-    for (let i = 0; i < this.DocGridData.length; ++i) {
-      if (i === idx) {
-        this.DocGridData[i].OPTM_CODE = value;
-      }
+    if(value == undefined ||  value == ''){
+      return
     }
+
+    this.docService.GetDocumentallData(value).subscribe(
+      resp => {
+        if(resp.length > 0){
+          this.DocGridData[idx].OPTM_CODE = resp[0].OPTM_CODE;
+        } else {
+          this.DocGridData[idx].OPTM_CODE = "";
+          this.toastr.error('', this.translate.instant("InvalidCode"));
+        }
+        this.DocGridData = resp;
+      },
+      error => {
+        console.log("Error:", error);
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', this.translate.instant("CommonSomeErrorMsg"));
+        }
+      }); 
   }
 }
 
