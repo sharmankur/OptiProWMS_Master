@@ -719,7 +719,10 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
             if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
               this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
+              this.whseZoneList[index].OPTM_BIN_RANGE = ' '
+              setTimeout(()=>{
               this.whseZoneList[index].OPTM_BIN_RANGE = ''
+              }, 500)
             } else {
               this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
             }

@@ -62,7 +62,7 @@ export class DockdoorupdateComponent implements OnInit {
     // this.onAddUpdateClick();
   }
 
-  openConfirmForDelete(rowIndex, gridItem){
+  openConfirmForDelete(rowIndex, gridItem) {
     this.DDdetailArray.splice(rowIndex, 1);
     gridItem = this.DDdetailArray;
   }
@@ -233,7 +233,7 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidBinCode(index, bincode, display_name) {
-    if(bincode == undefined || bincode == ""){
+    if (bincode == undefined || bincode == "") {
       return;
     }
     this.showLoader = true;
@@ -247,13 +247,25 @@ export class DockdoorupdateComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = data[0].BinCode;
+            if (this.DDdetailArray[index].OPTM_SHIP_STAGEBIN == data[0].BinCode) {
+              return
+            }
+
+            if (this.isBinExist(data[0].BinCode)) {
+              this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = " ";
+              // display_name.value = "";
+              setTimeout(() => {
+                this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+              }, 100)
+              this.toastr.error('', this.translate.instant("BinExistMsg"));
+            } else {
+              this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = data[0].BinCode;
+            }
           } else {
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
-            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = " ";
             display_name.value = "";
           }
-
         } else {
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
@@ -273,7 +285,7 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidWhseCode() {
-    if(this.WHSCODE == undefined || this.WHSCODE == ""){
+    if (this.WHSCODE == undefined || this.WHSCODE == "") {
       return;
     }
     this.showLoader = true;
@@ -373,7 +385,7 @@ export class DockdoorupdateComponent implements OnInit {
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event[0];
     } else if (this.lookupfor == "BinList") {
-      if(this.isBinExist($event[0])){
+      if (this.isBinExist($event[0])) {
         this.toastr.error('', this.translate.instant("BinExistMsg"));
         return
       }
@@ -385,9 +397,9 @@ export class DockdoorupdateComponent implements OnInit {
     }
   }
 
-  isBinExist(value){
+  isBinExist(value) {
     let data = this.DDdetailArray.filter(item => item.OPTM_SHIP_STAGEBIN === value)
-    if(data.length > 0){
+    if (data.length > 0) {
       return true;
     } else {
       return false;
@@ -413,10 +425,10 @@ export class DockdoorupdateComponent implements OnInit {
       this.DDdetailArray[i].OPTM_DEFAULT = "N";
     }
     this.DDdetailArray[rowindex].OPTM_DEFAULT_BOOL = value;
-    if(value == true){
-      this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y"; 
-    }else{
-      this.DDdetailArray[rowindex].OPTM_DEFAULT = "N"; 
+    if (value == true) {
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y";
+    } else {
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "N";
     }
   }
 }
