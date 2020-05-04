@@ -1189,6 +1189,8 @@
   "BinExistMsg": "Bin already exist",
   "SchDateValMsg": "Schedule date can't be less than current date",
   "InvalidCode": "Invalid Code",
+  "ShipmentIdFrom": "Shipment Id From",
+  "ShipmentIdTo": "Shipment Id To",
   
   "Dummy": "Dummy"  
 }
