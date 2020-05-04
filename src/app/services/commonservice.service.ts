@@ -1145,7 +1145,7 @@ export class Commonservice {
         OPTM_SHIPMENT_CODE: ShipId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/shipdl/GetShipmentIdWithAllocAndPartAllocStatus", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ship/GetShipmentIdWithAllocAndPartAllocStatus", jObject, this.httpOptions);
   }
 
   AllocateContAndBtchSerToShipment(ShipIdFrom, ShipIdTo,
@@ -1161,6 +1161,6 @@ export class Commonservice {
         OPTM_USERID: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/shipdl/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ship/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
   }
 }

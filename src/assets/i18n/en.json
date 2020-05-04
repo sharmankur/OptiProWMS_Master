@@ -1188,9 +1188,12 @@
   "BinRangeExistMsg": "Bin range already exist",
   "BinExistMsg": "Bin already exist",
   "SchDateValMsg": "Schedule date can't be less than current date",
+  "SchDateGreaterValMsg": "Schedule from date can't be greater than to date",
   "InvalidCode": "Invalid Code",
   "ShipmentIdFrom": "Shipment Id From",
   "ShipmentIdTo": "Shipment Id To",
+  "ShipmentFromBlankMsg": "Shipment can't be blank",
+  "SheduleBlankMsg": "Shedule date can't be blank",
   
   "Dummy": "Dummy"  
 }

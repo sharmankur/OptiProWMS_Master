@@ -233,6 +233,8 @@ export class CommonLookupComponent implements OnInit {
       this.showContItemBatchSerialList();
     }else if(this.lookupfor == "RULEITEMS"){
       this.showRuleItemList();
+    } else if(this.lookupfor == "AutoAllocate"){
+      this.showShipsForAutoAllocate();
     }
 
     this.clearFilters();
@@ -1226,6 +1228,29 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("CustomerList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showShipsForAutoAllocate() {
+    this.table_head = [
+      {
+        title: this.translate.instant("PT_ShipmentId"),
+        field: 'OPTM_SHIPMENTID',
+        type: 'text',
+        width: '100'
+      },
+      {
+        title: this.translate.instant("Shipment_Code"),
+        field: 'OPTM_SHIPMENT_CODE',
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ShipmentLineDetails");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

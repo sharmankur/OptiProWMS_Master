@@ -11,8 +11,8 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 export class AutoAllocationComponent implements OnInit {
 
-  ShipToCodeFrom: string = "";
-  ShipToCodeTo: string = "";
+  // ShipToCodeFrom: string = "";
+  // ShipToCodeTo: string = "";
   ShipIdFrom: string = "";
   ShipIdTo: string = "";
   ShipmentCodeFrom: string = "";
@@ -40,6 +40,7 @@ export class AutoAllocationComponent implements OnInit {
   ngOnInit() {
   }
 
+  lookup: any;
   getlookupSelectedItem(event) {
     if (event != null && event == "close") {
       this.hideLookup = false;
@@ -51,11 +52,11 @@ export class AutoAllocationComponent implements OnInit {
     // else if (this.lookupfor == "ShipTo") {
     //   this.ShipToCodeTo = event.Address;
     // }
-    else if (this.lookupfor == "ShipIdFrom") {
+    else if (this.lookup == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;
       this.ShipmentCodeFrom = event.OPTM_SHIPMENT_CODE;
     }
-    else if (this.lookupfor == "ShipIdTo") {
+    else if (this.lookup == "ShipIdTo") {
       this.ShipIdTo = event.OPTM_SHIPMENTID;
       this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE;
     }
@@ -63,14 +64,22 @@ export class AutoAllocationComponent implements OnInit {
 
   schedularFromDate: any;
   schedularToDate: any;
+  tempFromDate: Date;
+  tempToDate: Date;
   onScheduleFromDateChange(event) {
     console.log("onScheduleFromDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    this.tempFromDate = event
     if (event.getTime() < cDate.getTime()) {
       this.schedularFromDate = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+
+    if (this.tempToDate.getTime() < event.getTime()) {
+      this.schedularFromDate = '';
+      this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
     }
   }
 
@@ -79,21 +88,27 @@ export class AutoAllocationComponent implements OnInit {
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    this.tempToDate = event;
     if (event.getTime() < cDate.getTime()) {
       this.schedularToDate = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+
+    if (event.getTime() < this.tempFromDate.getTime()) {
+      this.schedularToDate = '';
+      this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
     }
   }
 
   GetShipmentIdWithAllocAndPartAllocStatus(fieldName) {
     var shipId = ''
     if (fieldName == 'ShipIdFrom') {
-      shipId = this.ShipIdFrom
+      shipId = this.ShipmentCodeFrom
     } else {
-      shipId = this.ShipIdTo
+      shipId = this.ShipmentCodeTo
     }
     this.showLoader = true;
-    this.hideLookup = false;
+    this.hideLookup = true;
     this.commonservice.GetShipmentIdWithAllocAndPartAllocStatus(shipId).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -104,21 +119,24 @@ export class AutoAllocationComponent implements OnInit {
             return;
           }
           if (shipId == undefined || shipId == '') {
-            this.serviceData = data;
-            this.lookupfor = fieldName;
+            this.serviceData = data.Table;
+            this.lookup = fieldName;
+            this.lookupfor = "AutoAllocate"
+            this.hideLookup = false;
           } else {
-            if (data.length > 0) {
+            if (data.Table.length > 0) {
               if (fieldName == 'ShipIdFrom') {
-                this.ShipIdFrom = data[0].OPTM_SHIPMENT_CODE
+                this.ShipmentCodeFrom = data.Table[0].OPTM_SHIPMENT_CODE
               } else {
-                this.ShipIdTo = data[0].OPTM_SHIPMENT_CODE
+                this.ShipmentCodeTo = data.Table[0].OPTM_SHIPMENT_CODE
               }
             } else {
               if (fieldName == 'ShipIdFrom') {
-                this.ShipIdFrom = ''
+                this.ShipmentCodeFrom = ''
               } else {
-                this.ShipIdTo = ''
+                this.ShipmentCodeTo = ''
               }
+              this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
             }
           }
         } else {
@@ -138,6 +156,15 @@ export class AutoAllocationComponent implements OnInit {
   }
 
   onAutoAllocClick() {
+    if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
+      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
+      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
+      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
+      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
       this.schedularFromDate, this.schedularToDate).subscribe(
@@ -149,8 +176,8 @@ export class AutoAllocationComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            this.ShipIdFrom = ''
-            this.ShipIdTo = ''
+            this.ShipmentCodeFrom = ''
+            this.ShipmentCodeTo = ''
             this.schedularFromDate = ''
             this.schedularToDate = ''
           } else {

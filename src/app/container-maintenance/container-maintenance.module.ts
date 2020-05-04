@@ -14,10 +14,11 @@ import { ContainerCreationModule } from '../container-creation/container-creatio
 import { ContMaintnceComponent } from './cont-maintnce/cont-maintnce.component';
 import { AddItemToContComponent } from './add-item-to-cont/add-item-to-cont.component';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { AutoAllocationComponent } from '../auto-allocation/auto-allocation.component';
 
 
 @NgModule({
-  declarations: [ContMaintnceMainComponent, ContMaintnceComponent, AddItemToContComponent],
+  declarations: [ContMaintnceMainComponent, ContMaintnceComponent, AddItemToContComponent, AutoAllocationComponent],
   imports: [
     CommonModule,
     ContainerMaintenanceRoutingModule,
