@@ -16,6 +16,7 @@ import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate
 import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
 import { BuildParentContainerComponent } from '../container-creation/build-parent-container/build-parent-container.component';
 import { AddItemToContComponent } from '../container-maintenance/add-item-to-cont/add-item-to-cont.component';
+import { AutoAllocationComponent } from '../auto-allocation/auto-allocation.component';
 
 
 const routes: Routes = [
@@ -65,6 +66,7 @@ const routes: Routes = [
       // { path: 'TransactionStepSetup', loadChildren: "../Setup/setup.module#SetupModule" },
       { path: 'DocumentNumbering', component: DocumentNumberingComponent } ,
       { path: 'add-item-container', component: AddItemToContComponent } ,
+      { path: 'autoallocation', component: AutoAllocationComponent } ,
     ]
 
   }
