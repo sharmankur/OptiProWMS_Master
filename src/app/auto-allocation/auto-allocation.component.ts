@@ -158,12 +158,16 @@ export class AutoAllocationComponent implements OnInit {
   onAutoAllocClick() {
     if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
       this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+      return
     } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
       this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+      return
     } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
       this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+      return
     } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
       this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+      return
     }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,

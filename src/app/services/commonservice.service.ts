@@ -1156,8 +1156,8 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID"),
         FROMSHIPMENTID: ShipIdFrom,
         TOSHIPMENTID: ShipIdTo,
-        FROMDATETIME: schedularFromDate,
-        TODATETIME: schedularToDate,
+        FROMDATETIME: ""+schedularFromDate,
+        TODATETIME: ""+schedularToDate,
         OPTM_USERID: localStorage.getItem("UserId")
       }])
     };
