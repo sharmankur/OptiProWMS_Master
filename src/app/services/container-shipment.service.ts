@@ -43,7 +43,8 @@ export class ContainerShipmentService {
         IsShipment: IsShipment,
         WOId: WOId,
         SOId: SOId,
-        Operation: SelectedOperation
+        Operation: SelectedOperation,
+        OPTM_CONT_GROUPCODE: ''
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
