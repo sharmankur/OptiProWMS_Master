@@ -180,6 +180,8 @@ export class AutoAllocationComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
+            // {"OUTPUT":[{"RESULT":"Data Saved"}]}
+            this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
             this.ShipmentCodeFrom = ''
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''
