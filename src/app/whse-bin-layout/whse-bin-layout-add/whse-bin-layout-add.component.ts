@@ -313,6 +313,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onAddRowClick(event) {
+    if (this.whseCode == '' || this.whseCode == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return;
+    }
+
     if (event == "zone") {
       this.whseZoneList.push({
         WhseCode: "",

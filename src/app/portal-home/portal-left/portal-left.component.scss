@@ -4,6 +4,7 @@
 // 1. Css Start Related to left panel menu listing //
 .opti_left-nav-ul {
     width: 100%;
+    overflow-y: auto;
     > li {
         list-style: none;
         padding: 12px 15px;

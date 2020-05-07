@@ -68,8 +68,12 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   validateFields(): boolean {
+    if((this.WHSCODE == '' || this.WHSCODE == undefined) && (this.DD_ID == '' || this.DD_ID == undefined)){
+      this.toastr.error('', this.translate.instant("EnterHdrInfoMsg"));
+      return
+    }
     if (this.DD_ID == '' || this.DD_ID == undefined) {
-      this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
+      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
       return false;
     } else if (this.WHSCODE == '' || this.WHSCODE == undefined) {
       this.toastr.error('', this.translate.instant("Whs_blank_msg"));
@@ -80,12 +84,24 @@ export class DockdoorupdateComponent implements OnInit {
       return false;
     }
     else if (this.DDdetailArray.length > 0) {
-      let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
         if (this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == undefined || this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == "") {
           this.toastr.error('', this.translate.instant("Invalid_Stagebin_msg"));
           return false;
         }
+      }
+
+      var isDefaultBinSelected = false
+      for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
+        if (this.DDdetailArray[iBtchIndex].OPTM_DEFAULT == "Y") {
+          isDefaultBinSelected = true;
+          break
+        }
+      }
+
+      if(!isDefaultBinSelected){
+        this.toastr.error('', this.translate.instant("DefaultBinMandate"));
+        return false;
       }
     }
     return true;
@@ -407,6 +423,10 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   AddRow() {
+    if (this.WHSCODE == '' || this.WHSCODE == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return false;
+    }
     this.DDdetailArray.push(new DDdetailModel("", "", "N"));
   }
 
