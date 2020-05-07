@@ -60,6 +60,7 @@ export class ShipmentViewComponent implements OnInit {
   pagable4 = false;
   pagable5 = false;
   pagable1 = false;
+  ShowGridPaging = false;
   btnText: string;
   isStageDiabled: boolean = true;
   isScheduledDiabled: boolean = false;
@@ -74,6 +75,8 @@ export class ShipmentViewComponent implements OnInit {
   shpProcess: any;
   shipmentProcessList: any[] = [];
   dialogOpened = false;
+  fromScreen: string;
+  ArchiveDialog: boolean = false;
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -85,22 +88,6 @@ export class ShipmentViewComponent implements OnInit {
       this.Container_status_array = this.commonData.Container_Status_DropDown();
       this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     });
-  }
-
-  Container_Status_DropDown() {
-    return [
-      "New",
-      "Open",
-      "Closed",
-      "Reopened",
-      "Assigned",
-      "Shipped",
-      "Picked",
-      "Returned",
-      "Damaged",
-      "Cancelled",
-      "Loaded"
-    ];
   }
 
   ShipmentStatusEnum() {
@@ -162,6 +149,7 @@ export class ShipmentViewComponent implements OnInit {
     this.Container_status_array = this.commonData.Container_Status_DropDown();
     this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
+    this.fromScreen = localStorage.getItem("fromscreen");
     if (localStorage.getItem("ShipmentID") != null && localStorage.getItem("ShipmentID") != undefined && localStorage.getItem("ShipmentID") != "") {
       this.ShipmentID = localStorage.getItem("ShipmentID");
       this.ShipmentCode = localStorage.getItem("ShipmentCode");
@@ -172,7 +160,6 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   clearStorage() {
-    // localStorage.setItem("ShipmentID", '');
     localStorage.setItem("ShipmentArrData", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
@@ -196,13 +183,13 @@ export class ShipmentViewComponent implements OnInit {
     this.SODetails = [];
   }
 
-  IsValidShipmentCode(fieldName) {
+  IsValidShipmentCode() {
     if (this.ShipmentCode == undefined || this.ShipmentCode == "") {
       return;
     }
     this.clearFields()
     this.showLoader = true;
-    this.commonservice.IsValidShipmentCode(this.ShipmentCode).subscribe(
+    this.commonservice.IsValidShipmentCode(this.ShipmentCode, this.fromScreen).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -246,7 +233,7 @@ export class ShipmentViewComponent implements OnInit {
 
   GetShipmentIdForShipment() {
     this.showLoader = true;
-    this.shipmentService.GetShipmentIdForShipment().subscribe(
+    this.commonservice.GetShipmentIdForShipment(this.fromScreen).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1114,6 +1101,51 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  CustomerReturn(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.shipmentService.CreateReturnDocument(this.ShipmentID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("CancelAndUnassignedMSg"));
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+
+  TransferFromArchive(){
+    this.ArchiveDialog = true;
+  }
+
+  close_Archive_dialog(){
+    this.ArchiveDialog = false;
+  }
+
   onScheduleDateChange(event){
     console.log("onScheduleDateChange: s" + event.getDate())
     var cDate = new Date();
@@ -1123,5 +1155,258 @@ export class ShipmentViewComponent implements OnInit {
       this.ScheduleDatetime = undefined;
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
+  }
+
+  /////////Archive data/////////////////////////////////////////////////////////////
+  ArchiveShipments: any[];
+  ShipmentCodeFrom: string = "";
+  ShipmentCodeTo: string= "";
+  ShipmentidFrom: string= "";
+  ShipmentidTo: string= "";
+  CustomerFrom: string= "";
+  Schedule_DatetimeFrom: Date;
+  Schedule_DatetimeTo: Date;
+
+  getlookupdetail(event){
+    if (this.lookupfor == "ShipIdFrom") {
+      this.ShipmentCodeFrom = event.OPTM_SHIPMENT_CODE;
+      this.ShipmentidFrom = event.OPTM_SHIPMENTID
+    } else if (this.lookupfor == "ShipIdTo") {
+      this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE;
+      this.ShipmentidTo = event.OPTM_SHIPMENTID
+    } else if (this.lookupfor == "CustomerFrom") {
+      this.CustomerFrom = event.CardCode;
+    } 
+  }
+
+  
+  validateArchivingFields() : boolean {
+    return false;
+  }
+
+  onQueryBtnClick(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.shipmentService.GetArchieivingShipmentData(this.ShipmentidFrom, this.ShipmentidTo, this.Schedule_DatetimeFrom.toLocaleDateString(),
+    this.Schedule_DatetimeFrom.toLocaleDateString(), this.CustomerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("RestorearchivedShpMsg"));
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } 
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  RestoreFromArchived(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.shipmentService.TransferArchieveDataToShipment(this.ShipmentID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', this.translate.instant("RestorearchivedShpMsg"));
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } 
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+  
+  //#region "shipmentId"  
+  IsValidArchiveShipmentCode(fieldName) {
+    let soNum;
+    if (fieldName == "ShipIdFrom") {
+      soNum = this.ShipmentCodeFrom;
+    }
+    else if (fieldName == "ShipIdTo") {
+      soNum = this.ShipmentCodeTo
+    }
+    if (soNum == "" || soNum == null || soNum == undefined) {
+      return;
+    }
+
+    this.showLoader = true;
+    this.commonservice.IsValidShipmentCode(soNum, "archiveddata").subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            if (fieldName == "ShipIdFrom") {
+              // this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
+              this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
+            }
+            else if (fieldName == "ShipIdTo") {
+              // this.ShipIdTo = data[0].OPTM_SHIPMENTID;
+              this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE
+            }
+          } else {
+            if (fieldName == "ShipIdFrom") {
+              // this.ShipIdFrom = 
+              this.ShipmentCodeFrom = "";
+              // this.shipIdFromField.nativeElement.focus();
+            }
+            else if (fieldName == "ShipIdTo") {
+              // this.ShipIdTo = t
+              this.ShipmentCodeTo = "";
+              // this.shipIdToField.nativeElement.focus();
+            }
+            this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+          }
+        } else {
+          if (fieldName == "ShipIdFrom") {
+            // this.ShipIdFrom = 
+            this.ShipmentCodeFrom = "";
+            // this.shipIdFromField.nativeElement.focus();
+          }
+          else if (fieldName == "ShipIdTo") {
+            // this.ShipIdTo = 
+            this.ShipmentCodeTo = "";
+            // this.shipIdToField.nativeElement.focus();
+          }
+          this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+        }
+      },
+      error => {
+      }
+    );
+  }
+
+  hideArchiveLookup = true
+  GetDataForShipmentId(fieldName) {
+    this.showLoader = true;
+    this.commonservice.GetShipmentIdForShipment("archiveddata").subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.hideArchiveLookup = false;
+          this.serviceData = data;
+          this.lookupfor = fieldName;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+      }
+    );
+  }
+  //#endregion
+
+  GetDataForCustomer(fieldName, event) {
+    let ccode;
+    if (fieldName == "CustFrom") {
+      ccode = this.CustomerFrom;
+    }
+    
+    if ((ccode == "" || ccode == null || ccode == undefined) && (event == 'blur')) {
+      return;
+    }
+    if (event != 'blur') {
+      ccode = ""
+    }
+    this.showLoader = true;
+    this.hideLookup = false;
+    this.commonservice.GetDataForCustomerLookup(ccode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "CustFrom") {
+                this.CustomerFrom = data[0].CardCode;
+              }
+      
+            } else {
+              if (fieldName == "CustFrom") {
+                this.CustomerFrom = "";
+                // this.cform.nativeElement.focus();
+              }
+              else if (fieldName == "CustTo") {
+                // this.CustomerTo = "";
+                // this.custTo.nativeElement.focus();
+              }
+              this.toastr.error('', this.translate.instant("Invalid_CC"));
+            }
+          } else {
+            this.serviceData = data;
+            if (fieldName == "CustFrom") {
+              this.lookupfor = "CustomerFrom";
+              // this.cform.nativeElement.focus();
+            }
+            else if (fieldName == "CustTo") {
+              this.lookupfor = "CustomerTo";
+              // this.custTo.nativeElement.focus();
+            }
+          }
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 }

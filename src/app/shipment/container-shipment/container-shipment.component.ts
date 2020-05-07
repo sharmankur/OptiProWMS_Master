@@ -137,9 +137,14 @@ export class ContainerShipmentComponent implements OnInit {
         this.StatusValue = "3";
         break;
       case 5:
-        this.StatusId = "";
+        this.StatusId = { "Value": 0, "Name": "" };
         this.status = "";
         this.StatusValue = "";
+        break;
+      case 6:
+        this.StatusId = this.statusArray[1];
+        this.status = this.StatusId.Value;
+        this.StatusValue = "2";
         break;
     }
   }
@@ -182,6 +187,7 @@ export class ContainerShipmentComponent implements OnInit {
               this.ContainerItems[i].OPTM_SHIPELIGIBLE = (this.ContainerItems[i].OPTM_SHIPELIGIBLE) == 'Y' ? 'Yes' : 'No';
             }
           } else {
+            this.ContainerItems = [];
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
         },
@@ -286,7 +292,7 @@ export class ContainerShipmentComponent implements OnInit {
 
   GetShipmentIdForShipment() {
     this.showLoader = true;
-    this.commonservice.GetShipmentIdForShipment().subscribe(
+    this.commonservice.GetShipmentIdForShipment("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
