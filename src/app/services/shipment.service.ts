@@ -16,14 +16,6 @@ export class ShipmentService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
-  GetShipmentIdForShipment(): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
-      }])
-    };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.commonService.httpOptions);
-  }
 
   GetDataBasedOnShipmentId(OPTM_SHIPMENTID: string): Observable<any> {
     let jObject = {
@@ -95,6 +87,41 @@ export class ShipmentService {
   CreateContainerForPacking(oSaveModel): Observable<any> {
     let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateContainerForPacking", jObject, this.commonService.httpOptions);
+  }
+
+  CreateReturnDocument(OPTM_SHIPMENTID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateReturnDocument", jObject, this.commonService.httpOptions);
+  }
+
+  TransferArchieveDataToShipment(OPTM_SHIPMENTID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/TransferArchieveDataToShipment", jObject, this.commonService.httpOptions);
+  }
+    
+
+  GetArchieivingShipmentData(FROMSHIPMENTID, TOSHIPMENTID, FROMDATETIME, TODATETIME, CUSTOMERCODE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        FROMSHIPMENTID: FROMSHIPMENTID,
+        TOSHIPMENTID: TOSHIPMENTID,
+        FROMDATETIME: FROMDATETIME,
+        TODATETIME: TODATETIME,
+        CUSTOMERCODE: CUSTOMERCODE
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/TransferArchieveDataToShipment", jObject, this.commonService.httpOptions);
   }
 }
 

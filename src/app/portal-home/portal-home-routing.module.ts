@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: 'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule) },
       { path: 'genearetpicklist', component: GeneratePickComponent },
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
-      // { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},    
+      { path: 'archiveddata', loadChildren: "../shipment/shipment.module#ShipmentModule" },
       { path: 'shipment', loadChildren: "../shipment/shipment.module#ShipmentModule" },
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },

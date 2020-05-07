@@ -292,7 +292,7 @@ export class ContainerShipmentComponent implements OnInit {
 
   GetShipmentIdForShipment() {
     this.showLoader = true;
-    this.commonservice.GetShipmentIdForShipment().subscribe(
+    this.commonservice.GetShipmentIdForShipment("").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

@@ -270,6 +270,14 @@
                             <span class="text">{{'DropdownMenu_Shipment'|translate}}</span>
                         </a>
                     </li>
+                    <li id="16020" (click)="listClick($event, 'archiveddata')" [ngClass]="{'active': selectedItem == 'archiveddata'}" [ngStyle]="{'display':'flex'}">
+                            <a class="dropdown-item">
+                                <svg viewBox="0 0 512 512" class="icon">
+                                    <use xlink:href="#shippingSolution"></use>
+                                </svg>
+                                <span class="text">{{'ArchievedData'|translate}}</span>
+                            </a>
+                        </li>                    
                     <li id="16021" (click)="listClick($event, 'picking')" [ngClass]="{'active': selectedItem == 'picking'}" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/picking/picking-list">
                             <svg viewBox="0 0 966.25 966" class="icon">

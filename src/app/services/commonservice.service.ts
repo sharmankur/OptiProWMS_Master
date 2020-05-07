@@ -917,11 +917,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
-  IsValidShipmentCode(SHIPMENTCODE: string): Observable<any> {
+  IsValidShipmentCode(SHIPMENTCODE: string, OPTM_ARC): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        SHIPMENTCODE: SHIPMENTCODE
+        SHIPMENTCODE: SHIPMENTCODE,
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
@@ -989,10 +991,12 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
   }
 
-  GetShipmentIdForShipment(): Observable<any> {
+  GetShipmentIdForShipment(OPTM_ARC): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
