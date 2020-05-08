@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -51,6 +51,14 @@ export class BuildParentContainerComponent implements OnInit {
   autoClose: boolean = false;
   IsDisableScanChild: boolean = true;
   enableCloseCont: boolean = false;
+  @ViewChild("scanWhse", {static: false}) scanWhse;
+  @ViewChild("scanBinNo", {static: false}) scanBinNo;
+  @ViewChild("scanContType", {static: false}) scanContType;
+  @ViewChild("scanPCType", {static: false}) scanPCType;
+  @ViewChild("scanContGrCode", {static: false}) scanContGrCode;
+  @ViewChild("scanSONo", {static: false}) scanSONo;
+  @ViewChild("scanPContCode", {static: false}) scanPContCode;
+  @ViewChild("scanContCode", {static: false}) scanContCode;
 
   showHideDetails() {
     this.showHideEnable = !this.showHideEnable
@@ -222,8 +230,10 @@ export class BuildParentContainerComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whse = ''
+          this.scanWhse.nativeElement.focus()
         } else {
           this.whse = resp[0].WhsCode
+          this.scanBinNo.nativeElement.focus()
         }
       },
       error => {
@@ -296,9 +306,11 @@ export class BuildParentContainerComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("INVALIDBIN"));
           this.binNo = ''
+          this.scanBinNo.nativeElement.focus()
         }
         else {
           this.binNo = resp[0].BinCode;
+          this.scanContType.nativeElement.focus()
         }
       },
       error => {
@@ -396,9 +408,11 @@ export class BuildParentContainerComponent implements OnInit {
           } else {
             this.containerGroupCode = '';
             this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+            this.scanContGrCode.nativeElement.focus()
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.scanSONo.nativeElement.focus()
         }
       },
       error => {
@@ -484,10 +498,12 @@ export class BuildParentContainerComponent implements OnInit {
                 this.parentContainerType = '';
                 this.ParentPerQty = 0;
                 this.toastr.error('', this.translate.instant("InvalidParentContType"));
+                this.scanPCType.nativeElement.focus()
                 return;
               }
               else {
                 this.ParentPerQty = this.ParentCTAray[index].OPTM_CONT_PERPARENT;
+                this.scanContGrCode.nativeElement.focus()
               }
             }
             else {
@@ -694,6 +710,7 @@ export class BuildParentContainerComponent implements OnInit {
             if (data.length == 0) {
               this.soNumber = '';
               this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
+              this.scanSONo.nativeElement.focus()
             } else {
               this.soNumber = data[0].DocEntry
             }

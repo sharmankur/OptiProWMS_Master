@@ -476,7 +476,7 @@
                                     </div> -->
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
-                                        <input type="number" #scanItemQty id="scanItemQty" name="itemQty"
+                                        <input type="number" min="0" #scanItemQty id="scanItemQty" name="itemQty"
                                             class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="itemQty|numberFormat" (ngModelChange)="itemQty=$event"
                                             (blur)="onScanItemQtyChange()"
@@ -485,7 +485,7 @@
                                             class="col-sm-3 col-form-label custom-pl-2  mobile-hide text-right">{{'Bal'|translate}}</label>
                                         <label
                                             class="col-sm-3 col-form-label custom-pl-2  mobile-show">{{'Bal'|translate}}</label>
-                                        <input type="number" id="itemBalQty" name="itemBalQty"
+                                        <input type="number" min="0" id="itemBalQty" name="itemBalQty"
                                             class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="itemBalQty|numberFormat" disabled>
                                     </div>
@@ -514,7 +514,7 @@
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
-                                        <input type="number" #scanBsItemQty id="scanBsItemQty" name="bsItemQty"
+                                        <input type="number" min="0" #scanBsItemQty id="scanBsItemQty" name="bsItemQty"
                                             class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="bsItemQty|numberFormat" (ngModelChange)="bsItemQty=$event"
                                             (blur)="onBatSerQtyChange()" [disabled]="scanBSrLotNo == '' || scanItemTracking == 'S' || InternalContainer || DisableScanFields 
@@ -523,7 +523,7 @@
                                             class="col-sm-3 col-form-label custom-pl-2  mobile-hide text-right">{{'Bal'|translate}}</label>
                                         <label
                                             class="col-sm-3 col-form-label custom-pl-2  mobile-show">{{'Bal'|translate}}</label>
-                                        <input type="number" id="bsBalQty" name="bsBalQty"
+                                        <input type="number" min="0" id="bsBalQty" name="bsBalQty"
                                             class="col-sm-3 form-control form-control-sm text-right"
                                             [ngModel]="bsBalanceQty|numberFormat" disabled>
                                     </div>

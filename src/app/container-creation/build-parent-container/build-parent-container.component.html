@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
-                            <input type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
+                            <input #scanWhse type="text" id="whse" name="whse" class="col-sm-8 form-control form-control-sm"
                                 [(ngModel)]="whse" placeholder="{{'Warehouse'|translate}}" (blur)="onWhseChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'BinCode'|translate}}</label>
-                            <input type="text" id="binNoId" name="binNoId" class="col-sm-8 form-control form-control-sm"
+                            <input #scanBinNo type="text" id="binNoId" name="binNoId" class="col-sm-8 form-control form-control-sm"
                                 [(ngModel)]="binNo" placeholder="{{'BinCode'|translate}}" (blur)="onBinChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
                                 <button tabIndex="-1" class="k-button k-primary btn" type="button"
@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
-                            <input type="text" class="form-control form-control-sm" id="containerTypeId"
+                            <input #scanContType type="text" class="form-control form-control-sm" id="containerTypeId"
                                 name="containerType" [(ngModel)]="containerType"
                                 placeholder="{{'ContainerType'|translate}}" (blur)="onContainerTypeChangeBlur()">
                             <div class="input-group-append has-seprate-btn">
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'Parent_Cont_Type'|translate}}</label>
-                            <input type="text" id="parentContainerTypeid" name="parentContainerTypeid"
+                            <input #scanPCType type="text" id="parentContainerTypeid" name="parentContainerTypeid"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="parentContainerType"
                                 placeholder="{{'Parent_Cont_Type'|translate}}" (blur)="getParentContainerType('blur')">
                             <div class="input-group-append has-seprate-btn">
@@ -90,7 +90,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'ContainerGroupingCode'|translate}}</label>
-                            <input type="text" id="containerGroupCodeId" name="containerGroupCodeId"
+                            <input #scanContGrCode type="text" id="containerGroupCodeId" name="containerGroupCodeId"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="containerGroupCode"
                                 placeholder="{{'ContainerGroupingCode'|translate}}"
                                 (blur)="IsValidContainerGroupBlur()">
@@ -105,7 +105,7 @@
                     <div class="form-group">
                         <div class="input-group input-group-sm">
                             <label class="col-sm-4 col-form-label">{{'SONumber'|translate}}</label>
-                            <input type="text" id="soNumberId" name="soNumberId"
+                            <input #scanSONo type="text" id="soNumberId" name="soNumberId"
                                 class="col-sm-8 form-control form-control-sm" [(ngModel)]="soNumber"
                                 placeholder="{{'SONumber'|translate}}" (blur)="IsValidSONumberBasedOnRule('blur')">
                             <div class="input-group-append has-seprate-btn">
@@ -219,7 +219,7 @@
                             <div class="form-group row scan-form-row">
                                 <div class="input-group input-group-sm ml-3 mr-3 mt-1">
                                     <label class="col-sm-4 col-form-label">{{'Parent_Cont_Code'|translate}}</label>
-                                    <input type="text" id="parentcontainerCode" name="parentcontainerCode"
+                                    <input #scanPContCode type="text" id="parentcontainerCode" name="parentcontainerCode"
                                         class="col-sm-8 form-control form-control-sm" [(ngModel)]="parentcontainerCode"
                                         (blur)="onParentContainerCodeChange()">
                                     <!-- <input type="text" id="count" name="count" class="col-sm-2 form-control form-control-sm"
@@ -253,7 +253,7 @@
                             <div *ngIf="!treeViewShow" class="form-group row scan-form-row">
                                 <div class="input-group input-group-sm ml-3 mr-3">
                                     <label class="col-sm-4 col-form-label">{{'ContainerCode'|translate}}</label>
-                                    <input type="text" id="childcontainerCode" name="childcontainerCode"
+                                    <input #scanContCode type="text" id="childcontainerCode" name="childcontainerCode"
                                         class="col-sm-8 form-control form-control-sm" [(ngModel)]="childcontainerCode"
                                         (blur)="onChildContCodeChange()" [disabled]="radioSelected == 3 || IsDisableScanChild">
                                 </div>
