@@ -36,6 +36,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
   zonePageable: boolean = false;
   rangePageSize: number = 10;
   rangePageable: boolean = false;
+  isUpdateHappen: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private carmasterService: CARMasterService,
@@ -59,21 +60,26 @@ export class WhseBinLayoutAddComponent implements OnInit {
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
+        this.buttonText = this.translate.instant("Save");
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
+        this.buttonText = this.translate.instant("Save");
       }
     } else {
       this.isUpdate = false;
-      this.buttonText = this.translate.instant("CT_Add");
+      this.buttonText = this.translate.instant("Save");
     }
   }
 
   onCancelClick() {
     this.whseBinLayout.whseBinLayoutComponent = 1;
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    }
   }
 
   onDeleteClick(type, rowindex) {
@@ -91,6 +97,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.rangePageable = true;
       }
     }
+    this.isUpdateHappen = true;
   }
 
   GetWhseCode() {
@@ -343,6 +350,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.rangePageable = true;
       }
     }
+
+    this.isUpdateHappen = true
   }
 
   shipmentModel: any = {};
@@ -785,5 +794,39 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
   }
 
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.whseBinLayout.whseBinLayoutComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
 }
 

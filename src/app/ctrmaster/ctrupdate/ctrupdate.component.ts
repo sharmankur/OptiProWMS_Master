@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class CTRUpdateComponent implements OnInit {
 
   CTR_ParentContainerType: string;
-  CTR_ConainerPerParent: string;
+  CTR_ConainerPerParent: any;
   CTR_ConatainerPartofParent: any;
   CTR_ContainerType: string;
   CTR_ROW: any;
@@ -25,7 +25,9 @@ export class CTRUpdateComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
-  
+  @ViewChild("scanContPartParent", {static: false}) scanContPartParent;
+  @ViewChild("scanContPerPart", {static: false}) scanContPerPart;
+
   constructor(private commonservice: Commonservice, private toastr: ToastrService, private translate: TranslateService, private ctrmainComponent: CTRMainComponent, private ctrmasterService: CTRMasterService, private router: Router
     ) {
     let userLang = navigator.language.split('-')[0];
@@ -45,16 +47,16 @@ export class CTRUpdateComponent implements OnInit {
       this.CTR_ConatainerPartofParent = this.CTR_ROW.OPTM_CONT_PARTOFPARENT;
       if(localStorage.getItem("Action") == "copy"){
         this.CTR_ContainerType = ''
-        this.CTR_ParentContainerType = ''
+        // this.CTR_ParentContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Save");
       }else{
         this.isUpdate = true;
         this.BtnTitle = this.translate.instant("CT_Update");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Save");
     }
   }
 
@@ -343,7 +345,8 @@ export class CTRUpdateComponent implements OnInit {
 
   formatCTR_ConatainerPartofParent() {
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-    // this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
+    this.CTR_ConainerPerParent = 1 / Number(this.CTR_ConatainerPartofParent)
+    this.CTR_ConainerPerParent = this.CTR_ConainerPerParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   isValidateCalled: boolean = false;
@@ -357,6 +360,10 @@ export class CTRUpdateComponent implements OnInit {
         return this.OnContainerTypeChange();
       } else if(currentFocus == "ctrParentContainerType"){
         return this.OnParentContainerTypeChange();
+      } else if(currentFocus == "scanContPerPart") {
+        return this.validateFields();
+      } else if(currentFocus == "scanContPartParent") {
+        return this.validateFields();
       }
     }
   }

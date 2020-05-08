@@ -46,7 +46,7 @@
                         <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainersPerParent'|translate}}</label>
                         <div class="col-sm-8">
                             <div class="input-group input-group-sm">
-                                <input type="number" #scanQty name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent (blur)="formatCTR_ConainerPerParent()" min="0" class="text-right form-control form-control-sm">
+                                <input type="number" #scanContPerPart id="scanContPerPart" name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent (blur)="formatCTR_ConainerPerParent()" min="0" class="text-right form-control form-control-sm">
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                         <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
                         <div class="col-sm-8">
                             <div class="input-group input-group-sm">
-                                <input type="number" #scanQty name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent (blur)="formatCTR_ConatainerPartofParent()"  min="0" class="text-right 
-                                form-control form-control-sm" disabled>
+                                <input type="number" #scanContPartParent id="scanContPartParent" name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent (blur)="formatCTR_ConatainerPartofParent()"  min="0" class="text-right 
+                                form-control form-control-sm">
                             </div>
                         </div>
                     </div>

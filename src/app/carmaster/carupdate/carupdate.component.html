@@ -58,7 +58,7 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_AddPartsToContainer'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="opti_input-group-checkbox">
-                                <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer" [disabled]=isUpdate
+                                <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer"
                                     class="k-checkbox" checked />
                                 <label class="k-checkbox-label empty-check" for="ch7"></label>
                             </div>
@@ -178,7 +178,7 @@
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
-                    <span class="k-icon k-i-plus" role="presentation"></span> {{BtnTitle}}</button>
+                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
             </div>
         </div>
     </form>
@@ -187,6 +187,11 @@
 
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

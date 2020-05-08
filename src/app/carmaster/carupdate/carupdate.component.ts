@@ -34,6 +34,7 @@ export class CARUpdateComponent implements OnInit {
   isUpdate: boolean = false;
   hideLookup: boolean = true;
   index: number = -1;
+  isUpdateHappen: boolean = false;
 
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
     private translate: TranslateService, private carmainComponent: CARMainComponent,
@@ -75,19 +76,24 @@ export class CARUpdateComponent implements OnInit {
       if(localStorage.getItem("Action") == "copy"){
         this.CAR_CPackRule = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Save");
       }else{
         this.isUpdate = true;
         this.BtnTitle = this.translate.instant("CT_Update");
       }
     } else {
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Save");
       this.isUpdate = false;
     }
   }
 
   onCancelClick() {
-    this.carmainComponent.carComponent = 1;
+    // this.carmainComponent.carComponent = 1;
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    }
   }
 
   validateFields(): boolean {
@@ -433,6 +439,7 @@ export class CARUpdateComponent implements OnInit {
 
     // }
     this.autoRuleArray.push(new AutoRuleModel("", 0, "0", "0", "0"));
+    this.isUpdateHappen = true
   }
 
   updateRuleId(lotTemplateVar, value, rowindex, gridData: any) {
@@ -511,6 +518,7 @@ export class CARUpdateComponent implements OnInit {
   openConfirmForDelete(rowIndex, gridItem){
     this.autoRuleArray.splice(rowIndex, 1);
     gridItem = this.autoRuleArray;
+    this.isUpdateHappen = true
   }
 
   isValidateCalled: boolean = false;
@@ -570,6 +578,41 @@ export class CARUpdateComponent implements OnInit {
       }
     );
     return result;
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.carmainComponent.carComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
   }
 }
 
