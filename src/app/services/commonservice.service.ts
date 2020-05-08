@@ -1167,4 +1167,13 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ship/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
   }
+
+  GetUnitOfMeasure(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetUnitOfMeasure", jObject, this.httpOptions);
+  }
 }

@@ -603,14 +603,18 @@ export class BinruleAddUpdateComponent implements OnInit {
         }
       }
 
-
-      onCancelClick() {
-        // this.binRuleMasterComponent.binRuleComponent = 1;
+      onBackClick(){
         if (this.isUpdateHappen) {
           this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
             this.translate.instant("Plt_DataDeleteMsg"));
           return true;
+        } else {
+          this.binRuleMasterComponent.binRuleComponent = 1;
         }
+      }
+
+      onCancelClick() {
+        this.binRuleMasterComponent.binRuleComponent = 1;
       }
 
       deleteRow(rowIndex, gridItem){

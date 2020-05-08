@@ -58,11 +58,15 @@
                     <hr />
                 </div>
                 <div class="col-sm-12 col-12">
-                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                        {{'Cancel'|translate}}</button>
+                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onBackClick()" type="button">
                                 <i class="opti-icon-arrow-back"></i>
                             </button>
                     <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                        <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                        {{BtnTitle}}</button>
       
                   
                 </div>

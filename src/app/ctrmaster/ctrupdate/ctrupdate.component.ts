@@ -64,6 +64,10 @@ export class CTRUpdateComponent implements OnInit {
     this.ctrmainComponent.ctrComponent = 1;
   }
 
+  onBackClick(){
+    this.ctrmainComponent.ctrComponent = 1;
+  }
+
   validateFields(): boolean{
     if(this.CTR_ContainerType == '' || this.CTR_ContainerType == undefined){
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
@@ -92,7 +96,7 @@ export class CTRUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-
+    console.log("onAddUpdateClick: updated")
     if(this.BtnTitle == this.translate.instant("CT_Update")){
       this.UpdateContainerRelationship();
     }else{
@@ -338,15 +342,29 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   formatCTR_ConainerPerParent() {
+    if(Number(this.CTR_ConainerPerParent) < 0 ){
+      this.CTR_ConainerPerParent = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    return true
   }
 
   formatCTR_ConatainerPartofParent() {
+    if(Number(this.CTR_ConatainerPartofParent) < 0 ){
+      this.CTR_ConatainerPartofParent = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConainerPerParent = 1 / Number(this.CTR_ConatainerPartofParent)
     this.CTR_ConainerPerParent = this.CTR_ConainerPerParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    return true
   }
 
   isValidateCalled: boolean = false;
@@ -361,9 +379,9 @@ export class CTRUpdateComponent implements OnInit {
       } else if(currentFocus == "ctrParentContainerType"){
         return this.OnParentContainerTypeChange();
       } else if(currentFocus == "scanContPerPart") {
-        return this.validateFields();
+        return this.formatCTR_ConainerPerParent();
       } else if(currentFocus == "scanContPartParent") {
-        return this.validateFields();
+        return this.formatCTR_ConatainerPartofParent();
       }
     }
   }

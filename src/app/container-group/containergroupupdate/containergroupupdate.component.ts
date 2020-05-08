@@ -48,6 +48,10 @@ export class ContainergroupupdateComponent implements OnInit {
     this.contrMainComp.cgComponent= 1;
   }
 
+  onBackClick(){
+    this.contrMainComp.cgComponent= 1;
+  }
+
   validateFields(): boolean{
     if(this.CG_ID == '' || this.CG_ID == undefined){
       this.toastr.error('', this.translate.instant("ContnrGrpd_Blank_Msg"));

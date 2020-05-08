@@ -43,7 +43,10 @@ export class CarrierUpdateComponent implements OnInit {
     }
   }
 
-
+  onBackClick(){
+    this.carrierMainComponent.carrierComponent = 1;
+  }
+  
   onCancelClick() {
     this.carrierMainComponent.carrierComponent = 1;
     // this.onAddUpdateClick();

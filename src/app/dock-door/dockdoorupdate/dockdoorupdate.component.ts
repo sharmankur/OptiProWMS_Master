@@ -58,13 +58,18 @@ export class DockdoorupdateComponent implements OnInit {
     }
   }
 
-  onCancelClick() {
-    // this.ddmainComponent.ddComponent = 1;
+  onBackClick(){
     if (this.isUpdateHappen) {
       this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
         this.translate.instant("Plt_DataDeleteMsg"));
       return true;
+    } else {
+      this.ddmainComponent.ddComponent = 1;
     }
+  }
+
+  onCancelClick() {
+    this.ddmainComponent.ddComponent = 1;
   }
 
   openConfirmForDelete(rowIndex, gridItem) {

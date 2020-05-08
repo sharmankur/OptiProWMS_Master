@@ -73,12 +73,17 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
   }
 
-  onCancelClick() {
+  onCancelClick(){
     this.whseBinLayout.whseBinLayoutComponent = 1;
+  }
+
+  onBackClick() {
     if (this.isUpdateHappen) {
       this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
         this.translate.instant("Plt_DataDeleteMsg"));
       return true;
+    } else {
+      this.whseBinLayout.whseBinLayoutComponent = 1;
     }
   }
 

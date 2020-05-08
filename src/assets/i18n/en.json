@@ -294,7 +294,7 @@
   "ProdIssue_IssueForPO": "Issue for PO#",
 
   "10":"Common Lookup",
-  "LookupTitle_BinNoList": "Bin No. List",
+  "LookupTitle_BinNoList": "List of bins",
   "LookupTitle_OrderList": "Order List",
 
   "11":"Common",
@@ -1195,13 +1195,16 @@
   "ShipmentFromBlankMsg": "Shipment code can't be blank",
   "SheduleBlankMsg": "Shedule date can't be blank",
   "AutoAllocateTitle": "Auto Allocate to Shipments",
-  "ViewAndManageCont": "View & Manage Containers",
+  "ViewAndManageCont": "View & Manage Cont.",
   "DeleteValMsg": "Select record/s to delete",
   "EnterHdrInfoMsg": "Enter header information",
   "DefaultBinMandate": "Please select default bin ",
   "ConfirmTitle": "Confirmation",
   "PageDataLostAlert": "You have updated the screen but you will loose your data. Still you want to exit?",
   "AddLineBeforeSaveMsg": "Add at least one detail line before saving",
-  
+  "CT_Max_Weight":"Max Weight", 
+  "CT_Tare_Weight":"Tare Weight", 
+  "CannotLessThenZero": "Negative value not allow",
+
   "Dummy": "Dummy"  
 }

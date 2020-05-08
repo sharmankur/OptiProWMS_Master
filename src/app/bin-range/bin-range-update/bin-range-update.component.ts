@@ -356,4 +356,8 @@ export class BinRangeUpdateComponent implements OnInit {
   onCancelClick() {
     this.binrangesMainComponent.binRangesComponent = 1;
   }
+
+  onBackClick(){
+    this.binrangesMainComponent.binRangesComponent = 1;
+  }
 }
