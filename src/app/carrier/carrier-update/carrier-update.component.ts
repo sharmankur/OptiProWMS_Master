@@ -32,14 +32,14 @@ export class CarrierUpdateComponent implements OnInit {
       if (localStorage.getItem("Action") == "copy") {
         this.carrierId = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Save");
+        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 

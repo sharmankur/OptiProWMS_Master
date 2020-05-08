@@ -49,14 +49,14 @@ export class CTRUpdateComponent implements OnInit {
         this.CTR_ContainerType = ''
         // this.CTR_ParentContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Save");
+        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 

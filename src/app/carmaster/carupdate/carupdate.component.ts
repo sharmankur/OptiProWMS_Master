@@ -76,13 +76,13 @@ export class CARUpdateComponent implements OnInit {
       if(localStorage.getItem("Action") == "copy"){
         this.CAR_CPackRule = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Save");
+        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }

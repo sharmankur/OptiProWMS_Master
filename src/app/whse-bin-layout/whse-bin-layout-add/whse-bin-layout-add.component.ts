@@ -53,23 +53,23 @@ export class WhseBinLayoutAddComponent implements OnInit {
     if (actionType != undefined && actionType != "") {
       if (localStorage.getItem("Action") == "edit") {
         this.isUpdate = true;
-        this.buttonText = this.translate.instant("CT_Update");
+        this.buttonText = this.translate.instant("Submit");
         var data = JSON.parse(localStorage.getItem("Row"));
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("Save");
+        this.buttonText = this.translate.instant("Submit");
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("Save");
+        this.buttonText = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.buttonText = this.translate.instant("Save");
+      this.buttonText = this.translate.instant("Submit");
     }
   }
 

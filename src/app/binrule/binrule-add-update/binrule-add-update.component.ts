@@ -79,19 +79,19 @@ export class BinruleAddUpdateComponent implements OnInit {
     
     if (localStorage.getItem("brAction") == "copy") {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy();
       // this.purpose = ''
       // this.ruleType = ''
     } else if (localStorage.getItem("brAction") == "update") {
       this.isUpdate = true;
-      this.BtnTitle = this.translate.instant("CT_Update");
+      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy()
     } else if (localStorage.getItem("brAction") == "add") {
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     } else {
-      this.BtnTitle = this.translate.instant("Save");
+      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }
