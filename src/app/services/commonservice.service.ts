@@ -1081,6 +1081,16 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.httpOptions);
   }
 
+  CloseParentContainer(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContainerCode: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseParentContainer", jObject, this.httpOptions);
+  }
+
   ReopenClick(containerId): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{

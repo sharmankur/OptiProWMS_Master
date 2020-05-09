@@ -124,6 +124,17 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.commonService.httpOptions).toPromise();
   }
 
+  GetSampleOfContainerString(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_FUNCTION: "shipping",
+        OPTM_OBJECT: "container"
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetSampleOfContainerString", jObject, this.commonService.httpOptions);
+  }
+
   GetContainerNumber(): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{

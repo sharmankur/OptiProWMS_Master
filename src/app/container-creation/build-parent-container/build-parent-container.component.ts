@@ -120,14 +120,18 @@ export class BuildParentContainerComponent implements OnInit {
       switch ($event.From) {        
         case ("ReopenConfirm"):
          this.ReOpenCont(); 
+        break;  
+        case ("CloseConfirm"):
+        this.onCloseContYesClick(); 
         break;        
       }
     } else {
       if ($event.Status == "no") {
         switch ($event.From) {         
-          case ("ReopenConfirm"): 
-            
-          break;         
+          case ("ReopenConfirm"):
+          break;   
+          case ("CloseConfirm"):
+          break;      
         }
       }
     }
@@ -1110,7 +1114,7 @@ export class BuildParentContainerComponent implements OnInit {
       OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
       OPTM_WEIGHT: 0,
       OPTM_AUTOCLOSE_ONFULL: ((this.autoClose == true) ? 'Y' : 'N'),
-      OPTM_AUTORULEID: 0,
+      OPTM_AUTORULEID: '',
       OPTM_WHSE: this.whse,
       OPTM_BIN: this.binNo,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
@@ -1265,7 +1269,46 @@ export class BuildParentContainerComponent implements OnInit {
     this.insertChildContnr();
   }
 
-  onCloseContClick(){
+  onCloseContClick(){   
+
+    this.showLoader = true;
+    this.commonservice.CloseParentContainer(this.parentcontainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Full") {             
+              this.onCloseContYesClick();                       
+            } else {
+              this.showDialog("CloseConfirm", this.translate.instant("yes"), this.translate.instant("no"),
+              this.translate.instant("CloseAlert"));
+            }
+          }else{
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onCloseContYesClick(){
     if (this.parentcontainerCode == undefined || this.parentcontainerCode == "") {
       this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
       return;

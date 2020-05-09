@@ -320,7 +320,6 @@ export class ContMaintnceMainComponent implements OnInit {
 
             // prepare child container and items list
             this.prepareGridDataForChildContainer(data);
-            console.log("");
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
