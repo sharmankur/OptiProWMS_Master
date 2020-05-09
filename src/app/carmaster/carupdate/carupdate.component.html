@@ -58,7 +58,7 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'CAR_AddPartsToContainer'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="opti_input-group-checkbox">
-                                <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer" [disabled]=isUpdate
+                                <input type="checkbox" id="ch7" name='CAR_AddPartsToContainer' [(ngModel)]="CAR_AddPartsToContainer"
                                     class="k-checkbox" checked />
                                 <label class="k-checkbox-label empty-check" for="ch7"></label>
                             </div>
@@ -148,13 +148,13 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_MIN_FILLPRCNT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MinFillPercent'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_MIN_FILLPRCNT" value={{dataItem.OPTM_MIN_FILLPRCNT}} id="display_name"
-                                    #display_name (change)="updateMinfill(display_name, display_name.value, idx)">
+                                    #display_name (change)="updateMinfill(display_name, display_name.value, idx)" min="0">
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PACKING_MATWT" headerClass="text-left" class="text-center" [width]="18" title="{{'CAR_MAT_WT'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                     <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PACKING_MATWT" value={{dataItem.OPTM_PACKING_MATWT}} id="display_name"
-                                        #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)">
+                                        #display_name (change)="updateMatWTfill(display_name, display_name.value, idx)" min="0">
                                 </ng-template>
                             </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" headerClass="text-left" class="text-center" [width]="10" title="{{'Action'|translate}}">
@@ -174,11 +174,15 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onBackClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
-                    <span class="k-icon k-i-plus" role="presentation"></span> {{BtnTitle}}</button>
+                    <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                    {{BtnTitle}}</button>
             </div>
         </div>
     </form>
@@ -187,6 +191,11 @@
 
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
+</span>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 
 <div class="opti_loader full-section" *ngIf="showLoader">

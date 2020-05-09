@@ -25,6 +25,8 @@ export class DockdoorupdateComponent implements OnInit {
   lookupfor: string;
   serviceData: any[];
   index: number = -1;
+  isUpdateHappen: boolean = false;
+
   public DDdetailArray: DDdetailModel[] = [];
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
@@ -45,31 +47,44 @@ export class DockdoorupdateComponent implements OnInit {
         this.DD_ID = ''
         // this.WHSCODE = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
+  onBackClick(){
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.ddmainComponent.ddComponent = 1;
+    }
+  }
 
   onCancelClick() {
     this.ddmainComponent.ddComponent = 1;
-    // this.onAddUpdateClick();
   }
 
   openConfirmForDelete(rowIndex, gridItem) {
     this.DDdetailArray.splice(rowIndex, 1);
     gridItem = this.DDdetailArray;
+    this.isUpdateHappen = true;
   }
 
   validateFields(): boolean {
+    if ((this.WHSCODE == '' || this.WHSCODE == undefined) && (this.DD_ID == '' || this.DD_ID == undefined)) {
+      this.toastr.error('', this.translate.instant("EnterHdrInfoMsg"));
+      return
+    }
     if (this.DD_ID == '' || this.DD_ID == undefined) {
-      this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
+      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
       return false;
     } else if (this.WHSCODE == '' || this.WHSCODE == undefined) {
       this.toastr.error('', this.translate.instant("Whs_blank_msg"));
@@ -80,12 +95,24 @@ export class DockdoorupdateComponent implements OnInit {
       return false;
     }
     else if (this.DDdetailArray.length > 0) {
-      let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
         if (this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == undefined || this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == "") {
           this.toastr.error('', this.translate.instant("Invalid_Stagebin_msg"));
           return false;
         }
+      }
+
+      var isDefaultBinSelected = false
+      for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
+        if (this.DDdetailArray[iBtchIndex].OPTM_DEFAULT == "Y") {
+          isDefaultBinSelected = true;
+          break
+        }
+      }
+
+      if (!isDefaultBinSelected) {
+        this.toastr.error('', this.translate.instant("DefaultBinMandate"));
+        return false;
       }
     }
     return true;
@@ -407,7 +434,12 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   AddRow() {
+    if (this.WHSCODE == '' || this.WHSCODE == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return false;
+    }
     this.DDdetailArray.push(new DDdetailModel("", "", "N"));
+    this.isUpdateHappen = true;
   }
 
   UpdateDefault(lotTemplateVar, value, rowindex, gridData: any) {
@@ -429,6 +461,41 @@ export class DockdoorupdateComponent implements OnInit {
       this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y";
     } else {
       this.DDdetailArray[rowindex].OPTM_DEFAULT = "N";
+    }
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.ddmainComponent.ddComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
     }
   }
 }

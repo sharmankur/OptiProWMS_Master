@@ -51,14 +51,14 @@ export class BinRangeUpdateComponent implements OnInit {
         this.BinRange = ''
         // this.FromBinCode = '';
         // this.ToBinCode = '';
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -354,6 +354,10 @@ export class BinRangeUpdateComponent implements OnInit {
   }
 
   onCancelClick() {
+    this.binrangesMainComponent.binRangesComponent = 1;
+  }
+
+  onBackClick(){
     this.binrangesMainComponent.binRangesComponent = 1;
   }
 }

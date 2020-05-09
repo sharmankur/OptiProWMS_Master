@@ -56,7 +56,7 @@ export class BinruleAddUpdateComponent implements OnInit {
   showLoader: boolean = false;
   showLookup: boolean = false;
   isValidateCalled: boolean = false;
-
+  isUpdateHappen: boolean = false;
   isPutAway:boolean = false;
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
     private translate: TranslateService, private binRuleMasterComponent: BinrulemasterComponent,
@@ -79,19 +79,19 @@ export class BinruleAddUpdateComponent implements OnInit {
     
     if (localStorage.getItem("brAction") == "copy") {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy();
       // this.purpose = ''
       // this.ruleType = ''
     } else if (localStorage.getItem("brAction") == "update") {
       this.isUpdate = true;
-      this.BtnTitle = this.translate.instant("CT_Update");
+      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy()
     } else if (localStorage.getItem("brAction") == "add") {
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     } else {
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }
@@ -340,7 +340,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     //  return false;
     // }  
     else if (this.binRuleArray.length <= 0) {
-      this.toastr.error('', this.translate.instant("CAR_addItemDetail_blank_msg"));
+      this.toastr.error('', this.translate.instant("AddLineBeforeSaveMsg"));
       return false;
     } else
     if (this.binRuleArray.length > 0) {
@@ -370,6 +370,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     //   return ;
     // }
    this.binRuleArray.push(new BinRuleRowModel("","","",""));
+   this.isUpdateHappen = true
   }
   
   OnAddUpdateClick() {
@@ -602,15 +603,24 @@ export class BinruleAddUpdateComponent implements OnInit {
         }
       }
 
+      onBackClick(){
+        if (this.isUpdateHappen) {
+          this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+            this.translate.instant("Plt_DataDeleteMsg"));
+          return true;
+        } else {
+          this.binRuleMasterComponent.binRuleComponent = 1;
+        }
+      }
 
       onCancelClick() {
-        
         this.binRuleMasterComponent.binRuleComponent = 1;
       }
 
       deleteRow(rowIndex, gridItem){
               this.binRuleArray.splice(rowIndex,1);
               gridItem = this.binRuleArray;
+        this.isUpdateHappen = true;
       }
 
 
@@ -698,4 +708,39 @@ export class BinruleAddUpdateComponent implements OnInit {
           }
         );
       }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.binRuleMasterComponent.binRuleComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
 }

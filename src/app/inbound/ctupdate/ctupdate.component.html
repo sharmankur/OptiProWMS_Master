@@ -9,8 +9,8 @@
                     <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
     
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_ContainerType'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_ContainerType'|translate}}</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="CT_ContainerType" [(ngModel)]="CT_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
                                        #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
@@ -18,16 +18,16 @@
                         </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Description'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" >
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Length'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Length'|translate}} ({{UnitModel.LengthUnit}})</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Length"
                                         [(ngModel)]=CT_Length (blur)="formatCT_Length()" 
@@ -37,8 +37,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Width'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Width'|translate}}</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Width"
                                         [(ngModel)]=CT_Width (blur)="formatCT_Width()" 
@@ -48,8 +48,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Height'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Height'|translate}}</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Height"
                                         [(ngModel)]=CT_Height (blur)="formatCT_Height()" 
@@ -59,8 +59,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Max_Width'|translate}}</label>
-                            <div class="col-sm-9">
+                            <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Max_Weight'|translate}} ({{UnitModel.WeightUnit}})</label>
+                            <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                         <input type="number" #scanQty name="CT_Max_Width"
                                         [(ngModel)]=CT_Max_Width (blur)="formatCT_Max_Width()" 
@@ -70,8 +70,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label">{{'CT_Tare_Width'|translate}}</label>
-                                <div class="col-sm-9">
+                                <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Tare_Weight'|translate}} ({{UnitModel.WeightUnit}})</label>
+                                <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                             <input type="number" #scanQty name="CT_Tare_Width"
                                             [(ngModel)]=CT_Tare_Width (blur)="formatCT_Tare_Width()" 
@@ -90,13 +90,15 @@
                     <hr />
                 </div>
                 <div class="col-sm-12 col-12">
-                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
+                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                        <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                        {{'Cancel'|translate}}</button>
+                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onBackClick()" type="button">
                                 <i class="opti-icon-arrow-back"></i>
                             </button>
                     <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
-    
-                  
+                        <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                        {{BtnTitle}}</button>
                 </div>
             </div>
         </form> 

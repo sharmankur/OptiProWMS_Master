@@ -23,6 +23,7 @@ export class CTUpdateComponent implements OnInit {
   BtnTitle: string;
   showLoader: boolean = false;
   isUpdate: boolean = false;
+  lengthUnit: any = "";
 
   constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
@@ -48,34 +49,61 @@ export class CTUpdateComponent implements OnInit {
       if(localStorage.getItem("Action") == "copy"){
         this.CT_ContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
+
+    this.GetUnitOfMeasure()
   }
 
   formatCT_Width() {
+    if(Number(this.CT_Width) < 0 ){
+      this.CT_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Width = Number(this.CT_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   formatCT_Height() {
+    if(Number(this.CT_Height) < 0 ){
+      this.CT_Height = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Height = Number(this.CT_Height).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   formatCT_Length() {
+    if(Number(this.CT_Length) < 0 ){
+      this.CT_Length = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Length = Number(this.CT_Length).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   formatCT_Max_Width() {
+    if(Number(this.CT_Max_Width) < 0 ){
+      this.CT_Max_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
 
   formatCT_Tare_Width() {
+    if(Number(this.CT_Tare_Width) < 0 ){
+      this.CT_Tare_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
   
@@ -187,4 +215,38 @@ export class CTUpdateComponent implements OnInit {
     this.inboundMasterComponent.inboundComponent = 1;
   }
 
+  onBackClick(){
+    this.inboundMasterComponent.inboundComponent = 1;
+  }
+
+  UnitModel: any;
+  GetUnitOfMeasure() {
+    this.showLoader = true;
+    this.commonservice.GetUnitOfMeasure().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data != undefined && data.length > 0){
+            this.UnitModel = data[0];
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }
