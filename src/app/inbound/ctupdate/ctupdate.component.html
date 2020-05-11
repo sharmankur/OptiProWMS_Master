@@ -13,7 +13,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="CT_ContainerType" [(ngModel)]="CT_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
-                                       #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                       #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" (blur)="onContainerTypeChange($event)">
                             </div>
                         </div>
                         </div>
@@ -90,13 +90,14 @@
                     <hr />
                 </div>
                 <div class="col-sm-12 col-12">
-                    <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
-                        <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                        {{'Cancel'|translate}}</button>
+                    
                         <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onBackClick()" type="button">
                                 <i class="opti-icon-arrow-back"></i>
                             </button>
-                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                                <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                                {{'Cancel'|translate}}</button>
+                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
                         <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
                         {{BtnTitle}}</button>
                 </div>

@@ -136,6 +136,11 @@ export class ContainerShipmentComponent implements OnInit {
         this.status = this.StatusId.Value;
         this.StatusValue = "3";
         break;
+      case 4:
+        this.StatusId = this.statusArray[4];
+        this.status = this.StatusId.Value;
+        this.StatusValue = "4";
+        break;
       case 5:
         this.StatusId = { "Value": 0, "Name": "" };
         this.status = "";
@@ -1090,6 +1095,9 @@ export class ContainerShipmentComponent implements OnInit {
       case (3):
         this.onShipmentBtnPress('Remove');
         break;
+      case (4):
+        this.ContainerReturned();
+        break;
       case (5):
         this.onSetDamagedPress();
         break;
@@ -1146,4 +1154,74 @@ export class ContainerShipmentComponent implements OnInit {
     //this.clearFilters();
   }
 
+  ContainerReturned() {
+    if (this.SelectedRowsforShipmentArr.length == 0) {
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+
+    this.showLoader = false;
+    // for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+    //   oSaveData.SelectedRows.push({
+    //     //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //     OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+    //     CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+    //   })
+    // }
+
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: this.ShipmentId,
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+        OPTM_USERID: localStorage.getItem("UserId"),
+        OPTM_CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+      })
+    }
+
+    this.showLoader = true;
+    this.containerShipmentService.ContainerReturned(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          
+          if (data.length > 0) {
+            if (data[0].RESULT != '' && data[0].RESULT != null) {
+              if (data[0].RESULT == 'Data updated') {
+                this.toastr.success('', data[0].RESULT);
+                this.fillDataInGridWithShipment(this.Selectedlink);
+              }
+              else {
+                this.toastr.error('', data[0].RESULT);
+              }
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            }
+          }
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 }

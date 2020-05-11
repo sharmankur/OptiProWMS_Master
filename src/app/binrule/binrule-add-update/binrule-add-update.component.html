@@ -173,13 +173,13 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="OnCancelClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                    {{'Cancel'|translate}}</button>
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onBackClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="OnCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddUpdateClick()" [disabled]="!isUpdateHappen">
                     <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
                     {{BtnTitle}}</button>
             </div>

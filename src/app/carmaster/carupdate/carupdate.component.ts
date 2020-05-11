@@ -55,11 +55,11 @@ export class CARUpdateComponent implements OnInit {
       this.CAR_CPackRule = this.CTR_ROW.OPTM_RULEID;//, event.OPTM_CONTTYPE, event.OPTM_CONTUSE);
       this.CAR_ContainerType = this.CTR_ROW.OPTM_CONTTYPE;
       this.OPTM_RULE_DESC = this.CTR_ROW.OPTM_RULE_DESC;
-      for(var i=0; i<this.autoRuleArray.length ;i++){
+      for (var i = 0; i < this.autoRuleArray.length; i++) {
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = Number(this.autoRuleArray[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = Number(this.autoRuleArray[i].OPTM_MIN_FILLPRCNT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-        this.autoRuleArray[i].OPTM_PACKING_MATWT = Number(this.autoRuleArray[i].OPTM_PACKING_MATWT).toFixed(Number(localStorage.getItem("DecimalPrecision")));        
-      }      
+        this.autoRuleArray[i].OPTM_PACKING_MATWT = Number(this.autoRuleArray[i].OPTM_PACKING_MATWT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      }
       this.CAR_PackType = this.CTR_ROW.OPTM_CONTUSE;
       // if (this.CTR_ROW.OPTM_CONTUSE == 1) {
       //   this.CAR_PackType = this.PackTypeList[0];
@@ -73,11 +73,11 @@ export class CARUpdateComponent implements OnInit {
       } else {
         this.CAR_AddPartsToContainer = false;
       }
-      if(localStorage.getItem("Action") == "copy"){
+      if (localStorage.getItem("Action") == "copy") {
         this.CAR_CPackRule = ''
         this.isUpdate = false;
         this.BtnTitle = this.translate.instant("Submit");
-      }else{
+      } else {
         this.isUpdate = true;
         this.BtnTitle = this.translate.instant("Submit");
       }
@@ -86,8 +86,15 @@ export class CARUpdateComponent implements OnInit {
       this.isUpdate = false;
     }
   }
+  onAutoPackChange(){
+    this.isUpdateHappen = true
+  }
 
-  onBackClick(){
+  onCheckChange(event){
+    this.isUpdateHappen = true
+  }
+
+  onBackClick() {
     if (this.isUpdateHappen) {
       this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
         this.translate.instant("Plt_DataDeleteMsg"));
@@ -106,7 +113,7 @@ export class CARUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CAR_ContainerPackRule_Blank_Msg"));
       return false;
     }
-    else if(this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined){
+    else if (this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined) {
       this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
       return false;
     }
@@ -146,12 +153,12 @@ export class CARUpdateComponent implements OnInit {
     return true;
   }
 
-  updateDropDown(){
+  updateDropDown() {
     alert(this.CAR_PackType);
   }
 
-  OnContainerTypeChangeBlur(){
-    if(this.isValidateCalled){
+  OnContainerTypeChangeBlur() {
+    if (this.isValidateCalled) {
       return
     }
     this.OnContainerTypeChange();
@@ -173,6 +180,7 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
             this.CAR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
             result = true;
@@ -270,7 +278,7 @@ export class CARUpdateComponent implements OnInit {
       packtype = 1;
     } else if (this.CAR_PackType == this.PackTypeList[1]) {
       packtype = 2;
-    }else{
+    } else {
       packtype = 3;
     }
 
@@ -324,10 +332,10 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', data[0].RESULT);
             this.carmainComponent.carComponent = 1;
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -365,10 +373,10 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', data[0].RESULT);
             this.carmainComponent.carComponent = 1;
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -387,18 +395,30 @@ export class CARUpdateComponent implements OnInit {
     );
   }
 
-  getLookupValue($event) {
+  getLookupKey($event) {
     if ($event != null && $event == "close") {
       this.hideLookup = false;
       return;
     }
     else if (this.lookupfor == "CTList") {
-      this.CAR_ContainerType = $event[0];
+      this.CAR_ContainerType = $event.OPTM_CONTAINER_TYPE;
+      this.isUpdateHappen = true
     } else if (this.lookupfor == "ItemsList") {
-      for (let i = 0; i < this.autoRuleArray.length; ++i) {
-        if (i === this.index) {
-          this.autoRuleArray[i].OPTM_ITEMCODE = $event[0];
-        }
+      // for (let i = 0; i < this.autoRuleArray.length; ++i) {
+      //   if (i === this.index) {
+      //     this.autoRuleArray[i].OPTM_ITEMCODE = $event[0];
+      //   }
+      // }
+
+      if(this.autoRuleArray[this.index].OPTM_ITEMCODE == $event.ItemCode){
+        return
+      }
+
+      if(this.isBinRangeExist($event.ItemCode)){
+        this.toastr.error('', this.translate.instant("CAR_itemcode_exists_Msg"));
+        this.autoRuleArray[this.index].OPTM_ITEMCODE = ''
+      } else {
+        this.autoRuleArray[this.index].OPTM_ITEMCODE = $event.ItemCode;
       }
     }
   }
@@ -520,7 +540,7 @@ export class CARUpdateComponent implements OnInit {
     );
   }
 
-  openConfirmForDelete(rowIndex, gridItem){
+  openConfirmForDelete(rowIndex, gridItem) {
     this.autoRuleArray.splice(rowIndex, 1);
     gridItem = this.autoRuleArray;
     this.isUpdateHappen = true
@@ -535,7 +555,7 @@ export class CARUpdateComponent implements OnInit {
     if (currentFocus != undefined) {
       if (currentFocus == "InboundDetailVendScanInputField") {
         return this.OnContainerTypeChange();
-      } else if(currentFocus == "ctrParentContainerType"){
+      } else if (currentFocus == "ctrParentContainerType") {
         return this.OnContainerTypeChange();
       }
     }
@@ -557,9 +577,19 @@ export class CARUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
-            this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = data[0].ItemCode;
-            result = true;
+            if (this.isBinRangeExist(data[0].ItemCode)) {
+              this.toastr.error('', this.translate.instant("CAR_itemcode_exists_Msg"));
+              this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = ' '
+              result = false;
+              setTimeout(() => {
+                this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = ''
+              }, 500)
+            } else {
+              this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = data[0].ItemCode;
+              result = true;
+            }
           } else {
             this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = "";
             display_name.value = "";
@@ -583,6 +613,15 @@ export class CARUpdateComponent implements OnInit {
       }
     );
     return result;
+  }
+
+  isBinRangeExist(value) {
+    let data = this.autoRuleArray.filter(item => item.OPTM_ITEMCODE === value)
+    if (data.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   dialogFor: any;

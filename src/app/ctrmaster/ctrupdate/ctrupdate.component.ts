@@ -25,6 +25,7 @@ export class CTRUpdateComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
+  isUpdateHappen: boolean = false;
   @ViewChild("scanContPartParent", {static: false}) scanContPartParent;
   @ViewChild("scanContPerPart", {static: false}) scanContPerPart;
 
@@ -65,7 +66,13 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   onBackClick(){
-    this.ctrmainComponent.ctrComponent = 1;
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.ctrmainComponent.ctrComponent = 1;
+    }
   }
 
   validateFields(): boolean{
@@ -211,6 +218,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
             result = true;
@@ -260,6 +268,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ParentContainerType = data[0].OPTM_CONTAINER_TYPE;
             result = true;
@@ -335,9 +344,11 @@ export class CTRUpdateComponent implements OnInit {
     }
     else if (this.lookupfor == "CTList") {
       this.CTR_ContainerType = $event[0];
+      this.isUpdateHappen = true
     }
     else if (this.lookupfor == "PCTList") {
       this.CTR_ParentContainerType = $event[0];
+      this.isUpdateHappen = true
     }
   }
 
@@ -351,6 +362,7 @@ export class CTRUpdateComponent implements OnInit {
     this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
     return true
   }
 
@@ -364,6 +376,7 @@ export class CTRUpdateComponent implements OnInit {
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConainerPerParent = 1 / Number(this.CTR_ConatainerPartofParent)
     this.CTR_ConainerPerParent = this.CTR_ConainerPerParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
     return true
   }
 
@@ -382,6 +395,41 @@ export class CTRUpdateComponent implements OnInit {
         return this.formatCTR_ConainerPerParent();
       } else if(currentFocus == "scanContPartParent") {
         return this.formatCTR_ConatainerPartofParent();
+      }
+    }
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.ctrmainComponent.ctrComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
       }
     }
   }

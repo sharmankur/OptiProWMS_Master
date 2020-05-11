@@ -274,8 +274,8 @@
                             </ng-template>
                         </kendo-grid-checkbox-column>
                         <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}" *ngIf=false></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_CONTCODE" width="155" title="{{'ContCode'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_CONTTYPE" width="95" title="{{'Container_Type'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="OPTM_CONTCODE" width="170" title="{{'ContCode'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="OPTM_CONTTYPE" width="100" title="{{'Container_Type'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
 
@@ -289,7 +289,7 @@
                         <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
 
                         <kendo-grid-column field="OPTM_SO_NUMBER" width="100" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="85" title="{{'Picked'|translate}}">
+                        <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="60" title="{{'Picked'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                     <label class="custom-checkbox mb-0">
                                         <input type="checkbox" #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'" disabled>
@@ -304,7 +304,7 @@
                         <kendo-grid-column field="OPTM_VOL_UOM" width="100" title="{{'Volume_UOM'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Container_Wt'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="QuantityFulFill" width="100" title="{{'Vol_UOM'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_PARENTCONTID" width="100" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="OPTM_PARENTCONTID" width="170" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
                         
                        
                     </kendo-grid>

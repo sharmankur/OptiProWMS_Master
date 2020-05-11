@@ -23,8 +23,7 @@ export class CTUpdateComponent implements OnInit {
   BtnTitle: string;
   showLoader: boolean = false;
   isUpdate: boolean = false;
-  lengthUnit: any = "";
-
+  isUpdateHappen: boolean = false
   constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
@@ -69,6 +68,7 @@ export class CTUpdateComponent implements OnInit {
       return false;
     }
     this.CT_Width = Number(this.CT_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Height() {
@@ -78,6 +78,7 @@ export class CTUpdateComponent implements OnInit {
       return false;
     }
     this.CT_Height = Number(this.CT_Height).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Length() {
@@ -87,6 +88,7 @@ export class CTUpdateComponent implements OnInit {
       return false;
     }
     this.CT_Length = Number(this.CT_Length).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Max_Width() {
@@ -96,6 +98,7 @@ export class CTUpdateComponent implements OnInit {
       return false;
     }
     this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Tare_Width() {
@@ -105,6 +108,7 @@ export class CTUpdateComponent implements OnInit {
       return false;
     }
     this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    // this.isUpdateHappen = true
   }
   
 
@@ -216,10 +220,16 @@ export class CTUpdateComponent implements OnInit {
   }
 
   onBackClick(){
-    this.inboundMasterComponent.inboundComponent = 1;
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.inboundMasterComponent.inboundComponent = 1;
+    }
   }
 
-  UnitModel: any;
+  UnitModel: any = "";
   GetUnitOfMeasure() {
     this.showLoader = true;
     this.commonservice.GetUnitOfMeasure().subscribe(
@@ -248,5 +258,44 @@ export class CTUpdateComponent implements OnInit {
         }
       }
     );
+  }
+
+  onContainerTypeChange(event){
+    this.isUpdateHappen = true
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.inboundMasterComponent.inboundComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
   }
 }

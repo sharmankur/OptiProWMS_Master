@@ -19,6 +19,7 @@ export class CarrierUpdateComponent implements OnInit {
   BtnTitle: string;
   isUpdate: boolean = false;
   showLoader: boolean = false;
+  isUpdateHappen: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) { }
@@ -44,7 +45,13 @@ export class CarrierUpdateComponent implements OnInit {
   }
 
   onBackClick(){
-    this.carrierMainComponent.carrierComponent = 1;
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.carrierMainComponent.carrierComponent = 1;
+    }
   }
   
   onCancelClick() {
@@ -142,6 +149,47 @@ export class CarrierUpdateComponent implements OnInit {
   }
 
   onCarrierIdChangeBlur(){
-    
+    if(this.carrierId == undefined || this.carrierId == ""){
+      return;
+    }
+    this.isUpdateHappen = true
+  }
+
+  onDescChangeBlur(){
+    this.isUpdateHappen = true
+  }
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.carrierMainComponent.carrierComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
   }
 }

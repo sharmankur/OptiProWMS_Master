@@ -253,7 +253,7 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_ID" title="{{'Shipment_Id'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_PICKED_TOSHIP" title="{{'Picked'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="60" field="OPTM_PICKED_TOSHIP" title="{{'Picked'|translate}}">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" [checked]="di.OPTM_PICKED_TOSHIP" #chkSelection id="pickedToShip" class="k-checkbox" name="pickedToShip"

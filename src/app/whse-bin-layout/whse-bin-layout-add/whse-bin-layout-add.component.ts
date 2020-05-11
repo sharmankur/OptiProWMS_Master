@@ -258,6 +258,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "WareHouse") {
+        this.isUpdateHappen = true
         this.whseCode = $event.WhsCode;
         this.whseDescr = $event.WhsName;
         this.WIP_FG_StageBin = '';
@@ -267,6 +268,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.Ship_StageBin = '';
       }
       else if (this.lookupfor == "BinList") {
+        this.isUpdateHappen = true
         if (this.fromType == 'zone') {
           for (var i = 0; i < this.whseZoneList.length; i++) {
             if (i == this.index) {
@@ -287,7 +289,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
               }
             }
           }
+          this.isUpdateHappen = true
         } else {
+          this.isUpdateHappen = true
           if (this.fromType == 'WIP_FG_StageBin') {
             this.WIP_FG_StageBin = $event.BinCode;
           } else if (this.fromType == 'WIP_RM_StageBin') {
@@ -311,6 +315,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         } else {
           this.whseZoneList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
         }
+        this.isUpdateHappen = true
       }
     }
   }
@@ -547,6 +552,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.whseZoneList[i].ZoneCode = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   onZoneTypeChange(value, index) {
@@ -555,6 +561,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.whseZoneList[i].ZoneType = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   getWhseMasterDetails(whse) {
@@ -634,6 +641,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
             return;
           }
+          this.isUpdateHappen = true
         if (resp.length == 0) {
           //this.toastr.error('', this.translate.instant("INVALIDBIN"));
           if ("WIP_FG_StageBin" == from) {
@@ -699,6 +707,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();            
             return;
           }
+        this.isUpdateHappen = true
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whseCode = ''

@@ -35,7 +35,8 @@
                         <label for="inputPassword" class="col-sm-3 col-form-label">{{'DD_DESC'|translate}}</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}">
+                                <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}"
+                                (blur)="onDescChangeBlur()">
                             </div>
                         </div>
                     </div>
@@ -121,13 +122,13 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
-                    {{'Cancel'|translate}}</button>
                 <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onBackClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
                     <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
                     {{BtnTitle}}</button>
             </div>

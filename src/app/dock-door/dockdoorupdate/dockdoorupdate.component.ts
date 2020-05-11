@@ -273,6 +273,7 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
             if (this.DDdetailArray[index].OPTM_SHIP_STAGEBIN == data[0].BinCode) {
               return
@@ -325,6 +326,7 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
             this.WHSCODE = data[0].WhsCode;
           } else {
@@ -411,7 +413,9 @@ export class DockdoorupdateComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event[0];
+      this.isUpdateHappen = true
     } else if (this.lookupfor == "BinList") {
+      this.isUpdateHappen = true
       if (this.isBinExist($event[0])) {
         this.toastr.error('', this.translate.instant("BinExistMsg"));
         return
@@ -462,6 +466,17 @@ export class DockdoorupdateComponent implements OnInit {
     } else {
       this.DDdetailArray[rowindex].OPTM_DEFAULT = "N";
     }
+  }
+
+  OnDDIDChange(){
+    if(this.DD_ID == undefined || this.DD_ID == ""){
+      return;
+    }
+    this.isUpdateHappen = true
+  }
+
+  onDescChangeBlur(){
+    this.isUpdateHappen = true
   }
 
   dialogFor: any;
