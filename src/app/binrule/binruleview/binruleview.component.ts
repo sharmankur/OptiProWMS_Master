@@ -16,9 +16,9 @@ export class BinruleviewComponent implements OnInit {
   serviceData: any[];
   lookupfor: string;
   showLoader: boolean = false;
-  PurposeList: any[] = ["Shipping", "WIP","Receiving","Transfer"];
+  PurposeList: any[] = ["Shipping", "WIP", "Receiving", "Transfer"];
   RuleTypeList: any[] = ["Pick", "Putaway"];
-  constructor(private binRuleServie:BinruleService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
+  constructor(private binRuleServie: BinruleService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private binRuleMasterComponent: BinrulemasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -28,7 +28,7 @@ export class BinruleviewComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.GetDataForBinRule();
+    this.GetDataForBinRule();
   }
 
 
@@ -46,10 +46,10 @@ export class BinruleviewComponent implements OnInit {
           this.showLookupLoader = false;
           this.serviceData = data;
           for (var i = 0; i < this.serviceData.length; i++) {
-              this.serviceData[i].OPTM_RULE_TYPE_Text = "";
-              this.serviceData[i].OPTM_PURPOSE_Text = "";
+            this.serviceData[i].OPTM_RULE_TYPE_Text = "";
+            this.serviceData[i].OPTM_PURPOSE_Text = "";
           }
-          
+
           for (var j = 0; j < this.serviceData.length; j++) {
             if (this.serviceData[j].OPTM_PURPOSE == 1) {
               this.serviceData[j].OPTM_PURPOSE_Text = this.PurposeList[0];
@@ -65,9 +65,9 @@ export class BinruleviewComponent implements OnInit {
               this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[0];
             } else if (this.serviceData[j].OPTM_RULE_TYPE == 2) {
               this.serviceData[j].OPTM_RULE_TYPE_Text = this.RuleTypeList[1];
-            }  
-        }
-        this.lookupfor = "BinRuleList";
+            }
+          }
+          this.lookupfor = "BinRuleList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -84,9 +84,9 @@ export class BinruleviewComponent implements OnInit {
     );
   }
 
-  IsValidBinRule(whsRule, whsCode, whsZone,purpose) {
+  IsValidBinRule(whsRule, whsCode, whsZone, purpose) {
     this.showLoader = true;
-    this.binRuleServie.IsValidBinRule(whsRule, whsCode, whsZone,purpose).then(
+    this.binRuleServie.IsValidBinRule(whsRule, whsCode, whsZone, purpose).then(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -114,34 +114,49 @@ export class BinruleviewComponent implements OnInit {
   }
 
   getLookupValue(event) {
-    localStorage.setItem("binRule_ROW", JSON.stringify(event));    
+    localStorage.setItem("binRule_ROW", JSON.stringify(event));
     localStorage.setItem("brAction", "update");
     //it means we dont need to redirect on its click.
-    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE,event.OPTM_PURPOSE);
+    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE, event.OPTM_PURPOSE);
   }
 
   onCopyItemClick(event) {
-    localStorage.setItem("binRule_ROW", JSON.stringify(event));  
-    localStorage.setItem("brAction", "copy");  
-    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE,event.OPTM_PURPOSE);
+    localStorage.setItem("binRule_ROW", JSON.stringify(event));
+    localStorage.setItem("brAction", "copy");
+    this.IsValidBinRule(event.OPTM_WHS_RULE, event.OPTM_WHSCODE, event.OPTM_WHS_ZONE, event.OPTM_PURPOSE);
   }
 
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
 
-  OnAddClick(){
-    localStorage.setItem("binRule_ROW", "");
-    localStorage.setItem("brAction", "");
-    this.binRuleMasterComponent.binRuleComponent = 2;
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
   }
 
-  OnDeleteSelected(event){
+  OnAddClick() {
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("binRule_ROW", "");
+      localStorage.setItem("brAction", "");
+      this.binRuleMasterComponent.binRuleComponent = 2;
+    }
+  }
+
+  OnDeleteSelected(event) {
     if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
     }
-    
+
     this.event = event;
     this.dialogFor = "DeleteSelected";
     this.yesButtonText = this.translate.instant("yes");
@@ -150,7 +165,7 @@ export class BinruleviewComponent implements OnInit {
     this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  onDeleteRowClick(event){
+  onDeleteRowClick(event) {
     this.event = event;
     this.dialogFor = "Delete";
     this.yesButtonText = this.translate.instant("yes");
@@ -158,7 +173,7 @@ export class BinruleviewComponent implements OnInit {
     this.showConfirmDialog = true;
     this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
-  
+
   DeleteFromBinRule(ddDeleteArry) {
     this.showLoader = true;
     this.binRuleServie.DeleteBinRule(ddDeleteArry).subscribe(
@@ -170,10 +185,10 @@ export class BinruleviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
             this.GetDataForBinRule();
-          }else{
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -206,31 +221,36 @@ export class BinruleviewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("binRule_ROW", "");
+          localStorage.setItem("brAction", "");
+          this.binRuleMasterComponent.binRuleComponent = 2;
+          break
         case ("Delete"):
-        var ddDeleteArry: any[] = [];
-        ddDeleteArry.push({
-          CompanyDBId: localStorage.getItem("CompID"),
-          OPTM_WHS_RULE: this.event.OPTM_WHS_RULE,
-          OPTM_WHSCODE: this.event.OPTM_WHSCODE,
-          OPTM_WHS_ZONE: this.event.OPTM_WHS_ZONE,
-        });
-      this.DeleteFromBinRule(ddDeleteArry);
+          var ddDeleteArry: any[] = [];
+          ddDeleteArry.push({
+            CompanyDBId: localStorage.getItem("CompID"),
+            OPTM_WHS_RULE: this.event.OPTM_WHS_RULE,
+            OPTM_WHSCODE: this.event.OPTM_WHSCODE,
+            OPTM_WHS_ZONE: this.event.OPTM_WHS_ZONE,
+          });
+          this.DeleteFromBinRule(ddDeleteArry);
           break;
         case ("DeleteSelected"): // case for multiple delete.
-        if(this.event.length <= 0){
-          this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
-          return;
-        }
-        var ddDeleteArry: any[] = [];
-        for(var i=0; i<this.event.length; i++){
-          ddDeleteArry.push({       
-            OPTM_WHS_RULE: this.event[i].OPTM_WHS_RULE,
-            OPTM_WHSCODE: this.event[i].OPTM_WHSCODE,
-            OPTM_WHS_ZONE: this.event[i].OPTM_WHS_ZONE,     
-            CompanyDBId: localStorage.getItem("CompID")
-          });
-        }
-        this.DeleteFromBinRule(ddDeleteArry);
+          if (this.event.length <= 0) {
+            this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
+            return;
+          }
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              OPTM_WHS_RULE: this.event[i].OPTM_WHS_RULE,
+              OPTM_WHSCODE: this.event[i].OPTM_WHSCODE,
+              OPTM_WHS_ZONE: this.event[i].OPTM_WHS_ZONE,
+              CompanyDBId: localStorage.getItem("CompID")
+            });
+          }
+          this.DeleteFromBinRule(ddDeleteArry);
           break;
 
       }

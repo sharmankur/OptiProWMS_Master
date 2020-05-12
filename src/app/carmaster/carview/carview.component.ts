@@ -93,17 +93,32 @@ export class CARViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CAR_ROW", "");
-    localStorage.setItem("Action", "");
-    this.carmainComponent.carComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CAR_ROW", "");
+      localStorage.setItem("Action", "");
+      this.carmainComponent.carComponent = 2;
+    }
   }
 
   OnDeleteSelected(event) {
-    if(event.length <= 0){
+    if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
-    }  
+    }
     this.event = event;
     this.dialogFor = "DeleteSelected";
     this.yesButtonText = this.translate.instant("yes");
@@ -211,6 +226,11 @@ export class CARViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("CAR_ROW", "");
+          localStorage.setItem("Action", "");
+          this.carmainComponent.carComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({

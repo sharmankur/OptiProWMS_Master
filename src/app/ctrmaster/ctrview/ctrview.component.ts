@@ -83,10 +83,25 @@ export class CTRViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CTR_ROW", "");
-    localStorage.setItem("Action", "");
-    this.ctrmainComponent.ctrComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CTR_ROW", "");
+      localStorage.setItem("Action", "");
+      this.ctrmainComponent.ctrComponent = 2;
+    }
   }
 
   OnDeleteSelected(event) {
@@ -156,6 +171,11 @@ export class CTRViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("CTR_ROW", "");
+          localStorage.setItem("Action", "");
+          this.ctrmainComponent.ctrComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({

@@ -1076,6 +1076,7 @@
   "CT_Max_Weight":"Max Weight", 
   "CT_Tare_Weight":"Tare Weight", 
   "CannotLessThenZero": "Negative value not allow",
+  "SelectionLostMsg": "Your selection will be lost, do you want to continue",
 
   "Dummy": "Dummy"  
 }

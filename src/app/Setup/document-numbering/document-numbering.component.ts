@@ -255,7 +255,7 @@ export class DocumentNumberingComponent implements OnInit {
           this.DocGridData[idx].OPTM_CODE = "";
           this.toastr.error('', this.translate.instant("InvalidCode"));
         }
-        this.DocGridData = resp;
+        // this.DocGridData = resp;
       },
       error => {
         console.log("Error:", error);
