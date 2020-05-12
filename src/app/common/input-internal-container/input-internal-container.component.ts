@@ -105,17 +105,18 @@ export class InputInternalContainerComponent implements OnInit {
     );
   }
 
+  parentOnChangeStarted = false;
   onParentContainerCodeChange(){
     if(this.ParentContainerCode == '' || this.ParentContainerCode == undefined){      
       return;
     }     
-
+    this.parentOnChangeStarted = true;
     this.showLoader = true;
     this.containerCreationService.CheckContainer(this.ParentContainerCode, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE ,
       this.oDataModel.HeaderTableBindingData[0].OPTM_BIN, this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
       this.oDataModel.HeaderTableBindingData[0].OPTM_GROUP_CODE,
       this.oDataModel.HeaderTableBindingData[0].OPTM_SONO, this.oDataModel.HeaderTableBindingData[0].OPTM_ParentContainerType,
-      this.oDataModel.HeaderTableBindingData[0].OPTM_PERPOSE, 1,this.oDataModel.HeaderTableBindingData[0].OPTM_CREATEMODE).subscribe(
+      this.oDataModel.HeaderTableBindingData[0].OPTM_PERPOSE, 1,this.oDataModel.HeaderTableBindingData[0].OPTM_CREATEMODE, undefined).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -401,7 +402,14 @@ export class InputInternalContainerComponent implements OnInit {
     }
     else{    
 
-     this.onConfirmParentClick();
+      if(this.parentOnChangeStarted){
+        this.onConfirmParentClick();
+      }else{
+        setTimeout(()=>{
+          this.onConfirmParentClick();
+        }, 400)
+      }
+     
 
     // this.isYesClick.emit({
     //   Status: "yes",

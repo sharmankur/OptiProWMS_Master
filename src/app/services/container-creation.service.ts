@@ -208,7 +208,8 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
   }
 
-  CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE): Observable<any> {
+  CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE,
+    CONT_SELECT_TYPE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -221,7 +222,8 @@ export class ContainerCreationService {
         CONTTYPE: CONTTYPE,
         PURPOSE: PURPOSE,
         OPERATION: OPERATION,
-        CREATEMODE: CREATEMODE
+        CREATEMODE: CREATEMODE,
+        CONT_SELECT_TYPE: CONT_SELECT_TYPE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);

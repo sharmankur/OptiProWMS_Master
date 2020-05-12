@@ -386,7 +386,7 @@ export class CommonLookupComponent implements OnInit {
         type: 'text',
         width: '100'
       },{
-        field: 'OPTM_PARTS_PERCONT',
+        field: 'OPTM_PARTS_PERCONT_VAL',
         title: this.translate.instant("Rule_Qty"),
         type: 'text',
         class: 'text-right',
@@ -526,7 +526,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        field: 'OPTM_PARTS_PERCONT',
+        field: 'OPTM_PARTS_PERCONT_VAL',
         title: this.translate.instant("Rule_Qty"),
         type: 'text',
         class: 'text-right',
@@ -1327,7 +1327,7 @@ export class CommonLookupComponent implements OnInit {
       },
       {
         title: "Item Qty.",
-        field: 'OPTM_QUANTITY',
+        field: 'OPTM_QUANTITY_VAL',
         class : 'text-right',
         headerClass: 'text-right',
         type: 'text',

@@ -152,7 +152,7 @@
   
   "3":"Dashboard",
   "Dashboard_AppVersion":"Version: ",
-  "Dashboard_CopyWrt_Msg":"Copyright 2000-2019. All rights reserved.",
+  "Dashboard_CopyWrt_Msg":"Copyright 2000-2020. All rights reserved.",
   "Dashboard_ProductName":"WMS",
   "Dashboard_Logout_Msg":"Do you want to Log out?",
   "Dashboard_LogoutSuccess":"You have successfully logged out",
@@ -526,9 +526,10 @@
   "SONumber": "SO Number",
   "SOLine": "SO Line",
   "ContainerWeigth/MaxWeight": "Cont Wt/Max Wt",
-  "AutoPackRule": "Auto Pack Rule",
+  "AutoPackRule": "Packing Rule",
   "InvQty": "Inv Qty",
   "Create": "Create",
+  "Fetch": "Fetch",
   "PrintLabel": "Print Label",
   "ContainerOperation": "Container Operation",
   "ScanCreate": "Scan and Create",
@@ -1077,6 +1078,11 @@
   "CT_Tare_Weight":"Tare Weight", 
   "CannotLessThenZero": "Negative value not allow",
   "SelectionLostMsg": "Your selection will be lost, do you want to continue",
+  "SElectWIPFGBinMsg":"Selected bin is not WIP FG Stage bin, please change it to ",
+  "CloseAlert": "Please fill the all the qunatities of Parent container",
+  "CreateConMsg": "Container not created yet, please select Create option to create container.",
+
+  "ItemInvIsNotPresent": "Cannot add. No sufficient inventory found",
 
   "Dummy": "Dummy"  
 }
