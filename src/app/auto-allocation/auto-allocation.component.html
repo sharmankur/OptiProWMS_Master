@@ -1,0 +1,162 @@
+<div class="opti_container position-relative bg-white rounded">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner" [perfectScrollbar]=" ">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'AutoAllocateTitle'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-10">
+                    <!-- Generate Pick START -->
+                    <div class="wizard-container">
+                        <div class="wizard-box">
+                            <div class="wizard-content">
+                                <div class="row">
+                                    <!-- <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ShipFrom"
+                                                class="col-sm-4 col-form-label">{{'Ship_From'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group ">
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        name="ShipToCodeFrom" id="ShipToCodeFrom"
+                                                        [(ngModel)]="ShipToCodeFrom"
+                                                        (blur)="IsValidShipToAddress('ShipFrom')">
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn"
+                                                            type="button" (mousedown)="GetDataForShipToCode('ShipFrom')"
+                                                            [disabled]=isUpdate>
+                                                            <i class="opti-icon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="row">
+                                    <!-- <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ShipTo"
+                                                class="col-sm-4 col-form-label">{{'Ship_To'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group ">
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        name="ShipToCodeTo" id="ShipToCodeTo" [(ngModel)]="ShipToCodeTo"
+                                                        (blur)="IsValidShipToAddress('ShipTo')">
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn"
+                                                            type="button" (mousedown)="GetDataForShipToCode('ShipTo')"
+                                                            [disabled]=isUpdate>
+                                                            <i class="opti-icon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <!-- row start Shipment ID-->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="ShipIdFrom"
+                                                class="col-sm-4 col-form-label">{{'PT_ShipmentIdFrom'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group ">
+                                                    <input id="ShipIdFrom" type="text"
+                                                        class="form-control form-control-sm" name='ShipmentCodeFrom'
+                                                        [(ngModel)]="ShipmentCodeFrom" [disabled]=isSHIdDisabled
+                                                        (blur)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdFrom')">
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn"
+                                                            type="button"
+                                                            (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdFrom')"
+                                                            [disabled]=isSHIdDisabled>
+                                                            <i class="opti-icon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="SOTo"
+                                                class="col-sm-4 col-form-label">{{'PT_ShipmentIdTo'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group ">
+                                                    <input id="ShipIdTo" type="text"
+                                                        class="form-control form-control-sm" name='ShipmentCodeTo'
+                                                        [(ngModel)]="ShipmentCodeTo" [disabled]=isSHIdDisabled
+                                                        (blur)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdTo')">
+                                                    <div class="input-group-append has-seprate-btn">
+                                                        <button tabIndex="-1" class="k-button k-primary btn"
+                                                            type="button" (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdTo')"
+                                                            [disabled]=isSHIdDisabled>
+                                                            <i class="opti-icon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="schedularFromDate"
+                                                class="col-sm-4 col-form-label">{{'Schedule_DatetimeFrom'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <kendo-datepicker [(ngModel)]=schedularFromDate
+                                                    name="schedularFromDate" (valueChange)="onScheduleFromDateChange($event)"></kendo-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="schedularToDate" class="col-sm-4 col-form-label">{{'Schedule_DatetimeTo'|translate}}</label>
+                                            <div class="col-sm-7">
+                                                <kendo-datepicker name="schedularToDate" [(ngModel)]=schedularToDate
+                                                (valueChange)="onScheduleToDateChange($event)"></kendo-datepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- STEP 1 END  -->
+                        </div>
+                    </div>
+                    <!-- Generate Pick END -->
+                </div>
+            </div>
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
+                    (click)="OnCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button"
+                    (mousedown)="onAutoAllocClick()">
+                    <span role="presentation"></span> {{'AutoAllocation'|translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<span [hidden]="hideLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getlookupSelectedItem($event)">
+    </app-common-lookup>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader == true">
+    <div class="opti_spinner"></div>
+</div>

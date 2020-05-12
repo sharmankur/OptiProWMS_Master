@@ -30,7 +30,7 @@
     
         <kendo-dialog-actions>
             <button kendoButton (click)="close('no')">{{noButtonText}}</button>
-            <button class="ml-1" kendoButton (click)="close('yes')" primary="true">{{yesButtonText}}</button>
+            <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true">{{yesButtonText}}</button>
         </kendo-dialog-actions>
     </kendo-dialog>
     

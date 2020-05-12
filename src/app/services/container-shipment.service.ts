@@ -43,7 +43,8 @@ export class ContainerShipmentService {
         IsShipment: IsShipment,
         WOId: WOId,
         SOId: SOId,
-        Operation: SelectedOperation
+        Operation: SelectedOperation,
+        OPTM_CONT_GROUPCODE: ''
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
@@ -82,5 +83,8 @@ export class ContainerShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.commonService.httpOptions);
   } 
   
-  
+  ContainerReturned(oSaveArray:any){
+    let jObject = { Shipment: JSON.stringify(oSaveArray) };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/ContainerReturned", jObject, this.commonService.httpOptions);
+  }  
 }

@@ -16,9 +16,9 @@
                             <div class="form-group row">
                                 <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="containerCode"
-                                        name="containerCode" [(ngModel)]="containerCode" 
-                                        (blur)="onContainerCodeChange(ccode.value)" #ccode> <!--  placeholder="{{'ContainerCode'|translate}}" -->
+                                    <input type="text" class="form-control form-control-sm" id="containerCode" name="containerCode" [(ngModel)]="containerCode"
+                                        (blur)="onContainerCodeChange(ccode.value)" #ccode>
+                                    <!--  placeholder="{{'ContainerCode'|translate}}" -->
                                     <div class="input-group-append has-seprate-btn">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="GetAllContainer('')">
                                             <i class="opti-icon-search"></i>
@@ -34,8 +34,7 @@
                             <div class="form-group row">
                                 <label for="packProcess" class="col-sm-3 col-form-label">{{'PackProcess'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="packProcess" name="packProcess"
-                                        [(ngModel)]="packProcess" disabled>
+                                    <input type="text" class="form-control form-control-sm" id="packProcess" name="packProcess" [(ngModel)]="packProcess" disabled>
                                 </div>
                             </div>
                         </div>
@@ -54,9 +53,9 @@
                             <div class="form-group row">
                                 <label for="containerStatus" class="col-sm-3 col-form-label">{{'ContainerStatus'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="containerStatus"
-                                         name="containerStatus"
-                                        [(ngModel)]="containerStatus" disabled> <!--placeholder="{{'ContainerStatus'|translate}}"-->
+                                    <input type="text" class="form-control form-control-sm" id="containerStatus" name="containerStatus" [(ngModel)]="containerStatus"
+                                        disabled>
+                                    <!--placeholder="{{'ContainerStatus'|translate}}"-->
                                 </div>
                             </div>
                         </div>
@@ -67,8 +66,8 @@
                             <div class="form-group row">
                                 <label for="warehouse" class="col-sm-3 col-form-label">{{'Login_Warehouse'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="binNo" 
-                                        name="warehouse" [(ngModel)]="warehouse" disabled> <!--placeholder="{{'Login_Warehouse'|translate}}"-->
+                                    <input type="text" class="form-control form-control-sm" id="binNo" name="warehouse" [(ngModel)]="warehouse" disabled>
+                                    <!--placeholder="{{'Login_Warehouse'|translate}}"-->
                                 </div>
                             </div>
                         </div>
@@ -87,9 +86,9 @@
                             <div class="form-group row">
                                 <label for="inventoryStatus" class="col-sm-3 col-form-label">{{'InventoryStatus'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="inventoryStatus"
-                                        name="inventoryStatus"
-                                        [(ngModel)]="inventoryStatus" disabled> <!-- placeholder="{{'InventoryStatus'|translate}}"-->
+                                    <input type="text" class="form-control form-control-sm" id="inventoryStatus" name="inventoryStatus" [(ngModel)]="inventoryStatus"
+                                        disabled>
+                                    <!-- placeholder="{{'InventoryStatus'|translate}}"-->
                                 </div>
                             </div>
                         </div>
@@ -100,8 +99,7 @@
                             <div class="form-group row">
                                 <label for="binCode" class="col-sm-3 col-form-label">{{'BinCode'|translate}}</label>
                                 <div div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" name='binCode' [(ngModel)]="binCode"
-                                        id="binCode" disabled>
+                                    <input type="text" class="form-control form-control-sm" name='binCode' [(ngModel)]="binCode" id="binCode" disabled>
                                 </div>
                             </div>
                             <!-- col end -->
@@ -120,8 +118,7 @@
                             <div class="form-group row">
                                 <label for="shipEligible" class="col-sm-3 col-form-label">{{'Purpose'|translate}}</label>
                                 <div class="input-group col-sm-7 mr-2">
-                                    <input type="text" class="form-control form-control-sm" id="shipEligible" name="shipEligible"
-                                        [(ngModel)]="purpose" disabled>
+                                    <input type="text" class="form-control form-control-sm" id="shipEligible" name="shipEligible" [(ngModel)]="purpose" disabled>
                                 </div>
                             </div>
                         </div>
@@ -132,9 +129,8 @@
                             <div class="form-group row">
                                 <label for="weight" class="col-sm-3 col-form-label">{{'Weight'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm text-right" name='weight'
-                                        [ngModel]="weight|numberFormat" (ngModelChange)="weight=$event" id="weight"
-                                        disabled>
+                                    <input type="text" class="form-control form-control-sm text-right" name='weight' [ngModel]="weight|numberFormat" (ngModelChange)="weight=$event"
+                                        id="weight" disabled>
                                 </div>
                             </div>
                         </div>
@@ -167,9 +163,8 @@
                             <div class="form-group row">
                                 <label for="volume" class="col-sm-3 col-form-label">{{'Volume'|translate}}</label>
                                 <div class="input-group col-sm-7">
-                                    <input type="text" class="form-control form-control-sm text-right" name='volume'
-                                        [ngModel]="volume|numberFormat" (ngModelChange)="volume=$event" id="volume"
-                                        disabled>
+                                    <input type="text" class="form-control form-control-sm text-right" name='volume' [ngModel]="volume|numberFormat" (ngModelChange)="volume=$event"
+                                        id="volume" disabled>
                                 </div>
                             </div>
                         </div>
@@ -184,12 +179,11 @@
                     <div class="wizard-container mt-3">
                         <div class="wizard-box">
                             <div class="wizard-content">
-                                <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser
-                                    [resizable]="true" [pageable]="pageable" [selectable]="true" [height]="200">
+                                <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser [resizable]="true" [pageable]="pageable"
+                                    [selectable]="true" [height]="200">
                                     <ng-template kendoGridToolbarTemplate>
                                         <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
-                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button"
-                                            (click)="onExpandCollapse()" *ngIf="containerItems.length != 0">
+                                        <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse()" *ngIf="containerItems.length != 0">
                                             <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
                                                 <use xlink:href="#collapseAll"></use>
                                             </svg>
@@ -199,14 +193,11 @@
                                         </button>
                                     </ng-template>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTTYPE"
-                                        title="{{'ContainerType'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_CONTTYPE" title="{{'ContainerType'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE"
-                                        title="{{'ItemCode'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_QUANTITY"
-                                        title="{{'Quantity'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                         </ng-template>
@@ -214,67 +205,59 @@
 
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_UOM" title="{{'UOM'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WEIGHT"
-                                        title="{{'Wt_of_Items'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WEIGHT" title="{{'Wt_of_Items'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.OPTM_WEIGHT|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WT_UOM"
-                                        title="{{'Wt_UOM'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_WT_UOM" title="{{'Wt_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.OPTM_WT_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOLUME"
-                                        title="{{'Item_Volume'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOLUME" title="{{'Item_Volume'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.OPTM_VOLUME|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOL_UOM"
-                                        title="{{'Volume_UOM'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_VOL_UOM" title="{{'Volume_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.OPTM_VOL_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT"
-                                        title="{{'Container_Wt'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT" title="{{'Container_Wt'|translate}}"
+                                        class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.CONTAINER_WEIGHT|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT_UOM"
-                                        title="{{'Wt_UOM'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="CONTAINER_WEIGHT_UOM" title="{{'Wt_UOM'|translate}}" class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.CONTAINER_WEIGHT_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME"
-                                        title="{{'ContainerVolume'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME" title="{{'ContainerVolume'|translate}}"
+                                        class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.CONTAINER_VOLUME|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME_UOM"
-                                        title="{{'ContVolUOM'|translate}}" class="text-right">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="CONTAINER_VOLUME_UOM" title="{{'ContVolUOM'|translate}}"
+                                        class="text-right">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <label class="col-form-label">{{di.CONTAINER_VOLUME_UOM|numberFormat}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_PARENTCONTID"
-                                        title="{{'Parent_CId'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="150" field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_ID"
-                                        title="{{'Shipment_Id'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPMENT_ID" title="{{'Shipment_Id'|translate}}">
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_PICKED_TOSHIP"
-                                        title="{{'Picked'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="60" field="OPTM_PICKED_TOSHIP" title="{{'Picked'|translate}}">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" [checked]="di.OPTM_PICKED_TOSHIP" #chkSelection
-                                                    id="pickedToShip" class="k-checkbox" name="pickedToShip" disabled />
+                                                <input type="checkbox" [checked]="di.OPTM_PICKED_TOSHIP" #chkSelection id="pickedToShip" class="k-checkbox" name="pickedToShip"
+                                                    disabled />
                                                 <label class="k-checkbox-label empty-check" for="pickedToShip"></label>
                                             </div>
                                         </ng-template>
@@ -286,25 +269,22 @@
                                     <!-- <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_BUILT_SOURCE"
                                         title="{{'Built_In_Process'|translate}}">
                                     </kendo-grid-column> -->
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPELIGIBLE"
-                                        title="{{'ShipEligible'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SHIPELIGIBLE" title="{{'ShipEligible'|translate}}">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" [checked]="di.OPTM_SHIPELIGIBLE" #chkSelection
-                                                    id="shipEligible" class="k-checkbox" name="shipEligible" disabled />
+                                                <input type="checkbox" [checked]="di.OPTM_SHIPELIGIBLE" #chkSelection id="shipEligible" class="k-checkbox" name="shipEligible"
+                                                    disabled />
                                                 <label class="k-checkbox-label empty-check" for="shipEligible"></label>
                                             </div>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER"
-                                        title="{{'SONumber'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER" title="{{'SONumber'|translate}}">
                                     </kendo-grid-column>
                                     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
                                         <kendo-grid [data]="dataItem.ItemBatchSerailData">
                                             <kendo-grid-column width="300" [width]="300" field="OPTM_BTCHSER" title="{{'Batch_Serial'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column width="300" [width]="300" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
-                                                class="text-right" headerClass="text-right">
+                                            <kendo-grid-column width="300" [width]="300" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}" class="text-right" headerClass="text-right">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                                     <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                 </ng-template>
@@ -326,8 +306,8 @@
                     <div class="wizard-container mt-3">
                         <div class="wizard-box">
                             <div class="wizard-content">
-                                <kendo-grid class="no-shadow" [data]="childContainerList" [resizable]="true" [sortable]="true"
-                                    [pageable]="pageable2" [selectable]="true" id="gridItem" #gridItem [height]="200">
+                                <kendo-grid class="no-shadow" [data]="childContainerList" [resizable]="true" [sortable]="true" [pageable]="pageable2" [selectable]="true"
+                                    id="gridItem" #gridItem [height]="200">
 
                                     <ng-template kendoGridToolbarTemplate>
                                         <span class="grid-toolbar-title">{{'Child_Cont_List'|translate}}</span>
@@ -346,40 +326,32 @@
                                         </button>
                                     </ng-template> -->
 
-                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="100"
-                                        headerClass="text-left" title="{{'ContainerId'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTAINERID" [width]="100" headerClass="text-left" title="{{'ContainerId'|translate}}">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTCODE" [width]="100"
-                                        headerClass="text-left" title="{{'ContainerCode'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTCODE" [width]="100" headerClass="text-left" title="{{'ContainerCode'|translate}}">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTTYPE" [width]="100"
-                                        headerClass="text-left" title="{{'Container_Type'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_CONTTYPE" [width]="100" headerClass="text-left" title="{{'Container_Type'|translate}}">
                                     </kendo-grid-column>
 
-                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_STATUS" [width]="100"
-                                        headerClass="text-left" title="{{'ContainerStatus'|translate}}">
+                                    <kendo-grid-column media="(min-width: 768px)" field="OPTM_STATUS" [width]="100" headerClass="text-left" title="{{'ContainerStatus'|translate}}">
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails1">
                                         <kendo-grid [data]="dataItem.childContItems">
                                             <kendo-grid-column width="200" [width]="200" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
                                             </kendo-grid-column>
-                                            <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}"
-                                                class="text-right" headerClass="text-center">
+                                            <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}" class="text-right" headerClass="text-center">
                                                 <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                                     <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                 </ng-template>
                                             </kendo-grid-column>
-                                            <ng-template kendoGridDetailTemplate let-dataItem
-                                                [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails2">
+                                            <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails2">
                                                 <kendo-grid [data]="dataItem.ItemBatchSerailData">
-                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_ITEMCODE"
-                                                        title="{{'ItemCode'|translate}}">
+                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_ITEMCODE" title="{{'ItemCode'|translate}}">
                                                     </kendo-grid-column>
-                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY"
-                                                        title="{{'Quantity'|translate}}" class="text-right" headerClass="text-center">
+                                                    <kendo-grid-column width="200" [width]="200" field="OPTM_QUANTITY" title="{{'Quantity'|translate}}" class="text-right" headerClass="text-center">
                                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                                             <label class="col-form-label">{{di.OPTM_QUANTITY|numberFormat}}</label>
                                                         </ng-template>
@@ -403,23 +375,28 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCloseClick()">
+                <!-- <button type="button" class="k-button k-primary k-button btn-sm btn-icon-with-text mr-1" (click)="onCloseClick()">
                     {{'CloseContainer'|translate}}
-                </button>
+                </button> -->
 
                 <div class="btn-group  toggle-btn-outer">
                     <div class="dropdown show">
-                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="btn btn-success btn-sm toggle-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <!-- <a class="dropdown-item" (click)="onPostToInvClick()">{{'PostToInv'|translate}}</a> -->
-                            <!-- <a class="dropdown-item" (click)="onContainerOperationClick()">{{'ContainerOperation'|translate}}</a> -->
-                            <!-- <a class="dropdown-item" (click)="onAddItemClick()">{{'AddItemToCont'|translate}}</a> -->
-                            <a class="dropdown-item cursor-pointer" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
-                            <a class="dropdown-item cursor-pointer" (click)="onSetCancelClick()">{{'CancelContainer'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Reopened'" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Reopened'">{{'ReOpen'|translate}}</a>
+
+                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Damaged'" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Damaged'">{{'Set_Damaged'|translate}}</a>
+
+                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Cancelled'" (click)="onSetCancelClick()">{{'CancelContainer'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Cancelled'">{{'CancelContainer'|translate}}</a>
+
+                            <a class="dropdown-item" (click)="onCloseClick()" *ngIf="containerStatus!='Closed'">{{'CloseContainer'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Closed'">{{'CloseContainer'|translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -441,6 +418,6 @@
 </div>
 
 <span *ngIf="showInputDialogFlag">
-    <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
-        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
+    <app-input-container-code [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getInputDialogValue($event)" [oSaveModel]="oSaveModel"></app-input-container-code>
 </span>

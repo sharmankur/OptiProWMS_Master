@@ -381,8 +381,8 @@ export class ShipmentWizardViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-            this.DockDoor = data[0].OPTM_DOCKDOORID;
+          if (data.OPTM_DOCKDOOR.length > 0) {
+            this.DockDoor = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
           } else {
             this.DockDoor = "";
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
@@ -1382,7 +1382,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     );
   }
 
-  @ViewChild(GridComponent, { static: false }) gridUser: GridComponent;
+  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
   isExpand: boolean = false;
   onExpandCollapse(grid) {
     this.isExpand = !this.isExpand;
@@ -1394,6 +1394,17 @@ export class ShipmentWizardViewComponent implements OnInit {
       } else {
         grid.collapseRow(i);
       }
+    }
+  }
+
+  onScheduleDateChange(event){
+    console.log("onScheduleDateChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_Datetime = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
   }
 }

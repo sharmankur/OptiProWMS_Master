@@ -36,6 +36,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
   zonePageable: boolean = false;
   rangePageSize: number = 10;
   rangePageable: boolean = false;
+  isUpdateHappen: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private carmasterService: CARMasterService,
@@ -52,28 +53,38 @@ export class WhseBinLayoutAddComponent implements OnInit {
     if (actionType != undefined && actionType != "") {
       if (localStorage.getItem("Action") == "edit") {
         this.isUpdate = true;
-        this.buttonText = this.translate.instant("CT_Update");
+        this.buttonText = this.translate.instant("Submit");
         var data = JSON.parse(localStorage.getItem("Row"));
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
+        this.buttonText = this.translate.instant("Submit");
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
+        this.buttonText = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.buttonText = this.translate.instant("CT_Add");
+      this.buttonText = this.translate.instant("Submit");
     }
   }
 
-  onCancelClick() {
+  onCancelClick(){
     this.whseBinLayout.whseBinLayoutComponent = 1;
+  }
+
+  onBackClick() {
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.whseBinLayout.whseBinLayoutComponent = 1;
+    }
   }
 
   onDeleteClick(type, rowindex) {
@@ -91,6 +102,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.rangePageable = true;
       }
     }
+    this.isUpdateHappen = true;
   }
 
   GetWhseCode() {
@@ -246,6 +258,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "WareHouse") {
+        this.isUpdateHappen = true
         this.whseCode = $event.WhsCode;
         this.whseDescr = $event.WhsName;
         this.WIP_FG_StageBin = '';
@@ -255,6 +268,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.Ship_StageBin = '';
       }
       else if (this.lookupfor == "BinList") {
+        this.isUpdateHappen = true
         if (this.fromType == 'zone') {
           for (var i = 0; i < this.whseZoneList.length; i++) {
             if (i == this.index) {
@@ -275,7 +289,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
               }
             }
           }
+          this.isUpdateHappen = true
         } else {
+          this.isUpdateHappen = true
           if (this.fromType == 'WIP_FG_StageBin') {
             this.WIP_FG_StageBin = $event.BinCode;
           } else if (this.fromType == 'WIP_RM_StageBin') {
@@ -289,15 +305,17 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
         }
       } else if (this.lookupfor == "BinRangeList") {
+        if(this.whseZoneList[this.index].OPTM_BIN_RANGE == $event.OPTM_BIN_RANGE){
+          return
+        }
+
         if(this.isBinRangeExist($event.OPTM_BIN_RANGE)){
           this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-          return;
+          this.whseZoneList[this.index].OPTM_BIN_RANGE = ''
+        } else {
+          this.whseZoneList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
         }
-        for (var i = 0; i < this.whseZoneList.length; i++) {
-          if (i == this.index) {
-            this.whseZoneList[i].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
-          }
-        }
+        this.isUpdateHappen = true
       }
     }
   }
@@ -312,6 +330,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onAddRowClick(event) {
+    if (this.whseCode == '' || this.whseCode == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return;
+    }
+
     if (event == "zone") {
       this.whseZoneList.push({
         WhseCode: "",
@@ -337,6 +360,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.rangePageable = true;
       }
     }
+
+    this.isUpdateHappen = true
   }
 
   shipmentModel: any = {};
@@ -527,6 +552,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.whseZoneList[i].ZoneCode = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   onZoneTypeChange(value, index) {
@@ -535,6 +561,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.whseZoneList[i].ZoneType = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   getWhseMasterDetails(whse) {
@@ -614,6 +641,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
             return;
           }
+          this.isUpdateHappen = true
         if (resp.length == 0) {
           //this.toastr.error('', this.translate.instant("INVALIDBIN"));
           if ("WIP_FG_StageBin" == from) {
@@ -679,6 +707,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();            
             return;
           }
+        this.isUpdateHappen = true
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whseCode = ''
@@ -712,12 +741,19 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if(data.OPTM_SHP_WHSE_BINS.length > 0){
-            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
-              this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-              // this.whseZoneList[index].OPTM_BIN_RANGE = ''
+            if(this.whseZoneList[index].OPTM_BIN_RANGE == data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE){
               return
             }
-            this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+
+            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
+              this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
+              this.whseZoneList[index].OPTM_BIN_RANGE = ' '
+              setTimeout(()=>{
+              this.whseZoneList[index].OPTM_BIN_RANGE = ''
+              }, 500)
+            } else {
+              this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+            }
           }else{
             this.whseZoneList[index].OPTM_BIN_RANGE = "";
             display_name.value = "";
@@ -772,5 +808,39 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
   }
 
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.whseBinLayout.whseBinLayoutComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
 }
 

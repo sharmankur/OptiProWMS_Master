@@ -300,7 +300,7 @@
                                         <div class="form-group row">
                                             <label for="Schedule_DatetimeFrom" class="col-sm-4 col-form-label">{{'Schedule_DatetimeFrom'|translate}}</label>
                                             <div class="col-sm-7">
-                                                <kendo-datepicker [(ngModel)]=Schedule_DatetimeFrom name="Schedule_DatetimeFrom"></kendo-datepicker>
+                                                <kendo-datepicker [(ngModel)]=Schedule_DatetimeFrom name="Schedule_DatetimeFrom" (valueChange)="onSchDateFromChange($event)"></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +310,7 @@
                                         <div class="form-group row">
                                             <label for="Schedule_DatetimeTo" class="col-sm-4 col-form-label">{{'Schedule_DatetimeTo'|translate}}</label>
                                             <div class="col-sm-7">
-                                                <kendo-datepicker name="Schedule_DatetimeTo" [(ngModel)]=Schedule_DatetimeTo></kendo-datepicker>
+                                                <kendo-datepicker name="Schedule_DatetimeTo" [(ngModel)]=Schedule_DatetimeTo (valueChange)="onSchDateToChange($event)"></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>

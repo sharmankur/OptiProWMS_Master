@@ -46,7 +46,7 @@
                         <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainersPerParent'|translate}}</label>
                         <div class="col-sm-8">
                             <div class="input-group input-group-sm">
-                                <input type="number" #scanQty name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent (blur)="formatCTR_ConainerPerParent()" min="0" class="text-right form-control form-control-sm">
+                                <input type="number" #scanContPerPart id="scanContPerPart" name="CTR_ConainerPerParent" [(ngModel)]=CTR_ConainerPerParent (blur)="formatCTR_ConainerPerParent()" min="0" class="text-right form-control form-control-sm">
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                         <label for="inputPassword" class="col-sm-4 col-form-label">{{'CTRContainerPartofParent'|translate}}</label>
                         <div class="col-sm-8">
                             <div class="input-group input-group-sm">
-                                <input type="number" #scanQty name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent (blur)="formatCTR_ConatainerPartofParent()"  min="0" class="text-right 
-                                form-control form-control-sm" disabled>
+                                <input type="number" #scanContPartParent id="scanContPartParent" name="CTR_ConatainerPartofParent" [(ngModel)]=CTR_ConatainerPartofParent (blur)="formatCTR_ConatainerPartofParent()"  min="0" class="text-right 
+                                form-control form-control-sm">
                             </div>
                         </div>
                     </div>
@@ -68,11 +68,15 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onBackClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onAddUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
+                    <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                    {{BtnTitle}}</button>
             </div>
         </div>
     </form>
@@ -81,7 +85,10 @@
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"></app-common-lookup>
 </span>
-
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>

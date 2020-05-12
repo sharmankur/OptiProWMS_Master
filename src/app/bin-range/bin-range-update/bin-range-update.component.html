@@ -76,11 +76,15 @@
                 <hr />
             </div>
             <div class="col-sm-12 col-12">
-                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onCancelClick()" type="button">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (mousedown)="onBackClick()" type="button">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onAddUpdateClick()">
-                    <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
+                    <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                    {{BtnTitle}}</button>
             </div>
         </div>
     </form>
@@ -89,7 +93,10 @@
 <span [hidden]="hideLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupKey($event)"></app-common-lookup>
 </span>
-
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>

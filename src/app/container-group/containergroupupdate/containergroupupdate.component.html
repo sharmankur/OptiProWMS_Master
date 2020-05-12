@@ -1,21 +1,22 @@
-
 <div class="opti_container position-relative bg-white rounded">
-        <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-            <div class="opti_container_inner">
-      
-                <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                    {{'Container_Group'|translate}}
-                </h3>
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-      
-                        <div class="form-group row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label">{{'Container_Group'|translate}}</label>
-                            <div class="col-sm-9">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="CG_ID" [(ngModel)]="CG_ID" placeholder="{{'Container_Group'|translate}}"
-                                        (blur)="OnCGIDChange()" #CGIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
-                                    <!-- <div class="input-group-append">
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
+        <div class="opti_container_inner">
+
+            <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
+                {{'Container_Group'|translate}}
+            </h3>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
+
+                    <div class="form-group row">
+                        <label for="inputPassword"
+                            class="col-sm-3 col-form-label">{{'Container_Group'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="CG_ID" [(ngModel)]="CG_ID"
+                                    placeholder="{{'Container_Group'|translate}}" (blur)="OnCGIDChange()"
+                                    #CGIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                <!-- <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDIDLookupClick()" >
                                             <i class="opti-icon-hammenu"></i>
                                         </button>
@@ -27,14 +28,15 @@
                                 </div> -->
                             </div>
                         </div>
-                        </div>
-      
-                        <div class="form-group row">
-                          <label for="inputPassword" class="col-sm-3 col-form-label">{{'Description'|translate}}</label>
-                          <div class="col-sm-9">
-                              <div class="input-group input-group-sm">
-                                  <input type="text" class="form-control form-control-sm" name="CG_DESC" [(ngModel)]="CG_DESC" placeholder="{{'Description'|translate}}">
-                                  <!-- <div class="input-group-append">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'Description'|translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name="CG_DESC"
+                                    [(ngModel)]="CG_DESC" placeholder="{{'Description'|translate}}">
+                                <!-- <div class="input-group-append">
                                       <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDDescLookupClick()" [disabled]=showGRPOGridAndBtn>
                                           <i class="opti-icon-hammenu"></i>
                                       </button>
@@ -44,33 +46,45 @@
                                           <i class="opti-icon-qr-code fs-24"></i>
                                       </button>
                               </div> -->
-                          </div>
-                      </div>
-                      </div>
-                       
+                            </div>
+                        </div>
                     </div>
-                </div>
-      
-      
-            </div>
-            <div class="fix-footer-btnBar">
-                <div class="col-sm-12 col-12">
-                    <hr />
-                </div>
-                <div class="col-sm-12 col-12">
-                        <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onCancelClick()" type="button">
-                                <i class="opti-icon-arrow-back"></i>
-                            </button>
-                    <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()">
-                        <span class="k-icon k-i-check" role="presentation"></span> {{BtnTitle}}</button>
-      
-                  
+
                 </div>
             </div>
-        </form> 
-      
-      </div>
-      <div class="opti_loader full-section" *ngIf="showLoader">
-        <div class="opti_spinner"></div>
-      </div>
-      
+
+
+        </div>
+        <div class="fix-footer-btnBar">
+            <div class="col-sm-12 col-12">
+                <hr />
+            </div>
+            <div class="col-sm-12 col-12">
+                <button class="btn btn-outline-secondary btn-sm btn-transparent btn-icon mr-1" (click)="onBackClick()"
+                    type="button">
+                    <i class="opti-icon-arrow-back"></i>
+                </button>
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
+                    (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button"
+                    (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
+                    <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
+                    {{BtnTitle}}</button>
+
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
+    <div class="opti_spinner"></div>
+</div>

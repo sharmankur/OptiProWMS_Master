@@ -743,18 +743,18 @@ export class Commonservice {
     localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
 
-  GetDataForContainerAutoRule(OPTM_CONTTYPE:any,RULEID:any): Observable<any> {
+  GetDataForContainerAutoRule(OPTM_CONTTYPE: any, RULEID: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTTYPE: OPTM_CONTTYPE,
-        RULEID: RULEID        
+        RULEID: RULEID
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
   }
 
-  GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string, CreateMode: any, RULEID:any): Observable<any> {
+  GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string, CreateMode: any, RULEID: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -886,7 +886,7 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidDockDoor", jObject, this.httpOptions);
   }
-  
+
   IsValidSONumber(SONUMBER: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -896,7 +896,7 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.httpOptions);
   }
-  
+
   IsValidShipToAddress(ADDRESS: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -917,11 +917,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
-  IsValidShipmentCode(SHIPMENTCODE: string): Observable<any> {
+  IsValidShipmentCode(SHIPMENTCODE: string, OPTM_ARC): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        SHIPMENTCODE: SHIPMENTCODE
+        SHIPMENTCODE: SHIPMENTCODE,
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
@@ -967,7 +969,7 @@ export class Commonservice {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.httpOptions);
-  }  
+  }
 
   IsValidCarrier(OPTM_CARRIERID: string): Observable<any> {
     let jObject = {
@@ -989,10 +991,12 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
   }
 
-  GetShipmentIdForShipment(): Observable<any> {
+  GetShipmentIdForShipment(OPTM_ARC): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
@@ -1077,6 +1081,16 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.httpOptions);
   }
 
+  CloseParentContainer(containerId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContainerCode: containerId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseParentContainer", jObject, this.httpOptions);
+  }
+
   ReopenClick(containerId): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -1119,22 +1133,57 @@ export class Commonservice {
   }
 
 
-   /**
-    * This API method will return base64 string for pdf format for print.
-    * @param item 
-    * @param binNo 
-    * @param noOfCopies 
-    */
-   printingServiceForContainer(noOfContainer:any ,noOfCopies:any){
+  /**
+   * This API method will return base64 string for pdf format for print.
+   * @param item 
+   * @param binNo 
+   * @param noOfCopies 
+   */
+  printingServiceForContainer(noOfContainer: any, noOfCopies: any) {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_FUNCTION:"shipping",
+        OPTM_FUNCTION: "shipping",
         OPTM_OBJECT: "container",
         OPTM_NOOFCONT: noOfContainer,
         OPTM_NOOFCOPY: noOfCopies
       }])
     };
-   return this.httpclient.post(this.config_params.service_url  + "/api/ShipContainer/PrintingServices", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/PrintingServices", jObject, this.httpOptions);
+  }
+
+  GetShipmentIdWithAllocAndPartAllocStatus(ShipId): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENT_CODE: ShipId
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ship/GetShipmentIdWithAllocAndPartAllocStatus", jObject, this.httpOptions);
+  }
+
+  AllocateContAndBtchSerToShipment(ShipIdFrom, ShipIdTo,
+    schedularFromDate, schedularToDate): Observable<any> {
+    // CompanyDBId, FROMSHIPMENTID, TOSHIPMENTID, FROMDATETIME, TODATETIME, OPTM_USERID
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        FROMSHIPMENTID: ShipIdFrom,
+        TOSHIPMENTID: ShipIdTo,
+        FROMDATETIME: ""+schedularFromDate,
+        TODATETIME: ""+schedularToDate,
+        OPTM_USERID: localStorage.getItem("UserId")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ship/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
+  }
+
+  GetUnitOfMeasure(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetUnitOfMeasure", jObject, this.httpOptions);
   }
 }

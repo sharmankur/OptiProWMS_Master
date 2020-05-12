@@ -16,6 +16,7 @@ import { GeneratePickComponent } from '../shipment-wizard/generate-pick/generate
 import { DocumentNumberingComponent } from '../Setup/document-numbering/document-numbering.component';
 import { BuildParentContainerComponent } from '../container-creation/build-parent-container/build-parent-container.component';
 import { AddItemToContComponent } from '../container-maintenance/add-item-to-cont/add-item-to-cont.component';
+import { AutoAllocationComponent } from '../auto-allocation/auto-allocation.component';
 
 
 const routes: Routes = [
@@ -45,7 +46,7 @@ const routes: Routes = [
       { path: 'shipmentwizard', loadChildren: () => import('../shipment-wizard/shipment-wizard.module').then(m => m.ShipmentWizardModule) },
       { path: 'genearetpicklist', component: GeneratePickComponent },
       // { path:'picking', loadChildren:() => import('../picking/picking.module').then(m => m.PickingModule)},
-      // { path:'shipment', loadChildren:() => import('../shipment/shipment.module').then(m => m.ShipmentModule)},    
+      { path: 'archiveddata', loadChildren: "../shipment/shipment.module#ShipmentModule" },
       { path: 'shipment', loadChildren: "../shipment/shipment.module#ShipmentModule" },
       { path: 'masking', loadChildren: "../masking/masking.module#MaskingModule" },
       { path: 'carrier', loadChildren: "../carrier/carrier.module#CarrierModule" },
@@ -65,6 +66,7 @@ const routes: Routes = [
       // { path: 'TransactionStepSetup', loadChildren: "../Setup/setup.module#SetupModule" },
       { path: 'DocumentNumbering', component: DocumentNumberingComponent } ,
       { path: 'add-item-container', component: AddItemToContComponent } ,
+      { path: 'autoallocation', component: AutoAllocationComponent } ,
     ]
 
   }

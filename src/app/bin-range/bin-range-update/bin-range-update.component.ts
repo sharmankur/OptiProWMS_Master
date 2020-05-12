@@ -26,6 +26,7 @@ export class BinRangeUpdateComponent implements OnInit {
   BtnTitle: string;
   isUpdate: boolean;
   BinRangesRow: any;
+  isUpdateHappen: boolean = false;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private router: Router, private binrangesMainComponent: BinRangeMainComponent,
   private binRangeService: BinRangeService) {
@@ -51,14 +52,14 @@ export class BinRangeUpdateComponent implements OnInit {
         this.BinRange = ''
         // this.FromBinCode = '';
         // this.ToBinCode = '';
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -107,13 +108,16 @@ export class BinRangeUpdateComponent implements OnInit {
       return;
     }
     else if (this.lookupfor == "WareHouse") {
+      this.isUpdateHappen = true
       this.WHSCODE = $event.WhsCode;
       this.FromBinCode = '';
       this.ToBinCode = '';
     }else if (this.lookupfor == "From_BinList") {
       this.FromBinCode = $event.BinCode;
+      this.isUpdateHappen = true
     }else if (this.lookupfor == "To_BinList") {
       this.ToBinCode = $event.BinCode;
+      this.isUpdateHappen = true
     }
   }
 
@@ -131,6 +135,7 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if(data.length > 0){
             this.WHSCODE = data[0].WhsCode;
             this.FromBinCode = '';
@@ -283,6 +288,7 @@ export class BinRangeUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
             if(from == "frombin"){
               this.FromBinCode = data[0].BinCode;
@@ -355,5 +361,50 @@ export class BinRangeUpdateComponent implements OnInit {
 
   onCancelClick() {
     this.binrangesMainComponent.binRangesComponent = 1;
+  }
+
+  onBackClick(){
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.binrangesMainComponent.binRangesComponent = 1;
+    }
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.binrangesMainComponent.binRangesComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
   }
 }

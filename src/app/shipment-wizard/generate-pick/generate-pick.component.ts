@@ -619,12 +619,12 @@ export class GeneratePickComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
+          if (data.OPTM_DOCKDOOR.length > 0) {
             if (fieldName == "DDFrom") {
-              this.Dock_DoorFrom = data[0].OPTM_DOCKDOORID;
+              this.Dock_DoorFrom = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
             }
             else if (fieldName == "DDTo") {
-              this.Dock_DoorTo = data[0].OPTM_DOCKDOORID;
+              this.Dock_DoorTo = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
             }
           } else {
             if (fieldName == "DDFrom") {
@@ -1135,4 +1135,26 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
+
+  onSchDateFromChange(event){
+    console.log("onSchDateFromChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_DatetimeFrom = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+  }
+
+  onSchDateToChange(event){
+    console.log("onSchDateToChange: s" + event.getDate())
+    var cDate = new Date();
+    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+    if(event.getTime() < cDate.getTime()){
+      this.Schedule_DatetimeTo = '';
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    }
+  }
 }

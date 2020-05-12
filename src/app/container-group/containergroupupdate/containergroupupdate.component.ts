@@ -14,42 +14,52 @@ import { ContainerGroupService } from '../../services/container-group.service';
 export class ContainergroupupdateComponent implements OnInit {
 
   CG_ID: string;
-  CG_DESC: string="";
+  CG_DESC: string = "";
   CG_ROW: any;
   BtnTitle: string;
   isUpdate: boolean = false;
   showLoader: boolean = false;
-
-  constructor(private translate: TranslateService,private commonservice: Commonservice, private toastr: ToastrService,
-  private router: Router,private contnrServ: ContainerGroupService, private contrMainComp : ContainergroupmainComponent) { }
+  isUpdateHappen: boolean = false;
+  constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
+    private router: Router, private contnrServ: ContainerGroupService, private contrMainComp: ContainergroupmainComponent) { }
 
   ngOnInit() {
     let CG_ROW = localStorage.getItem("CG_ROW")
-    if(CG_ROW != undefined && CG_ROW != ""){
-    this.CG_ROW = JSON.parse(localStorage.getItem("CG_ROW"));
+    if (CG_ROW != undefined && CG_ROW != "") {
+      this.CG_ROW = JSON.parse(localStorage.getItem("CG_ROW"));
       this.CG_ID = this.CG_ROW.OPTM_CONTAINER_GROUP;
       this.CG_DESC = this.CG_ROW.OPTM_DESC;
-      if(localStorage.getItem("Action") == "copy"){
+      if (localStorage.getItem("Action") == "copy") {
         this.CG_ID = '';//this.CG_ROW.OPTM_CONTAINER_GROUP;
         this.CG_DESC = this.CG_ROW.OPTM_DESC;
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
-      }else{
+        this.BtnTitle = this.translate.instant("Submit");
+      } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
-    }else{
+    } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
-  onCancelClick(){
-    this.contrMainComp.cgComponent= 1;
+  onCancelClick() {
+    this.contrMainComp.cgComponent = 1;
   }
 
-  validateFields(): boolean{
-    if(this.CG_ID == '' || this.CG_ID == undefined){
+  onBackClick() {
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.contrMainComp.cgComponent = 1;
+    }
+  }
+
+  validateFields(): boolean {
+    if (this.CG_ID == '' || this.CG_ID == undefined) {
       this.toastr.error('', this.translate.instant("ContnrGrpd_Blank_Msg"));
       return false;
     }
@@ -57,12 +67,12 @@ export class ContainergroupupdateComponent implements OnInit {
   }
 
   public onAddUpdateClick() {
-    if(!this.validateFields()){
+    if (!this.validateFields()) {
       return;
     }
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if (this.BtnTitle == this.translate.instant("CT_Update")) {
       this.UpdateContnrGroup();
-    }else{
+    } else {
       this.InsertIntoContnrGroup();
     }
   }
@@ -78,10 +88,10 @@ export class ContainergroupupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', data[0].RESULT);
-            this.contrMainComp.cgComponent= 1;
-          }else{
+            this.contrMainComp.cgComponent = 1;
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -111,10 +121,10 @@ export class ContainergroupupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data[0].RESULT == this.translate.instant("DataSaved")){
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', data[0].RESULT);
-            this.contrMainComp.cgComponent= 1;
-          }else{
+            this.contrMainComp.cgComponent = 1;
+          } else {
             this.toastr.error('', data[0].RESULT);
           }
         } else {
@@ -132,6 +142,42 @@ export class ContainergroupupdateComponent implements OnInit {
       }
     );
   }
-  
+  OnCGIDChange(){
+    this.isUpdateHappen = true;
+  }
 
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.contrMainComp.cgComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
 }

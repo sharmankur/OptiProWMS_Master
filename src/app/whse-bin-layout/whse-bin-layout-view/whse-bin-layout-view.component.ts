@@ -52,6 +52,9 @@ export class WhseBinLayoutViewComponent implements OnInit {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
             }
           }
+          for(var i=0;i<this.serviceData.length;i++){
+            this.serviceData[i].hideCopy = true
+          }
           this.lookupfor = "WhseBinLayoutList";
         } else {
           //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

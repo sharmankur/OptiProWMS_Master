@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Commonservice } from '../../services/commonservice.service';
 import { CommonData } from '../../models/CommonData';
 import { ContainerCreationService } from '../../services/container-creation.service';
@@ -49,9 +49,21 @@ export class ContainerBatchserialComponent implements OnInit {
   skip: any = 0;
   SelectedShipmentCode: any = '';
   SelectedShipmentStatus: any = '';
+  ContainerOperationArray: any = [];
+  SelectedLinkTitle: any = '';
+  Selectedlink: number = 1;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
-    private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { }   
+    private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { 
+      let userLang = navigator.language.split('-')[0];
+      userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+      translate.use(userLang);
+      translate.onLangChange.subscribe((event: LangChangeEvent) => {            
+      //  this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();   
+        this.Selectedlink = 1;
+       // this.SelectedLinkTitle = this.ContainerOperationArray[0].Name;
+      });
+    }   
 
   ngOnInit() {  
     //this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
@@ -78,6 +90,10 @@ export class ContainerBatchserialComponent implements OnInit {
     localStorage.setItem("ShipBin", '');
   }
 
+  setContainerOperation(){
+    return this.ContainerOperationArray[Number(this.Selectedlink) - 1].Name;   
+  }
+
   getContainsItemDD(){
     this.ItemCodeArray = [];
     let ItemCodeArray = this.ItemCodeArray;
@@ -98,87 +114,8 @@ export class ContainerBatchserialComponent implements OnInit {
     this.Tracking = this.ItemCodeArray[0].TRACKING;
     this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
     
-    this.fillBatchSerialDataInGrid();    
-  }
-
-  // getContainsItem(CallValue) {
-  //   this.showLoader = true;
-  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         if(data.length > 0){
-  //           if(CallValue == 'init'){
-  //             this.ContainsItemID = data[0].OPTM_ITEMCODE;
-  //             this.getItemsOpenQuantity();
-  //             this.fillBatchSerialDataInGrid('init');
-  //           }
-  //           else{
-  //             this.showLookup = true;
-  //             this.serviceData = data;
-  //             this.lookupfor = "ContainsItem";
-  //           }
-  //         }
-  //         else{
-  //           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //         }                  
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
-
-  // getContainsItem() {
-  //   this.showLoader = true;
-  //   this.containerShipmentService.GetContainsItemCode(this.SelectedShipmentId, this.IsShipment).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         if(data.length > 0){            
-  //           this.ContainsItemID = data[0].OPTM_ITEMCODE;
-  //           this.ContainsItemDD = data[0];
-  //           this.ItemCodeArray = data;
-  //           this.getItemsOpenQuantity();
-  //           this.fillBatchSerialDataInGrid();            
-  //         }
-  //         else{
-  //           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //         }                  
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
+    this.fillBatchSerialDataInGrid(1);    
+  }  
 
   GetWhseCode (){
     this.commonservice.GetWhseCode().subscribe(
@@ -306,45 +243,22 @@ export class ContainerBatchserialComponent implements OnInit {
       }
     );
     return result;
-  }
-
-  // onContainsItemChange() {
-  //   this.showLoader = true;
-  //   this.containerShipmentService.IsValidContainsItemCode(this.ContainsItemID, this.IsShipment, this.SelectedShipmentId).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         if(data.length == 0){
-  //           this.toastr.error('', this.translate.instant("InvalidItemCode"));
-  //           this.ContainsItemID = ''
-  //         } else {
-  //           this.ContainsItemID = data[0].OPTM_ITEMCODE
-  //         }          
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
+  }  
 
   pageChange(event: PageChangeEvent){
     this.skip = event.skip;
   }
 
+  onUpdateBtnPress(){
+    switch (this.Selectedlink) {
+      case (2):
+        this.onAssignShipmentPress();
+        break;
+      case (3):
+        this.onRemoveShipmentPress();
+        break;                 
+    }
+  }
 
   onItemCodeChange($event){
     this.setDataInTempGrid();
@@ -376,7 +290,7 @@ export class ContainerBatchserialComponent implements OnInit {
          } 
       } 
       if(!flag){
-        this.fillBatchSerialDataInGrid();
+        this.fillBatchSerialDataInGrid(this.Selectedlink);
         this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       } 
       else{
@@ -384,7 +298,7 @@ export class ContainerBatchserialComponent implements OnInit {
       }    
     }
     else{
-      this.fillBatchSerialDataInGrid();
+      this.fillBatchSerialDataInGrid(this.Selectedlink);
     }
   }
 
@@ -413,13 +327,18 @@ export class ContainerBatchserialComponent implements OnInit {
   //   this.fillBatchSerialDataInGrid();
   // }  
 
-  fillBatchSerialDataInGrid(){
+  fillBatchSerialDataInGrid(value){
+
+    this.Selectedlink = value;
+    //this.SelectedLinkTitle = this.setContainerOperation();
+    this.SelectedLinkTitle = 'A';
 
     this.pageChange({skip: 0, take: this.pageSize});
     this.isColumnFilterView = false;
     this.ShowGridPaging = false;
     this.showLoader = true;
-    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, this.ContainsItemID, this.SHPStatus, this.Tracking).subscribe(
+    this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId ,this.WarehouseId, this.BinId, 
+      this.ContainsItemID, this.SHPStatus, this.Tracking, this.Selectedlink).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -435,19 +354,6 @@ export class ContainerBatchserialComponent implements OnInit {
             this.SelectedRowsforShipmentArr = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE != ItemCode);
           }
 
-         // this.TempGridData = data;
-          
-          //if(action == 'QueryBtn'){
-            // let Openqty = 0.00;   
-            // let ItemCode = this.ContainsItemID;      
-            // this.ItemOpenQtyArr.filter(function(value,key){
-            //   if(value.OPTM_ITEMCODE == ItemCode){
-            //     Openqty = value.OPEN_QTY;
-            //   }
-            // }) 
-            // this.OpenQty = Openqty;  
-          //}
-         // this.RowCount = 0;
           this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
           
           if(this.ContainerBatchSerials.length > this.pageSize){
@@ -496,10 +402,11 @@ export class ContainerBatchserialComponent implements OnInit {
 
     tempArray.push({
       CompanyDBId: localStorage.getItem("CompID"),
-      OPTM_SHIPMENTCODE: this.SelectedShipmentCode,
+      OPTM_SHIPMENT_CODE: this.SelectedShipmentCode,
       OPTM_STATUS: this.SelectedShipmentStatus,
       OPTM_ITEMCODE: this.SelectedRowsforShipmentArr[i].ITEMCODE, 
-      OPTM_BTCHSER: this.SelectedRowsforShipmentArr[i].LOTNO      
+      OPTM_BTCHSER: this.SelectedRowsforShipmentArr[i].LOTNO,
+      OPTM_QTY_FULFILLED: this.SelectedRowsforShipmentArr[i].AvailableQty      
     });
    }
     this.containerBatchserialService.RemoveBatchSerialFromShipment(tempArray).subscribe(
@@ -513,9 +420,9 @@ export class ContainerBatchserialComponent implements OnInit {
           }
           if (data.length > 0) {            
             if (data[0].RESULT != '' && data[0].RESULT != null) {                
-              if(data[0].RESULT == 'Shipment updated'){
-                //this.toastr.success('', this.translate.instant("Containers_removed_successfully"));
-                //this.fillBatchSerialDataInGrid();
+              if(data[0].RESULT == 'Data Saved'){
+                this.toastr.success('', this.translate.instant("Btch_removed_successfully"));
+                this.fillBatchSerialDataInGrid(3);
               }
               else{
                 this.toastr.error('', data[0].RESULT);                  
@@ -579,35 +486,43 @@ export class ContainerBatchserialComponent implements OnInit {
 
   selectContainerRowChange (checkedselectedvalue, isCheck,dataitem,idx){
     if(isCheck){
-
-      if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
-        this.toastr.error('', this.translate.instant("ZeroOpenQty")); 
-        checkedselectedvalue.checked = false;
-        return;      
-      }
-
-      let CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
-
-      if(CalQty == -1){
-        if(this.SelectedRowsforShipmentArr.length == 0)
-          this.toastr.error('', this.translate.instant("OpenQtyCheck"));
-        else
-          this.toastr.error('', this.translate.instant("TotalQtyCheck"));        
-      
-       // dataitem.Selected = false;  
-        this.ContainerBatchSerials[idx].Selected = false;  
-        this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
-        this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
-        checkedselectedvalue.checked = false;
-        return;
-      }
-      else{
-       //  dataitem.AssignQty = CalQty;    
-         this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
-         this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
-         this.ContainerBatchSerials[idx].Selected = true; 
-         this.SelectedRowsforShipmentArr.push(dataitem);
-      }         
+      let CalQty = -1;
+      if(this.Selectedlink != 2){
+        if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
+          this.toastr.error('', this.translate.instant("ZeroOpenQty")); 
+          checkedselectedvalue.checked = false;
+          return;      
+        }
+  
+        CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
+  
+        if(CalQty == -1){
+          if(this.SelectedRowsforShipmentArr.length == 0)
+            this.toastr.error('', this.translate.instant("OpenQtyCheck"));
+          else
+            this.toastr.error('', this.translate.instant("TotalQtyCheck"));        
+        
+         // dataitem.Selected = false;  
+          this.ContainerBatchSerials[idx].Selected = false;  
+          this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+          this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
+          checkedselectedvalue.checked = false;
+          return;
+        }
+        else{
+         //  dataitem.AssignQty = CalQty;    
+           this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+           this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+           this.ContainerBatchSerials[idx].Selected = true; 
+           this.SelectedRowsforShipmentArr.push(dataitem);
+        } 
+      }else{
+        CalQty = 0;
+        this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+        this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+        this.ContainerBatchSerials[idx].Selected = true; 
+        this.SelectedRowsforShipmentArr.push(dataitem);
+      }        
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
@@ -696,7 +611,7 @@ export class ContainerBatchserialComponent implements OnInit {
               this.TempGridData = [];
               let OpenQty = this.OpenQty - this.SelectedQty;
               this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              this.fillBatchSerialDataInGrid();
+              this.fillBatchSerialDataInGrid(2);
             }
             else{
               if(data[0].RESULT != '' && data[0].RESULT != null){

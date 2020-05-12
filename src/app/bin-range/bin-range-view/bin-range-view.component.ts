@@ -45,6 +45,9 @@ export class BinRangeViewComponent implements OnInit {
           this.showLookupLoader = false;
           this.serviceData = data;
           this.lookupfor = "BinRangeList";
+          for(var i=0;i<this.serviceData.length;i++){
+            this.serviceData[i].hideCopy = true
+          }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

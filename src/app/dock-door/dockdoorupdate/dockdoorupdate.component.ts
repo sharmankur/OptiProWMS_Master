@@ -25,6 +25,8 @@ export class DockdoorupdateComponent implements OnInit {
   lookupfor: string;
   serviceData: any[];
   index: number = -1;
+  isUpdateHappen: boolean = false;
+
   public DDdetailArray: DDdetailModel[] = [];
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
@@ -42,34 +44,47 @@ export class DockdoorupdateComponent implements OnInit {
         this.DDdetailArray[i].OPTM_DEFAULT_BOOL = this.DDdetailArray[i].OPTM_DEFAULT == "Y" ? true : false;
       }
       if (localStorage.getItem("Action") == "copy") {
-        // this.DD_ID = ''
-        this.WHSCODE = ''
+        this.DD_ID = ''
+        // this.WHSCODE = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
+        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
+        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
+      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
+  onBackClick(){
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.ddmainComponent.ddComponent = 1;
+    }
+  }
 
   onCancelClick() {
     this.ddmainComponent.ddComponent = 1;
-    // this.onAddUpdateClick();
   }
 
-  openConfirmForDelete(rowIndex, gridItem){
+  openConfirmForDelete(rowIndex, gridItem) {
     this.DDdetailArray.splice(rowIndex, 1);
     gridItem = this.DDdetailArray;
+    this.isUpdateHappen = true;
   }
 
   validateFields(): boolean {
+    if ((this.WHSCODE == '' || this.WHSCODE == undefined) && (this.DD_ID == '' || this.DD_ID == undefined)) {
+      this.toastr.error('', this.translate.instant("EnterHdrInfoMsg"));
+      return
+    }
     if (this.DD_ID == '' || this.DD_ID == undefined) {
-      this.toastr.error('', this.translate.instant("DockDoorId_Blank_Msg"));
+      this.toastr.error('', this.translate.instant("InvalidDock_Door"));
       return false;
     } else if (this.WHSCODE == '' || this.WHSCODE == undefined) {
       this.toastr.error('', this.translate.instant("Whs_blank_msg"));
@@ -80,12 +95,24 @@ export class DockdoorupdateComponent implements OnInit {
       return false;
     }
     else if (this.DDdetailArray.length > 0) {
-      let sum = 0;
       for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
         if (this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == undefined || this.DDdetailArray[iBtchIndex].OPTM_SHIP_STAGEBIN == "") {
           this.toastr.error('', this.translate.instant("Invalid_Stagebin_msg"));
           return false;
         }
+      }
+
+      var isDefaultBinSelected = false
+      for (var iBtchIndex = 0; iBtchIndex < this.DDdetailArray.length; iBtchIndex++) {
+        if (this.DDdetailArray[iBtchIndex].OPTM_DEFAULT == "Y") {
+          isDefaultBinSelected = true;
+          break
+        }
+      }
+
+      if (!isDefaultBinSelected) {
+        this.toastr.error('', this.translate.instant("DefaultBinMandate"));
+        return false;
       }
     }
     return true;
@@ -233,7 +260,7 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidBinCode(index, bincode, display_name) {
-    if(bincode == undefined || bincode == ""){
+    if (bincode == undefined || bincode == "") {
       return;
     }
     this.showLoader = true;
@@ -246,14 +273,27 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
-            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = data[0].BinCode;
+            if (this.DDdetailArray[index].OPTM_SHIP_STAGEBIN == data[0].BinCode) {
+              return
+            }
+
+            if (this.isBinExist(data[0].BinCode)) {
+              this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = " ";
+              // display_name.value = "";
+              setTimeout(() => {
+                this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+              }, 100)
+              this.toastr.error('', this.translate.instant("BinExistMsg"));
+            } else {
+              this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = data[0].BinCode;
+            }
           } else {
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
-            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
+            this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = " ";
             display_name.value = "";
           }
-
         } else {
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           this.DDdetailArray[index].OPTM_SHIP_STAGEBIN = "";
@@ -273,7 +313,7 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   IsValidWhseCode() {
-    if(this.WHSCODE == undefined || this.WHSCODE == ""){
+    if (this.WHSCODE == undefined || this.WHSCODE == "") {
       return;
     }
     this.showLoader = true;
@@ -286,6 +326,7 @@ export class DockdoorupdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if (data.length > 0) {
             this.WHSCODE = data[0].WhsCode;
           } else {
@@ -372,8 +413,10 @@ export class DockdoorupdateComponent implements OnInit {
     }
     else if (this.lookupfor == "WareHouse") {
       this.WHSCODE = $event[0];
+      this.isUpdateHappen = true
     } else if (this.lookupfor == "BinList") {
-      if(this.isBinExist($event[0])){
+      this.isUpdateHappen = true
+      if (this.isBinExist($event[0])) {
         this.toastr.error('', this.translate.instant("BinExistMsg"));
         return
       }
@@ -385,9 +428,9 @@ export class DockdoorupdateComponent implements OnInit {
     }
   }
 
-  isBinExist(value){
+  isBinExist(value) {
     let data = this.DDdetailArray.filter(item => item.OPTM_SHIP_STAGEBIN === value)
-    if(data.length > 0){
+    if (data.length > 0) {
       return true;
     } else {
       return false;
@@ -395,7 +438,12 @@ export class DockdoorupdateComponent implements OnInit {
   }
 
   AddRow() {
+    if (this.WHSCODE == '' || this.WHSCODE == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return false;
+    }
     this.DDdetailArray.push(new DDdetailModel("", "", "N"));
+    this.isUpdateHappen = true;
   }
 
   UpdateDefault(lotTemplateVar, value, rowindex, gridData: any) {
@@ -413,10 +461,56 @@ export class DockdoorupdateComponent implements OnInit {
       this.DDdetailArray[i].OPTM_DEFAULT = "N";
     }
     this.DDdetailArray[rowindex].OPTM_DEFAULT_BOOL = value;
-    if(value == true){
-      this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y"; 
-    }else{
-      this.DDdetailArray[rowindex].OPTM_DEFAULT = "N"; 
+    if (value == true) {
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "Y";
+    } else {
+      this.DDdetailArray[rowindex].OPTM_DEFAULT = "N";
+    }
+  }
+
+  OnDDIDChange(){
+    if(this.DD_ID == undefined || this.DD_ID == ""){
+      return;
+    }
+    this.isUpdateHappen = true
+  }
+
+  onDescChangeBlur(){
+    this.isUpdateHappen = true
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.ddmainComponent.ddComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
     }
   }
 }

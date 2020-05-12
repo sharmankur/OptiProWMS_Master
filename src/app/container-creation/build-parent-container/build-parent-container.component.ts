@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -51,6 +51,14 @@ export class BuildParentContainerComponent implements OnInit {
   autoClose: boolean = false;
   IsDisableScanChild: boolean = true;
   enableCloseCont: boolean = false;
+  @ViewChild("scanWhse", {static: false}) scanWhse;
+  @ViewChild("scanBinNo", {static: false}) scanBinNo;
+  @ViewChild("scanContType", {static: false}) scanContType;
+  @ViewChild("scanPCType", {static: false}) scanPCType;
+  @ViewChild("scanContGrCode", {static: false}) scanContGrCode;
+  @ViewChild("scanSONo", {static: false}) scanSONo;
+  @ViewChild("scanPContCode", {static: false}) scanPContCode;
+  @ViewChild("scanContCode", {static: false}) scanContCode;
 
   showHideDetails() {
     this.showHideEnable = !this.showHideEnable
@@ -120,14 +128,18 @@ export class BuildParentContainerComponent implements OnInit {
       switch ($event.From) {        
         case ("ReopenConfirm"):
          this.ReOpenCont(); 
+        break;  
+        case ("CloseConfirm"):
+        this.onCloseContYesClick(); 
         break;        
       }
     } else {
       if ($event.Status == "no") {
         switch ($event.From) {         
-          case ("ReopenConfirm"): 
-            
-          break;         
+          case ("ReopenConfirm"):
+          break;   
+          case ("CloseConfirm"):
+          break;      
         }
       }
     }
@@ -222,8 +234,10 @@ export class BuildParentContainerComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whse = ''
+          this.scanWhse.nativeElement.focus()
         } else {
           this.whse = resp[0].WhsCode
+          this.scanBinNo.nativeElement.focus()
         }
       },
       error => {
@@ -296,9 +310,11 @@ export class BuildParentContainerComponent implements OnInit {
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("INVALIDBIN"));
           this.binNo = ''
+          this.scanBinNo.nativeElement.focus()
         }
         else {
           this.binNo = resp[0].BinCode;
+          this.scanContType.nativeElement.focus()
         }
       },
       error => {
@@ -396,9 +412,11 @@ export class BuildParentContainerComponent implements OnInit {
           } else {
             this.containerGroupCode = '';
             this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+            this.scanContGrCode.nativeElement.focus()
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.scanSONo.nativeElement.focus()
         }
       },
       error => {
@@ -484,10 +502,12 @@ export class BuildParentContainerComponent implements OnInit {
                 this.parentContainerType = '';
                 this.ParentPerQty = 0;
                 this.toastr.error('', this.translate.instant("InvalidParentContType"));
+                this.scanPCType.nativeElement.focus()
                 return;
               }
               else {
                 this.ParentPerQty = this.ParentCTAray[index].OPTM_CONT_PERPARENT;
+                this.scanContGrCode.nativeElement.focus()
               }
             }
             else {
@@ -694,6 +714,7 @@ export class BuildParentContainerComponent implements OnInit {
             if (data.length == 0) {
               this.soNumber = '';
               this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
+              this.scanSONo.nativeElement.focus()
             } else {
               this.soNumber = data[0].DocEntry
             }
@@ -871,7 +892,7 @@ export class BuildParentContainerComponent implements OnInit {
       this.binNo, "",
       this.containerGroupCode,
       this.soNumber, this.parentContainerType,
-      this.purps, operation, 3).subscribe(
+      this.purps, operation, 3, undefined).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -1110,7 +1131,7 @@ export class BuildParentContainerComponent implements OnInit {
       OPTM_CONTAINERCODE: "" + this.parentcontainerCode,
       OPTM_WEIGHT: 0,
       OPTM_AUTOCLOSE_ONFULL: ((this.autoClose == true) ? 'Y' : 'N'),
-      OPTM_AUTORULEID: 0,
+      OPTM_AUTORULEID: '',
       OPTM_WHSE: this.whse,
       OPTM_BIN: this.binNo,
       OPTM_CREATEDBY: localStorage.getItem("UserId"),
@@ -1265,7 +1286,46 @@ export class BuildParentContainerComponent implements OnInit {
     this.insertChildContnr();
   }
 
-  onCloseContClick(){
+  onCloseContClick(){   
+
+    this.showLoader = true;
+    this.commonservice.CloseParentContainer(this.parentcontainerCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Full") {             
+              this.onCloseContYesClick();                       
+            } else {
+              this.showDialog("CloseConfirm", this.translate.instant("yes"), this.translate.instant("no"),
+              this.translate.instant("CloseAlert"));
+            }
+          }else{
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onCloseContYesClick(){
     if (this.parentcontainerCode == undefined || this.parentcontainerCode == "") {
       this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
       return;

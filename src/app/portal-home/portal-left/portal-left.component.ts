@@ -110,16 +110,12 @@ export class PortalLeftComponent implements OnInit {
   listClick(event, module) {
     this.selectedItem = module;
 
-
-    
     localStorage.setItem("ProdReceptItem", '');
     localStorage.setItem("FromReceiptProd", 'false');
     localStorage.setItem("GoodsReceiptModel", '');
     localStorage.setItem("AvailableRejectQty", 0 + "");
 
-    if (module == "shipment") {
-      localStorage.setItem("ShipmentID", "");
-    } else if (module == "inbound") {
+    if (module == "inbound") {
       this.onInboundClick();
     } else if (module == "whsTransfer") {
       localStorage.setItem("fromscreen", "WhsTransfer");
@@ -135,8 +131,12 @@ export class PortalLeftComponent implements OnInit {
     }
     else if (module == "DocumentNumbering") {
       localStorage.setItem("DocNumbering", "DocumentNumbering");
-    }else if (module == "DocumentNumbering") {
-    
+    }else if (module == "archiveddata") {
+      localStorage.setItem("fromscreen", "archiveddata");
+      localStorage.setItem("ShipmentID", "");
+    }else if (module == "shipment") {
+      localStorage.setItem("fromscreen", "shipment");
+      localStorage.setItem("ShipmentID", "");
     }
     this.closeRightSidebar(event);
     this.router.navigate(['home/' + module]);
