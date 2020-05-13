@@ -1083,6 +1083,6 @@
   "CreateConMsg": "Container not created yet, please select Create option to create container.",
 
   "ItemInvIsNotPresent": "Cannot add. No sufficient inventory found",
-
+  "Shp_updated": "Shipment Updated",
   "Dummy": "Dummy"  
 }
