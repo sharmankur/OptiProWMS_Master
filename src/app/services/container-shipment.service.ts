@@ -26,7 +26,7 @@ export class ContainerShipmentService {
   }
 
   FillContainerDataInGrid(ContnrShipmentId:number,OPTM_CONTCODE:any, OPTM_SHIPELIGIBLE:string, OPTM_STATUS:number, OPTM_CONTTYPE:string, OPTM_ITEMCODE:string,
-    OPTM_SHIPMENTID:number, OPTM_INV_STATUS:number, OPTM_WHSE:string, OPTM_BIN:string, IsShipment:boolean, WOId:any , SOId:any, SelectedOperation:number): Observable<any> {
+    OPTM_SHIPMENTID:number, OPTM_INV_STATUS:number, OPTM_WHSE:string, OPTM_BIN:string, IsShipment:boolean, WOId:any , SOId:any, SelectedOperation:number, OPTM_CONT_GROUPCODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -44,7 +44,7 @@ export class ContainerShipmentService {
         WOId: WOId,
         SOId: SOId,
         Operation: SelectedOperation,
-        OPTM_CONT_GROUPCODE: ''
+        OPTM_CONT_GROUPCODE: OPTM_CONT_GROUPCODE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);

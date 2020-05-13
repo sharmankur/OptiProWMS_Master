@@ -31,6 +31,7 @@ export class LookupComponent implements OnInit {
   @Output() copyItem = new EventEmitter();
   @Output() copyItemKey = new EventEmitter();
   @Output() lookupkey = new EventEmitter();
+  @Output() onChangeSelection = new EventEmitter();
   @Input() ruleselected: any;
   myInputVariable: ElementRef;
   public table_head: ColumnSetting[] = [];
@@ -845,6 +846,10 @@ export class LookupComponent implements OnInit {
     this.deleteSelectedItems.emit(Object.values(this.selectedValues));
   }
 
+  // onSelectedRowClick(lookup_key) {
+  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
+  // }
+
   showLotsList() {
     var titleValue = this.translate.instant("BatchNo");
     if (this.serviceData !== undefined && this.serviceData.length > 0) {
@@ -1197,12 +1202,24 @@ export class LookupComponent implements OnInit {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
       this.selectedValues.push(servivceItem);
+    } else {
+      for(let i=0;i<this.selectedValues.length;i++){
+        if(this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE){
+          this.selectedValues.splice(i, 1);
+        }
+      }
     }
-    else {
-      var temp = this.selectedValues.splice(index, 1);
-      this.selectedValues = this.selectedValues;
-    }
+    this.onChangeSelection.emit(Object.values(this.selectedValues));
   }
+
+  // checkExist(value){
+  //   for(let i=0;i<this.selectedValues.length;i++){
+  //     if(this.selectedValues[i].OPTM_BIN_RANGE == value){
+  //       return true
+  //     }
+  //   }
+  //   return false
+  // }
 
   palletList() {
     this.table_head = [

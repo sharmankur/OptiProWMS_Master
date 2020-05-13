@@ -90,6 +90,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
+    this.containerGroupCode = localStorage.getItem("ContGrpCode");
     this.isColumnFilterView = false;
 
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
@@ -166,7 +167,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.isColumnFilterView = false;
     this.showLoader = true;
     this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
-      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId, this.Selectedlink).subscribe(
+      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId, this.Selectedlink, this.containerGroupCode).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
