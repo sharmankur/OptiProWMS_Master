@@ -119,10 +119,25 @@ export class CTViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CT_ROW", "");
-    localStorage.setItem("Action", "");
-    this.inboundMasterComponent.inboundComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CT_ROW", "");
+      localStorage.setItem("Action", "");
+      this.inboundMasterComponent.inboundComponent = 2;
+    }
   }
 
   onEditClick(row) {
@@ -162,6 +177,11 @@ export class CTViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("CT_ROW", "");
+          localStorage.setItem("Action", "");
+          this.inboundMasterComponent.inboundComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({

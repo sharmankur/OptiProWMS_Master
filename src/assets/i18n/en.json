@@ -1077,6 +1077,7 @@
   "CT_Max_Weight":"Max Weight", 
   "CT_Tare_Weight":"Tare Weight", 
   "CannotLessThenZero": "Negative value not allow",
+  "SelectionLostMsg": "Your selection will be lost, do you want to continue",
   "SElectWIPFGBinMsg":"Selected bin is not WIP FG Stage bin, please change it to ",
   "CloseAlert": "Please fill the all the qunatities of Parent container",
   "CreateConMsg": "Container not created yet, please select Create option to create container.",

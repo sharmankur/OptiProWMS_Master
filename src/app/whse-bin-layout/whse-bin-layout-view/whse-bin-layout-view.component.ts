@@ -52,7 +52,7 @@ export class WhseBinLayoutViewComponent implements OnInit {
               this.serviceData[iBtchIndex].OPTM_ADD_TOCONT = "No";
             }
           }
-          for(var i=0;i<this.serviceData.length;i++){
+          for (var i = 0; i < this.serviceData.length; i++) {
             this.serviceData[i].hideCopy = true
           }
           this.lookupfor = "WhseBinLayoutList";
@@ -89,11 +89,25 @@ export class WhseBinLayoutViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CAR_ROW", "");
-    localStorage.setItem("Action", "");
-    this.whseBintComponent.whseBinLayoutComponent = 2;
-    // this.whseBintComponent.whseBinLayoutComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CAR_ROW", "");
+      localStorage.setItem("Action", "");
+      this.whseBintComponent.whseBinLayoutComponent = 2;
+    }
   }
 
   showConfirmDialog: boolean = false;
@@ -121,6 +135,11 @@ export class WhseBinLayoutViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($data.Status == "yes") {
       switch ($data.From) {
+        case ("DataLost"):
+          localStorage.setItem("CAR_ROW", "");
+          localStorage.setItem("Action", "");
+          this.whseBintComponent.whseBinLayoutComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({

@@ -26,7 +26,7 @@ export class BinRangeViewComponent implements OnInit {
     });
   }
 
-  
+
   ngOnInit() {
     this.GetDataForBinRanges();
   }
@@ -45,7 +45,7 @@ export class BinRangeViewComponent implements OnInit {
           this.showLookupLoader = false;
           this.serviceData = data;
           this.lookupfor = "BinRangeList";
-          for(var i=0;i<this.serviceData.length;i++){
+          for (var i = 0; i < this.serviceData.length; i++) {
             this.serviceData[i].hideCopy = true
           }
         } else {
@@ -80,14 +80,29 @@ export class BinRangeViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+  
   OnAddClick() {
-    localStorage.setItem("BinRangesRow", "");
-    localStorage.setItem("Action", "");
-    this.binrangesMainComponent.binRangesComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("BinRangesRow", "");
+      localStorage.setItem("Action", "");
+      this.binrangesMainComponent.binRangesComponent = 2;
+    }
   }
 
   OnDeleteSelected(event) {
-    if(event.length <= 0){
+    if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
     }
@@ -152,6 +167,11 @@ export class BinRangeViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("BinRangesRow", "");
+          localStorage.setItem("Action", "");
+          this.binrangesMainComponent.binRangesComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({
