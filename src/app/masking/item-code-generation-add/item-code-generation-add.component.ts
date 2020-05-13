@@ -43,7 +43,7 @@ export class ItemCodeGenerationAddComponent implements OnInit {
     if (actionType != undefined && actionType != "") {
       if (localStorage.getItem("Action") == "edit") {
         this.isUpdate = true;
-        this.buttonText = this.translate.instant("CT_Update");
+        this.buttonText = this.translate.instant("Submit");
         var data = JSON.parse(localStorage.getItem("Row"));
         this.codekey = data[0];
         this.getItemCodeGenerationByCode(this.codekey);

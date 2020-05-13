@@ -44,7 +44,7 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Height = this.CT_ROW.OPTM_HEIGHT;
       this.CT_Max_Width = this.CT_ROW.OPTM_MAXWEIGHT;
       this.CT_Tare_Width = this.CT_ROW.OPTM_TARE_WT;
-      this.formatCT_Tare_Width();
+      this.formatCT_Tare_Width("");
       if(localStorage.getItem("Action") == "copy"){
         this.CT_ContainerType = ''
         this.isUpdate = false;
@@ -101,16 +101,21 @@ export class CTUpdateComponent implements OnInit {
     this.isUpdateHappen = true
   }
 
-  formatCT_Tare_Width() {
+  formatCT_Tare_Width(value) {
     if(Number(this.CT_Tare_Width) < 0 ){
       this.CT_Tare_Width = ''
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
       return false;
     }
     this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-    // this.isUpdateHappen = true
+    if(value == 'blur'){
+      this.isUpdateHappen = true
+    }
   }
   
+  onDescChange(){
+    this.isUpdateHappen = true
+  }
 
   validateFields(): boolean{
     if(this.CT_ContainerType == '' || this.CT_ContainerType == undefined){
@@ -140,7 +145,7 @@ export class CTUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if(this.BtnTitle == this.translate.instant("Submit")){
       this.updateContainerType();
     }else{
       this.addContainerType();
