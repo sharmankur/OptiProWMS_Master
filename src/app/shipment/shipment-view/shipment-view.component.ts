@@ -561,6 +561,7 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipShipmentID", this.ShipmentID);
     localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
     localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null ? '' : this.ShipStageBin);
+    localStorage.setItem("ContGrpCode", this.Container_Group);
 
     if (this.UseContainer) {
       this.router.navigate(['home/Container_List']);
