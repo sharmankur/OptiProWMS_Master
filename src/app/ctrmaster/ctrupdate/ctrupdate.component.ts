@@ -104,7 +104,7 @@ export class CTRUpdateComponent implements OnInit {
       return;
     }
     console.log("onAddUpdateClick: updated")
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if(this.BtnTitle == this.translate.instant("Submit")){
       this.UpdateContainerRelationship();
     }else{
       this.InsertIntoContainerRelationship();

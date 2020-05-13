@@ -211,7 +211,7 @@ export class CARUpdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.BtnTitle == this.translate.instant("Submit")) {
       this.updateContainerAutoRule();
     } else {
       this.addContainerAutoRule();
@@ -423,6 +423,9 @@ export class CARUpdateComponent implements OnInit {
     }
   }
 
+  onDescChange(){
+    this.isUpdateHappen = true
+  }
 
   GetDataForContainerType() {
     this.showLoader = true;

@@ -70,7 +70,7 @@ export class WMSUGMappingAddUpdateComponent implements OnInit {
     } else if (localStorage.getItem("UGAction") == "update") {
       this.isUpdate = true;
   
-      this.BtnTitle = this.translate.instant("CT_Update");
+      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy()
       if(this.whsZone!="")this.disableZone = true;
       if(this.whsCode!="")this.disableCode = true;

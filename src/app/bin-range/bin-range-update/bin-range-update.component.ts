@@ -220,7 +220,7 @@ export class BinRangeUpdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.BtnTitle == this.translate.instant("Submit")) {
       this.UpdateBinRange();
     } else {
       this.InsertIntoBinRange();

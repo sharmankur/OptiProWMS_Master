@@ -122,7 +122,7 @@ export class DockdoorupdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.BtnTitle == this.translate.instant("Submit")) {
       this.UpdateDockDoor();
     } else {
       this.addDockDoor();

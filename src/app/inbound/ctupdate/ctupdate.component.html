@@ -21,7 +21,7 @@
                             <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
                             <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" >
+                                    <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" (blur)="onDescChange()">
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
                                             <input type="number" #scanQty name="CT_Tare_Width"
-                                            [(ngModel)]=CT_Tare_Width (blur)="formatCT_Tare_Width()" 
+                                            [(ngModel)]=CT_Tare_Width (blur)="formatCT_Tare_Width('blur')" 
                                             min="0"
                                             class="text-right form-control form-control-sm">
                                     </div>

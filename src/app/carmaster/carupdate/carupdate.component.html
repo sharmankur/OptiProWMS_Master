@@ -23,7 +23,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="OPTM_RULE_DESC" [(ngModel)]="OPTM_RULE_DESC" placeholder="{{'CT_Description'|translate}}"
-                                    >
+                                    (blur)="onDescChange()">
                             </div>
                         </div>
                     </div>
