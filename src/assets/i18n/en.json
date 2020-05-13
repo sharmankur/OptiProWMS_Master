@@ -1040,11 +1040,7 @@
   "SetDamagedMsg": "Container updated successfully",
   "ContIsClosed": "Container is Closed",
   "CannotCreateCont": "Cannot create container",
-<<<<<<< HEAD
-  "View_BatchSer": "View Batch/Serial",
-=======
   "View_BatchSer": "View item detail",
->>>>>>> 562e19c1b132576e697bf789cd47ad1a6bd3c110
         
   "AddContainer": "Add Container",
   "AddItem": "Add Item",
