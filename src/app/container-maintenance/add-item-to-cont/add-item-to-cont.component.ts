@@ -3817,13 +3817,13 @@ export class AddItemToContComponent implements OnInit {
       }
       serviceData[i].BalQty = Number(serviceData[i].BalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       serviceData[i].OPTM_PARTS_PERCONT_VAL = Number(serviceData[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-      if (serviceData[i].OPTM_TRACKING == 'B') {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Batch");
-      } else if (serviceData[i].OPTM_TRACKING == 'S') {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Serial");
-      } else {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("None");
-      }
+      // if (serviceData[i].OPTM_TRACKING == 'B') {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Batch");
+      // } else if (serviceData[i].OPTM_TRACKING == 'S') {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Serial");
+      // } else {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("None");
+      // }
     }
     return serviceData;
   }

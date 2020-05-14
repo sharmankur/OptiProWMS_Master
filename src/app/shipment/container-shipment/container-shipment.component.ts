@@ -90,11 +90,12 @@ export class ContainerShipmentComponent implements OnInit {
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
-    this.containerGroupCode = localStorage.getItem("ContGrpCode");
+    
     this.isColumnFilterView = false;
 
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
+      this.containerGroupCode = localStorage.getItem("ContGrpCode");
       this.InvPostStatusId = this.InvPostStatusArray[1];
       this.InvPostStatusValue = this.InvPostStatusId.Value;
 
@@ -116,6 +117,7 @@ export class ContainerShipmentComponent implements OnInit {
 
   ngOnDestroy() {
     localStorage.setItem("ShipShipmentID", '');
+    localStorage.setItem("ContGrpCode", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
   }

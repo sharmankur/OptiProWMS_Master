@@ -1087,5 +1087,6 @@
   "SelectedRowFieldVal": "Selected row fields can't be blank",
   "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
 
+  "Shp_updated": "Shipment Updated",
   "Dummy": "Dummy"  
 }

@@ -20,7 +20,7 @@ export class ShipmentViewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
   hideLookup: boolean = true;
-  Container_Group: string;
+  Container_Group: string="";
   ShipmentID: string;
   ShipmentCode: string;
   CustomerCode: string;
@@ -633,7 +633,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     this.shipmentService.ScheduleShipment(this.ShipmentID, this.CarrierCode, this.ScheduleDatetime.toLocaleDateString(),
-      this.DockDoor, this.ShipmentCode, (this.ShipmentProcessEnum().find(e => e.Name == this.shpProcess)).Value, "20").subscribe(
+      this.DockDoor, this.ShipmentCode, (this.ShipmentProcessEnum().find(e => e.Name == this.shpProcess)).Value, "20", this.Container_Group).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -835,7 +835,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     let uc = this.UseContainer == true ? "Y" : "N";
-    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber).subscribe(
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -844,7 +844,8 @@ export class ShipmentViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("Shp_updated"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
