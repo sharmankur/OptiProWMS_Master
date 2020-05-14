@@ -48,6 +48,8 @@ export class CARUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let Carow = localStorage.getItem("CAR_ROW")
     if (Carow != undefined && Carow != "") {
       this.CTR_ROW = JSON.parse(localStorage.getItem("CAR_ROW"));
@@ -76,13 +78,10 @@ export class CARUpdateComponent implements OnInit {
       if (localStorage.getItem("Action") == "copy") {
         this.CAR_CPackRule = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
-      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }
@@ -211,7 +210,7 @@ export class CARUpdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("Submit")) {
+    if (this.isUpdate) {
       this.updateContainerAutoRule();
     } else {
       this.addContainerAutoRule();

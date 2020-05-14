@@ -1083,6 +1083,9 @@
   "CreateConMsg": "Container not created yet, please select Create option to create container.",
 
   "ItemInvIsNotPresent": "Cannot add. No sufficient inventory found",
+  "ZoneCodeMsg": "Enter zone code first",
+  "SelectedRowFieldVal": "Selected row fields can't be blank",
+  "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
 
   "Dummy": "Dummy"  
 }

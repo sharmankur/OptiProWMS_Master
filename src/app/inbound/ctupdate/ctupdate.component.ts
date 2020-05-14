@@ -34,6 +34,8 @@ export class CTUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
@@ -48,14 +50,11 @@ export class CTUpdateComponent implements OnInit {
       if(localStorage.getItem("Action") == "copy"){
         this.CT_ContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
 
     this.GetUnitOfMeasure()
@@ -145,7 +144,7 @@ export class CTUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-    if(this.BtnTitle == this.translate.instant("Submit")){
+    if(this.isUpdate){
       this.updateContainerType();
     }else{
       this.addContainerType();
