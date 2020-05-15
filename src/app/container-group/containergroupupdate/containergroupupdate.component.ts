@@ -24,6 +24,8 @@ export class ContainergroupupdateComponent implements OnInit {
     private router: Router, private contnrServ: ContainerGroupService, private contrMainComp: ContainergroupmainComponent) { }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CG_ROW = localStorage.getItem("CG_ROW")
     if (CG_ROW != undefined && CG_ROW != "") {
       this.CG_ROW = JSON.parse(localStorage.getItem("CG_ROW"));
@@ -33,14 +35,11 @@ export class ContainergroupupdateComponent implements OnInit {
         this.CG_ID = '';//this.CG_ROW.OPTM_CONTAINER_GROUP;
         this.CG_DESC = this.CG_ROW.OPTM_DESC;
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -70,7 +69,7 @@ export class ContainergroupupdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.isUpdate) {
       this.UpdateContnrGroup();
     } else {
       this.InsertIntoContnrGroup();

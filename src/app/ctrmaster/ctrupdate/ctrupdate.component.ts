@@ -39,6 +39,8 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CtrRow = localStorage.getItem("CTR_ROW")
     if(CtrRow != undefined && CtrRow != ""){
     this.CTR_ROW = JSON.parse(localStorage.getItem("CTR_ROW"));
@@ -50,14 +52,11 @@ export class CTRUpdateComponent implements OnInit {
         this.CTR_ContainerType = ''
         // this.CTR_ParentContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -104,7 +103,7 @@ export class CTRUpdateComponent implements OnInit {
       return;
     }
     console.log("onAddUpdateClick: updated")
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if(this.isUpdate){
       this.UpdateContainerRelationship();
     }else{
       this.InsertIntoContainerRelationship();

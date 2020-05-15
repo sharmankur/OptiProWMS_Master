@@ -90,11 +90,12 @@ export class ContainerShipmentComponent implements OnInit {
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
-    this.containerGroupCode = localStorage.getItem("ContGrpCode");
+    
     this.isColumnFilterView = false;
 
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
+      this.containerGroupCode = localStorage.getItem("ContGrpCode");
       this.InvPostStatusId = this.InvPostStatusArray[1];
       this.InvPostStatusValue = this.InvPostStatusId.Value;
 
@@ -116,6 +117,7 @@ export class ContainerShipmentComponent implements OnInit {
 
   ngOnDestroy() {
     localStorage.setItem("ShipShipmentID", '');
+    localStorage.setItem("ContGrpCode", '');
     localStorage.setItem("ShipWhse", '');
     localStorage.setItem("ShipBin", '');
   }
@@ -1175,7 +1177,7 @@ export class ContainerShipmentComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       tempArray.push({
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_SHIPMENTID: this.ShipmentId,
+        OPTM_SHIPMENTID: this.SelectedRowsforShipmentArr[i].OPTM_SHIPMENTID,
         OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
         OPTM_USERID: localStorage.getItem("UserId"),
         OPTM_CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID

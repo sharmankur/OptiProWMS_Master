@@ -39,6 +39,8 @@ export class BinRangeUpdateComponent implements OnInit {
 
   ngOnInit() {
     let BinRangesRow = localStorage.getItem("BinRangesRow")
+    this.BtnTitle = this.translate.instant("Submit");
+
     if (BinRangesRow != undefined && BinRangesRow != "") {
       this.BinRangesRow = JSON.parse(localStorage.getItem("BinRangesRow"));
       this.BinRange = this.BinRangesRow.OPTM_BIN_RANGE;
@@ -52,14 +54,11 @@ export class BinRangeUpdateComponent implements OnInit {
         this.BinRange = ''
         // this.FromBinCode = '';
         // this.ToBinCode = '';
-        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -220,7 +219,7 @@ export class BinRangeUpdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.isUpdate) {
       this.UpdateBinRange();
     } else {
       this.InsertIntoBinRange();

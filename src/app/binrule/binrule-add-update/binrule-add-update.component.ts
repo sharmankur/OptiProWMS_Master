@@ -72,6 +72,8 @@ export class BinruleAddUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let binruleRow = localStorage.getItem("binRule_ROW")
     if (binruleRow != undefined && binruleRow != "") {
       this.binRule_ROW = JSON.parse(localStorage.getItem("binRule_ROW"));
@@ -79,19 +81,15 @@ export class BinruleAddUpdateComponent implements OnInit {
 
     if (localStorage.getItem("brAction") == "copy") {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy();
       // this.purpose = ''
       // this.ruleType = ''
     } else if (localStorage.getItem("brAction") == "update") {
       this.isUpdate = true;
-      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy()
     } else if (localStorage.getItem("brAction") == "add") {
-      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     } else {
-      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }
@@ -380,7 +378,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     if (!this.requiredFieldValidation()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.isUpdate) {
       this.updateBinRule();
     } else {
       this.addBinRule();

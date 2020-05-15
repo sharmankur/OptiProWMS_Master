@@ -25,6 +25,8 @@ export class CarrierUpdateComponent implements OnInit {
     private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) { }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let DD_ROW = localStorage.getItem("DD_ROW")
     if (DD_ROW != undefined && DD_ROW != "") {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));
@@ -33,14 +35,11 @@ export class CarrierUpdateComponent implements OnInit {
       if (localStorage.getItem("Action") == "copy") {
         this.carrierId = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       } else {
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     } else {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
   }
 
@@ -71,7 +70,7 @@ export class CarrierUpdateComponent implements OnInit {
     if (!this.validateFields()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("CT_Update")) {
+    if (this.isUpdate) {
       this.UpdateDockDoor();
     } else {
       this.InsertIntoDockDoor();
