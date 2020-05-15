@@ -1086,6 +1086,8 @@
   "ZoneCodeMsg": "Enter zone code first",
   "SelectedRowFieldVal": "Selected row fields can't be blank",
   "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
+  "ZoneCodeAndTypeDuplicate": "Zone code and type can't be duplicate",
+  "ZoneRowSelectionValMsg": "Select warehouse zone code first",
 
   "Shp_updated": "Shipment Updated",
   "Dummy": "Dummy"  
