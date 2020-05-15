@@ -213,7 +213,7 @@
                                 (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(2)">{{'Assign_to_shipment'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(3)">{{'Remove_from_shipment'|translate}}</a>
-                                <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Return_by_customer'|translate}}</a>
+                                <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" (click)="fillBatchSerialDataInGrid(4)">{{'Return_by_customer'|translate}}</a>
                             </div>
                         </div>
                     </div>
@@ -234,3 +234,8 @@
     <div class="opti_loader full-section" *ngIf="showLoader">
         <div class="opti_spinner"></div>
     </div>
+
+    <span *ngIf="showConfirmDialog">
+        <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+            (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    </span>

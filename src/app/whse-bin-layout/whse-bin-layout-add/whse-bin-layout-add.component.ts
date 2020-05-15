@@ -528,7 +528,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if (data[0].RESULT == "Data Saved") {
-            this.toastr.success('', this.translate.instant("PhyCount_DataSavedSuccessfully"));
+            this.toastr.success('', this.translate.instant(data[0].RESULT));
             this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
             this.toastr.error('', data[0].RESULT);
