@@ -451,61 +451,25 @@ export class ContainerBatchserialComponent implements OnInit {
     );
   }
 
-  // getItemsOpenQuantity() {
-
-  //   this.containerBatchserialService.GetItemsOpenQuantity(this.SelectedShipmentId).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         this.ItemOpenQtyArr = data;  
-  //         let Openqty = 0.00;  
-  //         let ItemCode = this.ContainsItemID;         
-  //         this.ItemOpenQtyArr.filter(function(value,key){
-  //           if(value.OPTM_ITEMCODE == ItemCode){
-  //             Openqty = value.OPEN_QTY;
-  //           }
-  //         }) 
-  //         this.OpenQty = Openqty;
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
-
   selectContainerRowChange (checkedselectedvalue, isCheck,dataitem,idx){
     if(isCheck){
       let CalQty = -1;
-      if(this.Selectedlink != 2){
-        if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
+      // if(this.Selectedlink == 2){
+        if(Number(this.OpenQty) == 0){
           this.toastr.error('', this.translate.instant("ZeroOpenQty")); 
           checkedselectedvalue.checked = false;
           return;      
         }
-  
-        CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
-  
+        if(this.Selectedlink == 2){
+          CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
+        }else{
+          CalQty = 0;
+        }
         if(CalQty == -1){
           if(this.SelectedRowsforShipmentArr.length == 0)
             this.toastr.error('', this.translate.instant("OpenQtyCheck"));
           else
             this.toastr.error('', this.translate.instant("TotalQtyCheck"));        
-        
-         // dataitem.Selected = false;  
           this.ContainerBatchSerials[idx].Selected = false;  
           this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
           this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
@@ -513,19 +477,18 @@ export class ContainerBatchserialComponent implements OnInit {
           return;
         }
         else{
-         //  dataitem.AssignQty = CalQty;    
            this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
            this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
            this.ContainerBatchSerials[idx].Selected = true; 
            this.SelectedRowsforShipmentArr.push(dataitem);
         } 
-      }else{
-        CalQty = 0;
-        this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
-        this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
-        this.ContainerBatchSerials[idx].Selected = true; 
-        this.SelectedRowsforShipmentArr.push(dataitem);
-      }        
+      // }else{
+        // CalQty = 0;
+        // this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+        // this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+        // this.ContainerBatchSerials[idx].Selected = true; 
+        // this.SelectedRowsforShipmentArr.push(dataitem);
+      // }        
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
@@ -558,8 +521,6 @@ export class ContainerBatchserialComponent implements OnInit {
      for(let upIdx=0; upIdx<this.ContainerBatchSerials.length; upIdx++){
       this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
     } 
-    
-    // this.RowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   onAssignShipmentPress(){
