@@ -57,6 +57,7 @@ export class GeneratePickComponent implements OnInit {
   pickTypeIndex = 1;
   pickOperationIndex = 1;
   iscontainerpicking: boolean = false;
+  isUpdateHappen: boolean = false
   @ViewChild('cform',{static:false}) cform;
   @ViewChild('custTo',{static:false}) custTo;
   @ViewChild('shipForm',{static:false}) shipForm;
@@ -1015,6 +1016,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   onPickTypeChange(event) {
+    this.isUpdateHappen = true
     this.PickOperationList = [this.translate.instant("PickToTote"),
     this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
     this.pickTypeIndex = this.PackTypeList.indexOf(event);
@@ -1042,6 +1044,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   onPickOperationChange(event, selectedvalue) {
+    this.isUpdateHappen = true
     this.pickOperationIndex = this.PickOperationList.indexOf(event);
     this.pickOperationIndex = this.pickOperationIndex + 1;
     switch (this.Pick_Type) {
