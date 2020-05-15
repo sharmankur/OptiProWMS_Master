@@ -562,6 +562,7 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
     localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null ? '' : this.ShipStageBin);
     localStorage.setItem("ContGrpCode", this.Container_Group);
+    // localStorage.setItem("ShipmentHdr", this.shipmentData.OPTM_SHPMNT_HDR);
 
     if (this.UseContainer) {
       this.router.navigate(['home/Container_List']);
