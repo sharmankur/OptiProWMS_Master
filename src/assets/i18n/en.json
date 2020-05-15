@@ -1038,7 +1038,7 @@
   "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
   "View_Rule_Items": "View Rule Items",
   "SetDamagedMsg": "Container updated successfully",
-  "ContIsClosed": "Container is Closed",
+  "ContIsClosed": "Container Closed",
   "CannotCreateCont": "Cannot create container",
   "View_BatchSer": "View item detail",
         
@@ -1064,7 +1064,7 @@
   "TransfertoactiveShp": "Transfer to Active Shipment",
   "RestorearchivedShpMsg": "Shipment Restored",
   "Select_Row": "Please select atleast one row.",
-  "Data_Not_Commit": "data not committed you will lose old data, still want to process?",
+  "Data_Not_Commit": "Data not committed you will lose old data, still want to process?",
   "ShipDate": "Ship Date",
   "AutoAllocateTitle": "Auto Allocate to Shipments",
   "ViewAndManageCont": "View & Manage Cont.",
@@ -1081,8 +1081,10 @@
   "SElectWIPFGBinMsg":"Selected bin is not WIP FG Stage bin, please change it to ",
   "CloseAlert": "Please fill the all the qunatities of Parent container",
   "CreateConMsg": "Container not created yet, please select Create option to create container.",
-
   "ItemInvIsNotPresent": "Cannot add. No sufficient inventory found",
+  "CannotAddItem": "Container is not in Open Status. Cannot Add Items",
+  "ContCodeCannotBlank": "Container code cannot be blank",
+  
   "ZoneCodeMsg": "Enter zone code first",
   "SelectedRowFieldVal": "Selected row fields can't be blank",
   "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
