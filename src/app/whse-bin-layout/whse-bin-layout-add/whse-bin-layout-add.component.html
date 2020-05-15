@@ -15,11 +15,12 @@
                                 <div class="form-group row">
                                     <label for="whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="whse" placeholder="{{'Warehouse'|translate}}"
-                                            name="whse" [(ngModel)]="whseCode" (blur)="onWhseChange()" [disabled]=isUpdate>
+                                        <input type="text" class="form-control form-control-sm" id="whse"
+                                            placeholder="{{'Warehouse'|translate}}" name="whse" [(ngModel)]="whseCode"
+                                            (blur)="onWhseChange()" [disabled]=isUpdate>
                                         <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" class="k-button k-primary btn" [disabled]=isUpdate type="button"
-                                                (click)="GetWhseCode()">
+                                            <button tabIndex="-1" class="k-button k-primary btn" [disabled]=isUpdate
+                                                type="button" (click)="GetWhseCode()">
                                                 <i class="opti-icon-search"></i>
                                             </button>
                                         </div>
@@ -29,10 +30,11 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="whse" class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
+                                    <label for="whse"
+                                        class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
                                     <div class="input-group col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" id="description" name="description"
-                                            [(ngModel)]="whseDescr" disabled>
+                                        <input type="text" class="form-control form-control-sm" id="description"
+                                            name="description" [(ngModel)]="whseDescr" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -42,11 +44,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="WIP_FG_StageBin" class="col-sm-4 col-form-label">{{'DefaultWIP_FG_StageBin'|translate}}</label>
+                                    <label for="WIP_FG_StageBin"
+                                        class="col-sm-4 col-form-label">{{'DefaultWIP_FG_StageBin'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="WIP_FG_StageBin"
                                             placeholder="{{'DefaultWIP_FG_StageBin'|translate}}" name="WIP_FG_StageBin"
-                                            [(ngModel)]="WIP_FG_StageBin" (blur)="onBinChange('WIP_FG_StageBin', fgstageBin)" #fgstageBin>
+                                            [(ngModel)]="WIP_FG_StageBin"
+                                            (blur)="onBinChange('WIP_FG_StageBin', fgstageBin)" #fgstageBin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (click)="GetDefaultShipStageBin('WIP_FG_StageBin')">
@@ -59,11 +63,13 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="WIP_RM_StageBin" class="col-sm-4 col-form-label">{{'DefaultWIP_RM_StageBin'|translate}}</label>
+                                    <label for="WIP_RM_StageBin"
+                                        class="col-sm-4 col-form-label">{{'DefaultWIP_RM_StageBin'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="WIP_RM_StageBin"
                                             placeholder="{{'DefaultWIP_RM_StageBin'|translate}}" name="WIP_RM_StageBin"
-                                            [(ngModel)]="WIP_RM_StageBin" (blur)="onBinChange('WIP_RM_StageBin', rmstagebin)" #rmstagebin>
+                                            [(ngModel)]="WIP_RM_StageBin"
+                                            (blur)="onBinChange('WIP_RM_StageBin', rmstagebin)" #rmstagebin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (click)="GetDefaultShipStageBin('WIP_RM_StageBin')">
@@ -79,11 +85,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="TransferOutBin" class="col-sm-4 col-form-label">{{'DefaultTransferOutBin'|translate}}</label>
+                                    <label for="TransferOutBin"
+                                        class="col-sm-4 col-form-label">{{'DefaultTransferOutBin'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="TransferOutBin"
                                             placeholder="{{'DefaultTransferOutBin'|translate}}" name="TransferOutBin"
-                                            [(ngModel)]="TransferOutBin" (blur)="onBinChange('TransferOutBin', transout)" #transout>
+                                            [(ngModel)]="TransferOutBin"
+                                            (blur)="onBinChange('TransferOutBin', transout)" #transout>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (click)="GetDefaultShipStageBin('TransferOutBin')">
@@ -96,11 +104,13 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="TransferInBin" class="col-sm-4 col-form-label">{{'DefaultTransferInBin'|translate}}</label>
+                                    <label for="TransferInBin"
+                                        class="col-sm-4 col-form-label">{{'DefaultTransferInBin'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="TransferInBin"
                                             placeholder="{{'DefaultTransferInBin'|translate}}" name="TransferInBin"
-                                            [(ngModel)]="TransferInBin" (blur)="onBinChange('TransferInBin', tansin)" #tansin>
+                                            [(ngModel)]="TransferInBin" (blur)="onBinChange('TransferInBin', tansin)"
+                                            #tansin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (click)="GetDefaultShipStageBin('TransferInBin')">
@@ -116,11 +126,13 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="whse" class="col-sm-4 col-form-label">{{'DefaultShip_StageBin'|translate}}</label>
+                                    <label for="whse"
+                                        class="col-sm-4 col-form-label">{{'DefaultShip_StageBin'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="Ship_StageBin"
                                             placeholder="{{'DefaultShip_StageBin'|translate}}" name="Ship_StageBin"
-                                            [(ngModel)]="Ship_StageBin" (blur)="onBinChange('Ship_StageBin', stagebin)" #stagebin>
+                                            [(ngModel)]="Ship_StageBin" (blur)="onBinChange('Ship_StageBin', stagebin)"
+                                            #stagebin>
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button"
                                                 (click)="GetDefaultShipStageBin('Ship_StageBin')">
@@ -136,146 +148,118 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">                    
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'WarehouseZone'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('zone')">
-                            <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
-                        <div class="card-body">
-                            <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize" [skip]="skip"
-                                [pageable]="zonePageable">
-                                <kendo-grid-column field="ZoneCode" title="{{'WhseZoneCode'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.ZoneCode"
-                                                value={{dataItem.ZoneCode}} id="display_name" min="0"
-                                                #display_name (blur)="onZoneCodeChange(display_name.value, idx)">
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ZoneType" title="{{'WhseZoneType'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.ZoneType"
-                                                value={{dataItem.ZoneType}} id="display_name" min="0"
-                                                #display_name (blur)="onZoneTypeChange(display_name.value, idx)">
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <!-- <kendo-grid-column field="ShipmentLine" title="{{'FromBinCode'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.FromBin"
-                                                value={{dataItem.FromBin}} id="display_name" min="0"
-                                                #display_name>
-                                            <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetFromBinCode('zone', idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
+            <div class="row col-xs-12">
+                <!-- <div class="row"> -->
+                    <div class="col-sm-6">
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'WarehouseZone'|translate}} <button
+                                    class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button"
+                                    (click)="onAddRowClick('zone')">
+                                    <span class="k-icon k-i-plus" role="presentation"></span>
+                                    {{'Masking_AddRow'|translate}}</button></h5>
+                            <div class="card-body">
+                                <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
+                                    [skip]="skip" [pageable]="zonePageable" [selectable]="{mode: 'single', checkboxOnly: false}" (selectionChange)="onSelectionClick($event)">
+                                    <kendo-grid-checkbox-column [width]="25">
+                                        <!-- <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)"
+                                                    id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                                <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ItemCode" title="{{'ToBinCode'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.ToBin"
-                                                value={{dataItem.ToBin}} id="display_name" min="0"
-                                                #display_name>
-                                            <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetToBinCode('zone', idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
+                                        </ng-template> -->
+                                    </kendo-grid-checkbox-column>
+                                    <kendo-grid-column field="ZoneCode" title="{{'WhseZoneCode'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="dataItem.ZoneCode" value={{dataItem.ZoneCode}}
+                                                    id="display_name" min="0" #display_name
+                                                    (blur)="onZoneCodeChange(display_name.value, idx)">
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column> -->
-                                <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRanges'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_BIN_RANGE"
-                                                value={{dataItem.OPTM_BIN_RANGE}} id="display_name" 
-                                                #display_name (blur)="IsValidWareHouseBinRange(idx, display_name.value, display_name)">
-                                            <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetDataForBinRanges(idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="ZoneType" title="{{'WhseZoneType'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="dataItem.ZoneType" value={{dataItem.ZoneType}}
+                                                    id="display_name" min="0" #display_name
+                                                    (blur)="onZoneTypeChange(display_name.value, idx)">
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>                                
-                                <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick('zone', rowIndex)">
-                                            <span class="k-icon k-i-delete" role="presentation"></span>
-                                        </button>
-                                    </ng-template>
-                                </kendo-grid-column>
-                            </kendo-grid>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <!-- <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRanges'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="dataItem.OPTM_BIN_RANGE" value={{dataItem.OPTM_BIN_RANGE}}
+                                                    id="display_name" #display_name
+                                                    (blur)="IsValidWareHouseBinRange(idx, display_name.value, display_name)">
+                                                <div class="input-group-append">
+                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                        (click)="GetDataForBinRanges(idx)">
+                                                        <i class="opti-icon-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-grid-column> -->
+                                    <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
+                                                (click)="onDeleteClick('zone', rowIndex)">
+                                                <span class="k-icon k-i-delete" role="presentation"></span>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                </kendo-grid>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="col-xs-12 ">
-                    <div class="card shipment-widget-box">
-                        <h5 class="card-header">{{'WarehouseBinRanges'|translate}} <button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddRowClick('range')">
-                            <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>
-                        
-                        <div class="card-body">
-                            <kendo-grid [data]="whseRangeList" [resizable]="true" [pageSize]="rangePageSize" [skip]="skip"
-                                [pageable]="rangePageable">
-                                <kendo-grid-column field="BinRange" title="{{'BinRange'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.BinRange"
-                                                value={{dataItem.BinRange}} id="binRange" (blur)="onBinRangeChangeBlur(display_name.value,idx)"
-                                                #display_name>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ShipmentLine" title="{{'FromBinCode'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.FromBin"
-                                                value={{dataItem.FromBin}} id="display_name" min="0"
-                                                #display_name>
-                                            <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetFromBinCode('range', idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
+                <!-- </div> -->
+                <!-- <div class="row"> -->
+                    <div class="col-sm-6">
+                        <div class="card shipment-widget-box">
+                            <h5 class="card-header">{{'WarehouseBinRanges'|translate}} <button
+                                    class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button"
+                                    (click)="onAddRowClick('range')">
+                                    <span class="k-icon k-i-plus" role="presentation"></span>
+                                    {{'Masking_AddRow'|translate}}</button></h5>
+
+                            <div class="card-body">
+                                <kendo-grid [data]="displayWhseRangeList" [resizable]="true" [pageSize]="rangePageSize"
+                                    [skip]="skip" [pageable]="rangePageable">
+                                    <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRange'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="dataItem.OPTM_BIN_RANGE" value={{dataItem.OPTM_BIN_RANGE}}
+                                                    id="display_name" #display_name
+                                                    (blur)="IsValidWareHouseBinRange(idx, display_name.value, display_name)">
+                                                <div class="input-group-append">
+                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                        (click)="GetDataForBinRanges(idx)">
+                                                        <i class="opti-icon-search"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ItemCode" title="{{'ToBinCode'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control form-control-sm" name="dataItem.ToBin"
-                                                value={{dataItem.ToBin}} id="display_name" min="0"
-                                                #display_name>
-                                            <div class="input-group-append">
-                                                <button tabIndex="-1" class="k-button k-primary btn" type="button"
-                                                    (click)="GetToBinCode('range', idx)">
-                                                    <i class="opti-icon-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (click)="onDeleteClick('range', rowIndex)">
-                                            <span class="k-icon k-i-delete" role="presentation"></span>
-                                        </button>
-                                    </ng-template>
-                                </kendo-grid-column>
-                            </kendo-grid>
+                                        </ng-template>
+                                    </kendo-grid-column>
+
+                                    <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
+                                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                            <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
+                                                (click)="onDeleteClick('range', rowIndex)">
+                                                <span class="k-icon k-i-delete" role="presentation"></span>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                </kendo-grid>
+                            </div>
                         </div>
                     </div>
-                </div> -->
+                <!-- </div> -->
             </div>
         </div>
         <div class="fix-footer-btnBar">
@@ -284,10 +268,12 @@
                     (mousedown)="onBackClick()">
                     <i class="opti-icon-arrow-back"></i>
                 </button>
-                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (mousedown)="onCancelClick()">
-                    <span class="k-icon k-i-close-outline" role="presentation"></span> 
+                <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
+                    (mousedown)="onCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
+                <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button"
+                    (click)="onAddUpdateClick()" [disabled]="!isUpdateHappen">
                     <!-- <span class="k-icon k-i-check" role="presentation"></span>  -->
                     {{buttonText}}</button>
             </div>
@@ -297,11 +283,12 @@
 </div>
 
 <span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupData($event)"></app-common-lookup>
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupData($event)">
+    </app-common-lookup>
 </span>
 <span *ngIf="showConfirmDialog">
-    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
-        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>

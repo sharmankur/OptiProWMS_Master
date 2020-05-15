@@ -1878,6 +1878,12 @@ export class AddItemToContComponent implements OnInit {
       }*/
       
   onBatSerQtyChange(scanBsItemQty) {
+    if(Number(scanBsItemQty.value) < 0 ){
+      this.bsItemQty = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     if(scanBsItemQty != undefined){
       this.bsItemQty = scanBsItemQty.value;
     }
@@ -2007,6 +2013,12 @@ export class AddItemToContComponent implements OnInit {
   }
 
   onScanItemQtyChange(scanItemQty) {
+    if(Number(scanItemQty.value) < 0 ){
+      this.itemQty = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     if(scanItemQty != undefined){
       this.itemQty = scanItemQty.value;
     }

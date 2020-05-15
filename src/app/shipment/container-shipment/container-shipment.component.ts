@@ -1177,7 +1177,7 @@ export class ContainerShipmentComponent implements OnInit {
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       tempArray.push({
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_SHIPMENTID: this.ShipmentId,
+        OPTM_SHIPMENTID: this.SelectedRowsforShipmentArr[i].OPTM_SHIPMENTID,
         OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
         OPTM_USERID: localStorage.getItem("UserId"),
         OPTM_CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
