@@ -316,6 +316,9 @@ export class ShipmentViewComponent implements OnInit {
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            if(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED != null){
+              data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            }  
           }
           this.shipmentLines = [];
           this.shipmentLines = data.OPTM_SHPMNT_DTL;

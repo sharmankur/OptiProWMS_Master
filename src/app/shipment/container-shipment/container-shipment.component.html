@@ -233,7 +233,7 @@
                 </div>
             </div>
 
-
+            <!-- Container list grid -->
             <div class="row mt-2">
                 <div class="col-12">
                     <h5>{{SelectedLinkTitle}}</h5>
@@ -435,7 +435,7 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
                 <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onResetClick()">
                     {{'Reset'|translate}}</button>
-                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdateBtnPress()" [disabled]="Selectedlink == 1">
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdateBtnPress()" [disabled]="Selectedlink == 1 || (Selectedlink==2 && SelectedShipmentId != '')">
                     {{'Submit'|translate}}</button>
 
                 <div class="btn-group  toggle-btn-outer">
@@ -452,6 +452,11 @@
                             <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(4)">{{'Return_by_customer'|translate}}</a>
                             <a [ngClass]="Selectedlink == 5 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(5)">{{'Set_Damaged'|translate}}</a>
                             <a [ngClass]="Selectedlink == 6 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(6)">{{'Close_Container'|translate}}</a>
+
+                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
+                            <a class="dropdown-item" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
+                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
+                            <a class="dropdown-item" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
                             <!-- <a [ngClass]="Selectedlink == 7 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(7)">{{'Post_To_Inventory'|translate}}</a> -->
                             <!--style="color: gray; cursor: not-allowed; pointer-events: none;" -->
                         </div>
@@ -461,6 +466,31 @@
         </div>
     </form>
 </div>
+
+<!-- <kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+    <div class="new-custom-grid">
+        <kendo-dialog-titlebar>
+            {{DialogTitle}}
+        </kendo-dialog-titlebar>
+        <div class="px-3">
+            <div class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <label class="col-sm-4 col-form-label">{{dialogLabel}}</label>
+                    <input type="text" id="dialogValue" name="dialogValue" class="col-sm-8 form-control form-control-sm mr-3" [(ngModel)]="dialogValue"
+                        placeholder="{{dialogLabel}}" (blur)="DisplayAndValidateData('blur')">
+                    <div class="input-group-append has-seprate-btn">
+                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="DisplayAndValidateData('lookup')">
+                            <i class="opti-icon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <kendo-dialog-actions>
+            <button class="ml-1" kendoButton (click)="onConfirmClick()" primary="true">{{'Confirm'|translate}}</button>
+        </kendo-dialog-actions>
+    </div>
+</kendo-dialog> -->
 
 <span *ngIf="showLookup">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>

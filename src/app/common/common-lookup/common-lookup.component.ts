@@ -306,7 +306,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'OPTM_CONTAINERID',
         title: this.translate.instant("ContainerId"),
         type: 'text',
-        width: '100'
+        width: '90'
       },
       {
         field: 'OPTM_CONTCODE',
@@ -321,22 +321,22 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        field: 'OPTM_STATUS',
+        field: 'OPTM_STATUS_VAL',
         title: this.translate.instant("ContainerStatus"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'OPTM_SHIPELIGIBLE',
+        field: 'OPTM_SHIPELIGIBLE_VAL',
         title: this.translate.instant("Purpose"),
         type: 'text',
-        width: '100'
+        width: '90'
       },
       {
-        field: 'OPTM_BUILT_SOURCE',
+        field: 'OPTM_BUILT_SOURCE_VAL',
         title: this.translate.instant("PackProcess"),
         type: 'text',
-        width: '100'
+        width: '150'
       }
     ];
     this.lookupTitle = this.translate.instant("Container_List");

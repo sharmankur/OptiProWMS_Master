@@ -70,7 +70,7 @@ export class ContainerShipmentComponent implements OnInit {
       this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
       this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
       this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();
-      this.Selectedlink = 1;
+      
       this.SelectedLinkTitle = this.ContainerOperationArray[0].Name;
     });
   }
@@ -121,11 +121,13 @@ export class ContainerShipmentComponent implements OnInit {
       this.PurposeId = this.purposeArray[0];
       this.PurposeValue = this.PurposeId.Value;
       this.shipeligible = "Y";
+      this.Selectedlink = 2;
     }
     else {
       this.IsShipment = false;
+      this.Selectedlink = 1;
     }
-    this.fillDataInGridWithShipment(1);
+    this.fillDataInGridWithShipment(this.Selectedlink);
   }
 
   ngOnInit() {
@@ -194,14 +196,14 @@ export class ContainerShipmentComponent implements OnInit {
   SelectShpandDisplayContainers(value) {
     this.ShipmentId = "";
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
+    this.Selectedlink = value;
+    this.setContainerGridTitle(value);
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.updateContStatusFilter(value);
+      this.fillDataInGridWithShipment(value);
     } else {
       this.GetShipmentIdForShipment(value);
     }
-    this.Selectedlink = value;
-    this.setContainerGridTitle(value);
-    // this.SelectedLinkTitle = this.setContainerOperation();
   }
 
   fillDataInGridWithShipment(value, val?) {
@@ -1312,4 +1314,206 @@ export class ContainerShipmentComponent implements OnInit {
       }
     );
   }
+
+  ///------------------------------Assign and remove SO and Container group------------------------
+  dialogOpened = false;
+  DialogTitle = "";
+  dialogLabel = "";
+  dialogValue = "";
+  ShowSOandContainerCodeDialog(option) {
+    if(this.SelectedRowsforShipmentArr.length == 0){
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+    this.dialogOpened = true;
+    if (option == 1) {
+      this.DialogTitle = this.translate.instant("AssignSO")
+      this.dialogLabel = this.translate.instant("SalesOrder")
+    } else {
+      this.DialogTitle = this.translate.instant("AssignCC")
+      this.dialogLabel = this.translate.instant("ContainerGroupingCode")
+    }
+  }
+
+  close_kendo_dialog() {
+    this.dialogOpened = false;
+  }
+
+  RemoveFromContainer(){
+    if(this.SelectedRowsforShipmentArr.length == 0){
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+
+    this.dialogValue = "";
+    if (this.DialogTitle == this.translate.instant("AssignSO")) {
+      this.onConfirmClick('');
+    } else {
+      this.serviceData = this.commonservice.GetContainerGroupLookupData(this.translate);
+      this.lookupfor = "GroupCodeList";
+    }
+  }
+
+  DisplayAndValidateData(action) {
+    if (this.DialogTitle == this.translate.instant("AssignSO")) {
+      this.IsValidSONumberBasedOnRule(action);
+    } else {
+      // this.serviceData = this.commonservice.GetContainerGroupLookupData(this.translate);
+      // this.lookupfor = "GroupCodeList";
+      if(action == 'blur'){
+        this.IsValidContainerGroupDialog();
+      }else{
+        this.GetContainerGroupLookupData(this.translate);
+      }
+    }
+  }
+
+
+  GetContainerGroupLookupData(translate: TranslateService): any {
+    this.showLoader = true;
+    this.commonservice.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "GroupCodeList";
+        } else {
+          this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  async IsValidContainerGroupDialog() {
+    if (this.dialogValue == undefined || this.dialogValue == "") {
+      return;
+    }
+    this.showLoader = true;
+    var result = false
+    await this.commonservice.IsValidContainerGroupScan(this.dialogValue).then(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.dialogValue = data[0].OPTM_CONTAINER_GROUP;
+            result = true;
+          } else {
+            this.dialogValue = '';
+            this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+            result = false
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          result = false
+        }
+      },
+      error => {
+        result = false
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result
+  }
+
+  IsValidSONumberBasedOnRule(action) {
+    if (action == 'blur') {
+      if (this.dialogValue == undefined || this.dialogValue == "") {
+        return;
+      }
+    }
+
+    let soNum = '';
+    if (action == 'blur') {
+      soNum = this.dialogValue;
+    }
+
+    // this.containerCreationService.IsValidSONumberBasedOnRule(soNum, this.AutoPackRule, this.warehouse).subscribe(
+    //   (data: any) => {
+    //     this.showLoader = false;
+    //     if (data != undefined) {
+    //       if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+    //         this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+    //           this.translate.instant("CommonSessionExpireMsg"));
+    //         return;
+    //       }
+    //       if (action == 'blur') {
+    //         if (data.length == 0) {
+    //           this.dialogValue = '';
+    //           this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
+    //         } else {
+    //           this.dialogValue = data[0].DocEntry
+    //         }
+    //       } else {
+    //         if (data.length == 0) {
+    //           this.toastr.error('', this.translate.instant("NoSOFound"));
+    //           return;
+    //         }
+    //         this.serviceData = data;
+    //         for (let sidx = 0; sidx < this.serviceData.length; sidx++) {
+    //           if (this.serviceData[sidx].CardName == null || this.serviceData[sidx].CardName == undefined) {
+    //             this.serviceData[sidx].CardName = '';
+    //           }
+    //         }
+    //         this.lookupfor = "SOList";
+    //         this.showLookup = true;
+    //       }
+    //     } else {
+    //       this.dialogValue = '';
+    //       this.toastr.error('', this.translate.instant("NoDataFound"));
+    //     }
+    //   },
+    //   error => {
+    //     this.showLoader = false;
+    //     if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+    //       this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+    //     }
+    //     else {
+    //       this.toastr.error('', error);
+    //     }
+    //   }
+    // );
+  }
+
+  onConfirmClick(action) {
+    if (action == 'blur') {
+      if (this.dialogValue == undefined || this.dialogValue == "") {
+        return;
+      }
+    }
+
+    let soNum = '';
+    if (action == 'blur') {
+      soNum = this.dialogValue;
+    }
+
+   
+    this.close_kendo_dialog();
+  }
+
 }

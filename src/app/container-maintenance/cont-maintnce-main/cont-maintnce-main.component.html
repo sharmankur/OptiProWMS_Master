@@ -198,6 +198,26 @@
                 </div>
             </div>
 
+            <!-- Row 5 -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- row start -->
+                    <div class="row">
+                        <!-- col start -->
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label for="inventoryStatus" class="col-sm-4 col-form-label">{{'InventoryStatus'|translate}}</label>
+                                <div class="input-group col-sm-7 mr-2">
+                                    <input type="text" class="form-control form-control-sm" id="inventoryStatus" name="inventoryStatus" [(ngModel)]="inventoryStatus"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col end -->
+                    </div>
+                </div>
+            </div>
+
             <!-- container items -->
             <div class="row">
                 <div class="col-12">
@@ -443,9 +463,9 @@
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Closed'">{{'CloseContainer'|translate}}</a>
 
                             <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
-                            <a class="dropdown-item" (click)="updateValue(1)">{{'RemoveSO'|translate}}</a>
+                            <a class="dropdown-item" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
                             <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
-                            <a class="dropdown-item" (click)="updateValue(2)">{{'RemoveCC'|translate}}</a>
+                            <a class="dropdown-item" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -453,10 +473,6 @@
         </div>
     </form>
 </div>
-
-<span *ngIf="showLookup">
-    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
-</span>
 
 <kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
     <div class="new-custom-grid">
@@ -468,12 +484,12 @@
                 <div class="input-group input-group-sm">
                     <label class="col-sm-4 col-form-label">{{dialogLabel}}</label>
                     <input type="text" id="dialogValue" name="dialogValue" class="col-sm-8 form-control form-control-sm mr-3" [(ngModel)]="dialogValue"
-                        placeholder="{{dialogLabel}}" (blur)="updateValue()">
-                        <div class="input-group-append has-seprate-btn">
-                                <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="showLookupData()">
-                                    <i class="opti-icon-search"></i>
-                                </button>
-                            </div>                        
+                        placeholder="{{dialogLabel}}" (blur)="DisplayAndValidateData('blur')">
+                    <div class="input-group-append has-seprate-btn">
+                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (click)="DisplayAndValidateData('lookup')">
+                            <i class="opti-icon-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -482,6 +498,12 @@
         </kendo-dialog-actions>
     </div>
 </kendo-dialog>
+
+<span *ngIf="showLookup">
+    <app-common-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupkey)="getLookupDataValue($event)"></app-common-lookup>
+</span>
+
+
 
 <span *ngIf="showLookup==false && showOtherLookup==true">
     <app-common-lookup [lookupfor]='lookupfor' [serviceData]='lookupData' (lookupkey)="getLookupKey($event, gridItem)"></app-common-lookup>
