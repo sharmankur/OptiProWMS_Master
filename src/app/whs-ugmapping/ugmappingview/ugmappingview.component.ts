@@ -21,42 +21,50 @@ export class UgmappingviewComponent implements OnInit {
   groupDataFor: any;
   lookupfor: string;
   showLoader: boolean = false;
-  showLookup: boolean = false; 
+  showLookup: boolean = false;
 
-  whsCode: any ='';
-  whsName: any='';
-  pickingGroup: any='';
-  packingGroup: any='';
-  putAwayGroup: any='';
-  receivingGroup: any='';
-  shippingGroup: any='';
-  returnGroup: any='';
-  moveGroup: any='';
-  binRange: any='';
-  whsZone: any='';
+  whsCode: any = '';
+  whsName: any = '';
+  pickingGroup: any = '';
+  packingGroup: any = '';
+  putAwayGroup: any = '';
+  receivingGroup: any = '';
+  shippingGroup: any = '';
+  returnGroup: any = '';
+  moveGroup: any = '';
+  binRange: any = '';
+  whsZone: any = '';
   isValidateCalled: boolean = false;
   forUpdate: boolean = false;
 
-  constructor(private whsUGMappingMasterComponent:WhsUGMappingMasterComponent,
-    private translate: TranslateService,private commonservice: Commonservice,
-     private toastr: ToastrService,  private router: Router, private userGroupMappingService: WhsUserGroupService,
-     private containerCreationService: ContainerCreationService) {
-      let userLang = navigator.language.split('-')[0];
-      userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
-      translate.use(userLang);
-      translate.onLangChange.subscribe(() => {
-      });
-      }
+  constructor(private whsUGMappingMasterComponent: WhsUGMappingMasterComponent,
+    private translate: TranslateService, private commonservice: Commonservice,
+    private toastr: ToastrService, private router: Router, private userGroupMappingService: WhsUserGroupService,
+    private containerCreationService: ContainerCreationService) {
+    let userLang = navigator.language.split('-')[0];
+    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+    translate.use(userLang);
+    translate.onLangChange.subscribe(() => {
+    });
+  }
 
   ngOnInit() {
     this.GetDataForWarehouseUserGroupList();
   }
 
 
-  OnAddClick(){
-    this.whsUGMappingMasterComponent.WhsUGComponent = 2;
-    localStorage.setItem("UGAction", "add");
-    //set local storage.
+  OnAddClick() {
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      this.whsUGMappingMasterComponent.WhsUGComponent = 2;
+      localStorage.setItem("UGAction", "add");
+    }
   }
 
   GetDataForWarehouseUserGroupList() {
@@ -87,43 +95,47 @@ export class UgmappingviewComponent implements OnInit {
       }
     );
   }
- 
-  getGridItemClick($event){
-    localStorage.setItem("UGMapping_ROW", JSON.stringify($event));    
+
+  getGridItemClick($event) {
+    localStorage.setItem("UGMapping_ROW", JSON.stringify($event));
     localStorage.setItem("UGAction", "update");
     this.whsUGMappingMasterComponent.WhsUGComponent = 2;
   }
 
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any = [];
 
-  onDeleteRowClick(event){
-    var optmId = event.OPTM_ID;
-    var whsCode = event.OPTM_WHSCODE;
-    var whsZone = event.OPTM_WHSEZONE;
-    var whsBinRange = event.OPTM_BINRANGE;
-    this.deleteUserGroupListRow(optmId,whsCode,whsZone,whsBinRange);
-  }  
-  
-  OnDeleteSelected(event){ 
-    if(event.length <= 0){
+  onDeleteRowClick(event) {
+    this.event = event;
+    this.event = event;
+    this.dialogFor = "Delete";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
+  }
+
+  OnDeleteSelected(event) {
+    if (event.length <= 0) {
       this.toastr.error('', this.translate.instant("CAR_deleteitem_Msg"));
       return;
     }
-    var ddDeleteArry: any[] = [];
-    for(var i=0; i<event.length; i++){
-      ddDeleteArry.push({
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_ID: event[i].OPTM_ID,
-        OPTM_WHSCODE: event[i].OPTM_WHSCODE,
-        OPTM_WHSEZONE: event[i].OPTM_WHSEZONE,
-        OPTM_BINRANGE: event[i].OPTM_BINRANGE,
-      });
-    }
-    this.deleteMultipleRows(ddDeleteArry);
+
+    this.event = event;
+    this.dialogFor = "DeleteSelected";
+    this.yesButtonText = this.translate.instant("yes");
+    this.noButtonText = this.translate.instant("no");
+    this.showConfirmDialog = true;
+    this.dialogMsg = this.translate.instant("DoYouWantToDeleteConf");
   }
 
-  deleteUserGroupListRow(optmId:String, whsCode:String, whsZone:String, binRange:String) {
+  deleteUserGroupListRow(optmId: String, whsCode: String, whsZone: String, binRange: String) {
     this.showLoader = true;
-    this.userGroupMappingService.DeleteUserGroup(optmId, whsCode,whsZone,binRange).subscribe(
+    this.userGroupMappingService.DeleteUserGroup(optmId, whsCode, whsZone, binRange).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -132,12 +144,12 @@ export class UgmappingviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length>0 && data[0].RESULT=="Data Saved"){
+          if (data.length > 0 && data[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
             this.groupData = [];
             this.groupDataFor = ''
             this.GetDataForWarehouseUserGroupList();
-          }else{
+          } else {
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -155,7 +167,7 @@ export class UgmappingviewComponent implements OnInit {
     );
   }
 
-  deleteMultipleRows(data:any) {
+  deleteMultipleRows(data: any) {
     this.showLoader = true;
     this.userGroupMappingService.DeleteMultipleUserGroup(data).subscribe(
       (data: any) => {
@@ -166,14 +178,14 @@ export class UgmappingviewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.length>0 && data[0].RESULT=="Data Saved"){
+          if (data.length > 0 && data[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("DeletedSuccessfullyErrorMsg"));
-           // this.resetForm(1);
+            // this.resetForm(1);
             this.groupData = [];
             this.groupDataFor = ''
             this.GetDataForWarehouseUserGroupList();
-          }else{
-            if(data.length>0 && data[0].RESULT=="Data Not Saved"){
+          } else {
+            if (data.length > 0 && data[0].RESULT == "Data Not Saved") {
               this.toastr.error('', this.translate.instant("UnableToDeleteErrorMsg"));
             }
           }
@@ -195,8 +207,55 @@ export class UgmappingviewComponent implements OnInit {
 
   onCopyItemClick($event) {
     console.log("list Items:", this.groupData.length);
-    localStorage.setItem("UGMapping_ROW", JSON.stringify($event));  
-    localStorage.setItem("UGAction", "copy");  
+    localStorage.setItem("UGMapping_ROW", JSON.stringify($event));
+    localStorage.setItem("UGAction", "copy");
     this.whsUGMappingMasterComponent.WhsUGComponent = 2;
+  }
+
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
+  getConfirmDialogValue($data) {
+    this.showConfirmDialog = false;
+    if ($data.Status == "yes") {
+      switch ($data.From) {
+        case ("DataLost"):
+          localStorage.setItem("UGAction", "add");
+          this.whsUGMappingMasterComponent.WhsUGComponent = 2;
+          break
+        case ("Delete"):
+          var optmId = this.event.OPTM_ID;
+          var whsCode = this.event.OPTM_WHSCODE;
+          var whsZone = this.event.OPTM_WHSEZONE;
+          var whsBinRange = this.event.OPTM_BINRANGE;
+          this.deleteUserGroupListRow(optmId, whsCode, whsZone, whsBinRange);
+          break;
+        case ("DeleteSelected"):
+          var ddDeleteArry: any[] = [];
+          for (var i = 0; i < this.event.length; i++) {
+            ddDeleteArry.push({
+              CompanyDBId: localStorage.getItem("CompID"),
+              OPTM_ID: event[i].OPTM_ID,
+              OPTM_WHSCODE: event[i].OPTM_WHSCODE,
+              OPTM_WHSEZONE: event[i].OPTM_WHSEZONE,
+              OPTM_BINRANGE: event[i].OPTM_BINRANGE,
+            });
+          }
+          this.deleteMultipleRows(ddDeleteArry);
+          break;
+      }
+    } else {
+      if ($data.Status == "no") {
+        switch ($data.From) {
+          case ("delete"):
+            break;
+          case ("DeleteSelected"):
+            break;
+        }
+      }
+    }
   }
 }

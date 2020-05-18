@@ -1,38 +1,39 @@
 <div class="opti_container position-relative bg-white rounded">
 
 
-    <form class="form-with-fix-btnBar" *ngIf="!viewLines"> 
+    <form class="form-with-fix-btnBar" *ngIf="!viewLines">
         <div class="opti_container_inner" [perfectScrollbar]=" ">
-  
+
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'Whs_User_GroupMapping'|translate}}
             </h3>
             <app-lookup [lookupfor]='groupDataFor' [serviceData]='groupData' (lookupkey)="getGridItemClick($event)"
-            (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
-            (copyItemKey)="onCopyItemClick($event)"></app-lookup>
+                (deleteClick)="onDeleteRowClick($event)" (deleteSelectedItems)="OnDeleteSelected($event)"
+                (copyItemKey)="onCopyItemClick($event)" (onChangeSelection)="onChangeSelection($event)"></app-lookup>
         </div>
         <div class="fix-footer-btnBar">
-  
+
             <div class="col-sm-12 col-12">
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text"
-                (click)="OnCancelClick()">
-                <span class="k-icon k-i-close-outline" role="presentation"></span>
-                {{'Cancel'|translate}}</button>
+                    (click)="OnCancelClick()">
+                    <span class="k-icon k-i-close-outline" role="presentation"></span>
+                    {{'Cancel'|translate}}</button>
 
-            <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnAddClick()">
-                <span class="k-icon k-i-plus"  role="presentation"></span> {{'CT_Add'|translate}}</button>
-             </div>
+                <button *ngIf="forUpdate==false" class="btn btn-success k-button btn-sm btn-icon-with-text"
+                    type="button" (click)="OnAddClick()">
+                    <span class="k-icon k-i-plus" role="presentation"></span> {{'CT_Add'|translate}}</button>
             </div>
-      
-    </form> 
-  
-  </div>
-  
-  <div class="opti_loader full-section" *ngIf="showLoader">
+        </div>
+
+    </form>
+
+</div>
+
+<div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
-  </div>
-  
-  <span *ngIf="showConfirmDialog">
-          <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
-              (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
-      </span>
+</div>
+
+<span *ngIf="showConfirmDialog">
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+</span>
