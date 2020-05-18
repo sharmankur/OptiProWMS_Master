@@ -220,6 +220,12 @@ export class AddItemToContComponent implements OnInit {
 
     this.from = localStorage.getItem("From")
     this.GetSampleStringOfContainerCode();
+    if(localStorage.getItem("loadContainer") != ""){
+      this.ConSelectionType = 2;
+      this.containerCode = localStorage.getItem("loadContainer");
+      this.onContainerCodeChange();
+      localStorage.setItem("loadContainer", "");
+    }
   }
 
   onCancelClick() {

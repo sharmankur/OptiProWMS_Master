@@ -31,6 +31,10 @@ export class ContMaintnceMainComponent implements OnInit {
   weight: any = 0;
   purpose: any;
   volume: any = 0;
+  weightUOM = "";
+  volumeUOM = "";
+  AutoPackRule = "";
+  ContainerType = "";
   containerItems: any = []
   childContainerList: any = [];
   pageSize: number = 10
@@ -39,7 +43,7 @@ export class ContMaintnceMainComponent implements OnInit {
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
-    private router: Router, private containerCreationService: ContainerCreationService, 
+    private router: Router, private containerCreationService: ContainerCreationService,
     private contMaintenance: ContMaintnceComponent,
     private containerShipmentService: ContainerShipmentService) { }
 
@@ -110,12 +114,16 @@ export class ContMaintnceMainComponent implements OnInit {
         this.containerCode = $event.OPTM_CONTCODE;
         this.containerStatusEnum = $event.OPTM_STATUS
         this.purposeEnum = $event.OPTM_SHIPELIGIBLE
-        this.packProcess = $event.OPTM_BUILT_SOURCE
+        this.packProcessEnum = $event.OPTM_BUILT_SOURCE
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
         this.warehouse = $event.OPTM_WHSE
         this.binCode = $event.OPTM_BIN
-        this.weight = $event.OPTM_WEIGHT
+        this.weight = $event.OPTM_WT_UOM
         this.volume = $event.OPTM_VOLUME
+        this.volumeUOM = $event.OPTM_VOL_UOM 
+        this.weightUOM = $event.OPTM_WT_UOM 
+        this.AutoPackRule = $event.OPTM_AUTORULEID
+        this.ContainerType = $event.OPTM_CONTTYPE
         if (this.weight == undefined || this.weight == "") {
           this.weight = 0
         }
@@ -134,7 +142,7 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  setDefaultValues(){
+  setDefaultValues() {
     this.containerStatus = ''; this.packProcess = '';
     this.warehouse = ''; this.inventoryStatus = ''; this.binCode = '';
     this.purpose = ''; this.weight = 0; this.volume = 0;
@@ -169,6 +177,8 @@ export class ContMaintnceMainComponent implements OnInit {
             this.binCode = data[0].OPTM_BIN
             this.weight = data[0].OPTM_WEIGHT
             this.volume = data[0].OPTM_VOLUME
+            this.AutoPackRule = data[0].OPTM_AUTORULEID
+            this.ContainerType = data[0].OPTM_CONTTYPE
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
@@ -235,7 +245,7 @@ export class ContMaintnceMainComponent implements OnInit {
       return this.translate.instant("Returned");
     } else if (id == 10) {
       return this.translate.instant("CDamagedNew");
-    } else if (id == 11) {     
+    } else if (id == 11) {
       return this.translate.instant("CCancelledNew");
     }
   }
@@ -304,21 +314,39 @@ export class ContMaintnceMainComponent implements OnInit {
               this.pageable = true
             }
             this.prepareDataForGrid();
-            var batchSerailsData = data.BtchSerDeiail
-            for (var i = 0; i < this.containerItems.length; i++) {
-              this.containerItems[i].ItemBatchSerailData = []
-              for (var j = 0; j < batchSerailsData.length; j++) {
-                if (this.containerItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE) {
-                  this.containerItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
-                } else if (this.containerItems[i].OPTM_TRACKING == "N") {
-                  this.containerItems[i].ItemBatchSerailData.push({
-                    TEMP_ID: -1
-                  });
-                }
-              }
+
+            for(var i=0; i<data.ChlidContainerDeiail.length; i++) {
+              this.containerItems.push({
+                TYPE: "Container",
+                CODE: data.ChlidContainerDeiail[i].OPTM_CONTCODE,
+                OPTM_QUANTITY: 1,
+                OPTM_WEIGHT: data.ChlidContainerDeiail[i].OPTM_WEIGHT == null?'0':data.ChlidContainerDeiail[i].OPTM_WEIGHT,
+                OPTM_VOLUME: data.ChlidContainerDeiail[i].OPTM_VOLUME== null?'0':data.ChlidContainerDeiail[i].OPTM_VOLUME,
+                OPTM_SHIPMENT_ID: data.ChlidContainerDeiail[i].OPTM_SHIPMENTID == null?'':data.ChlidContainerDeiail[i].OPTM_SHIPMENTID,
+                OPTM_PARENTCONTID: data.ChlidContainerDeiail[i].OPTM_PARENTCONTID,
+                OPTM_PICKED_TOSHIP: data.ChlidContainerDeiail[i].OPTM_PICKED_TOSHIP=="Y"?true:false,
+                OPTM_WHSE: data.ChlidContainerDeiail[i].OPTM_WHSE,
+                OPTM_BIN: data.ChlidContainerDeiail[i].OPTM_BIN,
+                OPTM_SHIPELIGIBLE: data.ChlidContainerDeiail[i].OPTM_SHIPELIGIBLE=="Y"?true:false,
+                OPTM_SO_NUMBER: data.ChlidContainerDeiail[i].OPTM_SO_NUMBER == null?'':data.ChlidContainerDeiail[i].OPTM_SO_NUMBER,
+              });
             }
 
-            // prepare child container and items list
+            // var batchSerailsData = data.BtchSerDeiail
+            // for (var i = 0; i < this.containerItems.length; i++) {
+            //   this.containerItems[i].ItemBatchSerailData = []
+            //   for (var j = 0; j < batchSerailsData.length; j++) {
+            //     if (this.containerItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE) {
+            //       this.containerItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
+            //     } else if (this.containerItems[i].OPTM_TRACKING == "N") {
+            //       this.containerItems[i].ItemBatchSerailData.push({
+            //         TEMP_ID: -1
+            //       });
+            //     }
+            //   }
+            // }
+
+            // prepare child container items list
             this.prepareGridDataForChildContainer(data);
           }
         } else {
@@ -338,19 +366,25 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   prepareGridDataForChildContainer(data: any) {
-    var childConts = data.ChlidContainerDeiail
     var childContItems = data.ChildContItemDeiail
-    var batchSerailsData = data.ChildContBtchSerDeiail
 
-    for (var i = 0; i < childContItems.length; i++) {
-      childContItems[i].ItemBatchSerailData = []
-      for (var j = 0; j < batchSerailsData.length; j++) {
-        if (childContItems[i].OPTM_ITEMCODE == batchSerailsData[j].OPTM_ITEMCODE) {
-          childContItems[i].ItemBatchSerailData.push(batchSerailsData[j]);
-        } 
-        else if (childContItems[i].OPTM_TRACKING == "N") {
-          childContItems[i].ItemBatchSerailData.push({
-            TEMP_ID: -1
+    for (var j = 0; j < this.containerItems.length; j++) {
+      this.containerItems[j].ItemBatchSerailData = []
+      for (var i = 0; i < childContItems.length; i++) {
+        if (this.containerItems[j].CODE == childContItems[i].OPTM_CONTAINERID) {
+          this.containerItems[j].ItemBatchSerailData.push({
+            TYPE: "Item",
+            CODE: childContItems[i].OPTM_ITEMCODE,
+            OPTM_QUANTITY: childContItems[i].OPTM_QUANTITY,
+            OPTM_WEIGHT: childContItems[i].OPTM_WEIGHT == null?'0':childContItems[i].OPTM_WEIGHT,
+            OPTM_VOLUME: childContItems[i].OPTM_VOLUME== null?'0':childContItems[i].OPTM_VOLUME,
+            OPTM_SHIPMENT_ID: childContItems[i].OPTM_SHIPMENTID == null?'':childContItems[i].OPTM_SHIPMENTID,
+            OPTM_PARENTCONTID: childContItems[i].OPTM_PARENTCONTID,
+            OPTM_PICKED_TOSHIP: childContItems[i].OPTM_PICKED_TOSHIP=="Y"?true:false,
+            OPTM_WHSE: childContItems[i].OPTM_WHSE,
+            OPTM_BIN: childContItems[i].OPTM_BIN,
+            OPTM_SHIPELIGIBLE: childContItems[i].OPTM_SHIPELIGIBLE=="Y"?true:false,
+            OPTM_SO_NUMBER: childContItems[i].OPTM_SO_NUMBER == null?'':childContItems[i].OPTM_SO_NUMBER,
           });
         }
       }
@@ -368,31 +402,33 @@ export class ContMaintnceMainComponent implements OnInit {
     // }
 
 
-    this.childContainerList = []
-    for (var i = 0; i < childConts.length; i++) {
-      var items = []
-      for (var j = 0; j < childContItems.length; j++) {
-        if (childConts[i].OPTM_CONTAINERID == childContItems[j].OPTM_CONTAINERID 
-          || childConts[i].OPTM_CONTCODE == childContItems[j].OPTM_CONTAINERID) {
-            items.push(childContItems[j])
-        }
-      }
-      this.childContainerList.push({
-        OPTM_CONTAINERID: childConts[i].OPTM_CONTAINERID,
-        OPTM_CONTCODE: childConts[i].OPTM_CONTCODE,
-        OPTM_CONTTYPE: childConts[i].OPTM_CONTTYPE,
-        OPTM_STATUS: this.getContainerStatus(childConts[i].OPTM_STATUS),
-        childContItems: items
-      })
-    }
+    // this.childContainerList = []
+    // for (var i = 0; i < childConts.length; i++) {
+    //   var items = []
+    //   for (var j = 0; j < childContItems.length; j++) {
+    //     if (childConts[i].OPTM_CONTAINERID == childContItems[j].OPTM_CONTAINERID
+    //       || childConts[i].OPTM_CONTCODE == childContItems[j].OPTM_CONTAINERID) {
+    //       items.push(childContItems[j])
+    //     }
+    //   }
+    //   this.childContainerList.push({
+    //     OPTM_CONTAINERID: childConts[i].OPTM_CONTAINERID,
+    //     OPTM_CONTCODE: childConts[i].OPTM_CONTCODE,
+    //     OPTM_CONTTYPE: childConts[i].OPTM_CONTTYPE,
+    //     OPTM_STATUS: this.getContainerStatus(childConts[i].OPTM_STATUS),
+    //     childContItems: items
+    //   })
+    // }
 
-    if(this.childContainerList.length > 10 ){
-      this.pageable2 = true
-    }
+    // if (this.childContainerList.length > 10) {
+    //   this.pageable2 = true
+    // }
   }
 
   prepareDataForGrid() {
     for (var i = 0; i < this.containerItems.length; i++) {
+      this.containerItems[i].TYPE = "Item";
+      this.containerItems[i].CODE = this.containerItems[i].OPTM_ITEMCODE;
       if (this.containerItems[i].OPTM_SHIPELIGIBLE == "Y") {
         this.containerItems[i].OPTM_SHIPELIGIBLE = true
       } else {
@@ -404,7 +440,6 @@ export class ContMaintnceMainComponent implements OnInit {
       } else {
         this.containerItems[i].OPTM_PICKED_TOSHIP = false
       }
-
       this.containerItems[i].OPTM_STATUS = this.getContainerStatus(this.containerItems[i].OPTM_STATUS)
     }
 
@@ -445,30 +480,30 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onCloseClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
-      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
+      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
       return;
     }
 
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
 
-      oSaveData.SelectedRows.push({
-        //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTCODE: this.containerCode, 
-        CONTAINERID: ''
-      })
+    oSaveData.SelectedRows.push({
+      //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+      CompanyDBId: localStorage.getItem("CompID"),
+      OPTM_CONTCODE: this.containerCode,
+      CONTAINERID: ''
+    })
 
-      let tempArray = [];
-        tempArray.push({
-          CompanyDBId: localStorage.getItem("CompID"),
-          OPTM_CONTCODE: this.containerCode, 
-          CONTAINERID: ''
-        });     
+    let tempArray = [];
+    tempArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      OPTM_CONTCODE: this.containerCode,
+      CONTAINERID: ''
+    });
 
     this.showLoader = true;
     //this.commonservice.CloseClick(this.containerCode).subscribe(
-      this.containerShipmentService.CloseContainer(tempArray).subscribe(
+    this.containerShipmentService.CloseContainer(tempArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -504,7 +539,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onReopenClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
-      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
+      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
       return;
     }
     this.showLoader = true;
@@ -544,32 +579,33 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onSetDamagedClick() {
     if (this.containerCode == undefined || this.containerCode == "") {
-      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
+      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
       return;
     }
 
+    this.showDialog("setDamage", this.translate.instant("yes"), this.translate.instant("no"),
+      this.translate.instant("MoveAllContenttoInventory"));
+  }
+
+  SetDamagedCall(isRemoveAllContitemsBeforeDamage) {
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
+    oSaveData.SelectedRows.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      OPTM_CONTCODE: this.containerCode,
+      CONTAINERID: this.containerId
+    });
 
-   
-      oSaveData.SelectedRows.push({
-        //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTCODE: this.containerCode, 
-        CONTAINERID: this.containerId
-      });  
-      
-      let tempArray = [];
-      tempArray.push({
-        CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_CONTCODE: this.containerCode, 
-        CONTAINERID: this.containerId
-      });   
-
+    let tempArray = [];
+    tempArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      OPTM_CONTCODE: this.containerCode,
+      CONTAINERID: this.containerId,
+      Delete: isRemoveAllContitemsBeforeDamage
+    });
 
     this.showLoader = true;
-    //this.commonservice.DamagedClick(this.containerCode, this.containerId).subscribe(
-      this.containerShipmentService.SetDamagedContainer(tempArray).subscribe(
+    this.containerShipmentService.SetDamagedContainer(tempArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -581,7 +617,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data updated") {
-              this.toastr.success('',this.translate.instant("SetDamagedMsg"));
+              this.toastr.success('', this.translate.instant("SetDamagedMsg"));
               //this.toastr.success('', "ContainerCancelledMsg")
               this.onContainerCodeChange(this.containerCode);
             } else {
@@ -606,7 +642,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
   onSetCancelClick() {
     if (this.containerId == undefined || this.containerId == "") {
-      this.toastr.error('',this.translate.instant("Enter_Container_Code"));
+      this.toastr.error('', this.translate.instant("Enter_Container_Code"));
       return;
     }
     this.showLoader = true;
@@ -622,11 +658,16 @@ export class ContMaintnceMainComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
-              // this.toastr.success('', data[0].RESULT)
               this.toastr.success('', this.translate.instant("ContainerCancelledMsg"))
               this.onContainerCodeChange(this.containerCode);
             } else {
-              this.toastr.error('', data[0].RESULT)
+              if (data[0].RESULT == "Container contains Items / Containers. Remove items from container before cancel") {
+                this.showDialog("CancelContainer", this.translate.instant("yes"), this.translate.instant("no"),
+                  this.translate.instant("RemoveItemFromContMSg"));
+              } else {
+                this.toastr.error('', data[0].RESULT)
+              }
+
             }
           }
         } else {
@@ -646,7 +687,7 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
-    return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+    return dataItem.TYPE == "Container";//dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
   }
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
@@ -706,5 +747,83 @@ export class ContMaintnceMainComponent implements OnInit {
     localStorage.setItem("ContainerCode", this.containerCode)
     localStorage.setItem("From", "CMaintenance")
     this.contMaintenance.cmComponent = 2;
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showConfirmDialog: boolean = false;
+
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("setDamage"):
+          this.SetDamagedCall(true);
+          break;
+        case ("CancelContainer"):
+          localStorage.setItem("loadContainer", this.containerCode);
+          this.router.navigate(['home/add-item-container']);
+          break;
+      }
+    } else {
+      if ($event.Status == "no") {
+        switch ($event.From) {
+          case ("setDamage"):
+            this.SetDamagedCall(undefined);
+            break;
+          case ("CancelContainer"):
+            break;
+        }
+      }
+    }
+  }
+///------------------------------------------------------
+  dialogOpened = false;
+  DialogTitle = "";
+  dialogLabel = "";
+  dialogValue = "";
+  ShowSOandContainerCodeDialog(option){
+    this.dialogOpened = true;
+    if(option == 1){
+      this.DialogTitle = this.translate.instant("AssignSO")
+      this.dialogLabel = this.translate.instant("SalesOrder")
+    }else{
+      this.DialogTitle = this.translate.instant("AssignCC")
+      this.dialogLabel = this.translate.instant("ContainerGroupingCode")
+    }    
+  }
+
+  close_kendo_dialog(){
+    this.dialogOpened = false;
+  }
+
+  updateValue(option){
+    if(this.DialogTitle == this.translate.instant("AssignSO") || option == 1){
+
+    }else{
+
+    }
+  }
+
+  showLookupData(){
+    if(this.DialogTitle == this.translate.instant("AssignSO")){
+
+    }else{
+
+    }
+  }
+
+  onConfirmClick(){
+    this.close_kendo_dialog();
   }
 }

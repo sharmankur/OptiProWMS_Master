@@ -1024,7 +1024,8 @@
   "Data_Not_Commit": "Data not committed you will lose old data, still want to process?",
   "ShipDate": "Ship Date",
   "AutoAllocateTitle": "Auto Allocate to Shipments",
-  "ViewAndManageCont": "View & Manage Cont.",
+  "ViewAndManageCont": "View/Manage Containers",
+  "ViewAndManageContMenu": "View/Manage Containers",
   "DeleteValMsg": "Select record/s to delete",
   "EnterHdrInfoMsg": "Enter header information",
   "DefaultBinMandate": "Please select default bin ",
@@ -1048,10 +1049,19 @@
   "ZoneRowSelectionValMsg": "Select zone code row first",
   "ContPerValMsg": "Containers per Parent should be an interger and should be >= 1",
   "StageBinValMsg": "Putaway and pick drop stage bin both can't be blank for one rule type",
-  "Shp_updated": "Shipment Updated",
   "MaxWeightValMsg": "Max weight should be greater than Tare weight",
   "WeightTareValMsg": "Max weight and Tare weight should be >= 1",
   "ZoneAndRangeValMsg": "Atleast one row should be add for zone code and bin range",
   "BinRangeValMsg": "Atleast one bin range should be add for selected zone code",
-  "Dummy": "Dummy"
+  
+  "ReturnShpMsg":"Return complete Shipment?",
+  "Shp_updated": "Shipment Updated",
+  "MoveAllContenttoInventory": "Move all contents to Inventory?",
+  "RemoveItemFromContMSg": "Do you want to redirect to remove items from selected container?",
+  "RemoveSO": "Remove Sales Order",
+  "AssignSO": "Assign Sales Order",
+  "RemoveCC": "Remove Container Group Code",
+  "AssignCC": "Assign Container Group Code",
+  
+  "Dummy": "Dummy"  
 }

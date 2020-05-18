@@ -107,7 +107,7 @@ export class CommonLookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
-    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
+    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipmentListForFilter" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
       this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
@@ -311,6 +311,30 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_CONTCODE',
         title: this.translate.instant("ContainerCode"),
+        type: 'text',
+        width: '150'
+      },
+      {
+        field: 'OPTM_CONTTYPE',
+        title: this.translate.instant("CT_ContainerType"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_STATUS',
+        title: this.translate.instant("ContainerStatus"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_SHIPELIGIBLE',
+        title: this.translate.instant("Purpose"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_BUILT_SOURCE',
+        title: this.translate.instant("PackProcess"),
         type: 'text',
         width: '100'
       }
