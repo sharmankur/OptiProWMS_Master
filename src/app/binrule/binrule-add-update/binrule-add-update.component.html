@@ -36,7 +36,7 @@
                         </label>
                         <div class="col-sm-9">
                             <kendo-dropdownlist [data]="PurposeList" id="purpose" 
-                            (change) = "updateDropDown(display_name, VendorLot.value, rowIndex)"
+                            (valueChange) = "purposeChange($event)"
                             name="purpose" [(ngModel)]="purpose"   [disabled]=isUpdate>
                             </kendo-dropdownlist>
                         </div>

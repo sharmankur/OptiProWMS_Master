@@ -156,6 +156,11 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
 
     console.log("value change for bin rule");
+    this.isUpdateHappen = true
+  }
+
+  purposeChange(){
+    this.isUpdateHappen = true
   }
 
   GetWhseCode() {
@@ -355,6 +360,12 @@ export class BinruleAddUpdateComponent implements OnInit {
               else if (this.binRuleArray[iBtchIndex].OPTM_STORAGE_TO_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_STORAGE_TO_BIN == "") {
                 this.toastr.error('', this.translate.instant("BinRule_ToBinMsg"));
                 return false;
+              }
+              else if (this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN == "") {
+                if (this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == ""){
+                  this.toastr.error('', this.translate.instant("StageBinValMsg"));
+                  return false;
+                }
               }
             }
           }
@@ -615,7 +626,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
   }
 
-  onCancelClick() {
+  OnCancelClick() {
     this.binRuleMasterComponent.binRuleComponent = 1;
   }
 

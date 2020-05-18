@@ -76,6 +76,10 @@ export class ContainergroupupdateComponent implements OnInit {
     }
   }
 
+  onDescChange(){
+    this.isUpdateHappen = true
+  }
+
   InsertIntoContnrGroup() {
     this.showLoader = true;
     this.contnrServ.InsertIntoContainerGroup(this.CG_ID, this.CG_DESC).subscribe(

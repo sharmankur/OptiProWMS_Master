@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { WhseBinLayoutComponent } from '../whse-bin-layout/whse-bin-layout.component';
 import { WhseBinLayoutService } from '../../services/whse-bin-layout.service';
+import { RowArgs } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-whse-bin-layout-add',
@@ -37,6 +38,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   rangePageSize: number = 10;
   rangePageable: boolean = false;
   isUpdateHappen: boolean = false;
+  mySelection: any[] = [];
+  // Use an arrow function to capture the 'this' execution context of the class.
+  public isRowSelected = (e: RowArgs) => this.mySelection.indexOf(e.dataItem.ZoneCode) >= 0;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private carmasterService: CARMasterService,
@@ -104,7 +108,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.zonePageable = true;
       }
       this.filterRangeListByZone()
-      if(this.whseZoneList.length == 0){
+      if (this.whseZoneList.length == 0) {
         this.displayWhseRangeList = []
         this.selectedZoneCodeRow = undefined
       }
@@ -126,6 +130,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
       }
     }
     this.isUpdateHappen = true;
+    // this.refreshGrid();
   }
 
   GetWhseCode() {
@@ -340,22 +345,22 @@ export class WhseBinLayoutAddComponent implements OnInit {
           return
         }
 
-        if (this.isBinRangeExist($event.OPTM_BIN_RANGE, this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode)) {
+        if (this.isBinRangeExist($event.OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
           this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
           this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = ''
         } else {
           this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE
         }
-        this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode)
+        this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
         for (let i = 0; i < this.displayWhseRangeList.length; i++) {
-            this.whseRangeList.push({
+          this.whseRangeList.push({
             OPTM_BIN_RANGE: this.displayWhseRangeList[i].OPTM_BIN_RANGE,
-              WhseCode: this.whseCode,
-              ZoneCode: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode,
-              ZoneType: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneType,
-              FromBin: "",
-              ToBin: "",
-            })
+            WhseCode: this.whseCode,
+            ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+            ZoneType: this.selectedZoneCodeRow.ZoneType,
+            FromBin: this.selectedZoneCodeRow.FromBin,
+            ToBin: this.selectedZoneCodeRow.ToBin,
+          })
         }
         this.isUpdateHappen = true
       }
@@ -397,17 +402,17 @@ export class WhseBinLayoutAddComponent implements OnInit {
         return
       }
 
-      if (this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode == '' || this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneType == '') {
+      if (this.selectedZoneCodeRow.ZoneCode == '' || this.selectedZoneCodeRow.ZoneType == '') {
         this.toastr.error('', this.translate.instant("SelectedRowFieldVal"));
         return
       }
       this.displayWhseRangeList.push({
         OPTM_BIN_RANGE: "",
         WhseCode: this.whseCode,
-        ZoneCode: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode,
-        ZoneType: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneType,
-        FromBin: "",
-        ToBin: "",
+        ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+        ZoneType: this.selectedZoneCodeRow.ZoneType,
+        FromBin: this.selectedZoneCodeRow.FromBin,
+        ToBin: this.selectedZoneCodeRow.ToBin,
       })
       this.rangePageable = false;
       if (this.whseRangeList.length > 10) {
@@ -424,23 +429,32 @@ export class WhseBinLayoutAddComponent implements OnInit {
     this.shipmentModel.OPTM_SHP_WHSE_BINS = [];
 
     if (this.whseRangeList.length == 0) {
-      return
+      this.toastr.error('', this.translate.instant("ZoneAndRangeValMsg"));
+      return false
     } else {
       for (var i = 0; i < this.whseZoneList.length; i++) {
         if (this.whseZoneList[i].ZoneCode == undefined || this.whseZoneList[i].ZoneCode == '') {
           this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
-          return;
+          return false;
         }
-  
+
         if (this.whseZoneList[i].ZoneType == undefined || this.whseZoneList[i].ZoneType == '') {
           this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
-          return;
+          return false;
         }
       }
 
       for (var i = 0; i < this.whseRangeList.length; i++) {
         if (this.whseRangeList[i].OPTM_BIN_RANGE == undefined || this.whseRangeList[i].OPTM_BIN_RANGE == '') {
-          return
+          this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
+          return false;
+        }
+      }
+
+      for (var i = 0; i < this.displayWhseRangeList.length; i++) {
+        if (this.displayWhseRangeList[i].OPTM_BIN_RANGE == undefined || this.displayWhseRangeList[i].OPTM_BIN_RANGE == '') {
+          this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
+          return false;
         }
       }
     }
@@ -483,6 +497,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     //   });
     // }
 
+    return true
   }
 
   onAddUpdateClick() {
@@ -533,7 +548,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onAdd() {
-    this.prepareSaveData();
+    if (!this.prepareSaveData()) {
+      return
+    }
     this.showLoader = true;
     this.whseService.InsertIntoWareHouseMaster(this.shipmentModel).subscribe(
       (data: any) => {
@@ -567,7 +584,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   update() {
-    this.prepareSaveData();
+    if (!this.prepareSaveData()) {
+      return
+    }
     this.showLoader = true;
     this.whseService.UpdateWareHouseMaster(this.shipmentModel).subscribe(
       (data: any) => {
@@ -580,7 +599,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
           if (data[0].RESULT == "Data Saved") {
             this.toastr.success('', data[0].RESULT);
-            this.whseBinLayout.whseBinLayoutComponent = 1;
+            this.isUpdateHappen = false
+            // this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
             this.toastr.error('', data[0].RESULT);
           }
@@ -649,13 +669,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
     //if no change in type
     if (this.whseZoneList[index].ZoneType == value) {
       return
-      }
+    }
     //first update all rows of whseRangelist with latest zone type.... this list will send on server
     for (var i = 0; i < this.whseRangeList.length; i++) {
       if (this.whseRangeList[i].ZoneCode == this.whseZoneList[index].ZoneCode
         && this.whseRangeList[i].ZoneType == this.whseZoneList[index].ZoneType) {
         this.whseRangeList[i].ZoneType = value;
-    }
+      }
     }
 
     //After update display zone list
@@ -709,8 +729,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
               })
             }
           }
-
-          this.filterRangeListByZone()
+          this.refreshGrid();
         } else {
           //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -725,6 +744,17 @@ export class WhseBinLayoutAddComponent implements OnInit {
         }
       }
     );
+  }
+
+  refreshGrid() {
+    //For make selection first row by default.
+    this.selectedZoneCodeRow = {
+      ZoneCode: this.whseZoneList[0].ZoneCode,
+      ZoneType: this.whseZoneList[0].ZoneType
+    }
+    this.mySelection = []
+    this.mySelection.push(this.whseZoneList[0].ZoneCode)
+    this.filterRangeListByZone()
   }
 
   onBinChange(from, event) {
@@ -837,6 +867,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
   IsValidWareHouseBinRange(index, value, display_name) {
     if (value == undefined || value == "") {
+      this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
+      this.toastr.error('', this.translate.instant("BinRangeValMsg"));
       return;
     }
     this.showLoader = true;
@@ -855,35 +887,32 @@ export class WhseBinLayoutAddComponent implements OnInit {
               return
             }
 
-            if (this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE, this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode)) {
+            if (this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
               this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-              this.displayWhseRangeList[index].OPTM_BIN_RANGE = ' '
-              setTimeout(() => {
-                this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
-              }, 200)
+              this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
             } else {
               this.displayWhseRangeList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE
             }
-            this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode)
+            this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
             for (let i = 0; i < this.displayWhseRangeList.length; i++) {
               this.whseRangeList.push({
                 OPTM_BIN_RANGE: this.displayWhseRangeList[i].OPTM_BIN_RANGE,
                 WhseCode: this.whseCode,
-                ZoneCode: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode,
-                ZoneType: this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneType,
-                FromBin: "",
-                ToBin: "",
+                ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+                ZoneType: this.selectedZoneCodeRow.ZoneType,
+                FromBin: this.selectedZoneCodeRow.FromBin,
+                ToBin: this.selectedZoneCodeRow.ToBin,
               })
             }
           } else {
-            this.whseZoneList[index].OPTM_BIN_RANGE = "";
-            display_name.value = "";
-            this.toastr.error('', "Invalid Bin Ranges");
+            if (value != undefined && value != "") {
+              this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
+              this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
+            }
           }
         } else {
-          this.whseZoneList[index].OPTM_BIN_RANGE = "";
-          display_name.value = "";
-          this.toastr.error('', "Invalid Bin Ranges");
+          this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
+          this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
         }
       },
       error => {
@@ -978,7 +1007,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
     if (this.selectedZoneCodeRow == undefined || this.selectedZoneCodeRow == null) {
       return
     } else {
-      this.displayWhseRangeList = this.whseRangeList.filter(item => item.ZoneCode === this.selectedZoneCodeRow.selectedRows[0].dataItem.ZoneCode)
+      this.displayWhseRangeList = this.whseRangeList.filter(item => item.ZoneCode === this.selectedZoneCodeRow.ZoneCode)
     }
   }
 
@@ -993,7 +1022,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
 
   selectedZoneCodeRow: any;
   onSelectionClick(event) {
-    this.selectedZoneCodeRow = event
+    this.mySelection = []
+    this.selectedZoneCodeRow = event.selectedRows[0].dataItem
+    this.mySelection.push(this.selectedZoneCodeRow.ZoneCode)
     this.filterRangeListByZone()
   }
 }

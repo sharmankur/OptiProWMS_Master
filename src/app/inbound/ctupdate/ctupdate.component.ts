@@ -110,6 +110,10 @@ export class CTUpdateComponent implements OnInit {
     if(value == 'blur'){
       this.isUpdateHappen = true
     }
+
+    if(this.CT_Max_Width <= this.CT_Tare_Width){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+    }
   }
   
   onDescChange(){
@@ -136,6 +140,17 @@ export class CTUpdateComponent implements OnInit {
     else if(this.CT_Max_Width == "NaN" || this.CT_Max_Width == undefined || 
     (Number(this.CT_Max_Width) <= 0)){
       this.CT_Max_Width = "0";
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Tare_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+      return false
     }
     return true;
   }

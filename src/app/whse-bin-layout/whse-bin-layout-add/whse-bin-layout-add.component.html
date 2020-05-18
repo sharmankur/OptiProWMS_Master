@@ -150,7 +150,7 @@
             </div>
             <div class="row col-xs-12">
                 <!-- <div class="row"> -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mt-3">
                         <div class="card shipment-widget-box">
                             <h5 class="card-header">{{'WarehouseZone'|translate}} <button
                                     class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button"
@@ -158,8 +158,8 @@
                                     <span class="k-icon k-i-plus" role="presentation"></span>
                                     {{'Masking_AddRow'|translate}}</button></h5>
                             <div class="card-body">
-                                <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
-                                    [skip]="skip" [pageable]="zonePageable" [selectable]="{mode: 'single', checkboxOnly: false}" (selectionChange)="onSelectionClick($event)">
+                                <kendo-grid [height]="200" [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
+                                    [skip]="skip" [pageable]="zonePageable" [rowSelected]="isRowSelected" [selectable]="{mode: 'single', checkboxOnly: false}" (selectionChange)="onSelectionClick($event)">
                                     <kendo-grid-checkbox-column [width]="25">
                                         <!-- <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
                                             <div class="custom-control custom-checkbox">
@@ -219,7 +219,7 @@
                     </div>
                 <!-- </div> -->
                 <!-- <div class="row"> -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mt-3">
                         <div class="card shipment-widget-box">
                             <h5 class="card-header">{{'WarehouseBinRanges'|translate}} <button
                                     class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button"
@@ -228,7 +228,7 @@
                                     {{'Masking_AddRow'|translate}}</button></h5>
 
                             <div class="card-body">
-                                <kendo-grid [data]="displayWhseRangeList" [resizable]="true" [pageSize]="rangePageSize"
+                                <kendo-grid [height]="200" [data]="displayWhseRangeList" [resizable]="true" [pageSize]="rangePageSize"
                                     [skip]="skip" [pageable]="rangePageable">
                                     <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRange'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
@@ -246,7 +246,36 @@
                                             </div>
                                         </ng-template>
                                     </kendo-grid-column>
-
+                                    <kendo-grid-column field="OPTM_FROM_BIN" title="{{'FromBinCode'|translate}}">
+                                        <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm" name="dataItem.FromBin"
+                                                    value={{dataItem.FromBin}} id="display_name" min="0"
+                                                    #display_name>
+                                                <div class="input-group-append">
+                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                        (click)="GetFromBinCode('range', idx)">
+                                                        <i class="opti-icon-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-template> -->
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_TO_BIN" title="{{'ToBinCode'|translate}}">
+                                        <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control form-control-sm" name="dataItem.ToBin"
+                                                    value={{dataItem.ToBin}} id="display_name" min="0"
+                                                    #display_name disabled>
+                                                <div class="input-group-append">
+                                                    <button tabIndex="-1" class="k-button k-primary btn" type="button"
+                                                        (click)="GetToBinCode('range', idx)">
+                                                        <i class="opti-icon-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-template> -->
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="ItemCode" title="{{'Action'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                             <button type="button" class="btn btn-danger k-button btn-sm btn-icon"
