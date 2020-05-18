@@ -300,6 +300,7 @@ export class ShipmentViewComponent implements OnInit {
 
   GetDataBasedOnShipmentId(ShipmentID) {
     this.showLoader = true;
+    
     this.shipmentService.GetDataBasedOnShipmentId(ShipmentID, this.fromScreen).subscribe(
       (data: any) => {
         if (data != undefined) {
@@ -1112,7 +1113,7 @@ export class ShipmentViewComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CancelOrUnassignShipment(this.ShipmentID, this.fromScreen).subscribe(
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentID, "").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
