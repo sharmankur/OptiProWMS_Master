@@ -128,6 +128,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     if (this.currentStep < this.maxStep) {
 
       if (this.currentStep === 1) {
+        this.selectallSO = false;
         if (this.WareHouse != "" && this.WareHouse != undefined) {
           if (this.AutoAllocate && (this.Schedule_Datetime == "" || this.Schedule_Datetime == null || this.Schedule_Datetime == undefined)) {
             this.toastr.error('', this.translate.instant("SchDTValidation"));
@@ -163,6 +164,7 @@ export class ShipmentWizardViewComponent implements OnInit {
 
         }
         else {
+          this.HoldSelectedRow.ConsolidationsBy = [];
           this.HoldSelectedRow.ConsolidationsBy.push({
             Customer: this.CHKCustomer, DueDate: this.CHKDueDate,
             Item: this.CHKItem, ShipTo: this.CHKShipto, SONO: this.CHKSOno, OPTM_CONTUSE: this.UseContainer

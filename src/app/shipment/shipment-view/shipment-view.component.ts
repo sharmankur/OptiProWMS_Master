@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CommonData } from '../../models/CommonData';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
+import { ContainerShipmentService } from '../../services/container-shipment.service';
 
 @Component({
   selector: 'app-shipment-view',
@@ -20,8 +21,8 @@ export class ShipmentViewComponent implements OnInit {
   lookupfor: string;
   showLoader: boolean = false;
   hideLookup: boolean = true;
-  Container_Group: string="";
-  ShipmentID: string;
+  Container_Group: string = "";
+  ShipmentID: string = "";
   ShipmentCode: string;
   CustomerCode: string;
   WarehouseCode: string;
@@ -78,8 +79,10 @@ export class ShipmentViewComponent implements OnInit {
   fromScreen: string;
   ArchiveDialog: boolean = false;
   isarchived = false;
+  SelectedRowsforShipmentArr = [];
+  isUpdateHappen = false;
 
-  constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
+  constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService:ContainerShipmentService , private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -89,6 +92,27 @@ export class ShipmentViewComponent implements OnInit {
       this.Container_status_array = this.commonData.Container_Status_DropDown();
       this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     });
+  }
+
+  onBOLChange(){
+    if(this.BOLNumber == undefined || this.BOLNumber == "" || this.BOLNumber == null){
+      return;
+    }
+    this.isUpdateHappen = true;
+  }
+
+  onVechicleChange(){
+    if(this.VehicleNumber == undefined || this.VehicleNumber == "" || this.VehicleNumber == null){
+      return;
+    }
+    this.isUpdateHappen = true;
+  }
+
+  onRefOrderNoChange(){
+    if(this.ReturnOrderRef == undefined || this.ReturnOrderRef == "" || this.ReturnOrderRef == null){
+      return;
+    }
+    this.isUpdateHappen = true;
   }
 
   ShipmentStatusEnum() {
@@ -161,10 +185,10 @@ export class ShipmentViewComponent implements OnInit {
     this.onCheckChange();
   }
 
-  EnableDisableFields(fromscreen){
-    if(fromscreen == "archiveddata"){
+  EnableDisableFields(fromscreen) {
+    if (fromscreen == "archiveddata") {
       this.isarchived = true;
-    }else{
+    } else {
       this.isarchived = false;
     }
   }
@@ -195,6 +219,8 @@ export class ShipmentViewComponent implements OnInit {
 
   IsValidShipmentCode() {
     if (this.ShipmentCode == undefined || this.ShipmentCode == "") {
+      this.ShipmentID = '';
+      this.clearFields();
       return;
     }
     this.clearFields()
@@ -243,7 +269,7 @@ export class ShipmentViewComponent implements OnInit {
 
   GetShipmentIdForShipment() {
     this.showLoader = true;
-    this.commonservice.GetShipmentIdForShipment(this.fromScreen).subscribe(
+    this.commonservice.GetShipmentIdForShipment(this.fromScreen, undefined).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -477,6 +503,7 @@ export class ShipmentViewComponent implements OnInit {
       this.CarrierCode = event.OPTM_CARRIERID
     } else if (this.lookupfor == "GroupCodeList") {
       this.Container_Group = event.OPTM_CONTAINER_GROUP;
+      this.isUpdateHappen = true;
     } else if (this.lookupfor == "ShipMentProcess") {
       this.onShpProcessChange(event);
     }
@@ -769,7 +796,7 @@ export class ShipmentViewComponent implements OnInit {
       OPTM_TASKHDID: 0,
       OPTM_OPERATION: "",
       OPTM_QUANTITY: 1,
-      OPTM_SOURCE: 3,
+      OPTM_SOURCE: 4,
       OPTM_ParentContainerType: "",
       OPTM_ParentPerQty: "",
       IsWIPCont: false
@@ -848,6 +875,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("Shp_updated"));
             this.GetDataBasedOnShipmentId(this.ShipmentID);
+            this.isUpdateHappen = false;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -1056,6 +1084,7 @@ export class ShipmentViewComponent implements OnInit {
           }
           if (data.length > 0) {
             this.Container_Group = data[0].OPTM_CONTAINER_GROUP
+            this.isUpdateHappen = true;
           } else {
             this.Container_Group = '';
             this.toastr.error('', this.translate.instant("InvalidGroupCode"));
@@ -1083,7 +1112,7 @@ export class ShipmentViewComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.commonservice.CancelOrUnassignShipment(this.ShipmentID).subscribe(
+    this.commonservice.CancelOrUnassignShipment(this.ShipmentID, this.fromScreen).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1172,7 +1201,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   /////////Archive data/////////////////////////////////////////////////////////////
-  
+
   ArchiveShipments: any[] = [];
   SelectedArchiveShipments: any[] = [];
   ShipmentCodeFrom: string = "";
@@ -1186,8 +1215,9 @@ export class ShipmentViewComponent implements OnInit {
   selectall: boolean;
   showArchLoader: boolean = false;
   hideArchiveLookup = true
+  isShipmenUpdated = false;
 
-  initializeData(){
+  initializeData() {
     this.ArchiveShipments = [];
     this.SelectedArchiveShipments = [];
     this.ShipmentCodeFrom = "";
@@ -1221,14 +1251,88 @@ export class ShipmentViewComponent implements OnInit {
     return false;
   }
 
+  selectContainerRow(isCheck, dataitem, idx) {
+    if (isCheck) {
+      this.ShipContainers[idx].Selected = true;
+      var index = this.SelectedRowsforShipmentArr.findIndex(r => r.OPTM_CONTCODE == dataitem.OPTM_CONTCODE);
+      if (index == -1) {
+        this.SelectedRowsforShipmentArr.push(dataitem);
+      }
+    }
+    else {
+      for (let i = 0; i < this.ShipContainers.length; i++) {
+        if (this.ShipContainers[i].OPTM_CONTCODE == dataitem.OPTM_CONTCODE) {
+          this.ShipContainers[i].Selected = false;
+        }
+      }
+      var index = this.SelectedRowsforShipmentArr.findIndex(r => r.OPTM_CONTCODE == dataitem.OPTM_CONTCODE);
+      if (index > -1)
+        this.SelectedRowsforShipmentArr.splice(index, 1);
+    }
+  }
+
+  onRemoveFromShipmentBtnPress() {
+    if (this.SelectedRowsforShipmentArr.length == 0) {
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+    this.showLoader = true;
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTCODE: this.SelectedRowsforShipmentArr[i].OPTM_SHIPMENTID,
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+        OPTM_STATUS: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE
+      })
+    }
+    this.containerShipmentService.RemoveShipmentFromContainer(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            if (data[0].RESULT != '' && data[0].RESULT != null) {
+              if (data[0].RESULT == 'Data Saved') {
+                this.toastr.success('', this.translate.instant("Containers_removed_successfully"));
+                this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
+              }
+              else {
+                this.toastr.error('', data[0].RESULT);
+              }
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            }
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   onQueryBtnClick() {
     this.showArchLoader = true;
-    let schDatefrom = "", schDateTo="";
-    if(this.Schedule_DatetimeFrom != undefined){
+    let schDatefrom = "", schDateTo = "";
+    if (this.Schedule_DatetimeFrom != undefined) {
       schDatefrom = this.Schedule_DatetimeFrom.toLocaleDateString();
     }
 
-    if(this.Schedule_DatetimeTo != undefined){
+    if (this.Schedule_DatetimeTo != undefined) {
       schDateTo = this.Schedule_DatetimeTo.toLocaleDateString();
     }
 
@@ -1266,7 +1370,6 @@ export class ShipmentViewComponent implements OnInit {
       this.ArchiveShipments[idx].Selected = true;
       var index = this.SelectedArchiveShipments.findIndex(r => r.OPTM_SHIPMENTID == dataitem.OPTM_SHIPMENTID);
       if (index == -1) {
-        // this.SelectedArchiveShipments.push(dataitem);
         this.SelectedArchiveShipments.push({
           CompanyDBId: localStorage.getItem("CompID"),
           OPTM_SHIPMENTID: dataitem.OPTM_SHIPMENTID
@@ -1310,7 +1413,13 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   RestoreFromArchived() {
-    if(this.SelectedArchiveShipments.length <= 0){
+    if (this.fromScreen == "archiveddata") {
+      this.SelectedArchiveShipments.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: this.ShipmentID
+      });
+    }
+    if (this.SelectedArchiveShipments.length <= 0) {
       this.toastr.error('', this.translate.instant("Select_Row"))
       return;
     }
@@ -1327,9 +1436,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("RestorearchivedShpMsg"));
             localStorage.setItem("ShipmentID", this.SelectedArchiveShipments[0].OPTM_SHIPMENTID);
-          //  localStorage.setItem("ShipmentCode", this.SelectedArchiveShipments[0].OPTM_SHIPMENT_CODE);
             this.ShipmentID = localStorage.getItem("ShipmentID");
-           // this.ShipmentCode = localStorage.getItem("ShipmentCode");
             this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
             this.ArchiveDialog = false;
           } else {
@@ -1400,7 +1507,7 @@ export class ShipmentViewComponent implements OnInit {
 
   GetDataForShipmentId(fieldName) {
     this.showArchLoader = true;
-    this.commonservice.GetShipmentIdForShipment("archiveddata").subscribe(
+    this.commonservice.GetShipmentIdForShipment("archiveddata", undefined).subscribe(
       (data: any) => {
         this.showArchLoader = false;
         if (data != undefined) {

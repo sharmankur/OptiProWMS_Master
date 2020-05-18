@@ -1067,7 +1067,8 @@
   "Data_Not_Commit": "Data not committed you will lose old data, still want to process?",
   "ShipDate": "Ship Date",
   "AutoAllocateTitle": "Auto Allocate to Shipments",
-  "ViewAndManageCont": "View & Manage Cont.",
+  "ViewAndManageCont": "View/Manage Containers",
+  "ViewAndManageContMenu": "View/Manage Containers",
   "DeleteValMsg": "Select record/s to delete",
   "EnterHdrInfoMsg": "Enter header information",
   "DefaultBinMandate": "Please select default bin ",
@@ -1090,7 +1091,14 @@
   "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
   "ZoneCodeAndTypeDuplicate": "Zone code and type can't be duplicate",
   "ZoneRowSelectionValMsg": "Select warehouse zone code first",
-
+  "ReturnShpMsg":"Return complete Shipment?",
   "Shp_updated": "Shipment Updated",
+  "MoveAllContenttoInventory": "Move all contents to Inventory?",
+  "RemoveItemFromContMSg": "Do you want to redirect to remove items from selected container?",
+  "RemoveSO": "Remove Sales Order",
+  "AssignSO": "Assign Sales Order",
+  "RemoveCC": "Remove Container Group Code",
+  "AssignCC": "Assign Container Group Code",
+  
   "Dummy": "Dummy"  
 }
