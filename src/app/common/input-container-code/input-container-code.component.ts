@@ -47,7 +47,7 @@ export class InputContainerCodeComponent implements OnInit {
     this.CreateFlag = false;
     this.clickFlag = false;
     this.RadioAction = "Add";
-    this.count = 0;
+    this.count = 0;    
     if (this.noButtonText == undefined || this.noButtonText == "") {
       this.showNoButton = false;
     }
@@ -60,7 +60,7 @@ export class InputContainerCodeComponent implements OnInit {
   public opened: boolean = true;  
 
   public close(status) {
-    if (status == "yes") {
+    if (status == "yes") {        
         if (this.containerCode == undefined || this.containerCode == '') {
           this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
           return;
