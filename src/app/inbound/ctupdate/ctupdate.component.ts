@@ -34,6 +34,8 @@ export class CTUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
@@ -48,14 +50,11 @@ export class CTUpdateComponent implements OnInit {
       if(localStorage.getItem("Action") == "copy"){
         this.CT_ContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("Submit");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("Submit");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
     }
 
     this.GetUnitOfMeasure()
@@ -111,6 +110,10 @@ export class CTUpdateComponent implements OnInit {
     if(value == 'blur'){
       this.isUpdateHappen = true
     }
+
+    if(this.CT_Max_Width <= this.CT_Tare_Width){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+    }
   }
   
   onDescChange(){
@@ -137,6 +140,17 @@ export class CTUpdateComponent implements OnInit {
     else if(this.CT_Max_Width == "NaN" || this.CT_Max_Width == undefined || 
     (Number(this.CT_Max_Width) <= 0)){
       this.CT_Max_Width = "0";
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Tare_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+      return false
     }
     return true;
   }
@@ -145,7 +159,7 @@ export class CTUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-    if(this.BtnTitle == this.translate.instant("Submit")){
+    if(this.isUpdate){
       this.updateContainerType();
     }else{
       this.addContainerType();

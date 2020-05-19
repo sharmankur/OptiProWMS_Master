@@ -256,6 +256,9 @@ export class ContainerBatchserialComponent implements OnInit {
         break;
       case (3):
         this.onRemoveShipmentPress();
+        break;
+      case (4):
+        this.ContainerReturned();
         break;                 
     }
   }
@@ -448,61 +451,25 @@ export class ContainerBatchserialComponent implements OnInit {
     );
   }
 
-  // getItemsOpenQuantity() {
-
-  //   this.containerBatchserialService.GetItemsOpenQuantity(this.SelectedShipmentId).subscribe(
-  //     (data: any) => {
-  //       this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             this.translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         this.ItemOpenQtyArr = data;  
-  //         let Openqty = 0.00;  
-  //         let ItemCode = this.ContainsItemID;         
-  //         this.ItemOpenQtyArr.filter(function(value,key){
-  //           if(value.OPTM_ITEMCODE == ItemCode){
-  //             Openqty = value.OPEN_QTY;
-  //           }
-  //         }) 
-  //         this.OpenQty = Openqty;
-  //       } else {
-  //         this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
-
   selectContainerRowChange (checkedselectedvalue, isCheck,dataitem,idx){
     if(isCheck){
       let CalQty = -1;
-      if(this.Selectedlink != 2){
-        if(this.OpenQty == Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")))){
+      // if(this.Selectedlink == 2){
+        if(Number(this.OpenQty) == 0){
           this.toastr.error('', this.translate.instant("ZeroOpenQty")); 
           checkedselectedvalue.checked = false;
           return;      
         }
-  
-        CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
-  
+        if(this.Selectedlink == 2){
+          CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
+        }else{
+          CalQty = 0;
+        }
         if(CalQty == -1){
           if(this.SelectedRowsforShipmentArr.length == 0)
             this.toastr.error('', this.translate.instant("OpenQtyCheck"));
           else
             this.toastr.error('', this.translate.instant("TotalQtyCheck"));        
-        
-         // dataitem.Selected = false;  
           this.ContainerBatchSerials[idx].Selected = false;  
           this.ContainerBatchSerials[idx].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
           this.ContainerBatchSerials[idx].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));   
@@ -510,19 +477,18 @@ export class ContainerBatchserialComponent implements OnInit {
           return;
         }
         else{
-         //  dataitem.AssignQty = CalQty;    
            this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
            this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
            this.ContainerBatchSerials[idx].Selected = true; 
            this.SelectedRowsforShipmentArr.push(dataitem);
         } 
-      }else{
-        CalQty = 0;
-        this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
-        this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
-        this.ContainerBatchSerials[idx].Selected = true; 
-        this.SelectedRowsforShipmentArr.push(dataitem);
-      }        
+      // }else{
+        // CalQty = 0;
+        // this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));    
+        // this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+        // this.ContainerBatchSerials[idx].Selected = true; 
+        // this.SelectedRowsforShipmentArr.push(dataitem);
+      // }        
     }
     else{
       this.ContainerBatchSerials[idx].Selected = false;
@@ -555,8 +521,6 @@ export class ContainerBatchserialComponent implements OnInit {
      for(let upIdx=0; upIdx<this.ContainerBatchSerials.length; upIdx++){
       this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
     } 
-    
-    // this.RowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   onAssignShipmentPress(){
@@ -757,7 +721,16 @@ export class ContainerBatchserialComponent implements OnInit {
   }
 
   onArrowBtnClick() {
-    this.router.navigate(['home/shipment']);
+    if(this.SelectedRowsforShipmentArr.length > 0){
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      this.router.navigate(['home/shipment']);
+    }
   }
 
   onCancelClick () {
@@ -781,5 +754,103 @@ export class ContainerBatchserialComponent implements OnInit {
   clearFilter(grid:GridComponent){      
     //grid.filter.filters=[];    
     //this.clearFilters();
+  }
+
+  ContainerReturned() {
+    if (this.SelectedRowsforShipmentArr.length == 0) {
+      this.toastr.error('', this.translate.instant("Select_row"));
+      return;
+    }
+    this.showLoader = false;
+    // for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+    //   oSaveData.SelectedRows.push({
+    //     //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //     OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+    //     CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+    //   })
+    // }
+
+    let tempArray = [];
+    for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
+      tempArray.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: this.SelectedRowsforShipmentArr[i].OPTM_SHIPMENTID,
+        OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE,
+        OPTM_USERID: localStorage.getItem("UserId"),
+        OPTM_CONTAINERID: this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID
+      })
+    }
+
+    this.showLoader = true;
+    this.containerShipmentService.ContainerReturned(tempArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          
+          if (data.length > 0) {
+            if (data[0].RESULT != '' && data[0].RESULT != null) {
+              if (data[0].RESULT == 'Data updated') {
+                this.toastr.success('', data[0].RESULT);
+                this.fillBatchSerialDataInGrid(this.Selectedlink);
+              }
+              else {
+                this.toastr.error('', data[0].RESULT);
+              }
+            }
+            else {
+              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            }
+          }
+          else {
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  showConfirmDialog: boolean = false;
+  dialogMsg: string;
+  yesButtonText: string;
+  noButtonText: string;
+  dialogFor: string;
+  event: any = [];
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("DataLost"):
+          this.router.navigate(['home/shipment']);
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
   }
 }

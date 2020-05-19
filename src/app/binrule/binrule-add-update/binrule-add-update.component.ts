@@ -72,6 +72,8 @@ export class BinruleAddUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let binruleRow = localStorage.getItem("binRule_ROW")
     if (binruleRow != undefined && binruleRow != "") {
       this.binRule_ROW = JSON.parse(localStorage.getItem("binRule_ROW"));
@@ -79,19 +81,15 @@ export class BinruleAddUpdateComponent implements OnInit {
 
     if (localStorage.getItem("brAction") == "copy") {
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy();
       // this.purpose = ''
       // this.ruleType = ''
     } else if (localStorage.getItem("brAction") == "update") {
       this.isUpdate = true;
-      this.BtnTitle = this.translate.instant("Submit");
       this.prepareAndSetDataForUpdateAndCopy()
     } else if (localStorage.getItem("brAction") == "add") {
-      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     } else {
-      this.BtnTitle = this.translate.instant("Submit");
       this.isUpdate = false;
     }
   }
@@ -158,6 +156,11 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
 
     console.log("value change for bin rule");
+    this.isUpdateHappen = true
+  }
+
+  purposeChange(){
+    this.isUpdateHappen = true
   }
 
   GetWhseCode() {
@@ -358,6 +361,12 @@ export class BinruleAddUpdateComponent implements OnInit {
                 this.toastr.error('', this.translate.instant("BinRule_ToBinMsg"));
                 return false;
               }
+              else if (this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN == "") {
+                if (this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == ""){
+                  this.toastr.error('', this.translate.instant("StageBinValMsg"));
+                  return false;
+                }
+              }
             }
           }
     return true;
@@ -380,7 +389,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     if (!this.requiredFieldValidation()) {
       return;
     }
-    if (this.BtnTitle == this.translate.instant("Submit")) {
+    if (this.isUpdate) {
       this.updateBinRule();
     } else {
       this.addBinRule();
@@ -617,7 +626,7 @@ export class BinruleAddUpdateComponent implements OnInit {
     }
   }
 
-  onCancelClick() {
+  OnCancelClick() {
     this.binRuleMasterComponent.binRuleComponent = 1;
   }
 

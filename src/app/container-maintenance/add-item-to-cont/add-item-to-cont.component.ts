@@ -222,6 +222,12 @@ export class AddItemToContComponent implements OnInit {
 
     this.from = localStorage.getItem("From")
     this.GetSampleStringOfContainerCode();
+    if(localStorage.getItem("loadContainer") != ""){
+      this.ConSelectionType = 2;
+      this.containerCode = localStorage.getItem("loadContainer");
+      this.onContainerCodeChange();
+      localStorage.setItem("loadContainer", "");
+    }
   }
 
   onCancelClick() {
@@ -1961,6 +1967,12 @@ export class AddItemToContComponent implements OnInit {
       }*/
       
   onBatSerQtyChange(scanBsItemQty) {
+    if(Number(scanBsItemQty.value) < 0 ){
+      this.bsItemQty = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     if(scanBsItemQty != undefined){
       this.bsItemQty = scanBsItemQty.value;
       this.bsItemQty = Number(this.bsItemQty);
@@ -2117,6 +2129,12 @@ export class AddItemToContComponent implements OnInit {
   }
 
   onScanItemQtyChange(scanItemQty) {
+    if(Number(scanItemQty.value) < 0 ){
+      this.itemQty = 0
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
+
     if(scanItemQty != undefined){
       this.itemQty = scanItemQty.value;
     }
@@ -2888,7 +2906,7 @@ export class AddItemToContComponent implements OnInit {
     return CONT_SELECT_TYPE;
   }
 
-  async onContainerCodeChange() {   
+  async onContainerCodeChange() {
 
     if (this.containerCode == undefined || this.containerCode == "") {
       this.setContainerDataBlank();
@@ -4020,13 +4038,13 @@ export class AddItemToContComponent implements OnInit {
       }
       serviceData[i].BalQty = Number(serviceData[i].BalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       serviceData[i].OPTM_PARTS_PERCONT_VAL = Number(serviceData[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-      if (serviceData[i].OPTM_TRACKING == 'B') {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Batch");
-      } else if (serviceData[i].OPTM_TRACKING == 'S') {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Serial");
-      } else {
-        serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("None");
-      }
+      // if (serviceData[i].OPTM_TRACKING == 'B') {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Batch");
+      // } else if (serviceData[i].OPTM_TRACKING == 'S') {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("Serial");
+      // } else {
+      //   serviceData[i].OPTM_TRACKING_VALUE = this.translate.instant("None");
+      // }
     }
     return serviceData;
   }

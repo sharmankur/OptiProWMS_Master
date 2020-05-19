@@ -6,10 +6,12 @@
                 <!-- <div class="opti_icon-spacing float-left opti_mobile-logo opti_vertical-align"><img src="assets/images/logo/mobile-logo.png" alt="Logo" class="opti_small-logo opti_mouse-pointer" /></div> -->
                 <!-- ebd this logo only for mobile -->
 
-                <div id="sidebarCollapse" class="opti_vertical-align float-left">
+                <div id="sidebarCollapse" class="opti_vertical-align float-left" (click)="menuClick()">
                     <!-- hamburger and close icon -->
-                    <i class="opti-icon-hammenu opti_desktop-menu-icon opti_mouse-pointer opti_hamburger"></i>
-                    <i class="opti-icon-hammenu opti_mobile-menu-icon opti_mouse-pointer opti_hamburger"></i>
+                    <i
+                        [ngClass]="[menuToggle?'opti-icon-arrow-back opti_desktop-menu-icon opti_mouse-pointer opti_hamburger':'opti-icon-arrow-next opti_desktop-menu-icon opti_mouse-pointer opti_hamburger']"></i>
+                    <i
+                        [ngClass]="[menuToggle?'opti-icon-arrow-next opti_mobile-menu-icon opti_mouse-pointer opti_hamburger':'opti-icon-arrow-next opti_mobile-menu-icon opti_mouse-pointer opti_hamburger']"></i>
                 </div>
 
                 <!-- Top Right Section -->
@@ -23,7 +25,8 @@
 
                             <li class="opti_icon-spacing opti_user-profile position-relative" dropdown>
                                 <a dropdownToggle class="dropdown-toggle">
-                                    <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30"
+                                    <img src="assets/images/common/user-avatar.png"
+                                        class="opti_mouse-pointer opti_theme-setting" alt="User Profile" width="30"
                                         height="30" />
                                     <!-- <span>{{DBName}}</span> -->
                                 </a>
@@ -34,8 +37,9 @@
                                             <div class="row">
                                                 <div class="col-md-12 pl-2">
                                                     <div class="user-list-details">
-                                                        <img src="assets/images/common/user-avatar.png" class="opti_mouse-pointer opti_theme-setting mr-1" alt="User Profile" width="30"
-                                                            height="30" />
+                                                        <img src="assets/images/common/user-avatar.png"
+                                                            class="opti_mouse-pointer opti_theme-setting mr-1"
+                                                            alt="User Profile" width="30" height="30" />
                                                         <div class="name"> {{loggedInUserName}}</div>
                                                         <div>{{DBName}}</div>
                                                     </div>
@@ -47,7 +51,7 @@
 
                                     <li class="opti_seprator"></li>
 
-                                  
+
                                     <!-- <li class="opti_mouse-pointer opti_profile-box-setting" (click)="listClick($event, 'changeWarehouse')">
                                         <div class="container-fluid">
                                             <div class="row">
@@ -60,11 +64,14 @@
 
                                     <li class="opti_seprator"></li>
 
-                                    <li class="opti_mouse-pointer opti_profile-box-aboutus" (click)="openVerticallyCentered(about)">
+                                    <li class="opti_mouse-pointer opti_profile-box-aboutus"
+                                        (click)="openVerticallyCentered(about)">
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <svg-icon src="assets/images/common/about-us.svg" [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }"></svg-icon>{{'About'|translate}}
+                                                    <svg-icon src="assets/images/common/about-us.svg"
+                                                        [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }">
+                                                    </svg-icon>{{'About'|translate}}
                                                 </div>
                                             </div>
                                         </div>
@@ -76,7 +83,9 @@
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <svg-icon src="assets/images/common/logout.svg" [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }"></svg-icon>{{'Logout'|translate}}
+                                                    <svg-icon src="assets/images/common/logout.svg"
+                                                        [svgStyle]="{ 'width.px':20, 'height.px':20, 'fill':selectedThemeColor }">
+                                                    </svg-icon>{{'Logout'|translate}}
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +144,8 @@
     <div class="modal-body opti_mobile-search-modal">
         <div class="opti_search-form">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <span class="opti_top-search-icon opti_vertical-align opti_mouse-pointer" (click)="modal.dismiss('Cross click')">
+            <span class="opti_top-search-icon opti_vertical-align opti_mouse-pointer"
+                (click)="modal.dismiss('Cross click')">
                 <img src="assets/images/common/search-black.svg" class="" alt="Search" width="15" />
             </span>
         </div>
@@ -144,6 +154,6 @@
 <!-- mobile search end -->
 
 <span *ngIf="showConfirmDialog">
-    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
-        (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor"
+        [noButtonText]="noButtonText" (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
 </span>

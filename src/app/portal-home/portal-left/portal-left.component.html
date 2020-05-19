@@ -36,14 +36,14 @@
                     <span class="text">{{'Setup'|translate}}</span>
                 </a>
                 <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
+                    <!-- <li id="16001" role="menuitem" (click)="listClick($event, 'transaction_step_setup')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 416 416" class="icon">
                                 <use xlink:href="#transactionStepSetup"></use>
                             </svg>
                             <span class="text">{{'Transaction_Step_Setup'|translate}}</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li id="16002" role="menuitem" (click)="listClick($event, 'DocumentNumbering')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item">
                             <svg viewBox="0 0 470.586 470.586" class="icon">
@@ -66,7 +66,7 @@
                     <li id="16004" role="menuitem" (click)="listClick($event, 'binranges')" [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/binranges">
                             <svg viewBox="0 0 480 480" class="icon">
-                                <use xlink:href="#whsUGMapping"></use>
+                                <use xlink:href="#warehouseBinLayout"></use>
                             </svg>
                             <span class="text">{{'BinRange'|translate}}</span>
                         </a>
@@ -222,7 +222,7 @@
                         [ngStyle]="{'display':'flex'}">
                         <a class="dropdown-item" routerLinkActive="nav-active" routerLink="/home/autoallocation">
                             <svg viewBox="0 0 503.572 503.572" class="icon">
-                                <use xlink:href="#whsUGMapping"></use>
+                                <use xlink:href="#generatePicklistShipments"></use>
                             </svg>
                             <span class="text">{{'AutoAllocation'|translate}}</span>
                         </a>
@@ -251,7 +251,7 @@
                             <svg viewBox="0 0 512 512" class="icon">
                                 <use xlink:href="#containerList"></use>
                             </svg>
-                            <span class="text">{{'ViewAndManageCont'|translate}}</span>
+                            <span class="text">{{'ViewAndManageContMenu'|translate}}</span>
                         </a>
                     </li>
                     <!-- <li id="16022" role="menuitem" (click)="listClick($event, 'BatchSerial_List')" [ngStyle]="{'display':'flex'}">
@@ -273,7 +273,7 @@
                     <li id="16020" (click)="listClick($event, 'archiveddata')" [ngClass]="{'active': selectedItem == 'archiveddata'}" [ngStyle]="{'display':'flex'}">
                             <a class="dropdown-item">
                                 <svg viewBox="0 0 512 512" class="icon">
-                                    <use xlink:href="#whsUGMapping"></use>
+                                    <use xlink:href="#shippingSolution"></use>
                                 </svg>
                                 <span class="text">{{'ArchievedData'|translate}}</span>
                             </a>

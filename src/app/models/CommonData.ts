@@ -349,7 +349,6 @@ export class CommonData {
     }
 
     validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
-
         if(SelectedDataArray.length == 0){
             if(parseFloat(AvailableQty) > parseFloat(OpenQty)){
               // let diffAvail = parseFloat(AvailableQty) - parseFloat(OpenQty);

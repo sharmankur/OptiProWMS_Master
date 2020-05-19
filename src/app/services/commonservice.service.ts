@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { PalletOperationType } from '../enums/PalletEnums';
 import { CustomizationDetails } from '../models/CustomizationDetails';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -918,7 +919,7 @@ export class Commonservice {
   }
 
   IsValidShipmentCode(SHIPMENTCODE: string, OPTM_ARC): Observable<any> {
-    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
+    OPTM_ARC = OPTM_ARC == "archiveddata" ? 'Y' : '';
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -991,12 +992,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
   }
 
-  GetShipmentIdForShipment(OPTM_ARC): Observable<any> {
-    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
+  GetShipmentIdForShipment(OPTM_ARC, SelectedOperation): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata" ? 'Y' : '';
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_ARC: OPTM_ARC
+        OPTM_ARC: OPTM_ARC,
+        Operation: SelectedOperation
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
@@ -1122,11 +1124,12 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CancelContainer", jObject, this.httpOptions);
   }
 
-  CancelOrUnassignShipment(OPTM_SHIPMENTID: string): Observable<any> {
+  CancelOrUnassignShipment(OPTM_SHIPMENTID: string, OPTM_ARC): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID,
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/CancelOrUnassignShipment", jObject, this.httpOptions);
@@ -1170,8 +1173,8 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID"),
         FROMSHIPMENTID: ShipIdFrom,
         TOSHIPMENTID: ShipIdTo,
-        FROMDATETIME: ""+schedularFromDate,
-        TODATETIME: ""+schedularToDate,
+        FROMDATETIME: "" + schedularFromDate,
+        TODATETIME: "" + schedularToDate,
         OPTM_USERID: localStorage.getItem("UserId")
       }])
     };
@@ -1186,4 +1189,81 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetUnitOfMeasure", jObject, this.httpOptions);
   }
+
+  //--------------------container group lookup and validate--------------
+
+  GetContainerGroupLookupData(translate: TranslateService): any {
+    // this.showLoader = true;
+    this.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        // this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.RemoveLicenseAndSignout(this.toastr, this.router,
+              translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          // this.showLookup = true;
+          //this.serviceData = data;
+          return data;
+          // this.lookupfor = "GroupCodeList";
+        } else {
+          this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        // this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.unauthorizedToken(error, translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  async OnContainerGroupChange(dialogValue, translate) {
+    if (dialogValue == undefined || dialogValue == "") {
+      return;
+    }
+    // this.showLoader = true;
+    var result = false
+    await this.IsValidContainerGroupScan(dialogValue).then(
+      (data: any) => {
+        // this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.RemoveLicenseAndSignout(this.toastr, this.router,
+              translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            dialogValue = data[0].OPTM_CONTAINER_GROUP;
+            result = true;
+          } else {
+            dialogValue = '';
+            this.toastr.error('', translate.instant("InvalidGroupCode"));
+            result = false
+          } 
+          return dialogValue;
+        } else {
+          this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
+          result = false
+        }
+      },
+      error => {
+        result = false
+        // this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.unauthorizedToken(error, translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return dialogValue;
+  }
+
 }
