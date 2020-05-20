@@ -1062,6 +1062,9 @@
   "AssignSO": "Assign Sales Order",
   "RemoveCC": "Remove Container Group Code",
   "AssignCC": "Assign Container Group Code",
-  
+  "OnlyIntAllow": "Decimal value not allowed",
+  "CloseContValMsg": "All required number of child container are not added. Close parent?",
+  "BOL": "BOL",
+    
   "Dummy": "Dummy"  
 }

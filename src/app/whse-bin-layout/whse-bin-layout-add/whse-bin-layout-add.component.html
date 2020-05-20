@@ -158,7 +158,7 @@
                                     <span class="k-icon k-i-plus" role="presentation"></span>
                                     {{'Masking_AddRow'|translate}}</button></h5>
                             <div class="card-body">
-                                <kendo-grid [height]="200" [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
+                                <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
                                     [skip]="skip" [pageable]="zonePageable" [rowSelected]="isRowSelected" [selectable]="{mode: 'single', checkboxOnly: false}" (selectionChange)="onSelectionClick($event)">
                                     <kendo-grid-checkbox-column [width]="25">
                                         <!-- <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
@@ -228,7 +228,7 @@
                                     {{'Masking_AddRow'|translate}}</button></h5>
 
                             <div class="card-body">
-                                <kendo-grid [height]="200" [data]="displayWhseRangeList" [resizable]="true" [pageSize]="rangePageSize"
+                                <kendo-grid [data]="displayWhseRangeList" [resizable]="true" [pageSize]="rangePageSize"
                                     [skip]="skip" [pageable]="rangePageable">
                                     <kendo-grid-column field="OPTM_BIN_RANGE" title="{{'BinRange'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
