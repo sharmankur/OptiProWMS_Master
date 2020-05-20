@@ -603,31 +603,6 @@ export class ShipmentViewComponent implements OnInit {
     }
   }
 
-  GetSubmitDateFormat(EXPDATE) {
-    if (EXPDATE == "" || EXPDATE == null)
-      return "";
-    else {
-      var d = new Date(EXPDATE);
-      var day;
-
-      if (d.getDate().toString().length < 2) {
-        day = "0" + d.getDate();
-      }
-      else {
-        day = d.getDate();
-      }
-      var mth;
-      if ((d.getMonth() + 1).toString().length < 2) {
-        mth = "0" + (d.getMonth() + 1).toString();
-      }
-      else {
-        mth = d.getMonth() + 1;
-      }
-      // return day + ":" + mth + ":" + d.getFullYear();
-      return mth + "/" + day + "/" + d.getFullYear();
-    }
-  }
-
   public disabledDates = (date: Date): boolean => {
     return date.getDate() % 2 === 0;
   }

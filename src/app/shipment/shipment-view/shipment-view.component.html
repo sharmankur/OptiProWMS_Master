@@ -306,7 +306,7 @@
                             <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
                             <div class="card-body">
                                 <kendo-grid [data]="ShipContainers" [resizable]="true" [pageSize]="pageSize3" [skip]="skip" [height]="gridheight" [pageable]="pagable3">
-                                    <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
+                                    <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="60">
                                         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                             <div class="custom-control custom-checkbox">
                                                 <input #chkSelection type="checkbox" (change)="selectContainerRow(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"

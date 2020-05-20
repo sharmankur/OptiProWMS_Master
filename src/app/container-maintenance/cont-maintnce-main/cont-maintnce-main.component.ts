@@ -150,8 +150,10 @@ export class ContMaintnceMainComponent implements OnInit {
         this.purpose = this.getShipEligible(this.purposeEnum);
         this.packProcess = this.getBuiltProcess(this.packProcessEnum);
         this.getItemAndBSDetailByContainerId()
-      }else if(this.lookupfor == "GroupCodeList"){
+      } else if (this.lookupfor == "GroupCodeList") {
         this.dialogValue = $event.OPTM_CONTAINER_GROUP
+      } else if (this.lookupfor == "SOList") {
+        this.dialogValue = $event.DocNum
       }
     }
   }
@@ -303,6 +305,8 @@ export class ContMaintnceMainComponent implements OnInit {
       return this.translate.instant("BuiltProReceived_From_Vendor");
     } else if (id == 3) {
       return this.translate.instant("BuiltProPacked_In_WareHouse");
+    } else if (id == 4) {
+      return this.translate.instant("Packaging");
     }
   }
 
@@ -702,8 +706,8 @@ export class ContMaintnceMainComponent implements OnInit {
     );
   }
 
-  public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
-    return dataItem.TYPE == "Container";//dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+  public ShowContainerItems(dataItem: any, index: number): boolean {
+    return dataItem.TYPE == "Container";
   }
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
@@ -721,10 +725,6 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  // public showOnlyBeveragesDetails1(dataItem: any, index: number): boolean {
-  //   return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
-  // }
-
   @ViewChild(GridComponent, { static: false }) grid1: GridComponent;
   isExpand1: boolean = false;
   onExpandCollapse1() {
@@ -737,11 +737,6 @@ export class ContMaintnceMainComponent implements OnInit {
         this.grid1.collapseRow(i);
       }
     }
-  }
-
-  public showOnlyBeveragesDetails2(dataItem: any, index: number): boolean {
-    // return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S" || dataItem.OPTM_TRACKING === "L";
-    return true
   }
 
   @ViewChild(GridComponent, { static: false }) grid2: GridComponent;
@@ -809,7 +804,7 @@ export class ContMaintnceMainComponent implements OnInit {
   dialogLabel = "";
   dialogValue = "";
   ShowSOandContainerCodeDialog(option) {
-    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+    if (this.containerCode == "" || this.containerCode == undefined || this.containerCode == null) {
       this.toastr.error('', this.translate.instant("ContCodeCannotBlank"))
       return;
     }
@@ -827,18 +822,17 @@ export class ContMaintnceMainComponent implements OnInit {
     this.dialogOpened = false;
   }
 
-  RemoveFromContainer(){
-    if(this.containerCode == "" || this.containerCode == undefined || this.containerCode == null){
+  RemoveFromContainer(action) {
+    if (this.containerCode == "" || this.containerCode == undefined || this.containerCode == null) {
       this.toastr.error('', this.translate.instant("ContCodeCannotBlank"))
       return;
     }
 
     this.dialogValue = "";
-    if (this.DialogTitle == this.translate.instant("AssignSO")) {
-      this.onConfirmClick('');
+    if (action == 1) {
+      this.UpdateContainerSoNo();
     } else {
-      this.serviceData = this.commonservice.GetContainerGroupLookupData(this.translate);
-      this.lookupfor = "GroupCodeList";
+      this.UpdateContainerGroupCode();
     }
   }
 
@@ -846,16 +840,13 @@ export class ContMaintnceMainComponent implements OnInit {
     if (this.DialogTitle == this.translate.instant("AssignSO")) {
       this.IsValidSONumberBasedOnRule(action);
     } else {
-      // this.serviceData = this.commonservice.GetContainerGroupLookupData(this.translate);
-      // this.lookupfor = "GroupCodeList";
-      if(action == 'blur'){
+      if (action == 'blur') {
         this.IsValidContainerGroup();
-      }else{
+      } else {
         this.GetContainerGroupLookupData(this.translate);
       }
     }
   }
-
 
   GetContainerGroupLookupData(translate: TranslateService): any {
     this.showLoader = true;
@@ -990,18 +981,27 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   onConfirmClick(action) {
-    if (action == 'blur') {
-      if (this.dialogValue == undefined || this.dialogValue == "") {
-        return;
-      }
+    if (this.dialogValue == undefined || this.dialogValue == "") {
+      this.toastr.error('', this.translate.instant("FieldValidation"));
+      return;
     }
 
-    let soNum = '';
-    if (action == 'blur') {
-      soNum = this.dialogValue;
+    if (this.DialogTitle == this.translate.instant("AssignSO")) {
+      this.UpdateContainerSoNo();
+    } else {
+      this.UpdateContainerGroupCode();
     }
+    this.close_kendo_dialog();
+  }
 
-    this.containerCreationService.IsValidSONumberBasedOnRule(soNum, this.AutoPackRule, this.warehouse).subscribe(
+  UpdateContainerGroupCode() {
+    var ContUpdategroupCodeArray = []
+    ContUpdategroupCodeArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      GROUPCODE: this.dialogValue,
+      OPTM_CONTCODE: this.containerCode
+    });
+    this.commonservice.UpdateContainerGroupCode(ContUpdategroupCodeArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1010,30 +1010,12 @@ export class ContMaintnceMainComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (action == 'blur') {
-            if (data.length == 0) {
-              this.dialogValue = '';
-              this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
-            } else {
-              this.dialogValue = data[0].DocEntry
-            }
-          } else {
-            if (data.length == 0) {
-              this.toastr.error('', this.translate.instant("NoSOFound"));
-              return;
-            }
-            this.serviceData = data;
-            for (let sidx = 0; sidx < this.serviceData.length; sidx++) {
-              if (this.serviceData[sidx].CardName == null || this.serviceData[sidx].CardName == undefined) {
-                this.serviceData[sidx].CardName = '';
-              }
-            }
-            this.lookupfor = "SOList";
-            this.showLookup = true;
+          this.dialogValue = "";
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
           }
-        } else {
-          this.dialogValue = '';
-          this.toastr.error('', this.translate.instant("NoDataFound"));
         }
       },
       error => {
@@ -1045,7 +1027,43 @@ export class ContMaintnceMainComponent implements OnInit {
           this.toastr.error('', error);
         }
       }
-    );    
-    this.close_kendo_dialog();
+    );
   }
+
+  UpdateContainerSoNo() {
+    var ContUpdategroupCodeArray = [];
+    ContUpdategroupCodeArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      SONO: this.dialogValue,
+      OPTM_CONTCODE: this.containerCode
+    });
+    this.commonservice.UpdateContainerSoNo(ContUpdategroupCodeArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.dialogValue = "";
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
 }

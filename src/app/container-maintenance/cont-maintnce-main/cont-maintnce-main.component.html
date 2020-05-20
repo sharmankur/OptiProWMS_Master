@@ -320,7 +320,7 @@
                                     <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER" title="{{'SONumber'|translate}}">
                                     </kendo-grid-column>
 
-                                    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showOnlyBeveragesDetails">
+                                    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="ShowContainerItems">
 
                                         <kendo-grid [data]="dataItem.ItemBatchSerailData">
 
