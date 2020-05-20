@@ -48,7 +48,7 @@ import { BinRangeModule } from '../bin-range/bin-range.module';
   imports: [
     CommonModule, 
     PortalHomeRoutingModule,
-
+    DateInputsModule,
     // BS
     AngularSvgIconModule, 
     //  BsDropdownModule.forRoot(),
@@ -84,7 +84,7 @@ import { BinRangeModule } from '../bin-range/bin-range.module';
     ContainerMaintenanceModule
   ],
   declarations: [PortalHomeComponent, PortalLeftComponent, PortalTopComponent, DashboardComponent, ChangeWarehouseComponent,
-    ContainerShipmentComponent,ContainerBatchserialComponent,GeneratePickComponent],
+    ContainerBatchserialComponent,GeneratePickComponent],
   providers:[DashboardComponent , GeneratePickComponent]
 
 })

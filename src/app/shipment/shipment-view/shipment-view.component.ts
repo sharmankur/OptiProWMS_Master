@@ -316,6 +316,9 @@ export class ShipmentViewComponent implements OnInit {
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            if(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED != null){
+              data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            }  
           }
           this.shipmentLines = [];
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
@@ -597,31 +600,6 @@ export class ShipmentViewComponent implements OnInit {
     }
     else {
       this.router.navigate(['home/BatchSerial_List']);
-    }
-  }
-
-  GetSubmitDateFormat(EXPDATE) {
-    if (EXPDATE == "" || EXPDATE == null)
-      return "";
-    else {
-      var d = new Date(EXPDATE);
-      var day;
-
-      if (d.getDate().toString().length < 2) {
-        day = "0" + d.getDate();
-      }
-      else {
-        day = d.getDate();
-      }
-      var mth;
-      if ((d.getMonth() + 1).toString().length < 2) {
-        mth = "0" + (d.getMonth() + 1).toString();
-      }
-      else {
-        mth = d.getMonth() + 1;
-      }
-      // return day + ":" + mth + ":" + d.getFullYear();
-      return mth + "/" + day + "/" + d.getFullYear();
     }
   }
 

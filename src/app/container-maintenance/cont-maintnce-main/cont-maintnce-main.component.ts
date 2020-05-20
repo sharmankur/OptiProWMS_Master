@@ -81,7 +81,7 @@ export class ContMaintnceMainComponent implements OnInit {
             return;
           }
 
-          this.serviceData = data;
+          this.serviceData = this.updateLookupDataArray(data);
           this.showLookup = true;
           this.lookupfor = "ContainerIdList";
         } else {
@@ -97,6 +97,18 @@ export class ContMaintnceMainComponent implements OnInit {
         }
       }
     );
+  }
+
+  updateLookupDataArray(data): any {
+    for (var i = 0; i < data.length; i++) {
+      this.containerStatusEnum = data[i].OPTM_STATUS
+      this.purposeEnum = data[i].OPTM_SHIPELIGIBLE
+      this.packProcessEnum = data[i].OPTM_BUILT_SOURCE
+      data[i].OPTM_STATUS_VAL = this.getContainerStatus(this.containerStatusEnum)
+      data[i].OPTM_SHIPELIGIBLE_VAL = this.getShipEligible(this.purposeEnum);
+      data[i].OPTM_BUILT_SOURCE_VAL = this.getBuiltProcess(this.packProcessEnum);
+    }
+    return data;
   }
 
   containerStatusEnum: any;
@@ -118,10 +130,10 @@ export class ContMaintnceMainComponent implements OnInit {
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
         this.warehouse = $event.OPTM_WHSE
         this.binCode = $event.OPTM_BIN
-        this.weight = $event.OPTM_WT_UOM
+        this.weight = $event.OPTM_WEIGHT
         this.volume = $event.OPTM_VOLUME
-        this.volumeUOM = $event.OPTM_VOL_UOM 
-        this.weightUOM = $event.OPTM_WT_UOM 
+        this.volumeUOM = $event.OPTM_VOL_UOM
+        this.weightUOM = $event.OPTM_WT_UOM
         this.AutoPackRule = $event.OPTM_AUTORULEID
         this.ContainerType = $event.OPTM_CONTTYPE
         if (this.weight == undefined || this.weight == "") {
@@ -138,6 +150,10 @@ export class ContMaintnceMainComponent implements OnInit {
         this.purpose = this.getShipEligible(this.purposeEnum);
         this.packProcess = this.getBuiltProcess(this.packProcessEnum);
         this.getItemAndBSDetailByContainerId()
+      } else if (this.lookupfor == "GroupCodeList") {
+        this.dialogValue = $event.OPTM_CONTAINER_GROUP
+      } else if (this.lookupfor == "SOList") {
+        this.dialogValue = $event.DocNum
       }
     }
   }
@@ -180,6 +196,8 @@ export class ContMaintnceMainComponent implements OnInit {
             this.AutoPackRule = data[0].OPTM_AUTORULEID
             this.ContainerType = data[0].OPTM_CONTTYPE
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
+            this.volumeUOM = data[0].OPTM_VOL_UOM
+            this.weightUOM = data[0].OPTM_WT_UOM
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
             this.purpose = this.getShipEligible(this.purposeEnum);
@@ -287,6 +305,8 @@ export class ContMaintnceMainComponent implements OnInit {
       return this.translate.instant("BuiltProReceived_From_Vendor");
     } else if (id == 3) {
       return this.translate.instant("BuiltProPacked_In_WareHouse");
+    } else if (id == 4) {
+      return this.translate.instant("Packaging");
     }
   }
 
@@ -315,20 +335,20 @@ export class ContMaintnceMainComponent implements OnInit {
             }
             this.prepareDataForGrid();
 
-            for(var i=0; i<data.ChlidContainerDeiail.length; i++) {
+            for (var i = 0; i < data.ChlidContainerDeiail.length; i++) {
               this.containerItems.push({
                 TYPE: "Container",
                 CODE: data.ChlidContainerDeiail[i].OPTM_CONTCODE,
                 OPTM_QUANTITY: 1,
-                OPTM_WEIGHT: data.ChlidContainerDeiail[i].OPTM_WEIGHT == null?'0':data.ChlidContainerDeiail[i].OPTM_WEIGHT,
-                OPTM_VOLUME: data.ChlidContainerDeiail[i].OPTM_VOLUME== null?'0':data.ChlidContainerDeiail[i].OPTM_VOLUME,
-                OPTM_SHIPMENT_ID: data.ChlidContainerDeiail[i].OPTM_SHIPMENTID == null?'':data.ChlidContainerDeiail[i].OPTM_SHIPMENTID,
+                OPTM_WEIGHT: data.ChlidContainerDeiail[i].OPTM_WEIGHT == null ? '0' : data.ChlidContainerDeiail[i].OPTM_WEIGHT,
+                OPTM_VOLUME: data.ChlidContainerDeiail[i].OPTM_VOLUME == null ? '0' : data.ChlidContainerDeiail[i].OPTM_VOLUME,
+                OPTM_SHIPMENT_ID: data.ChlidContainerDeiail[i].OPTM_SHIPMENTID == null ? '' : data.ChlidContainerDeiail[i].OPTM_SHIPMENTID,
                 OPTM_PARENTCONTID: data.ChlidContainerDeiail[i].OPTM_PARENTCONTID,
-                OPTM_PICKED_TOSHIP: data.ChlidContainerDeiail[i].OPTM_PICKED_TOSHIP=="Y"?true:false,
+                OPTM_PICKED_TOSHIP: data.ChlidContainerDeiail[i].OPTM_PICKED_TOSHIP == "Y" ? true : false,
                 OPTM_WHSE: data.ChlidContainerDeiail[i].OPTM_WHSE,
                 OPTM_BIN: data.ChlidContainerDeiail[i].OPTM_BIN,
-                OPTM_SHIPELIGIBLE: data.ChlidContainerDeiail[i].OPTM_SHIPELIGIBLE=="Y"?true:false,
-                OPTM_SO_NUMBER: data.ChlidContainerDeiail[i].OPTM_SO_NUMBER == null?'':data.ChlidContainerDeiail[i].OPTM_SO_NUMBER,
+                OPTM_SHIPELIGIBLE: data.ChlidContainerDeiail[i].OPTM_SHIPELIGIBLE == "Y" ? true : false,
+                OPTM_SO_NUMBER: data.ChlidContainerDeiail[i].OPTM_SO_NUMBER == null ? '' : data.ChlidContainerDeiail[i].OPTM_SO_NUMBER,
               });
             }
 
@@ -376,15 +396,15 @@ export class ContMaintnceMainComponent implements OnInit {
             TYPE: "Item",
             CODE: childContItems[i].OPTM_ITEMCODE,
             OPTM_QUANTITY: childContItems[i].OPTM_QUANTITY,
-            OPTM_WEIGHT: childContItems[i].OPTM_WEIGHT == null?'0':childContItems[i].OPTM_WEIGHT,
-            OPTM_VOLUME: childContItems[i].OPTM_VOLUME== null?'0':childContItems[i].OPTM_VOLUME,
-            OPTM_SHIPMENT_ID: childContItems[i].OPTM_SHIPMENTID == null?'':childContItems[i].OPTM_SHIPMENTID,
+            OPTM_WEIGHT: childContItems[i].OPTM_WEIGHT == null ? '0' : childContItems[i].OPTM_WEIGHT,
+            OPTM_VOLUME: childContItems[i].OPTM_VOLUME == null ? '0' : childContItems[i].OPTM_VOLUME,
+            OPTM_SHIPMENT_ID: childContItems[i].OPTM_SHIPMENTID == null ? '' : childContItems[i].OPTM_SHIPMENTID,
             OPTM_PARENTCONTID: childContItems[i].OPTM_PARENTCONTID,
-            OPTM_PICKED_TOSHIP: childContItems[i].OPTM_PICKED_TOSHIP=="Y"?true:false,
+            OPTM_PICKED_TOSHIP: childContItems[i].OPTM_PICKED_TOSHIP == "Y" ? true : false,
             OPTM_WHSE: childContItems[i].OPTM_WHSE,
             OPTM_BIN: childContItems[i].OPTM_BIN,
-            OPTM_SHIPELIGIBLE: childContItems[i].OPTM_SHIPELIGIBLE=="Y"?true:false,
-            OPTM_SO_NUMBER: childContItems[i].OPTM_SO_NUMBER == null?'':childContItems[i].OPTM_SO_NUMBER,
+            OPTM_SHIPELIGIBLE: childContItems[i].OPTM_SHIPELIGIBLE == "Y" ? true : false,
+            OPTM_SO_NUMBER: childContItems[i].OPTM_SO_NUMBER == null ? '' : childContItems[i].OPTM_SO_NUMBER,
           });
         }
       }
@@ -686,8 +706,8 @@ export class ContMaintnceMainComponent implements OnInit {
     );
   }
 
-  public showOnlyBeveragesDetails(dataItem: any, index: number): boolean {
-    return dataItem.TYPE == "Container";//dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
+  public ShowContainerItems(dataItem: any, index: number): boolean {
+    return dataItem.TYPE == "Container";
   }
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
@@ -705,10 +725,6 @@ export class ContMaintnceMainComponent implements OnInit {
     }
   }
 
-  // public showOnlyBeveragesDetails1(dataItem: any, index: number): boolean {
-  //   return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S";
-  // }
-
   @ViewChild(GridComponent, { static: false }) grid1: GridComponent;
   isExpand1: boolean = false;
   onExpandCollapse1() {
@@ -721,11 +737,6 @@ export class ContMaintnceMainComponent implements OnInit {
         this.grid1.collapseRow(i);
       }
     }
-  }
-
-  public showOnlyBeveragesDetails2(dataItem: any, index: number): boolean {
-    // return dataItem.OPTM_TRACKING === "B" || dataItem.OPTM_TRACKING === "S" || dataItem.OPTM_TRACKING === "L";
-    return true
   }
 
   @ViewChild(GridComponent, { static: false }) grid2: GridComponent;
@@ -787,43 +798,272 @@ export class ContMaintnceMainComponent implements OnInit {
       }
     }
   }
-///------------------------------------------------------
+  ///------------------------------Assign and remove SO and Container group------------------------
   dialogOpened = false;
   DialogTitle = "";
   dialogLabel = "";
   dialogValue = "";
-  ShowSOandContainerCodeDialog(option){
+  ShowSOandContainerCodeDialog(option) {
+    if (this.containerCode == "" || this.containerCode == undefined || this.containerCode == null) {
+      this.toastr.error('', this.translate.instant("ContCodeCannotBlank"))
+      return;
+    }
     this.dialogOpened = true;
-    if(option == 1){
+    if (option == 1) {
       this.DialogTitle = this.translate.instant("AssignSO")
       this.dialogLabel = this.translate.instant("SalesOrder")
-    }else{
+    } else {
       this.DialogTitle = this.translate.instant("AssignCC")
       this.dialogLabel = this.translate.instant("ContainerGroupingCode")
-    }    
+    }
   }
 
-  close_kendo_dialog(){
+  close_kendo_dialog() {
     this.dialogOpened = false;
   }
 
-  updateValue(option){
-    if(this.DialogTitle == this.translate.instant("AssignSO") || option == 1){
+  RemoveFromContainer(action) {
+    if (this.containerCode == "" || this.containerCode == undefined || this.containerCode == null) {
+      this.toastr.error('', this.translate.instant("ContCodeCannotBlank"))
+      return;
+    }
 
-    }else{
-
+    this.dialogValue = "";
+    if (action == 1) {
+      this.UpdateContainerSoNo();
+    } else {
+      this.UpdateContainerGroupCode();
     }
   }
 
-  showLookupData(){
-    if(this.DialogTitle == this.translate.instant("AssignSO")){
-
-    }else{
-
+  DisplayAndValidateData(action) {
+    if (this.DialogTitle == this.translate.instant("AssignSO")) {
+      this.IsValidSONumberBasedOnRule(action);
+    } else {
+      if (action == 'blur') {
+        this.IsValidContainerGroup();
+      } else {
+        this.GetContainerGroupLookupData(this.translate);
+      }
     }
   }
 
-  onConfirmClick(){
+  GetContainerGroupLookupData(translate: TranslateService): any {
+    this.showLoader = true;
+    this.commonservice.GetDataForContainerGroup().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.showLookup = true;
+          this.serviceData = data;
+          this.lookupfor = "GroupCodeList";
+        } else {
+          this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  async IsValidContainerGroup() {
+    if (this.dialogValue == undefined || this.dialogValue == "") {
+      return;
+    }
+
+    this.showLoader = true;
+    var result = false
+    await this.commonservice.IsValidContainerGroupScan(this.dialogValue).then(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+            this.dialogValue = data[0].OPTM_CONTAINER_GROUP;
+            result = true;
+          } else {
+            this.dialogValue = '';
+            this.toastr.error('', this.translate.instant("InvalidGroupCode"));
+            result = false
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          result = false
+        }
+      },
+      error => {
+        result = false
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+    return result
+  }
+
+  IsValidSONumberBasedOnRule(action) {
+    if (action == 'blur') {
+      if (this.dialogValue == undefined || this.dialogValue == "") {
+        return;
+      }
+    }
+
+    let soNum = '';
+    if (action == 'blur') {
+      soNum = this.dialogValue;
+    }
+
+    this.containerCreationService.IsValidSONumberBasedOnRule(soNum, this.AutoPackRule, this.warehouse).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (action == 'blur') {
+            if (data.length == 0) {
+              this.dialogValue = '';
+              this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
+            } else {
+              this.dialogValue = data[0].DocEntry
+            }
+          } else {
+            if (data.length == 0) {
+              this.toastr.error('', this.translate.instant("NoSOFound"));
+              return;
+            }
+            this.serviceData = data;
+            for (let sidx = 0; sidx < this.serviceData.length; sidx++) {
+              if (this.serviceData[sidx].CardName == null || this.serviceData[sidx].CardName == undefined) {
+                this.serviceData[sidx].CardName = '';
+              }
+            }
+            this.lookupfor = "SOList";
+            this.showLookup = true;
+          }
+        } else {
+          this.dialogValue = '';
+          this.toastr.error('', this.translate.instant("NoDataFound"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onConfirmClick(action) {
+    if (this.dialogValue == undefined || this.dialogValue == "") {
+      this.toastr.error('', this.translate.instant("FieldValidation"));
+      return;
+    }
+
+    if (this.DialogTitle == this.translate.instant("AssignSO")) {
+      this.UpdateContainerSoNo();
+    } else {
+      this.UpdateContainerGroupCode();
+    }
     this.close_kendo_dialog();
   }
+
+  UpdateContainerGroupCode() {
+    var ContUpdategroupCodeArray = []
+    ContUpdategroupCodeArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      GROUPCODE: this.dialogValue,
+      OPTM_CONTCODE: this.containerCode
+    });
+    this.commonservice.UpdateContainerGroupCode(ContUpdategroupCodeArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.dialogValue = "";
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  UpdateContainerSoNo() {
+    var ContUpdategroupCodeArray = [];
+    ContUpdategroupCodeArray.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      SONO: this.dialogValue,
+      OPTM_CONTCODE: this.containerCode
+    });
+    this.commonservice.UpdateContainerSoNo(ContUpdategroupCodeArray).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          this.dialogValue = "";
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+          }else{
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
 }

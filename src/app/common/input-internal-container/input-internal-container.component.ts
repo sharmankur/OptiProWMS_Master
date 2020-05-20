@@ -16,6 +16,7 @@ export class InputInternalContainerComponent implements OnInit {
   @Input() titleMessage: any;
   @Input() yesButtonText: any;
   @Input() noButtonText: any;
+  @Input() currentValue: any;  
   @Input() fromWhere: any;
   @Input() oDataModel: any;
   @Output() isYesClick = new EventEmitter();
@@ -30,14 +31,13 @@ export class InputInternalContainerComponent implements OnInit {
   ChildContnrCode: any = '';
   ContID : any = 0;
   IntContItemQuantity: number=0;
-
+  bsrListByContainerId: any = [];
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
      private router: Router, private containerCreationService:ContainerCreationService) { }
 
-  ngOnInit() {
-  this.IntContainerCode = '';
-
+  ngOnInit() {  
+    this.IntContainerCode = this.currentValue;
     if(this.oDataModel.HeaderTableBindingData[0].ShowLookupFor == "Internal"){
       this.forInternal = true;
     }else{
@@ -336,8 +336,7 @@ export class InputInternalContainerComponent implements OnInit {
       }
     }
   }
-
-  bsrListByContainerId: any = []
+  
   GetListOfBatchSerOfSelectedContainerID(cId: any, itemCode: any) {
     // this.showLoader = true;
     var result = false;
@@ -390,6 +389,11 @@ export class InputInternalContainerComponent implements OnInit {
    }
    else{
     if(this.forInternal){
+      if (this.currentValue != undefined || this.currentValue != '') {
+        if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
+          this.toastr.error('Convert to Constant', "Internal container cleared");            
+        }
+      } else
       if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
         return;

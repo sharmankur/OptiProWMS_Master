@@ -501,11 +501,11 @@
                 <!-- <button type="button" [disabled]="nextEnabled"
                         class="mobile-show flex-show k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2" 
                         (mousedown)="onUpdateClick()">
-                        {{'Submit'|translate}}
+                        {{'CT_Update'|translate}}
                     </button> -->
                 <button type="button" class=" mobile-hide k-button k-primary k-button btn-sm btn-icon-with-text ml-1 mr-2" (mousedown)="onUpdateClick()"
                     [disabled]=updateDisabled>
-                    {{'Submit'|translate}}
+                    {{'CT_Update'|translate}}
                 </button>
             </div>
         </div>
@@ -518,7 +518,7 @@
 </span>
 
 <span *ngIf="showInternalDialogFlag">
-    <app-input-internal-container [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
+    <app-input-internal-container  [currentValue]="InternalContCode"  [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
         [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oDataModel]="oDataModel"></app-input-internal-container>
 </span>
 
