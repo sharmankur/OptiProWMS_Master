@@ -97,7 +97,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.SOId = "";
   }
 
-  initialize() {
+  initialize(reset?) {
     this.purposeArray = this.commonData.container_creation_purpose_string_dropdown();
     this.statusArray = this.commonData.Container_Shipment_Status_DropDown();
     this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
@@ -111,7 +111,10 @@ export class ContainerShipmentComponent implements OnInit {
     this.isColumnFilterView = false;
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
-      this.containerGroupCode = localStorage.getItem("ContGrpCode");
+      if (reset != "Y") {
+        this.containerGroupCode = localStorage.getItem("ContGrpCode");
+        this.ContainerTypeId = localStorage.getItem("ShpContType");
+      }
       this.InvPostStatusId = this.InvPostStatusArray[1];
       this.InvPostStatusValue = this.InvPostStatusId.Value;
 
@@ -136,7 +139,9 @@ export class ContainerShipmentComponent implements OnInit {
 
   onResetClick() {
     this.clearFilterFields();
-    this.initialize();
+    this.initialize("Y");
+    this.ContainerTypeId = "";
+    this.containerGroupCode = "";
   }
 
   ngOnDestroy() {
@@ -207,12 +212,23 @@ export class ContainerShipmentComponent implements OnInit {
     this.ShipmentId = "";
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.Selectedlink = value;
-    this.setContainerGridTitle(value);
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
+      if (value == 2 || value == 3 || value == 4) {
+        this.setContainerGridTitle(value);
+      }
       this.updateContStatusFilter(value);
       this.fillDataInGridWithShipment(value);
     } else {
-      this.GetShipmentIdForShipment(value);
+      if (value == 2) {
+        this.IsShipment = true;
+      } else {
+        this.IsShipment = false;
+      }
+      if (value == 2 || value == 3 || value == 4) {
+        this.GetShipmentIdForShipment(value);
+      } else {
+        this.fillDataInGridWithShipment(value);
+      }
     }
   }
 
@@ -242,6 +258,53 @@ export class ContainerShipmentComponent implements OnInit {
             } else if (val == "no") {
               this.on_Selectall_checkbox_checked(false)
             }
+
+            this.SelectedRowsforShipmentArr = [];
+          } else {
+            this.ContainerList = [];
+            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+  }
+
+  fillDataInGridWithShipment1(value, val?) {
+    this.isColumnFilterView = false;
+    this.showLoader = true;
+    this.containerShipmentService.FillContainerDataInGrid(this.SelectedShipmentId, this.ContainerCodeId, this.shipeligible, this.StatusValue, this.ContainerTypeId,
+      this.ContainsItemID, this.ShipmentId, this.InvPostStatusValue, this.WarehouseId, this.BinId, this.IsShipment, this.WOId, this.SOId, value, this.containerGroupCode).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            this.ContainerList = data.OPTM_CONT_HDR;
+            if (this.ContainerList.length > 10) {
+              this.ShowGridPaging = true;
+            } else {
+              this.ShowGridPaging = false;
+            }
+            this.updateContainerList();
+            this.prepareGridDataForContainerItems(data);
+            if (val == "yes") { // for treturn by customer
+              this.on_Selectall_checkbox_checked(true)
+            } else if (val == "no") {
+              this.on_Selectall_checkbox_checked(false)
+            }
+
+            this.SelectedRowsforShipmentArr = [];
           } else {
             this.ContainerList = [];
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -1063,22 +1126,33 @@ export class ContainerShipmentComponent implements OnInit {
     oSaveData.OtherData = [];
 
     if (action == 'Assign') {
-      if (this.IsShipment) {
-        oSaveData.OtherData.push({
-          CompanyDBId: localStorage.getItem("CompID"),
-          ContnrShipmentId: this.SelectedShipmentId,
-          OPTM_CREATEDBY: localStorage.getItem("UserId"),
-          OPTM_GROUP_CODE: this.containerGroupCode
-        })
+      if (this.SelectedShipmentId == "" || this.SelectedShipmentId == undefined || this.SelectedShipmentId == null) {
+        this.showLoader = false;
+        this.toastr.error('', this.translate.instant("Select_Shipment_Msg"))
+        return;
       }
-      else {
-        oSaveData.OtherData.push({
-          CompanyDBId: localStorage.getItem("CompID"),
-          ContnrShipmentId: this.ShipmentId,
-          OPTM_CREATEDBY: localStorage.getItem("UserId"),
-          OPTM_GROUP_CODE: this.containerGroupCode
-        })
-      }
+      oSaveData.OtherData.push({
+        CompanyDBId: localStorage.getItem("CompID"),
+        ContnrShipmentId: this.SelectedShipmentId,
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        OPTM_GROUP_CODE: this.containerGroupCode
+      })
+      // if (this.IsShipment) {
+      //   oSaveData.OtherData.push({
+      //     CompanyDBId: localStorage.getItem("CompID"),
+      //     ContnrShipmentId: this.SelectedShipmentId,
+      //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      //     OPTM_GROUP_CODE: this.containerGroupCode
+      //   })
+      // }
+      // else {
+      //   oSaveData.OtherData.push({
+      //     CompanyDBId: localStorage.getItem("CompID"),
+      //     ContnrShipmentId: this.SelectedShipmentId,
+      //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
+      //     OPTM_GROUP_CODE: this.containerGroupCode
+      //   })
+      // }
 
       for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
         oSaveData.SelectedRows.push({
@@ -1235,7 +1309,7 @@ export class ContainerShipmentComponent implements OnInit {
       }
       else if (this.lookupfor == "ShipmentList") {
         this.SelectedShipmentId = $event.OPTM_SHIPMENTID;
-        // this.ShipmentCode = $event.OPTM_SHIPMENT_CODE;
+        this.setContainerGridTitle(this.Selectedlink);
         this.ShipmentStatus = $event.OPTM_STATUS;
         if (this.Selectedlink != 4) {
           this.fillDataInGridWithShipment(this.Selectedlink);
@@ -1397,7 +1471,10 @@ export class ContainerShipmentComponent implements OnInit {
       this.DialogTitle = this.translate.instant("AssignCC")
       this.dialogLabel = this.translate.instant("ContainerGroupingCode")
     }
-
+    this.StatusId = { "Value": 0, "Name": "" };
+    this.status = "";
+    this.StatusValue = "";
+    this.fillDataInGridWithShipment1(1);
   }
 
   close_kendo_dialog() {
@@ -1604,7 +1681,7 @@ export class ContainerShipmentComponent implements OnInit {
     if (this.SelectedRowsforShipmentArr.length == 0) {
       this.toastr.error('', this.translate.instant("Select_row"));
       return;
-    }    
+    }
     var ContUpdategroupCodeArray = []
     for (var i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       ContUpdategroupCodeArray.push({
@@ -1648,7 +1725,7 @@ export class ContainerShipmentComponent implements OnInit {
     if (this.SelectedRowsforShipmentArr.length == 0) {
       this.toastr.error('', this.translate.instant("Select_row"));
       return;
-    }    
+    }
     var ContUpdategroupCodeArray = [];
     for (var i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       ContUpdategroupCodeArray.push({

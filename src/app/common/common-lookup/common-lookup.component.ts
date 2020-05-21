@@ -312,7 +312,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'OPTM_CONTCODE',
         title: this.translate.instant("ContainerCode"),
         type: 'text',
-        width: '150'
+        width: '160'
       },
       {
         field: 'OPTM_CONTTYPE',
