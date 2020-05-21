@@ -203,7 +203,7 @@ export class CommonLookupComponent implements OnInit {
       this.showBinNoList();
     } else if (this.lookupfor == "SOList") {
       this.showOutSOListNew();
-    } else if (this.lookupfor == "GroupCodeList") {
+    } else if (this.lookupfor == "GroupCodeList" || this.lookupfor == "GroupCode") {
       this.showContainerGroupCodeList();
     } else if (this.lookupfor == "DDList" || this.lookupfor == "DDFrom" || this.lookupfor == "DDTo") {
       this.showDDList();

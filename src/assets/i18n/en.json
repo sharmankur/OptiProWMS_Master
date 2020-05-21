@@ -557,7 +557,7 @@
   "Picked": "Picked",
   "Cont_Bin": "Container Bin",
   "Built_In_Process": "Built In Process",
-  "DateTime": "Date And Time",
+  "DateTime": "DateTime",
   "Shipment_Line": "Shipment Line",
   "Container_Group": "Container Group",
   "ContnrGrpd_Blank_Msg": "Container Group can't be blank",
@@ -778,6 +778,7 @@
   "BuiltProManufacturing": "Manufacturing",
   "BuiltProReceived_From_Vendor": "Received From Vendor",
   "BuiltProPacked_In_WareHouse": "Packed In Warehouse",
+  "Packaging": "Packaging",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All",
   "InvalidSONo": "Invalid SO number.",
@@ -996,6 +997,7 @@
   "Cannotremovegrtless": "Cannot remove greater qty from lesser qty",
   "View_Rule_Items": "View Rule Items",
   "SetDamagedMsg": "Container updated successfully",
+  "ContUpdatedMsg": "Container updated successfully",
   "ContIsClosed": "Container Closed",
   "CannotCreateCont": "Cannot create container",
   "View_BatchSer": "View item detail",
@@ -1041,7 +1043,7 @@
   "CreateConMsg": "Container not created yet, please select Create option to create container.",
   "ItemInvIsNotPresent": "Cannot add. No sufficient inventory found",
   "CannotAddItem": "Container is not in Open Status. Cannot Add Items",
-  "ContCodeCannotBlank": "Container code cannot be blank",
+  "ContCodeCannotBlank": "Container code cannot be blank",    
   "ZoneCodeMsg": "Enter zone code first",
   "SelectedRowFieldVal": "Selected row fields can't be blank",
   "ZoneCodeAndTypeBlank": "Zone code and zone type can't be blank",
@@ -1062,6 +1064,11 @@
   "AssignSO": "Assign Sales Order",
   "RemoveCC": "Remove Container Group Code",
   "AssignCC": "Assign Container Group Code",
+  "OnlyIntAllow": "Decimal value not allowed",
+  "CloseContValMsg": "All required number of child container are not added. Close parent?",
+  "BOL": "BOL",
+    
+  "FieldValidation":"Please select or enter value in the field.",
   
   "Dummy": "Dummy"  
 }

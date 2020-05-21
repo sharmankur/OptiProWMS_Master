@@ -46,7 +46,7 @@ export class CTRUpdateComponent implements OnInit {
     this.CTR_ROW = JSON.parse(localStorage.getItem("CTR_ROW"));
       this.CTR_ContainerType = this.CTR_ROW.OPTM_CONTAINER_TYPE;
       this.CTR_ParentContainerType = this.CTR_ROW.OPTM_PARENT_CONTTYPE;
-      this.CTR_ConainerPerParent = this.CTR_ROW.OPTM_CONT_PERPARENT;
+      this.CTR_ConainerPerParent = Number(this.CTR_ROW.OPTM_CONT_PERPARENT);
       this.CTR_ConatainerPartofParent = this.CTR_ROW.OPTM_CONT_PARTOFPARENT;
       if(localStorage.getItem("Action") == "copy"){
         this.CTR_ContainerType = ''
@@ -352,13 +352,16 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   formatCTR_ConainerPerParent() {
-    if(Number(this.CTR_ConainerPerParent) < 0 ){
+    if(Number(this.CTR_ConainerPerParent) < 1 ){
       this.CTR_ConainerPerParent = 0
-      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      this.toastr.error('', this.translate.instant("ContPerValMsg"));
       return false;
+    } else if(!Number.isInteger(Number(this.CTR_ConainerPerParent))) {
+      this.CTR_ConainerPerParent = 0
+      this.toastr.error('', this.translate.instant("OnlyIntAllow"));
     }
 
-    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent);//.toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.isUpdateHappen = true
@@ -368,7 +371,7 @@ export class CTRUpdateComponent implements OnInit {
   formatCTR_ConatainerPartofParent() {
     if(Number(this.CTR_ConatainerPartofParent) < 0 ){
       this.CTR_ConatainerPartofParent = 0
-      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      this.toastr.error('', this.translate.instant("ContPerValMsg"));
       return false;
     }
 

@@ -535,10 +535,6 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
-  onQtyChange() {
-    alert("hi");
-  }
-
   //get step 2nd data
   GetSalesWizardData() {
     this.SetParameter = [];
@@ -741,64 +737,64 @@ export class ShipmentWizardViewComponent implements OnInit {
     dataItem.SalesOpenQty = event.target.value
   }
 
-  IsValidSONumber(fieldName) {
-    let soNum;
-    if (fieldName == "SONoFrom") {
-      soNum = this.SrNoFrom;
-    }
-    else if (fieldName == "SONoTo") {
-      soNum = this.SrNoTo
-    }
-    if (soNum == "" || soNum == null || soNum == undefined) {
-      return;
-    }
-    this.showLoader = true;
-    this.commonservice.IsValidSONumber(soNum).subscribe(
-      (data: any) => {
-        this.showLoader = false;
-        if (data != undefined) {
-          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-              this.translate.instant("CommonSessionExpireMsg"));
-            return;
-          }
-          if (data.length > 0) {
-            if (fieldName == "SONoFrom") {
-              this.SrNoFrom = data[0].DocNum;
-            }
-            else if (fieldName == "SONoTo") {
-              this.SrNoTo = data[0].DocNum;
-            }
-          } else {
-            if (fieldName == "SONoFrom") {
-              this.SrNoFrom = "";
-            }
-            else if (fieldName == "SONoTo") {
-              this.SrNoTo = "";
-            }
-            this.toastr.error('', this.translate.instant("InvalidSONo"));
-          }
-        } else {
-          if (fieldName == "SONoFrom") {
-            this.SrNoFrom = "";
-          }
-          else if (fieldName == "SONoTo") {
-            this.SrNoTo = "";
-          }
-          this.toastr.error('', this.translate.instant("InvalidSONo"));
-        }
-      },
-      error => {
-        this.showLoader = false;
-        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-        }
-        else {
-          this.toastr.error('', error);
-        }
-      }
-    );
-  }
+  // IsValidSONumber(fieldName) {
+  //   let soNum;
+  //   if (fieldName == "SONoFrom") {
+  //     soNum = this.SrNoFrom;
+  //   }
+  //   else if (fieldName == "SONoTo") {
+  //     soNum = this.SrNoTo
+  //   }
+  //   if (soNum == "" || soNum == null || soNum == undefined) {
+  //     return;
+  //   }
+  //   this.showLoader = true;
+  //   this.commonservice.IsValidSONumber(soNum).subscribe(
+  //     (data: any) => {
+  //       this.showLoader = false;
+  //       if (data != undefined) {
+  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+  //           this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+  //             this.translate.instant("CommonSessionExpireMsg"));
+  //           return;
+  //         }
+  //         if (data.length > 0) {
+  //           if (fieldName == "SONoFrom") {
+  //             this.SrNoFrom = data[0].DocNum;
+  //           }
+  //           else if (fieldName == "SONoTo") {
+  //             this.SrNoTo = data[0].DocNum;
+  //           }
+  //         } else {
+  //           if (fieldName == "SONoFrom") {
+  //             this.SrNoFrom = "";
+  //           }
+  //           else if (fieldName == "SONoTo") {
+  //             this.SrNoTo = "";
+  //           }
+  //           this.toastr.error('', this.translate.instant("InvalidSONo"));
+  //         }
+  //       } else {
+  //         if (fieldName == "SONoFrom") {
+  //           this.SrNoFrom = "";
+  //         }
+  //         else if (fieldName == "SONoTo") {
+  //           this.SrNoTo = "";
+  //         }
+  //         this.toastr.error('', this.translate.instant("InvalidSONo"));
+  //       }
+  //     },
+  //     error => {
+  //       this.showLoader = false;
+  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+  //         this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+  //       }
+  //       else {
+  //         this.toastr.error('', error);
+  //       }
+  //     }
+  //   );
+  // }
 
   GetDataForSalesOredr(fieldName, event) {
     let soNum;
@@ -831,10 +827,10 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (event == 'blur') {
             if (data.length > 0) {
               if (fieldName == "SONoFrom") {
-                this.SrNoFrom = data[0].DocNum;
+                this.SrNoFrom = data[0].SODocNum;
               }
               else if (fieldName == "SONoTo") {
-                this.SrNoTo = data[0].DocNum;
+                this.SrNoTo = data[0].SODocNum;
               }
             } else {
               if (fieldName == "SONoFrom") {

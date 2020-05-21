@@ -11,9 +11,10 @@ import { ShipmentComponent } from './shipment.component';
 import { ShipmentViewComponent } from './shipment-view/shipment-view.component';
 import { ShipmentRoutingModule } from './shipment-routing.module';
 import { DialogsModule } from '../../../node_modules/@progress/kendo-angular-dialog';
+import { ContainerShipmentComponent } from './container-shipment/container-shipment.component';
 
 @NgModule({
-  declarations: [ShipmentComponent, ShipmentViewComponent],
+  declarations: [ShipmentComponent, ShipmentViewComponent, ContainerShipmentComponent],
   imports: [
     CommonModule,
     GridModule,

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { InboundService } from '../../services/inbound.service';
+import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -19,7 +19,7 @@ export class CTViewComponent implements OnInit {
   showLoader: boolean = false;
 
 
-  constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
+  constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -73,7 +73,7 @@ export class CTViewComponent implements OnInit {
 
   DeleteFromContainerType(ddDeleteArry) {
     this.showLoader = true;
-    this.inboundService.DeleteFromContainerType(ddDeleteArry).subscribe(
+    this.containerTypeService.DeleteFromContainerType(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

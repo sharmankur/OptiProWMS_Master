@@ -53,6 +53,16 @@
                                     </div>
                                 </ng-template>
                             </kendo-grid-column>
+                            <kendo-grid-column media="(min-width: 768px)" [width]="50" title="{{'BOL'|translate}}" field="BOL">
+                                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex"> -->
+                                    <!-- <kendo-dropdownlist tabindex="-1" [data]="ddlBusiness" textField="text" valueField="value"
+                                        [(ngModel)]="dataItem.OPTM_BUSINESS_OBJECT" (valueChange)="onChangeBusinessObject($event, dataItem, rowIndex)"
+                                        [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" class="form-control-sm form-control w-100"></kendo-dropdownlist> -->
+                                    <!-- <kendo-dropdownlist class="form-control" name="selectedType" [data]="ddlBusiness"
+                                        [valuePrimitive]="true" [value]="dataItem.OPTM_BUSINESS_OBJECT" textField="text"
+                                        valueField="value" #selectedvalue (selectionChange)="onChangeBusinessObject($event, dataItem, rowIndex)"></kendo-dropdownlist> -->
+                                <!-- </ng-template> -->
+                            </kendo-grid-column>
                             <!-- <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-center" class="text-center"
                                 [width]="10" title="{{'Action'|translate}}">
                                 <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">

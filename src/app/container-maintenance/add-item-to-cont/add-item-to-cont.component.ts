@@ -322,6 +322,21 @@ export class AddItemToContComponent implements OnInit {
       this.radioRuleSelected = 1;
     }
     this.checkChangeEvent = event;
+    this.setDefaultValues()
+
+    this.whse = '';
+    this.binNo = '';
+    this.containerType = ''
+    this.parentContainerType = '';
+    this.autoRuleId = '';
+    this.soNumber = '';
+    this.containerGroupCode = '';
+    this.containerCode = '';
+    this.containerId = '';
+    this.workOrder = '';
+    this.taskId = '';
+    this.operationNo = '';
+    this.DisplayTreeData = [];
   }
 
   handleContainerRadioChange(event) {
