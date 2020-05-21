@@ -12,11 +12,9 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { ProdOrderlistComponent } from './production-issue/prod-orderlist/prod-orderlist.component';
-import { OutboundModule } from '../outbound/outbound.module';
 import { ProductionReceiptItemsListComponent } from './production-receipt-items-list/production-receipt-items-list.component';
-
 import { ProductionReceiptMasterComponent } from './production-receipt-master/production-receipt-master.component';
-import { InboundModule } from '../inbound/inbound.module';
+import { CTModule } from '../container-type/ct.module';
 
 
 @NgModule({
@@ -32,8 +30,7 @@ import { InboundModule } from '../inbound/inbound.module';
     DropDownsModule,
     InputsModule,
     GridModule,
-    OutboundModule,
-    InboundModule
+    CTModule
   ]
 })
 export class ProductionModule { }

@@ -15,7 +15,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './common/landing/landing.component';
-import { OutboundModule } from './outbound/outbound.module';
 import { AutoAllocationComponent } from './auto-allocation/auto-allocation.component';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -45,7 +44,6 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     GridModule,
     DialogsModule,
-    OutboundModule,
     InputsModule,
     DateInputsModule,  
     

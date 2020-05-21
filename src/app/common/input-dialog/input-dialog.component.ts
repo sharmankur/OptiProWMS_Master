@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryTransferService } from '../../services/inventory-transfer.service';
 import { Commonservice } from '../../services/commonservice.service';
-import { InboundService } from '../../services/inbound.service';
+import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -29,7 +29,7 @@ export class InputDialogComponent implements OnInit {
   isPalletizationEnable: boolean = false;
 
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
-    private inboundService: InboundService, private router: Router) { }
+    private containerTypeService: ContainerTypeService, private router: Router) { }
 
   ngOnInit() {
     if (localStorage.getItem("AutoPalletIdGenerationChecked") == "True") {
@@ -83,7 +83,7 @@ export class InputDialogComponent implements OnInit {
 
   public ShowAllBins(callFrom: string) {
     this.showLoader = true;
-    this.inboundService.GetTargetBins('N', localStorage.getItem("whseId")).subscribe(
+    this.containerTypeService.GetTargetBins('N', localStorage.getItem("whseId")).subscribe(
       (data: any) => {
         this.showLoader = false;
        // console.log(data);
@@ -123,7 +123,7 @@ export class InputDialogComponent implements OnInit {
       this.ShowAllBins(callFrom);
     } else {
       this.showLoader = true;
-      this.inboundService.getRevBins('N', "").subscribe(
+      this.containerTypeService.getRevBins('N', "").subscribe(
         data => {
           this.showLoader = false;
           if (data != null && data.length > 0) {
@@ -160,7 +160,7 @@ export class InputDialogComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-    this.inboundService.binChange(localStorage.getItem("whseId"), this.binNo).subscribe(
+    this.containerTypeService.binChange(localStorage.getItem("whseId"), this.binNo).subscribe(
       data => {
         this.showLoader = false;
         if (data != null) {

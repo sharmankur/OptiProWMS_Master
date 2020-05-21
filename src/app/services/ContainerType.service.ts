@@ -7,7 +7,7 @@ import { Commonservice } from './commonservice.service';
 @Injectable({
   providedIn: 'root'
 })
-export class InboundService {
+export class ContainerTypeService {
 
 
   public config_params: any;

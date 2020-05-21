@@ -18,14 +18,11 @@ import 'hammerjs';
 // import { FormModule } from '../form/form.module';
 import { TrnaslateLazyModule } from '../../translate-lazy.module';
 import { InventoryTransferModule } from '../inventory-transfer/inventory-transfer.module';
-import { InboundModule } from '../inbound/inbound.module';
-import { OutboundModule } from '../outbound/outbound.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeWarehouseComponent } from '../change-warehouse/change-warehouse.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SharedModule } from '../shared-module/shared-module.module';
-import { PalletizationModule } from '../palletization/palletization.module';
 import { CTRMasterModule } from '../ctrmaster/ctrmaster.module';
 import { CARMAsterModule } from '../carmaster/carmaster.module';
 import { DockDoorModule } from '../dock-door/dock-door.module';
@@ -43,6 +40,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ContainerMaintenanceModule } from '../container-maintenance/container-maintenance.module';
 import { SetupModule } from '../Setup/setup.module';
 import { BinRangeModule } from '../bin-range/bin-range.module';
+import { CTModule } from '../container-type/ct.module';
 
 @NgModule({
   imports: [
@@ -65,12 +63,10 @@ import { BinRangeModule } from '../bin-range/bin-range.module';
     GridModule,
     SharedModule,
     DockDoorModule,
-    InboundModule,
-    OutboundModule,
+    CTModule,
     CTRMasterModule,
     CARMAsterModule,
     InventoryTransferModule,
-    PalletizationModule,
     MaskingModule,
     CarrierModule,
     WhsUGMappingModule,
