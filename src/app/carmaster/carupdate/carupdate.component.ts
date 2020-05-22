@@ -492,6 +492,7 @@ export class CARUpdateComponent implements OnInit {
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   updateMinfill(lotTemplateVar, value, rowindex, gridData: any) {
@@ -501,6 +502,7 @@ export class CARUpdateComponent implements OnInit {
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   updateMatWTfill(lotTemplateVar, value, rowindex, gridData: any) {
@@ -510,6 +512,7 @@ export class CARUpdateComponent implements OnInit {
         this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
       }
     }
+    this.isUpdateHappen = true
   }
 
   GetItemCodeList(index) {

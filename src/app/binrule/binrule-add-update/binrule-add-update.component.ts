@@ -111,8 +111,10 @@ export class BinruleAddUpdateComponent implements OnInit {
       this.purpose = this.PurposeList[0];
     } else if (this.purpose == 2 + "") {
       this.purpose = this.PurposeList[1];
-    } else {
+    } else if (this.purpose == 3 + "") {
       this.purpose = this.PurposeList[2];
+    } else {
+      this.purpose = this.PurposeList[3];
     }
 
     if (this.ruleType == 1 + "") {
