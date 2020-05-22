@@ -51,7 +51,7 @@ export class ContainerBatchserialComponent implements OnInit {
   SelectedShipmentStatus: any = '';
   ContainerOperationArray: any = [];
   SelectedLinkTitle: any = '';
-  Selectedlink: number = 1;
+  Selectedlink: number = 2;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,private containerCreationService: ContainerCreationService,private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) { 
@@ -60,7 +60,7 @@ export class ContainerBatchserialComponent implements OnInit {
       translate.use(userLang);
       translate.onLangChange.subscribe((event: LangChangeEvent) => {            
       //  this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();   
-        this.Selectedlink = 1;
+        this.Selectedlink = 2;
        // this.SelectedLinkTitle = this.ContainerOperationArray[0].Name;
       });
     }   

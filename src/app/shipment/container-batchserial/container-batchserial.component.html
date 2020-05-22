@@ -164,8 +164,8 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" 
-                                (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a>
+                                <!-- <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" 
+                                (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a> -->
                                 <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(2)">{{'Assign_to_shipment'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(3)">{{'Remove_from_shipment'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(4)">{{'Return_by_customer'|translate}}</a>                                

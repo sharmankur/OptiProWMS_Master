@@ -237,7 +237,7 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <h5>{{SelectedLinkTitle}}</h5>
-                    <kendo-grid [kendoGridBinding]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging"
+                    <kendo-grid [kendoGridBinding]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [skip]="skip" (pageChange)="pageChange($event)"
                         [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="isColumnFilterView">
                         <ng-template kendoGridToolbarTemplate>
                             <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>
@@ -247,18 +247,6 @@
                                 <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
                             </label>
                         </ng-template>
-
-                        <!-- <ng-template kendoGridToolbarTemplate>
-                                <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
-                                <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse()" *ngIf="containerItems.length != 0">
-                                    <svg *ngIf="isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
-                                        <use xlink:href="#collapseAll"></use>
-                                    </svg>
-                                    <svg *ngIf="!isExpand" viewBox="0 0 1024 1024" class="exp-coll-icon">
-                                        <use xlink:href="#expandAll"></use>
-                                    </svg>
-                                </button>
-                            </ng-template>                         -->
 
                         <kendo-grid-checkbox-column title="{{'Select'|translate}}" [width]="25">
                             <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">

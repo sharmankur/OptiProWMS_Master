@@ -1067,7 +1067,8 @@
   "OnlyIntAllow": "Decimal value not allowed",
   "CloseContValMsg": "All required number of child container are not added. Close parent?",
   "BOL": "BOL",
-    
+  "Contents": "Contents",
+  "Select_Shipment_Msg": "Please select shipment Id",
   "FieldValidation":"Please select or enter value in the field.",
   
   "Dummy": "Dummy"  

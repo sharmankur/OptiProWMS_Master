@@ -6,7 +6,7 @@ import { ContainerCreationService } from '../../services/container-creation.serv
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-container-shipment',
@@ -107,7 +107,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
-
+    this.pageChange({ skip: 0, take: this.pageSize });
     this.isColumnFilterView = false;
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
@@ -877,11 +877,6 @@ export class ContainerShipmentComponent implements OnInit {
       var index = this.SelectedRowsforShipmentArr.findIndex(r => r.OPTM_CONTCODE == dataitem.OPTM_CONTCODE);
       if (index == -1) {
         this.SelectedRowsforShipmentArr.push(dataitem);
-        // this.SelectedRowsforShipmentArr.push({
-        //   OPTM_CONTCODE: dataitem.OPTM_CONTCODE,
-        //   OPTM_CONTAINERID: dataitem.OPTM_CONTAINERID,
-        //   OPTM_STATUS: dataitem.OPTM_STATUS
-        // });
       }
     }
     else {
@@ -894,25 +889,57 @@ export class ContainerShipmentComponent implements OnInit {
       if (index > -1)
         this.SelectedRowsforShipmentArr.splice(index, 1);
     }
+    for (var i = this.startIndex; i < this.endIndex; i++) {
+      if (this.ContainerList[i].Selected == undefined || this.ContainerList[i].Selected == false) {
+        this.selectall = false;
+        break;
+      }
+    }
   }
 
+  public skip = 0;
+  startIndex = 0;
+  endIndex = 0;
   selectall: boolean;
+  pageChange(event: PageChangeEvent) {
+    this.skip = event.skip;
+    let idx = event.skip / event.take;
+    this.startIndex = idx * event.take;
+    let pazeCount = parseInt((this.ContainerList.length / event.take).toLocaleString()); 
+    let lastPazeSize = this.ContainerList.length % event.take
+    if(lastPazeSize > 0){
+      pazeCount = pazeCount + 1;
+    }
+    if(idx == pazeCount - 1){
+      if(lastPazeSize == 0){
+        this.endIndex = this.startIndex + event.take;
+      }else{
+        this.endIndex = this.startIndex + lastPazeSize;
+      }
+    }else{
+      this.endIndex = this.startIndex + event.take;
+    }
+    if (this.ContainerList != undefined && this.ContainerList.length > 0) {
+      this.selectall = true;
+      for (var i = this.startIndex; i < this.endIndex; i++) {
+        if (this.ContainerList[i].Selected == undefined || this.ContainerList[i].Selected == false) {
+          this.selectall = false;
+          break;
+        }
+      }
+    }
+  }
+
   on_Selectall_checkbox_checked(checkedvalue) {
     var isExist = 0;
-    // this.CheckedData = []
     this.selectall = false
     if (checkedvalue == true) {
       if (this.ContainerList.length > 0) {
         this.selectall = true
-        this.SelectedRowsforShipmentArr = [];
-        for (let i = 0; i < this.ContainerList.length; ++i) {
+        // this.SelectedRowsforShipmentArr = [];
+        for (let i = this.startIndex; i < this.endIndex; ++i) {
           this.ContainerList[i].Selected = true;
           this.SelectedRowsforShipmentArr.push(this.ContainerList[i]);
-          // this.SelectedRowsforShipmentArr.push({
-          //   OPTM_CONTCODE: this.ContainerList[i].OPTM_CONTCODE,
-          //   OPTM_CONTAINERID: this.ContainerList[i].OPTM_CONTAINERID,
-          //   OPTM_STATUS: this.ContainerList[i].OPTM_STATUS
-          // });
         }
       }
     }
@@ -920,9 +947,9 @@ export class ContainerShipmentComponent implements OnInit {
       this.selectall = false
       // this.selectedValues = [];
       if (this.ContainerList.length > 0) {
-        for (let i = 0; i < this.ContainerList.length; ++i) {
+        for (let i = this.startIndex; i < this.endIndex; ++i) {
           this.ContainerList[i].Selected = false;
-          this.SelectedRowsforShipmentArr = [];
+          this.SelectedRowsforShipmentArr.splice(this.ContainerList[i])
         }
       }
     }
@@ -942,34 +969,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.showLoader = false;
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
-    // oSaveData.OtherData = [];
-
-    // if (this.IsShipment) {
-    //   oSaveData.OtherData.push({
-    //     CompanyDBId: localStorage.getItem("CompID"),
-    //    // ContnrShipmentId: this.SelectedShipmentId,
-    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
-    //    // OPTM_GROUP_CODE: this.containerGroupCode
-    //   })
-    // }
-    // else {
-    //   oSaveData.OtherData.push({
-    //     CompanyDBId: localStorage.getItem("CompID"),
-    //    // ContnrShipmentId: this.ShipmentId,
-    //     OPTM_CREATEDBY: localStorage.getItem("UserId"),
-    //   // OPTM_GROUP_CODE: this.containerGroupCode
-    //   })
-    // }
-
-    // for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
-    //   oSaveData.SelectedRows.push({
-    //     //OPTM_CONTCODE: JSON.stringify(this.SelectedRowsforShipmentArr[i]), 
-    //     CompanyDBId: localStorage.getItem("CompID"),
-    //     OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i], 
-    //     CONTAINERID: ''
-    //   })
-    // }
-
+  
     let tempArray = [];
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       tempArray.push({
@@ -1327,7 +1327,6 @@ export class ContainerShipmentComponent implements OnInit {
       else if (this.lookupfor == "SerialNoFrom") {
         this.dialogValue = $event.SODocNum;
       }
-
     }
   }
 
@@ -1702,7 +1701,7 @@ export class ContainerShipmentComponent implements OnInit {
           this.dialogValue = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
-            this.Selectedlink = 1;
+            //this.Selectedlink = 1;
             this.fillDataInGridWithShipment(1);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
@@ -1746,7 +1745,7 @@ export class ContainerShipmentComponent implements OnInit {
           this.dialogValue = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
-            this.Selectedlink = 1;
+           // this.Selectedlink = 1;
             this.fillDataInGridWithShipment(1);
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);

@@ -37,9 +37,9 @@ export class ContMaintnceMainComponent implements OnInit {
   ContainerType = "";
   containerItems: any = []
   childContainerList: any = [];
-  pageSize: number = 10
-  pageable: boolean = false;
-  pageable2: boolean = false;
+  // pageSize: number = 10
+  // pageable: boolean = false;
+  // pageable2: boolean = false;
   ExpandCollapseBtn: string = ""
   constructor(private translate: TranslateService, private commonservice: Commonservice,
     private toastr: ToastrService,
@@ -114,6 +114,9 @@ export class ContMaintnceMainComponent implements OnInit {
   containerStatusEnum: any;
   inventoryStatusEnum: any;
   purposeEnum: any;
+  ContGroupCode: string;
+  SalesOrder: string;
+
   getLookupDataValue($event) {
     this.showLookup = false;
     if ($event != null && $event == "close") {
@@ -128,6 +131,8 @@ export class ContMaintnceMainComponent implements OnInit {
         this.purposeEnum = $event.OPTM_SHIPELIGIBLE
         this.packProcessEnum = $event.OPTM_BUILT_SOURCE
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
+        this.SalesOrder = $event.OPTM_SO_NUMBER
+        this.ContGroupCode = $event.OPTM_GROUP_CODE
         this.warehouse = $event.OPTM_WHSE
         this.binCode = $event.OPTM_BIN
         this.weight = $event.OPTM_WEIGHT
@@ -142,9 +147,7 @@ export class ContMaintnceMainComponent implements OnInit {
         if (this.volume == undefined || this.volume == "") {
           this.volume = 0
         }
-        // if(this.inventoryStatusEnum == undefined || this.inventoryStatusEnum == ""){
-        //   this.inventoryStatusEnum = 0
-        // }
+
         this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
         this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
         this.purpose = this.getShipEligible(this.purposeEnum);
@@ -198,6 +201,8 @@ export class ContMaintnceMainComponent implements OnInit {
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.volumeUOM = data[0].OPTM_VOL_UOM
             this.weightUOM = data[0].OPTM_WT_UOM
+            this.SalesOrder = data[0].OPTM_SO_NUMBER
+            this.ContGroupCode = data[0].OPTM_GROUP_CODE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
             this.purpose = this.getShipEligible(this.purposeEnum);
@@ -330,9 +335,9 @@ export class ContMaintnceMainComponent implements OnInit {
             this.toastr.error('', this.translate.instant("InvalidContainerCode"));
           } else {
             this.containerItems = data.ItemDeiail
-            if (this.containerItems.length > 10) {
-              this.pageable = true
-            }
+            // if (this.containerItems.length > 10) {
+            //   this.pageable = true
+            // }
             this.prepareDataForGrid();
 
             for (var i = 0; i < data.ChlidContainerDeiail.length; i++) {
