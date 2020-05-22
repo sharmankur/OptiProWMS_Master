@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { InboundService } from '../../services/inbound.service';
+import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Commonservice } from '../../services/commonservice.service';
 import { CTMasterComponent } from '../ctmaster.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ export class CTUpdateComponent implements OnInit {
   showLoader: boolean = false;
   isUpdate: boolean = false;
   isUpdateHappen: boolean = false
-  constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
+  constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -168,7 +168,7 @@ export class CTUpdateComponent implements OnInit {
 
   addContainerType() {
     this.showLoader = true;
-    this.inboundService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
+    this.containerTypeService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
       this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -202,7 +202,7 @@ export class CTUpdateComponent implements OnInit {
 
   updateContainerType() {
     this.showLoader = true;
-    this.inboundService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
+    this.containerTypeService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
       this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;

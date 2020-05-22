@@ -3,9 +3,9 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                <span *ngIf="IsShipment">{{'ViewAndManageCont'|translate}} : ({{'ShipMentId'|translate}} - {{SelectedShipmentId}} {{'WH'|translate}}
+                <span *ngIf="SelectedWhse != ''">{{'ViewAndManageCont'|translate}} : ({{'ShipMentId'|translate}} - {{SelectedShipmentId}} {{'WH'|translate}}
                     - {{SelectedWhse}} {{'Bin'|translate}} - {{SelectedBin}}) </span>
-                <span *ngIf="!IsShipment">{{'ViewAndManageCont'|translate}}</span>
+                <span *ngIf="SelectedWhse == ''">{{'ViewAndManageCont'|translate}}</span>
             </h3>
 
             <div class="col-12">
@@ -305,7 +305,7 @@
 
                         <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="ShowContainerItems">
                             <kendo-grid [data]="dataItem.ContainerItemList">
-                                <kendo-grid-column field="TYPE" width="90" title="{{'Type'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="TYPE" width="109" title="{{'Type'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="CODE" width="170" title="{{'Code'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_STATUS" width="70" title="{{'Status'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="50" title="{{'Quantity'|translate}}"></kendo-grid-column>

@@ -5,12 +5,12 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { FormsModule } from '@angular/forms';
 import { TrnaslateLazyModule } from '../../translate-lazy.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { InboundRoutingModule } from './inbound-routing.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { CTUpdateComponent } from './ctupdate/ctupdate.component';
 import { CTViewComponent } from './ctview/ctview.component';
 import { CTMasterComponent } from './ctmaster.component';
+import { CTRoutingModule } from './ct-routing.module';
 
 
 @NgModule({
@@ -24,7 +24,7 @@ import { CTMasterComponent } from './ctmaster.component';
     PerfectScrollbarModule, 
     FormsModule,
 
-    InboundRoutingModule,
+    CTRoutingModule,
     DropDownsModule,
     DateInputsModule
   ],
@@ -33,4 +33,4 @@ import { CTMasterComponent } from './ctmaster.component';
   ],
   exports: [CTViewComponent, CTMasterComponent, CTUpdateComponent]
 })
-export class InboundModule { }
+export class CTModule { }

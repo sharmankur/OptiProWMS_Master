@@ -57,7 +57,6 @@
 
                         <!-- row start -->
                         <div class="row">
-
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
@@ -100,7 +99,6 @@
                             <!-- col end -->
                         </div>
                         <!-- row end -->
-
 
                         <!-- row start -->
                         <div class="row">
@@ -188,7 +186,6 @@
 
                         <!-- row start -->
                         <div class="row">
-
                             <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
@@ -227,6 +224,36 @@
                             <!-- col end -->
 
                             <!-- col start -->
+                            <!-- <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <div class="custom-control custom-checkbox minus-m5">
+                                            <input type="checkbox" id="UseContainer" (change)="onCheckChange()" class="custom-control-input" name="UseContainer" [(ngModel)]=UseContainer
+                                                [disabled]=true/>
+                                            <label class="custom-control-label" for="UseContainer">{{'Cont_Shipment'|translate}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="col-sm-4">
+                                <div class="form-group row">
+                                    <label for="ShpContainerType" class="col-sm-4 col-form-label">{{'ContainerType'|translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group ">
+                                            <input type="text" class="form-control form-control-sm" name='ShpContainerType' [(ngModel)]=ShpContainerType id="ShpContainerType" [disabled]=true>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- col end -->
+                        </div>
+                        <!-- row end -->
+
+                        <!-- row start -->
+                        <div class="row">
+                            <!-- col start -->
                             <div class="col-sm-4">
                                 <div class="form-group row">
                                     <div class="col-sm-12">
@@ -240,7 +267,7 @@
                             </div>
                             <!-- col end -->
                         </div>
-                        <!-- row end -->
+                        <!-- row end -->                        
                     </div>
                     <!--/ Shipment Form  -->
                 </div>

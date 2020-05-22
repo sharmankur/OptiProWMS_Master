@@ -225,7 +225,7 @@
                         <div class="wizard-box">
                             <div class="wizard-content">
                                 <kendo-grid [data]="containerItems" [pageSize]="pageSize" [skip]="skip" #gridUser [resizable]="true" [pageable]="pageable"
-                                    [selectable]="true" [height]="400">
+                                    [selectable]="true" [height]="280">
                                     <ng-template kendoGridToolbarTemplate>
                                         <span class="grid-toolbar-title">{{'ContainerItems'|translate}}</span>
                                         <button tabIndex="-1" class="k-button k-primary btn mt-1 mb-1 float-right" type="button" (click)="onExpandCollapse()" *ngIf="containerItems.length != 0">
@@ -321,10 +321,8 @@
                                     </kendo-grid-column>
 
                                     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="ShowContainerItems">
-
                                         <kendo-grid [data]="dataItem.ItemBatchSerailData">
-
-                                            <kendo-grid-column media="(min-width: 768px)" [width]="100" field="TYPE" title="{{'Type'|translate}}">
+                                            <kendo-grid-column media="(min-width: 768px)" [width]="95" field="TYPE" title="{{'Type'|translate}}">
                                             </kendo-grid-column>
                                             <kendo-grid-column media="(min-width: 768px)" [width]="160" field="CODE" title="{{'Code'|translate}}">
                                             </kendo-grid-column>
@@ -371,7 +369,6 @@
                                             </kendo-grid-column>
                                             <kendo-grid-column media="(min-width: 768px)" [width]="100" field="OPTM_SO_NUMBER" title="{{'SONumber'|translate}}">
                                             </kendo-grid-column>
-
                                         </kendo-grid>
                                     </ng-template>
                                 </kendo-grid>

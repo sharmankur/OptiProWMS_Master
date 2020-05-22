@@ -74,6 +74,7 @@ export class ShipmentViewComponent implements OnInit {
   event: any;
   StatusValue: any;
   shpProcess: any;
+  ShpContainerType: string;
   shipmentProcessList: any[] = [];
   dialogOpened = false;
   fromScreen: string;
@@ -82,7 +83,7 @@ export class ShipmentViewComponent implements OnInit {
   SelectedRowsforShipmentArr = [];
   isUpdateHappen = false;
 
-  constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService:ContainerShipmentService , private toastr: ToastrService, private translate: TranslateService) {
+  constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService: ContainerShipmentService, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
     translate.use(userLang);
@@ -94,22 +95,22 @@ export class ShipmentViewComponent implements OnInit {
     });
   }
 
-  onBOLChange(){
-    if(this.BOLNumber == undefined || this.BOLNumber == "" || this.BOLNumber == null){
+  onBOLChange() {
+    if (this.BOLNumber == undefined || this.BOLNumber == "" || this.BOLNumber == null) {
       return;
     }
     this.isUpdateHappen = true;
   }
 
-  onVechicleChange(){
-    if(this.VehicleNumber == undefined || this.VehicleNumber == "" || this.VehicleNumber == null){
+  onVechicleChange() {
+    if (this.VehicleNumber == undefined || this.VehicleNumber == "" || this.VehicleNumber == null) {
       return;
     }
     this.isUpdateHappen = true;
   }
 
-  onRefOrderNoChange(){
-    if(this.ReturnOrderRef == undefined || this.ReturnOrderRef == "" || this.ReturnOrderRef == null){
+  onRefOrderNoChange() {
+    if (this.ReturnOrderRef == undefined || this.ReturnOrderRef == "" || this.ReturnOrderRef == null) {
       return;
     }
     this.isUpdateHappen = true;
@@ -300,7 +301,7 @@ export class ShipmentViewComponent implements OnInit {
 
   GetDataBasedOnShipmentId(ShipmentID) {
     this.showLoader = true;
-    
+
     this.shipmentService.GetDataBasedOnShipmentId(ShipmentID, this.fromScreen).subscribe(
       (data: any) => {
         if (data != undefined) {
@@ -316,9 +317,9 @@ export class ShipmentViewComponent implements OnInit {
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            if(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED != null){
+            if (data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED != null) {
               data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY_FULFILLED).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-            }  
+            }
           }
           this.shipmentLines = [];
           this.shipmentLines = data.OPTM_SHPMNT_DTL;
@@ -457,6 +458,7 @@ export class ShipmentViewComponent implements OnInit {
       this.UseContainer = false;
     }
     this.StatusValue = OPTM_SHPMNT_HDR[0].OPTM_PROCESS_STEP_NO;
+    this.ShpContainerType = OPTM_SHPMNT_HDR[0].PREFERRED_CONT_TYPE;
     // this.shpProcess = this.ShipmentProcessArray().find(e => e.Name == this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name && e.Value == this.StatusValue).Name;
     this.shpProcess = this.ShipmentProcessEnum().find(e => e.Value == OPTM_SHPMNT_HDR[0].OPTM_SHP_PROCESS).Name;
     this.onCheckChange();
@@ -592,8 +594,14 @@ export class ShipmentViewComponent implements OnInit {
     localStorage.setItem("ShipShipmentID", this.ShipmentID);
     localStorage.setItem("ShipWhse", (this.WarehouseCode) == undefined || (this.WarehouseCode) == null ? '' : this.WarehouseCode);
     localStorage.setItem("ShipBin", (this.ShipStageBin) == undefined || (this.ShipStageBin) == null ? '' : this.ShipStageBin);
-    localStorage.setItem("ContGrpCode", this.Container_Group);
-    // localStorage.setItem("ShipmentHdr", this.shipmentData.OPTM_SHPMNT_HDR);
+    if (this.Container_Group != null) {
+      localStorage.setItem("ContGrpCode", this.Container_Group);
+    }
+    if (this.ShpContainerType == null) {
+      this.ShpContainerType = "";
+    }
+    localStorage.setItem("ShpContType", this.ShpContainerType);
+    
 
     if (this.UseContainer) {
       this.router.navigate(['home/Container_List']);
@@ -1279,6 +1287,7 @@ export class ShipmentViewComponent implements OnInit {
               if (data[0].RESULT == 'Data Saved') {
                 this.toastr.success('', this.translate.instant("Containers_removed_successfully"));
                 this.GetDataBasedOnShipmentId(localStorage.getItem("ShipmentID"));
+                this.SelectedRowsforShipmentArr = []
               }
               else {
                 this.toastr.error('', data[0].RESULT);
