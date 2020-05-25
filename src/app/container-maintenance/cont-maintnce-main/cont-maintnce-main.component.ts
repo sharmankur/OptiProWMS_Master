@@ -1000,7 +1000,8 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   UpdateContainerGroupCode() {
-    var ContUpdategroupCodeArray = []
+    var ContUpdategroupCodeArray = [];
+    var selContGr: string = this.dialogValue;
     ContUpdategroupCodeArray.push({
       CompanyDBId: localStorage.getItem("CompID"),
       GROUPCODE: this.dialogValue,
@@ -1018,6 +1019,7 @@ export class ContMaintnceMainComponent implements OnInit {
           this.dialogValue = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+            this.ContGroupCode = selContGr;
           }else{
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -1036,13 +1038,14 @@ export class ContMaintnceMainComponent implements OnInit {
   }
 
   UpdateContainerSoNo() {
-    var ContUpdategroupCodeArray = [];
-    ContUpdategroupCodeArray.push({
+    var ContUpdateSOArray = [];
+    var selSONumber: string = this.dialogValue;
+    ContUpdateSOArray.push({
       CompanyDBId: localStorage.getItem("CompID"),
       SONO: this.dialogValue,
       OPTM_CONTCODE: this.containerCode
     });
-    this.commonservice.UpdateContainerSoNo(ContUpdategroupCodeArray).subscribe(
+    this.commonservice.UpdateContainerSoNo(ContUpdateSOArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1054,6 +1057,7 @@ export class ContMaintnceMainComponent implements OnInit {
           this.dialogValue = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
+            this.SalesOrder = selSONumber;
           }else{
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }

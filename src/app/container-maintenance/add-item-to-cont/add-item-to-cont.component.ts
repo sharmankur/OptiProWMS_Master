@@ -2505,6 +2505,8 @@ export class AddItemToContComponent implements OnInit {
       OPTM_NO_OF_PACK: data.OPTM_CONT_HDR[0].OPTM_NO_OF_PACK,
       OPTM_STATUS: data.OPTM_CONT_HDR[0].OPTM_STATUS,
       OPTM_SOURCE: data.OPTM_CONT_HDR[0].OPTM_SOURCE,
+      OPTM_SONO: data.OPTM_CONT_HDR[0].OPTM_SO_NUMBER,
+      OPTM_GROUP_CODE: data.OPTM_CONT_HDR[0].OPTM_GROUP_CODE,
       IsWIPCont: data.OPTM_CONT_HDR[0].OPTM_SOURCE == 1? true : false      
     })
 
@@ -2868,15 +2870,15 @@ export class AddItemToContComponent implements OnInit {
     this.whse = OPTM_CONT_HDR.OPTM_WHSE;
     this.binNo = OPTM_CONT_HDR.OPTM_BIN;
     this.containerType = OPTM_CONT_HDR.OPTM_CONTTYPE;
-    this.autoRuleId = OPTM_CONT_HDR.OPTM_AUTORULEID;    
+    this.autoRuleId = OPTM_CONT_HDR.OPTM_AUTORULEID;
+    this.getAutoPackRule('query');    
     this.soNumber = OPTM_CONT_HDR.OPTM_SO_NUMBER;
     this.containerGroupCode = OPTM_CONT_HDR.OPTM_GROUP_CODE;
     this.containerCode = OPTM_CONT_HDR.OPTM_CONTCODE;
     this.containerId = OPTM_CONT_HDR.OPTM_CONTAINERID;
     this.workOrder = OPTM_CONT_HDR.OPTM_WO_NUMBER;
     this.taskId = OPTM_CONT_HDR.OPTM_TASKHDID;
-    this.operationNo = OPTM_CONT_HDR.OPTM_OPER_NUMBER;
-    this.getAutoPackRule('query');
+    this.operationNo = OPTM_CONT_HDR.OPTM_OPER_NUMBER;    
     if(OPTM_CONT_HDR.OPTM_CREATE_MODE == 1){
       this.radioRuleSelected = 1;
     }else{
