@@ -828,6 +828,9 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (data.length > 0) {
               if (fieldName == "SONoFrom") {
                 this.SrNoFrom = data[0].SODocNum;
+                if(this.SrNoTo == "" || this.SrNoTo == undefined){
+                  this.SrNoTo = this.SrNoFrom
+                }
               }
               else if (fieldName == "SONoTo") {
                 this.SrNoTo = data[0].SODocNum;
@@ -1074,6 +1077,9 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ItmFrm") {
               this.ItemFrom = data[0].ItemCode;
+              if(this.ItemTo == "" || this.ItemTo == undefined){
+                this.ItemTo = data[0].ItemCode;
+              }
             }
             else if (fieldName == "ItmTo") {
               this.ItemTo = data[0].ItemCode;
@@ -1222,7 +1228,9 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "SerialNoFrom") {
       this.SrNoFrom = $event.SODocNum;
-      //this.CTR_ContainerType = $event[0];
+      if(this.SrNoTo == "" || this.SrNoTo == undefined){
+        this.SrNoTo = $event.SODocNum;
+      }
     }
     else if (this.lookupfor == "SerialNoTo") {
       this.SrNoTo = $event.SODocNum;
@@ -1230,21 +1238,30 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "CustomerFrom") {
       this.CustomerFrom = $event.CardCode;
+      if(this.CustomerTo == "" || this.CustomerTo == undefined){
+        this.CustomerTo = $event.CardCode;
+      }
     }
     else if (this.lookupfor == "CustomerTo") {
       this.CustomerTo = $event.CardCode;
     }
     else if (this.lookupfor == "ItemFrom") {
       this.ItemFrom = $event.ItemCode;
+      if(this.ItemTo == "" || this.ItemTo == undefined){
+        this.ItemTo = $event.ItemCode;
+      }
     }
     else if (this.lookupfor == "ItemTo") {
       this.ItemTo = $event.ItemCode;
     }
     else if (this.lookupfor == "ShipFrom") {
-      this.ShipFrom = $event.CardCode;
+      this.ShipFrom = $event.Address;
+      if(this.ShipTo == "" || this.ShipTo == undefined){
+        this.ShipTo = $event.Address;
+      }
     }
     else if (this.lookupfor == "ShipTo") {
-      this.ShipTo = $event.CardCode;
+      this.ShipTo = $event.Address;
     }
     else if (this.lookupfor == "WareHouse") {
       this.WareHouse = $event.WhsCode;
@@ -1285,6 +1302,9 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ShipFrom") {
               this.ShipFrom = data[0].Address;
+              if(this.ShipTo == "" || this.ShipTo == undefined){
+                this.ShipTo = data[0].Address;
+              }              
             }
             else if (fieldName == "ShipTo") {
               this.ShipTo = data[0].Address;
@@ -1345,6 +1365,9 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = data[0].CardCode;
+              if(this.CustomerTo == "" || this.CustomerTo == undefined){
+                this.CustomerTo = data[0].CardCode;
+              }
             }
             else if (fieldName == "CustTo") {
               this.CustomerTo = data[0].CardCode;

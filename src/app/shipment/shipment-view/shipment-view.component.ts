@@ -395,7 +395,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     //BatchSer Details
     this.ShipmentLineDetails = [];
-    if (this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0) {
+    if (this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0 && !this.UseContainer) {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
           this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -414,6 +414,9 @@ export class ShipmentViewComponent implements OnInit {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
           this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          if(this.UseContainer){
+            this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_CONTAINER_ID = ""; 
+          }
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_BINDTL[i]);
         }
       }
@@ -505,8 +508,10 @@ export class ShipmentViewComponent implements OnInit {
       this.GetDataBasedOnShipmentId(this.ShipmentID);
     } else if (this.lookupfor == "DDList") {
       this.DockDoor = event.OPTM_DOCKDOORID
+      this.isUpdateHappen = true;
     } else if (this.lookupfor == "CarrierList") {
       this.CarrierCode = event.OPTM_CARRIERID
+      this.isUpdateHappen = true;
     } else if (this.lookupfor == "GroupCodeList") {
       this.Container_Group = event.OPTM_CONTAINER_GROUP;
       this.isUpdateHappen = true;
@@ -850,7 +855,7 @@ export class ShipmentViewComponent implements OnInit {
     }
     this.showLoader = true;
     let uc = this.UseContainer == true ? "Y" : "N";
-    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group).subscribe(
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, this.ScheduleDatetime, this.DockDoor).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -933,6 +938,7 @@ export class ShipmentViewComponent implements OnInit {
           }
           if (data.OPTM_DOCKDOOR.length > 0) {
             this.DockDoor = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
+            this.isUpdateHappen = true;
           } else {
             this.DockDoor = "";
             this.toastr.error('', this.translate.instant("InvalidDock_Door"));
@@ -1002,6 +1008,7 @@ export class ShipmentViewComponent implements OnInit {
           }
           if (data.length > 0) {
             this.CarrierCode = data[0].OPTM_CARRIERID;
+            this.isUpdateHappen = true;
           } else {
             this.CarrierCode = "";
             this.toastr.error('', this.translate.instant("Invalid_Carrier_code"));
@@ -1184,7 +1191,9 @@ export class ShipmentViewComponent implements OnInit {
     if (event.getTime() < cDate.getTime()) {
       this.ScheduleDatetime = undefined;
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
+      return;
     }
+    this.isUpdateHappen = true;
   }
 
   /////////Archive data/////////////////////////////////////////////////////////////

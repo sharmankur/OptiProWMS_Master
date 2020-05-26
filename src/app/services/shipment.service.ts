@@ -59,7 +59,7 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/StageORUnstageShipment", jObject, this.commonService.httpOptions);
   }
 
-  updateShipment(OPTM_RETURN_ORDER_REF, OPTM_USE_CONTAINER, OPTM_SHIPMENTID, OPTM_BOLNUMBER, OPTM_VEHICLENO, OPTM_CONT_GRP): Observable<any> {
+  updateShipment(OPTM_RETURN_ORDER_REF, OPTM_USE_CONTAINER, OPTM_SHIPMENTID, OPTM_BOLNUMBER, OPTM_VEHICLENO, OPTM_CONT_GRP, OPTM_CARRIER, OPTM_SCH_DATETIME, OPTM_DOCKDOORID): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -69,7 +69,10 @@ export class ShipmentService {
         OPTM_USE_CONTAINER: OPTM_USE_CONTAINER,
         OPTM_SHIPMENTID: OPTM_SHIPMENTID,
         OPTM_USERNAME: localStorage.getItem("UserId"),
-        OPTM_CONT_GRP: OPTM_CONT_GRP
+        OPTM_CONT_GRP: OPTM_CONT_GRP,
+        OPTM_CARRIER: OPTM_CARRIER,
+        OPTM_SCH_DATETIME: OPTM_SCH_DATETIME,
+        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/UpdateShipment", jObject, this.commonService.httpOptions);

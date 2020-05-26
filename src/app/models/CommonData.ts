@@ -401,14 +401,13 @@ export class CommonData {
      */
     PickListStatusEnum(){
         return [
-            { "Value": 1, "Name": "CStatusNew" },
-            { "Value": 2, "Name": "Status_Release" },
-            { "Value": 3, "Name": "CAssignedNew" },
-            { "Value": 4, "Name": "Selected" },
-            { "Value": 5, "Name": "Status_Part_Picked" },
-            { "Value": 6, "Name": "Status_Picked" },
-            { "Value": 7, "Name": "CClosedNew" }
-
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("Status_Release") },
+            { "Value": 3, "Name": this.translate.instant("CAssignedNew") },
+            { "Value": 4, "Name": this.translate.instant("Selected") },
+            { "Value": 5, "Name": this.translate.instant("Status_Part_Picked") },
+            { "Value": 6, "Name": this.translate.instant("Status_Picked") },
+            { "Value": 7, "Name": this.translate.instant("CClosedNew") }
         ];
     }
 
