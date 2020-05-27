@@ -411,7 +411,7 @@ export class PickingListComponent implements OnInit {
   selectedPLItems: any = [];
   selectedPLItemsDataForValidate: any = [];
   selectContainerRowChange(checkValue, dataItem, index) {
-    var itemId = dataItem.OPTM_PICKLIST_CODE;
+    var itemId = dataItem.OPTM_PICKLIST_ID;
     console.log("selected index values");
     if (checkValue == true && !this.selectedPLItems.includes(itemId)) {
       this.selectedPLItems.push(itemId);
@@ -514,7 +514,7 @@ export class PickingListComponent implements OnInit {
         this.selectedPLItemsDataForValidate = [];
         for (let i = 0; i < this.PickItemList.length; ++i) {
           var dataItem = this.PickItemList[i];
-          var itemId = dataItem.OPTM_PICKLIST_CODE;
+          var itemId = dataItem.OPTM_PICKLIST_ID;
           this.selectedPLItems.push(itemId);
           this.selectedPLItemsDataForValidate.push(dataItem);
           this.PickItemList[i].Selected = true;
