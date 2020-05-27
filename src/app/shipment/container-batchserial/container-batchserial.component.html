@@ -91,7 +91,7 @@
                                     <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                         <div class="custom-control custom-checkbox">
                                             <input #checkedselectedvalue type="checkbox" (change)="selectContainerRowChange(checkedselectedvalue, checkedselectedvalue.checked,dataItem,idx)" [checked]="dataItem.Selected"
-                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" [disabled]="Selectedlink == 1" />
+                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter"  />
                                             <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                         </div>
                                     </ng-template>

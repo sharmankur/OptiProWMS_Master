@@ -67,6 +67,7 @@ export class ContainerBatchserialComponent implements OnInit {
 
   ngOnInit() {  
     //this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");  
+    this.Selectedlink = 2;
     this.SelectedWhse = localStorage.getItem("ShipWhse"); 
     this.SelectedBin = localStorage.getItem("ShipBin");
     this.ShimpmentArray = JSON.parse(localStorage.getItem("ShipmentArrData"));   
