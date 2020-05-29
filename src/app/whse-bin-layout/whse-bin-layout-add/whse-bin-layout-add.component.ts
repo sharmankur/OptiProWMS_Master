@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { WhseBinLayoutComponent } from '../whse-bin-layout/whse-bin-layout.component';
 import { WhseBinLayoutService } from '../../services/whse-bin-layout.service';
+import { RowArgs } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-whse-bin-layout-add',
@@ -36,6 +37,10 @@ export class WhseBinLayoutAddComponent implements OnInit {
   zonePageable: boolean = false;
   rangePageSize: number = 10;
   rangePageable: boolean = false;
+  isUpdateHappen: boolean = false;
+  mySelection: any[] = [];
+  // Use an arrow function to capture the 'this' execution context of the class.
+  public isRowSelected = (e: RowArgs) => this.mySelection.indexOf(e.dataItem.ZoneCode) >= 0;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private carmasterService: CARMasterService,
@@ -48,27 +53,25 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.buttonText = this.translate.instant("Submit");
+
     let actionType = localStorage.getItem("Action")
     if (actionType != undefined && actionType != "") {
       if (localStorage.getItem("Action") == "edit") {
         this.isUpdate = true;
-        this.buttonText = this.translate.instant("CT_Update");
         var data = JSON.parse(localStorage.getItem("Row"));
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else if (localStorage.getItem("Action") == "copy") {
         var data = JSON.parse(localStorage.getItem("Row"));
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
         this.whseCode = data.OPTM_WHSCODE;
         this.getWhseMasterDetails(this.whseCode);
       } else {
         this.isUpdate = false;
-        this.buttonText = this.translate.instant("CT_Add");
       }
     } else {
       this.isUpdate = false;
-      this.buttonText = this.translate.instant("CT_Add");
     }
   }
 
@@ -76,21 +79,58 @@ export class WhseBinLayoutAddComponent implements OnInit {
     this.whseBinLayout.whseBinLayoutComponent = 1;
   }
 
+  onBackClick() {
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.whseBinLayout.whseBinLayoutComponent = 1;
+    }
+  }
+
   onDeleteClick(type, rowindex) {
     console.log("onDeleteClick rowindex: " + rowindex)
     if (type == "zone") {
+      //delete from common list
+      for (let i = 0; i < this.whseRangeList.length; i++) {
+        if (this.whseRangeList[i].ZoneCode == this.whseZoneList[rowindex].ZoneCode
+          && this.whseRangeList[i].OPTM_BIN_RANGE == this.whseZoneList[rowindex].OPTM_BIN_RANGE) {
+          this.whseRangeList.splice(i, 1)
+          i = i - 1;
+        }
+      }
+      //delete from display zone list
       this.whseZoneList.splice(rowindex, 1);
+      //for paging
       this.zonePageable = false;
       if (this.whseZoneList.length > 10) {
         this.zonePageable = true;
       }
+      this.filterRangeListByZone()
+      if (this.whseZoneList.length == 0) {
+        this.displayWhseRangeList = []
+        this.selectedZoneCodeRow = undefined
+      }
     } else {
-      this.whseRangeList.splice(rowindex, 1);
+      //delete from common list
+      for (let i = 0; i < this.whseRangeList.length; i++) {
+        if (this.whseRangeList[i].ZoneCode == this.displayWhseRangeList[rowindex].ZoneCode
+          && this.whseRangeList[i].OPTM_BIN_RANGE == this.displayWhseRangeList[rowindex].OPTM_BIN_RANGE) {
+          this.whseRangeList.splice(i, 1)
+          break;
+        }
+      }
+      //delete from display range list
+      this.displayWhseRangeList.splice(rowindex, 1);
+
       this.rangePageable = false;
-      if (this.whseRangeList.length > 10) {
+      if (this.displayWhseRangeList.length > 10) {
         this.rangePageable = true;
       }
     }
+    this.isUpdateHappen = true;
+    // this.refreshGrid();
   }
 
   GetWhseCode() {
@@ -238,6 +278,18 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
   }
 
+  resetPage() {
+    this.whseCode = '';
+    this.whseDescr = '';
+    this.WIP_FG_StageBin = '';
+    this.WIP_RM_StageBin = '';
+    this.TransferOutBin = '';
+    this.TransferInBin = '';
+    this.Ship_StageBin = '';
+    this.whseZoneList = []
+    this.displayWhseRangeList = []
+    this.whseRangeList = []
+  }
 
   getLookupData($event) {
     if ($event != null && $event == "close") {
@@ -246,15 +298,13 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "WareHouse") {
+        this.isUpdateHappen = true
+        this.resetPage()
         this.whseCode = $event.WhsCode;
         this.whseDescr = $event.WhsName;
-        this.WIP_FG_StageBin = '';
-        this.WIP_RM_StageBin = '';
-        this.TransferOutBin = '';
-        this.TransferInBin = '';
-        this.Ship_StageBin = '';
       }
       else if (this.lookupfor == "BinList") {
+        this.isUpdateHappen = true
         if (this.fromType == 'zone') {
           for (var i = 0; i < this.whseZoneList.length; i++) {
             if (i == this.index) {
@@ -275,7 +325,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
               }
             }
           }
+          this.isUpdateHappen = true
         } else {
+          this.isUpdateHappen = true
           if (this.fromType == 'WIP_FG_StageBin') {
             this.WIP_FG_StageBin = $event.BinCode;
           } else if (this.fromType == 'WIP_RM_StageBin') {
@@ -289,23 +341,35 @@ export class WhseBinLayoutAddComponent implements OnInit {
           }
         }
       } else if (this.lookupfor == "BinRangeList") {
-        if(this.whseZoneList[this.index].OPTM_BIN_RANGE == $event.OPTM_BIN_RANGE){
+        if (this.displayWhseRangeList[this.index].OPTM_BIN_RANGE == $event.OPTM_BIN_RANGE) {
           return
         }
 
-        if(this.isBinRangeExist($event.OPTM_BIN_RANGE)){
+        if (this.isBinRangeExist($event.OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
           this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-          this.whseZoneList[this.index].OPTM_BIN_RANGE = ''
+          this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = ''
         } else {
-          this.whseZoneList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE;
+          this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE
         }
+        this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
+        for (let i = 0; i < this.displayWhseRangeList.length; i++) {
+          this.whseRangeList.push({
+            OPTM_BIN_RANGE: this.displayWhseRangeList[i].OPTM_BIN_RANGE,
+            WhseCode: this.whseCode,
+            ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+            ZoneType: this.selectedZoneCodeRow.ZoneType,
+            FromBin: this.selectedZoneCodeRow.FromBin,
+            ToBin: this.selectedZoneCodeRow.ToBin,
+          })
+        }
+        this.isUpdateHappen = true
       }
     }
   }
 
-  isBinRangeExist(value){
-    let data = this.whseZoneList.filter(item => item.OPTM_BIN_RANGE === value)
-    if(data.length > 0){
+  isBinRangeExist(value, zoneCode) {
+    let data = this.displayWhseRangeList.filter(item => (item.OPTM_BIN_RANGE === value && zoneCode === item.ZoneCode))
+    if (data.length > 0) {
       return true;
     } else {
       return false;
@@ -313,14 +377,19 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onAddRowClick(event) {
+    if (this.whseCode == '' || this.whseCode == undefined) {
+      this.toastr.error('', this.translate.instant("Whs_blank_msg"));
+      return;
+    }
+
     if (event == "zone") {
       this.whseZoneList.push({
-        WhseCode: "",
+        WhseCode: this.whseCode,
         ZoneCode: "",
         ZoneType: "",
         FromBin: "",
         ToBin: "",
-        OPTM_BIN_RANGE:""
+        OPTM_BIN_RANGE: ""
       })
 
       this.zonePageable = false;
@@ -328,16 +397,29 @@ export class WhseBinLayoutAddComponent implements OnInit {
         this.zonePageable = true;
       }
     } else if (event == "range") {
-      this.whseRangeList.push({
+      if (this.selectedZoneCodeRow == undefined || this.selectedZoneCodeRow == null) {
+        this.toastr.error('', this.translate.instant("ZoneRowSelectionValMsg"));
+        return
+      }
+
+      if (this.selectedZoneCodeRow.ZoneCode == '' || this.selectedZoneCodeRow.ZoneType == '') {
+        this.toastr.error('', this.translate.instant("SelectedRowFieldVal"));
+        return
+      }
+      this.displayWhseRangeList.push({
         OPTM_BIN_RANGE: "",
-        FromBin: "",
-        ToBin: ""
+        WhseCode: this.whseCode,
+        ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+        ZoneType: this.selectedZoneCodeRow.ZoneType,
+        FromBin: this.selectedZoneCodeRow.FromBin,
+        ToBin: this.selectedZoneCodeRow.ToBin,
       })
       this.rangePageable = false;
       if (this.whseRangeList.length > 10) {
         this.rangePageable = true;
       }
     }
+    this.isUpdateHappen = true
   }
 
   shipmentModel: any = {};
@@ -345,6 +427,37 @@ export class WhseBinLayoutAddComponent implements OnInit {
     this.shipmentModel.OPTM_SHP_WHSE_SETUP = [];
     this.shipmentModel.OPTM_SHP_WHSE_ZONES = [];
     this.shipmentModel.OPTM_SHP_WHSE_BINS = [];
+
+    if (this.whseRangeList.length == 0) {
+      this.toastr.error('', this.translate.instant("ZoneAndRangeValMsg"));
+      return false
+    } else {
+      for (var i = 0; i < this.whseZoneList.length; i++) {
+        if (this.whseZoneList[i].ZoneCode == undefined || this.whseZoneList[i].ZoneCode == '') {
+          this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
+          return false;
+        }
+
+        if (this.whseZoneList[i].ZoneType == undefined || this.whseZoneList[i].ZoneType == '') {
+          this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
+          return false;
+        }
+      }
+
+      for (var i = 0; i < this.whseRangeList.length; i++) {
+        if (this.whseRangeList[i].OPTM_BIN_RANGE == undefined || this.whseRangeList[i].OPTM_BIN_RANGE == '') {
+          this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
+          return false;
+        }
+      }
+
+      for (var i = 0; i < this.displayWhseRangeList.length; i++) {
+        if (this.displayWhseRangeList[i].OPTM_BIN_RANGE == undefined || this.displayWhseRangeList[i].OPTM_BIN_RANGE == '') {
+          this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
+          return false;
+        }
+      }
+    }
 
     this.shipmentModel.OPTM_SHP_WHSE_SETUP.push({
       OPTM_WHSCODE: this.whseCode,
@@ -362,28 +475,29 @@ export class WhseBinLayoutAddComponent implements OnInit {
       GUID: localStorage.getItem("GUID")
     });
 
-    for (var i = 0; i < this.whseZoneList.length; i++) {
+    for (var i = 0; i < this.whseRangeList.length; i++) {
       this.shipmentModel.OPTM_SHP_WHSE_ZONES.push({
-        OPTM_WHSCODE: this.whseZoneList[i].WhseCode,
-        OPTM_WHSZONE: this.whseZoneList[i].ZoneCode,
-        OPTM_ZONETYPE: this.whseZoneList[i].ZoneType,
-        OPTM_FROM_BIN: this.whseZoneList[i].FromBin,
-        OPTM_TO_BIN: this.whseZoneList[i].ToBin,
-        OPTM_BIN_RANGE: this.whseZoneList[i].OPTM_BIN_RANGE,
+        OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
+        OPTM_WHSZONE: this.whseRangeList[i].ZoneCode,
+        OPTM_ZONETYPE: this.whseRangeList[i].ZoneType,
+        OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
+        OPTM_TO_BIN: this.whseRangeList[i].ToBin,
+        OPTM_BIN_RANGE: this.whseRangeList[i].OPTM_BIN_RANGE,
         OPTM_CREATEDBY: localStorage.getItem("UserId"),
       });
     }
 
-    for (var i = 0; i < this.whseRangeList.length; i++) {
-      this.shipmentModel.OPTM_SHP_WHSE_BINS.push({
-        OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
-        OPTM_BIN_RANGE: this.whseRangeList[i].OPTM_BIN_RANGE,
-        OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
-        OPTM_TO_BIN: this.whseRangeList[i].ToBin,
-        OPTM_CREATEDBY: localStorage.getItem("UserId")
-      });
-    }
+    // for (var i = 0; i < this.whseRangeList.length; i++) {
+    //   this.shipmentModel.OPTM_SHP_WHSE_BINS.push({
+    //     OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
+    //     OPTM_BIN_RANGE: this.whseRangeList[i].OPTM_BIN_RANGE,
+    //     OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
+    //     OPTM_TO_BIN: this.whseRangeList[i].ToBin,
+    //     OPTM_CREATEDBY: localStorage.getItem("UserId")
+    //   });
+    // }
 
+    return true
   }
 
   onAddUpdateClick() {
@@ -408,35 +522,23 @@ export class WhseBinLayoutAddComponent implements OnInit {
     }
 
     for (var i = 0; i < this.whseZoneList.length; i++) {
-      // if (this.whseZoneList[i].FromBin == undefined || this.whseZoneList[i].FromBin == '') {
-      //   this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
-      //   return;
-      // }
-      // if (this.whseZoneList[i].ToBin == undefined || this.whseZoneList[i].ToBin == '') {
-      //   this.toastr.error('', this.translate.instant("ZoneToBinCannotBlankMsg"));
-      //   return;
-      // }
+      if (this.whseZoneList[i].ZoneCode == undefined || this.whseZoneList[i].ZoneCode == '') {
+        this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
+        return;
+      }
 
-      if (this.whseZoneList[i].OPTM_BIN_RANGE == undefined || this.whseZoneList[i].OPTM_BIN_RANGE == '') {
-        this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
+      if (this.whseZoneList[i].ZoneType == undefined || this.whseZoneList[i].ZoneType == '') {
+        this.toastr.error('', this.translate.instant("ZoneCodeAndTypeBlank"));
         return;
       }
     }
 
     // for (var i = 0; i < this.whseRangeList.length; i++) {
-    //   if (this.whseRangeList[i].FromBin == undefined || this.whseRangeList[i].FromBin == '') {
-    //     this.toastr.error('', this.translate.instant("RangeFromBinCannotBlankMsg"));
+    //   if (this.whseRangeList[i].OPTM_BIN_RANGE == undefined || this.whseRangeList[i].OPTM_BIN_RANGE == '') {
+    //     this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
     //     return;
     //   }
-    //   if (this.whseRangeList[i].ToBin == undefined || this.whseRangeList[i].ToBin == '') {
-    //     this.toastr.error('', this.translate.instant("RangeToBinCannotBlankMsg"));
-    //     return;
-    //   }
-      // if (this.whseRangeList[i].OPTM_BIN_RANGE == undefined || this.whseRangeList[i].OPTM_BIN_RANGE == '') {
-      //   this.toastr.error('', this.translate.instant("RangeCannotBlankMsg"));
-      //   return;
-      // }
-    //}
+    // }
 
     if (this.isUpdate) {
       this.update();
@@ -446,7 +548,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onAdd() {
-    this.prepareSaveData();
+    if (!this.prepareSaveData()) {
+      return
+    }
     this.showLoader = true;
     this.whseService.InsertIntoWareHouseMaster(this.shipmentModel).subscribe(
       (data: any) => {
@@ -458,7 +562,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if (data[0].RESULT == "Data Saved") {
-            this.toastr.success('', this.translate.instant("PhyCount_DataSavedSuccessfully"));
+            this.toastr.success('', this.translate.instant(data[0].RESULT));
             this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
             this.toastr.error('', data[0].RESULT);
@@ -480,7 +584,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   update() {
-    this.prepareSaveData();
+    if (!this.prepareSaveData()) {
+      return
+    }
     this.showLoader = true;
     this.whseService.UpdateWareHouseMaster(this.shipmentModel).subscribe(
       (data: any) => {
@@ -492,8 +598,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
             return;
           }
           if (data[0].RESULT == "Data Saved") {
-            this.toastr.success('', this.translate.instant("PhyCount_DataSavedSuccessfully"));
-            this.whseBinLayout.whseBinLayoutComponent = 1;
+            this.toastr.success('', data[0].RESULT);
+            this.isUpdateHappen = false
+            // this.whseBinLayout.whseBinLayoutComponent = 1;
           } else {
             this.toastr.error('', data[0].RESULT);
           }
@@ -523,25 +630,65 @@ export class WhseBinLayoutAddComponent implements OnInit {
   }
 
   onZoneCodeChange(value, index) {
+    if (value == undefined || value == '') {
+      return
+    }
+    //if no change in code
+    if (this.whseZoneList[index].ZoneCode == value) {
+      return
+    }
+    //validate with duplicate zone code
     for (var i = 0; i < this.whseZoneList.length; i++) {
-      if (i == index) {
-        this.whseZoneList[i].ZoneCode = value;
+      if (this.whseZoneList[i].ZoneCode == value) {
+        this.whseZoneList[i].ZoneCode = ' '
+        this.toastr.error('', this.translate.instant("ZoneCodeAndTypeDuplicate"));
+        setTimeout(() => {
+          this.whseZoneList[i].ZoneCode = ''
+        }, 200)
+        return
       }
     }
+
+    //first update all rows of whseRangelist with latest zone code.... this list will send on server
+    for (var i = 0; i < this.whseRangeList.length; i++) {
+      if (this.whseRangeList[i].ZoneCode == this.whseZoneList[index].ZoneCode) {
+        this.whseRangeList[i].ZoneCode = value;
+      }
+    }
+
+    //After update display zone list
+    this.whseZoneList[index].ZoneCode = value;
+
+    this.isUpdateHappen = true
   }
 
   onZoneTypeChange(value, index) {
-    for (var i = 0; i < this.whseZoneList.length; i++) {
-      if (i == index) {
-        this.whseZoneList[i].ZoneType = value;
+    if (value == undefined || value == '') {
+      return
+    }
+    //if no change in type
+    if (this.whseZoneList[index].ZoneType == value) {
+      return
+    }
+    //first update all rows of whseRangelist with latest zone type.... this list will send on server
+    for (var i = 0; i < this.whseRangeList.length; i++) {
+      if (this.whseRangeList[i].ZoneCode == this.whseZoneList[index].ZoneCode
+        && this.whseRangeList[i].ZoneType == this.whseZoneList[index].ZoneType) {
+        this.whseRangeList[i].ZoneType = value;
       }
     }
+
+    //After update display zone list
+    this.whseZoneList[index].ZoneType = value;
+
+    this.isUpdateHappen = true
   }
 
   getWhseMasterDetails(whse) {
-    if(whse == undefined || whse == ""){
+    if (whse == undefined || whse == "") {
       return;
     }
+    this.showLoader = true
     this.whseService.IsValidWareHouseMaster(whse).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -560,7 +707,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
           this.TransferInBin = data.OPTM_SHP_WHSE_SETUP[0].OPTM_DEF_TRANS_IN_BIN
 
           for (var i = 0; i < data.OPTM_SHP_WHSE_ZONES.length; i++) {
-            this.whseZoneList.push({
+            this.whseRangeList.push({
               WhseCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSCODE,
               ZoneCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE,
               ZoneType: data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE,
@@ -570,13 +717,19 @@ export class WhseBinLayoutAddComponent implements OnInit {
             })
           }
 
-          for (var i = 0; i < data.OPTM_SHP_WHSE_BINS.length; i++) {
-            this.whseRangeList.push({
-              OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_BINS[i].OPTM_BIN_RANGE,
-              FromBin: data.OPTM_SHP_WHSE_BINS[i].OPTM_FROM_BIN,
-              ToBin: data.OPTM_SHP_WHSE_BINS[i].OPTM_TO_BIN,
-            })
+          for (var i = 0; i < data.OPTM_SHP_WHSE_ZONES.length; i++) {
+            if (!this.isExistZoneCode(data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE, data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE)) {
+              this.whseZoneList.push({
+                WhseCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSCODE,
+                ZoneCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE,
+                ZoneType: data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE,
+                FromBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,
+                ToBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_TO_BIN,
+                OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_ZONES[i].OPTM_BIN_RANGE
+              })
+            }
           }
+          this.refreshGrid();
         } else {
           //this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
@@ -591,6 +744,17 @@ export class WhseBinLayoutAddComponent implements OnInit {
         }
       }
     );
+  }
+
+  refreshGrid() {
+    //For make selection first row by default.
+    this.selectedZoneCodeRow = {
+      ZoneCode: this.whseZoneList[0].ZoneCode,
+      ZoneType: this.whseZoneList[0].ZoneType
+    }
+    this.mySelection = []
+    this.mySelection.push(this.whseZoneList[0].ZoneCode)
+    this.filterRangeListByZone()
   }
 
   onBinChange(from, event) {
@@ -615,6 +779,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();
             return;
           }
+        this.isUpdateHappen = true
         if (resp.length == 0) {
           //this.toastr.error('', this.translate.instant("INVALIDBIN"));
           if ("WIP_FG_StageBin" == from) {
@@ -680,9 +845,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router, this.translate.instant("CommonSessionExpireMsg"));//.subscribe();            
             return;
           }
+        this.isUpdateHappen = true
         if (resp.length == 0) {
           this.toastr.error('', this.translate.instant("InvalidWhsErrorMsg"));
           this.whseCode = ''
+          this.resetPage()
         } else {
           this.whseCode = resp[0].WhsCode
           this.whseDescr = resp[0].WhsName
@@ -697,9 +864,11 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
     return result;
   }
-  
+
   IsValidWareHouseBinRange(index, value, display_name) {
-    if(value == undefined || value == ""){
+    if (value == undefined || value == "") {
+      this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
+      this.toastr.error('', this.translate.instant("BinRangeValMsg"));
       return;
     }
     this.showLoader = true;
@@ -712,29 +881,38 @@ export class WhseBinLayoutAddComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if(data.OPTM_SHP_WHSE_BINS.length > 0){
-            if(this.whseZoneList[index].OPTM_BIN_RANGE == data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE){
+          this.isUpdateHappen = true
+          if (data.OPTM_SHP_WHSE_BINS.length > 0) {
+            if (this.displayWhseRangeList[index].OPTM_BIN_RANGE == data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE) {
               return
             }
 
-            if(this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE)){
+            if (this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
               this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
-              this.whseZoneList[index].OPTM_BIN_RANGE = ' '
-              setTimeout(()=>{
-              this.whseZoneList[index].OPTM_BIN_RANGE = ''
-              }, 500)
+              this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
             } else {
-              this.whseZoneList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE;
+              this.displayWhseRangeList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE
             }
-          }else{
-            this.whseZoneList[index].OPTM_BIN_RANGE = "";
-            display_name.value = "";
-            this.toastr.error('', "Invalid Bin Ranges");
+            this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
+            for (let i = 0; i < this.displayWhseRangeList.length; i++) {
+              this.whseRangeList.push({
+                OPTM_BIN_RANGE: this.displayWhseRangeList[i].OPTM_BIN_RANGE,
+                WhseCode: this.whseCode,
+                ZoneCode: this.selectedZoneCodeRow.ZoneCode,
+                ZoneType: this.selectedZoneCodeRow.ZoneType,
+                FromBin: this.selectedZoneCodeRow.FromBin,
+                ToBin: this.selectedZoneCodeRow.ToBin,
+              })
+            }
+          } else {
+            if (value != undefined && value != "") {
+              this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
+              this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
+            }
           }
         } else {
-          this.whseZoneList[index].OPTM_BIN_RANGE = "";
-          display_name.value = "";
-          this.toastr.error('', "Invalid Bin Ranges");
+          this.toastr.error('', this.translate.instant("InvalidBinRangeErrorMsg"));
+          this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
         }
       },
       error => {
@@ -780,5 +958,74 @@ export class WhseBinLayoutAddComponent implements OnInit {
     );
   }
 
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.whseBinLayout.whseBinLayoutComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
+
+  prepareWhsZoneList(list) {
+    this.whseZoneList = []
+    for (var i = 0; i < list.length; i++) {
+      if (!this.isExistZoneCode(list[i].ZoneCode, list[i].ZoneType)) {
+        this.whseZoneList.push(list[i])
+      }
+    }
+  }
+
+  displayWhseRangeList: any[]
+  filterRangeListByZone() {
+    if (this.selectedZoneCodeRow == undefined || this.selectedZoneCodeRow == null) {
+      return
+    } else {
+      this.displayWhseRangeList = this.whseRangeList.filter(item => item.ZoneCode === this.selectedZoneCodeRow.ZoneCode)
+    }
+  }
+
+  isExistZoneCode(zoneCode: any, zoneType: any) {
+    for (let i = 0; i < this.whseZoneList.length; i++) {
+      if (this.whseZoneList[i].ZoneCode == zoneCode && this.whseZoneList[i].ZoneType == zoneType) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  selectedZoneCodeRow: any;
+  onSelectionClick(event) {
+    this.mySelection = []
+    this.selectedZoneCodeRow = event.selectedRows[0].dataItem
+    this.mySelection.push(this.selectedZoneCodeRow.ZoneCode)
+    this.filterRangeListByZone()
+  }
 }
 

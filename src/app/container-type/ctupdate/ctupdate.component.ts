@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { InboundService } from '../../services/inbound.service';
+import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Commonservice } from '../../services/commonservice.service';
 import { CTMasterComponent } from '../ctmaster.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -23,8 +23,8 @@ export class CTUpdateComponent implements OnInit {
   BtnTitle: string;
   showLoader: boolean = false;
   isUpdate: boolean = false;
-
-  constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
+  isUpdateHappen: boolean = false
+  constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -34,6 +34,8 @@ export class CTUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
@@ -44,41 +46,79 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Height = this.CT_ROW.OPTM_HEIGHT;
       this.CT_Max_Width = this.CT_ROW.OPTM_MAXWEIGHT;
       this.CT_Tare_Width = this.CT_ROW.OPTM_TARE_WT;
-      this.formatCT_Tare_Width();
+      this.formatCT_Tare_Width("");
       if(localStorage.getItem("Action") == "copy"){
         this.CT_ContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
     }
+
+    this.GetUnitOfMeasure()
   }
 
   formatCT_Width() {
+    if(Number(this.CT_Width) < 0 ){
+      this.CT_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Width = Number(this.CT_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Height() {
+    if(Number(this.CT_Height) < 0 ){
+      this.CT_Height = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Height = Number(this.CT_Height).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Length() {
+    if(Number(this.CT_Length) < 0 ){
+      this.CT_Length = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Length = Number(this.CT_Length).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
   formatCT_Max_Width() {
+    if(Number(this.CT_Max_Width) < 0 ){
+      this.CT_Max_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Max_Width = Number(this.CT_Max_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
   }
 
-  formatCT_Tare_Width() {
+  formatCT_Tare_Width(value) {
+    if(Number(this.CT_Tare_Width) < 0 ){
+      this.CT_Tare_Width = ''
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      return false;
+    }
     this.CT_Tare_Width = Number(this.CT_Tare_Width).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value == 'blur'){
+      this.isUpdateHappen = true
+    }
+
+    if(this.CT_Max_Width <= this.CT_Tare_Width){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+    }
   }
   
+  onDescChange(){
+    this.isUpdateHappen = true
+  }
 
   validateFields(): boolean{
     if(this.CT_ContainerType == '' || this.CT_ContainerType == undefined){
@@ -100,6 +140,17 @@ export class CTUpdateComponent implements OnInit {
     else if(this.CT_Max_Width == "NaN" || this.CT_Max_Width == undefined || 
     (Number(this.CT_Max_Width) <= 0)){
       this.CT_Max_Width = "0";
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Tare_Width) < 1){
+      this.toastr.error('', this.translate.instant("WeightTareValMsg"));
+      return false
+    } else if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
+      this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
+      return false
     }
     return true;
   }
@@ -108,7 +159,7 @@ export class CTUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    if(this.isUpdate){
       this.updateContainerType();
     }else{
       this.addContainerType();
@@ -117,7 +168,7 @@ export class CTUpdateComponent implements OnInit {
 
   addContainerType() {
     this.showLoader = true;
-    this.inboundService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
+    this.containerTypeService.InsertIntoContainerType(this.CT_ContainerType, this.CT_Description, 
       this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -151,7 +202,7 @@ export class CTUpdateComponent implements OnInit {
 
   updateContainerType() {
     this.showLoader = true;
-    this.inboundService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
+    this.containerTypeService.UpdateContainerType(this.CT_ContainerType, this.CT_Description, 
       this.CT_Length, this.CT_Width, this.CT_Height, this.CT_Max_Width, this.CT_Tare_Width).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -187,4 +238,83 @@ export class CTUpdateComponent implements OnInit {
     this.inboundMasterComponent.inboundComponent = 1;
   }
 
+  onBackClick(){
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.inboundMasterComponent.inboundComponent = 1;
+    }
+  }
+
+  UnitModel: any = "";
+  GetUnitOfMeasure() {
+    this.showLoader = true;
+    this.commonservice.GetUnitOfMeasure().subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if(data != undefined && data.length > 0){
+            this.UnitModel = data[0];
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onContainerTypeChange(event){
+    this.isUpdateHappen = true
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.inboundMasterComponent.inboundComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
+      }
+    }
+  }
 }

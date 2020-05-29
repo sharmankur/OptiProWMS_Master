@@ -107,7 +107,7 @@ export class CommonLookupComponent implements OnInit {
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
-    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
+    if (this.lookupfor == "ShipmentList" || this.lookupfor == "ShipmentListForFilter" || this.lookupfor == "ShipIdFrom" || this.lookupfor == "ShipIdTo") {
       this.showShipmentList();
     } else if (this.lookupfor == "ItemsList") {
       this.showItemCodeList();
@@ -203,7 +203,7 @@ export class CommonLookupComponent implements OnInit {
       this.showBinNoList();
     } else if (this.lookupfor == "SOList") {
       this.showOutSOListNew();
-    } else if (this.lookupfor == "GroupCodeList") {
+    } else if (this.lookupfor == "GroupCodeList" || this.lookupfor == "GroupCode") {
       this.showContainerGroupCodeList();
     } else if (this.lookupfor == "DDList" || this.lookupfor == "DDFrom" || this.lookupfor == "DDTo") {
       this.showDDList();
@@ -231,10 +231,15 @@ export class CommonLookupComponent implements OnInit {
       this.showContItemsList();
     }else if(this.lookupfor == "ContItemBatchSerialList"){
       this.showContItemBatchSerialList();
+      
     }else if(this.lookupfor == "RULEITEMS"){
       this.showRuleItemList();
     } else if(this.lookupfor == "AutoAllocate"){
       this.showShipsForAutoAllocate();
+    }else if(this.lookupfor == "ContItems"){
+      this.showContitems();
+    }else if(this.lookupfor == "showContBatchSerialList"){
+      this.showContBatchSerialList();
     }
 
     this.clearFilters();
@@ -301,13 +306,37 @@ export class CommonLookupComponent implements OnInit {
         field: 'OPTM_CONTAINERID',
         title: this.translate.instant("ContainerId"),
         type: 'text',
-        width: '100'
+        width: '90'
       },
       {
         field: 'OPTM_CONTCODE',
         title: this.translate.instant("ContainerCode"),
         type: 'text',
+        width: '160'
+      },
+      {
+        field: 'OPTM_CONTTYPE',
+        title: this.translate.instant("CT_ContainerType"),
+        type: 'text',
         width: '100'
+      },
+      {
+        field: 'OPTM_STATUS_VAL',
+        title: this.translate.instant("ContainerStatus"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_SHIPELIGIBLE_VAL',
+        title: this.translate.instant("Purpose"),
+        type: 'text',
+        width: '90'
+      },
+      {
+        field: 'OPTM_BUILT_SOURCE_VAL',
+        title: this.translate.instant("PackProcess"),
+        type: 'text',
+        width: '150'
       }
     ];
     this.lookupTitle = this.translate.instant("Container_List");
@@ -376,15 +405,32 @@ export class CommonLookupComponent implements OnInit {
       }
       ,
       {
-        field: 'OPTM_TRACKING',
+        field: 'OPTM_TRACKING_VALUE',
         title: this.translate.instant("TrackType"),
         type: 'text',
         width: '100'
       },{
-        field: 'OPTM_PARTS_PERCONT',
+        field: 'OPTM_PARTS_PERCONT_VAL',
         title: this.translate.instant("Rule_Qty"),
         type: 'text',
         class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'QtyAdded',
+        title: 'Qty Added',
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'BalQty',
+        title: "Bal Qty",
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
         width: '100'
       },
       {
@@ -392,6 +438,7 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Item_Qty"),
         type: 'text',
         class: 'text-right',
+        headerClass: 'text-right',
         width: '100'
       },
 
@@ -403,6 +450,48 @@ export class CommonLookupComponent implements OnInit {
       }
     }
   }
+
+  showContBatchSerialList(){
+    this.table_head = [
+      {
+        field: 'OPTM_BTCHSER',
+        title: this.translate.instant("Batch_Serial"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_ITEMCODE',
+        title: this.translate.instant("ItemCode"),
+        type: 'text',
+        width: '100'
+      },{
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_BIN',
+        title: this.translate.instant("Bin_No"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_QUANTITY',
+        title: this.translate.instant("Quantity"),
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+    ];
+    this.lookupTitle = this.translate.instant("BatchSerialList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }  
 
   showContItemBatchSerialList(){
     this.table_head = [
@@ -449,24 +538,35 @@ export class CommonLookupComponent implements OnInit {
   showRuleItemList(){
     this.table_head = [
       {
-        field: 'ITEMCODE',
+        field: 'OPTM_ITEMCODE',
         title: this.translate.instant("ItemCode"),
         type: 'text',
         width: '100'
       },
       {
-        field: 'OPTM_TRACKING',
+        field: 'OPTM_TRACKING_VALUE',
         title: this.translate.instant("TrackType"),
         type: 'text',
         width: '100'
-      }
-      ,{
-        field: 'OPTM_PARTS_PERCONT',
+      },
+      {
+        field: 'OPTM_PARTS_PERCONT_VAL',
         title: this.translate.instant("Rule_Qty"),
         type: 'text',
         class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'OPTM_MIN_FILLPRCNT',
+        title: "Min Fill Percent",
+        type: 'text',
+        headerClass: 'text-right',
+        class: 'text-right',
         width: '100'
       }
+
+      
     ];
     this.lookupTitle = this.translate.instant("Rule_Items");
     if (this.serviceData !== undefined) {
@@ -852,7 +952,7 @@ export class CommonLookupComponent implements OnInit {
         field: 'OPTM_SHIPMENT_CODE',
         title: this.translate.instant("Shipment_Code"),
         type: 'text',
-        width: '100'
+        width: '150'
       },
       {
         field: 'OPTM_BPCODE',
@@ -1228,6 +1328,37 @@ export class CommonLookupComponent implements OnInit {
       }
     ];
     this.lookupTitle = this.translate.instant("CustomerList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }
+
+  showContitems() {
+    this.table_head = [
+      {
+        title: "Item Code",
+        field: 'OPTM_ITEMCODE',
+        type: 'text',
+        width: '100'
+      },
+      {
+        title: "Item Tracking",
+        field: 'OPTM_TRACKING_VALUE',
+        type: 'text',
+        width: '100'
+      },
+      {
+        title: "Item Qty.",
+        field: 'OPTM_QUANTITY_VAL',
+        class : 'text-right',
+        headerClass: 'text-right',
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("ItemsList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

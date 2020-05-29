@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { InboundService } from '../../services/inbound.service';
+import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -19,7 +19,7 @@ export class CTViewComponent implements OnInit {
   showLoader: boolean = false;
 
 
-  constructor(private inboundService: InboundService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
+  constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -73,7 +73,7 @@ export class CTViewComponent implements OnInit {
 
   DeleteFromContainerType(ddDeleteArry) {
     this.showLoader = true;
-    this.inboundService.DeleteFromContainerType(ddDeleteArry).subscribe(
+    this.containerTypeService.DeleteFromContainerType(ddDeleteArry).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -119,10 +119,25 @@ export class CTViewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CT_ROW", "");
-    localStorage.setItem("Action", "");
-    this.inboundMasterComponent.inboundComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CT_ROW", "");
+      localStorage.setItem("Action", "");
+      this.inboundMasterComponent.inboundComponent = 2;
+    }
   }
 
   onEditClick(row) {
@@ -162,6 +177,11 @@ export class CTViewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("CT_ROW", "");
+          localStorage.setItem("Action", "");
+          this.inboundMasterComponent.inboundComponent = 2;
+          break
         case ("Delete"):
           var ddDeleteArry: any[] = [];
           ddDeleteArry.push({

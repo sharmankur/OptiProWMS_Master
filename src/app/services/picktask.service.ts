@@ -171,7 +171,7 @@ export class PickTaskService {
   updateReleaseStatusForPickListItems(OPTM_PICKLIST_CODE_List:any): Observable<any> {
       var arrRequestBody=[];
       for(let i=0;i<OPTM_PICKLIST_CODE_List.length;i++){
-         var obj = {CompanyDBId: localStorage.getItem("CompID"), OPTM_PICKLIST_CODE: OPTM_PICKLIST_CODE_List[i]}
+         var obj = {CompanyDBId: localStorage.getItem("CompID"), OPTM_PICKLIST_ID: OPTM_PICKLIST_CODE_List[i]}
          arrRequestBody.push(obj);
       }
     let jObject = {

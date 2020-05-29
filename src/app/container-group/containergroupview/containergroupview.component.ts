@@ -78,10 +78,25 @@ export class ContainergroupviewComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
 
+  selectedRows: any = []
+  onChangeSelection(event) {
+    console.log(event)
+    this.selectedRows = event;
+  }
+
   OnAddClick() {
-    localStorage.setItem("CG_ROW", "");
-    localStorage.setItem("Action", "");
-    this.contrMainComp.cgComponent = 2;
+    if (this.selectedRows.length > 0) {
+      this.event = event;
+      this.dialogFor = "DataLost";
+      this.yesButtonText = this.translate.instant("yes");
+      this.noButtonText = this.translate.instant("no");
+      this.showConfirmDialog = true;
+      this.dialogMsg = this.translate.instant("SelectionLostMsg");
+    } else {
+      localStorage.setItem("CG_ROW", "");
+      localStorage.setItem("Action", "");
+      this.contrMainComp.cgComponent = 2;
+    }
   }
 
   OnDeleteSelected(event) {
@@ -150,6 +165,11 @@ export class ContainergroupviewComponent implements OnInit {
     this.showConfirmDialog = false;
     if ($event.Status == "yes") {
       switch ($event.From) {
+        case ("DataLost"):
+          localStorage.setItem("CG_ROW", "");
+          localStorage.setItem("Action", "");
+          this.contrMainComp.cgComponent = 2;
+          break
         case ("Delete"):
           var cgDeleteArry: any[] = [];
           cgDeleteArry.push({
@@ -186,5 +206,5 @@ export class ContainergroupviewComponent implements OnInit {
       }
     }
   }
-
 }
+

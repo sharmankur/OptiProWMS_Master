@@ -80,28 +80,6 @@
                     </div>
                 </div>
     
-                <!-- <div class="row">
-                            <div class="col-12">
-                             <div class="row">
-    
-                             <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="ShipmentId" class="col-sm-4 col-form-label">{{'Shipment_Id'|translate}}</label>
-                                    <div class="input-group col-sm-7">
-                                        <input type="text" class="form-control form-control-sm" name='ShipmentId' [(ngModel)]=ShipmentId id="ShipmentId">
-                                </div>                                   
-                                 </div>
-                                 </div>    
-                                <div class="col-sm-6">
-                                  <div class="form-group row">
-                                    <button type="button" text="Select Shipments" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>  
-                                </div>
-                            </div>
-                        </div>                    
-                    </div>
-                            
-                    </div> -->
-    
                 <div class="row mb-2">
                     <div class="col-12">
                         <!-- <h5 class="card-header">{{'Container_BatchSerial'|translate}}</h5> -->
@@ -109,38 +87,15 @@
                             <kendo-grid class="custom-height-grid kendo-responsive-grid" [kendoGridBinding]="ContainerBatchSerials" [resizable]="true"
                                 [height]="330" [pageSize]="pageSize" [skip]="skip" [pageable]="ShowGridPaging" (pageChange)="pageChange($event)" [filterable]=isColumnFilterView
                                 [groupable]=false [columnMenu]="false" [selectable]="{ checkboxOnly: true, mode: 'multiple' }">
-                                <ng-template kendoGridToolbarTemplate> 
-                                    <span class="grid-toolbar-title">{{'Container_BatchSerial'|translate}}</span>   
-                                    <label class="custom-checkbox mb-0 mr-2 filter-checkbox">                                            
-                                        <input #chkFilterView type="checkbox" (change)="onFilterChange(chkFilterView,ContainerBatchSerials)" id="FilterColumnView" [(ngModel)]="isColumnFilterView" class="k-checkbox" name="FilterColumnView" />
-                                        <label class="k-checkbox-label" for="FilterColumnView">{{'Enable_Filter'|translate}}</label>
-                                    </label>                                    
-                                  </ng-template>
-                                <kendo-grid-column field="Selected" width="25" title="{{'Select'|translate}}">
-                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                                        <label class="custom-checkbox mb-0">
-                                                            <input type="checkbox" #checkedselectedvalue
-                                                                (change)="selectContainerRowChange(checkedselectedvalue, checkedselectedvalue.checked,dataItem,rowIndex)" [checked]="dataItem.Selected">
-                                                            <span class="checkbox"></span>
-                                                        </label>
-                                                    </ng-template>
-                                        </kendo-grid-column>
-                                <!-- <kendo-grid-checkbox-column title="Select" [width]="25">
-                                    <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
-                                                [checked]=selectall id="parent_checkbox_{{rowIndex}}" class="custom-control-input">
-                                            <label class="custom-control-label" for="parent_checkbox_{{rowIndex}}"></label>
-                                        </div>
-                                    </ng-template>
+                                <kendo-grid-checkbox-column [width]="25" title="{{'Select'|translate}}">
                                     <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                         <div class="custom-control custom-checkbox">
-                                            <input #chkSelection type="checkbox" (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]=selectall
-                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
+                                            <input #checkedselectedvalue type="checkbox" (change)="selectContainerRowChange(checkedselectedvalue, checkedselectedvalue.checked,dataItem,idx)" [checked]="dataItem.Selected"
+                                                id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter"  />
                                             <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                         </div>
                                     </ng-template>
-                                </kendo-grid-checkbox-column> -->
+                                </kendo-grid-checkbox-column>
                                 <kendo-grid-column field="ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="WHSCODE" width="64" title="{{'WarehouseCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="BINNO" width="108" title="{{'Bin_No'|translate}}"></kendo-grid-column>
@@ -199,7 +154,8 @@
                         <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>  -->
     
                     <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdateBtnPress()" [disabled]="Selectedlink == 1">
-                        <span class="k-icon k-i-check" role="presentation"></span>{{'CT_Update'|translate}}</button>
+                        <!-- <span class="k-icon k-i-check" role="presentation"></span> -->
+                        {{'Submit'|translate}}</button>
                         
                     <div class="btn-group  toggle-btn-outer">
                         <div class="dropdown show">
@@ -208,11 +164,11 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" 
-                                (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a>
+                                <!-- <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" 
+                                (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a> -->
                                 <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(2)">{{'Assign_to_shipment'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(3)">{{'Remove_from_shipment'|translate}}</a>
-                                <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Return_by_customer'|translate}}</a>
+                                <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(4)">{{'Return_by_customer'|translate}}</a>                                
                             </div>
                         </div>
                     </div>
@@ -233,3 +189,8 @@
     <div class="opti_loader full-section" *ngIf="showLoader">
         <div class="opti_spinner"></div>
     </div>
+
+    <span *ngIf="showConfirmDialog">
+        <app-comon-confirm-dialog [titleMessage]="dialogMsg" [yesButtonText]="yesButtonText" [fromWhere]="dialogFor" [noButtonText]="noButtonText"
+            (isYesClick)="getConfirmDialogValue($event)"></app-comon-confirm-dialog>
+    </span>

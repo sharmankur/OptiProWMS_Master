@@ -23,6 +23,7 @@ export class AutoAllocationComponent implements OnInit {
   public mobileMedia = "(max-width: 767px)";
   public desktopMedia = "(min-width: 768px)";
   showLoader: boolean = false;
+  isUpdateHappen: boolean = false
 
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -60,6 +61,8 @@ export class AutoAllocationComponent implements OnInit {
       this.ShipIdTo = event.OPTM_SHIPMENTID;
       this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE;
     }
+    this.isUpdateHappen = true
+
   }
 
   schedularFromDate: any;
@@ -67,6 +70,7 @@ export class AutoAllocationComponent implements OnInit {
   tempFromDate: Date;
   tempToDate: Date;
   onScheduleFromDateChange(event) {
+    this.isUpdateHappen = true
     console.log("onScheduleFromDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
@@ -84,6 +88,7 @@ export class AutoAllocationComponent implements OnInit {
   }
 
   onScheduleToDateChange(event) {
+    this.isUpdateHappen = true
     console.log("onScheduleToDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
@@ -100,6 +105,10 @@ export class AutoAllocationComponent implements OnInit {
     }
   }
 
+  OnCancelClick() {
+    this.router.navigate(['home/dashboard']);
+  }
+  
   GetShipmentIdWithAllocAndPartAllocStatus(fieldName) {
     var shipId = ''
     if (fieldName == 'ShipIdFrom') {
@@ -124,6 +133,7 @@ export class AutoAllocationComponent implements OnInit {
             this.lookupfor = "AutoAllocate"
             this.hideLookup = false;
           } else {
+            this.isUpdateHappen = true
             if (data.Table.length > 0) {
               if (fieldName == 'ShipIdFrom') {
                 this.ShipmentCodeFrom = data.Table[0].OPTM_SHIPMENT_CODE
@@ -158,12 +168,16 @@ export class AutoAllocationComponent implements OnInit {
   onAutoAllocClick() {
     if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
       this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+      return
     } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
       this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+      return
     } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
       this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+      return
     } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
       this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+      return
     }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
@@ -176,6 +190,8 @@ export class AutoAllocationComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
+            // {"OUTPUT":[{"RESULT":"Data Saved"}]}
+            this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
             this.ShipmentCodeFrom = ''
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''

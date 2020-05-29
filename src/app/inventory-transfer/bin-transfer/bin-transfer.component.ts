@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, TemplateRef, ViewChild, ElementRef } from '@angular/core';
-import { viewLineContent } from '../../DemoData/sales-order';
+// import { viewLineContent } from '../../DemoData/sales-order';
 import { UIHelper } from '../../helpers/ui.helpers';
 // import { BsModalService, BsModalRef, ModalDirective } from 'ngx-bootstrap/modal/ngx-bootstrap-modal';
 import { Commonservice } from '../../services/commonservice.service';

@@ -71,9 +71,9 @@ export class CommonData {
     ];
 
     public opertions: any = [
-        { "value": 1, "Name": this.translate.instant("No_Operation") },
-        { "value": 2, "Name": this.translate.instant("Increase") },
-        { "value": 3, "Name": this.translate.instant("Decrease") }
+        { "value": 1, "Name": this.translate.instant("No_Operation")},
+        { "value": 2, "Name": this.translate.instant("Increase")},
+        { "value": 3, "Name": this.translate.instant("Decrease")}
     ];
 
     public bom_type: any = [

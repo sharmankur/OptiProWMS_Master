@@ -501,14 +501,21 @@
             (click)="onArrowBtnClick()">
             <i class="opti-icon-arrow-back"></i>
         </button>
-        <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()"
+
+        <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
+                <span class="k-icon k-i-close-outline" role="presentation"></span>
+                {{'Cancel'|translate}}</button>
+
+
+        <!-- <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()"
             *ngIf="!IsShipment">
-            <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdatePress()">
-            <span class="k-icon k-i-check" role="presentation"></span>{{'CT_Update'|translate}}</button>
+            <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button> -->
+        <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdatePress()" [disabled]="PickItemList.length==0">
+            {{'Submit'|translate}}</button>
+
         <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text"
-            (click)="updateReleaseStatus()">
-            <span class="k-icon k-i-check" role="presentation"></span>{{'Release'|translate}}</button>
+            (click)="updateReleaseStatus()" [disabled]="PickItemList.length==0"> 
+            {{'Release'|translate}}</button>
     </div>
 </div>
 </form>

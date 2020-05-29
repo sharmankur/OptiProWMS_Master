@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class CTRUpdateComponent implements OnInit {
 
   CTR_ParentContainerType: string;
-  CTR_ConainerPerParent: string;
+  CTR_ConainerPerParent: any;
   CTR_ConatainerPartofParent: any;
   CTR_ContainerType: string;
   CTR_ROW: any;
@@ -25,7 +25,10 @@ export class CTRUpdateComponent implements OnInit {
   hideLookup: boolean = true;
   lookupfor: string;
   serviceData: any[];
-  
+  isUpdateHappen: boolean = false;
+  @ViewChild("scanContPartParent", {static: false}) scanContPartParent;
+  @ViewChild("scanContPerPart", {static: false}) scanContPerPart;
+
   constructor(private commonservice: Commonservice, private toastr: ToastrService, private translate: TranslateService, private ctrmainComponent: CTRMainComponent, private ctrmasterService: CTRMasterService, private router: Router
     ) {
     let userLang = navigator.language.split('-')[0];
@@ -36,30 +39,39 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.BtnTitle = this.translate.instant("Submit");
+
     let CtrRow = localStorage.getItem("CTR_ROW")
     if(CtrRow != undefined && CtrRow != ""){
     this.CTR_ROW = JSON.parse(localStorage.getItem("CTR_ROW"));
       this.CTR_ContainerType = this.CTR_ROW.OPTM_CONTAINER_TYPE;
       this.CTR_ParentContainerType = this.CTR_ROW.OPTM_PARENT_CONTTYPE;
-      this.CTR_ConainerPerParent = this.CTR_ROW.OPTM_CONT_PERPARENT;
+      this.CTR_ConainerPerParent = Number(this.CTR_ROW.OPTM_CONT_PERPARENT);
       this.CTR_ConatainerPartofParent = this.CTR_ROW.OPTM_CONT_PARTOFPARENT;
       if(localStorage.getItem("Action") == "copy"){
         this.CTR_ContainerType = ''
-        this.CTR_ParentContainerType = ''
+        // this.CTR_ParentContainerType = ''
         this.isUpdate = false;
-        this.BtnTitle = this.translate.instant("CT_Add");
       }else{
         this.isUpdate = true;
-        this.BtnTitle = this.translate.instant("CT_Update");
       }
     }else{
       this.isUpdate = false;
-      this.BtnTitle = this.translate.instant("CT_Add");
     }
   }
 
   onCancelClick(){
     this.ctrmainComponent.ctrComponent = 1;
+  }
+
+  onBackClick(){
+    if (this.isUpdateHappen) {
+      this.showDialog("BackConfirmation", this.translate.instant("yes"), this.translate.instant("no"),
+        this.translate.instant("Plt_DataDeleteMsg"));
+      return true;
+    } else {
+      this.ctrmainComponent.ctrComponent = 1;
+    }
   }
 
   validateFields(): boolean{
@@ -90,8 +102,8 @@ export class CTRUpdateComponent implements OnInit {
     if(!this.validateFields()){
       return;
     }
-
-    if(this.BtnTitle == this.translate.instant("CT_Update")){
+    console.log("onAddUpdateClick: updated")
+    if(this.isUpdate){
       this.UpdateContainerRelationship();
     }else{
       this.InsertIntoContainerRelationship();
@@ -205,6 +217,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
             result = true;
@@ -254,6 +267,7 @@ export class CTRUpdateComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
+          this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ParentContainerType = data[0].OPTM_CONTAINER_TYPE;
             result = true;
@@ -329,21 +343,43 @@ export class CTRUpdateComponent implements OnInit {
     }
     else if (this.lookupfor == "CTList") {
       this.CTR_ContainerType = $event[0];
+      this.isUpdateHappen = true
     }
     else if (this.lookupfor == "PCTList") {
       this.CTR_ParentContainerType = $event[0];
+      this.isUpdateHappen = true
     }
   }
 
   formatCTR_ConainerPerParent() {
-    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(Number(this.CTR_ConainerPerParent) < 1 ){
+      this.CTR_ConainerPerParent = 0
+      this.toastr.error('', this.translate.instant("ContPerValMsg"));
+      return false;
+    } else if(!Number.isInteger(Number(this.CTR_ConainerPerParent))) {
+      this.CTR_ConainerPerParent = 0
+      this.toastr.error('', this.translate.instant("OnlyIntAllow"));
+    }
+
+    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent);//.toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
+    return true
   }
 
   formatCTR_ConatainerPartofParent() {
+    if(Number(this.CTR_ConatainerPartofParent) < 0 ){
+      this.CTR_ConatainerPartofParent = 0
+      this.toastr.error('', this.translate.instant("ContPerValMsg"));
+      return false;
+    }
+
     this.CTR_ConatainerPartofParent = Number(this.CTR_ConatainerPartofParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-    // this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
+    this.CTR_ConainerPerParent = 1 / Number(this.CTR_ConatainerPartofParent)
+    this.CTR_ConainerPerParent = this.CTR_ConainerPerParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.isUpdateHappen = true
+    return true
   }
 
   isValidateCalled: boolean = false;
@@ -357,6 +393,45 @@ export class CTRUpdateComponent implements OnInit {
         return this.OnContainerTypeChange();
       } else if(currentFocus == "ctrParentContainerType"){
         return this.OnParentContainerTypeChange();
+      } else if(currentFocus == "scanContPerPart") {
+        return this.formatCTR_ConainerPerParent();
+      } else if(currentFocus == "scanContPartParent") {
+        return this.formatCTR_ConatainerPartofParent();
+      }
+    }
+  }
+
+  dialogFor: any;
+  yesButtonText: any;
+  noButtonText: any;
+  dialogMsg: any;
+  showDialog(dialogFor: string, yesbtn: string, nobtn: string, msg: string) {
+    this.dialogFor = dialogFor;
+    this.yesButtonText = yesbtn;
+    this.noButtonText = nobtn;
+    this.showConfirmDialog = true;
+    this.dialogMsg = msg;
+  }
+
+  showConfirmDialog: boolean = false;
+  getConfirmDialogValue($event) {
+    this.showConfirmDialog = false;
+    if ($event.Status == "yes") {
+      switch ($event.From) {
+        case ("BackConfirmation"):
+          this.ctrmainComponent.ctrComponent = 1;
+          break;
+        case ("Cancel"): {
+          this.router.navigate(['home/dashboard']);
+          break;
+        }
+      }
+    } else {
+      if ($event.Status == "no") {
+        // switch ($event.From) {
+        //   case ("Cancel"):
+        //     break;
+        // }
       }
     }
   }

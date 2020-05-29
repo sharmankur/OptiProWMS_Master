@@ -30,6 +30,7 @@ export class DocumentNumberingComponent implements OnInit {
   index: number = -1;
   public ddlBusiness: any[];
   public selectedValue: string = '';
+  isUpdateHappen: boolean = false
   // @ViewChild("display_name") display_name;
 
   constructor(private commonservice: Commonservice, private toastr: ToastrService,
@@ -63,8 +64,10 @@ export class DocumentNumberingComponent implements OnInit {
   }
 
   GetConsolidatedData() {
+    this.showLoader = true;
     this.docService.GetDocumentallData("").subscribe(
       resp => {
+        this.showLoader = false;
         this.DocGridData = resp;
       },
       error => {
@@ -130,6 +133,7 @@ export class DocumentNumberingComponent implements OnInit {
       return;
     }
     else if (this.lookupfor == "DocNumbering") {
+      this.isUpdateHappen = true
       for (let i = 0; i < this.DocGridData.length; ++i) {
         if (i === this.index) {
           this.DocGridData[i]["OPTM_CODE"] = $event[0];
@@ -249,13 +253,14 @@ export class DocumentNumberingComponent implements OnInit {
 
     this.docService.GetDocumentallData(value).subscribe(
       resp => {
+        this.isUpdateHappen = true
         if(resp.length > 0){
           this.DocGridData[idx].OPTM_CODE = resp[0].OPTM_CODE;
         } else {
           this.DocGridData[idx].OPTM_CODE = "";
           this.toastr.error('', this.translate.instant("InvalidCode"));
         }
-        this.DocGridData = resp;
+        // this.DocGridData = resp;
       },
       error => {
         console.log("Error:", error);

@@ -20,8 +20,8 @@ export class PortalTopComponent implements OnInit {
 
   dialogFor: any;
   yesButtonText: any;
-  noButtonText:any;
-  dialogMsg:any;
+  noButtonText: any;
+  dialogMsg: any;
 
   openThemeSetting: boolean = false;
   selectedItem: any;
@@ -31,20 +31,21 @@ export class PortalTopComponent implements OnInit {
   loggedInUserName: string;
   loggedinWarehouse: string;
   updatetopBarSubs: ISubscription;
-  showConfirmDialog:boolean = false;
-  appVersion: string="Version : 1.2.10";
-  
+  showConfirmDialog: boolean = false;
+  appVersion: string = "Version : 1.2.10";
+  menuToggle: boolean = true // Expand by default 
+
   constructor(
     private modalService: NgbModal, private commonService: Commonservice, private toastr: ToastrService, private router: Router, private translate: TranslateService) {
-      let userLang = navigator.language.split('-')[0];
-      userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
-      translate.use(userLang);
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      });
+    let userLang = navigator.language.split('-')[0];
+    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
+    translate.use(userLang);
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    });
   }
 
   ngOnInit() {
-    
+
     UIHelper.manageThemeCssFile();
     this.loggedInUserName = localStorage.getItem("UserId");
     this.DBName = localStorage.getItem("CompID");
@@ -56,6 +57,10 @@ export class PortalTopComponent implements OnInit {
     // this.appVersion = "Version: " +   this.commonservice.config_params.AppVersion;
 
     // this.appVersion = this.translate.instant("Dashboard_AppVersion") +   this.commonservice.config_params.AppVersion;
+  }
+
+  menuClick() {
+    this.menuToggle = !this.menuToggle
   }
 
   // open and close theme setting side panel
@@ -75,18 +80,18 @@ export class PortalTopComponent implements OnInit {
     this.openThemeSetting = $evenet;
   }
 
- 
+
 
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true });
-  }  
+  }
 
   /**
    * 
    * @param event 
    * @param module 
    */
-  listClick(event, module) { 
+  listClick(event, module) {
     this.selectedItem = module;
     this.router.navigate(['home/' + module]);
   }
@@ -104,8 +109,8 @@ export class PortalTopComponent implements OnInit {
     if ($event.Status == "yes") {
       switch ($event.From) {
         case ("Logout"):
-          this.commonService.RemoveLicenseAndSignout(this.toastr, this.router, 
-                this.translate.instant("Dashboard_LogoutSuccess"),true);
+          this.commonService.RemoveLicenseAndSignout(this.toastr, this.router,
+            this.translate.instant("Dashboard_LogoutSuccess"), true);
           this.clearLocalStorage();
           break;
       }
@@ -119,17 +124,17 @@ export class PortalTopComponent implements OnInit {
     }
   }
 
-  signOut(){
+  signOut() {
     this.showDialog("Logout", this.translate.instant("yes"), this.translate.instant("no"),
-    this.translate.instant("Dashboard_Logout_Msg"));
+      this.translate.instant("Dashboard_Logout_Msg"));
   }
-  
+
   ngOnDestroy() {
     if (this.updatetopBarSubs != undefined)
       this.updatetopBarSubs.unsubscribe();
   }
 
-  clearLocalStorage(){
+  clearLocalStorage() {
     localStorage.setItem("PhysicalCountData", "");
     localStorage.setItem("whseId", "");
     localStorage.setItem("Line", "");
@@ -164,7 +169,7 @@ export class PortalTopComponent implements OnInit {
     localStorage.setItem("primaryAutoLots", "");
     localStorage.setItem("VendCode", "");
 
-    
+
     localStorage.setItem("inlineSVGdata", "");
     localStorage.setItem("inlineSVGrev", "");
     localStorage.setItem("ThousandSeparator", "");

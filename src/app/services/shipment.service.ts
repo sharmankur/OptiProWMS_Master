@@ -16,26 +16,20 @@ export class ShipmentService {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
-  GetShipmentIdForShipment(): Observable<any> {
-    let jObject = {
-      Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID")
-      }])
-    };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.commonService.httpOptions);
-  }
 
-  GetDataBasedOnShipmentId(OPTM_SHIPMENTID: string): Observable<any> {
+  GetDataBasedOnShipmentId(OPTM_SHIPMENTID: string, OPTM_ARC): Observable<any> {
+    OPTM_ARC = OPTM_ARC == "archiveddata"?'Y':'';
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_SHIPMENTID: OPTM_SHIPMENTID
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID, 
+        OPTM_ARC: OPTM_ARC
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
   }
   
-  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS, OPTM_PROCESS_STEP_NO): Observable<any> {
+  ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS, OPTM_PROCESS_STEP_NO, OPTM_CONT_GRP): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -46,7 +40,8 @@ export class ShipmentService {
         OPTM_SHIPMENT_CODE: OPTM_SHIPMENT_CODE,
         OPTM_SHP_PROCESS: OPTM_SHP_PROCESS,
         OPTM_PROCESS_STEP_NO: OPTM_PROCESS_STEP_NO,
-        OPTM_USERNAME: localStorage.getItem("UserId")
+        OPTM_USERNAME: localStorage.getItem("UserId"),
+        OPTM_CONT_GRP: OPTM_CONT_GRP
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/ScheduleShipment", jObject, this.commonService.httpOptions);
@@ -64,7 +59,7 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/StageORUnstageShipment", jObject, this.commonService.httpOptions);
   }
 
-  updateShipment(OPTM_RETURN_ORDER_REF, OPTM_USE_CONTAINER, OPTM_SHIPMENTID, OPTM_BOLNUMBER, OPTM_VEHICLENO): Observable<any> {
+  updateShipment(OPTM_RETURN_ORDER_REF, OPTM_USE_CONTAINER, OPTM_SHIPMENTID, OPTM_BOLNUMBER, OPTM_VEHICLENO, OPTM_CONT_GRP, OPTM_CARRIER, OPTM_SCH_DATETIME, OPTM_DOCKDOORID): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -73,7 +68,11 @@ export class ShipmentService {
         OPTM_VEHICLENO: OPTM_VEHICLENO,
         OPTM_USE_CONTAINER: OPTM_USE_CONTAINER,
         OPTM_SHIPMENTID: OPTM_SHIPMENTID,
-        OPTM_USERNAME: localStorage.getItem("UserId")
+        OPTM_USERNAME: localStorage.getItem("UserId"),
+        OPTM_CONT_GRP: OPTM_CONT_GRP,
+        OPTM_CARRIER: OPTM_CARRIER,
+        OPTM_SCH_DATETIME: OPTM_SCH_DATETIME,
+        OPTM_DOCKDOORID: OPTM_DOCKDOORID,
       }])
     }; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/UpdateShipment", jObject, this.commonService.httpOptions);
@@ -95,6 +94,46 @@ export class ShipmentService {
   CreateContainerForPacking(oSaveModel): Observable<any> {
     let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateContainerForPacking", jObject, this.commonService.httpOptions);
+  }
+
+  CreateReturnDocument(OPTM_SHIPMENTID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID,
+        OPTM_ARC: "",
+        UserId: localStorage.getItem("UserId")
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateReturnDocument", jObject, this.commonService.httpOptions);
+  }
+
+  TransferArchieveDataToShipment(oSaveModel): Observable<any> {
+    // let jObject = {
+    //   Shipment: JSON.stringify([{
+    //     CompanyDBId: localStorage.getItem("CompID"),
+    //     OPTM_SHIPMENTID: OPTM_SHIPMENTID
+    //   }])
+    // }; 
+    let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/TransferArchieveDataToShipment", jObject, this.commonService.httpOptions);
+  }
+    
+
+  GetArchieivingShipmentData(FROMSHIPMENTID, TOSHIPMENTID, FROMDATETIME, TODATETIME, FROMCUSTOMERCODE,
+    TOCUSTOMERCODE): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        FROMSHIPMENTID: FROMSHIPMENTID,
+        TOSHIPMENTID: TOSHIPMENTID,
+        FROMDATETIME: FROMDATETIME,
+        TODATETIME: TODATETIME,
+        FROMCUSTOMERCODE: FROMCUSTOMERCODE,
+        TOCUSTOMERCODE: TOCUSTOMERCODE
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetArchieivingShipmentData", jObject, this.commonService.httpOptions);
   }
 }
 

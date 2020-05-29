@@ -3,7 +3,7 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                {{'AutoAllocation'|translate}}
+                {{'AutoAllocateTitle'|translate}}
             </h3>
             <div class="row">
                 <div class="col-10">
@@ -145,7 +145,7 @@
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
                 <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button"
-                    (mousedown)="onAutoAllocClick()">
+                    (mousedown)="onAutoAllocClick()" [disabled]="!isUpdateHappen">
                     <span role="presentation"></span> {{'AutoAllocation'|translate}}</button>
             </div>
         </div>

@@ -16,6 +16,7 @@ export class InputInternalContainerComponent implements OnInit {
   @Input() titleMessage: any;
   @Input() yesButtonText: any;
   @Input() noButtonText: any;
+  @Input() currentValue: any;  
   @Input() fromWhere: any;
   @Input() oDataModel: any;
   @Output() isYesClick = new EventEmitter();
@@ -29,14 +30,14 @@ export class InputInternalContainerComponent implements OnInit {
   ParentContainerCode: any = '';
   ChildContnrCode: any = '';
   ContID : any = 0;
-
+  IntContItemQuantity: number=0;
+  bsrListByContainerId: any = [];
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
      private router: Router, private containerCreationService:ContainerCreationService) { }
 
-  ngOnInit() {
-  this.IntContainerCode = '';
-
+  ngOnInit() {  
+    this.IntContainerCode = this.currentValue;
     if(this.oDataModel.HeaderTableBindingData[0].ShowLookupFor == "Internal"){
       this.forInternal = true;
     }else{
@@ -105,17 +106,18 @@ export class InputInternalContainerComponent implements OnInit {
     );
   }
 
+  parentOnChangeStarted = false;
   onParentContainerCodeChange(){
     if(this.ParentContainerCode == '' || this.ParentContainerCode == undefined){      
       return;
     }     
-
+    this.parentOnChangeStarted = true;
     this.showLoader = true;
     this.containerCreationService.CheckContainer(this.ParentContainerCode, this.oDataModel.HeaderTableBindingData[0].OPTM_WHSE ,
       this.oDataModel.HeaderTableBindingData[0].OPTM_BIN, this.oDataModel.HeaderTableBindingData[0].OPTM_AUTORULEID,
       this.oDataModel.HeaderTableBindingData[0].OPTM_GROUP_CODE,
       this.oDataModel.HeaderTableBindingData[0].OPTM_SONO, this.oDataModel.HeaderTableBindingData[0].OPTM_ParentContainerType,
-      this.oDataModel.HeaderTableBindingData[0].OPTM_PERPOSE, 1,this.oDataModel.HeaderTableBindingData[0].OPTM_CREATEMODE).subscribe(
+      this.oDataModel.HeaderTableBindingData[0].OPTM_PERPOSE, 1,this.oDataModel.HeaderTableBindingData[0].OPTM_CREATEMODE, undefined).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -329,12 +331,12 @@ export class InputInternalContainerComponent implements OnInit {
       if (this.lookupfor == "ContainerIdList") {       
         this.IntContainerCode = $event.OPTM_CONTCODE;
         this.ContID = $event.OPTM_CONTAINERID;
+        this.IntContItemQuantity = $event.OPTM_QUANTITY;
         this.GetListOfBatchSerOfSelectedContainerID($event.OPTM_CONTAINERID, $event.OPTM_ITEMCODE);        
       }
     }
   }
-
-  bsrListByContainerId: any = []
+  
   GetListOfBatchSerOfSelectedContainerID(cId: any, itemCode: any) {
     // this.showLoader = true;
     var result = false;
@@ -387,6 +389,11 @@ export class InputInternalContainerComponent implements OnInit {
    }
    else{
     if(this.forInternal){
+      if (this.currentValue != undefined || this.currentValue != '') {
+        if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
+          this.toastr.error('Convert to Constant', "Internal container cleared");            
+        }
+      } else
       if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
         return;
@@ -396,12 +403,20 @@ export class InputInternalContainerComponent implements OnInit {
         From: "InternalContainer",
         IntContainerCode: this.IntContainerCode,
         ContId: this.ContID,
-        BatSerList : this.bsrListByContainerId
+        BatSerList : this.bsrListByContainerId,
+        IntContItemQuantity: this.IntContItemQuantity
       });  
     }
     else{    
 
-     this.onConfirmParentClick();
+      if(this.parentOnChangeStarted){
+        this.onConfirmParentClick();
+      }else{
+        setTimeout(()=>{
+          this.onConfirmParentClick();
+        }, 400)
+      }
+     
 
     // this.isYesClick.emit({
     //   Status: "yes",
