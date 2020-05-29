@@ -386,6 +386,7 @@ export class AddItemToContComponent implements OnInit {
     this.containerCode = '';
     this.containerId = '';
     this.scanItemCode = ''; this.itemQty = 0; this.itemBalQty = 0;
+    this.InternalContCode = '';
     this.scanBSrLotNo = ''; this.bsItemQty = 0; this.bsBalanceQty = 0;
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
@@ -400,6 +401,7 @@ export class AddItemToContComponent implements OnInit {
     this.containerCode = '';
     this.containerId = '';  this.InternalContCode = '';
     this.scanItemCode = ''; this.itemQty = 0; this.itemBalQty = 0;
+    this.InternalContCode = '';
     this.scanBSrLotNo = ''; this.bsItemQty = 0; this.bsBalanceQty = 0;
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
@@ -1241,6 +1243,7 @@ export class AddItemToContComponent implements OnInit {
 
   setScanItemDataBlank() {
     this.scanItemCode = ''; this.itemQty = 0; this.itemBalQty = 0;
+    this.InternalContCode = '';
     this.scanBSrLotNo = ''; this.bsItemQty = 0; this.bsBalanceQty = 0;
     this.BalQty1 = 0; this.BalQty2 = 0;
     this.bsVisible = false;
@@ -1321,7 +1324,7 @@ export class AddItemToContComponent implements OnInit {
                 idx = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
               }
               if (idx > -1) {
-                this.ItemInvQty = this.selInternalContainerDtl[idx].Quantity
+                this.ItemInvQty = this.selInternalContainerDtl[idx].TOTALQTY
                 this.InternalContCode = this.selInternalContainerDtl[idx].Container_Code;
               } else {
                 this.ItemInvQty = data[0].TOTALQTY;
@@ -1367,6 +1370,7 @@ export class AddItemToContComponent implements OnInit {
 
           } else {
             this.scanItemCode = ''
+            this.InternalContCode = '';
             this.bsVisible = false;
             this.scanBSrLotNo = ''
             this.itemQty = 0; this.itemBalQty = 0;
@@ -1471,6 +1475,7 @@ export class AddItemToContComponent implements OnInit {
     if (this.containerCode == undefined || this.containerCode == "") {
       this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
       this.scanItemCode = ''
+      this.InternalContCode = '';
       return;
     }
 
@@ -1632,7 +1637,7 @@ export class AddItemToContComponent implements OnInit {
 
       let idx = itemBtchSerials.findIndex(r => r.LOTNO == this.scanBSrLotNo);
       if (idx > -1) {
-        this.BSInvQty = itemBtchSerials[idx].Quantity; 
+        this.BSInvQty = itemBtchSerials[idx].TOTALQTY; 
         this.bsItemQty = 0;
 
         if (this.scanItemTracking == 'S') {
@@ -1814,6 +1819,7 @@ export class AddItemToContComponent implements OnInit {
     if (this.containerCode == undefined || this.containerCode == "") {
       this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
       this.scanItemCode = ''; this.itemQty = 0; this.itemBalQty = 0;
+      this.InternalContCode = '';
       this.scanLotNo = ''; this.bsItemQty = 0;
       return;
     }
@@ -1831,6 +1837,7 @@ export class AddItemToContComponent implements OnInit {
           this.itemQty = 0; this.itemBalQty = 0;
           this.scanLotNo = ''; this.bsItemQty = 0;
           this.scanItemCode = '';
+          this.InternalContCode = '';
           return;
         }
       }
@@ -2574,11 +2581,15 @@ export class AddItemToContComponent implements OnInit {
           if (this.ConSelectionType == 1) {
             //Clear container code, if option selected is to Create a container and scanned container is closed
             this.containerCode = '';
-          }                  
+            this.DisplayTreeData = [];
+            this.treeViewShow = false;
+          } else {
+            this.radioSelected = 3;
+            this.treeViewShow = true;
+          }            
         } 
-        this.radioSelected = 3;
         this.enableCloseCont = false;
-        this.treeViewShow = true;
+        
       }
       this.DisableScanFields = true;      
     } else {
@@ -2640,6 +2651,7 @@ export class AddItemToContComponent implements OnInit {
 
   InitializeItemAndBtchSRvalues() {
     this.scanItemCode = ''
+    this.InternalContCode = ''
     this.bsVisible = false;
     this.scanBSrLotNo = ''
     this.itemQty = 0; 
@@ -2883,7 +2895,16 @@ export class AddItemToContComponent implements OnInit {
       this.radioRuleSelected = 1;
     }else{
       this.radioRuleSelected = 2;
-    }     
+    }
+    if(OPTM_CONT_HDR.OPTM_SHIPELIGIBLE == 'Y'){
+      this.defaultPurpose = this.purposeArray[0];
+      
+    }else{
+      this.defaultPurpose = this.purposeArray[1];      
+    }   
+    this.purpose = this.defaultPurpose.Name;
+    this.purposeId = this.defaultPurpose.Value; 
+    this.purps = OPTM_CONT_HDR.OPTM_SHIPELIGIBLE;   
   }
   
   ReOpenCont() {
@@ -3179,7 +3200,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
       // OPTM_PERPOSE: this.purposeId,
-      OPTM_PERPOSE: this.purps,
+      OPTM_PURPOSE: this.purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: this.workOrder == '' ? 0 : this.workOrder,
@@ -3222,6 +3243,7 @@ export class AddItemToContComponent implements OnInit {
             this.containerId = data.OPTM_CONT_HDR[0].OPTM_CONTAINERID
             this.containerCode = data.OPTM_CONT_HDR[0].OPTM_CONTCODE
             this.scanItemCode = ''
+            this.InternalContCode = ''
             this.bsVisible = false;
             this.scanBSrLotNo = ''
             this.itemQty = 0; this.itemBalQty = 0;
@@ -3312,7 +3334,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_PARENTCODE: '',
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: 3, //Manual
-      OPTM_PERPOSE: this.purps,
+      OPTM_PURPOSE: this.purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: '', //this.workOrder
@@ -3777,7 +3799,7 @@ export class AddItemToContComponent implements OnInit {
     if (idx > -1) {
       this.showLoader = false;
       this.showLookup = true;
-      this.serviceData = this.selInternalContainerDtl.BatchSerials;
+      this.serviceData = this.selInternalContainerDtl[idx].BatchSerials;
 
       /*
       for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
