@@ -179,5 +179,11 @@ export class PickTaskService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/ReleasePickList", jObject, this.commonService.httpOptions);
   }
+
+  updatePickItemsAndTasks(data:any): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(data) };    
+
+  return this.httpclient.post(this.config_params.service_url + "/api/PickList/UpdateMaintainPicklist", jObject, this.commonService.httpOptions);
+}
 }
 

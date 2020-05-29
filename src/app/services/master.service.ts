@@ -147,10 +147,61 @@ export class MasterService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseMaster", jObject, this.commonService.httpOptions);
   }
+   
+
+  GetDataForBinRuleList(): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
+  }
+  
+  // repeated method at binrule and bin range need to test
+  //IsValidBinRule(whsRule: String, whsCode: string, whsZone: number, purspose:String): Promise<any> {
+  //   let jObject = {
+  //     Shipment: JSON.stringify([{
+  //       CompanyDBId: localStorage.getItem("CompID"),
+  //       OPTM_WHS_RULE: whsRule,
+  //       OPTM_WHSCODE: whsCode, 
+  //       OPTM_WHS_ZONE: whsZone,
+  //       OPTM_PURPOSE: purspose
+  //     }])
+  //   };
+  //   return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
+  // }
+
+  /**
+   * This method will create a new bin rule record.
+   * @param oShipmentAutoRule 
+   */
+  InsertIntoBinRule(oShipmentAutoRule: any): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
+  }
+
+  /**
+   * This method is for updating the existing bin rule.
+   * @param oShipmentAutoRule 
+   */
+  UpdateBinRule(oShipmentAutoRule: any): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
+  }
+
+  /**
+   * This method removes(delete) the selected bin rule rows.
+   * @param ddDeleteArry  
+   */
+  DeleteBinRule(ddDeleteArry: any[]): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
+  }
 
 
-
-
+ 
+ 
 
 
 

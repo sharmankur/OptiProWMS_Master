@@ -7,7 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
 import { ContainerCreationService } from 'src/app/services/container-creation.service';
 import { CommonData } from '../../models/CommonData';
-
+import { PLPickListItemModel } from 'src/app/models/pick-list/PLPickListItemModel';
+import { DateTimeHelper } from 'src/app/helpers/datetime.helper';
+import { PLPickListTaskModel } from 'src/app/models/pick-list/PLPickListTaskModel';
+import * as moment from 'moment';
 @Component({
   selector: 'app-picking-list',
   templateUrl: './picking-list.component.html',
@@ -28,6 +31,14 @@ export class PickingListComponent implements OnInit {
   PickListBasisArray: any[] = [];
   PlanShiftArray:any[]= [];//{Name:'',Value:''} ;
   PickShiftArray: any[] = [];
+ 
+    
+ updatedPicItemsArray: Array<PLPickListItemModel>=[];
+ updatedPickTasksArray: Array<PLPickListTaskModel>=[];
+ meansData:any ;
+ selectedMeansValue:any 
+  selectedPLItems:any = [];
+  selectedPLItemsDataForValidate:any = [];
   
   commonData: any = new CommonData(this.translate);
   public items: any[] = [];
@@ -49,6 +60,7 @@ export class PickingListComponent implements OnInit {
   @ViewChild('wareHouse',{static:false}) wareHouse;
   @ViewChild('fromShipment',{static:false}) fromShipment;
   @ViewChild('toShipment',{static:false}) toShipment;
+  dateFormat: any = 'mm/dd/yyyy'
   //pageSize: number = Commonservice.pageSize;
   constructor(private picktaskService: PickTaskService,  private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private commonservice: Commonservice, private containerCreationService: ContainerCreationService) {
@@ -60,6 +72,8 @@ export class PickingListComponent implements OnInit {
     this.PickListBasisArray =this.commonData.PickListEnum();
     this.PlanShiftArray =this.commonData.PlanShiftEnum();
     this.statusArray = this.commonData.PickListStatusEnum();
+
+  
   }
 
    
@@ -67,10 +81,17 @@ export class PickingListComponent implements OnInit {
   
  
   ngOnInit() {
-
+ 
     this.picktaskService.clearLocaStorage();
    // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
+    this.meansData=this.commonData.TransferMeansTypeEnum()
+    // this.meansData =  [
+    //   { Value: 1, Name:  this.translate.instant("Manual") },
+    //   { Value: 2, Name:  this.translate.instant("Name_ForkLift") },
+    //   { Value: 3, Name:  this.translate.instant("Name_Crane") }
+    //  ];
+    this.selectedMeansValue =this.meansData[0];// { "Value": 1, "Name": "Manual" };
   }
 
 
@@ -313,6 +334,8 @@ export class PickingListComponent implements OnInit {
 
   ShowGridPaging:boolean=false;
   PickItemList:any = [];
+  PickItemListM:Array<PLPickListItemModel>;
+  PickTaskListM:Array<PLPickListTaskModel>;
   PickTaskList:any = [];
   selectedItemPickTaskList:any=[];
   FillPickListDataInGrid() {
@@ -331,11 +354,17 @@ export class PickingListComponent implements OnInit {
             }
             this.PickItemList = data.OPTM_WHS_PICKLIST;
             this.PickTaskList = data.OPTM_WHSTASKLIST;
+            this.PickTaskListM = data.OPTM_WHSTASKLIST;
+            this.PickItemListM = data.OPTM_WHS_PICKLIST;
+            this.setTaskMeanValue()
             if (this.PickItemList.length > 10) {
               this.ShowGridPaging = true;
             }else{
               this.ShowGridPaging = false;
-            }           
+            }   
+            this.PickItemListM.forEach(element => {
+              element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
+            });        
 
             for (let i = 0; i < this.PickItemList.length; i++) {
               this.PickItemList[i].Selected = false;
@@ -358,6 +387,14 @@ export class PickingListComponent implements OnInit {
       );
   }
 
+  setTaskMeanValue(){
+    for(let i=0;i<this.PickTaskListM.length;i++){
+      var meanVal =this.PickTaskListM[i].OPTM_TRANSIT_MEANS
+       this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name:  this.commonData.getMeansStringByValue(meanVal) }
+    }
+    console.log("value set");
+  }
+
   getLookupDataValue($event) {
     if ($event != null && $event == "close") {
       return;
@@ -367,7 +404,13 @@ export class PickingListComponent implements OnInit {
         this.WarehouseId = $event.WhsCode;
       }
       else if (this.lookupfor == "BinList") {
-        //this.BinId = $event.BinCode;
+        var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === this.selectedPickTaskRow.OPTM_TASKID)
+        if (row != null && row != undefined && row.length > 0) {
+          row[0].OPTM_SRC_BIN = $event.BinCode;
+        } else {
+          this.selectedPickTaskRow.OPTM_SRC_BIN = $event.BinCode;
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+        }
       } else if (this.lookupfor == "ShipIdFrom") {
      //   this.ShipIdFrom = event.OPTM_SHIPMENTID;
         this.ShipmentCodeFrom = $event.OPTM_SHIPMENT_CODE;
@@ -391,8 +434,6 @@ export class PickingListComponent implements OnInit {
       this.selectedItemPickTaskList = selectedPickTasks ;
   } 
 
-  selectedPLItems:any = [];
-  selectedPLItemsDataForValidate:any = [];
   selectContainerRowChange(checkValue,dataItem,index){
     var itemId= dataItem.OPTM_PICKLIST_CODE;
      console.log("selected index values");
@@ -424,16 +465,89 @@ export class PickingListComponent implements OnInit {
     return status;
   }
 
+  public meansDropDownValueChange($event, dataItem, index) {
+    this.selectedPickTaskRow = dataItem;
+    this.selectedPickTaskRow.OPTM_TRANSIT_MEANS = $event.Value;
+    var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_TRANSIT_MEANS = $event.Value;
+    } else {
+      this.selectedPickTaskRow.OPTM_TRANSIT_MEANS = $event.value;
+      this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+    }
+  }
+
   // need to confirm is this required or not for getting value for update.
   ChangePriority(event, dataItem, companyRowIndex) {
     dataItem.OPTM_PRIORITY = event.target.value
+    this.selectedPickItemRow = dataItem;
+    //update to list and use that item.
+    var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_PRIORITY = event.target.value;
+    } else {
+      this.selectedPickItemRow.OPTM_PRIORITY = event.target.value;
+      this.updatedPicItemsArray.push(this.selectedPickItemRow);
+    }
   }
-  ChangeUserGroup(event, dataItem, companyRowIndex) {
+  ChangeToteNumber(event, dataItem, companyRowIndex) {
+    dataItem.OPTM_TOTE_NUMBER = event.target.value
+    this.selectedPickItemRow = dataItem;
+    //update to list and use that item.
+    var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_TOTE_NUMBER = event.target.value;
+    } else {
+      this.selectedPickItemRow.OPTM_TOTE_NUMBER = event.target.value;
+      this.updatedPicItemsArray.push(this.selectedPickItemRow);
+    }
+  }
+
+   // need to confirm is this required or not for getting value for update.
+   ChangeShieft(event, dataItem, companyRowIndex) {
+    dataItem.OPTM_PLANWHSESHIFT_ID = event.target.value
+    this.selectedPickItemRow = dataItem;
+    //update to list and use that item.
+    var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_PLANWHSESHIFT_ID = event.target.value;
+    } else {
+      this.selectedPickItemRow.OPTM_PLANWHSESHIFT_ID = event.target.value;
+      this.updatedPicItemsArray.push(this.selectedPickItemRow);
+    }
+    // get row from  pick list item list.
+  }
+
+  // run when user change anything in assigned user group.
+  ChangeAssignedUserGroup(event, dataItem, companyRowIndex) {
     dataItem.OPTM_USER_GRP = event.target.value;
+    this.selectedPickTaskRow = dataItem;
+    //update to list and use that item.
+    var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_USER_GRP = event.target.value;
+    } else {
+      this.selectedPickTaskRow.OPTM_USER_GRP = event.target.value;
+      this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+    }
   }
-  changePlanDateTime(event, dataItem, companyRowIndex){
-    dataItem.OPTM_PLANDATETIME = event.target.value;
+  changePlanDateTime(date:any, dataItem:any, companyRowIndex:Number){
+    dataItem.OPTM_PLANDATETIME = date;
+    this.selectedPickItemRow = dataItem;
+    var dateString=moment(date).format('MM/DD/YYYY');
+  //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
+   // new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    //update to list and use that item.
+    var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
+    if (row != null && row != undefined && row.length > 0) {
+      row[0].OPTM_PLANDATETIME = dateString;
+    } else {
+      this.selectedPickItemRow.OPTM_PLANDATETIME = dateString;
+      this.updatedPicItemsArray.push(this.selectedPickItemRow);
+    }
   }
+
+
   updateReleaseStatus(){ 
     if(this.selectedPLItems.length==0){
       this.toastr.error('', this.translate.instant("PL_ReleaseStatusItemsValidate"));
@@ -530,5 +644,140 @@ export class PickingListComponent implements OnInit {
     grid.filter.filters=[];    
     //this.clearFilters();
   }
+ 
+ 
 
+
+ 
+  WHSCODE:any = ''
+  hideLookup:boolean = false;
+  srcWhsID:any;
+  selectedPickTaskRow:any;
+  selectedPickItemRow:any;
+  GetSrcBinList(index,  dataItem:any) {
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    this.selectedPickTaskRow = dataItem;
+    this.commonservice.GetBinCode(this.srcWhsID).subscribe(
+      data => {
+        this.showLoader = false;
+        if (data != undefined && data.length > 0) {
+          this.serviceData = data;
+          this.lookupfor = "BinList";
+          this.showLookup = true;
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsValidSrcBinCode(index, bincode, display_name,dataItem) {
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    this.selectedPickTaskRow = dataItem;
+    if (bincode == undefined || bincode == "") {
+      return;
+    }
+    this.showLoader = true;
+    this.commonservice.IsValidBinCode(this.srcWhsID, bincode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+           //update to list and use that item.
+            var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+            if (row != null && row != undefined && row.length > 0) {
+              row[0].OPTM_SRC_BIN = data[0].BinCode;
+            } else {
+              this.selectedPickTaskRow.OPTM_SRC_BIN = data[0].BinCode;
+              this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            }
+          } else {
+            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+        } 
+      },
+      error => { 
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+
+  onUpdatePress(){
+    this.updatePickItemAndTasks(this.updatedPicItemsArray,this.updatedPickTasksArray)
+  }
+ 
+  updatePickItemAndTasks(pickItemList:any, pickTaskList:any){ 
+    var object:any={}
+    var dbId: any[]=[];
+    dbId.push({CompanyDBId: localStorage.getItem("CompID")});
+    object.DBId = dbId;
+    for(let i=0;i<pickItemList.length;i++){
+      pickItemList[i].OPTM_PLANDATETIME_Object=""
+    }
+    for(let i=0;i<pickTaskList.length;i++){
+      pickTaskList[i].selectedMeansVal=""
+    }
+    object.OPTM_WHS_PICKLIST = pickItemList;
+    object.OPTM_WHSTASKLIST = pickTaskList;
+    if(pickItemList.length==0 && pickTaskList.length==0){
+      this.toastr.error('', this.translate.instant("PickingNoItemToUpdate"));
+      return;
+    }    
+
+    this.showLoader = true;
+    this.picktaskService.updatePickItemsAndTasks(object).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          if (data != undefined && data!=null) {
+            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }else {
+             var result = data.OUTPUT[0].RESULT;
+             if(result == "Data Saved")
+            this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
+            this.PickItemList = [];
+            this.PickTaskList = [];
+            this.updatedPicItemsArray = [];
+            this.updatedPickTasksArray = [];
+            this.FillPickListDataInGrid();
+          }
+         }else{
+          // show error.
+         }
+        },
+        error => {
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+  }
 }

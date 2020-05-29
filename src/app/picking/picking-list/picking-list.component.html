@@ -134,7 +134,7 @@
 <br>
 <div class="row">
     <div class="col-12">
-        <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemList" [resizable]="true" [sortable]="true" [selectable]="true"
+        <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemListM" [resizable]="true" [sortable]="true" [selectable]="true"
             id="gridItem" [height]="250"  [pageSize]="pageSize" [pageable]="ShowGridPaging"  #gridItem 
              (selectionChange)="onPickListItemClick($event)"   [filterable]="isColumnFilterView" >
             <!-- grid template start -->
@@ -212,11 +212,16 @@
             </kendo-grid-column>
             <!-- grid for mobile end -->
 
-            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PLANDATETIME" [width]="45" headerClass="text-left"
+            <kendo-grid-column media="(min-width: 768px)" field="OPTM_PLANDATETIME" [width]="65" headerClass="text-left"
                 title="{{'PlanDateTime'|translate}}" filter="date" >
-                <ng-template kendoGridCellTemplate let-dataItem>
-                    {{dataItem.OPTM_PLANDATETIME | date: 'MM/dd/yyyy'}}
-                </ng-template>
+                <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.OPTM_PLANDATETIME_Object | date: 'MM/dd/yyyy'}}
+                </ng-template> -->
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                 <kendo-datepicker name="pickdt"  [format]= 'MM/dd/yyyy'
+                 (valueChange)="changePlanDateTime($event,dataItem,rowIndex)"  [value]="dataItem.OPTM_PLANDATETIME_Object">
+               </kendo-datepicker>
+            </ng-template>
             </kendo-grid-column>
             <!-- we have to add date picker in grid we will enable it later.
                      <kendo-datepicker name="pickdt" [(ngModel)]=dataItem.OPTM_PLANDATETIME [format]= dateFormat
@@ -230,6 +235,9 @@
                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PLANWHSESHIFT_ID" (change)="ChangeShieft($event,dataItem,rowIndex)">
+                </ng-template>
             </kendo-grid-column>
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_STATUS" [width]="35"
                 title="{{'Status'|translate}}" headerClass="text-left" class="text-left">
@@ -244,9 +252,9 @@
                 <!--
                      need to uncomment the below for editable etc.
                  -->
-                <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                     <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PRIORITY" (change)="ChangePriority($event,dataItem,rowIndex)">
-                </ng-template> -->
+                </ng-template>
             </kendo-grid-column>
 
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICKLIST_CODE" headerClass="text-left" [width]="40"
@@ -276,7 +284,9 @@
                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
-                
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_TOTE_NUMBER" (change)="ChangeToteNumber($event,dataItem,rowIndex)">
+                </ng-template>
                 
             </kendo-grid-column>
             <!-- <kendo-grid-column media="(min-width: 768px)" field="ContainerCode" [width]="45"
@@ -367,6 +377,21 @@
             </kendo-grid-column>
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_SRC_BIN" [width]="70"
                 title="{{'PickFromBin'|translate}}" headerClass="text-left" class="text-left">
+                <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SRC_BIN" value={{dataItem.OPTM_SRC_BIN}} id="display_name"
+                        min="0" #display_name (blur)="IsValidSrcBinCode(idx, display_name.value, display_name,dataItem)">
+                    <div class="input-group-append">
+                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetSrcBinList(idx,dataItem)">
+                            <i class="opti-icon-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </ng-template>
+
+
             </kendo-grid-column>
             <kendo-grid-column media="(min-width: 768px)" field="OPTM_TARGET_WHSE" [width]="40"
                 title="{{'TargetWhse'|translate}}">
@@ -380,12 +405,23 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
             </kendo-grid-column>
-            <kendo-grid-column media="(min-width: 768px)" field="OPTM_TRANSIT_MEANS" [width]="40"
+            <kendo-grid-column media="(min-width: 768px)" field="OPTM_TRANSIT_MEANS" [width]="65"
                 title="{{'TransferMeans'|translate}}" headerClass="text-left" class="text-left">
-                
+<!--                 
                 <ng-template kendoGridCellTemplate let-dataItem>
                     {{dataItem.OPTM_TRANSIT_MEANS | transferMeans}}
-                     </ng-template>
+                     </ng-template> -->
+                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                        <!-- <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (change)="ChangeUserGroup($event,dataItem,rowIndex)"> -->
+                        <kendo-dropdownlist [data]="meansData"
+                        [textField]="'Name'"
+                        [valueField]="'Value'"
+                        name='transfermeans1'
+                        [(ngModel)]="dataItem.selectedMeansVal"
+                        (valueChange) ="meansDropDownValueChange($event,dataItem,rowIndex)"
+                         >
+                      </kendo-dropdownlist>
+                    </ng-template>
                 <!-- <ng-template kendoGridCellTemplate let-dataItem>
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
@@ -405,6 +441,9 @@
                 <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
                     need to check if anything we need  to do like formating etc.
                 </ng-template> -->
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (change)="ChangeAssignedUserGroup($event,dataItem,rowIndex)">
+                </ng-template>
             </kendo-grid-column>
 
             <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_SO_NO" [width]="45"
