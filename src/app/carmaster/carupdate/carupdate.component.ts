@@ -487,6 +487,11 @@ export class CARUpdateComponent implements OnInit {
 
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
@@ -497,6 +502,11 @@ export class CARUpdateComponent implements OnInit {
 
   updateMinfill(lotTemplateVar, value, rowindex, gridData: any) {
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
@@ -507,6 +517,11 @@ export class CARUpdateComponent implements OnInit {
 
   updateMatWTfill(lotTemplateVar, value, rowindex, gridData: any) {
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
         this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
