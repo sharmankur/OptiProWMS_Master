@@ -28,7 +28,7 @@ export class CommonData {
         translate.use(userLang);
         translate.onLangChange.subscribe(() => {
         });
-      }
+    }
 
 
     public get_current_url() {
@@ -214,13 +214,13 @@ export class CommonData {
             { "Value": 7, "Name": this.translate.instant("Ship_Staged") },
             { "Value": 8, "Name": this.translate.instant("Unstaged") },
             { "Value": 9, "Name": this.translate.instant("Loaded_on_truck") },
-            { "Value": 10, "Name": this.translate.instant("CShippedNew")},
+            { "Value": 10, "Name": this.translate.instant("CShippedNew") },
             { "Value": 11, "Name": this.translate.instant("Part_Returned") },
             { "Value": 12, "Name": this.translate.instant("Returned") },
             { "Value": 13, "Name": this.translate.instant("Return_Accepted") },
             { "Value": 14, "Name": this.translate.instant("CCancelledNew") },
-            { "Value": 15, "Name":  "Loading" },
-            { "Value": 16, "Name":  "UnLoaded" }
+            { "Value": 15, "Name": "Loading" },
+            { "Value": 16, "Name": "UnLoaded" }
         ];
     }
 
@@ -243,18 +243,18 @@ export class CommonData {
 
     Container_Status_DropDown() {
         return [
-            { "Value": 1, "Name": this.translate.instant("CStatusNew")},
-            { "Value": 2, "Name": this.translate.instant("Open")},
-            { "Value": 3, "Name": this.translate.instant("CClosedNew")},
-            { "Value": 4, "Name": this.translate.instant("CReopenedNew")},
-            { "Value": 5, "Name": this.translate.instant("CAssignedNew")},
-            { "Value": 6, "Name": "Picked"},
-            { "Value": 7, "Name": "Loaded"},
-            { "Value": 8, "Name": this.translate.instant("CShippedNew")},
-            { "Value": 9, "Name": this.translate.instant("Returned")},
-            { "Value": 10, "Name": this.translate.instant("CDamagedNew")},
-            { "Value": 11, "Name": this.translate.instant("CCancelledNew")}
-         
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("Open") },
+            { "Value": 3, "Name": this.translate.instant("CClosedNew") },
+            { "Value": 4, "Name": this.translate.instant("CReopenedNew") },
+            { "Value": 5, "Name": this.translate.instant("CAssignedNew") },
+            { "Value": 6, "Name": "Picked" },
+            { "Value": 7, "Name": "Loaded" },
+            { "Value": 8, "Name": this.translate.instant("CShippedNew") },
+            { "Value": 9, "Name": this.translate.instant("Returned") },
+            { "Value": 10, "Name": this.translate.instant("CDamagedNew") },
+            { "Value": 11, "Name": this.translate.instant("CCancelledNew") }
+
         ];
     }
 
@@ -292,7 +292,7 @@ export class CommonData {
             { "Value": 6, "Name": this.translate.instant("CloseCont") },
             { "Value": 7, "Name": this.translate.instant("PostToInventory") }
         ];
-    }    
+    }
 
     Shipment_Lines_Status_DropDown() {
         return [
@@ -318,7 +318,7 @@ export class CommonData {
         ];
     }
 
-    Container_Operation_Add_Container(){
+    Container_Operation_Add_Container() {
         return [
             { "Value": 1, "Name": this.translate.instant("Add") },
             { "Value": 2, "Name": this.translate.instant("Remove") },
@@ -326,7 +326,7 @@ export class CommonData {
         ];
     }
 
-    ContainerBuildSourceEnum(){
+    ContainerBuildSourceEnum() {
         return [
             { "Value": 1, "Name": this.translate.instant("Manufacturing") },
             { "Value": 2, "Name": this.translate.instant("Received_From_Vendor") },
@@ -334,87 +334,89 @@ export class CommonData {
         ];
     }
 
-    PickListEnum(){
+    PickListEnum() {
         return [
             { "Value": 1, "Name": this.translate.instant("DropdownMenu_Shipment") },
-            { "Value": 2, "Name": this.translate.instant("SalesOrder")},
-            { "Value": 3, "Name": this.translate.instant("WorkOrder")}
+            { "Value": 2, "Name": this.translate.instant("SalesOrder") },
+            { "Value": 3, "Name": this.translate.instant("WorkOrder") }
         ];
     }
 
-    PlanShiftEnum(){
+    PlanShiftEnum() {
         return [
             { "Value": 1, "Name": 1 }
         ];
     }
 
-    validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty){
-        if(SelectedDataArray.length == 0){
-            if(parseFloat(AvailableQty) > parseFloat(OpenQty)){
-              // let diffAvail = parseFloat(AvailableQty) - parseFloat(OpenQty);
-               return OpenQty;
+    validateOnCheck(SelectedDataArray, AvailableQty, OpenQty, SelectedQty) {
+
+        if (SelectedDataArray.length == 0) {
+            if (parseFloat(AvailableQty) > parseFloat(OpenQty)) {
+                // let diffAvail = parseFloat(AvailableQty) - parseFloat(OpenQty);
+                return OpenQty;
             }
-            else{
+            else {
                 return AvailableQty;
-            }  
-         }
-         else{
+            }
+        }
+        else {
             let remQty: any = parseFloat(OpenQty) - parseFloat(SelectedQty);
 
-            if(remQty == 0){
-                return -1;            
+            if (remQty == 0) {
+                return -1;
             }
 
-            AvailableQty = (AvailableQty - parseFloat(remQty))>0?parseFloat(remQty):AvailableQty;
+            AvailableQty = (AvailableQty - parseFloat(remQty)) > 0 ? parseFloat(remQty) : AvailableQty;
 
             let diff = parseFloat(remQty) - AvailableQty;
-            if(diff >= 0){
-              return AvailableQty;
+            if (diff >= 0) {
+                return AvailableQty;
             }
-            else{
-              return -1;
-            } 
-         }
+            else {
+                return -1;
+            }
+        }
 
     }
 
-    validateOnChange(value, AvailableQty, OpenQty, SelectedQty){
+    validateOnChange(value, AvailableQty, OpenQty, SelectedQty) {
 
-        if(parseFloat(value) > parseFloat(AvailableQty)){
+        if (parseFloat(value) > parseFloat(AvailableQty)) {
             //this.toastr.error('', this.translate.instant("AssignedQty_cannot_be_greater"));
             return false;
         }
         // else if((parseFloat(SelectedQty) + parseFloat(value)) > parseFloat(OpenQty)){
         //     return false;
         // }
-        else{
-             return true;
+        else {
+            return true;
         }
 
     }
 
 
-    
+
 
     /**
      * Pick list screen status field enmum.
      */
-    PickListStatusEnum(){
+    PickListStatusEnum() {
         return [
-            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
-            { "Value": 2, "Name": this.translate.instant("Status_Release") },
-            { "Value": 3, "Name": this.translate.instant("CAssignedNew") },
-            { "Value": 4, "Name": this.translate.instant("Selected") },
-            { "Value": 5, "Name": this.translate.instant("Status_Part_Picked") },
-            { "Value": 6, "Name": this.translate.instant("Status_Picked") },
-            { "Value": 7, "Name": this.translate.instant("CClosedNew") }
+            { "Value": 1, "Name": "CStatusNew" },
+            { "Value": 2, "Name": "Status_Release" },
+            { "Value": 3, "Name": "CAssignedNew" },
+            { "Value": 4, "Name": "Selected" },
+            { "Value": 5, "Name": "Status_Part_Picked" },
+            { "Value": 6, "Name": "Status_Picked" },
+            { "Value": 7, "Name": "CClosedNew" }
+
         ];
     }
 
     /**
      * Pick operation field enmum.
      */
-    PickOperationEnum(){
+    PickOperationEnum() {
         return [
             { "Value": 1, "Name": "PickToTote" },
             { "Value": 2, "Name": "PickToContainer" },
@@ -422,10 +424,10 @@ export class CommonData {
         ];
     }
 
-         /**
-     * Pick operation field enmum.
-     */
-      PickTypeEnum(){
+    /**
+* Pick operation field enmum.
+*/
+    PickTypeEnum() {
         return [
             { "Value": 1, "Name": "Batch_Picking" },
             { "Value": 2, "Name": "Cluster_Picking" },
@@ -445,19 +447,71 @@ export class CommonData {
     }
 
    /**
+
+
+    /**
     * Pick operation field enmum.
     */
-    TransferMeansTypeEnum(){
-        return [
-            { "Value": 1, "Name": "Manual" },
-            { "Value": 2, "Name": "Name_ForkLift" },
-            { "Value": 3, "Name": "Name_Crane" }
-        ];
-    }
-   
+    // TransferMeansTypeEnum() {
+    //     return [
+    //         { Value: 1, Name: this.translate.instant("Manual") },
+    //         { Value: 2, Name: this.translate.instant("Name_ForkLift") },
+    //         { Value: 3, Name: this.translate.instant("Name_Crane") }
+    //     ];
+    // }
 
-    
-    getPickListValue(value:any){
+     /**
+    * Pick operation field enmum.
+    */
+   TransferMeansTypeEnum() {
+    return [
+        { Value: 1, Name: "Manual" },
+        { Value: 2, Name: "ForkLift" },
+        { Value: 3, Name: "Crane" }
+    ];
+}
+
+    public getMeansStringByValue(value: String) {
+        var meanText:any=''
+        switch (value) {
+            case "1": {
+                meanText = this.TransferMeansTypeEnum()[0].Name;
+                break;
+            }
+            case "2": {
+                meanText = this.TransferMeansTypeEnum()[1].Name;
+                break;
+            }
+            case "3": {
+                meanText = this.TransferMeansTypeEnum()[2].Name;
+                break;
+            }
+        }
+        return meanText;
+    }
+
+    public getMeansValueByText(value: String) {
+        var meanValue:any=''
+        switch (value) {
+            case this.TransferMeansTypeEnum()[0].Name: {
+                meanValue = this.TransferMeansTypeEnum()[0].Value;
+                break;
+            }
+            case this.TransferMeansTypeEnum()[1].Name: {
+                meanValue = this.TransferMeansTypeEnum()[1].Name;
+                break;
+            }
+            case this.TransferMeansTypeEnum()[2].Name: {
+                meanValue = this.TransferMeansTypeEnum()[2].Name;
+                break;
+            }
+        }
+        return meanValue;
+    }
+
+
+
+    getPickListValue(value: any) {
         //this.PickListStatusEnum().indexOf("Name" value)
     }
 }

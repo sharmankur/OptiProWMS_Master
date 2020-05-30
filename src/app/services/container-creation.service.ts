@@ -223,7 +223,8 @@ export class ContainerCreationService {
         PURPOSE: PURPOSE,
         OPERATION: OPERATION,
         CREATEMODE: CREATEMODE,
-        CONT_SELECT_TYPE: CONT_SELECT_TYPE
+        CONT_SELECT_TYPE: CONT_SELECT_TYPE,
+        PARENT_FLG: true
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);

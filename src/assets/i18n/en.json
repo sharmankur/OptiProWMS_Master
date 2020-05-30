@@ -215,10 +215,10 @@
   "BatchSrBinList": "Batch/Sr/Bin No. List",
   "NoOfCopiesCannotbeBlank": "No. of copies cannot be blank or 0.",
   "NoOfCopiesShouldBeNumeric": "No. of copies must be numeric",
-  "Total": "Total",
+  "Total": "Total", 
   "StockQty": "Stock Qty.",
-  "MfrSerialNo": "Mfr Serial No.",
-  "ExpiryDate": "Expiry Date",
+  "MfrSerialNo": "Mfr Serial No.", 
+  "ExpiryDate": "Expiry Date",  
   "TargetBin": "Target Bin",
   "TargetWhse": "Target Whse",
   "ScanSerial": "Scan Serial",
@@ -1017,6 +1017,7 @@
   "ShipmentIdTo": "Shipment Id To",
   "ShipmentFromBlankMsg": "Shipment code can't be blank",
   "SheduleBlankMsg": "Shedule date can't be blank",
+  "PickingNoItemToUpdate": "There is no item to udate",
   "ArchievedData": "Archived Shipment",
   "RestoreFromArchived": "Restore Archive Shipment",
   "TransferFromArchive": "Transfer from Archive",
@@ -1070,7 +1071,6 @@
   "Contents": "Contents",
   "Select_Shipment_Msg": "Please select shipment Id",
   "FieldValidation":"Please select or enter value in the field.",
-  "PickOrder": "Pick Order",
-  
+  "PickOrder": "Pick Order",  
   "Dummy": "Dummy"  
 }
