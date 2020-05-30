@@ -5,7 +5,7 @@ import { PickTaskService } from '../../services/picktask.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { CommonData } from '../../models/CommonData';
 
 @Component({

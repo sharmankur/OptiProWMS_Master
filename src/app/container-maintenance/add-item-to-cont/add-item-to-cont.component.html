@@ -322,7 +322,7 @@
                                         (keyup.enter)="EnterPressed()"
                                             [(ngModel)]="containerCode" (blur)="onContainerCodeChangeBlur()">
                                         <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" (click)="onOpenTreeview()" class="k-button k-primary btn" title="{{'ViewItems'|translate}}" type="button">
+                                            <button tabIndex="-1" #scanTreeViewBtn id="scanTreeViewBtn"  (click)="onOpenTreeview()" class="k-button k-primary btn" title="{{'ViewItems'|translate}}" type="button">
                                                 <i class="opti-icon-view-batch"></i>
                                             </button>
                                             <div class="btn-group">

@@ -435,6 +435,15 @@ export class CommonData {
         ];
     }
 
+    pickEnum(){
+        return [
+            { "Value": 1, "Name": "Container" },
+            { "Value": 2, "Name": "Item" },
+            { "Value": 3, "Name": "Batch" },
+            { "Value": 4, "Name": "Serial" }
+        ];
+    }
+
    /**
     * Pick operation field enmum.
     */

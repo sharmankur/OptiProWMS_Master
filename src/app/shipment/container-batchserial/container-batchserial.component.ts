@@ -115,7 +115,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.Tracking = this.ItemCodeArray[0].TRACKING;
     this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
     
-    this.fillBatchSerialDataInGrid(1);    
+    this.fillBatchSerialDataInGrid(this.Selectedlink);    
   }  
 
   GetWhseCode (){

@@ -126,6 +126,7 @@ export class AddItemToContComponent implements OnInit {
 
   @ViewChild("scanContCode", { static: false }) scanContCode;
   @ViewChild("scanItmCode", { static: false }) scanItmCode;
+  @ViewChild("scanTreeViewBtn", { static: false }) scanTreeViewBtn;
   @ViewChild("scanItemQty", { static: false }) scanItemQty;
   @ViewChild("scanLotNo", { static: false }) scanLotNo;
   @ViewChild("scanBsItemQty", { static: false }) scanBsItemQty;
@@ -150,7 +151,7 @@ export class AddItemToContComponent implements OnInit {
   }
   onNext() {
     this.nextEnabled = false;
-    this.CreateContainerTxt = this.translate.instant("AddItem")
+    this.CreateContainerTxt = this.translate.instant("CreateContainer")
   }
   onBack() {
     this.nextEnabled = true;
@@ -456,7 +457,7 @@ export class AddItemToContComponent implements OnInit {
               this.soNumber = '';
               this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
             } else {
-              this.soNumber = data[0].DocEntry
+              this.soNumber = data[0].DocNum
             }
           } else {
             if (data.length == 0) {
@@ -1109,7 +1110,7 @@ export class AddItemToContComponent implements OnInit {
         this.binNo = $event.BinCode;
         //   this.setDefaultValues();
       } else if (this.lookupfor == "SOList") {
-        this.soNumber = $event.DocEntry;
+        this.soNumber = $event.DocNum;
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
       } else if (this.lookupfor == "ContainerIdList") {
@@ -2494,6 +2495,15 @@ export class AddItemToContComponent implements OnInit {
     this.containerStatus = this.getContainerStatus(data.OPTM_CONT_HDR[0].OPTM_STATUS);
     this.ScannedContainerStatus  = Number(data.OPTM_CONT_HDR[0].OPTM_STATUS);
 
+    if(data.OPTM_CONT_HDR[0].OPTM_SHIPELIGIBLE == "N"){
+      this.defaultPurpose = this.purposeArray[1];
+    }else{
+      this.defaultPurpose = this.purposeArray[0];
+    }
+    this.purpose = this.defaultPurpose.Name;
+    this.purposeId = this.defaultPurpose.Value;
+    this.parentContainerType = data.OPTM_CONT_HDR[0].OPTM_PARENT_CONTTYPE;
+
     this.oSubmitModel.OPTM_CONT_HDR.push({
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_CONTID: data.OPTM_CONT_HDR[0].OPTM_CONTAINERID,
@@ -2839,12 +2849,14 @@ export class AddItemToContComponent implements OnInit {
                 //Container doesn't exist. Creating container
                 if (this.canCreateContainer) {
                   this.generateContainer();
+                  this.scanTreeViewBtn.nativeElement.focus();
                 }
               }
             }
             else if (data.OPTM_CONT_HDR.length > 0) {
               //Container is already created and fetching data 
               this.TransferDataToContainerModel(data);
+              this.scanTreeViewBtn.nativeElement.focus();
               result = true;
             }              
           } else {

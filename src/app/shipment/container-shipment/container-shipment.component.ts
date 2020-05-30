@@ -895,6 +895,7 @@ export class ContainerShipmentComponent implements OnInit {
         break;
       }
     }
+    this.selectedRowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   public skip = 0;
@@ -930,6 +931,7 @@ export class ContainerShipmentComponent implements OnInit {
     }
   }
 
+  selectedRowCount: number = 0;
   on_Selectall_checkbox_checked(checkedvalue) {
     var isExist = 0;
     this.selectall = false
@@ -953,6 +955,7 @@ export class ContainerShipmentComponent implements OnInit {
         }
       }
     }
+    this.selectedRowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   onAssignShipmentPress() {
