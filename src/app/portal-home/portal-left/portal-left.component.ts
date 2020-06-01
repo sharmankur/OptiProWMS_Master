@@ -45,7 +45,7 @@ export class PortalLeftComponent implements OnInit {
         this.selectedThemeColor = data;
       }
     );
-  //  this.getAllMenus();
+    this.getAllMenus();
     this.commonService.setCustomizeInfo();
 
     UIHelper.manageNavigationPanel(document.getElementById('sidebarCollapse-alt'));
