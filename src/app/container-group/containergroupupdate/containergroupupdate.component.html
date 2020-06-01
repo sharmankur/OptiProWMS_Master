@@ -15,7 +15,7 @@
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CG_ID" [(ngModel)]="CG_ID"
                                     placeholder="{{'Container_Group'|translate}}" (blur)="OnCGIDChange()"
-                                    #CGIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" trim>
+                                    #CGIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" trim = "blur">
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CG_DESC"
-                                    [(ngModel)]="CG_DESC" placeholder="{{'Description'|translate}}" (blur)="onDescChange()" trim>
+                                    [(ngModel)]="CG_DESC" placeholder="{{'Description'|translate}}" (blur)="onDescChange()" trim = "blur">
                             </div>
                         </div>
                     </div>

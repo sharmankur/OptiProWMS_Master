@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./ctupdate.component.scss']
 })
 export class CTUpdateComponent implements OnInit {
-  CT_Description: string;
+  CT_Description: string="";
   CT_Length: string;
   CT_Width: string;
   CT_Height: string;
@@ -111,7 +111,7 @@ export class CTUpdateComponent implements OnInit {
       this.isUpdateHappen = true
     }
 
-    if(this.CT_Max_Width <= this.CT_Tare_Width){
+    if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
       this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
     }
   }

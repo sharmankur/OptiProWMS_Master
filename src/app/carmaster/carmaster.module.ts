@@ -12,6 +12,7 @@ import { CARMasterRoutingModule } from './carmaster-routing.module';
 import { CARViewComponent } from './carview/carview.component';
 import { CARUpdateComponent } from './carupdate/carupdate.component';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [CARMainComponent, CARViewComponent, CARUpdateComponent],
@@ -25,7 +26,8 @@ import { DialogsModule } from '@progress/kendo-angular-dialog';
     CARMasterRoutingModule,
     DropDownsModule,
     DateInputsModule,
-    DialogsModule
+    DialogsModule,
+    NgxTrimDirectiveModule
   ],
   providers: [ 
     CARMainComponent // added class in the providers

@@ -95,6 +95,10 @@ export class CTRUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CPofPErrMsg"));
       return false;
     }
+    else if(Number(this.CTR_ConatainerPartofParent) >= Number(this.CTR_ConainerPerParent)){
+      this.toastr.error('', this.translate.instant("ContainersPerParentMsg"));
+      return false;
+    }
     return true;
   }
 

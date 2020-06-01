@@ -12,6 +12,7 @@ import { SharedModule } from '../shared-module/shared-module.module';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
     SharedModule,
     GridModule,
     DropDownsModule,
-    DateInputsModule
+    DateInputsModule,
+    NgxTrimDirectiveModule
   ]
 })
 export class CarrierModule { }

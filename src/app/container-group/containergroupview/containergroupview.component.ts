@@ -82,6 +82,11 @@ export class ContainergroupviewComponent implements OnInit {
   onChangeSelection(event) {
     console.log(event)
     this.selectedRows = event;
+    if(this.serviceData.length == this.selectedRows.length){
+
+    }else{
+      
+    }
   }
 
   OnAddClick() {

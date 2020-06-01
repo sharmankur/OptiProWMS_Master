@@ -20,7 +20,7 @@ export class CARUpdateComponent implements OnInit {
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
   CAR_PackType = "Shipping";
-  OPTM_RULE_DESC: string;
+  OPTM_RULE_DESC: string ="";
   lookupfor: string;
   BtnTitle: string;
 
@@ -112,10 +112,10 @@ export class CARUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CAR_ContainerPackRule_Blank_Msg"));
       return false;
     }
-    else if (this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined) {
-      this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
-      return false;
-    }
+    // else if (this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined) {
+    //   this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
+    //   return false;
+    // }
     else if (this.CAR_ContainerType == '' || this.CAR_ContainerType == undefined) {
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
       return false;
@@ -232,44 +232,6 @@ export class CARUpdateComponent implements OnInit {
     var AutoRuleData = this.prepareContainerAutoRule(AutoRuleData); // current data only.
     this.InsertIntoContainerAutoRule(AutoRuleData);
   }
-
-  // prepareUpdateContainerAutoRule(oSubmitPOLotsObj: any): any {
-  //   let packtype = 1;
-  //   if (this.CAR_PackType == this.PackTypeList[0]) {
-  //     packtype = 1;
-  //   } else if (this.CAR_PackType == this.PackTypeList[1]) {
-  //     packtype = 2;
-  //   }else{
-  //     packtype = 3;
-  //   }
-
-  //   let addPartToCont = 'N'
-  //   if (this.CAR_AddPartsToContainer == true) {
-  //     addPartToCont = "Y";
-  //   }
-
-  //   oSubmitPOLotsObj.Header.push({
-  //     OPTM_RULEID: this.CAR_CPackRule,
-  //     OPTM_CONTTYPE: this.CAR_ContainerType,
-  //     OPTM_RULE_DESC: this.OPTM_RULE_DESC,
-  //     CompanyDBId: localStorage.getItem("CompID"),
-  //     OPTM_CONTUSE: packtype,
-  //     OPTM_ADD_TOCONT: addPartToCont,
-  //     OPTM_MODIFIEDBY: localStorage.getItem("UserId")
-  //   });
-
-  //   for (var iBtchIndex = 0; iBtchIndex < this.autoRuleArray.length; iBtchIndex++) {
-  //     oSubmitPOLotsObj.Details.push({
-  //       OPTM_ITEMCODE: this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE,
-  //       OPTM_RULEID: this.CAR_CPackRule,
-  //       OPTM_PARTS_PERCONT: this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT,
-  //       OPTM_MIN_FILLPRCNT: this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT,
-  //       OPTM_PACKING_MATWT: this.autoRuleArray[iBtchIndex].OPTM_PACKING_MATWT,
-  //       OPTM_MODIFIEDBY: localStorage.getItem("UserId")
-  //     });
-  //   }
-  //   return oSubmitPOLotsObj;
-  // }
 
   prepareContainerAutoRule(oSubmitPOLotsObj: any): any {
     let packtype = 1;
