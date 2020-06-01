@@ -908,7 +908,7 @@ export class BuildParentContainerComponent implements OnInit {
       this.binNo, "",
       this.containerGroupCode,
       this.soNumber, this.parentContainerType,
-      this.purps, operation, 3, this.CONT_SELECT_TYPE).subscribe(
+      this.purps, operation, 3, this.CONT_SELECT_TYPE,true).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -1144,7 +1144,7 @@ export class BuildParentContainerComponent implements OnInit {
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: 3,
       //OPTM_PERPOSE: this.purposeId,
-      OPTM_PERPOSE: this.purps,
+      OPTM_PURPOSE: this.purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: 0,

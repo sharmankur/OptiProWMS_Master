@@ -209,7 +209,7 @@ export class ContainerCreationService {
   }
 
   CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE,
-    CONT_SELECT_TYPE): Observable<any> {
+    CONT_SELECT_TYPE, blnParentFlg): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -224,7 +224,7 @@ export class ContainerCreationService {
         OPERATION: OPERATION,
         CREATEMODE: CREATEMODE,
         CONT_SELECT_TYPE: CONT_SELECT_TYPE,
-        PARENT_FLG: true
+        PARENT_FLG: blnParentFlg
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);

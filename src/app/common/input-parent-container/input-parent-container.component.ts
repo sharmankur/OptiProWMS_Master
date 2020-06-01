@@ -897,7 +897,7 @@ export class InputParentContainerComponent implements OnInit {
         OPTM_PARENTCODE: '',
         OPTM_GROUP_CODE: 0,
         OPTM_CREATEMODE: 0,
-        OPTM_PERPOSE: this.purposeId, //need to change
+        OPTM_PURPOSE: this.purposeId, //need to change
         OPTM_FUNCTION: "Shipping",
         OPTM_OBJECT: "Container",
         OPTM_WONUMBER: 0,

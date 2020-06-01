@@ -560,7 +560,7 @@ export class CreateContainerComponent implements OnInit {
       OPTM_PARENTCODE: parentCode,
       OPTM_GROUP_CODE: this.containerGroupCode,
       OPTM_CREATEMODE: createMode,
-      OPTM_PERPOSE: purps,
+      OPTM_PURPOSE: purps,
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: this.workOrder,

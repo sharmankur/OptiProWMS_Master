@@ -69,12 +69,15 @@ export class AutoAllocationComponent implements OnInit {
   schedularToDate: any;
   tempFromDate: Date;
   tempToDate: Date;
+  scheduleFromDate: string;
+  scheduleToDate: string;
   onScheduleFromDateChange(event) {
     this.isUpdateHappen = true
     console.log("onScheduleFromDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+     
     this.tempFromDate = event
     if (event.getTime() < cDate.getTime()) {
       this.schedularFromDate = '';
@@ -85,6 +88,10 @@ export class AutoAllocationComponent implements OnInit {
       this.schedularFromDate = '';
       this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
     }
+    var varYear: string = event.getFullYear();
+    var varMonth: string = (event.getMonth() + 1);
+    var varDay: string = event.getDate();
+    this.scheduleFromDate = varYear + "-" + varMonth + "-" +  varDay
   }
 
   onScheduleToDateChange(event) {
@@ -103,6 +110,10 @@ export class AutoAllocationComponent implements OnInit {
       this.schedularToDate = '';
       this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
     }
+    var varYear: string = event.getFullYear();
+    var varMonth: string = (event.getMonth() + 1);
+    var varDay: string = event.getDate();
+    this.scheduleToDate = varYear + "-" + varMonth + "-" +  varDay
   }
 
   OnCancelClick() {
@@ -181,7 +192,7 @@ export class AutoAllocationComponent implements OnInit {
     }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
-      this.schedularFromDate, this.schedularToDate).subscribe(
+      this.scheduleFromDate, this.scheduleToDate).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {

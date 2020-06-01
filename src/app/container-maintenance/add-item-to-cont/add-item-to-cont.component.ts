@@ -2476,12 +2476,14 @@ export class AddItemToContComponent implements OnInit {
   }
 
   TransferDataToContainerModel(data: any) {
+    /*
     if (data.OUTPUT != undefined) {
       if (data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != '') {
         return;
       }
     }
-
+    */
+   
     if (data.OPTM_CONT_HDR != null && data.OPTM_CONT_HDR != undefined) {
       if (data.OPTM_CONT_HDR.length == 0) {
         //this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
@@ -2825,7 +2827,7 @@ export class AddItemToContComponent implements OnInit {
     this.ScannedContainerStatus = 0;
       
     this.containerCreationService.CheckContainer(this.containerCode, this.whse, this.binNo, this.autoRuleId, this.containerGroupCode,
-      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, CONT_SELECT_TYPE).subscribe(
+      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, CONT_SELECT_TYPE, false).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
