@@ -1072,5 +1072,6 @@
   "Select_Shipment_Msg": "Please select shipment Id",
   "FieldValidation":"Please select or enter value in the field.",
   "PickOrder": "Pick Order",  
+  "ShpQtyMsg": "Shipment quantity can't be greater than open quantity.",
   "Dummy": "Dummy"  
 }

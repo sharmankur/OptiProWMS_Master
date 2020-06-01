@@ -177,7 +177,7 @@ export class GeneratePickComponent implements OnInit {
   GetDataForShipmentId(fieldName) {
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetAllocatedShipmentCode(3).subscribe(
+    this.commonservice.GetAllocatedShipmentCode(3, "").subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

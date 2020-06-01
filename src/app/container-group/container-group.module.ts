@@ -12,6 +12,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { SharedModule } from '../shared-module/shared-module.module';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [ContainergroupmainComponent, ContainergroupupdateComponent, ContainergroupviewComponent],
@@ -24,7 +25,8 @@ import { SharedModule } from '../shared-module/shared-module.module';
     SharedModule,
     GridModule,
     DropDownsModule,
-    DateInputsModule
+    DateInputsModule,
+    NgxTrimDirectiveModule
   ]
 })
 

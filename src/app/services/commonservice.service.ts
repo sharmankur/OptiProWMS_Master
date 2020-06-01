@@ -1004,11 +1004,12 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
   }
 
-  GetAllocatedShipmentCode(status): Observable<any> {
+  GetAllocatedShipmentCode(status, SHIPMENTCODE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        STATUS: status 
+        STATUS: status,
+        SHIPMENTCODE: SHIPMENTCODE 
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);
