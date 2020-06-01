@@ -734,6 +734,11 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
 
   ChangeSalesQty(event, dataItem, companyRowIndex) {
+    if(event.target.value > dataItem.ShipmentQty){
+      this.toastr.error('', this.translate.instant("ShpQtyMsg"));
+      event.target.value = dataItem.ShipmentQty;
+      return;
+    }
     dataItem.SalesOpenQty = event.target.value
   }
 

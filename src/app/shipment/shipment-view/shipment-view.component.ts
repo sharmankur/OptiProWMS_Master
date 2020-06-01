@@ -853,9 +853,13 @@ export class ShipmentViewComponent implements OnInit {
     if (this.ShipmentID == undefined || this.ShipmentID == "") {
       return;
     }
+    let schDate = "";
+    if(this.ScheduleDatetime != undefined){
+      schDate = this.ScheduleDatetime.toLocaleDateString();
+    }
     this.showLoader = true;
     let uc = this.UseContainer == true ? "Y" : "N";
-    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, this.ScheduleDatetime, this.DockDoor).subscribe(
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, schDate, this.DockDoor).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1188,11 +1192,11 @@ export class ShipmentViewComponent implements OnInit {
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    if (event.getTime() < cDate.getTime()) {
-      this.ScheduleDatetime = undefined;
-      this.toastr.error('', this.translate.instant("SchDateValMsg"));
-      return;
-    }
+    // if (event.getTime() < cDate.getTime()) {
+    //   this.ScheduleDatetime = undefined;
+    //   this.toastr.error('', this.translate.instant("SchDateValMsg"));
+    //   return;
+    // }
     this.isUpdateHappen = true;
   }
 

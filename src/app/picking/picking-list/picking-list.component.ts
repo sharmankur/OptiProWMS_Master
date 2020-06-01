@@ -76,14 +76,8 @@ export class PickingListComponent implements OnInit {
     });
     this.PickListBasisArray =this.commonData.PickListEnum();
     this.PlanShiftArray =this.commonData.PlanShiftEnum();
-    this.statusArray = this.commonData.PickListStatusEnum();
-
-  
+    this.statusArray = this.commonData.PickListStatusEnum(); 
   }
-
-
-
-
 
   ngOnInit() {
  
@@ -150,10 +144,22 @@ export class PickingListComponent implements OnInit {
 
   }
 
-  GetDataForShipmentId(fieldName) {
+  GetDataForShipmentId(fieldName, event) {
+    let shipmentCode;
+    if (fieldName == "ShipIdFrom") {
+      shipmentCode = this.ShipmentCodeFrom;
+    }
+    else if (fieldName == "ShipIdTo") {
+      shipmentCode = this.ShipmentCodeTo
+    }
+    if ((shipmentCode == "" || shipmentCode == null || shipmentCode == undefined) && (event == 'blur')) {
+      return;
+    }
+    if (event != 'blur') {
+      shipmentCode = ""
+    }
     this.showLoader = true;
-    //this.hideLookup = false;
-    this.commonservice.GetAllocatedShipmentCode(4).subscribe(
+    this.commonservice.GetAllocatedShipmentCode(4, shipmentCode).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -162,11 +168,38 @@ export class PickingListComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookup = true;
-          this.serviceData = data;
-          this.lookupfor = fieldName;
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "ShipIdFrom") {
+                this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+                if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+                  this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                  this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+                }
+              }
+              else if (fieldName == "ShipIdTo") {
+                this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+              }
+            } else {
+              if (fieldName == "ShipIdFrom") {
+                this.ShipmentIdTo = "";
+                this.ShipmentCodeTo = ""
+              }
+              else if (fieldName == "ShipIdTo") {
+                this.ShipmentIdTo = ""
+                this.ShipmentCodeTo = ""
+              }
+              this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+            }
+          } else {
+            this.showLookup = true;
+            this.serviceData = data;
+            this.lookupfor = fieldName;
+          }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
         }
       },
       error => {
@@ -347,12 +380,17 @@ export class PickingListComponent implements OnInit {
   PickTaskListM:Array<PLPickListTaskModel>;
   PickTaskList:any = [];
   selectedItemPickTaskList:any=[];
+
   FillPickListDataInGrid() {
     var PickListBasicVal = this.PickListBasis.Value;
     var statusVal = this.StatusValue.Value;
     var planShiftVal = this.PlanShift.Value;
     this.showLoader = true;
-    this.picktaskService.FillPickListDataInGrid(this.ShipmentCodeFrom, this.ShipmentCodeTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal,this.planDate).subscribe(
+    let plandateString = "";
+    if(this.planDate != undefined){
+      plandateString = this.planDate.toLocaleDateString();
+    }
+    this.picktaskService.FillPickListDataInGrid(this.ShipmentCodeFrom, this.ShipmentCodeTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal, plandateString).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined && data!=null) {

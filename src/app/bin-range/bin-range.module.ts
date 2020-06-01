@@ -10,7 +10,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { BinRangeMainComponent } from './bin-range-main/bin-range-main.component';
 import { BinRangeUpdateComponent } from './bin-range-update/bin-range-update.component';
 import { BinRangeViewComponent } from './bin-range-view/bin-range-view.component';
-
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 
 @NgModule({
@@ -23,7 +23,8 @@ import { BinRangeViewComponent } from './bin-range-view/bin-range-view.component
     TrnaslateLazyModule,
     SharedModule,
     GridModule,
-    DropDownsModule
+    DropDownsModule,
+    NgxTrimDirectiveModule
   ]
 })
 export class BinRangeModule { }

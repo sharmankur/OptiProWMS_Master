@@ -13,7 +13,7 @@ import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { BinrulemasterComponent } from './binrulemaster/binrulemaster.component';
 import { BinruleAddUpdateComponent } from './binrule-add-update/binrule-add-update.component';
 import { BinruleviewComponent } from './binruleview/binruleview.component';
-
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import { BinruleviewComponent } from './binruleview/binruleview.component';
     FormsModule,
     DropDownsModule,
     DateInputsModule,
-    DialogsModule
+    DialogsModule,
+    NgxTrimDirectiveModule
   ]
 })
 export class BinruleModule { }

@@ -16,17 +16,7 @@
                                 <input type="text" class="form-control form-control-sm" name="carrierId"
                                     [(ngModel)]="carrierId" placeholder="{{'Carrier_CarrierId'|translate}}"
                                     (blur)="onCarrierIdChangeBlur()" #CarrierIdInputField [disabled]=isUpdate
-                                    id="carrierId">
-                                <!-- <div class="input-group-append">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDIDLookupClick()" >
-                                            <i class="opti-icon-hammenu"></i>
-                                        </button>
-                                    </div>
-                                    <div class="ml-1 d-flex">
-                                        <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                            <i class="opti-icon-qr-code fs-24"></i>
-                                        </button>
-                                </div> -->
+                                    id="carrierId" trim="blur">
                             </div>
                         </div>
                     </div>
@@ -38,16 +28,6 @@
                                 <input type="text" class="form-control form-control-sm" name="carrierDesc"
                                     [(ngModel)]="carrierDesc" placeholder="{{'DD_DESC'|translate}}"
                                     (blur)="onDescChangeBlur()">
-                                <!-- <div class="input-group-append">
-                                      <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="onDDDescLookupClick()" [disabled]=showGRPOGridAndBtn>
-                                          <i class="opti-icon-hammenu"></i>
-                                      </button>
-                                  </div>
-                                  <div class="ml-1 d-flex">
-                                      <button tabIndex="-1" type="button" id="inboundDetailVendorScanButton" class="btn btn-light k-button btn-sm btn-transparent btn-icon separate-btn p-0">
-                                          <i class="opti-icon-qr-code fs-24"></i>
-                                      </button>
-                              </div> -->
                             </div>
                         </div>
                     </div>

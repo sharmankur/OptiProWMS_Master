@@ -12,7 +12,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { WhseBinLayoutViewComponent } from './whse-bin-layout-view/whse-bin-layout-view.component';
 import { WhseBinLayoutAddComponent } from './whse-bin-layout-add/whse-bin-layout-add.component';
 import { WhseBinLayoutComponent } from './whse-bin-layout/whse-bin-layout.component';
-
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [WhseBinLayoutComponent, WhseBinLayoutViewComponent, WhseBinLayoutAddComponent],
@@ -25,7 +25,8 @@ import { WhseBinLayoutComponent } from './whse-bin-layout/whse-bin-layout.compon
     SharedModule,
     GridModule,
     DropDownsModule,
-    DateInputsModule
+    DateInputsModule,
+    NgxTrimDirectiveModule
   ]
 })
 export class WhseBinLayoutModule { }

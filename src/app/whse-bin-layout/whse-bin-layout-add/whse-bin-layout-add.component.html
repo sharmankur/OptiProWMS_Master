@@ -34,7 +34,7 @@
                                         class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
                                     <div class="input-group col-sm-8">
                                         <input type="text" class="form-control form-control-sm" id="description"
-                                            name="description" [(ngModel)]="whseDescr" disabled>
+                                            name="description" [(ngModel)]="whseDescr" disabled trim="blur">
                                     </div>
                                 </div>
                             </div>
@@ -161,13 +161,6 @@
                                 <kendo-grid [data]="whseZoneList" [resizable]="true" [pageSize]="zonePageSize"
                                     [skip]="skip" [pageable]="zonePageable" [rowSelected]="isRowSelected" [selectable]="{mode: 'single', checkboxOnly: false}" (selectionChange)="onSelectionClick($event)">
                                     <kendo-grid-checkbox-column [width]="25">
-                                        <!-- <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
-                                            <div class="custom-control custom-checkbox">
-                                                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)"
-                                                    id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
-                                                <label class="custom-control-label" for="chkbox-{{idx}}"></label>
-                                            </div>
-                                        </ng-template> -->
                                     </kendo-grid-checkbox-column>
                                     <kendo-grid-column field="ZoneCode" title="{{'WhseZoneCode'|translate}}">
                                         <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">

@@ -202,10 +202,12 @@ export class BinRangeUpdateComponent implements OnInit {
     }else if (this.BinRange == '' || this.BinRange == undefined) {
       this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
       return false;
-    }else if (this.Description == '' || this.Description == undefined) {
-      this.toastr.error('', this.translate.instant("BinRangeDescBlankMsg"));
-      return false;
-    }else if (this.FromBinCode == '' || this.FromBinCode == undefined) {
+    }
+    // else if (this.Description == '' || this.Description == undefined) {
+    //   this.toastr.error('', this.translate.instant("BinRangeDescBlankMsg"));
+    //   return false;
+    // }
+    else if (this.FromBinCode == '' || this.FromBinCode == undefined) {
       this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
       return false;
     }else if (this.ToBinCode == '' || this.ToBinCode == undefined) {

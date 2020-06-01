@@ -73,7 +73,7 @@
   "CAR_MAT_WT": "Packing Material Weight",
   "CAR_Pack_Type_Blank_Msg": "Pack Type can't be blank.",
   "CAR_ItemCode_Blank_Msg": "Item Code can't be blank.",
-  "CAR_ContainerPackRule_Blank_Msg": "Container Pack Rule can't be blank.",
+  "CAR_ContainerPackRule_Blank_Msg": "Pack Rule Id can't be blank.",
   "DockDoorId_Blank_Msg": "Invalid Dock Door Code.",
   "CAR_MinFillPercent_val_msg": "Sum of Min Fill Percent should be equal to 100.",
   "CAR_MinFillPercent_blank_msg": "Min Fill Percent should not be equal to 0.",
@@ -1072,5 +1072,7 @@
   "Select_Shipment_Msg": "Please select shipment Id",
   "FieldValidation":"Please select or enter value in the field.",
   "PickOrder": "Pick Order",  
+  "ShpQtyMsg": "Shipment quantity can't be greater than open quantity.",
+  "ContainersPerParentMsg":"Containers per parent should be greater than Container part of parent.",
   "Dummy": "Dummy"  
 }
