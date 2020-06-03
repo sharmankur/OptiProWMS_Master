@@ -390,7 +390,7 @@ export class PickingListComponent implements OnInit {
     if(this.planDate != undefined){
       plandateString = this.planDate.toLocaleDateString();
     }
-    this.picktaskService.FillPickListDataInGrid(this.ShipmentCodeFrom, this.ShipmentCodeTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal, plandateString).subscribe(
+    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal, plandateString).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined && data!=null) {
@@ -497,7 +497,7 @@ export class PickingListComponent implements OnInit {
   } 
   
   selectContainerRowChange(checkValue,dataItem,index){
-    var itemId= dataItem.OPTM_PICKLIST_CODE;
+    var itemId= dataItem.OPTM_PICKLIST_ID;
      if(checkValue==true && !this.selectedPLItems.includes(itemId)){
        this.selectedPLItems.push(itemId);
        this.selectedPLItemsDataForValidate.push(dataItem);
@@ -631,14 +631,16 @@ export class PickingListComponent implements OnInit {
             return;
           } else {
             var result = data.OUTPUT[0].RESULT;
-            if (result == "Data Saved")
+            if (result == "Data Saved") {
               this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-            this.PickItemList = [];
-            this.PickTaskList = [];
-            this.FillPickListDataInGrid();
+              this.PickItemList = [];
+              this.PickTaskList = [];
+              this.FillPickListDataInGrid();
+            }  else {
+              // show error.
+              this.toastr.error('', data.OUTPUT[0].RESULT);
+            }
           }
-        } else {
-          // show error.
         }
       },
       error => {
