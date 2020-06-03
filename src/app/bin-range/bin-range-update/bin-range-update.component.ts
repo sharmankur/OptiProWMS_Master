@@ -36,11 +36,14 @@ export class BinRangeUpdateComponent implements OnInit {
     translate.onLangChange.subscribe(() => {
     });
   }
-
+  
+  maxCodeLength: string;
+  maxDescLength: string;
   ngOnInit() {
     let BinRangesRow = localStorage.getItem("BinRangesRow")
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
     if (BinRangesRow != undefined && BinRangesRow != "") {
       this.BinRangesRow = JSON.parse(localStorage.getItem("BinRangesRow"));
       this.BinRange = this.BinRangesRow.OPTM_BIN_RANGE;

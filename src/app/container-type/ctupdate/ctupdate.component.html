@@ -13,7 +13,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="CT_ContainerType" [(ngModel)]="CT_ContainerType" placeholder="{{'CT_ContainerType'|translate}}"
-                                       #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" (blur)="onContainerTypeChange($event)" trim="blur">
+                                       #VendScanInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" (blur)="onContainerTypeChange($event)" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                         </div>
@@ -21,7 +21,7 @@
                             <label for="inputPassword" class="col-sm-4 col-form-label">{{'CT_Description'|translate}}</label>
                             <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" (blur)="onDescChange()" trim="blur">
+                                    <input type="text" class="form-control form-control-sm" name="CT_Description" [(ngModel)]="CT_Description" (blur)="onDescChange()" trim="blur" maxlength="{{maxDescLength}}">
                                 </div>
                             </div>
                         </div>

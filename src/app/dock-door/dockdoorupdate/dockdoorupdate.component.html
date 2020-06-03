@@ -26,7 +26,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="DD_ID" [(ngModel)]="DD_ID" placeholder="{{'DD_ID'|translate}}"
-                                    (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" trim="blur">
+                                    (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}"
-                                (blur)="onDescChangeBlur()" trim="blur">
+                                (blur)="onDescChangeBlur()" trim="blur" maxlength="{{maxDescLength}}">
                             </div>
                         </div>
                     </div>

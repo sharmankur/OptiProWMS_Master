@@ -45,6 +45,8 @@ export class Commonservice {
       data => {
         sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
         this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
+        this.maxDescLength = 20;
+        this.maxCodeLength = 10;
       },
       (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -114,6 +116,8 @@ export class Commonservice {
   // For opening content from left navigation links.
   private navigatedData = new BehaviorSubject<boolean>(false);
   currentNavigatedData = this.navigatedData.asObservable();
+  maxDescLength;
+  maxCodeLength;
 
   public setNavigatedData(navigationLink: boolean) {
     this.navigatedData.next(navigationLink);

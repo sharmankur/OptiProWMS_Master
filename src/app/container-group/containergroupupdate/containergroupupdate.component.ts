@@ -20,12 +20,16 @@ export class ContainergroupupdateComponent implements OnInit {
   isUpdate: boolean = false;
   showLoader: boolean = false;
   isUpdateHappen: boolean = false;
+  maxCodeLength: string;
+  maxDescLength: string;
+
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private router: Router, private contnrServ: ContainerGroupService, private contrMainComp: ContainergroupmainComponent) { }
 
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
     let CG_ROW = localStorage.getItem("CG_ROW")
     if (CG_ROW != undefined && CG_ROW != "") {
       this.CG_ROW = JSON.parse(localStorage.getItem("CG_ROW"));

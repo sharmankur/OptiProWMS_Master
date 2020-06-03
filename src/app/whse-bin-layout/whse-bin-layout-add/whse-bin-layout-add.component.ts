@@ -715,7 +715,7 @@ export class WhseBinLayoutAddComponent implements OnInit {
               WhseCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSCODE,
               ZoneCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE,
               ZoneType: data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE,
-              FromBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,
+              FromBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,  
               ToBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_TO_BIN,
               OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_ZONES[i].OPTM_BIN_RANGE
             })

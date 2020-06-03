@@ -156,7 +156,8 @@ export class ContMaintnceMainComponent implements OnInit {
       } else if (this.lookupfor == "GroupCodeList") {
         this.dialogValue = $event.OPTM_CONTAINER_GROUP
       } else if (this.lookupfor == "SOList") {
-        this.dialogValue = $event.DocNum
+        this.dialogValue = $event.DocNum;
+        this.SODocEntry = $event.DocEntry;
       }
     }
   }
@@ -808,6 +809,7 @@ export class ContMaintnceMainComponent implements OnInit {
   DialogTitle = "";
   dialogLabel = "";
   dialogValue = "";
+  SODocEntry = "";
   ShowSOandContainerCodeDialog(option) {
     if (this.containerCode == "" || this.containerCode == undefined || this.containerCode == null) {
       this.toastr.error('', this.translate.instant("ContCodeCannotBlank"))
@@ -834,10 +836,21 @@ export class ContMaintnceMainComponent implements OnInit {
     }
 
     this.dialogValue = "";
+    this.SODocEntry = "";
     if (action == 1) {
-      this.UpdateContainerSoNo();
+      if(this.SalesOrder != "" && this.SalesOrder != undefined && this.SalesOrder != null){
+        this.UpdateContainerSoNo();
+      }else{
+        this.toastr.error('', this.translate.instant("SONotAssigned"))
+        return;
+      }
     } else {
-      this.UpdateContainerGroupCode();
+      if(this.ContGroupCode != "" && this.ContGroupCode != undefined && this.ContGroupCode != null){
+        this.UpdateContainerGroupCode();
+      }else{
+        this.toastr.error('', this.translate.instant("CGNotAssigned"))
+        return;
+      }      
     }
   }
 
@@ -950,9 +963,11 @@ export class ContMaintnceMainComponent implements OnInit {
           if (action == 'blur') {
             if (data.length == 0) {
               this.dialogValue = '';
+              this.SODocEntry = ''
               this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
             } else {
-              this.dialogValue = data[0].DocEntry
+              this.dialogValue = data[0].DocNum
+              this.SODocEntry = data[0].DocEntry;
             }
           } else {
             if (data.length == 0) {
@@ -970,6 +985,7 @@ export class ContMaintnceMainComponent implements OnInit {
           }
         } else {
           this.dialogValue = '';
+          this.SODocEntry = '';
           this.toastr.error('', this.translate.instant("NoDataFound"));
         }
       },
@@ -1042,7 +1058,7 @@ export class ContMaintnceMainComponent implements OnInit {
     var selSONumber: string = this.dialogValue;
     ContUpdateSOArray.push({
       CompanyDBId: localStorage.getItem("CompID"),
-      SONO: this.dialogValue,
+      SONO: this.SODocEntry,
       OPTM_CONTCODE: this.containerCode
     });
     this.commonservice.UpdateContainerSoNo(ContUpdateSOArray).subscribe(
@@ -1055,6 +1071,7 @@ export class ContMaintnceMainComponent implements OnInit {
             return;
           }
           this.dialogValue = "";
+          this.SODocEntry = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
             this.SalesOrder = selSONumber;

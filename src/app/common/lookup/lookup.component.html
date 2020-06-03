@@ -37,7 +37,7 @@
         </ng-template>
         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
             <div class="custom-control custom-checkbox">
-                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]=selectall
+                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]="di.checked"
                     id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
                 <label class="custom-control-label" for="chkbox-{{idx}}"></label>
             </div>

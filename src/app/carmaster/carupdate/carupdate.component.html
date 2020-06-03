@@ -13,7 +13,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
-                                    [disabled]=isUpdate (blur)="onAutoPackChange($event)" trim="blur">
+                                    [disabled]=isUpdate (blur)="onAutoPackChange($event)" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="OPTM_RULE_DESC" [(ngModel)]="OPTM_RULE_DESC" placeholder="{{'CT_Description'|translate}}"
-                                    (blur)="onDescChange()" trim="blur">
+                                    (blur)="onDescChange()" trim="blur" maxlength="{{maxDescLength}}">
                             </div>
                         </div>
                     </div>

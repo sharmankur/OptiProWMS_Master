@@ -5,6 +5,7 @@ import { CTMasterComponent } from '../ctmaster.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { CommonData } from 'src/app/models/CommonData';
 
 @Component({
   selector: 'app-ctupdate',
@@ -23,7 +24,10 @@ export class CTUpdateComponent implements OnInit {
   BtnTitle: string;
   showLoader: boolean = false;
   isUpdate: boolean = false;
-  isUpdateHappen: boolean = false
+  isUpdateHappen: boolean = false;
+  commonData: any = new CommonData(this.translate);
+  maxCodeLength: any = ''
+  maxDescLength: any = ''
   constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
@@ -35,6 +39,8 @@ export class CTUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
 
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){

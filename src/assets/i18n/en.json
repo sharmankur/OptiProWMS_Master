@@ -1074,5 +1074,7 @@
   "PickOrder": "Pick Order",  
   "ShpQtyMsg": "Shipment quantity can't be greater than open quantity.",
   "ContainersPerParentMsg":"Containers per parent should be greater than Container part of parent.",
+  "SONotAssigned":"Sales order not assigned to selected container.",
+  "CGNotAssigned":"Container group not assigned to selected container.",
   "Dummy": "Dummy"  
 }

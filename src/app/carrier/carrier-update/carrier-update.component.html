@@ -16,7 +16,7 @@
                                 <input type="text" class="form-control form-control-sm" name="carrierId"
                                     [(ngModel)]="carrierId" placeholder="{{'Carrier_CarrierId'|translate}}"
                                     (blur)="onCarrierIdChangeBlur()" #CarrierIdInputField [disabled]=isUpdate
-                                    id="carrierId" trim="blur">
+                                    id="carrierId" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="carrierDesc"
                                     [(ngModel)]="carrierDesc" placeholder="{{'DD_DESC'|translate}}"
-                                    (blur)="onDescChangeBlur()">
+                                    (blur)="onDescChangeBlur()" maxlength="{{maxDescLength}}">
                             </div>
                         </div>
                     </div>
