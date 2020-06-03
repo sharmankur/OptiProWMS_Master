@@ -587,7 +587,7 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_DESC',
         title: this.translate.instant("CT_Description"),
-        type: 'date',
+        type: 'text',
         width: '100'
       }
     ];
@@ -602,7 +602,7 @@ export class CommonLookupComponent implements OnInit {
   showOutSOListNew() {
     this.table_head = [
       {
-        field: 'DocEntry',
+        field: 'DocNum',
         title: this.translate.instant("SO_NUM"),
         type: 'numeric',
         width: '100'

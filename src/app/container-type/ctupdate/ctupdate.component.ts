@@ -16,8 +16,8 @@ export class CTUpdateComponent implements OnInit {
   CT_Length: string;
   CT_Width: string;
   CT_Height: string;
-  CT_Max_Width: string;
-  CT_Tare_Width: string;
+  CT_Max_Width: string = "";
+  CT_Tare_Width: string = "";
   CT_ContainerType: string;
   CT_ROW: any;
   BtnTitle: string;

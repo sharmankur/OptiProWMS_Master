@@ -22,7 +22,7 @@ export class BinRangeUpdateComponent implements OnInit {
   ToBinCode: string;
   FromBinCode: string;
   BinRange: string;
-  Description: string;
+  Description: string="";
   BtnTitle: string;
   isUpdate: boolean;
   BinRangesRow: any;

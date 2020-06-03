@@ -560,6 +560,7 @@ export class CARUpdateComponent implements OnInit {
             return;
           }
           this.isUpdateHappen = true
+          this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = ''
           if (data.length > 0) {
             if (this.isBinRangeExist(data[0].ItemCode)) {
               this.toastr.error('', this.translate.instant("CAR_itemcode_exists_Msg"));

@@ -357,15 +357,17 @@ export class CTRUpdateComponent implements OnInit {
 
   formatCTR_ConainerPerParent() {
     if(Number(this.CTR_ConainerPerParent) < 1 ){
-      this.CTR_ConainerPerParent = 0
+      this.CTR_ConainerPerParent = 0;
+      this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.toastr.error('', this.translate.instant("ContPerValMsg"));
       return false;
     } else if(!Number.isInteger(Number(this.CTR_ConainerPerParent))) {
-      this.CTR_ConainerPerParent = 0
+      this.CTR_ConainerPerParent = 0;
+      this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.toastr.error('', this.translate.instant("OnlyIntAllow"));
     }
 
-    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent);//.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.isUpdateHappen = true
@@ -373,9 +375,9 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   formatCTR_ConatainerPartofParent() {
-    if(Number(this.CTR_ConatainerPartofParent) < 0 ){
+    if(Number(this.CTR_ConatainerPartofParent) < 0 && Number(this.CTR_ConatainerPartofParent) > 1){
       this.CTR_ConatainerPartofParent = 0
-      this.toastr.error('', this.translate.instant("ContPerValMsg"));
+      this.toastr.error('', this.translate.instant("ContPerValMsg")); // error msg check
       return false;
     }
 

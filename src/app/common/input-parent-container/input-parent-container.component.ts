@@ -95,7 +95,7 @@ export class InputParentContainerComponent implements OnInit {
        } else if (this.lookupfor == "BinList") {
          this.binNo = $event.BinCode;        
        } else if (this.lookupfor == "SOList") {
-         this.soNumber = $event.DocEntry;
+         this.soNumber = $event.DocNum;
        } else if (this.lookupfor == "GroupCodeList") {
          this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
         }       

@@ -45,7 +45,7 @@ export class LookupComponent implements OnInit {
   gridHeight: number;
   showLoader: boolean = false;
   grid: any;
-  selectall: boolean = false;
+  public selectall: boolean = false;
   showSelection: boolean = false;
   public selectedValues: Array<any> = [];
   public mySelection: number[] = [];
@@ -1196,6 +1196,7 @@ export class LookupComponent implements OnInit {
       this.selectall = false
       this.selectedValues = [];
     }
+    this.onChangeSelection.emit(Object.values(this.selectedValues));
   }
 
   onCheckboxClick(checked: any, index: number) {

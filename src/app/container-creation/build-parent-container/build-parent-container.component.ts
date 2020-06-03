@@ -174,7 +174,7 @@ export class BuildParentContainerComponent implements OnInit {
         this.binNo = $event.BinCode;
         this.setDefaultValues();
       } else if (this.lookupfor == "SOList") {
-        this.soNumber = $event.DocEntry;
+        this.soNumber = $event.DocNum;
         this.setDefaultValues();
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;

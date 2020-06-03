@@ -316,7 +316,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_TASKID" [width]="30" headerClass="text-left" title="{{'PT_TaskId'|translate}}">
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_DETAILTYPE" [width]="30" headerClass="text-left" title="{{'Name_Pick'|translate}}">
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_DETAILTYPE" [width]="50" headerClass="text-left" title="{{'Name_Pick'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem>
                                 {{dataItem.OPTM_DETAILTYPE | pickenum}}
                             </ng-template>
@@ -362,8 +362,7 @@
                 </ng-template> -->
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_TASK_QTY" headerClass="text-right" class="text-right" [width]="40"
-                            title="{{'BatchSerialQuantity'|translate}}">
-
+                            title="{{'Quantity'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem>
                                 {{dataItem.OPTM_TASK_QTY |numberFormat }}
                             </ng-template>
