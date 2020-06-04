@@ -145,6 +145,10 @@ export class PickingListComponent implements OnInit {
   }
 
   GetDataForShipmentId(fieldName, event) {
+    if(this.WarehouseId == "" || this.WarehouseId == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
     let shipmentCode;
     if (fieldName == "ShipIdFrom") {
       shipmentCode = this.ShipmentCodeFrom;
@@ -159,7 +163,7 @@ export class PickingListComponent implements OnInit {
       shipmentCode = ""
     }
     this.showLoader = true;
-    this.commonservice.GetAllocatedShipmentCode(4, shipmentCode).subscribe(
+    this.commonservice.GetAllocatedShipmentCode(4, shipmentCode, this.WarehouseId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -403,6 +407,7 @@ export class PickingListComponent implements OnInit {
             this.PickTaskList = data.OPTM_WHSTASKLIST;
             this.PickTaskListM = data.OPTM_WHSTASKLIST;
             this.PickItemListM = data.OPTM_WHS_PICKLIST;
+
             this.setTaskMeanValue()
             if (this.PickItemList.length > 10) {
               this.ShowGridPaging = true;
@@ -412,6 +417,12 @@ export class PickingListComponent implements OnInit {
             this.PickItemListM.forEach(element => {
               element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
             });        
+
+            if(this.PickItemListM.length > 0){
+              this.FilterPickTask(this.PickItemListM[0]);
+            }else{
+              this.selectedItemPickTaskList = [];
+            }
 
             for (let i = 0; i < this.PickItemList.length; i++) {
               this.PickItemList[i].Selected = false;
@@ -490,11 +501,14 @@ export class PickingListComponent implements OnInit {
    * @param $event 
    */
   onPickListItemClick($event) {
-    var taskCode = $event.selectedRows[0].dataItem.OPTM_TASK_CODE;
-    let selectedPickTasks = this.PickTaskList.filter(item =>
-      item.OPTM_TASK_CODE === taskCode );
-      this.selectedItemPickTaskList = selectedPickTasks ;
+    this.FilterPickTask($event.selectedRows[0].dataItem);
   } 
+
+  FilterPickTask(selectedRows) {
+    let selectedPickTasks = this.PickTaskList.filter(item =>
+      item.OPTM_PICKLIST_ID === selectedRows.OPTM_PICKLIST_ID );
+      this.selectedItemPickTaskList = selectedPickTasks ;
+  }   
   
   selectContainerRowChange(checkValue,dataItem,index){
     var itemId= dataItem.OPTM_PICKLIST_ID;

@@ -28,6 +28,7 @@ export class CTUpdateComponent implements OnInit {
   commonData: any = new CommonData(this.translate);
   maxCodeLength: any = ''
   maxDescLength: any = ''
+  maxNOLength;
   constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
@@ -41,7 +42,7 @@ export class CTUpdateComponent implements OnInit {
     this.BtnTitle = this.translate.instant("Submit");
     this.maxCodeLength = this.commonservice.maxCodeLength;
     this.maxDescLength = this.commonservice.maxDescLength;
-
+    this.maxNOLength = this.commonservice.maxNOLength;
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
@@ -67,7 +68,7 @@ export class CTUpdateComponent implements OnInit {
   }
 
   formatCT_Width() {
-    if(Number(this.CT_Width) < 0 ){
+    if(Number(this.CT_Width) < 0){
       this.CT_Width = ''
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
       return false;

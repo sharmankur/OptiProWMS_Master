@@ -109,6 +109,10 @@ export class GeneratePickComponent implements OnInit {
 
   //#region "shipmentId"  
   IsValidShipmentCode(fieldName) {
+    if(this.WareHouse == "" || this.WareHouse == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
     let soNum;
     if (fieldName == "ShipIdFrom") {
       soNum = this.ShipmentCodeFrom;
@@ -121,7 +125,7 @@ export class GeneratePickComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.IsValidAllocatedShipmentCode(soNum).subscribe(
+    this.commonservice.GetAllocatedShipmentCode(3, soNum, this.WareHouse).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -175,9 +179,13 @@ export class GeneratePickComponent implements OnInit {
   }
 
   GetDataForShipmentId(fieldName) {
+    if(this.WareHouse == "" || this.WareHouse == undefined){
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
     this.showLoader = true;
     this.hideLookup = false;
-    this.commonservice.GetAllocatedShipmentCode(3, "").subscribe(
+    this.commonservice.GetAllocatedShipmentCode(3, "", this.WareHouse).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

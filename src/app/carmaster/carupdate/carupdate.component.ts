@@ -49,10 +49,12 @@ export class CARUpdateComponent implements OnInit {
 
   maxCodeLength: string;
   maxDescLength: string;
+  maxNOLength: string;
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
     this.maxCodeLength = this.commonservice.maxCodeLength;
     this.maxDescLength = this.commonservice.maxDescLength;
+    this.maxNOLength = this.commonservice.maxNOLength;
     let Carow = localStorage.getItem("CAR_ROW")
     if (Carow != undefined && Carow != "") {
       this.CTR_ROW = JSON.parse(localStorage.getItem("CAR_ROW"));

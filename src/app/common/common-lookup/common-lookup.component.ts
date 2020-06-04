@@ -955,6 +955,12 @@ export class CommonLookupComponent implements OnInit {
         width: '150'
       },
       {
+        field: 'OPTM_STATUS_VAL',
+        title: this.translate.instant("Status"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_BPCODE',
         title: this.translate.instant("CustomerCode"),
         type: 'text',

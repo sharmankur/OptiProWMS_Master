@@ -93,7 +93,6 @@
             <!--row 2nd end-->
             <!--row 3rd start-->
             <div class="row">
-
                 <div class="col-sm-4">
                     <div class="form-group row">
                         <label for="StatusId" class="col-sm-4 col-form-label">{{'Status'|translate}}</label>
@@ -130,7 +129,7 @@
             <div class="row">
                 <div class="col-12">
                     <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemListM" [resizable]="true" [sortable]="true" [selectable]="true"
-                        id="gridItem" [height]="250" [pageSize]="pageSize" [pageable]="ShowGridPaging" #gridItem (selectionChange)="onPickListItemClick($event)"
+                        id="gridItem" [height]="180" [pageSize]="pageSize" [pageable]="ShowGridPaging" #gridItem (selectionChange)="onPickListItemClick($event)"
                         [filterable]="isColumnFilterView">
 
                         <ng-template kendoGridToolbarTemplate>
@@ -344,7 +343,7 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_TARGET_BIN" [width]="100" title="{{'TargetBin'|translate}}" headerClass="text-left"
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_TARGET_BIN" [width]="130" title="{{'TargetBin'|translate}}" headerClass="text-left"
                             class="text-left">
                             <!-- <ng-template kendoGridCellTemplate let-dataItem>
                      need to check if anything we need  to do like formating etc.
@@ -396,7 +395,6 @@
             </div>
             <!--End of second grid.-->
         </div>
-
 
         <div class="fix-footer-btnBar">
             <div class="col-sm-12 col-12">

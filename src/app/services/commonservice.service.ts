@@ -47,6 +47,7 @@ export class Commonservice {
         this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
         this.maxDescLength = 20;
         this.maxCodeLength = 10;
+        this.maxNOLength = 5;
       },
       (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -118,6 +119,7 @@ export class Commonservice {
   currentNavigatedData = this.navigatedData.asObservable();
   maxDescLength;
   maxCodeLength;
+  maxNOLength;
 
   public setNavigatedData(navigationLink: boolean) {
     this.navigatedData.next(navigationLink);
@@ -1008,12 +1010,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
   }
 
-  GetAllocatedShipmentCode(status, SHIPMENTCODE): Observable<any> {
+  GetAllocatedShipmentCode(status, SHIPMENTCODE, WHSE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         STATUS: status,
-        SHIPMENTCODE: SHIPMENTCODE 
+        SHIPMENTCODE: SHIPMENTCODE,
+        WHSE: WHSE 
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);

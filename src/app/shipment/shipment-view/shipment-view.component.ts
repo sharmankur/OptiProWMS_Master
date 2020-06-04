@@ -282,6 +282,9 @@ export class ShipmentViewComponent implements OnInit {
           this.hideLookup = false;
           this.showLookupLoader = false;
           this.serviceData = data;
+          for(var i=0; i<this.serviceData.length; i++){
+            this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+          }
           this.lookupfor = "ShipmentList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -343,9 +346,9 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_CONT_HDR[i].OPTM_STATUS = this.getContStatusValue(data.OPTM_CONT_HDR[i].OPTM_STATUS);
           }
           this.ShipContainers = data.OPTM_CONT_HDR;
-          if (this.ShipContainers.length > 0) {
-            this.UseContainer = true;
-          }
+          // if (this.ShipContainers.length > 0) {
+          //   this.UseContainer = true;
+          // }
           if (this.ShipContainers != undefined && this.ShipContainers.length > this.pageSize3) {
             this.pagable3 = true;
           }

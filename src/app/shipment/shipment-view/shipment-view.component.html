@@ -319,16 +319,16 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="UseContainer">
+            <div *ngIf="UseContainer || ShipContainers.length > 0">
                 <a class="toggle-anchor" (click)="showShipDetails(1)">
                     <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                     <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
                 </a>
             </div>
-            <div *ngIf="showShipDetailsEnable[1] && UseContainer">
+            <div *ngIf="showShipDetailsEnable[1] && (ShipContainers.length > 0 || UseContainer)">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <!-- Shipment Lines -->
+                        <!-- Shipment Containers -->
                         <div class="card shipment-widget-box">
                             <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
                             <div class="card-body">
@@ -434,7 +434,7 @@
                     <span role="presentation"></span> {{'Schedule'|translate}}</button>
 
                 <button *ngIf="fromScreen == 'shipment'" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()"
-                    [disabled]="StatusId == '1' || ShipmentID==''">
+                    [disabled]="StatusId == '1' || ShipmentID=='' || StatusId > '5'">
                     <span role="presentation"></span> {{btnText}}</button>
 
                 <button *ngIf="fromScreen == 'archiveddata'" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="RestoreFromArchived()"
@@ -450,11 +450,13 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" (click)="onStageORUnstageShipmentClick()" *ngIf="!isStageDiabled">{{'Stage_Unstage'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item">{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
+                            <!-- <a class="dropdown-item">{{'Accept_Return'|translate}}</a> -->
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId >= '10'" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="StatusId < '10'">{{'Customer_Return'|translate}}</a>
                             <a class="dropdown-item" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
                             <a class="dropdown-item" (click)="TransferFromArchive()">{{'TransferFromArchive'|translate}}</a>
-                            <a class="dropdown-item" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="UseContainer" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
                         </div>
                     </div>
                 </div>
