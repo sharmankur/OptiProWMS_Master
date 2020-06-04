@@ -84,10 +84,13 @@ export class AutoAllocationComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
 
-    if (this.tempToDate.getTime() < event.getTime()) {
-      this.schedularFromDate = '';
-      this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
+    if (this.tempToDate != null) {
+      if (this.tempToDate.getTime() < event.getTime()) {
+        this.schedularFromDate = '';
+        this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
+      }
     }
+    
     var varYear: string = event.getFullYear();
     var varMonth: string = (event.getMonth() + 1);
     var varDay: string = event.getDate();
