@@ -333,8 +333,10 @@ export class ContainerBatchserialComponent implements OnInit {
 
   fillBatchSerialDataInGrid(value){
 
-    this.Selectedlink = value;
-    //this.SelectedLinkTitle = this.setContainerOperation();
+    if(value != undefined){
+      this.Selectedlink = value;
+    }
+    
     this.SelectedLinkTitle = 'A';
 
     this.pageChange({skip: 0, take: this.pageSize});

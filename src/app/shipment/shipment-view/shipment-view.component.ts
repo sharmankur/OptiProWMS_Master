@@ -302,6 +302,7 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  ShipmentLineStatus: string;
   GetDataBasedOnShipmentId(ShipmentID) {
     this.showLoader = true;
 
@@ -317,6 +318,7 @@ export class ShipmentViewComponent implements OnInit {
           this.updateShipmentHDR(data.OPTM_SHPMNT_HDR);
           this.shipmentData = data;
           //Shipment Detail 
+          this.ShipmentLineStatus = data.OPTM_SHPMNT_DTL[0].OPTM_STATUS;
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));

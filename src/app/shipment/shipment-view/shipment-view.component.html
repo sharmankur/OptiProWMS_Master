@@ -452,11 +452,13 @@
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
                             <!-- <a class="dropdown-item">{{'Accept_Return'|translate}}</a> -->
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="StatusId >= '10'" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="StatusId < '10'">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId >=10" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="StatusId<10">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="ShipmentLineStatus<4" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="ShipmentLineStatus>=4">{{'Cancel_Unassign'|translate}}</a>
                             <a class="dropdown-item" (click)="TransferFromArchive()">{{'TransferFromArchive'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="UseContainer" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="UseContainer && StatusId>2 && StatusId<6" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="!UseContainer || (StatusId<=2 || StatusId>=6)">{{'Remove_from_shipment'|translate}}</a>
                         </div>
                     </div>
                 </div>
