@@ -395,17 +395,27 @@ export class ShipmentViewComponent implements OnInit {
     }
     //BatchSer Details
     this.ShipmentLineDetails = [];
+    this.ShipmentLineDetails = this.shipmentData.OPTM_SHPMNT_INVDTL.filter(element => element.OPTM_DTLLINEID == ShipmentLineId);
+    
+    /*
+
+
     if (this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0 && !this.UseContainer) {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-          this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          //Srini - this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
         }
       }
       if (this.ShipmentLineDetails.length < 1) {
         for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
           if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-            this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            //Srini - this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          
             this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_BINDTL[i]);
           }
         }
@@ -421,6 +431,7 @@ export class ShipmentViewComponent implements OnInit {
         }
       }
     }
+    */
 
     if (this.ShipmentLineDetails != undefined && this.ShipmentLineDetails.length > this.pageSize5) {
       this.pagable5 = true;
