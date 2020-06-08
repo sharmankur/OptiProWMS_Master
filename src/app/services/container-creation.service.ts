@@ -29,6 +29,19 @@ export class ContainerCreationService {
     return this.httpclient.post(url, jObject, this.commonService.httpOptions);
   }
 
+  GetChildContainerTypes(ParentContainerType: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        ParentContainerType: ParentContainerType
+      }])
+    };
+
+    var url = this.config_params.service_url + "/api/ShipContainer/GetChildContainerTypes";
+    return this.httpclient.post(url, jObject, this.commonService.httpOptions);
+  }
+
   CheckDuplicateContainerIdCreate(containerId: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -228,6 +241,17 @@ export class ContainerCreationService {
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);
+  }
+
+  GetContainer(CONTAINERCODE, blnParentFlg): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERCODE: CONTAINERCODE,
+        PARENT_FLG: blnParentFlg
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetContainer", jObject, this.commonService.httpOptions);
   }
 
   CheckContainerScan(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION): Promise<any> {

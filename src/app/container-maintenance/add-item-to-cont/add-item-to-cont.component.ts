@@ -381,6 +381,18 @@ export class AddItemToContComponent implements OnInit {
     } else {
       this.purps = "N"
     }
+    this.whse = '';
+    this.binNo = '';
+    this.containerType = '';
+    this.autoRuleId = ''; 
+    this.RuleItems = [];
+    this.parentContainerType = '';
+    this.workOrder = '';
+    this.operationNo = '';
+    this.taskId = '';
+    this.containerGroupCode = '';
+    this.soNumber = '';
+    this.setDefaultValues();
   }
 
   setDefaultValues() {
@@ -537,10 +549,10 @@ export class AddItemToContComponent implements OnInit {
       this.autoRuleId = '';
       this.RuleItems = [];
       this.containerType = '';
+      this.parentContainerType = "";
     }
     this.containerGroupCode = '';
-    this.soNumber = '';
-    this.parentContainerType = "";
+    this.soNumber = '';    
   }
 
   async onWhseChange() {
@@ -2411,8 +2423,19 @@ export class AddItemToContComponent implements OnInit {
 
           if (action == 'lookup' || action == 'query') {
 
-            //this.showLookup = true;
-            this.serviceData = data.OPTM_CONT_AUTORULEHDR;
+            //this.showLookup = true;            
+            //Srini 5-Jun-2020. Added to filter data applicable for Purpose and Add Items Flag
+            //this.serviceData = data.OPTM_CONT_AUTORULEHDR;
+            var ruleFilter: number = 0;
+            
+            if (this.purps == 'Y') {
+              //Srini 5-Jun-2020. Filter Rules for Shipping and Both option. Setting the filter <> 'Internal'
+              ruleFilter = 2;
+            } else {
+              //Srini 5-Jun-2020. Filter Rules for Shipping and Both option. Setting the filter <> 'Shipping'
+              ruleFilter = 1;
+            }
+            this.serviceData = data.OPTM_CONT_AUTORULEHDR.filter(val => val.OPTM_ADD_TOCONT == 'Y' && val.OPTM_CONTUSE != ruleFilter);
             this.AutoService = data.OPTM_CONT_AUTORULEDTL;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
               if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
@@ -2511,7 +2534,10 @@ export class AddItemToContComponent implements OnInit {
     }
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
-    this.parentContainerType = data.OPTM_CONT_HDR[0].OPTM_PARENT_CONTTYPE;
+    this.parentContainerType = data.OPTM_CONT_HDR[0].PARENT_CONTTYPE;
+    if (this.parentContainerType != '') {
+      this.checkParent = true;
+    }
 
     this.oSubmitModel.OPTM_CONT_HDR.push({
       CompanyDBId: localStorage.getItem("CompID"),
@@ -2806,8 +2832,33 @@ export class AddItemToContComponent implements OnInit {
     let CONT_SELECT_TYPE = this.contChangeSetValues();
     if(CONT_SELECT_TYPE == ""){
       return;
+    } else if(CONT_SELECT_TYPE == "Fetch"){
+      return this.GetContainer();
     }    
-    return this.CheckContainer(CONT_SELECT_TYPE);
+  }
+
+  GetContainer () {
+    this.showLoader = true;
+    var result = false;
+    this.ScannedContainerStatus = 0;
+      
+    this.containerCreationService.GetContainer(this.containerCode, false).subscribe(
+        (data: any) => {
+          this.showLoader = false;
+          result = this.DisplayContainerData(data);
+        },
+        error => {
+          result = false;
+          this.showLoader = false;
+          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+          }
+          else {
+            this.toastr.error('', error);
+          }
+        }
+      );
+    return result
   }
 
   public CheckContainer(CONT_SELECT_TYPE): boolean {
@@ -2830,53 +2881,7 @@ export class AddItemToContComponent implements OnInit {
       this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, CONT_SELECT_TYPE, false).subscribe(
         (data: any) => {
           this.showLoader = false;
-          if (data != undefined) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }
-            
-            //Container scanned exists in database but its attributes do not match selected parameters
-            //Do not use the container
-            if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
-              this.toastr.error('', data.OUTPUT[0].RESULT);
-
-              if (data.OPTM_CONT_HDR == undefined) {
-                //In case of mismatch of parameters only error is returned in Result. Container data not returned
-                this.showAddToParent = false;
-                this.setContainerDataBlank();
-                this.DisableScanFields = true;
-              }
-              else {   
-                //In case container matches all selected criteria and ready to be closed, Result and Container data are returned
-                this.TransferDataToContainerModel(data);                
-                result = false;
-              }
-            }
-            else if (data.OPTM_CONT_HDR.length == 0) {
-              if (this.ConSelectionType == 2) {
-                //Container doesn't exist for query
-                this.toastr.error('', this.translate.instant("CreateConMsg"));
-                return;
-              } else {
-                //Container doesn't exist. Creating container
-                if (this.canCreateContainer) {
-                  this.generateContainer();
-                  this.scanTreeViewBtn.nativeElement.focus();
-                }
-              }
-            }
-            else if (data.OPTM_CONT_HDR.length > 0) {
-              //Container is already created and fetching data 
-              this.TransferDataToContainerModel(data);
-              this.scanTreeViewBtn.nativeElement.focus();
-              result = true;
-            }              
-          } else {
-            result = false;
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-          }
+          result = this.DisplayContainerData(data);
         },
         error => {
           result = false;
@@ -2890,6 +2895,54 @@ export class AddItemToContComponent implements OnInit {
         }
       );
     return result
+  }
+
+  DisplayContainerData(data: any): boolean {
+    if (data != undefined) {
+      if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+        this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+          this.translate.instant("CommonSessionExpireMsg"));
+        return;
+      }
+      
+      //Container scanned exists in database but its attributes do not match selected parameters
+      //Do not use the container
+      if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
+        this.toastr.error('', data.OUTPUT[0].RESULT);
+
+        if (data.OPTM_CONT_HDR == undefined) {
+          //In case of mismatch of parameters only error is returned in Result. Container data not returned
+          this.showAddToParent = false;
+          this.setContainerDataBlank();
+          this.DisableScanFields = true;
+        }
+        else {   
+          //In case container matches all selected criteria and ready to be closed, Result and Container data are returned
+          this.TransferDataToContainerModel(data);                
+          return false;
+        }
+      } else if (data.OPTM_CONT_HDR.length == 0) {
+          if (this.ConSelectionType == 2) {
+            //Container doesn't exist for query
+            this.toastr.error('', this.translate.instant("CreateConMsg"));
+            return false;
+          } else {
+            //Container doesn't exist. Creating container
+            if (this.canCreateContainer) {
+              this.generateContainer();
+              this.scanTreeViewBtn.nativeElement.focus();
+            }
+          }
+      } else if (data.OPTM_CONT_HDR.length > 0) {
+        //Container is already created and fetching data 
+        this.TransferDataToContainerModel(data);
+        this.scanTreeViewBtn.nativeElement.focus();
+        return true;
+      }              
+    } else {
+      return false;
+      this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+    }
   }
 
   setOtherReqFields(OPTM_CONT_HDR) {
