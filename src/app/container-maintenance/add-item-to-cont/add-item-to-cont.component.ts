@@ -34,6 +34,7 @@ export class AddItemToContComponent implements OnInit {
   commonData: any = new CommonData(this.translate);
   defaultPurpose: any;
   soNumber: any = "";
+  soDocEntry: any = "";
   parentContainerType: any;
   //containerLookupType: any;
   scanItemCode: any;
@@ -331,6 +332,7 @@ export class AddItemToContComponent implements OnInit {
     this.parentContainerType = '';
     this.autoRuleId = '';
     this.soNumber = '';
+    this.soDocEntry = '';
     this.containerGroupCode = '';
     this.containerCode = '';
     this.containerId = '';
@@ -352,6 +354,7 @@ export class AddItemToContComponent implements OnInit {
     this.taskId = '';
     this.containerGroupCode = '';
     this.soNumber = '';
+    this.soDocEntry = ''
     if (this.ConSelectionType == 1) {      
       this.ConSelectionType = 2;
       this.radioSelected = 3;
@@ -469,9 +472,11 @@ export class AddItemToContComponent implements OnInit {
           if (action == 'blur') {
             if (data.length == 0) {
               this.soNumber = '';
+              this.soDocEntry = '';
               this.toastr.error('', this.translate.instant("InvalidSOAutoRule"));
             } else {
               this.soNumber = data[0].DocNum
+              this.soDocEntry = data[0].DocEntry;
             }
           } else {
             if (data.length == 0) {
@@ -489,6 +494,7 @@ export class AddItemToContComponent implements OnInit {
           }
         } else {
           this.soNumber = '';
+          this.soDocEntry = '';
           this.toastr.error('', this.translate.instant("NoDataFound"));
         }
       },
@@ -553,6 +559,8 @@ export class AddItemToContComponent implements OnInit {
     }
     this.containerGroupCode = '';
     this.soNumber = '';    
+    this.soDocEntry = '';
+    this.parentContainerType = "";
   }
 
   async onWhseChange() {
@@ -1125,6 +1133,7 @@ export class AddItemToContComponent implements OnInit {
         //   this.setDefaultValues();
       } else if (this.lookupfor == "SOList") {
         this.soNumber = $event.DocNum;
+        this.soDocEntry = $event.DocEntry;
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
       } else if (this.lookupfor == "ContainerIdList") {
@@ -2551,6 +2560,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_STATUS: data.OPTM_CONT_HDR[0].OPTM_STATUS,
       OPTM_SOURCE: data.OPTM_CONT_HDR[0].OPTM_SOURCE,
       OPTM_SONO: data.OPTM_CONT_HDR[0].OPTM_SO_NUMBER,
+    //  OPTM_SONO: data.OPTM_CONT_HDR[0].DocNum,
       OPTM_GROUP_CODE: data.OPTM_CONT_HDR[0].OPTM_GROUP_CODE,
       IsWIPCont: data.OPTM_CONT_HDR[0].OPTM_SOURCE == 1? true : false      
     })
@@ -2951,7 +2961,8 @@ export class AddItemToContComponent implements OnInit {
     this.containerType = OPTM_CONT_HDR.OPTM_CONTTYPE;
     this.autoRuleId = OPTM_CONT_HDR.OPTM_AUTORULEID;
     this.getAutoPackRule('query');    
-    this.soNumber = OPTM_CONT_HDR.OPTM_SO_NUMBER;
+    this.soNumber = OPTM_CONT_HDR.DocNum;
+    this.soDocEntry = OPTM_CONT_HDR.OPTM_SO_NUMBER;
     this.containerGroupCode = OPTM_CONT_HDR.OPTM_GROUP_CODE;
     this.containerCode = OPTM_CONT_HDR.OPTM_CONTCODE;
     this.containerId = OPTM_CONT_HDR.OPTM_CONTAINERID;
@@ -3241,7 +3252,8 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.oCreateModel.HeaderTableBindingData.push({
-      OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
+    //  OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
+      OPTM_SONO: this.soDocEntry,
       OPTM_CONTAINERID: 0,
       OPTM_CONTTYPE: this.containerType,
       OPTM_CONTAINERCODE: this.containerCode,
@@ -3376,7 +3388,7 @@ export class AddItemToContComponent implements OnInit {
       OPTM_CONTCODE: this.containerCode,
       OPTM_CHILDCONTTYPE: this.containerType,
       ShowLookupFor: "Parent",
-      OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
+      OPTM_SONO: this.soDocEntry, //(this.soNumber == undefined) ? '' : this.soNumber,
       OPTM_CONTAINERID: 0,
       OPTM_CONTTYPE: this.parentContainerType,
       OPTM_CONTAINERCODE: "",

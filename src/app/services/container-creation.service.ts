@@ -141,8 +141,8 @@ export class ContainerCreationService {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_FUNCTION: "shipping",
-        OPTM_OBJECT: "container"
+        OPTM_FUNCTION: "Shipping",
+        OPTM_OBJECT: "Container"
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetSampleOfContainerString", jObject, this.commonService.httpOptions);

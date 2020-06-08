@@ -153,7 +153,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='ReturnOrderRef' [(ngModel)]=ReturnOrderRef id="ReturnOrderRef"
                                         (blur)="onRefOrderNoChange()"
-                                            [disabled]="isarchived">
+                                            [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                                     <label for="BOLNumber" class="col-sm-4 col-form-label">{{'BOL_Number'|translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='BOLNumber' [(ngModel)]=BOLNumber id="BOLNumber" 
-                                        (blur)="onBOLChange()" [disabled]="isarchived">
+                                        (blur)="onBOLChange()" [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=VehicleNumber id="VehicleNumber"
                                         (blur)="onVechicleChange()"
-                                            [disabled]="isarchived">
+                                            [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +350,7 @@
                                     <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_SHIPELIGIBLE" title="{{'ShipEligible'|translate}}" width="75"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column>
+                                    <!-- <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column> -->
                                     <kendo-grid-column field="OPTM_WHSE" title="{{'WarehouseCode'|translate}}" width="75"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BIN" title="{{'ContainerBin'|translate}}" width="200"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
