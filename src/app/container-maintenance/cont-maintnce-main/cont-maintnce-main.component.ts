@@ -131,7 +131,7 @@ export class ContMaintnceMainComponent implements OnInit {
         this.purposeEnum = $event.OPTM_SHIPELIGIBLE
         this.packProcessEnum = $event.OPTM_BUILT_SOURCE
         this.inventoryStatusEnum = $event.OPTM_INV_STATUS
-        this.SalesOrder = $event.OPTM_SO_NUMBER
+        this.SalesOrder = $event.DocNum
         this.ContGroupCode = $event.OPTM_GROUP_CODE
         this.warehouse = $event.OPTM_WHSE
         this.binCode = $event.OPTM_BIN
@@ -202,7 +202,7 @@ export class ContMaintnceMainComponent implements OnInit {
             this.packProcessEnum = data[0].OPTM_BUILT_SOURCE
             this.volumeUOM = data[0].OPTM_VOL_UOM
             this.weightUOM = data[0].OPTM_WT_UOM
-            this.SalesOrder = data[0].OPTM_SO_NUMBER
+            this.SalesOrder = data[0].DocNum
             this.ContGroupCode = data[0].OPTM_GROUP_CODE
             this.containerStatus = this.getContainerStatus(this.containerStatusEnum)
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)

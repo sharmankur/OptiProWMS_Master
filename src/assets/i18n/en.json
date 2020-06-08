@@ -451,7 +451,7 @@
   "ShipTo": "Ship To",
   "DueDate": "Due Date",
   "Select": "Select",
-  "SalesOrderEntry": "SO Entry",
+  "SalesOrderEntry": "Sales Order",
   "Enable_Filter": "Enable Filter",
   "WHSName": "Warehouse Name",
   "ItmName": "Item Name",
@@ -1076,5 +1076,7 @@
   "ContainersPerParentMsg":"Containers per parent should be greater than Container part of parent.",
   "SONotAssigned":"Sales order not assigned to selected container.",
   "CGNotAssigned":"Container group not assigned to selected container.",
+  "ShpAllocatedSuccess": "Shipment allocated successfully",
+  "WhseLayoutMasterDtl": "Please add warehouse layout master details.",
   "Dummy": "Dummy"  
 }

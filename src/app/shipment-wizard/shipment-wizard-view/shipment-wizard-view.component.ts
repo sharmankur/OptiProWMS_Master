@@ -82,19 +82,19 @@ export class ShipmentWizardViewComponent implements OnInit {
 
 
 
-  @ViewChild('cform',{static:false}) cform;
-  @ViewChild('custTo',{static:false}) custTo;
-  @ViewChild('soFrom',{static:false}) soFrom;
-  @ViewChild('soTo',{static:false}) soTo;
-  @ViewChild('itemFrom',{static:false}) itemFrom;
-  @ViewChild('itemTo',{static:false}) itemTo;
-  @ViewChild('shipToCodeFrom',{static:false}) shipToCodeFrom;
-  @ViewChild('shipToCodeTo',{static:false}) shipToCodeTo;
-  @ViewChild('openQtyFrom',{static:false}) openQtyFrom;
-  @ViewChild('openQtyTo',{static:false}) openQtyTo;
-  @ViewChild('openLinesFrom',{static:false}) openLinesFrom;
-  @ViewChild('openLinesTo',{static:false}) openLinesTo;
-  @ViewChild('whse',{static:false}) whse;
+  @ViewChild('cform', { static: false }) cform;
+  @ViewChild('custTo', { static: false }) custTo;
+  @ViewChild('soFrom', { static: false }) soFrom;
+  @ViewChild('soTo', { static: false }) soTo;
+  @ViewChild('itemFrom', { static: false }) itemFrom;
+  @ViewChild('itemTo', { static: false }) itemTo;
+  @ViewChild('shipToCodeFrom', { static: false }) shipToCodeFrom;
+  @ViewChild('shipToCodeTo', { static: false }) shipToCodeTo;
+  @ViewChild('openQtyFrom', { static: false }) openQtyFrom;
+  @ViewChild('openQtyTo', { static: false }) openQtyTo;
+  @ViewChild('openLinesFrom', { static: false }) openLinesFrom;
+  @ViewChild('openLinesTo', { static: false }) openLinesTo;
+  @ViewChild('whse', { static: false }) whse;
 
   ngOnInit() {
     // this.HoldSelectedRow = [];
@@ -105,10 +105,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.ConsolidatedDataSelection.Company = [];
     this.dateFormat = localStorage.getItem("DATEFORMAT");
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     console.log("ngAfterInit");
-    this.cform.nativeElement.focus();
-  } 
+    this.whse.nativeElement.focus();
+  }
 
   onPrevClick() {
     if (this.currentStep > 1) {
@@ -218,6 +218,10 @@ export class ShipmentWizardViewComponent implements OnInit {
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
         if (resp != undefined && resp != null) {
+          if(resp.ShipmentHdr == undefined){
+            this.toastr.error('', "Error in creating shipment");
+            return;
+          }
           for (let i = 0; i < resp.ShipmentHdr.length; i++) {
             resp["ShipmentHdr"][i]["ShipmentChildData"] = []
           }
@@ -567,15 +571,20 @@ export class ShipmentWizardViewComponent implements OnInit {
 
     this.WizardService.GetSalesOrder(this.SetParameter).subscribe(
       resp => {
-        if (resp != undefined && resp != null) {
+
+        if (resp.WHS_ZONE.length <= 0) {
+          this.toastr.error('', this.translate.instant("WhseLayoutMasterDtl"));
+          return;
+        }
+        if (resp.Table != undefined && resp.Table != null) {
           this.currentStep = this.currentStep + 1;
 
-          for (let i = 0; i < resp.length; i++) {
-            if (resp[i].SELECT === "") resp[i].SELECT = false;
-            if (resp[i].SalesUOM === null) resp[i].SalesUOM = '';
-            if (resp[i].InvntryUom === null) resp[i].InvntryUom = '';
+          for (let i = 0; i < resp.Table.length; i++) {
+            if (resp.Table[i].SELECT === "") resp.Table[i].SELECT = false;
+            if (resp.Table[i].SalesUOM === null) resp.Table[i].SalesUOM = '';
+            if (resp.Table[i].InvntryUom === null) resp.Table[i].InvntryUom = '';
           }
-          this.gridData = resp;
+          this.gridData = resp.Table;
           for (var i = 0; i < this.gridData.length; i++) {
             this.gridData[i].ShipmentQty = this.gridData[i].SalesOpenQty;
           }
@@ -734,7 +743,7 @@ export class ShipmentWizardViewComponent implements OnInit {
   }
 
   ChangeSalesQty(event, dataItem, companyRowIndex) {
-    if(event.target.value > dataItem.ShipmentQty){
+    if (event.target.value > dataItem.ShipmentQty) {
       this.toastr.error('', this.translate.instant("ShpQtyMsg"));
       event.target.value = dataItem.ShipmentQty;
       return;
@@ -833,7 +842,7 @@ export class ShipmentWizardViewComponent implements OnInit {
             if (data.length > 0) {
               if (fieldName == "SONoFrom") {
                 this.SrNoFrom = data[0].SODocNum;
-                if(this.SrNoTo == "" || this.SrNoTo == undefined){
+                if (this.SrNoTo == "" || this.SrNoTo == undefined) {
                   this.SrNoTo = this.SrNoFrom
                 }
               }
@@ -1082,7 +1091,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ItmFrm") {
               this.ItemFrom = data[0].ItemCode;
-              if(this.ItemTo == "" || this.ItemTo == undefined){
+              if (this.ItemTo == "" || this.ItemTo == undefined) {
                 this.ItemTo = data[0].ItemCode;
               }
             }
@@ -1233,7 +1242,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "SerialNoFrom") {
       this.SrNoFrom = $event.SODocNum;
-      if(this.SrNoTo == "" || this.SrNoTo == undefined){
+      if (this.SrNoTo == "" || this.SrNoTo == undefined) {
         this.SrNoTo = $event.SODocNum;
       }
     }
@@ -1243,7 +1252,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "CustomerFrom") {
       this.CustomerFrom = $event.CardCode;
-      if(this.CustomerTo == "" || this.CustomerTo == undefined){
+      if (this.CustomerTo == "" || this.CustomerTo == undefined) {
         this.CustomerTo = $event.CardCode;
       }
     }
@@ -1252,7 +1261,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "ItemFrom") {
       this.ItemFrom = $event.ItemCode;
-      if(this.ItemTo == "" || this.ItemTo == undefined){
+      if (this.ItemTo == "" || this.ItemTo == undefined) {
         this.ItemTo = $event.ItemCode;
       }
     }
@@ -1261,7 +1270,7 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
     else if (this.lookupfor == "ShipFrom") {
       this.ShipFrom = $event.Address;
-      if(this.ShipTo == "" || this.ShipTo == undefined){
+      if (this.ShipTo == "" || this.ShipTo == undefined) {
         this.ShipTo = $event.Address;
       }
     }
@@ -1307,9 +1316,9 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ShipFrom") {
               this.ShipFrom = data[0].Address;
-              if(this.ShipTo == "" || this.ShipTo == undefined){
+              if (this.ShipTo == "" || this.ShipTo == undefined) {
                 this.ShipTo = data[0].Address;
-              }              
+              }
             }
             else if (fieldName == "ShipTo") {
               this.ShipTo = data[0].Address;
@@ -1370,7 +1379,7 @@ export class ShipmentWizardViewComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = data[0].CardCode;
-              if(this.CustomerTo == "" || this.CustomerTo == undefined){
+              if (this.CustomerTo == "" || this.CustomerTo == undefined) {
                 this.CustomerTo = data[0].CardCode;
               }
             }
@@ -1423,12 +1432,12 @@ export class ShipmentWizardViewComponent implements OnInit {
     }
   }
 
-  onScheduleDateChange(event){
+  onScheduleDateChange(event) {
     console.log("onScheduleDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    if(event.getTime() < cDate.getTime()){
+    if (event.getTime() < cDate.getTime()) {
       this.Schedule_Datetime = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }

@@ -241,7 +241,7 @@ export class CommonLookupComponent implements OnInit {
     }else if(this.lookupfor == "showContBatchSerialList"){
       this.showContBatchSerialList();
     }
-
+    this.dialogOpened = true;
     this.clearFilters();
     this.isColumnFilter = false
   }

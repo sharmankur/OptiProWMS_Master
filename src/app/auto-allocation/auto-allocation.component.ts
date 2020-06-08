@@ -11,8 +11,13 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 export class AutoAllocationComponent implements OnInit {
 
-  // ShipToCodeFrom: string = "";
-  // ShipToCodeTo: string = "";
+
+  schedularFromDate: any;
+  schedularToDate: any;
+  tempFromDate: Date;
+  tempToDate: Date;
+  scheduleFromDate: string = "";
+  scheduleToDate: string = "";
   ShipIdFrom: string = "";
   ShipIdTo: string = "";
   ShipmentCodeFrom: string = "";
@@ -65,12 +70,6 @@ export class AutoAllocationComponent implements OnInit {
 
   }
 
-  schedularFromDate: any;
-  schedularToDate: any;
-  tempFromDate: Date;
-  tempToDate: Date;
-  scheduleFromDate: string;
-  scheduleToDate: string;
   onScheduleFromDateChange(event) {
     this.isUpdateHappen = true
     console.log("onScheduleFromDateChange: s" + event.getDate())
@@ -180,19 +179,19 @@ export class AutoAllocationComponent implements OnInit {
   }
 
   onAutoAllocClick() {
-    if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
-      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-      return
-    } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
-      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-      return
-    } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
-      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-      return
-    } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
-      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-      return
-    }
+    // if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
+    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    //   return
+    // } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
+    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    //   return
+    // } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
+    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    //   return
+    // } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
+    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    //   return
+    // }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
       this.scheduleFromDate, this.scheduleToDate).subscribe(
@@ -205,7 +204,12 @@ export class AutoAllocationComponent implements OnInit {
               return;
             }
             // {"OUTPUT":[{"RESULT":"Data Saved"}]}
-            this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
+            
+            if(data.OUTPUT[0].RESULT == "Data Saved"){
+              this.toastr.success('', this.translate.instant("ShpAllocatedSuccess"));
+            }else{
+              this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
+            }
             this.ShipmentCodeFrom = ''
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''
