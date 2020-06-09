@@ -1,6 +1,4 @@
 <div class="opti_container position-relative bg-white rounded">
-
-
         <form class="form-with-fix-btnBar" *ngIf="!viewLines">
             <div class="opti_container_inner" >
       
@@ -12,8 +10,7 @@
                 (deleteSelectedItems)="OnDeleteSelected($event)" (copyItemKey)="onCopyItemClick($event)" (onChangeSelection)="onChangeSelection($event)" ></app-lookup>
                 
             </div>
-            <div class="fix-footer-btnBar">
-      
+            <div class="fix-footer-btnBar">                
                 <div class="col-sm-12 col-12">
                         <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="OnCancelClick()">
                                 <span class="k-icon k-i-close-outline" role="presentation"></span> 

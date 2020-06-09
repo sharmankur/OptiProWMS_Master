@@ -677,10 +677,12 @@ export class ShipmentWizardViewComponent implements OnInit {
 
   GetConsolidatedData() {
     let tempdata = [];
+    this.showLoader = true;
     //this.HoldSelectedRow.Company.push({CompanyDBId: localStorage.getItem("CompID"),UserId:localStorage.getItem("UserId")})
     this.HoldSelectedRow.Company.push({ CompanyDBId: localStorage.getItem("CompID"), UserId: localStorage.getItem("UserId") })
     this.WizardService.GetSalesOrderConsolidatedData(this.HoldSelectedRow).subscribe(
       resp => {
+        this.showLoader = false;
         if (resp != undefined && resp != null) {
 
           // tempdata=resp["ShipmentHdr"];

@@ -5,6 +5,7 @@ import { CarrierMainComponent } from '../carrier-main/carrier-main.component';
 import { CarrierService } from '../../services/carrier.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { PageChangeEvent } from '../../../../node_modules/@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-carrier-view',

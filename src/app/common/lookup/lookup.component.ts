@@ -6,7 +6,7 @@ import 'bootstrap';
 import { ColumnSetting } from '../../models/CommonData';
 import { OutboundData } from '../../models/outbound/outbound-data';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { UIHelper } from '../../helpers/ui.helpers';
 import { State } from '@progress/kendo-data-query';
 import { CommonConstants } from '../../const/common-constants';
@@ -63,6 +63,11 @@ export class LookupComponent implements OnInit {
     });
   }
 
+  public skip = 0;
+  pageChange(event: PageChangeEvent) {
+    this.skip = event.skip;
+  }
+
   close_kendo_dialog() {
     if (this.lookupfor == "PhyCntItemList") {
       this.router.navigate(['home/dashboard']);
@@ -100,7 +105,7 @@ export class LookupComponent implements OnInit {
   }
 
   async ngOnChanges(): Promise<void> {
-  //  console.log("ngOnChanges ");
+    this.pageChange({ skip: 0, take: this.lookupPageSize });
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }

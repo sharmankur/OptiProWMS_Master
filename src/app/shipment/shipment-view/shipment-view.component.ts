@@ -82,6 +82,7 @@ export class ShipmentViewComponent implements OnInit {
   isarchived = false;
   SelectedRowsforShipmentArr = [];
   isUpdateHappen = false;
+  maxDescLength: any = ''
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService: ContainerShipmentService, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -171,6 +172,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.maxDescLength = this.commonservice.maxDescLength;
     this.shiment_status_array = this.commonData.shiment_status_array();
     this.Container_status_array = this.commonData.Container_Status_DropDown();
     this.clearStorage();
