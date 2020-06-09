@@ -77,7 +77,9 @@ export class PickingListComponent implements OnInit {
     this.PickListBasisArray =this.commonData.PickListEnum();
     this.PlanShiftArray =this.commonData.PlanShiftEnum();
     this.statusArray = this.commonData.PickListStatusEnum(); 
-  }
+    this.shiment_status_array = this.commonData.shiment_status_array();
+  }  
+  shiment_status_array = [];
 
   ngOnInit() {
  
@@ -200,6 +202,9 @@ export class PickingListComponent implements OnInit {
           } else {
             this.showLookup = true;
             this.serviceData = data;
+            for (let i = 0; i < this.serviceData.length; i++) {
+              this.serviceData[i].OPTM_STATUS = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;;
+            }
             this.lookupfor = fieldName;
           }
         } else {
@@ -429,6 +434,7 @@ export class PickingListComponent implements OnInit {
               this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
               
             }
+
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
