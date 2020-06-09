@@ -32,6 +32,7 @@ export class InputInternalContainerComponent implements OnInit {
   ContID : any = 0;
   IntContItemQuantity: number=0;
   bsrListByContainerId: any = [];
+  intContainerStatus: number = 0;
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
      private router: Router, private containerCreationService:ContainerCreationService) { }
@@ -87,6 +88,7 @@ export class InputInternalContainerComponent implements OnInit {
             }
             this.IntContainerCode = data[0].OPTM_CONTCODE;
             this.ContID = data[0].OPTM_CONTAINERID;
+            this.intContainerStatus= data[0].OPTM_STATUS;
             this.GetListOfBatchSerOfSelectedContainerID(data[0].OPTM_CONTAINERID, data[0].OPTM_ITEMCODE); 
           }
          
@@ -332,6 +334,7 @@ export class InputInternalContainerComponent implements OnInit {
         this.IntContainerCode = $event.OPTM_CONTCODE;
         this.ContID = $event.OPTM_CONTAINERID;
         this.IntContItemQuantity = $event.OPTM_QUANTITY;
+        this.intContainerStatus = $event.OPTM_STATUS;
         this.GetListOfBatchSerOfSelectedContainerID($event.OPTM_CONTAINERID, $event.OPTM_ITEMCODE);        
       }
     }
@@ -377,6 +380,7 @@ export class InputInternalContainerComponent implements OnInit {
           From: "InternalContainer",
           IntContainerCode: "",
           ContId: 0,
+          intContainerStatus: 0,
           BatSerList : []       
         });  
       } else{ 
@@ -403,6 +407,7 @@ export class InputInternalContainerComponent implements OnInit {
         From: "InternalContainer",
         IntContainerCode: this.IntContainerCode,
         ContId: this.ContID,
+        intContainerStatus: this.intContainerStatus,
         BatSerList : this.bsrListByContainerId,
         IntContItemQuantity: this.IntContItemQuantity
       });  

@@ -2544,7 +2544,7 @@ export class AddItemToContComponent implements OnInit {
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
     this.parentContainerType = data.OPTM_CONT_HDR[0].PARENT_CONTTYPE;
-    if (this.parentContainerType != '') {
+    if (this.parentContainerType != '' && this.parentContainerType != null) {
       this.checkParent = true;
     }
 
@@ -2844,7 +2844,9 @@ export class AddItemToContComponent implements OnInit {
       return;
     } else if(CONT_SELECT_TYPE == "Fetch"){
       return this.GetContainer();
-    }    
+    } else if(CONT_SELECT_TYPE == undefined){
+      return this.CheckContainer(CONT_SELECT_TYPE);
+    }   
   }
 
   GetContainer () {
@@ -2986,7 +2988,6 @@ export class AddItemToContComponent implements OnInit {
   }
   
   ReOpenCont() {
-
     this.commonservice.ReopenClick(this.containerCode).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -3013,6 +3014,40 @@ export class AddItemToContComponent implements OnInit {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           this.containerStatus = '';
           this.setDefaultValues();
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  ReOpenInternalCont(intContCode: string) {
+    this.commonservice.ReopenClick(intContCode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+
+          if (data.length > 0) {
+            if (data[0].RESULT == "Data Saved" || data[0].RESULT == "Data saved.") {
+              this.toastr.success('', this.translate.instant("ContainerReopenedMsg"));         
+            } else {
+              this.toastr.error('', data[0].RESULT);              
+            }
+          }
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));          
         }
       },
       error => {
@@ -3444,7 +3479,14 @@ export class AddItemToContComponent implements OnInit {
         case ("InternalContainer"):
           this.InternalContainer = true;
           var index: number = -1;
+          var intContainerStatus: number = 0;
+
           this.InternalContCode = $event.IntContainerCode;
+          intContainerStatus = $event.intContainerStatus;
+
+          if (intContainerStatus == 3) {
+            this.ReOpenInternalCont(this.InternalContCode);
+          } 
 
           /*
           if (this.selInternalContainerDtl != null) {
@@ -3583,8 +3625,11 @@ export class AddItemToContComponent implements OnInit {
           let CONT_SELECT_TYPE = this.contChangeSetValues();
           if(CONT_SELECT_TYPE == ""){
             return;
-          }    
-          this.CheckContainer(CONT_SELECT_TYPE);
+          } else if(CONT_SELECT_TYPE == "Fetch"){   
+            this.CheckContainer(CONT_SELECT_TYPE);
+          } else if(CONT_SELECT_TYPE == undefined){   
+            this.GetContainer();
+          }
           break;
         case ("DirtyFlag"): {
           this.autoRuleId = '';

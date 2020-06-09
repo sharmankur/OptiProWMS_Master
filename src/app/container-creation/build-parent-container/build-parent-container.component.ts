@@ -157,33 +157,22 @@ export class BuildParentContainerComponent implements OnInit {
     }
     else {
       if (this.lookupfor == "CTList") {   
-        //Srini Added on 8-Jun-2020     
-        if (this.parentContainerType != '' && this.parentcontainerCode != '') {          
-          if (this.addItemList.length == 0 && this.count == 0) { 
-            this.containerType = $event.OPTM_CONTAINER_TYPE;
-            this.containerType = $event.OPTM_CONTAINER_TYPE;
-            this.ParentPerQty = $event.OPTM_CONT_PERPARENT;                
-            this.count = 0;
-            this.RemQty = this.ParentPerQty - this.count;
-            this.saveContainerType = this.containerType;
-          } else {
-            this.toastr.error('Srini', 'Container Type cannot be changed');  
-          }
-        } else {
-          this.parentContainerType = '';
+        //Srini Added on 8-Jun-2020  
+        this.containerType = $event.OPTM_CONTAINER_TYPE;
+        this.containerType = $event.OPTM_CONTAINER_TYPE;
+        this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
+        this.count = 0;
+        this.RemQty = this.ParentPerQty - this.count;
+        this.saveContainerType = this.containerType;    
+        if (this.parentContainerType == '' && this.parentcontainerCode == '') {  
           this.setDefaultValues();
         }
       }
       else if (this.lookupfor == "ParentCTList") {
-        //Srini Added on 8-Jun-2020     
-        if (this.parentContainerType != '' && this.parentcontainerCode != '') {
-          this.toastr.error('Srini', 'Parent Container Type cannot be changed');
-        } else {
-          this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
-          this.saveparentContainerType = this.parentContainerType;
-          this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
-          this.setDefaultValues();
-        }
+        this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
+        this.saveparentContainerType = this.parentContainerType;
+        this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
+        this.setDefaultValues();        
       }
       else if (this.lookupfor == "CARList") {
         this.autoRuleId = $event.OPTM_RULEID;
@@ -524,7 +513,7 @@ export class BuildParentContainerComponent implements OnInit {
   getParentContainerType(action) {
     if (this.parentContainerType != '' && this.parentcontainerCode != '') {
       //Srini 8-Jun-2020. Parent Container Type cannot be changed in query mode
-      this.toastr.error('Srini', 'Parent Container Type cannot be changed');        
+      this.toastr.error('Srini', 'Parent Container Type cannot be changed on an existing container');        
       this.parentContainerType = this.saveparentContainerType;
       return;
     }
@@ -1074,16 +1063,16 @@ export class BuildParentContainerComponent implements OnInit {
         this.IsDisableScanChild = false;
         this.DisplayTreeData = [];
 
+        this.parentContainerType = data.OPTM_CONT_HDR[0].OPTM_CONTTYPE;
+        this.containerType = data.OPTM_CONT_HDR[0].CHILD_CONTTYPE;
+        this.saveparentContainerType=this.parentContainerType;
+        this.saveContainerType = this.containerType;
+
         if (this.ConSelectionType == 2) {
-          this.setOtherReqFields(data.OPTM_CONT_HDR[0]);
-          this.parentContainerType = data.OPTM_CONT_HDR[0].OPTM_CONTTYPE;
-          this.containerType = data.OPTM_CONT_HDR[0].CHILD_CONTTYPE;
-          this.saveparentContainerType=this.parentContainerType;
-          this.saveContainerType = this.containerType;
           this.ParentPerQty = data.OPTM_CONT_HDR[0].OPTM_CONT_PERPARENT;
           this.count = data.OPTM_CONT_HDR[0].CHILD_CONT_CNT;
           this.RemQty = this.ParentPerQty - this.count;
-          
+          this.setOtherReqFields(data.OPTM_CONT_HDR[0]);
           this.addItemList = [];
           var childContainers = data.OPTM_CONT_HDR.filter(r => r.CHILD_CONTCODE != '');
           for(var intCtr=0; intCtr < childContainers.length; intCtr++) {
@@ -1150,8 +1139,8 @@ export class BuildParentContainerComponent implements OnInit {
   }
 
   onParentContainerCodeChange() {
-    this.saveparentContainerType = '';
-    this.saveContainerType = '';    
+    this.saveparentContainerType = this.parentContainerType;
+    this.saveContainerType = this.containerType;    
     if (this.ConSelectionType == 2) {
       this.CONT_SELECT_TYPE = 'Fetch';
       this.GetParentContainer();      
@@ -1566,6 +1555,7 @@ export class BuildParentContainerComponent implements OnInit {
     this.whse = '';
     this.binNo = '';
     this.parentContainerType = '';
+    this.containerType = '';
     this.autoRuleId = '';
     this.soNumber = '';
     this.soDocEntry = '';
