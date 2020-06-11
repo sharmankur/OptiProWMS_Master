@@ -750,12 +750,14 @@ export class Commonservice {
     localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
 
-  GetDataForContainerAutoRule(OPTM_CONTTYPE: any, RULEID: any): Observable<any> {
+  GetDataForContainerAutoRule(OPTM_CONTTYPE: any, RULEID: any, Purpose: string, AddItemFlg: String): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTTYPE: OPTM_CONTTYPE,
-        RULEID: RULEID
+        RULEID: RULEID, 
+        Purpose: Purpose,
+        AddItemFlg: AddItemFlg
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);

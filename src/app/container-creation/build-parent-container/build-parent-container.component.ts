@@ -55,6 +55,8 @@ export class BuildParentContainerComponent implements OnInit {
   IsDisableScanChild: boolean = true;
   enableCloseCont: boolean = false;
   ConSelectionType: number = 1;
+  //CONT_SELECT_TYPE: any = '';
+  
   @ViewChild("scanWhse", { static: false }) scanWhse;
   @ViewChild("scanBinNo", { static: false }) scanBinNo;
   @ViewChild("scanContType", { static: false }) scanContType;
@@ -524,9 +526,11 @@ export class BuildParentContainerComponent implements OnInit {
         this.toastr.error('', this.translate.instant("EnterContainerType"));
         return;
       } else {
-        type = this.containerType
+        type = this.containerType;
       }
-    } 
+    } else {
+      type = this.containerType;
+    }
 
     if (action == 'blur' && type == '') {
       return;
@@ -718,7 +722,7 @@ export class BuildParentContainerComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule(this.containerType, this.autoRuleId).subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType, this.autoRuleId, this.purps, 'Y').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -967,9 +971,8 @@ export class BuildParentContainerComponent implements OnInit {
         }
       );
   }
-
-  CONT_SELECT_TYPE: any = '';
-  IsvalidParentCode() {
+  
+  CheckContainer() {
 
     let operation = 1;
     if (this.addItemOpn == "Add") {
@@ -980,11 +983,12 @@ export class BuildParentContainerComponent implements OnInit {
 
     this.showLoader = true;
     //Commented by Srini 6-Jun-2020
+    //Validate container parameters against the parameters entered in the screen
     this.containerCreationService.CheckContainer(this.parentcontainerCode, this.whse,    
       this.binNo, "",
       this.containerGroupCode,
       this.soNumber, this.parentContainerType,
-      this.purps, operation, 3, this.CONT_SELECT_TYPE, true).subscribe(
+      this.purps, operation, 3, true).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -1064,8 +1068,10 @@ export class BuildParentContainerComponent implements OnInit {
         this.DisplayTreeData = [];
 
         this.parentContainerType = data.OPTM_CONT_HDR[0].OPTM_CONTTYPE;
-        this.containerType = data.OPTM_CONT_HDR[0].CHILD_CONTTYPE;
         this.saveparentContainerType=this.parentContainerType;
+        if (this.ConSelectionType == 2) {
+          this.containerType = data.OPTM_CONT_HDR[0].CHILD_CONTTYPE;
+        };
         this.saveContainerType = this.containerType;
 
         if (this.ConSelectionType == 2) {
@@ -1142,15 +1148,17 @@ export class BuildParentContainerComponent implements OnInit {
     this.saveparentContainerType = this.parentContainerType;
     this.saveContainerType = this.containerType;    
     if (this.ConSelectionType == 2) {
-      this.CONT_SELECT_TYPE = 'Fetch';
+      //Query existing container
+      //this.CONT_SELECT_TYPE = 'Fetch';
       this.GetParentContainer();      
       return;
     } else {
-      this.CONT_SELECT_TYPE = ''
+      //Create Mode
+      //this.CONT_SELECT_TYPE = 'Create'
       if (this.validateAllFields() == false) {
         return;
       }
-      this.IsvalidParentCode();
+      this.CheckContainer();
     }
 
     if (this.parentcontainerCode == '' || this.parentcontainerCode == undefined) {

@@ -916,7 +916,7 @@ export class CreateContainerComponent implements OnInit {
     else{
     
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId, this.purpose, 'Y').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {

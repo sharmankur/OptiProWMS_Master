@@ -70,7 +70,7 @@ export class AddItemToContComponent implements OnInit {
   operationNo: any = 0;
   oCreateModel: any = {};
   PartsQty: any = 0;
-  AutoRuleDTL: any = [];
+  //AutoRuleDTL: any = [];
   ValidBSQty: any = 0;
   inputDialogFor: any;
   titleMessage: any;
@@ -115,6 +115,7 @@ export class AddItemToContComponent implements OnInit {
   ScannedContainerStatus: number = 0;
   InternalContCode: any = '';
   canCreateContainer: boolean = true;
+  CONT_SELECT_TYPE: string = '';
 
   @ViewChild("scanBinCode", { static: false }) scanBinCode;
   @ViewChild("scanWhse", { static: false }) scanWhse;
@@ -355,6 +356,7 @@ export class AddItemToContComponent implements OnInit {
     this.containerGroupCode = '';
     this.soNumber = '';
     this.soDocEntry = ''
+    this.checkParent = false;
     if (this.ConSelectionType == 1) {      
       this.ConSelectionType = 2;
       this.radioSelected = 3;
@@ -1093,14 +1095,17 @@ export class AddItemToContComponent implements OnInit {
   }
 
   getLookupDataValue($event) {
-    this.showLookup = false;
+    this.showLookup = false;   
+
     if ($event != null && $event == "close") {
 
       return;
     } else {
       if (this.lookupfor == "CTList") {
         this.clearlookFields("CT");
-        this.setDefaultValues();
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
         this.containerType = $event.OPTM_CONTAINER_TYPE;
       }
       else if (this.lookupfor == "ParentCTList") {
@@ -1118,24 +1123,42 @@ export class AddItemToContComponent implements OnInit {
         this.packType = $event.OPTM_CONTUSE;
         this.bsVisible = false;
         this.clearlookFields("CAR");
-        this.setDefaultValues();
-        this.AutoRuleDTL = this.AutoService.filter(r => r.OPTM_RULEID == $event.OPTM_RULEID);
-        this.RuleItems = this.AutoRuleDTL;
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
+        //this.AutoRuleDTL = this.AutoService.filter(r => r.OPTM_RULEID == $event.OPTM_RULEID);
+        this.RuleItems = this.AutoService.filter(r => r.OPTM_RULEID == $event.OPTM_RULEID);
         //Fetch Rule Details        
-        this.getAutoPackRule('blur');                
+        //this.getAutoPackRule('blur');
+        if (this.radioRuleSelected == 1) {
+          this.CheckNonTrackItemsExistInRule();           
+        } else {
+          this.canCreateContainer = true;
+        }        
+                        
       } else if (this.lookupfor == "WareHouse") {
         this.clearlookFields("whs");
         this.whse = $event.WhsCode;
-        // this.setDefaultValues();
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
       } else if (this.lookupfor == "BinList") {
         this.clearlookFields("bin");
         this.binNo = $event.BinCode;
-        //   this.setDefaultValues();
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
       } else if (this.lookupfor == "SOList") {
         this.soNumber = $event.DocNum;
         this.soDocEntry = $event.DocEntry;
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
       } else if (this.lookupfor == "GroupCodeList") {
         this.containerGroupCode = $event.OPTM_CONTAINER_GROUP;
+        if (this.containerCode != null && this.containerCode != '') {
+          this.setDefaultValues();
+        }
       } else if (this.lookupfor == "ContainerIdList") {
 
       }
@@ -2400,8 +2423,9 @@ export class AddItemToContComponent implements OnInit {
       return;
     }
 
+    this.RuleItems = [];
     if (action == 'blur') {
-      this.containerCode = ''; this.RuleItems = [];
+      this.containerCode = '';
       this.setDefaultValues();
       if (this.autoRuleId == undefined || this.autoRuleId == "") {
         return;
@@ -2414,7 +2438,7 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule(this.containerType, RuleId).subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType, RuleId, this.purps, 'Y').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -2426,25 +2450,14 @@ export class AddItemToContComponent implements OnInit {
 
           if (data.OPTM_CONT_AUTORULEHDR.length > 0) {
             this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;
-            this.AutoRuleDTL = data.OPTM_CONT_AUTORULEDTL;
-            this.RuleItems = this.AutoRuleDTL;
+            //this.AutoRuleDTL = data.OPTM_CONT_AUTORULEDTL;
+            this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
           }
 
           if (action == 'lookup' || action == 'query') {
-
-            //this.showLookup = true;            
-            //Srini 5-Jun-2020. Added to filter data applicable for Purpose and Add Items Flag
-            //this.serviceData = data.OPTM_CONT_AUTORULEHDR;
-            var ruleFilter: number = 0;
+            //this.showLookup = true;           
             
-            if (this.purps == 'Y') {
-              //Srini 5-Jun-2020. Filter Rules for Shipping and Both option. Setting the filter <> 'Internal'
-              ruleFilter = 2;
-            } else {
-              //Srini 5-Jun-2020. Filter Rules for Shipping and Both option. Setting the filter <> 'Shipping'
-              ruleFilter = 1;
-            }
-            this.serviceData = data.OPTM_CONT_AUTORULEHDR.filter(val => val.OPTM_ADD_TOCONT == 'Y' && val.OPTM_CONTUSE != ruleFilter);
+            this.serviceData = data.OPTM_CONT_AUTORULEHDR;
             this.AutoService = data.OPTM_CONT_AUTORULEDTL;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
               if (this.serviceData[iBtchIndex].OPTM_ADD_TOCONT == 'Y') {
@@ -2466,7 +2479,8 @@ export class AddItemToContComponent implements OnInit {
               this.lookupfor = "CARList";
             }
           } else {
-            
+            this.CheckNonTrackItemsExistInRule();            
+            /*
             if (data.OPTM_CONT_AUTORULEHDR.length > 0) {              
               //Get Item details only when Container is created in Auto mode.
               //In manual mode Item Inventory is obtained after item selection
@@ -2479,7 +2493,7 @@ export class AddItemToContComponent implements OnInit {
                   this.canCreateContainer = false;
                   this.toastr.error('Change to constant', 'Cannot create container as selected rule does not contain non track items');
                   this.autoRuleId = '';
-                  this.AutoRuleDTL = [];
+                  //this.AutoRuleDTL = [];
                   this.RuleItems = [];
                   return;
                 }
@@ -2490,6 +2504,7 @@ export class AddItemToContComponent implements OnInit {
               this.toastr.error('', this.translate.instant("RuleIdInvalidMsg"));
             }
             this.bsVisible = false;
+            */
           }
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -2505,6 +2520,32 @@ export class AddItemToContComponent implements OnInit {
         }
       }
     );
+  }
+  
+  CheckNonTrackItemsExistInRule() {
+    if (this.RuleItems.length > 0) {              
+      //Get Item details only when Container is created in Auto mode.
+      //In manual mode Item Inventory is obtained after item selection
+      this.canCreateContainer = true;
+      if (this.radioRuleSelected == 1) {          
+        let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_TRACKING == 'N'); 
+        if (NoneTrackArr.length > 0) {
+          this.GetItemsToAutoCreateContainer();
+        } else {
+          this.canCreateContainer = false;
+          this.toastr.error('Change to constant', 'Cannot create container as selected rule does not contain non track items');
+          this.autoRuleId = '';
+          //this.AutoRuleDTL = [];
+          this.RuleItems = [];
+          return;
+        }
+      }
+    } else {
+      this.autoRuleId = '';
+      this.scanAutoRuleId.nativeElement.focus();
+      this.toastr.error('', this.translate.instant("RuleIdInvalidMsg"));
+    }
+    this.bsVisible = false;
   }
 
   TransferDataToContainerModel(data: any) {
@@ -2543,11 +2584,7 @@ export class AddItemToContComponent implements OnInit {
     }
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
-    this.parentContainerType = data.OPTM_CONT_HDR[0].PARENT_CONTTYPE;
-    if (this.parentContainerType != '' && this.parentContainerType != null) {
-      this.checkParent = true;
-    }
-
+    
     this.oSubmitModel.OPTM_CONT_HDR.push({
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_CONTID: data.OPTM_CONT_HDR[0].OPTM_CONTAINERID,
@@ -2608,7 +2645,13 @@ export class AddItemToContComponent implements OnInit {
 
     //User selected Query option to fetch container data and set the container parameters accordingly
     if (this.ConSelectionType == 2) {
-      this.setOtherReqFields(data.OPTM_CONT_HDR[0]);
+      this.setOtherReqFields(data.OPTM_CONT_HDR[0]);      
+      this.parentContainerType = data.OPTM_CONT_HDR[0].PARENT_CONTTYPE;
+      if (this.parentContainerType != '' && this.parentContainerType != null) {
+        this.checkParent = true;
+      } else {
+        this.checkParent = false;
+      }       
     }   
     this.RefreshContextMenu()
   }
@@ -2801,7 +2844,7 @@ export class AddItemToContComponent implements OnInit {
     this.onContainerCodeChange()
   }
 
-  contChangeSetValues(){
+  ProcessScannedContainer() {
     this.DisplayTreeData = [];
     this.oSubmitModel.OtherItemsDTL = [];
     this.oSubmitModel.OtherBtchSerDTL = [];
@@ -2810,19 +2853,20 @@ export class AddItemToContComponent implements OnInit {
     this.DisableScanFields = true;
     this.oParentModel.HeaderTableBindingData = [];
     this.setScanItemDataBlank();
-    let CONT_SELECT_TYPE = undefined;
 
     if (this.ConSelectionType == 1) {
       if (this.validateSelectionCriteria() == false) {
         return "";
       }else{
-        return CONT_SELECT_TYPE;
+        //this.CONT_SELECT_TYPE = "Create";
+        this.CheckContainer();
       }
     } else {
-      CONT_SELECT_TYPE = "Fetch"
+      //this.CONT_SELECT_TYPE = "Fetch";
+      this.GetContainer();
+      
     }
-    return CONT_SELECT_TYPE;
-  }
+  };
 
   async onContainerCodeChange() {
     if (this.containerCode == undefined || this.containerCode == "") {
@@ -2838,15 +2882,7 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.InternalContCode = '';
-
-    let CONT_SELECT_TYPE = this.contChangeSetValues();
-    if(CONT_SELECT_TYPE == ""){
-      return;
-    } else if(CONT_SELECT_TYPE == "Fetch"){
-      return this.GetContainer();
-    } else if(CONT_SELECT_TYPE == undefined){
-      return this.CheckContainer(CONT_SELECT_TYPE);
-    }   
+    this.ProcessScannedContainer(); 
   }
 
   GetContainer () {
@@ -2873,7 +2909,7 @@ export class AddItemToContComponent implements OnInit {
     return result
   }
 
-  public CheckContainer(CONT_SELECT_TYPE): boolean {
+  public CheckContainer(): boolean {
     var createMode = 1;
     if (this.radioRuleSelected == 1) {
       createMode = 1;
@@ -2890,7 +2926,7 @@ export class AddItemToContComponent implements OnInit {
     this.ScannedContainerStatus = 0;
       
     this.containerCreationService.CheckContainer(this.containerCode, this.whse, this.binNo, this.autoRuleId, this.containerGroupCode,
-      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, CONT_SELECT_TYPE, false).subscribe(
+      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, false).subscribe(
         (data: any) => {
           this.showLoader = false;
           result = this.DisplayContainerData(data);
@@ -3164,7 +3200,8 @@ export class AddItemToContComponent implements OnInit {
 
                   for (let idxOth = 0; idxOth < NoneTrackArr.length; idxOth++) {
 
-                    let tempArr = this.AutoRuleDTL.filter(val => val.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
+                    //let tempArr = this.AutoRuleDTL.filter(val => val.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
+                    let tempArr = this.RuleItems.filter(val => val.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
                     this.PartsQty = tempArr[0].OPTM_PARTS_PERCONT;
                     
                     index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
@@ -3622,14 +3659,7 @@ export class AddItemToContComponent implements OnInit {
         case ("confirmCommit"):
           this.updateDisabled = true;
           this.InternalContCode = '';
-          let CONT_SELECT_TYPE = this.contChangeSetValues();
-          if(CONT_SELECT_TYPE == ""){
-            return;
-          } else if(CONT_SELECT_TYPE == "Fetch"){   
-            this.CheckContainer(CONT_SELECT_TYPE);
-          } else if(CONT_SELECT_TYPE == undefined){   
-            this.GetContainer();
-          }
+          this.ProcessScannedContainer();          
           break;
         case ("DirtyFlag"): {
           this.autoRuleId = '';

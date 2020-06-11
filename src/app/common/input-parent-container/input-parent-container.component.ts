@@ -475,7 +475,7 @@ export class InputParentContainerComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId).subscribe(
+    this.commonservice.GetDataForContainerAutoRule(this.containerType,this.autoRuleId, this.purpose,'Y').subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -888,7 +888,7 @@ export class InputParentContainerComponent implements OnInit {
         Height: 0,
         ItemCode: "",
         NoOfPacks: "1",
-        OPTM_TASKID: 1,
+        OPTM_TASKID: 0,
         CompanyDBId: localStorage.getItem("CompID"),
         Username: localStorage.getItem("UserId"),
         UserId: localStorage.getItem("UserId"),
@@ -896,7 +896,7 @@ export class InputParentContainerComponent implements OnInit {
         Action: "Y",
         OPTM_PARENTCODE: '',
         OPTM_GROUP_CODE: 0,
-        OPTM_CREATEMODE: 0,
+        OPTM_CREATEMODE: 3,
         OPTM_PURPOSE: this.purposeId, //need to change
         OPTM_FUNCTION: "Shipping",
         OPTM_OBJECT: "Container",
