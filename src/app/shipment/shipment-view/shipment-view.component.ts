@@ -624,6 +624,7 @@ export class ShipmentViewComponent implements OnInit {
       this.ShpContainerType = "";
     }
     localStorage.setItem("ShpContType", this.ShpContainerType);
+    localStorage.setItem("ShpLineDtl", JSON.stringify(this.shipmentData.OPTM_SHPMNT_INVDTL));
     
 
     if (this.UseContainer) {
@@ -1205,16 +1206,17 @@ export class ShipmentViewComponent implements OnInit {
     this.ArchiveDialog = false;
   }
 
-  onScheduleDateChange(event) {
+  onScheduleDateChange(event, ScheduleDT) {
     console.log("onScheduleDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    // if (event.getTime() < cDate.getTime()) {
-    //   this.ScheduleDatetime = undefined;
-    //   this.toastr.error('', this.translate.instant("SchDateValMsg"));
-    //   return;
-    // }
+    if (event.getTime() < cDate.getTime()) {
+      this.ScheduleDatetime = undefined;
+      ScheduleDT.value = undefined;
+      this.toastr.error('', this.translate.instant("SchDateValMsg"));
+      return;
+    }
     this.isUpdateHappen = true;
   }
 

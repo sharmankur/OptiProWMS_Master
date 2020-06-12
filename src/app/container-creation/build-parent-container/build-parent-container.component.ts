@@ -954,6 +954,11 @@ export class BuildParentContainerComponent implements OnInit {
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
+            if(data.OPTM_CONT_HDR[0].OPTM_PARENT_CONTTYPE == null){
+              this.toastr.error('Srini', "Scanned container is not parent container.")
+              this.parentcontainerCode = "";
+              return;
+            }
             this.DisplayContainerData(data);
           }
           else {
