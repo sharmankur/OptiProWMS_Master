@@ -894,7 +894,7 @@
   "QtyCheck": "Assigned Qty cannot be greater than Available Qty",
   "OpenQtyCheck": "Assigned Qty cannot be greater than Open Qty",
   "TotalQtyCheck": "Total quantities added cannot be greater than Open Qty",
-  "ZeroOpenQty": "Open Qty is zero",
+  "ZeroOpenQty": "Open Qty is 0",
   "GeneratePicklistShipments": "Generate Picklist",
   "BatchPickingErrMsg": "Pick Container operation is not allowed for Batch Picking",
   "ClusterPickingErrMsg": "Pick Container operation is not allowed for Cluster Picking",
@@ -1053,7 +1053,7 @@
   "ContPerValMsg": "Containers per Parent should be an interger and should be >= 1",
   "StageBinValMsg": "Putaway and pick drop stage bin both can't be blank for one rule type",
   "MaxWeightValMsg": "Max weight should be greater than Tare weight",
-  "WeightTareValMsg": "Max weight and Tare weight should be >= 1",
+  "WeightTareValMsg": "Max weight and Tare weight should be >= 0",
   "ZoneAndRangeValMsg": "Atleast one row should be add for zone code and bin range",
   "BinRangeValMsg": "Atleast one bin range should be add for selected zone code",
   
