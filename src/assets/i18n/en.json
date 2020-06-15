@@ -834,6 +834,9 @@
   "Loaded_on_truck": "Loaded on truck",
   "Part_Returned": "Part Returned",
   "Return_Accepted": "Return Accepted",
+  "Loading": "Loading",
+  "UnLoaded": "UnLoaded",
+
   "Auto_Rule_Based": "Auto Rule Based",
   "Manual_Rule_Based": "Manual Rule Based",
   "Remove": "Remove",
@@ -1078,5 +1081,6 @@
   "CGNotAssigned":"Container group not assigned to selected container.",
   "ShpAllocatedSuccess": "Shipment allocated successfully",
   "WhseLayoutMasterDtl": "Please add warehouse layout master details.",
+
   "Dummy": "Dummy"  
 }

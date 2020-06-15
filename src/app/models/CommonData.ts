@@ -209,7 +209,7 @@ export class CommonData {
             { "Value": 2, "Name": this.translate.instant("CScheduledNew") },
             { "Value": 3, "Name": this.translate.instant("Part_Allocated") },
             { "Value": 4, "Name": this.translate.instant("Allocated") },
-            { "Value": 5, "Name": this.translate.instant("Picking") },
+            { "Value": 5, "Name": this.translate.instant("Part_Picked") },
             { "Value": 6, "Name": this.translate.instant("Picked") },
             { "Value": 7, "Name": this.translate.instant("Ship_Staged") },
             { "Value": 8, "Name": this.translate.instant("Unstaged") },
@@ -219,10 +219,11 @@ export class CommonData {
             { "Value": 12, "Name": this.translate.instant("Returned") },
             { "Value": 13, "Name": this.translate.instant("Return_Accepted") },
             { "Value": 14, "Name": this.translate.instant("CCancelledNew") },
-            { "Value": 15, "Name": "Loading" },
-            { "Value": 16, "Name": "UnLoaded" }
+            { "Value": 15, "Name": this.translate.instant("Loading") },
+            { "Value": 16, "Name": this.translate.instant("UnLoaded") }
         ];
     }
+
 
     // shiment_status_array() {
     //     return [

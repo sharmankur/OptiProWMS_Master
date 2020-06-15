@@ -978,6 +978,12 @@ export class CommonLookupComponent implements OnInit {
         type: 'text',
         width: '100'
       },
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      },
     ];
     this.lookupTitle = this.translate.instant("PT_ShipmentList");
     if (this.serviceData !== undefined) {
