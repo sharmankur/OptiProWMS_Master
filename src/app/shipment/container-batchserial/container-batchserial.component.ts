@@ -415,7 +415,9 @@ export class ContainerBatchserialComponent implements OnInit {
         OPTM_STATUS: this.SelectedShipmentStatus,
         OPTM_ITEMCODE: this.SelectedRowsforShipmentArr[i].ITEMCODE,
         OPTM_BTCHSER: this.SelectedRowsforShipmentArr[i].LOTNO,
-        OPTM_QTY_FULFILLED: this.SelectedRowsforShipmentArr[i].SelectedQty
+        OPTM_QTY_FULFILLED: this.SelectedRowsforShipmentArr[i].SelectedQty,
+        OPTM_WHSE: this.SelectedRowsforShipmentArr[i].WHSCODE,
+        OPTM_BIN: this.SelectedRowsforShipmentArr[i].BINNO
       });
     }
     
