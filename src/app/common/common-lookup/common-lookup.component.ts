@@ -1123,7 +1123,19 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Parent_Container_Type"),
         type: 'text',
         width: '100'
-      }      
+      },   
+      {
+        field: 'OPTM_CONT_PERPARENT',
+        title: this.translate.instant("CTRContainersPerParent"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONT_PARTOFPARENT',
+        title: this.translate.instant("CTRContainerPartofParent"),
+        type: 'text',
+        width: '100'
+      }   
     ];
     this.lookupTitle = this.translate.instant("Parent_Container_Type");
     if (this.serviceData !== undefined) {
@@ -1333,13 +1345,13 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        title: this.translate.instant("Outbound_CustomerName"),
+        title: this.translate.instant("CustomerName"),
         field: 'CardCode',
         type: 'text',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CustomerList");
+    this.lookupTitle = this.translate.instant("Ship_To_Code");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

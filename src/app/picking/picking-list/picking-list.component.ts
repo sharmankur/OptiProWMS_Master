@@ -31,15 +31,15 @@ export class PickingListComponent implements OnInit {
   PickListBasisArray: any[] = [];
   PlanShiftArray: any[] = [];//{Name:'',Value:''} ;
   PickShiftArray: any[] = [];
- 
-    
- updatedPicItemsArray: Array<PLPickListItemModel>=[];
- updatedPickTasksArray: Array<PLPickListTaskModel>=[];
- meansData:any ;
- selectedMeansValue:any 
-  selectedPLItems:any = [];
-  selectedPLItemsDataForValidate:any = [];
-  
+
+
+  updatedPicItemsArray: Array<PLPickListItemModel> = [];
+  updatedPickTasksArray: Array<PLPickListTaskModel> = [];
+  meansData: any;
+  selectedMeansValue: any
+  selectedPLItems: any = [];
+  selectedPLItemsDataForValidate: any = [];
+
   commonData: any = new CommonData(this.translate);
   public items: any[] = [];
   public mySelection: number[] = [];
@@ -55,13 +55,13 @@ export class PickingListComponent implements OnInit {
   planDate: Date = undefined// new Date();
   public ShipmentCodeFrom: any = '';
   public ShipmentCodeTo: any = '';
-  ShipmentIdFrom: string="";
-  ShipmentIdTo: string="";
+  ShipmentIdFrom: string = "";
+  ShipmentIdTo: string = "";
 
 
-  @ViewChild('wareHouse',{static:false}) wareHouse;
-  @ViewChild('fromShipment',{static:false}) fromShipment;
-  @ViewChild('toShipment',{static:false}) toShipment;
+  @ViewChild('wareHouse', { static: false }) wareHouse;
+  @ViewChild('fromShipment', { static: false }) fromShipment;
+  @ViewChild('toShipment', { static: false }) toShipment;
   dateFormat: any = 'mm/dd/yyyy'
   //pageSize: number = Commonservice.pageSize;
   constructor(private picktaskService: PickTaskService, private router: Router, private toastr: ToastrService, private translate: TranslateService,
@@ -74,25 +74,25 @@ export class PickingListComponent implements OnInit {
       this.PlanShiftArray = this.commonData.PlanShiftEnum();
       this.statusArray = this.commonData.PickListStatusEnum();
     });
-    this.PickListBasisArray =this.commonData.PickListEnum();
-    this.PlanShiftArray =this.commonData.PlanShiftEnum();
-    this.statusArray = this.commonData.PickListStatusEnum(); 
+    this.PickListBasisArray = this.commonData.PickListEnum();
+    this.PlanShiftArray = this.commonData.PlanShiftEnum();
+    this.statusArray = this.commonData.PickListStatusEnum();
     this.shiment_status_array = this.commonData.shiment_status_array();
-  }  
+  }
   shiment_status_array = [];
 
   ngOnInit() {
- 
+
     this.picktaskService.clearLocaStorage();
     // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
-    this.meansData=this.commonData.TransferMeansTypeEnum()
+    this.meansData = this.commonData.TransferMeansTypeEnum()
     // this.meansData =  [
     //   { Value: 1, Name:  this.translate.instant("Manual") },
     //   { Value: 2, Name:  this.translate.instant("Name_ForkLift") },
     //   { Value: 3, Name:  this.translate.instant("Name_Crane") }
     //  ];
-    this.selectedMeansValue =this.meansData[0];// { "Value": 1, "Name": "Manual" };
+    this.selectedMeansValue = this.meansData[0];// { "Value": 1, "Name": "Manual" };
   }
 
 
@@ -147,7 +147,7 @@ export class PickingListComponent implements OnInit {
   }
 
   GetDataForShipmentId(fieldName, event) {
-    if(this.WarehouseId == "" || this.WarehouseId == undefined){
+    if (this.WarehouseId == "" || this.WarehouseId == undefined) {
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
@@ -179,7 +179,7 @@ export class PickingListComponent implements OnInit {
               if (fieldName == "ShipIdFrom") {
                 this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
                 this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
-                if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+                if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
                   this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
                   this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
                 }
@@ -203,7 +203,7 @@ export class PickingListComponent implements OnInit {
             this.showLookup = true;
             this.serviceData = data;
             for (let i = 0; i < this.serviceData.length; i++) {
-              this.serviceData[i].OPTM_STATUS = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;;
+              this.serviceData[i].OPTM_STATUS = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;
             }
             this.lookupfor = fieldName;
           }
@@ -282,7 +282,7 @@ export class PickingListComponent implements OnInit {
             if (fieldName == "ShipIdFrom") {
               //  this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
               this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
-              if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+              if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
                 this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE
                 this.ShipmentIdFrom = this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
               }
@@ -383,12 +383,12 @@ export class PickingListComponent implements OnInit {
     this.FillPickListDataInGrid();
   }
 
-  ShowGridPaging:boolean=false;
-  PickItemList:any = [];
-  PickItemListM:Array<PLPickListItemModel>;
-  PickTaskListM:Array<PLPickListTaskModel>;
-  PickTaskList:any = [];
-  selectedItemPickTaskList:any=[];
+  ShowGridPaging: boolean = false;
+  PickItemList: any = [];
+  PickItemListM: Array<PLPickListItemModel>;
+  PickTaskListM: Array<PLPickListTaskModel>;
+  PickTaskList: any = [];
+  selectedItemPickTaskList: any = [];
 
   FillPickListDataInGrid() {
     var PickListBasicVal = this.PickListBasis.Value;
@@ -396,59 +396,59 @@ export class PickingListComponent implements OnInit {
     var planShiftVal = this.PlanShift.Value;
     this.showLoader = true;
     let plandateString = "";
-    if(this.planDate != undefined){
+    if (this.planDate != undefined) {
       plandateString = this.planDate.toLocaleDateString();
     }
-    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal, plandateString).subscribe(
-        (data: any) => {
-          this.showLoader = false;
-          if (data != undefined && data!=null) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }
-            this.PickItemList = data.OPTM_WHS_PICKLIST;
-            this.PickTaskList = data.OPTM_WHSTASKLIST;
-            this.PickTaskListM = data.OPTM_WHSTASKLIST;
-            this.PickItemListM = data.OPTM_WHS_PICKLIST;
-
-            this.setTaskMeanValue()
-            if (this.PickItemList.length > 10) {
-              this.ShowGridPaging = true;
-            }else{
-              this.ShowGridPaging = false;
-            }   
-            this.PickItemListM.forEach(element => {
-              element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
-            });        
-
-            if(this.PickItemListM.length > 0){
-              this.FilterPickTask(this.PickItemListM[0]);
-            }else{
-              this.selectedItemPickTaskList = [];
-            }
-
-            for (let i = 0; i < this.PickItemList.length; i++) {
-              this.PickItemList[i].Selected = false;
-              this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
-              
-            }
-
-          } else {
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId, PickListBasicVal, planShiftVal, statusVal, plandateString).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined && data != null) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
           }
           this.PickItemList = data.OPTM_WHS_PICKLIST;
           this.PickTaskList = data.OPTM_WHSTASKLIST;
+          this.PickTaskListM = data.OPTM_WHSTASKLIST;
+          this.PickItemListM = data.OPTM_WHS_PICKLIST;
+
+          this.setTaskMeanValue()
           if (this.PickItemList.length > 10) {
             this.ShowGridPaging = true;
           } else {
             this.ShowGridPaging = false;
           }
+          this.PickItemListM.forEach(element => {
+            element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
+          });
+
+          if (this.PickItemListM.length > 0) {
+            this.FilterPickTask(this.PickItemListM[0]);
+          } else {
+            this.selectedItemPickTaskList = [];
+          }
+
           for (let i = 0; i < this.PickItemList.length; i++) {
             this.PickItemList[i].Selected = false;
             this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+
           }
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        // this.PickItemList = data.OPTM_WHS_PICKLIST;
+        // this.PickTaskList = data.OPTM_WHSTASKLIST;
+        // if (this.PickItemList.length > 10) {
+        //   this.ShowGridPaging = true;
+        // } else {
+        //   this.ShowGridPaging = false;
+        // }
+        // for (let i = 0; i < this.PickItemList.length; i++) {
+        //   this.PickItemList[i].Selected = false;
+        //   this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+        // }
       },
       error => {
         this.showLoader = false;
@@ -462,10 +462,10 @@ export class PickingListComponent implements OnInit {
     );
   }
 
-  setTaskMeanValue(){
-    for(let i=0;i<this.PickTaskListM.length;i++){
-      var meanVal =this.PickTaskListM[i].OPTM_TRANSIT_MEANS
-       this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name:  this.commonData.getMeansStringByValue(meanVal) }
+  setTaskMeanValue() {
+    for (let i = 0; i < this.PickTaskListM.length; i++) {
+      var meanVal = this.PickTaskListM[i].OPTM_TRANSIT_MEANS
+      this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name: this.commonData.getMeansStringByValue(meanVal) }
     }
     console.log("value set");
   }
@@ -489,7 +489,7 @@ export class PickingListComponent implements OnInit {
       } else if (this.lookupfor == "ShipIdFrom") {
         this.ShipmentIdFrom = $event.OPTM_SHIPMENTID;
         this.ShipmentCodeFrom = $event.OPTM_SHIPMENT_CODE;
-        if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+        if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
           this.ShipmentCodeTo = $event.OPTM_SHIPMENT_CODE
           this.ShipmentIdTo = $event.OPTM_SHIPMENTID;
         }
@@ -508,28 +508,31 @@ export class PickingListComponent implements OnInit {
    */
   onPickListItemClick($event) {
     this.FilterPickTask($event.selectedRows[0].dataItem);
-  } 
+  }
 
   FilterPickTask(selectedRows) {
     let selectedPickTasks = this.PickTaskList.filter(item =>
-      item.OPTM_PICKLIST_ID === selectedRows.OPTM_PICKLIST_ID );
-      this.selectedItemPickTaskList = selectedPickTasks ;
-  }   
-  
-  selectContainerRowChange(checkValue,dataItem,index){
-    var itemId= dataItem.OPTM_PICKLIST_ID;
-     if(checkValue==true && !this.selectedPLItems.includes(itemId)){
-       this.selectedPLItems.push(itemId);
-       this.selectedPLItemsDataForValidate.push(dataItem);
-     }else{
-       if(checkValue == false && this.selectedPLItems.includes(itemId)){
-         this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId),1);
-         this.selectedPLItemsDataForValidate.splice(this.selectedPLItemsDataForValidate.indexOf(this.filterRow(this.selectedPLItemsDataForValidate,itemId),1))
-       }
-     }
+      item.OPTM_PICKLIST_ID === selectedRows.OPTM_PICKLIST_ID);
+    this.selectedItemPickTaskList = selectedPickTasks;
+    for (var i = 0; i < this.selectedItemPickTaskList.length; i++) {
+      this.selectedItemPickTaskList.OPTM_PICKLIST_STATUS = selectedRows.OPTM_STATUS;
+    }
   }
 
- 
+  selectContainerRowChange(checkValue, dataItem, index) {
+    var itemId = dataItem.OPTM_PICKLIST_ID;
+    if (checkValue == true && !this.selectedPLItems.includes(itemId)) {
+      this.selectedPLItems.push(itemId);
+      this.selectedPLItemsDataForValidate.push(dataItem);
+    } else {
+      if (checkValue == false && this.selectedPLItems.includes(itemId)) {
+        this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId), 1);
+        this.selectedPLItemsDataForValidate.splice(this.selectedPLItemsDataForValidate.indexOf(this.filterRow(this.selectedPLItemsDataForValidate, itemId), 1))
+      }
+    }
+  }
+
+
   public filterRow(arryData, id): any {
     //var row = arryData.filter(item => item.OPTM_PICKLIST_CODE == id);
     let index = arryData.findIndex(x => x.OPTM_PICKLIST_CODE === id);
@@ -585,8 +588,8 @@ export class PickingListComponent implements OnInit {
     }
   }
 
-   // need to confirm is this required or not for getting value for update.
-   ChangeShieft(event, dataItem, companyRowIndex) {
+  // need to confirm is this required or not for getting value for update.
+  ChangeShieft(event, dataItem, companyRowIndex) {
     dataItem.OPTM_PLANWHSESHIFT_ID = event.target.value
     this.selectedPickItemRow = dataItem;
     //update to list and use that item.
@@ -613,12 +616,12 @@ export class PickingListComponent implements OnInit {
       this.updatedPickTasksArray.push(this.selectedPickTaskRow);
     }
   }
-  changePlanDateTime(date:any, dataItem:any, companyRowIndex:Number){
+  changePlanDateTime(date: any, dataItem: any, companyRowIndex: Number) {
     dataItem.OPTM_PLANDATETIME = date;
     this.selectedPickItemRow = dataItem;
-    var dateString=moment(date).format('MM/DD/YYYY');
-  //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
-   // new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    var dateString = moment(date).format('MM/DD/YYYY');
+    //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    // new Date(event.getFullYear(), event.getMonth(), event.getDate());
     //update to list and use that item.
     var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
     if (row != null && row != undefined && row.length > 0) {
@@ -630,8 +633,8 @@ export class PickingListComponent implements OnInit {
   }
 
 
-  updateReleaseStatus(){ 
-    if(this.selectedPLItems.length==0){
+  updateReleaseStatus() {
+    if (this.selectedPLItems.length == 0) {
       this.toastr.error('', this.translate.instant("PL_ReleaseStatusItemsValidate"));
       return;
     }
@@ -656,7 +659,7 @@ export class PickingListComponent implements OnInit {
               this.PickItemList = [];
               this.PickTaskList = [];
               this.FillPickListDataInGrid();
-            }  else {
+            } else {
               // show error.
               this.toastr.error('', data.OUTPUT[0].RESULT);
             }
@@ -728,17 +731,17 @@ export class PickingListComponent implements OnInit {
     grid.filter.filters = [];
     //this.clearFilters();
   }
- 
- 
 
 
- 
-  WHSCODE:any = ''
-  hideLookup:boolean = false;
-  srcWhsID:any;
-  selectedPickTaskRow:any;
-  selectedPickItemRow:any;
-  GetSrcBinList(index,  dataItem:any) {
+
+
+
+  WHSCODE: any = ''
+  hideLookup: boolean = false;
+  srcWhsID: any;
+  selectedPickTaskRow: any;
+  selectedPickItemRow: any;
+  GetSrcBinList(index, dataItem: any) {
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     this.selectedPickTaskRow = dataItem;
     this.commonservice.GetBinCode(this.srcWhsID).subscribe(
@@ -763,7 +766,7 @@ export class PickingListComponent implements OnInit {
     );
   }
 
-  IsValidSrcBinCode(index, bincode, display_name,dataItem) {
+  IsValidSrcBinCode(index, bincode, display_name, dataItem) {
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     this.selectedPickTaskRow = dataItem;
     if (bincode == undefined || bincode == "") {
@@ -780,7 +783,7 @@ export class PickingListComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-           //update to list and use that item.
+            //update to list and use that item.
             var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
             if (row != null && row != undefined && row.length > 0) {
               row[0].OPTM_SRC_BIN = data[0].BinCode;
@@ -793,9 +796,9 @@ export class PickingListComponent implements OnInit {
           }
         } else {
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
-        } 
+        }
       },
-      error => { 
+      error => {
         this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
@@ -808,60 +811,60 @@ export class PickingListComponent implements OnInit {
   }
 
 
-  onUpdatePress(){
-    this.updatePickItemAndTasks(this.updatedPicItemsArray,this.updatedPickTasksArray)
+  onUpdatePress() {
+    this.updatePickItemAndTasks(this.updatedPicItemsArray, this.updatedPickTasksArray)
   }
- 
-  updatePickItemAndTasks(pickItemList:any, pickTaskList:any){ 
-    var object:any={}
-    var dbId: any[]=[];
-    dbId.push({CompanyDBId: localStorage.getItem("CompID")});
+
+  updatePickItemAndTasks(pickItemList: any, pickTaskList: any) {
+    var object: any = {}
+    var dbId: any[] = [];
+    dbId.push({ CompanyDBId: localStorage.getItem("CompID") });
     object.DBId = dbId;
-    for(let i=0;i<pickItemList.length;i++){
-      pickItemList[i].OPTM_PLANDATETIME_Object=""
+    for (let i = 0; i < pickItemList.length; i++) {
+      pickItemList[i].OPTM_PLANDATETIME_Object = ""
     }
-    for(let i=0;i<pickTaskList.length;i++){
-      pickTaskList[i].selectedMeansVal=""
+    for (let i = 0; i < pickTaskList.length; i++) {
+      pickTaskList[i].selectedMeansVal = ""
     }
     object.OPTM_WHS_PICKLIST = pickItemList;
     object.OPTM_WHSTASKLIST = pickTaskList;
-    if(pickItemList.length==0 && pickTaskList.length==0){
+    if (pickItemList.length == 0 && pickTaskList.length == 0) {
       this.toastr.error('', this.translate.instant("PickingNoItemToUpdate"));
       return;
-    }    
+    }
 
     this.showLoader = true;
     this.picktaskService.updatePickItemsAndTasks(object).subscribe(
-        (data: any) => {
-          this.showLoader = false;
-          if (data != undefined && data!=null) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }else {
-             var result = data.OUTPUT[0].RESULT;
-             if(result == "Data Saved")
-            this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined && data != null) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          } else {
+            var result = data.OUTPUT[0].RESULT;
+            if (result == "Data Saved")
+              this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
             this.PickItemList = [];
             this.PickTaskList = [];
             this.updatedPicItemsArray = [];
             this.updatedPickTasksArray = [];
             this.FillPickListDataInGrid();
           }
-         }else{
+        } else {
           // show error.
-         }
-        },
-        error => {
-          this.showLoader = false;
-          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-          }
-          else {
-            this.toastr.error('', error);
-          }
         }
-      );
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 }
