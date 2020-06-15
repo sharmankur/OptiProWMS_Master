@@ -5,6 +5,7 @@ import { PickTaskService } from '../../services/picktask.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
+import { CommonData } from 'src/app/models/CommonData';
 
 @Component({
   selector: 'app-generate-pick',
@@ -58,21 +59,24 @@ export class GeneratePickComponent implements OnInit {
   pickOperationIndex = 1;
   iscontainerpicking: boolean = false;
   isUpdateHappen: boolean = false
-  @ViewChild('cform',{static:false}) cform;
-  @ViewChild('custTo',{static:false}) custTo;
-  @ViewChild('shipForm',{static:false}) shipForm;
-  @ViewChild('shipTo',{static:false}) shipTo;
-  @ViewChild('whse',{static:false}) whse;
-  @ViewChild('shipIdFrom',{static:false}) shipIdFromField;
-  @ViewChild('shipIdTo',{static:false}) shipIdToField;
-  @ViewChild('dockDoorFrom',{static:false}) dockDoorFrom;
-  @ViewChild('dockDoorTo',{static:false}) dockDoorTo;
-  @ViewChild('itemFrom',{static:false}) itemFrom;
-  @ViewChild('itemTo',{static:false}) itemTo;
-  @ViewChild('carrierCodeFrom',{static:false}) carrierCodeFrom;
-  @ViewChild('carrierCodeTo',{static:false}) carrierCodeTo;
-  @ViewChild('priority',{static:false}) priority;
+  commonData: any = new CommonData(this.translate);
+  shiment_status_array: any[] = [];
   
+  @ViewChild('cform', { static: false }) cform;
+  @ViewChild('custTo', { static: false }) custTo;
+  @ViewChild('shipForm', { static: false }) shipForm;
+  @ViewChild('shipTo', { static: false }) shipTo;
+  @ViewChild('whse', { static: false }) whse;
+  @ViewChild('shipIdFrom', { static: false }) shipIdFromField;
+  @ViewChild('shipIdTo', { static: false }) shipIdToField;
+  @ViewChild('dockDoorFrom', { static: false }) dockDoorFrom;
+  @ViewChild('dockDoorTo', { static: false }) dockDoorTo;
+  @ViewChild('itemFrom', { static: false }) itemFrom;
+  @ViewChild('itemTo', { static: false }) itemTo;
+  @ViewChild('carrierCodeFrom', { static: false }) carrierCodeFrom;
+  @ViewChild('carrierCodeTo', { static: false }) carrierCodeTo;
+  @ViewChild('priority', { static: false }) priority;
+
   constructor(private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
     userLang = /(fr|en)/gi.test(userLang) ? userLang : 'fr';
@@ -86,10 +90,10 @@ export class GeneratePickComponent implements OnInit {
     this.initialize();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     console.log("ngAfterInit");
     this.cform.nativeElement.focus();
-  } 
+  }
   initialize() {
     this.PackListBasisArray = ["Shipment",
       this.translate.instant("SalesOrder"), this.translate.instant("WorkOrder")];
@@ -103,13 +107,13 @@ export class GeneratePickComponent implements OnInit {
 
     this.PickOperationList = [this.translate.instant("PickToTote"),
     this.translate.instant("PickToContainer"), this.translate.instant("Loose")];
-    // this.Pick_Operation = this.PickOperationList[0];
+    this.shiment_status_array = this.commonData.shiment_status_array();
     this.onPickListBasisChange(this.PickListBasis);
   }
 
   //#region "shipmentId"  
   IsValidShipmentCode(fieldName) {
-    if(this.WareHouse == "" || this.WareHouse == undefined){
+    if (this.WareHouse == "" || this.WareHouse == undefined) {
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
@@ -179,7 +183,7 @@ export class GeneratePickComponent implements OnInit {
   }
 
   GetDataForShipmentId(fieldName) {
-    if(this.WareHouse == "" || this.WareHouse == undefined){
+    if (this.WareHouse == "" || this.WareHouse == undefined) {
       this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
       return;
     }
@@ -195,6 +199,9 @@ export class GeneratePickComponent implements OnInit {
             return;
           }
           this.serviceData = data;
+          for (var i = 0; i < this.serviceData.length; i++) {
+            this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+          }
           this.lookupfor = fieldName;
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -212,6 +219,11 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
+
+  getShipStatusValue(OPTM_STATUS): string {
+    return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
+  }
+
   //#region "ShipToCode" 
   IsValidShipToAddress(fieldName) {
     let ccode;
@@ -1147,23 +1159,23 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
 
-  onSchDateFromChange(event){
+  onSchDateFromChange(event) {
     console.log("onSchDateFromChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    if(event.getTime() < cDate.getTime()){
+    if (event.getTime() < cDate.getTime()) {
       this.Schedule_DatetimeFrom = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
   }
 
-  onSchDateToChange(event){
+  onSchDateToChange(event) {
     console.log("onSchDateToChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    if(event.getTime() < cDate.getTime()){
+    if (event.getTime() < cDate.getTime()) {
       this.Schedule_DatetimeTo = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
