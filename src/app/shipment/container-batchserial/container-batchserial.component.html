@@ -99,7 +99,7 @@
                                 <kendo-grid-column field="ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="WHSCODE" width="64" title="{{'WarehouseCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="BINNO" width="108" title="{{'Bin_No'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="LOTNO" width="108" title="{{'LotNo'|translate}}" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
+                                <kendo-grid-column field="LOTNO" width="108" title="{{BatchSerStr}}" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
                                 <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="{{'Available_Quantity'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="AssignQty" width="60" class="text-right" title="{{'QtyAdded'|translate}}">
                                         <!--QtytoAssign-->

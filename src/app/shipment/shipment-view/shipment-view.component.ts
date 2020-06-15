@@ -869,13 +869,18 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onUpdateClick() {
-    if (this.ShipmentID == undefined || this.ShipmentID == "") {
-      return;
-    }
+    // if (this.ShipmentID == undefined || this.ShipmentID == "") {
+    //   return;
+    // }
     let schDate = "";
     if(this.ScheduleDatetime != undefined){
       schDate = this.ScheduleDatetime.toLocaleDateString();
     }
+    
+    if (!this.validateFields()) {
+      return;
+    }
+
     this.showLoader = true;
     let uc = this.UseContainer == true ? "Y" : "N";
     this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, schDate, this.DockDoor).subscribe(

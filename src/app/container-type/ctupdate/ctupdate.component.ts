@@ -149,10 +149,10 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Max_Width = "0";
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
-    } else if(Number(this.CT_Max_Width) < 1){
+    } else if(Number(this.CT_Max_Width) <= 0){
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
-    } else if(Number(this.CT_Tare_Width) < 1){
+    } else if(Number(this.CT_Tare_Width) <= 0 ){
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
     } else if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
