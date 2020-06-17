@@ -203,7 +203,7 @@ export class PickingListComponent implements OnInit {
             this.showLookup = true;
             this.serviceData = data;
             for (let i = 0; i < this.serviceData.length; i++) {
-              this.serviceData[i].OPTM_STATUS = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;
+              this.serviceData[i].OPTM_STATUS_VAL = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;
             }
             this.lookupfor = fieldName;
           }
@@ -497,6 +497,14 @@ export class PickingListComponent implements OnInit {
       else if (this.lookupfor == "ShipIdTo") {
         this.ShipmentIdTo = $event.OPTM_SHIPMENTID;
         this.ShipmentCodeTo = $event.OPTM_SHIPMENT_CODE;
+      } else if (this.lookupfor == "UserGrp") {
+        var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === this.selectedPickTaskRow.OPTM_TASKID)
+        if (row != null && row != undefined && row.length > 0) {
+          row[0].OPTM_USER_GRP = $event.OPTM_GROUPCODE;
+        } else {
+          this.selectedPickTaskRow.OPTM_USER_GRP = $event.OPTM_GROUPCODE;
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+        }
       }
 
     }
@@ -603,19 +611,6 @@ export class PickingListComponent implements OnInit {
     // get row from  pick list item list.
   }
 
-  // run when user change anything in assigned user group.
-  ChangeAssignedUserGroup(event, dataItem, companyRowIndex) {
-    dataItem.OPTM_USER_GRP = event.target.value;
-    this.selectedPickTaskRow = dataItem;
-    //update to list and use that item.
-    var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
-    if (row != null && row != undefined && row.length > 0) {
-      row[0].OPTM_USER_GRP = event.target.value;
-    } else {
-      this.selectedPickTaskRow.OPTM_USER_GRP = event.target.value;
-      this.updatedPickTasksArray.push(this.selectedPickTaskRow);
-    }
-  }
   changePlanDateTime(date: any, dataItem: any, companyRowIndex: Number) {
     dataItem.OPTM_PLANDATETIME = date;
     this.selectedPickItemRow = dataItem;
@@ -792,9 +787,13 @@ export class PickingListComponent implements OnInit {
               this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             }
           } else {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           }
         } else {
+          this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
         }
       },
@@ -810,8 +809,96 @@ export class PickingListComponent implements OnInit {
     );
   }
 
+  // run when user change anything in assigned user group.
+  // ChangeAssignedUserGroup(event, dataItem, companyRowIndex) {
+  //   dataItem.OPTM_USER_GRP = event.target.value;
+  //   this.selectedPickTaskRow = dataItem;
+  //   //update to list and use that item.
+  //   this.GetUserGroup();
+  //   var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+  //   if (row != null && row != undefined && row.length > 0) {
+  //     row[0].OPTM_USER_GRP = event.target.value;
+  //   } else {
+  //     this.selectedPickTaskRow.OPTM_USER_GRP = event.target.value;
+  //     this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+  //   }
+  // }
+
+  GetUserGroup(value, dataItem, index, display_name, event) {
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    this.selectedPickTaskRow = dataItem;
+    if ((value == undefined || value == "") && event == "blur") {
+      return;
+    }
+    if (event == "lookup") {
+      value = "";
+    }
+    this.showLoader = true;
+    this.picktaskService.GetUserGroup(this.srcWhsID, value).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OPTM_USERGROUP.length > 0) {
+            // //update to list and use that item.
+            // var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+            // if (row != null && row != undefined && row.length > 0) {
+            //   row[0].OPTM_SRC_BIN = data[0].BinCode;
+            // } else {
+            //   this.selectedPickTaskRow.OPTM_SRC_BIN = data[0].BinCode;
+            //   this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            // }
+
+            if (event == "blur") {
+              var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+              if (row != null && row != undefined && row.length > 0) {
+                row[0].OPTM_USER_GRP = data.OPTM_USERGROUP[0].OPTM_GROUPCODE;
+              } else {
+                this.selectedPickTaskRow.OPTM_USER_GRP = data.OPTM_USERGROUP[0].OPTM_GROUPCODE;
+                this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+              }
+            } else {
+              this.showLookup = true;
+              this.serviceData = data.OPTM_USERGROUP;
+              this.lookupfor = "UserGrp";
+            }
+          } else {
+            if (event == "blur") {
+              this.selectedPickTaskRow.OPTM_USER_GRP = ""
+              this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            }
+            this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
+          }
+        } else {
+          if (event == "blur") {
+            this.selectedPickTaskRow.OPTM_USER_GRP = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+          }
+          this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
 
   onUpdatePress() {
+    let IspickTaskEmpty = this.updatedPickTasksArray.find(e=> e.OPTM_USER_GRP == "" || e.OPTM_SRC_BIN == "");
+    if(IspickTaskEmpty != undefined){
+      this.toastr.error('', "Pick bin or User group is blank for any selected pick task.")
+      return;
+    }
     this.updatePickItemAndTasks(this.updatedPicItemsArray, this.updatedPickTasksArray)
   }
 

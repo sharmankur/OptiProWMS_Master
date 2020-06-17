@@ -45,9 +45,9 @@ export class Commonservice {
       data => {
         sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
         this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
-        this.maxDescLength = 20;
-        this.maxCodeLength = 10;
-        this.maxNOLength = 5;
+        this.maxDescLength = 50;
+        this.maxCodeLength = 30;
+        this.maxNOLength = 100000;
       },
       (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -119,7 +119,7 @@ export class Commonservice {
   currentNavigatedData = this.navigatedData.asObservable();
   maxDescLength;
   maxCodeLength;
-  maxNOLength;
+  maxNOLength: number = 100;
 
   public setNavigatedData(navigationLink: boolean) {
     this.navigatedData.next(navigationLink);

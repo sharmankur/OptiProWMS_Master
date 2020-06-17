@@ -49,7 +49,7 @@ export class CARUpdateComponent implements OnInit {
 
   maxCodeLength: string;
   maxDescLength: string;
-  maxNOLength: string;
+  maxNOLength: number;
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
     this.maxCodeLength = this.commonservice.maxCodeLength;
@@ -453,6 +453,10 @@ export class CARUpdateComponent implements OnInit {
   }
 
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
+    // if(value > this.maxNOLength){
+    //   this.toastr.error('', this.translate.instant("MaxValueMsg"));
+    //   return;
+    // }
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     if(value < 0 ){
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));

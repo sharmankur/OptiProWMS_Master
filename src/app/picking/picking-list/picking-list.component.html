@@ -324,7 +324,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHSE_ZONE" [width]="50" headerClass="text-left" title="{{'Zone'|translate}}">
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_SRC_BIN" [width]="70" title="{{'PickFromBin'|translate}}" headerClass="text-left"
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_SRC_BIN" [width]="100" title="{{'PickFromBin'|translate}}" headerClass="text-left"
                             class="text-left">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <div class="input-group input-group-sm">
@@ -356,9 +356,6 @@
                                     (valueChange)="meansDropDownValueChange($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                 </kendo-dropdownlist>
                             </ng-template>
-                            <!-- <ng-template kendoGridCellTemplate let-dataItem>
-                     need to check if anything we need  to do like formating etc.
-                </ng-template> -->
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_TASK_QTY" headerClass="text-right" class="text-right" [width]="40"
                             title="{{'Quantity'|translate}}">
@@ -369,20 +366,21 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
                         </kendo-grid-column>
-                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_USER_GRP" [width]="40" title="{{'AssignedUserGroup'|translate}}"
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_USER_GRP" [width]="60" title="{{'AssignedUserGroup'|translate}}"
                             headerClass="text-left" class="text-left">
-                            <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                    need to check if anything we need  to do like formating etc.
-                </ng-template> -->
-                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (change)="ChangeAssignedUserGroup($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">          
+                                <div class="input-group input-group-sm">
+                                    <input type="text" #display_name  class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (blur)="GetUserGroup(display_name.value, dataItem, rowIndex, display_name, 'blur')" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                                    <div class="input-group-append">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetUserGroup('', dataItem, rowIndex, display_name, 'lookup')" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                                            <i class="opti-icon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_SO_NO" [width]="35" title="{{'SONumber'|translate}}" headerClass="text-left"
                             class="text-left">
-                            <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                     need to check if anything we need  to do like formating etc.
-                </ng-template> -->
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_WO_NO" [width]="35" title="{{'WorkOrderNo'|translate}}" headerClass="text-left"
                             class="text-left">

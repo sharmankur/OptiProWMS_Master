@@ -1081,6 +1081,8 @@
   "CGNotAssigned":"Container group not assigned to selected container.",
   "ShpAllocatedSuccess": "Shipment allocated successfully",
   "WhseLayoutMasterDtl": "Please add warehouse layout master details.",
+  "InvalidUsrGrp": "Invalid user group.",
+  "MaxValueMsg": "Value entered is greater than the limit.",
 
   "Dummy": "Dummy"  
 }

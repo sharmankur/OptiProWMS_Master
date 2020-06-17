@@ -471,7 +471,7 @@ export class ContainerBatchserialComponent implements OnInit {
       }
       if (this.Selectedlink == 2) {
         CalQty = this.commonData.validateOnCheck(this.SelectedRowsforShipmentArr, dataitem.AvailableQty, this.OpenQty, this.SelectedQty);
-      } if (this.Selectedlink == 3) {
+      }else if (this.Selectedlink == 3) {
         CalQty = this.ContainerBatchSerials[idx].AvailableQty;
       } else {
         CalQty = 0;
@@ -525,6 +525,11 @@ export class ContainerBatchserialComponent implements OnInit {
       this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
         this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
+      }
+    }else if (this.Selectedlink == 3) {
+      // this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
+        this.ContainerBatchSerials[upIdx].SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       }
     }
   }
@@ -640,15 +645,21 @@ export class ContainerBatchserialComponent implements OnInit {
       return;
     }
 
-    let array = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE == this.ContainsItemID);
-    var sum = array.reduce(function (a, b) {
-      return a + parseFloat(b.AssignQty);
-    }, 0);
-    this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
 
-    for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
-      this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
+
+    if(this.Selectedlink == 3){
+      this.ContainerBatchSerials[rowindex].SelectedQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    }else{
+      let array = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE == this.ContainsItemID);
+      var sum = array.reduce(function (a, b) {
+        return a + parseFloat(b.AssignQty);
+      }, 0);
+      this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
+        this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
+      }
     }
+    
   }
 
   getLotNoInventoryData(WHSE, Bin) {

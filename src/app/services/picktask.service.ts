@@ -13,7 +13,7 @@ export class PickTaskService {
   public config_params: any;
   public outRequest: OutRequest = new OutRequest();
 
-  constructor(private httpclient: HttpClient,private commonService:Commonservice) {
+  constructor(private httpclient: HttpClient, private commonService: Commonservice) {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }
 
@@ -44,10 +44,10 @@ export class PickTaskService {
   InsertIntoContainerRelationship(OPTM_CONTAINER_TYPE: string, OPTM_PARENT_CONTTYPE: string, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID"), 
+        CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE,
         OPTM_PARENT_CONTTYPE: OPTM_PARENT_CONTTYPE,
-        OPTM_CONT_PERPARENT: OPTM_CONT_PERPARENT, 
+        OPTM_CONT_PERPARENT: OPTM_CONT_PERPARENT,
         OPTM_CONT_PARTOFPARENT: OPTM_CONT_PARTOFPARENT,
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
@@ -58,10 +58,10 @@ export class PickTaskService {
   UpdateContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID"), 
+        CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE,
         OPTM_PARENT_CONTTYPE: OPTM_PARENT_CONTTYPE,
-        OPTM_CONT_PERPARENT: OPTM_CONT_PERPARENT, 
+        OPTM_CONT_PERPARENT: OPTM_CONT_PERPARENT,
         OPTM_CONT_PARTOFPARENT: OPTM_CONT_PARTOFPARENT,
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
@@ -75,53 +75,57 @@ export class PickTaskService {
   }
 
   SubmitPickList(oSubmitPOLots: any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(oSubmitPOLots) };    
+    var jObject = { Shipment: JSON.stringify(oSubmitPOLots) };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/SubmitPickList", jObject, this.commonService.httpOptions);
   }
 
-  
+
   /**
    * check whs is valid or not.
    * @param whsCode 
    */
-  isWHSExists(whsCode:string){
+  isWHSExists(whsCode: string) {
 
-    var jObject = { WhsCode: JSON.stringify([{ CompanyDBId:  localStorage.getItem("CompID"), ItemCode: '', WhsCode: whsCode}]) };
+    var jObject = { WhsCode: JSON.stringify([{ CompanyDBId: localStorage.getItem("CompID"), ItemCode: '', WhsCode: whsCode }]) };
     return this.httpclient.post(this.config_params.service_url + "/api/GoodReceiptPO/IsWhsExist", jObject, this.commonService.httpOptions);
   }
 
-   /**
-   * check is serial exists or not.
-   * @param whsCode 
-   */
-  isSerialExists(itemCode:string, serialNo:string){
-    var jObject = { SerialNo: JSON.stringify([{ CompanyDBId:  localStorage.getItem("CompID"), ItemCode: itemCode, SerialNo: serialNo}]) };
+  /**
+  * check is serial exists or not.
+  * @param whsCode 
+  */
+  isSerialExists(itemCode: string, serialNo: string) {
+    var jObject = { SerialNo: JSON.stringify([{ CompanyDBId: localStorage.getItem("CompID"), ItemCode: itemCode, SerialNo: serialNo }]) };
     return this.httpclient.post(this.config_params.service_url + "/api/GoodReceiptPO/CheckSerialNo", jObject, this.commonService.httpOptions);
   }
-  
+
   /**
    * check and scan code.
    * @param whsCode 
    */
-  checkAndScanCode(vendCode:string,scanInputString){
-    var jObject = {Gs1Token: JSON.stringify([{Vsvendorid:vendCode,StrScan:scanInputString,CompanyDBId:localStorage.getItem("CompID")}])};
+  checkAndScanCode(vendCode: string, scanInputString) {
+    var jObject = { Gs1Token: JSON.stringify([{ Vsvendorid: vendCode, StrScan: scanInputString, CompanyDBId: localStorage.getItem("CompID") }]) };
     return this.httpclient.post(this.config_params.service_url + "/api/Gs1/GS1SETUP", jObject, this.commonService.httpOptions);
   }
 
-    /**
-    * This API method will return base64 string for pdf format for print.
-    * @param item 
-    * @param binNo 
-    * @param noOfCopies 
-    */
-   printingServiceForSubmitGRPO(psReceiptNo:string) : Observable<any> {
-    var jObject = { PrintingObject: JSON.stringify([{ CompanyDBId: localStorage.getItem("CompID"),
-    USERID: localStorage.getItem("UserId"), RPTID: 6, DOCNO: psReceiptNo, 
-    GUID: localStorage.getItem("GUID"), UsernameForLic: localStorage.getItem("UserId") }]) };
+  /**
+  * This API method will return base64 string for pdf format for print.
+  * @param item 
+  * @param binNo 
+  * @param noOfCopies 
+  */
+  printingServiceForSubmitGRPO(psReceiptNo: string): Observable<any> {
+    var jObject = {
+      PrintingObject: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        USERID: localStorage.getItem("UserId"), RPTID: 6, DOCNO: psReceiptNo,
+        GUID: localStorage.getItem("GUID"), UsernameForLic: localStorage.getItem("UserId")
+      }])
+    };
     return this.httpclient.post(this.config_params.service_url + "/api/Printing/WMSPrintingService", jObject, this.commonService.httpOptions);
-   }
+  }
 
-   GetPalletListsForGRPO(opType: number, itemCode: string, BinCode: string): Observable<any> {
+  GetPalletListsForGRPO(opType: number, itemCode: string, BinCode: string): Observable<any> {
     var jObject = {
       PalletCode: JSON.stringify([{
         COMPANYDBNAME: localStorage.getItem("CompID"),
@@ -149,41 +153,51 @@ export class PickTaskService {
   }
 
 
-  FillPickListDataInGrid(FROMSHIPMENTID:any,TOSHIPMENTID:any, OPTM_WHSECODE:any, OPTM_PICKLISTBASIS:any, OPTM_PLANSHIFT:any, OPTM_STATUS:any,
-    OPTM_PLANDATE:any): Observable<any> {
+  FillPickListDataInGrid(FROMSHIPMENTID: any, TOSHIPMENTID: any, OPTM_WHSECODE: any, OPTM_PICKLISTBASIS: any, OPTM_PLANSHIFT: any, OPTM_STATUS: any,
+    OPTM_PLANDATE: any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         FROMSHIPMENTID: FROMSHIPMENTID,
         TOSHIPMENTID: TOSHIPMENTID,
-        OPTM_WHSECODE: OPTM_WHSECODE,         
+        OPTM_WHSECODE: OPTM_WHSECODE,
         OPTM_STATUS: OPTM_STATUS,
         OPTM_PICKLISTBASIS: OPTM_PICKLISTBASIS,
         OPTM_PLANSHIFT: OPTM_PLANSHIFT,
         OPTM_PLANDATE: OPTM_PLANDATE,
-       
+
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetPickListData", jObject, this.commonService.httpOptions);
   }
 
 
-  updateReleaseStatusForPickListItems(OPTM_PICKLIST_CODE_List:any): Observable<any> {
-      var arrRequestBody=[];
-      for(let i=0;i<OPTM_PICKLIST_CODE_List.length;i++){
-         var obj = {CompanyDBId: localStorage.getItem("CompID"), OPTM_PICKLIST_ID: OPTM_PICKLIST_CODE_List[i]}
-         arrRequestBody.push(obj);
-      }
+  updateReleaseStatusForPickListItems(OPTM_PICKLIST_CODE_List: any): Observable<any> {
+    var arrRequestBody = [];
+    for (let i = 0; i < OPTM_PICKLIST_CODE_List.length; i++) {
+      var obj = { CompanyDBId: localStorage.getItem("CompID"), OPTM_PICKLIST_ID: OPTM_PICKLIST_CODE_List[i] }
+      arrRequestBody.push(obj);
+    }
     let jObject = {
       Shipment: JSON.stringify(arrRequestBody)
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/ReleasePickList", jObject, this.commonService.httpOptions);
   }
 
-  updatePickItemsAndTasks(data:any): Observable<any> {
-    var jObject = { Shipment: JSON.stringify(data) };    
+  updatePickItemsAndTasks(data: any): Observable<any> {
+    var jObject = { Shipment: JSON.stringify(data) };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/UpdateMaintainPicklist", jObject, this.commonService.httpOptions);
+  }
 
-  return this.httpclient.post(this.config_params.service_url + "/api/PickList/UpdateMaintainPicklist", jObject, this.commonService.httpOptions);
-}
+  GetUserGroup(whse: string, OPTM_USERGROUP: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_WHSE: whse,
+        OPTM_USERGROUP: OPTM_USERGROUP
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetUserGroup", jObject, this.commonService.httpOptions);
+  }
 }
 

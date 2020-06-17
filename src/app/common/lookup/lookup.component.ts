@@ -1184,69 +1184,86 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  // on_Selectall_checkbox_checked(checkedvalue) {
-  //   var isExist = 0;
-  //   // this.CheckedData = []
-  //   this.selectall = false
-  //   if (checkedvalue == true) {
-  //     if (this.serviceData.length > 0) {
-  //       this.selectall = true
-  //       for (let i = 0; i < this.serviceData.length; ++i) {
-  //         let servivceItem: any = this.serviceData[i];
-  //         this.selectedValues.push(servivceItem);
-  //       }
-  //     }
-  //   }
-  //   else {
-  //     this.selectall = false
-  //     this.selectedValues = [];
-  //   }
-  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
-  // }
+  on_Selectall_checkbox_checked(checkedvalue) {
+    // this.selectedValues = [];
+    // for (let i = 0; i < this.serviceData.length; ++i) {
+    //   let servivceItem: any = this.serviceData[i];
+    //   servivceItem.checked = this.selectall
+    //   this.selectedValues.push(servivceItem);
+    // }
+    // this.onChangeSelection.emit(Object.values(this.selectedValues));
 
-  // onCheckboxClick(checked: any, index: number) {
-  //   let servivceItem: any = this.serviceData[index];
-  //   if (checked) {
-  //     this.selectedValues.push(servivceItem);
-  //   } else {
-  //     for(let i=0;i<this.selectedValues.length;i++){
-  //       if(this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE){
-  //         this.selectedValues.splice(i, 1);
-  //       }
-  //     }
-  //   }
-  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
-  // }
+
+    this.selectall = false
+    if (checkedvalue == true) {
+      if (this.serviceData.length > 0) {
+        this.selectall = true
+        for (let i = 0; i < this.serviceData.length; ++i) {
+          let servivceItem: any = this.serviceData[i];
+          servivceItem.checked = this.selectall
+          this.selectedValues.push(servivceItem);
+        }
+      }
+    }
+    else {
+      this.selectall = false
+      this.selectedValues = [];
+    }
+    this.onChangeSelection.emit(Object.values(this.selectedValues));
+  }
+
+  onCheckboxClick(checked: any, index: number) {
+    let servivceItem: any = this.serviceData[index];
+    if (checked) {
+      servivceItem.checked = true;
+      this.selectedValues.push(servivceItem);
+    } else {
+      // for(let i=0;i<this.selectedValues.length;i++){
+      //   if(this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE){
+      //     this.selectedValues.splice(i, 1);
+      //   }
+      // }
+      servivceItem.checked = false;
+      this.selectedValues.splice(index, 1);
+    }
+    if(this.serviceData.length == this.selectedValues.length){
+      this.selectall = true;
+    }else{
+      this.selectall = false;
+    }
+    this.onChangeSelection.emit(Object.values(this.selectedValues));
+  }
 
   //---------------------------
 
-  on_Selectall_checkbox_checked(checkedvalue) {
-    var isExist = 0;
-    // this.CheckedData = []
-    this.selectall = checkedvalue
-    // if (checkedvalue == true) {
-    //   if (this.serviceData.length > 0) {
-    //     this.selectall = true
-    //     this.selectedValues = [];
-    //     for (let i = 0; i < this.serviceData.length; ++i) {
-    //       let servivceItem: any = this.serviceData[i];
-    //       servivceItem.checked = true
-    //       this.selectedValues.push(servivceItem);
-    //     }
-    //   }
-    // }
-    // else {
-    //   this.selectall = false
-    //   this.selectedValues = [];
-    // }
+  // on_Selectall_checkbox_checked(checkedvalue) {
+  //   var isExist = 0;
+  //   // this.CheckedData = []
+  //   this.selectall = checkedvalue
+  //   // if (checkedvalue == true) {
+  //   //   if (this.serviceData.length > 0) {
+  //   //     this.selectall = true
+  //   //     this.selectedValues = [];
+  //   //     for (let i = 0; i < this.serviceData.length; ++i) {
+  //   //       let servivceItem: any = this.serviceData[i];
+  //   //       servivceItem.checked = true
+  //   //       this.selectedValues.push(servivceItem);
+  //   //     }
+  //   //   }
+  //   // }
+  //   // else {
+  //   //   this.selectall = false
+  //   //   this.selectedValues = [];
+  //   // }
 
-    this.selectedValues = [];
-    for (let i = 0; i < this.serviceData.length; ++i) {
-      let servivceItem: any = this.serviceData[i];
-      servivceItem.checked = this.selectall
-      this.selectedValues.push(servivceItem);
-    }
-  }
+  //   this.selectedValues = [];
+  //   for (let i = 0; i < this.serviceData.length; ++i) {
+  //     let servivceItem: any = this.serviceData[i];
+  //     servivceItem.checked = this.selectall
+  //     this.selectedValues.push(servivceItem);
+  //   }
+  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
+  // }
 
   isAlreadySelected(value){
     for (let i = 0; i < this.selectedValues.length; i++) {
@@ -1261,46 +1278,47 @@ export class LookupComponent implements OnInit {
     }
     return false;
   }
-  onCheckboxClick(checked: any, index: number) {
-    let servivceItem: any = this.serviceData[index];
-    if (checked) {
-      servivceItem.checked = true
-      var isExist = false;
-      for (let i = 0; i < this.selectedValues.length; i++) {
-        if (this.lookupfor == "CTList") {
-          if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
-            isExist = true
-          }
-        } else {
+
+  // onCheckboxClick(checked: any, index: number) {
+  //   let servivceItem: any = this.serviceData[index];
+  //   if (checked) {
+  //     servivceItem.checked = true
+  //     var isExist = false;
+  //     for (let i = 0; i < this.selectedValues.length; i++) {
+  //       if (this.lookupfor == "CTList") {
+  //         if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
+  //           isExist = true
+  //         }
+  //       } else {
   
-        }
-      }
-      if(!isExist){
-        this.selectedValues.push(servivceItem);
-      }
-    } else {
-      servivceItem.checked = false
-      if (this.lookupfor == "CTList") {
-        for (let i = 0; i < this.selectedValues.length; i++) {
-          if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
-            this.selectedValues.splice(i, 1);
-          }
-        }
-      } else {
-        for (let i = 0; i < this.selectedValues.length; i++) {
-          if (this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE) {
-            this.selectedValues.splice(i, 1);
-          }
-        }
-      }
-    }
-    this.onChangeSelection.emit(Object.values(this.selectedValues));
-    if (this.selectedValues.length == this.serviceData.length) {
-      this.selectall = true
-    } else {
-      this.selectall = false
-    }
-  }
+  //       }
+  //     }
+  //     if(!isExist){
+  //       this.selectedValues.push(servivceItem);
+  //     }
+  //   } else {
+  //     servivceItem.checked = false
+  //     if (this.lookupfor == "CTList") {
+  //       for (let i = 0; i < this.selectedValues.length; i++) {
+  //         if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
+  //           this.selectedValues.splice(i, 1);
+  //         }
+  //       }
+  //     } else {
+  //       for (let i = 0; i < this.selectedValues.length; i++) {
+  //         if (this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE) {
+  //           this.selectedValues.splice(i, 1);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
+  //   if (this.selectedValues.length == this.serviceData.length) {
+  //     this.selectall = true
+  //   } else {
+  //     this.selectall = false
+  //   }
+  // }
 
 
   // checkExist(value){

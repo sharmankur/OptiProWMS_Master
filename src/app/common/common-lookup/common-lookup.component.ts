@@ -241,6 +241,9 @@ export class CommonLookupComponent implements OnInit {
     }else if(this.lookupfor == "showContBatchSerialList"){
       this.showContBatchSerialList();
     }
+    else if(this.lookupfor == "UserGrp"){
+      this.showUserGrpList();
+    }
     this.dialogOpened = true;
     this.clearFilters();
     this.isColumnFilter = false
@@ -486,6 +489,29 @@ export class CommonLookupComponent implements OnInit {
       },
     ];
     this.lookupTitle = this.translate.instant("BatchSerialList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }  
+
+  showUserGrpList(){
+    this.table_head = [
+      {
+        field: 'OPTM_GROUPCODE',
+        title: this.translate.instant("AssignedUserGroup"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("UserGroupList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
