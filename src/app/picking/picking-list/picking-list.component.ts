@@ -868,7 +868,7 @@ export class PickingListComponent implements OnInit {
   // }
 
   GetUserGroup(value, dataItem, index, display_name, event) {
-    // this.srcWhsID = dataItem.OPTM_SRC_BIN;
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     this.selectedPickTaskRow = dataItem;
     if ((value == undefined || value == "") && event == "blur") {
       return;
@@ -877,7 +877,7 @@ export class PickingListComponent implements OnInit {
       value = "";
     }
     this.showLoader = true;
-    this.picktaskService.GetUserGroup(dataItem.OPTM_SRC_BIN, value).subscribe(
+    this.picktaskService.GetUserGroup(dataItem.OPTM_SRC_BIN, value, this.srcWhsID).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
