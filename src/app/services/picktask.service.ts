@@ -189,15 +189,27 @@ export class PickTaskService {
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/UpdateMaintainPicklist", jObject, this.commonService.httpOptions);
   }
 
-  GetUserGroup(whse: string, OPTM_USERGROUP: string): Observable<any> {
+  GetUserGroup(OPTM_BIN: string, OPTM_USERGROUP: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_WHSE: whse,
+        OPTM_BIN: OPTM_BIN,
         OPTM_USERGROUP: OPTM_USERGROUP
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetUserGroup", jObject, this.commonService.httpOptions);
+  }
+
+  IsAllItemPresentInSelectedBin(OPTM_TASKID: string, OPTM_WHSCODE: string, OPTM_BINNO): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_TASKID: OPTM_TASKID,
+        OPTM_WHSCODE: OPTM_WHSCODE,
+        OPTM_BINNO: OPTM_BINNO
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/IsAllItemPresentInSelectedBin", jObject, this.commonService.httpOptions);
   }
 }
 

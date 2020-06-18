@@ -486,6 +486,7 @@ export class PickingListComponent implements OnInit {
           this.selectedPickTaskRow.OPTM_SRC_BIN = $event.BinCode;
           this.updatedPickTasksArray.push(this.selectedPickTaskRow);
         }
+        this.IsAllItemPresentInSelectedBin(this.selectedPickTaskRow, $event.BinCode);
       } else if (this.lookupfor == "ShipIdFrom") {
         this.ShipmentIdFrom = $event.OPTM_SHIPMENTID;
         this.ShipmentCodeFrom = $event.OPTM_SHIPMENT_CODE;
@@ -786,6 +787,48 @@ export class PickingListComponent implements OnInit {
               this.selectedPickTaskRow.OPTM_SRC_BIN = data[0].BinCode;
               this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             }
+            this.IsAllItemPresentInSelectedBin(dataItem, data[0].BinCode);
+          } else {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+          }
+        } else {
+          this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+          this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  IsAllItemPresentInSelectedBin(dataItem, bincode){
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    // this.selectedPickTaskRow = dataItem;
+    // if (bincode == undefined || bincode == "") {
+    //   return;
+    // }
+    this.showLoader = true;
+    this.picktaskService.IsAllItemPresentInSelectedBin(dataItem.OPTM_TASKID, this.srcWhsID, bincode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.length > 0) {
+
           } else {
             this.selectedPickTaskRow.OPTM_SRC_BIN = ""
             this.updatedPickTasksArray.push(this.selectedPickTaskRow);
@@ -825,7 +868,7 @@ export class PickingListComponent implements OnInit {
   // }
 
   GetUserGroup(value, dataItem, index, display_name, event) {
-    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    // this.srcWhsID = dataItem.OPTM_SRC_BIN;
     this.selectedPickTaskRow = dataItem;
     if ((value == undefined || value == "") && event == "blur") {
       return;
@@ -834,7 +877,7 @@ export class PickingListComponent implements OnInit {
       value = "";
     }
     this.showLoader = true;
-    this.picktaskService.GetUserGroup(this.srcWhsID, value).subscribe(
+    this.picktaskService.GetUserGroup(dataItem.OPTM_SRC_BIN, value).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
