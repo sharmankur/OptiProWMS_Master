@@ -1705,7 +1705,7 @@ export class AddItemToContComponent implements OnInit {
           this.scanLotNo.nativeElement.focus()
         }
         //this.toastr.error('', this.translate.instant("CannotRemoveCont"));
-        this.toastr.error('Add this msg string', 'Selected Batch / Serial not available in internal container');
+        this.toastr.error('Srini', 'Selected Batch / Serial not available in internal container');
       }        
       return;
     } 
@@ -2414,6 +2414,11 @@ export class AddItemToContComponent implements OnInit {
   }
 
   getAutoPackRule(action) {
+    if (this.ConSelectionType == 2) {
+      this.toastr.error('Srini', 'Cannot change rule on existing Container');
+      return;
+    }
+
     this.clearlookFields("CAR");
     let RuleId = '';
     if (this.containerType == undefined || this.containerType == "") {
@@ -2422,7 +2427,7 @@ export class AddItemToContComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectContainerMsg"));
       return;
     }
-
+    
     this.RuleItems = [];
     if (action == 'blur') {
       this.containerCode = '';
@@ -2447,12 +2452,14 @@ export class AddItemToContComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-
+          
+          /*
           if (data.OPTM_CONT_AUTORULEHDR.length > 0) {
             this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;
             //this.AutoRuleDTL = data.OPTM_CONT_AUTORULEDTL;
             this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
           }
+          */
 
           if (action == 'lookup' || action == 'query') {
             //this.showLookup = true;           
@@ -2479,6 +2486,8 @@ export class AddItemToContComponent implements OnInit {
               this.lookupfor = "CARList";
             }
           } else {
+            this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;            
+            this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
             this.CheckNonTrackItemsExistInRule();            
             /*
             if (data.OPTM_CONT_AUTORULEHDR.length > 0) {              
@@ -2998,7 +3007,12 @@ export class AddItemToContComponent implements OnInit {
     this.binNo = OPTM_CONT_HDR.OPTM_BIN;
     this.containerType = OPTM_CONT_HDR.OPTM_CONTTYPE;
     this.autoRuleId = OPTM_CONT_HDR.OPTM_AUTORULEID;
-    this.getAutoPackRule('query');    
+    if (this.autoRuleId != '' && this.autoRuleId != null) {
+      this.getAutoPackRule('query');
+    } else {
+      this.RuleItems = [];
+    }        
+      
     this.soNumber = OPTM_CONT_HDR.DocNum;
     this.soDocEntry = OPTM_CONT_HDR.OPTM_SO_NUMBER;
     this.containerGroupCode = OPTM_CONT_HDR.OPTM_GROUP_CODE;
@@ -3543,7 +3557,11 @@ export class AddItemToContComponent implements OnInit {
           }
           
           */
-          this.selInternalContainerDtl = [];
+
+          if (this.InternalContCode != $event.IntContainerCode) {
+            this.selInternalContainerDtl = [];
+          }
+          
           if (this.InternalContCode != '') {
             this.selInternalContainerDtl.push({
               Container_ID: $event.ContId,
@@ -3947,7 +3965,7 @@ export class AddItemToContComponent implements OnInit {
     this.showLoader = true;
 
     var idx: number = -1;
-    if (this.selInternalContainerDtl != null) {
+    if (this.selInternalContainerDtl != null) {      
       idx = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
     }
     if (idx > -1) {
