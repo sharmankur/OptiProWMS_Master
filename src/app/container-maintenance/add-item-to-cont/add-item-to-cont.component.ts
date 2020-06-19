@@ -1375,6 +1375,13 @@ export class AddItemToContComponent implements OnInit {
                 this.ItemInvQty = data[0].TOTALQTY;
                 this.InternalContCode = '';
               }
+
+              if (this.ItemInvQty <= 0) {
+                this.toastr.error('Srini', 'Inventory not available for item ' + this.scanItemCode);
+                this.scanItemCode = '';
+                this.scanItemTracking = '';
+                return;
+              }
               
               // Srini Add Item Weight from Item Master
               this.itemWt = data[0].IWeight1;              
@@ -1389,6 +1396,12 @@ export class AddItemToContComponent implements OnInit {
                 this.RuleQty = data[0].OPTM_PARTS_PERCONT;
                 this.itemQty = data[0].OPTM_PARTS_PERCONT;
                 this.ValidItemQty = data[0].OPTM_PARTS_PERCONT;
+
+                if (this.itemQty > this.ItemInvQty) {
+                  this.itemQty = this.ItemInvQty;
+                  this.toastr.error('Srini', 'Inventory not fully available for item ' + this.scanItemCode);                  
+                }              
+                
                 idx = this.RuleItems.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
                 if (idx > -1) {
                   //this.itemPackWt = this.RuleItems[idx].Quantity
@@ -2415,8 +2428,10 @@ export class AddItemToContComponent implements OnInit {
 
   getAutoPackRule(action) {
     if (this.ConSelectionType == 2) {
-      this.toastr.error('Srini', 'Cannot change rule on existing Container');
-      return;
+      if (action != 'query') {
+        this.toastr.error('Srini', 'Cannot change rule on existing Container');
+        return;
+      }
     }
 
     this.clearlookFields("CAR");
@@ -2427,7 +2442,7 @@ export class AddItemToContComponent implements OnInit {
       this.toastr.error('', this.translate.instant("SelectContainerMsg"));
       return;
     }
-    
+
     this.RuleItems = [];
     if (action == 'blur') {
       this.containerCode = '';
@@ -2461,7 +2476,8 @@ export class AddItemToContComponent implements OnInit {
           }
           */
 
-          if (action == 'lookup' || action == 'query') {
+          //if (action == 'lookup' || action == 'query') {
+          if (action == 'lookup') {
             //this.showLookup = true;           
             
             this.serviceData = data.OPTM_CONT_AUTORULEHDR;
@@ -2488,7 +2504,9 @@ export class AddItemToContComponent implements OnInit {
           } else {
             this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;            
             this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
-            this.CheckNonTrackItemsExistInRule();            
+            if (action == 'blur'){
+              this.CheckNonTrackItemsExistInRule(); 
+            }                       
             /*
             if (data.OPTM_CONT_AUTORULEHDR.length > 0) {              
               //Get Item details only when Container is created in Auto mode.
@@ -2935,7 +2953,7 @@ export class AddItemToContComponent implements OnInit {
     this.ScannedContainerStatus = 0;
       
     this.containerCreationService.CheckContainer(this.containerCode, this.whse, this.binNo, this.autoRuleId, this.containerGroupCode,
-      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, false).subscribe(
+      this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, false, true).subscribe(
         (data: any) => {
           this.showLoader = false;
           result = this.DisplayContainerData(data);

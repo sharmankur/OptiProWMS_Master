@@ -223,7 +223,7 @@ export class ContainerCreationService {
 
   //Validate container parameters against the parameters entered in the screen
   CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE,
-    blnParentFlg): Observable<any> {
+    blnParentFlg, blnValidateCreateModeAndRuleID): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -237,7 +237,8 @@ export class ContainerCreationService {
         PURPOSE: PURPOSE,
         OPERATION: OPERATION,
         CREATEMODE: CREATEMODE,
-        PARENT_FLG: blnParentFlg
+        PARENT_FLG: blnParentFlg,
+        ValidateCreateModeAndRuleID: blnValidateCreateModeAndRuleID
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);

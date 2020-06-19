@@ -894,7 +894,7 @@ export class BuildParentContainerComponent implements OnInit {
     }
 
     if (this.containerType == "" || this.containerType == undefined) {
-      this.parentcontainerCode = '';
+      //this.parentcontainerCode = ''; Srini19-Jun-2020
       this.childcontainerCode = '';
       this.toastr.error('', this.translate.instant("EnterContainerType"));
       return false;
@@ -993,7 +993,7 @@ export class BuildParentContainerComponent implements OnInit {
       this.binNo, "",
       this.containerGroupCode,
       this.soNumber, this.parentContainerType,
-      this.purps, operation, 3, true).subscribe(
+      this.purps, operation, 3, false, false).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
