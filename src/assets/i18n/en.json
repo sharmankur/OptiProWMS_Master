@@ -1083,6 +1083,8 @@
   "WhseLayoutMasterDtl": "Please add warehouse layout master details.",
   "InvalidUsrGrp": "Invalid user group.",
   "MaxValueMsg": "Value entered is greater than the limit.",
+  "selectedBinMsg": "Can't select this bin because task items not exists in this.",
+  "Click_Here": "Click here",
 
   "Dummy": "Dummy"  
 }

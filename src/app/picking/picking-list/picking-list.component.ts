@@ -811,6 +811,40 @@ export class PickingListComponent implements OnInit {
     );
   }
 
+  showShipmentList(dataItem){
+    this.showLoader = true;
+    this.picktaskService.GetAllShipmentOfPicklist(dataItem.OPTM_PICKLIST_ID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.Table.length > 0) {
+            this.lookupfor = "PicklistShipments";
+            this.serviceData = data.Table;
+            this.showLookup = true;
+          } else {
+
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   IsAllItemPresentInSelectedBin(dataItem, bincode){
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     // this.selectedPickTaskRow = dataItem;
@@ -827,17 +861,18 @@ export class PickingListComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = bincode;
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
           } else {
             this.selectedPickTaskRow.OPTM_SRC_BIN = ""
             this.updatedPickTasksArray.push(this.selectedPickTaskRow);
-            this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+            this.toastr.error('', this.translate.instant("selectedBinMsg"));
           }
         } else {
           this.selectedPickTaskRow.OPTM_SRC_BIN = ""
           this.updatedPickTasksArray.push(this.selectedPickTaskRow);
-          this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
+          this.toastr.error('', this.translate.instant("selectedBinMsg"));
         }
       },
       error => {
@@ -913,6 +948,7 @@ export class PickingListComponent implements OnInit {
             if (event == "blur") {
               this.selectedPickTaskRow.OPTM_USER_GRP = ""
               this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+              display_name.value = "";
             }
             this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
           }
@@ -920,6 +956,7 @@ export class PickingListComponent implements OnInit {
           if (event == "blur") {
             this.selectedPickTaskRow.OPTM_USER_GRP = ""
             this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            display_name.value = "";
           }
           this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
         }

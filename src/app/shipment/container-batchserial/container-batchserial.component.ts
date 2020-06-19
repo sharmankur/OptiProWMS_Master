@@ -492,6 +492,9 @@ export class ContainerBatchserialComponent implements OnInit {
         this.ContainerBatchSerials[idx].AssignQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.ContainerBatchSerials[idx].QtytoAssign = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
         this.ContainerBatchSerials[idx].Selected = true;
+        if(this.Selectedlink == 3){
+          this.ContainerBatchSerials[idx].SelectedQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        }
         this.SelectedRowsforShipmentArr.push(dataitem);
       }
     }
@@ -526,12 +529,13 @@ export class ContainerBatchserialComponent implements OnInit {
       for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
         this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
       }
-    }else if (this.Selectedlink == 3) {
-      // this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-      for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
-        this.ContainerBatchSerials[upIdx].SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-      }
     }
+    // else if (this.Selectedlink == 3) {
+    //   // this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    //   for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
+    //     this.ContainerBatchSerials[upIdx].SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    //   }
+    // }
   }
 
   onAssignShipmentPress() {

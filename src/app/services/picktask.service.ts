@@ -212,5 +212,17 @@ export class PickTaskService {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/IsAllItemPresentInSelectedBin", jObject, this.commonService.httpOptions);
   }
+
+
+  GetAllShipmentOfPicklist(OPTM_PICKLIST_ID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_PICKLIST_ID: OPTM_PICKLIST_ID
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetAllShipmentOfPicklist", jObject, this.commonService.httpOptions);
+  }
+  
 }
 

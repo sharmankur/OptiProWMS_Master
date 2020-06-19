@@ -234,7 +234,7 @@ export class CommonLookupComponent implements OnInit {
       
     }else if(this.lookupfor == "RULEITEMS"){
       this.showRuleItemList();
-    } else if(this.lookupfor == "AutoAllocate"){
+    } else if(this.lookupfor == "AutoAllocate"||this.lookupfor == "PicklistShipments"){
       this.showShipsForAutoAllocate();
     }else if(this.lookupfor == "ContItems"){
       this.showContitems();
@@ -1153,12 +1153,16 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_CONT_PERPARENT',
         title: this.translate.instant("CTRContainersPerParent"),
+        headerClass: 'text-right',
+        class: 'text-right',
         type: 'text',
         width: '100'
       },
       {
         field: 'OPTM_CONT_PARTOFPARENT',
         title: this.translate.instant("CTRContainerPartofParent"),
+        headerClass: 'text-right',
+        class: 'text-right',
         type: 'text',
         width: '100'
       }   
@@ -1431,7 +1435,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("ShipmentLineDetails");
+    this.lookupTitle = this.translate.instant("PT_ShipmentList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

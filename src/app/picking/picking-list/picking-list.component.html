@@ -147,7 +147,8 @@
                             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                 <div class="custom-control custom-checkbox">
                                     <input #chkSelection type="checkbox" (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
-                                        id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" [disabled]="dataItem.OPTM_STATUS==6"/>
+                                        id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" [disabled]="dataItem.OPTM_STATUS==6"
+                                    />
                                     <label class="custom-control-label" for="chkbox-{{idx}}"></label>
                                 </div>
                             </ng-template>
@@ -191,7 +192,8 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PLANDATETIME" [width]="65" headerClass="text-left" title="{{'PlanDateTime'|translate}}"
                             filter="date">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <kendo-datepicker name="pickdt" [format]='MM/dd/yyyy' (valueChange)="changePlanDateTime($event,dataItem,rowIndex)" [value]="dataItem.OPTM_PLANDATETIME_Object" [disabled]="dataItem.OPTM_STATUS==6">
+                                <kendo-datepicker name="pickdt" [format]='MM/dd/yyyy' (valueChange)="changePlanDateTime($event,dataItem,rowIndex)" [value]="dataItem.OPTM_PLANDATETIME_Object"
+                                    [disabled]="dataItem.OPTM_STATUS==6">
                                 </kendo-datepicker>
                             </ng-template>
                         </kendo-grid-column>
@@ -207,7 +209,8 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PLANWHSESHIFT_ID" (change)="ChangeShieft($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_STATUS==6">
+                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PLANWHSESHIFT_ID" (change)="ChangeShieft($event,dataItem,rowIndex)"
+                                    [disabled]="dataItem.OPTM_STATUS==6">
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_STATUS" [width]="35" title="{{'Status'|translate}}" headerClass="text-left"
@@ -219,7 +222,8 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PRIORITY" [width]="35" title="{{'Priority'|translate}}" headerClass="text-left"
                             class="text-left">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PRIORITY" (change)="ChangePriority($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_STATUS==6">
+                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_PRIORITY" (change)="ChangePriority($event,dataItem,rowIndex)"
+                                    [disabled]="dataItem.OPTM_STATUS==6">
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PICKLIST_CODE" headerClass="text-left" [width]="80" title="{{'PicklistId'|translate}}">
@@ -243,7 +247,8 @@
                      need to check if anything we need  to do like formating etc.
                 </ng-template> -->
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_TOTE_NUMBER" (change)="ChangeToteNumber($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_STATUS==6">
+                                <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_TOTE_NUMBER" (change)="ChangeToteNumber($event,dataItem,rowIndex)"
+                                    [disabled]="dataItem.OPTM_STATUS==6">
                             </ng-template>
 
                         </kendo-grid-column>
@@ -253,9 +258,10 @@
             </kendo-grid-column> -->
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_SHIPMENTID" [width]="45" title="{{'Shipment_Id'|translate}}" headerClass="text-left"
                             class="text-left">
-                            <!-- <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                   need to check if anything we need  to do like formating etc.
-                </ng-template> -->
+                            <ng-template kendoGridCellTemplate let-dataItem class="text-left">
+                                    <a class="dropdown-item" style="color: blue; " class="text-left" (click)="showShipmentList(dataItem)" >{{'Click_Here'|translate}}</a>                           
+                                    <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">Click here</a> -->
+                            </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_CLUSTER_ID" [width]="45" title="{{'ClustureId'|translate}}" headerClass="text-left"
                             class="text-left">
@@ -329,7 +335,8 @@
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SRC_BIN" value={{dataItem.OPTM_SRC_BIN}} id="display_name"
-                                        min="0" #display_name (blur)="IsValidSrcBinCode(idx, display_name.value, display_name,dataItem)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                                        min="0" #display_name (blur)="IsValidSrcBinCode(idx, display_name.value, display_name,dataItem)"
+                                        [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetSrcBinList(idx,dataItem)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                             <i class="opti-icon-search"></i>
@@ -368,11 +375,13 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_USER_GRP" [width]="60" title="{{'AssignedUserGroup'|translate}}"
                             headerClass="text-left" class="text-left">
-                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">          
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" #display_name  class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (blur)="GetUserGroup(display_name.value, dataItem, rowIndex, display_name, 'blur')" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                                    <input type="text" #display_name class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (blur)="GetUserGroup(display_name.value, dataItem, rowIndex, display_name, 'blur')"
+                                        [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                     <div class="input-group-append">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetUserGroup('', dataItem, rowIndex, display_name, 'lookup')" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
+                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetUserGroup('', dataItem, rowIndex, display_name, 'lookup')"
+                                            [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                             <i class="opti-icon-search"></i>
                                         </button>
                                     </div>

@@ -453,10 +453,7 @@ export class CARUpdateComponent implements OnInit {
   }
 
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
-    // if(value > this.maxNOLength){
-    //   this.toastr.error('', this.translate.instant("MaxValueMsg"));
-    //   return;
-    // }
+    
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     if(value < 0 ){
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
@@ -465,7 +462,13 @@ export class CARUpdateComponent implements OnInit {
 
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_PARTS_PERCONT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
+        }                
       }
     }
     this.isUpdateHappen = true
@@ -480,7 +483,13 @@ export class CARUpdateComponent implements OnInit {
 
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
+        }
       }
     }
     this.isUpdateHappen = true
@@ -495,7 +504,13 @@ export class CARUpdateComponent implements OnInit {
 
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_PACKING_MATWT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
+        }
       }
     }
     this.isUpdateHappen = true
