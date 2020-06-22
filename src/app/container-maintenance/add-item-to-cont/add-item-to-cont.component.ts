@@ -556,8 +556,9 @@ export class AddItemToContComponent implements OnInit {
     if (field != "CAR") {
       this.autoRuleId = '';
       this.RuleItems = [];
-      this.containerType = '';
-      this.parentContainerType = "";
+      if (field != "CT") {
+        this.containerType = ''; 
+      }     
     }
     this.containerGroupCode = '';
     this.soNumber = '';    
