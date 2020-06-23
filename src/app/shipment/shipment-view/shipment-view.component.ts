@@ -843,6 +843,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             this.containerCode = "";
+            this.dialogOpened = false;
             if (this.runningProcessName == "Stage") {
               this.onStageORUnstageShipmentClick();
             } else if (this.runningProcessName == "ShippingProcess") {

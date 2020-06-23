@@ -1085,6 +1085,7 @@
   "MaxValueMsg": "Value entered is greater than the limit.",
   "selectedBinMsg": "Can't select this bin because task items not exists in this.",
   "Click_Here": "Click here",
+  "QtyToRemove": "Remove Quantity",
 
   "Dummy": "Dummy"  
 }

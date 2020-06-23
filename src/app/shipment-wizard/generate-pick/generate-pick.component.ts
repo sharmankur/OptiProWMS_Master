@@ -61,7 +61,7 @@ export class GeneratePickComponent implements OnInit {
   isUpdateHappen: boolean = false
   commonData: any = new CommonData(this.translate);
   shiment_status_array: any[] = [];
-  
+
   @ViewChild('cform', { static: false }) cform;
   @ViewChild('custTo', { static: false }) custTo;
   @ViewChild('shipForm', { static: false }) shipForm;
@@ -92,7 +92,7 @@ export class GeneratePickComponent implements OnInit {
 
   ngAfterViewInit() {
     console.log("ngAfterInit");
-    this.cform.nativeElement.focus();
+    this.whse.nativeElement.focus();
   }
   initialize() {
     this.PackListBasisArray = ["Shipment",
@@ -142,6 +142,10 @@ export class GeneratePickComponent implements OnInit {
             if (fieldName == "ShipIdFrom") {
               this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
               this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
+              if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
+                this.ShipIdTo = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+              }
             }
             else if (fieldName == "ShipIdTo") {
               this.ShipIdTo = data[0].OPTM_SHIPMENTID;
@@ -249,6 +253,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ShipFrom") {
               this.ShipToCodeFrom = data[0].Address;
+              if (this.ShipToCodeTo == "" || this.ShipToCodeTo == undefined) {
+                this.ShipToCodeTo = data[0].Address;
+              }
             }
             else if (fieldName == "ShipTo") {
               this.ShipToCodeTo = data[0].Address;
@@ -343,6 +350,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "CustFrom") {
               this.CustomerFrom = data[0].CardCode;
+              if (this.CustomerTo == "" || this.CustomerTo == undefined) {
+                this.CustomerTo = data[0].CardCode;
+              }
             }
             else if (fieldName == "CustTo") {
               this.CustomerTo = data[0].CardCode;
@@ -514,6 +524,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "ItmFrm") {
               this.ItemFrom = data[0].ItemCode;
+              if (this.ItemTo == "" || this.ItemTo == undefined) {
+                this.ItemTo = data[0].ItemCode;
+              }
             }
             else if (fieldName == "ItmTo") {
               this.ItemTo = data[0].ItemCode;
@@ -643,6 +656,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.OPTM_DOCKDOOR.length > 0) {
             if (fieldName == "DDFrom") {
               this.Dock_DoorFrom = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
+              if (this.Dock_DoorTo == "" || this.Dock_DoorTo == undefined) {
+                this.Dock_DoorTo = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
+              }
             }
             else if (fieldName == "DDTo") {
               this.Dock_DoorTo = data.OPTM_DOCKDOOR[0].OPTM_DOCKDOORID;
@@ -736,6 +752,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             if (fromField == "CCFrom") {
               this.CarrierCodeFrom = data[0].OPTM_CARRIERID;
+              if (this.CarrierCodeTo == "" || this.CarrierCodeTo == undefined) {
+                this.CarrierCodeTo = data[0].OPTM_CARRIERID;
+              }
             } else {
               this.CarrierCodeTo = data[0].OPTM_CARRIERID;
             }
@@ -887,6 +906,9 @@ export class GeneratePickComponent implements OnInit {
           if (data.length > 0) {
             if (fieldName == "WOFrom") {
               this.WOFrom = data[0].OPTM_WONO;
+              if (this.WOTo == "" || this.WOTo == undefined) {
+                this.WOTo = data[0].OPTM_WONO;
+              }
             }
             else if (fieldName == "WOTo") {
               this.WOTo = data[0].OPTM_WONO;
@@ -962,42 +984,63 @@ export class GeneratePickComponent implements OnInit {
     }
     else if (this.lookupfor == "ShipFrom") {
       this.ShipToCodeFrom = event.Address;
+      if (this.ShipToCodeTo == "" || this.ShipToCodeTo == undefined) {
+        this.ShipToCodeTo = event.Address;
+      }
     }
     else if (this.lookupfor == "ShipTo") {
       this.ShipToCodeTo = event.Address;
     }
     else if (this.lookupfor == "CustomerFrom") {
       this.CustomerFrom = event.CardCode;
+      if (this.CustomerTo == "" || this.CustomerTo == undefined) {
+        this.CustomerTo = event.CardCode;
+      }
     }
     else if (this.lookupfor == "CustomerTo") {
       this.CustomerTo = event.CardCode;
     }
     else if (this.lookupfor == "ItemFrom") {
       this.ItemFrom = event.ItemCode;
+      if (this.ItemTo == "" || this.ItemTo == undefined) {
+        this.ItemTo = event.ItemCode;
+      }
     }
     else if (this.lookupfor == "ItemTo") {
       this.ItemTo = event.ItemCode;
     }
     else if (this.lookupfor == "CCFrom") {
       this.CarrierCodeFrom = event.OPTM_CARRIERID;
+      if (this.CarrierCodeTo == "" || this.CarrierCodeTo == undefined) {
+        this.CarrierCodeTo = event.OPTM_CARRIERID;
+      }
     }
     else if (this.lookupfor == "CCTo") {
       this.CarrierCodeTo = event.OPTM_CARRIERID;
     }
     else if (this.lookupfor == "DDFrom") {
       this.Dock_DoorFrom = event.OPTM_DOCKDOORID;
+      if (this.Dock_DoorTo == "" || this.Dock_DoorTo == undefined) {
+        this.Dock_DoorTo = event.OPTM_DOCKDOORID;
+      }
     }
     else if (this.lookupfor == "DDTo") {
       this.Dock_DoorTo = event.OPTM_DOCKDOORID;
     }
     else if (this.lookupfor == "SerialNoFrom") {
       this.SONoFrom = event.SODocNum;
+      if (this.SONoTo == "" || this.SONoTo == undefined) {
+        this.SONoTo = event.SODocNum;
+      }
     }
     else if (this.lookupfor == "SerialNoTo") {
       this.SONoTo = event.SODocNum;
     }
     else if (this.lookupfor == "WOFrom") {
       this.WOFrom = event.OPTM_WONO;
+      if (this.WOTo == "" || this.WOTo == undefined) {
+        this.WOTo = event.OPTM_WONO;
+      }
     }
     else if (this.lookupfor == "WOTo") {
       this.WOTo = event.OPTM_WONO;
@@ -1005,6 +1048,10 @@ export class GeneratePickComponent implements OnInit {
     else if (this.lookupfor == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;
       this.ShipmentCodeFrom = event.OPTM_SHIPMENT_CODE;
+      if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
+        this.ShipIdTo = event.OPTM_SHIPMENTID;
+        this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE;
+      }
     }
     else if (this.lookupfor == "ShipIdTo") {
       this.ShipIdTo = event.OPTM_SHIPMENTID;

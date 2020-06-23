@@ -1208,6 +1208,10 @@ export class LookupComponent implements OnInit {
     else {
       this.selectall = false
       this.selectedValues = [];
+      for (let i = 0; i < this.serviceData.length; ++i) {
+        let servivceItem: any = this.serviceData[i];
+          servivceItem.checked = false
+      }      
     }
     this.onChangeSelection.emit(Object.values(this.selectedValues));
   }

@@ -53,6 +53,8 @@ export class ContainerBatchserialComponent implements OnInit {
   ContainerOperationArray: any = [];
   SelectedLinkTitle: any = '';
   Selectedlink: number = 2;
+  avlQtyTitle: string="";
+  allocatesQtyTitle: string="";
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService, private containerBatchserialService: ContainerBatchserialService) {
@@ -277,7 +279,11 @@ export class ContainerBatchserialComponent implements OnInit {
     this.OpenQty = Number($event.OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.Tracking = $event.TRACKING;
     this.SHPStatus = $event.SHPSTATUS;
-    this.getDataFromTempGrid();
+    if(this.Selectedlink == 3){
+      this.fillBatchSerialDataInGrid(this.Selectedlink);
+    }else{
+      this.getDataFromTempGrid();
+    } 
   }
 
   getDataFromTempGrid() {
@@ -338,6 +344,7 @@ export class ContainerBatchserialComponent implements OnInit {
     if (value != undefined) {
       this.Selectedlink = value;
     }
+
     this.SelectedLinkTitle = 'A';
     this.pageChange({ skip: 0, take: this.pageSize });
     this.isColumnFilterView = false;
@@ -346,6 +353,13 @@ export class ContainerBatchserialComponent implements OnInit {
     this.containerBatchserialService.fillBatchSerialDataInGrid(this.SelectedShipmentId, this.WarehouseId, this.BinId,
       this.ContainsItemID, this.SHPStatus, this.Tracking, this.Selectedlink).subscribe(
         (data: any) => {
+          if(this.Selectedlink == 3){
+            this.avlQtyTitle = this.translate.instant("QtyAdded");
+            this.allocatesQtyTitle = this.translate.instant("QtyToRemove");
+          }else{
+            this.avlQtyTitle = this.translate.instant("Available_Quantity");
+            this.allocatesQtyTitle = this.translate.instant("QtyAdded");
+          }
           this.showLoader = false;
           if (data != undefined) {
             if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
@@ -380,7 +394,8 @@ export class ContainerBatchserialComponent implements OnInit {
               this.OpenQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
             } else {
               this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+              let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
+              this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
             }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));

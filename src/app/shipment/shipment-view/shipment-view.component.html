@@ -46,7 +46,7 @@
                                 <div class="form-group row">
                                     <label for="ScheduleDatetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                     <div class="col-sm-8">
-                                        <kendo-datepicker name="ScheduleDatetime" #ScheduleDT [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}} (blur)="onScheduleDateChange($event, ScheduleDT)"
+                                        <kendo-datepicker name="ScheduleDatetime" #ScheduleDT [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}} 
                                             (valueChange)="onScheduleDateChange($event, ScheduleDT)" [disabled]="isarchived"></kendo-datepicker>
                                     </div>
                                 </div>
