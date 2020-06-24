@@ -154,7 +154,7 @@ export class PickTaskService {
 
 
   FillPickListDataInGrid(FROMSHIPMENTID: any, TOSHIPMENTID: any, OPTM_WHSECODE: any, OPTM_PICKLISTBASIS: any, OPTM_PLANSHIFT: any, OPTM_STATUS: any,
-    OPTM_PLANDATE: any): Observable<any> {
+    OPTM_PLANDATE: any, Priority): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -165,7 +165,7 @@ export class PickTaskService {
         OPTM_PICKLISTBASIS: OPTM_PICKLISTBASIS,
         OPTM_PLANSHIFT: OPTM_PLANSHIFT,
         OPTM_PLANDATE: OPTM_PLANDATE,
-
+        OPTM_PRIORITY: Priority
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/GetPickListData", jObject, this.commonService.httpOptions);

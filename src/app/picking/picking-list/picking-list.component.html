@@ -88,6 +88,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group row">
+                        <label for="shipmentId" class="col-sm-4 col-form-label">{{'Priority'|translate}}</label>
+                        <div class="col-sm-8 row">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" name='Priority' [(ngModel)]=Priority id="Priority">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!--row 2nd end-->
@@ -259,8 +270,8 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_SHIPMENTID" [width]="45" title="{{'Shipment_Id'|translate}}" headerClass="text-left"
                             class="text-left">
                             <ng-template kendoGridCellTemplate let-dataItem class="text-left">
-                                    <a class="dropdown-item" style="color: blue; " class="text-left" (click)="showShipmentList(dataItem)" >{{'Click_Here'|translate}}</a>                           
-                                    <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">Click here</a> -->
+                                <a class="dropdown-item" style="color: blue; " class="text-left" (click)="showShipmentList(dataItem)">{{'Click_Here'|translate}}</a>
+                                <!-- <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">Click here</a> -->
                             </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_CLUSTER_ID" [width]="45" title="{{'ClustureId'|translate}}" headerClass="text-left"
@@ -335,7 +346,7 @@
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SRC_BIN" value={{dataItem.OPTM_SRC_BIN}} id="display_name"
-                                        min="0" #display_name (blur)="IsValidSrcBinCode(idx, display_name.value, display_name,dataItem)"
+                                        min="0" #display_name (change)="IsValidSrcBinCode(idx, display_name.value, display_name,dataItem)"
                                         [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetSrcBinList(idx,dataItem)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
@@ -377,7 +388,7 @@
                             headerClass="text-left" class="text-left">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" #display_name class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (blur)="GetUserGroup(display_name.value, dataItem, rowIndex, display_name, 'blur')"
+                                    <input type="text" #display_name class="form-control form-control-sm text-right" [value]="dataItem.OPTM_USER_GRP" (change)="GetUserGroup(display_name.value, dataItem, rowIndex, display_name, 'blur')"
                                         [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                     <div class="input-group-append">
                                         <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetUserGroup('', dataItem, rowIndex, display_name, 'lookup')"
@@ -412,10 +423,10 @@
                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon-with-text" (click)="onCancelClick()">
                     <span class="k-icon k-i-close-outline" role="presentation"></span>
                     {{'Cancel'|translate}}</button>
-                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdatePress()" [disabled]="PickItemList.length==0">
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdatePress()" [disabled]="PickItemListM.length==0">
                     {{'Submit'|translate}}</button>
 
-                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="updateReleaseStatus()" [disabled]="PickItemList.length==0">
+                <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="updateReleaseStatus()" [disabled]="PickItemListM.length==0">
                     {{'Release'|translate}}</button>
             </div>
         </div>

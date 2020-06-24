@@ -57,7 +57,7 @@ export class PickingListComponent implements OnInit {
   public ShipmentCodeTo: any = '';
   ShipmentIdFrom: string = "";
   ShipmentIdTo: string = "";
-
+  Priority: string = "";
 
   @ViewChild('wareHouse', { static: false }) wareHouse;
   @ViewChild('fromShipment', { static: false }) fromShipment;
@@ -93,8 +93,12 @@ export class PickingListComponent implements OnInit {
     //   { Value: 3, Name:  this.translate.instant("Name_Crane") }
     //  ];
     this.selectedMeansValue = this.meansData[0];// { "Value": 1, "Name": "Manual" };
+    this.StatusValue = this.statusArray[0];
   }
 
+  onPriorityChange(){
+
+  }
 
   ngAfterViewInit() {
     console.log("ngAfterInit");
@@ -378,15 +382,15 @@ export class PickingListComponent implements OnInit {
       this.toastr.error('', this.translate.instant("Login_SelectwarehouseMsg"));
       return;
     }
-    this.PickItemList = [];
+    // this.PickItemList = [];
     this.PickTaskList = [];
     this.FillPickListDataInGrid();
   }
 
   ShowGridPaging: boolean = false;
-  PickItemList: any = [];
-  PickItemListM: Array<PLPickListItemModel>;
-  PickTaskListM: Array<PLPickListTaskModel>;
+  // PickItemList: any = [];
+  PickItemListM: Array<PLPickListItemModel> = [];
+  PickTaskListM: Array<PLPickListTaskModel> = [];
   PickTaskList: any = [];
   selectedItemPickTaskList: any = [];
 
@@ -399,7 +403,7 @@ export class PickingListComponent implements OnInit {
     if (this.planDate != undefined) {
       plandateString = this.planDate.toLocaleDateString();
     }
-    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId, PickListBasicVal, planShiftVal, statusVal, plandateString).subscribe(
+    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId, PickListBasicVal, planShiftVal, statusVal, plandateString, this.Priority).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined && data != null) {
@@ -408,13 +412,13 @@ export class PickingListComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.PickItemList = data.OPTM_WHS_PICKLIST;
+          // this.PickItemList = data.OPTM_WHS_PICKLIST;
           this.PickTaskList = data.OPTM_WHSTASKLIST;
           this.PickTaskListM = data.OPTM_WHSTASKLIST;
           this.PickItemListM = data.OPTM_WHS_PICKLIST;
-
+          this.selectall = false;
           this.setTaskMeanValue()
-          if (this.PickItemList.length > 10) {
+          if (this.PickItemListM.length > 10) {
             this.ShowGridPaging = true;
           } else {
             this.ShowGridPaging = false;
@@ -429,11 +433,11 @@ export class PickingListComponent implements OnInit {
             this.selectedItemPickTaskList = [];
           }
 
-          for (let i = 0; i < this.PickItemList.length; i++) {
-            this.PickItemList[i].Selected = false;
-            this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+          // for (let i = 0; i < this.PickItemList.length; i++) {
+          //   this.PickItemList[i].Selected = false;
+          //   this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
 
-          }
+          // }
 
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -533,11 +537,13 @@ export class PickingListComponent implements OnInit {
     if (checkValue == true && !this.selectedPLItems.includes(itemId)) {
       this.selectedPLItems.push(itemId);
       this.selectedPLItemsDataForValidate.push(dataItem);
+      this.PickItemListM[index].Selected = true;
     } else {
       if (checkValue == false && this.selectedPLItems.includes(itemId)) {
         this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId), 1);
         this.selectedPLItemsDataForValidate.splice(this.selectedPLItemsDataForValidate.indexOf(this.filterRow(this.selectedPLItemsDataForValidate, itemId), 1))
       }
+      this.PickItemListM[index].Selected = false;
     }
   }
 
@@ -551,9 +557,8 @@ export class PickingListComponent implements OnInit {
   validateDataForRelase(dataArray: any): boolean {
     var status = true;
     for (let i = 0; i < dataArray.length; i++) {
-      if (dataArray[i].OPTM_STATUS == "2") {
-        status = false;
-        break;
+      if (dataArray[i].OPTM_STATUS != "1") {
+        return status = false;
       }
     }
     return status;
@@ -652,7 +657,7 @@ export class PickingListComponent implements OnInit {
             var result = data.OUTPUT[0].RESULT;
             if (result == "Data Saved") {
               this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-              this.PickItemList = [];
+              // this.PickItemList = [];
               this.PickTaskList = [];
               this.FillPickListDataInGrid();
             } else {
@@ -687,26 +692,26 @@ export class PickingListComponent implements OnInit {
     // this.CheckedData = []
     this.selectall = false
     if (checkedvalue == true) {
-      if (this.PickItemList.length > 0) {
+      if (this.PickItemListM.length > 0) {
         this.selectall = true
         //   this.SelectedRowsforShipmentArr = [];
         this.selectedPLItems = [];
         this.selectedPLItemsDataForValidate = [];
-        for (let i = 0; i < this.PickItemList.length; ++i) {
-          var dataItem = this.PickItemList[i];
+        for (let i = 0; i < this.PickItemListM.length; ++i) {
+          var dataItem = this.PickItemListM[i];
           var itemId = dataItem.OPTM_PICKLIST_ID;
-          this.selectedPLItems.push(itemId);
-          this.selectedPLItemsDataForValidate.push(dataItem);
-          this.PickItemList[i].Selected = true;
+          this.selectedPLItems.push(itemId); // release array
+          this.selectedPLItemsDataForValidate.push(dataItem);  // update 
+          this.PickItemListM[i].Selected = true;
         }
       }
     }
     else {
       this.selectall = false
       // this.selectedValues = [];
-      if (this.PickItemList.length > 0) {
-        for (let i = 0; i < this.PickItemList.length; ++i) {
-          this.PickItemList[i].Selected = false;
+      if (this.PickItemListM.length > 0) {
+        for (let i = 0; i < this.PickItemListM.length; ++i) {
+          this.PickItemListM[i].Selected = false;
           this.selectedPLItems = [];
           this.selectedPLItemsDataForValidate = [];
         }
@@ -823,7 +828,7 @@ export class PickingListComponent implements OnInit {
             return;
           }
           if (data.Table.length > 0) {
-            this.lookupfor = "PicklistShipments";
+            this.lookupfor = "ShipmentList";
             this.serviceData = data.Table;
             this.showLookup = true;
           } else {
@@ -1013,7 +1018,7 @@ export class PickingListComponent implements OnInit {
             var result = data.OUTPUT[0].RESULT;
             if (result == "Data Saved")
               this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-            this.PickItemList = [];
+            // this.PickItemList = [];
             this.PickTaskList = [];
             this.updatedPicItemsArray = [];
             this.updatedPickTasksArray = [];
