@@ -37,7 +37,7 @@
                                     <!-- col start -->
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="Whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}</label>
+                                            <label for="Whse" class="col-sm-4 col-form-label">{{'Warehouse'|translate}}*</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
                                                     <input type="text" #whse class="form-control form-control-sm" name='WareHouse' [(ngModel)]="WareHouse" id="Whse" (blur)="IsValidWhseCode()">
@@ -311,7 +311,7 @@
                                         <div class="form-group row">
                                             <label for="Schedule_DatetimeFrom" class="col-sm-4 col-form-label">{{'Schedule_DatetimeFrom'|translate}}</label>
                                             <div class="col-sm-7">
-                                                <kendo-datepicker [(ngModel)]=Schedule_DatetimeFrom name="Schedule_DatetimeFrom" (valueChange)="onSchDateFromChange($event)"></kendo-datepicker>
+                                                <kendo-datepicker [(ngModel)]=Schedule_DatetimeFrom name="Schedule_DatetimeFrom"></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
@@ -321,7 +321,7 @@
                                         <div class="form-group row">
                                             <label for="Schedule_DatetimeTo" class="col-sm-4 col-form-label">{{'Schedule_DatetimeTo'|translate}}</label>
                                             <div class="col-sm-7">
-                                                <kendo-datepicker name="Schedule_DatetimeTo" [(ngModel)]=Schedule_DatetimeTo (valueChange)="onSchDateToChange($event)"></kendo-datepicker>
+                                                <kendo-datepicker name="Schedule_DatetimeTo" [(ngModel)]=Schedule_DatetimeTo ></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>
@@ -414,7 +414,7 @@
                                     <!-- col start -->
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="Pick_Type" class="col-sm-4 col-form-label">{{'Pick_Type'|translate}}</label>
+                                            <label for="Pick_Type" class="col-sm-4 col-form-label">{{'Pick_Type'|translate}}*</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
                                                     <kendo-dropdownlist [data]="PackTypeList" id="Pick_Type" #selectedvalue (selectionChange)="onPickTypeChange($event)" name="Pick_Type"
@@ -433,7 +433,7 @@
                                     <!-- col start -->
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="Pick_Operation" class="col-sm-4 col-form-label">{{'Pick_Operation'|translate}}</label>
+                                            <label for="Pick_Operation" class="col-sm-4 col-form-label">{{'Pick_Operation'|translate}}*</label>
                                             <div class="col-sm-7">
                                                 <div class="input-group ">
                                                     <kendo-dropdownlist [data]="PickOperationList" id="Pick_Operation" #selectedvalue (selectionChange)="onPickOperationChange($event, selectedvalue)"
@@ -471,9 +471,12 @@
                                     <!-- col start -->
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="TaskPlanDT" class="col-sm-4 col-form-label">{{'TaskPlanDT'|translate}}</label>
+                                            <label for="TaskPlanDT" class="col-sm-4 col-form-label">{{'TaskPlanDT'|translate}}*</label>
                                             <div class="col-sm-7">
-                                                <kendo-datepicker [(ngModel)]=TaskPlanDT name="TaskPlanDT"></kendo-datepicker>
+                                                <kendo-datepicker [(ngModel)]=TaskPlanDT name="TaskPlanDT" #planDt 
+                                                (blur)="onPlanDateChange(planDt.value, planDt)" 
+                                            (close)="onDateDialogClose(planDt.value, planDt)"
+                                                ></kendo-datepicker>
                                             </div>
                                         </div>
                                     </div>

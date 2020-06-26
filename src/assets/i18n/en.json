@@ -709,7 +709,7 @@
   "BinRule_ToBinMsg": "Item detail To bin can't be blank",
   "UserGroupAlreadyExists": "Record already exists.",
   "PickContainer": "Pick Containers",
-  "TaskPlanDT": "Task Plan DateTime",
+  "TaskPlanDT": "Task Plan Date",
   "Priority": "Priority",
   "Generate": "Generate",
   "Container_BatchSerial": "Batch Serial",
@@ -1086,6 +1086,7 @@
   "selectedBinMsg": "Can't select this bin because task items not exists in this.",
   "Click_Here": "Click here",
   "QtyToRemove": "Remove Quantity",
+  "PlanDateMsg": "Please select plan date.",
 
   "Dummy": "Dummy"  
 }

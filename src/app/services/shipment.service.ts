@@ -108,6 +108,16 @@ export class ShipmentService {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateReturnDocument", jObject, this.commonService.httpOptions);
   }
 
+  AcceptReturnShipment(OPTM_SHIPMENTID): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: OPTM_SHIPMENTID,
+      }])
+    }; 
+    return this.httpclient.post(this.config_params.service_url + "/api/Ship/AcceptReturnShipment", jObject, this.commonService.httpOptions);
+  }
+
   TransferArchieveDataToShipment(oSaveModel): Observable<any> {
     // let jObject = {
     //   Shipment: JSON.stringify([{

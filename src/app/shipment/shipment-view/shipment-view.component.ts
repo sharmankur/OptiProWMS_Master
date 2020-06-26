@@ -1166,6 +1166,42 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  onAcceptReturnClick(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.shipmentService.AcceptReturnShipment(this.ShipmentID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', "Return accepted");
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   CustomerReturn() {
     if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
       return;
@@ -1202,7 +1238,6 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
-
   TransferFromArchive() {
     this.ArchiveDialog = true;
     this.initializeData();
@@ -1210,6 +1245,10 @@ export class ShipmentViewComponent implements OnInit {
 
   close_Archive_dialog() {
     this.ArchiveDialog = false;
+  }
+
+  onDateDialogClose(value, ScheduleDT){
+    this.onScheduleDateChange(value, ScheduleDT)
   }
 
   onScheduleDateChange(event, ScheduleDT) {

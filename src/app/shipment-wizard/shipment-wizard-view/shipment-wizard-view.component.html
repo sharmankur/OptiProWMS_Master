@@ -69,7 +69,7 @@
                                         <!-- col start -->
                                         <div class="col-sm-6">
                                             <div class="form-group row">
-                                                <label for="Whse" class="col-sm-4 col-form-label">{{'PT_Warehouse'|translate}}</label>
+                                                <label for="Whse" class="col-sm-4 col-form-label">{{'PT_Warehouse'|translate}}*</label>
                                                 <div class="col-sm-7">
                                                     <div class="input-group ">
                                                         <input type="text" #whse class="form-control form-control-sm" name='WareHouse' [(ngModel)]="WareHouse" id="Whse" (blur)="GetDataForWareHouse('blur')">
@@ -380,7 +380,7 @@
                                             <!-- col start -->
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
-                                                    <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
+                                                    <label for="Schedule_Datetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}*</label>
                                                     <div class="col-sm-7">
                                                         <kendo-datepicker name="Schedule_Datetime" [(ngModel)]=Schedule_Datetime [format]=dateFormat placeholder={{dateFormat}} [disabled]=!AutoAllocate
                                                             (valueChange)="onScheduleDateChange($event)"></kendo-datepicker>
@@ -397,7 +397,7 @@
                                             <!-- col start -->
                                             <div class="col-sm-6">
                                                 <div class="form-group row">
-                                                    <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}</label>
+                                                    <label for="DockDoor" class="col-sm-4 col-form-label">{{'Dock_Door'|translate}}*</label>
                                                     <div class="col-sm-7">
                                                         <div class="input-group ">
                                                             <input type="text" class="form-control form-control-sm" name="DockDoor" id="DockDoor" [(ngModel)]="DockDoor" (blur)="IsValidDockDoor()"

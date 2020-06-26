@@ -69,7 +69,7 @@
                             <div class="input-group input-group-sm">
                                 <!-- <input type="text" class="form-control form-control-sm" name='StatusId' [(ngModel)]=StatusId id="StatusId" disabled> -->
                                 <kendo-dropdownlist [data]="PickListBasisArray" id="PickListBasis" #selectedvalue (selectionChange)="onPickListBasisChange($event)"
-                                    textField="Name" valueField="Value" id="status" name="status" [(ngModel)]="PickListBasis">
+                                    textField="Name" valueField="Value" id="status" name="status" [(ngModel)]="PickListBasis" disabled>
                                 </kendo-dropdownlist>
                             </div>
                         </div>
