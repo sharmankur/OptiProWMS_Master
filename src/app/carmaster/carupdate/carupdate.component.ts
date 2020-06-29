@@ -20,7 +20,7 @@ export class CARUpdateComponent implements OnInit {
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
   CAR_PackType = "Shipping";
-  OPTM_RULE_DESC: string;
+  OPTM_RULE_DESC: string ="";
   lookupfor: string;
   BtnTitle: string;
 
@@ -47,9 +47,14 @@ export class CARUpdateComponent implements OnInit {
     });
   }
 
+  maxCodeLength: string;
+  maxDescLength: string;
+  maxNOLength: number;
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
+    this.maxNOLength = this.commonservice.maxNOLength;
     let Carow = localStorage.getItem("CAR_ROW")
     if (Carow != undefined && Carow != "") {
       this.CTR_ROW = JSON.parse(localStorage.getItem("CAR_ROW"));
@@ -112,10 +117,10 @@ export class CARUpdateComponent implements OnInit {
       this.toastr.error('', this.translate.instant("CAR_ContainerPackRule_Blank_Msg"));
       return false;
     }
-    else if (this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined) {
-      this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
-      return false;
-    }
+    // else if (this.OPTM_RULE_DESC == '' || this.OPTM_RULE_DESC == undefined) {
+    //   this.toastr.error('', this.translate.instant("EnterAutoPackDesc"));
+    //   return false;
+    // }
     else if (this.CAR_ContainerType == '' || this.CAR_ContainerType == undefined) {
       this.toastr.error('', this.translate.instant("CT_ContainerType_Blank_Msg"));
       return false;
@@ -232,44 +237,6 @@ export class CARUpdateComponent implements OnInit {
     var AutoRuleData = this.prepareContainerAutoRule(AutoRuleData); // current data only.
     this.InsertIntoContainerAutoRule(AutoRuleData);
   }
-
-  // prepareUpdateContainerAutoRule(oSubmitPOLotsObj: any): any {
-  //   let packtype = 1;
-  //   if (this.CAR_PackType == this.PackTypeList[0]) {
-  //     packtype = 1;
-  //   } else if (this.CAR_PackType == this.PackTypeList[1]) {
-  //     packtype = 2;
-  //   }else{
-  //     packtype = 3;
-  //   }
-
-  //   let addPartToCont = 'N'
-  //   if (this.CAR_AddPartsToContainer == true) {
-  //     addPartToCont = "Y";
-  //   }
-
-  //   oSubmitPOLotsObj.Header.push({
-  //     OPTM_RULEID: this.CAR_CPackRule,
-  //     OPTM_CONTTYPE: this.CAR_ContainerType,
-  //     OPTM_RULE_DESC: this.OPTM_RULE_DESC,
-  //     CompanyDBId: localStorage.getItem("CompID"),
-  //     OPTM_CONTUSE: packtype,
-  //     OPTM_ADD_TOCONT: addPartToCont,
-  //     OPTM_MODIFIEDBY: localStorage.getItem("UserId")
-  //   });
-
-  //   for (var iBtchIndex = 0; iBtchIndex < this.autoRuleArray.length; iBtchIndex++) {
-  //     oSubmitPOLotsObj.Details.push({
-  //       OPTM_ITEMCODE: this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE,
-  //       OPTM_RULEID: this.CAR_CPackRule,
-  //       OPTM_PARTS_PERCONT: this.autoRuleArray[iBtchIndex].OPTM_PARTS_PERCONT,
-  //       OPTM_MIN_FILLPRCNT: this.autoRuleArray[iBtchIndex].OPTM_MIN_FILLPRCNT,
-  //       OPTM_PACKING_MATWT: this.autoRuleArray[iBtchIndex].OPTM_PACKING_MATWT,
-  //       OPTM_MODIFIEDBY: localStorage.getItem("UserId")
-  //     });
-  //   }
-  //   return oSubmitPOLotsObj;
-  // }
 
   prepareContainerAutoRule(oSubmitPOLotsObj: any): any {
     let packtype = 1;
@@ -486,10 +453,22 @@ export class CARUpdateComponent implements OnInit {
   }
 
   updatePartperCont(lotTemplateVar, value, rowindex, gridData: any) {
+    
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_PARTS_PERCONT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_PARTS_PERCONT = value;
+        }                
       }
     }
     this.isUpdateHappen = true
@@ -497,9 +476,20 @@ export class CARUpdateComponent implements OnInit {
 
   updateMinfill(lotTemplateVar, value, rowindex, gridData: any) {
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_MIN_FILLPRCNT = value;
+        }
       }
     }
     this.isUpdateHappen = true
@@ -507,9 +497,20 @@ export class CARUpdateComponent implements OnInit {
 
   updateMatWTfill(lotTemplateVar, value, rowindex, gridData: any) {
     value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if(value < 0 ){
+      this.toastr.error('', this.translate.instant("CannotLessThenZero"));
+      value = 0;
+    }
+
     for (let i = 0; i < this.autoRuleArray.length; ++i) {
       if (i === rowindex) {
-        this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
+        if(value > this.maxNOLength){
+          this.toastr.error('', this.translate.instant("MaxValueMsg"));
+          this.autoRuleArray[i].OPTM_PACKING_MATWT = "0";
+          lotTemplateVar.value =  "0";
+        }else{
+          this.autoRuleArray[i].OPTM_PACKING_MATWT = value;
+        }
       }
     }
     this.isUpdateHappen = true
@@ -583,6 +584,7 @@ export class CARUpdateComponent implements OnInit {
             return;
           }
           this.isUpdateHappen = true
+          this.autoRuleArray[iBtchIndex].OPTM_ITEMCODE = ''
           if (data.length > 0) {
             if (this.isBinRangeExist(data[0].ItemCode)) {
               this.toastr.error('', this.translate.instant("CAR_itemcode_exists_Msg"));

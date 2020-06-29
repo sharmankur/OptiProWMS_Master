@@ -11,7 +11,7 @@ import { CTUpdateComponent } from './ctupdate/ctupdate.component';
 import { CTViewComponent } from './ctview/ctview.component';
 import { CTMasterComponent } from './ctmaster.component';
 import { CTRoutingModule } from './ct-routing.module';
-
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [CTViewComponent, CTMasterComponent, CTUpdateComponent],
@@ -23,7 +23,7 @@ import { CTRoutingModule } from './ct-routing.module';
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,
-
+    NgxTrimDirectiveModule,
     CTRoutingModule,
     DropDownsModule,
     DateInputsModule

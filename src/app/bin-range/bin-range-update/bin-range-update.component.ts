@@ -22,7 +22,7 @@ export class BinRangeUpdateComponent implements OnInit {
   ToBinCode: string;
   FromBinCode: string;
   BinRange: string;
-  Description: string;
+  Description: string="";
   BtnTitle: string;
   isUpdate: boolean;
   BinRangesRow: any;
@@ -36,11 +36,14 @@ export class BinRangeUpdateComponent implements OnInit {
     translate.onLangChange.subscribe(() => {
     });
   }
-
+  
+  maxCodeLength: string;
+  maxDescLength: string;
   ngOnInit() {
     let BinRangesRow = localStorage.getItem("BinRangesRow")
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
     if (BinRangesRow != undefined && BinRangesRow != "") {
       this.BinRangesRow = JSON.parse(localStorage.getItem("BinRangesRow"));
       this.BinRange = this.BinRangesRow.OPTM_BIN_RANGE;
@@ -202,10 +205,12 @@ export class BinRangeUpdateComponent implements OnInit {
     }else if (this.BinRange == '' || this.BinRange == undefined) {
       this.toastr.error('', this.translate.instant("BinRangeBlankMsg"));
       return false;
-    }else if (this.Description == '' || this.Description == undefined) {
-      this.toastr.error('', this.translate.instant("BinRangeDescBlankMsg"));
-      return false;
-    }else if (this.FromBinCode == '' || this.FromBinCode == undefined) {
+    }
+    // else if (this.Description == '' || this.Description == undefined) {
+    //   this.toastr.error('', this.translate.instant("BinRangeDescBlankMsg"));
+    //   return false;
+    // }
+    else if (this.FromBinCode == '' || this.FromBinCode == undefined) {
       this.toastr.error('', this.translate.instant("ZoneFromBinCannotBlankMsg"));
       return false;
     }else if (this.ToBinCode == '' || this.ToBinCode == undefined) {

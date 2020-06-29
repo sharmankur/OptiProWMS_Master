@@ -13,7 +13,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'CAR_CPackRule'|translate}}"
-                                    [disabled]=isUpdate (blur)="onAutoPackChange($event)">
+                                    [disabled]=isUpdate (blur)="onAutoPackChange($event)" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="OPTM_RULE_DESC" [(ngModel)]="OPTM_RULE_DESC" placeholder="{{'CT_Description'|translate}}"
-                                    (blur)="onDescChange()">
+                                    (blur)="onDescChange()" trim="blur" maxlength="{{maxDescLength}}">
                             </div>
                         </div>
                     </div>
@@ -77,54 +77,6 @@
      
                     <kendo-grid class="no-shadow" [data]="autoRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
-
-                        <!-- grid for mobile start -->
-                        <!-- <kendo-grid-column media="(max-width: 767px)" title="List" class="opti_mobile-grid-td">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex='rowIndex'>
-                                        <dl class="opti_mobile_grid_dl">
-                                            <dt style="margin-top:4px;">{{mfrGridColumnText}}</dt>
-                                            <dd>
-                                                <input type="text" class="form-control form-control-sm" name="dataItem.VendorLot"
-                                                [disabled]="isDisabledScanInput" id="VendorLot" #VendorLot (change)="updateVendorLot(display_name, VendorLot.value, rowIndex)">
-                                            </dd>
-        
-                                            <dt>{{'Quantity'|translate}}</dt>
-                                            <dd>{{dataItem.LotQty | numberFormat}}</dd>
-        
-                                            <dt>{{'ExpiryDate'|translate}}</dt>
-                                            <dd>{{dataItem.expiryDate | date:dateFormat}}</dd>
-                                        </dl> 
-        
-                                        <dl class="opti_mobile_grid_dl">
-                                            <dt class="d-flex align-items-center">{{SRBatchColumnText}}
-                                                <button type="button" class="btn btn-danger k-button btn-sm btn-icon ml-auto"
-                                                    style="margin-bottom: 2px;" (mousedown)="openConfirmForDelete(rowIndex, gridItem)">
-                                                    <span class="k-icon k-i-delete" role="presentation"></span>
-                                                </button>
-                                            </dt>
-                                            <dd>
-                                                <input type="text" class="form-control form-control-sm" name="dataItem.LotNumber"
-                                                    [disabled]="isDisabledLotNoField" id="display_name1" [(ngModel)]=dataItem.LotNumber
-                                                    #display_name (change)="updateLotNumber(display_name, display_name.value, rowIndex, gridItem)">
-                                            </dd>
-        
-                                            <dt>{{'BinNo'|translate}}</dt> 
-                                            <dd>{{dataItem.Bin}}</dd>
-        
-                                            <dt>{{'Plt_PalletNo'|translate}}</dt>
-                                            <dd>{{dataItem.PalletCode}}</dd>
-                                        </dl>
-                                    </ng-template>
-                                </kendo-grid-column> -->
-                        <!-- grid for mobile end -->
-
-                        <!-- <kendo-grid-column media="(min-width: 768px)" field="ruleId" [width]="18" title="{{'CAR_CPackRule'|translate}}">
-                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.ruleId" value={{dataItem.ruleId}} id="display_name"
-                                    min="0" #display_name (change)="updateRuleId(display_name, display_name.value, idx)">
-                            </ng-template>
-                        </kendo-grid-column> -->
-
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_ITEMCODE" [width]="18" title="{{'CAR_ItemCode'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <div class="input-group input-group-sm">
@@ -141,7 +93,7 @@
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_PARTS_PERCONT" [width]="18" title="{{'CAR_PartsPerContainer'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
                                 <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_PARTS_PERCONT" value={{dataItem.OPTM_PARTS_PERCONT}}
-                                    id="display_name" min="0" #display_name (change)="updatePartperCont(display_name, display_name.value, idx)">
+                                    id="display_name" min="0" #display_name (change)="updatePartperCont(display_name, display_name.value, idx, gridItem)">
                             </ng-template>
                         </kendo-grid-column>
 

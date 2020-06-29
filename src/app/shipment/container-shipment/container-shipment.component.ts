@@ -895,6 +895,7 @@ export class ContainerShipmentComponent implements OnInit {
         break;
       }
     }
+    this.selectedRowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   public skip = 0;
@@ -930,6 +931,7 @@ export class ContainerShipmentComponent implements OnInit {
     }
   }
 
+  selectedRowCount: number = 0;
   on_Selectall_checkbox_checked(checkedvalue) {
     var isExist = 0;
     this.selectall = false
@@ -953,6 +955,7 @@ export class ContainerShipmentComponent implements OnInit {
         }
       }
     }
+    this.selectedRowCount = this.SelectedRowsforShipmentArr.length;
   }
 
   onAssignShipmentPress() {
@@ -1276,6 +1279,7 @@ export class ContainerShipmentComponent implements OnInit {
         break;
       case (9):
         this.dialogValue = "";
+        this.SODocEntry = "";
         this.UpdateContainerSoNo();
         break;
       case (10):
@@ -1326,6 +1330,7 @@ export class ContainerShipmentComponent implements OnInit {
       }
       else if (this.lookupfor == "SerialNoFrom") {
         this.dialogValue = $event.SODocNum;
+        this.SODocEntry = $event.SODocEntry;
       }
     }
   }
@@ -1488,6 +1493,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.dialogValue = "";
     if (action == 1) {
       this.Selectedlink = 9;
+      this.SODocEntry = "";
       this.UpdateContainerSoNo();
     } else {
       this.Selectedlink = 10;
@@ -1580,6 +1586,7 @@ export class ContainerShipmentComponent implements OnInit {
     return result
   }
 
+  SODocEntry: any;
   GetDataForSalesOredr(event) {
     let soNum;
     soNum = this.dialogValue
@@ -1606,8 +1613,10 @@ export class ContainerShipmentComponent implements OnInit {
           if (event == 'blur') {
             if (data.length > 0) {
               this.dialogValue = data[0].SODocNum;
+              this.SODocEntry = data[0].SODocEntry;
             } else {
               this.dialogValue = "";
+              this.SODocEntry = "";
               this.toastr.error('', this.translate.instant("InvalidSONo"));
             }
           } else {
@@ -1631,21 +1640,6 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   onConfirmClick(action) {
-    // if (this.SelectedRowsforShipmentArr.length == 0) {
-    //   this.toastr.error('', this.translate.instant("Select_row"));
-    //   return;
-    // }
-
-    // if (this.dialogValue == undefined || this.dialogValue == "") {
-    //   this.toastr.error('', this.translate.instant("FieldValidation"));
-    //   return;
-    // }
-
-    // if (this.DialogTitle == this.translate.instant("AssignSO")) {
-    //   this.UpdateContainerSoNo();
-    // } else {
-    //   this.UpdateContainerGroupCode();
-    // }
     this.setContainerGridTitle(this.Selectedlink);
     this.close_kendo_dialog();
   }
@@ -1729,7 +1723,7 @@ export class ContainerShipmentComponent implements OnInit {
     for (var i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       ContUpdategroupCodeArray.push({
         CompanyDBId: localStorage.getItem("CompID"),
-        SONO: this.dialogValue,
+        SONO: this.SODocEntry,
         OPTM_CONTCODE: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE
       });
     }
@@ -1743,6 +1737,7 @@ export class ContainerShipmentComponent implements OnInit {
             return;
           }
           this.dialogValue = "";
+          this.SODocEntry = "";
           if (data.OUTPUT[0].RESULT == "Data Saved") {
             this.toastr.success('', this.translate.instant("ContUpdatedMsg"));
            // this.Selectedlink = 1;

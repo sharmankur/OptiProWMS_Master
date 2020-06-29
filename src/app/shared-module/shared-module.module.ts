@@ -24,6 +24,7 @@ import { TransferMeansPipe } from '../common/transfer-means.pipe';
 import { InputParentContainerComponent } from '../common/input-parent-container/input-parent-container.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputInternalContainerComponent } from '../common/input-internal-container/input-internal-container.component';
+import { PickenumPipe } from 'src/app/common/pick-enum.pipe';
 @NgModule({  
   imports: [ CommonModule, 
     GridModule, 
@@ -34,13 +35,13 @@ import { InputInternalContainerComponent } from '../common/input-internal-contai
     TrnaslateLazyModule],
     providers:[ ConfirmdialogService,StatePersistingServiceService],
   declarations: [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,DisplayPdfComponent, CommonLookupComponent,
-    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent,
+    PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe, PickenumPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, InputContainerCodeComponent,InputParentContainerComponent,
     InputInternalContainerComponent],
   entryComponents: [ ConfirmDialogComponent,DisplayPdfComponent, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent,InputParentContainerComponent,
     InputInternalContainerComponent],
   exports:      [ LookupComponent,ConfirmDialogComponent,ComonConfirmDialogComponent,InputParentContainerComponent,
     InputInternalContainerComponent,
-    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
+    DisplayPdfComponent,PdfpipePipe,NumberFormatPipe,PickListStatusPipe,PickOperationPipe, PickenumPipe,PickTypePipe,TransferMeansPipe, InputDialogComponent, CommonLookupComponent, InputContainerCodeComponent]
     
 })
 export class SharedModule { }

@@ -5,7 +5,7 @@ import { PickTaskService } from '../../services/picktask.service';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
-import { ContainerCreationService } from 'src/app/services/container-creation.service';
+import { ContainerCreationService } from '../../services/container-creation.service';
 import { CommonData } from '../../models/CommonData';
 import { PLPickListItemModel } from 'src/app/models/pick-list/PLPickListItemModel';
 import { DateTimeHelper } from 'src/app/helpers/datetime.helper';
@@ -31,15 +31,15 @@ export class PickingListComponent implements OnInit {
   PickListBasisArray: any[] = [];
   PlanShiftArray: any[] = [];//{Name:'',Value:''} ;
   PickShiftArray: any[] = [];
- 
-    
- updatedPicItemsArray: Array<PLPickListItemModel>=[];
- updatedPickTasksArray: Array<PLPickListTaskModel>=[];
- meansData:any ;
- selectedMeansValue:any 
-  selectedPLItems:any = [];
-  selectedPLItemsDataForValidate:any = [];
-  
+
+
+  updatedPicItemsArray: Array<PLPickListItemModel> = [];
+  updatedPickTasksArray: Array<PLPickListTaskModel> = [];
+  meansData: any;
+  selectedMeansValue: any
+  selectedPLItems: any = [];
+  selectedPLItemsDataForValidate: any = [];
+
   commonData: any = new CommonData(this.translate);
   public items: any[] = [];
   public mySelection: number[] = [];
@@ -55,13 +55,13 @@ export class PickingListComponent implements OnInit {
   planDate: Date = undefined// new Date();
   public ShipmentCodeFrom: any = '';
   public ShipmentCodeTo: any = '';
-  ShipmentIdFrom: string="";
-  ShipmentIdTo: string="";
+  ShipmentIdFrom: string = "";
+  ShipmentIdTo: string = "";
+  Priority: string = "";
 
-
-  @ViewChild('wareHouse',{static:false}) wareHouse;
-  @ViewChild('fromShipment',{static:false}) fromShipment;
-  @ViewChild('toShipment',{static:false}) toShipment;
+  @ViewChild('wareHouse', { static: false }) wareHouse;
+  @ViewChild('fromShipment', { static: false }) fromShipment;
+  @ViewChild('toShipment', { static: false }) toShipment;
   dateFormat: any = 'mm/dd/yyyy'
   //pageSize: number = Commonservice.pageSize;
   constructor(private picktaskService: PickTaskService, private router: Router, private toastr: ToastrService, private translate: TranslateService,
@@ -74,31 +74,31 @@ export class PickingListComponent implements OnInit {
       this.PlanShiftArray = this.commonData.PlanShiftEnum();
       this.statusArray = this.commonData.PickListStatusEnum();
     });
-    this.PickListBasisArray =this.commonData.PickListEnum();
-    this.PlanShiftArray =this.commonData.PlanShiftEnum();
+    this.PickListBasisArray = this.commonData.PickListEnum();
+    this.PlanShiftArray = this.commonData.PlanShiftEnum();
     this.statusArray = this.commonData.PickListStatusEnum();
-
-  
+    this.shiment_status_array = this.commonData.shiment_status_array();
   }
-
-
-
-
+  shiment_status_array = [];
 
   ngOnInit() {
- 
+
     this.picktaskService.clearLocaStorage();
     // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
-    this.meansData=this.commonData.TransferMeansTypeEnum()
+    this.meansData = this.commonData.TransferMeansTypeEnum()
     // this.meansData =  [
     //   { Value: 1, Name:  this.translate.instant("Manual") },
     //   { Value: 2, Name:  this.translate.instant("Name_ForkLift") },
     //   { Value: 3, Name:  this.translate.instant("Name_Crane") }
     //  ];
-    this.selectedMeansValue =this.meansData[0];// { "Value": 1, "Name": "Manual" };
+    this.selectedMeansValue = this.meansData[0];// { "Value": 1, "Name": "Manual" };
+    this.StatusValue = this.statusArray[0];
   }
 
+  onPriorityChange(){
+
+  }
 
   ngAfterViewInit() {
     console.log("ngAfterInit");
@@ -150,10 +150,26 @@ export class PickingListComponent implements OnInit {
 
   }
 
-  GetDataForShipmentId(fieldName) {
+  GetDataForShipmentId(fieldName, event) {
+    if (this.WarehouseId == "" || this.WarehouseId == undefined) {
+      this.toastr.error('', this.translate.instant("SelectWhsCodeFirst"));
+      return;
+    }
+    let shipmentCode;
+    if (fieldName == "ShipIdFrom") {
+      shipmentCode = this.ShipmentCodeFrom;
+    }
+    else if (fieldName == "ShipIdTo") {
+      shipmentCode = this.ShipmentCodeTo
+    }
+    if ((shipmentCode == "" || shipmentCode == null || shipmentCode == undefined) && (event == 'blur')) {
+      return;
+    }
+    if (event != 'blur') {
+      shipmentCode = ""
+    }
     this.showLoader = true;
-    //this.hideLookup = false;
-    this.commonservice.GetAllocatedShipmentCode(4).subscribe(
+    this.commonservice.GetAllocatedShipmentCode(4, shipmentCode, this.WarehouseId).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -162,11 +178,41 @@ export class PickingListComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          this.showLookup = true;
-          this.serviceData = data;
-          this.lookupfor = fieldName;
+          if (event == 'blur') {
+            if (data.length > 0) {
+              if (fieldName == "ShipIdFrom") {
+                this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+                if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
+                  this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                  this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+                }
+              }
+              else if (fieldName == "ShipIdTo") {
+                this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+              }
+            } else {
+              if (fieldName == "ShipIdFrom") {
+                this.ShipmentIdTo = "";
+                this.ShipmentCodeTo = ""
+              }
+              else if (fieldName == "ShipIdTo") {
+                this.ShipmentIdTo = ""
+                this.ShipmentCodeTo = ""
+              }
+              this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
+            }
+          } else {
+            this.showLookup = true;
+            this.serviceData = data;
+            for (let i = 0; i < this.serviceData.length; i++) {
+              this.serviceData[i].OPTM_STATUS_VAL = this.shiment_status_array[Number(this.serviceData[i].OPTM_STATUS) - 1].Name;
+            }
+            this.lookupfor = fieldName;
+          }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+          this.toastr.error('', this.translate.instant("Invalid_ShipmentCode"));
         }
       },
       error => {
@@ -240,7 +286,7 @@ export class PickingListComponent implements OnInit {
             if (fieldName == "ShipIdFrom") {
               //  this.ShipIdFrom = data[0].OPTM_SHIPMENTID;
               this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
-              if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+              if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
                 this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE
                 this.ShipmentIdFrom = this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
               }
@@ -336,64 +382,88 @@ export class PickingListComponent implements OnInit {
       this.toastr.error('', this.translate.instant("Login_SelectwarehouseMsg"));
       return;
     }
-    this.PickItemList = [];
+    // this.PickItemList = [];
     this.PickTaskList = [];
     this.FillPickListDataInGrid();
   }
 
-  ShowGridPaging:boolean=false;
-  PickItemList:any = [];
-  PickItemListM:Array<PLPickListItemModel>;
-  PickTaskListM:Array<PLPickListTaskModel>;
-  PickTaskList:any = [];
-  selectedItemPickTaskList:any=[];
+  ShowGridPaging: boolean = false;
+  // PickItemList: any = [];
+  PickItemListM: Array<PLPickListItemModel> = [];
+  PickTaskListM: Array<PLPickListTaskModel> = [];
+  PickTaskList: any = [];
+  selectedItemPickTaskList: any = [];
+
   FillPickListDataInGrid() {
     var PickListBasicVal = this.PickListBasis.Value;
     var statusVal = this.StatusValue.Value;
     var planShiftVal = this.PlanShift.Value;
     this.showLoader = true;
-    this.picktaskService.FillPickListDataInGrid(this.ShipmentCodeFrom, this.ShipmentCodeTo, this.WarehouseId,PickListBasicVal,planShiftVal,statusVal,this.planDate).subscribe(
-        (data: any) => {
-          this.showLoader = false;
-          if (data != undefined && data!=null) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }
-            this.PickItemList = data.OPTM_WHS_PICKLIST;
-            this.PickTaskList = data.OPTM_WHSTASKLIST;
-            this.PickTaskListM = data.OPTM_WHSTASKLIST;
-            this.PickItemListM = data.OPTM_WHS_PICKLIST;
-            this.setTaskMeanValue()
-            if (this.PickItemList.length > 10) {
-              this.ShowGridPaging = true;
-            }else{
-              this.ShowGridPaging = false;
-            }   
-            this.PickItemListM.forEach(element => {
-              element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
-            });        
+    let plandateString = "";
+    if (this.planDate != undefined) {
+      plandateString = this.planDate.toLocaleDateString();
+    }
 
-            for (let i = 0; i < this.PickItemList.length; i++) {
-              this.PickItemList[i].Selected = false;
-              this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
-              
-            }
-          } else {
-            this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+
+    if(this.ShipmentCodeFrom ==undefined || this.ShipmentCodeFrom == "" || this.ShipmentCodeFrom == null){
+      this.ShipmentIdFrom = "";
+    }
+
+    if(this.ShipmentCodeTo ==undefined || this.ShipmentCodeTo == "" || this.ShipmentCodeTo == null){
+      this.ShipmentIdTo = "";
+    }
+
+    this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId, PickListBasicVal, planShiftVal, statusVal, plandateString, this.Priority).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined && data != null) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
           }
-          this.PickItemList = data.OPTM_WHS_PICKLIST;
+          // this.PickItemList = data.OPTM_WHS_PICKLIST;
           this.PickTaskList = data.OPTM_WHSTASKLIST;
-          if (this.PickItemList.length > 10) {
+          this.PickTaskListM = data.OPTM_WHSTASKLIST;
+          this.PickItemListM = data.OPTM_WHS_PICKLIST;
+          this.selectall = false;
+          this.setTaskMeanValue()
+          if (this.PickItemListM.length > 10) {
             this.ShowGridPaging = true;
           } else {
             this.ShowGridPaging = false;
           }
-          for (let i = 0; i < this.PickItemList.length; i++) {
-            this.PickItemList[i].Selected = false;
-            this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+          this.PickItemListM.forEach(element => {
+            element.OPTM_PLANDATETIME_Object = DateTimeHelper.ParseDate(element.OPTM_PLANDATETIME);
+          });
+
+          if (this.PickItemListM.length > 0) {
+            this.FilterPickTask(this.PickItemListM[0]);
+          } else {
+            this.selectedItemPickTaskList = [];
           }
+          this.selectedPLItems = [];
+          this.selectedPLItemsDataForValidate = [];
+          // for (let i = 0; i < this.PickItemList.length; i++) {
+          //   this.PickItemList[i].Selected = false;
+          //   this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+
+          // }
+
+        } else {
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+        }
+        // this.PickItemList = data.OPTM_WHS_PICKLIST;
+        // this.PickTaskList = data.OPTM_WHSTASKLIST;
+        // if (this.PickItemList.length > 10) {
+        //   this.ShowGridPaging = true;
+        // } else {
+        //   this.ShowGridPaging = false;
+        // }
+        // for (let i = 0; i < this.PickItemList.length; i++) {
+        //   this.PickItemList[i].Selected = false;
+        //   this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
+        // }
       },
       error => {
         this.showLoader = false;
@@ -407,10 +477,10 @@ export class PickingListComponent implements OnInit {
     );
   }
 
-  setTaskMeanValue(){
-    for(let i=0;i<this.PickTaskListM.length;i++){
-      var meanVal =this.PickTaskListM[i].OPTM_TRANSIT_MEANS
-       this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name:  this.commonData.getMeansStringByValue(meanVal) }
+  setTaskMeanValue() {
+    for (let i = 0; i < this.PickTaskListM.length; i++) {
+      var meanVal = this.PickTaskListM[i].OPTM_TRANSIT_MEANS
+      this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name: this.commonData.getMeansStringByValue(meanVal) }
     }
     console.log("value set");
   }
@@ -431,10 +501,11 @@ export class PickingListComponent implements OnInit {
           this.selectedPickTaskRow.OPTM_SRC_BIN = $event.BinCode;
           this.updatedPickTasksArray.push(this.selectedPickTaskRow);
         }
+        this.IsAllItemPresentInSelectedBin(this.selectedPickTaskRow, $event.BinCode);
       } else if (this.lookupfor == "ShipIdFrom") {
         this.ShipmentIdFrom = $event.OPTM_SHIPMENTID;
         this.ShipmentCodeFrom = $event.OPTM_SHIPMENT_CODE;
-        if(this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined){
+        if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
           this.ShipmentCodeTo = $event.OPTM_SHIPMENT_CODE
           this.ShipmentIdTo = $event.OPTM_SHIPMENTID;
         }
@@ -442,6 +513,14 @@ export class PickingListComponent implements OnInit {
       else if (this.lookupfor == "ShipIdTo") {
         this.ShipmentIdTo = $event.OPTM_SHIPMENTID;
         this.ShipmentCodeTo = $event.OPTM_SHIPMENT_CODE;
+      } else if (this.lookupfor == "UserGrp") {
+        var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === this.selectedPickTaskRow.OPTM_TASKID)
+        if (row != null && row != undefined && row.length > 0) {
+          row[0].OPTM_USER_GRP = $event.OPTM_GROUPCODE;
+        } else {
+          this.selectedPickTaskRow.OPTM_USER_GRP = $event.OPTM_GROUPCODE;
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+        }
       }
 
     }
@@ -452,26 +531,34 @@ export class PickingListComponent implements OnInit {
    * @param $event 
    */
   onPickListItemClick($event) {
-    var taskCode = $event.selectedRows[0].dataItem.OPTM_TASK_CODE;
-    let selectedPickTasks = this.PickTaskList.filter(item =>
-      item.OPTM_TASK_CODE === taskCode );
-      this.selectedItemPickTaskList = selectedPickTasks ;
-  } 
-  
-  selectContainerRowChange(checkValue,dataItem,index){
-    var itemId= dataItem.OPTM_PICKLIST_CODE;
-     if(checkValue==true && !this.selectedPLItems.includes(itemId)){
-       this.selectedPLItems.push(itemId);
-       this.selectedPLItemsDataForValidate.push(dataItem);
-     }else{
-       if(checkValue == false && this.selectedPLItems.includes(itemId)){
-         this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId),1);
-         this.selectedPLItemsDataForValidate.splice(this.selectedPLItemsDataForValidate.indexOf(this.filterRow(this.selectedPLItemsDataForValidate,itemId),1))
-       }
-     }
+    this.FilterPickTask($event.selectedRows[0].dataItem);
   }
 
- 
+  FilterPickTask(selectedRows) {
+    let selectedPickTasks = this.PickTaskList.filter(item =>
+      item.OPTM_PICKLIST_ID === selectedRows.OPTM_PICKLIST_ID);
+    this.selectedItemPickTaskList = selectedPickTasks;
+    for (var i = 0; i < this.selectedItemPickTaskList.length; i++) {
+      this.selectedItemPickTaskList.OPTM_PICKLIST_STATUS = selectedRows.OPTM_STATUS;
+    }
+  }
+
+  selectContainerRowChange(checkValue, dataItem, index) {
+    var itemId = dataItem.OPTM_PICKLIST_ID;
+    if (checkValue == true && !this.selectedPLItems.includes(itemId)) {
+      this.selectedPLItems.push(itemId);
+      this.selectedPLItemsDataForValidate.push(dataItem);
+      this.PickItemListM[index].Selected = true;
+    } else {
+      if (checkValue == false && this.selectedPLItems.includes(itemId)) {
+        this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId), 1);
+        this.selectedPLItemsDataForValidate.splice(this.selectedPLItemsDataForValidate.indexOf(this.filterRow(this.selectedPLItemsDataForValidate, itemId), 1))
+      }
+      this.PickItemListM[index].Selected = false;
+    }
+  }
+
+
   public filterRow(arryData, id): any {
     //var row = arryData.filter(item => item.OPTM_PICKLIST_CODE == id);
     let index = arryData.findIndex(x => x.OPTM_PICKLIST_CODE === id);
@@ -481,9 +568,8 @@ export class PickingListComponent implements OnInit {
   validateDataForRelase(dataArray: any): boolean {
     var status = true;
     for (let i = 0; i < dataArray.length; i++) {
-      if (dataArray[i].OPTM_STATUS == "2") {
-        status = false;
-        break;
+      if (dataArray[i].OPTM_STATUS != "1") {
+        return status = false;
       }
     }
     return status;
@@ -527,8 +613,8 @@ export class PickingListComponent implements OnInit {
     }
   }
 
-   // need to confirm is this required or not for getting value for update.
-   ChangeShieft(event, dataItem, companyRowIndex) {
+  // need to confirm is this required or not for getting value for update.
+  ChangeShieft(event, dataItem, companyRowIndex) {
     dataItem.OPTM_PLANWHSESHIFT_ID = event.target.value
     this.selectedPickItemRow = dataItem;
     //update to list and use that item.
@@ -542,25 +628,12 @@ export class PickingListComponent implements OnInit {
     // get row from  pick list item list.
   }
 
-  // run when user change anything in assigned user group.
-  ChangeAssignedUserGroup(event, dataItem, companyRowIndex) {
-    dataItem.OPTM_USER_GRP = event.target.value;
-    this.selectedPickTaskRow = dataItem;
-    //update to list and use that item.
-    var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
-    if (row != null && row != undefined && row.length > 0) {
-      row[0].OPTM_USER_GRP = event.target.value;
-    } else {
-      this.selectedPickTaskRow.OPTM_USER_GRP = event.target.value;
-      this.updatedPickTasksArray.push(this.selectedPickTaskRow);
-    }
-  }
-  changePlanDateTime(date:any, dataItem:any, companyRowIndex:Number){
+  changePlanDateTime(date: any, dataItem: any, companyRowIndex: Number) {
     dataItem.OPTM_PLANDATETIME = date;
     this.selectedPickItemRow = dataItem;
-    var dateString=moment(date).format('MM/DD/YYYY');
-  //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
-   // new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    var dateString = moment(date).format('MM/DD/YYYY');
+    //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
+    // new Date(event.getFullYear(), event.getMonth(), event.getDate());
     //update to list and use that item.
     var row = this.updatedPicItemsArray.filter(pickItem => pickItem.OPTM_PICKLIST_ID === dataItem.OPTM_PICKLIST_ID)
     if (row != null && row != undefined && row.length > 0) {
@@ -572,8 +645,8 @@ export class PickingListComponent implements OnInit {
   }
 
 
-  updateReleaseStatus(){ 
-    if(this.selectedPLItems.length==0){
+  updateReleaseStatus() {
+    if (this.selectedPLItems.length == 0) {
       this.toastr.error('', this.translate.instant("PL_ReleaseStatusItemsValidate"));
       return;
     }
@@ -593,14 +666,17 @@ export class PickingListComponent implements OnInit {
             return;
           } else {
             var result = data.OUTPUT[0].RESULT;
-            if (result == "Data Saved")
+            if (result == "Data Saved") {
               this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-            this.PickItemList = [];
-            this.PickTaskList = [];
-            this.FillPickListDataInGrid();
+              this.selectedPLItems = [];
+              this.selectedPLItemsDataForValidate = [];
+              this.PickTaskList = [];
+              this.FillPickListDataInGrid();
+            } else {
+              // show error.
+              this.toastr.error('', data.OUTPUT[0].RESULT);
+            }
           }
-        } else {
-          // show error.
         }
       },
       error => {
@@ -628,26 +704,26 @@ export class PickingListComponent implements OnInit {
     // this.CheckedData = []
     this.selectall = false
     if (checkedvalue == true) {
-      if (this.PickItemList.length > 0) {
+      if (this.PickItemListM.length > 0) {
         this.selectall = true
         //   this.SelectedRowsforShipmentArr = [];
         this.selectedPLItems = [];
         this.selectedPLItemsDataForValidate = [];
-        for (let i = 0; i < this.PickItemList.length; ++i) {
-          var dataItem = this.PickItemList[i];
+        for (let i = 0; i < this.PickItemListM.length; ++i) {
+          var dataItem = this.PickItemListM[i];
           var itemId = dataItem.OPTM_PICKLIST_ID;
-          this.selectedPLItems.push(itemId);
-          this.selectedPLItemsDataForValidate.push(dataItem);
-          this.PickItemList[i].Selected = true;
+          this.selectedPLItems.push(itemId); // release array
+          this.selectedPLItemsDataForValidate.push(dataItem);  // update 
+          this.PickItemListM[i].Selected = true;
         }
       }
     }
     else {
       this.selectall = false
       // this.selectedValues = [];
-      if (this.PickItemList.length > 0) {
-        for (let i = 0; i < this.PickItemList.length; ++i) {
-          this.PickItemList[i].Selected = false;
+      if (this.PickItemListM.length > 0) {
+        for (let i = 0; i < this.PickItemListM.length; ++i) {
+          this.PickItemListM[i].Selected = false;
           this.selectedPLItems = [];
           this.selectedPLItemsDataForValidate = [];
         }
@@ -668,17 +744,17 @@ export class PickingListComponent implements OnInit {
     grid.filter.filters = [];
     //this.clearFilters();
   }
- 
- 
 
 
- 
-  WHSCODE:any = ''
-  hideLookup:boolean = false;
-  srcWhsID:any;
-  selectedPickTaskRow:any;
-  selectedPickItemRow:any;
-  GetSrcBinList(index,  dataItem:any) {
+
+
+
+  WHSCODE: any = ''
+  hideLookup: boolean = false;
+  srcWhsID: any;
+  selectedPickTaskRow: any;
+  selectedPickItemRow: any;
+  GetSrcBinList(index, dataItem: any) {
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     this.selectedPickTaskRow = dataItem;
     this.commonservice.GetBinCode(this.srcWhsID).subscribe(
@@ -703,7 +779,7 @@ export class PickingListComponent implements OnInit {
     );
   }
 
-  IsValidSrcBinCode(index, bincode, display_name,dataItem) {
+  IsValidSrcBinCode(index, bincode, display_name, dataItem) {
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     this.selectedPickTaskRow = dataItem;
     if (bincode == undefined || bincode == "") {
@@ -720,7 +796,7 @@ export class PickingListComponent implements OnInit {
             return;
           }
           if (data.length > 0) {
-           //update to list and use that item.
+            //update to list and use that item.
             var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
             if (row != null && row != undefined && row.length > 0) {
               row[0].OPTM_SRC_BIN = data[0].BinCode;
@@ -728,14 +804,19 @@ export class PickingListComponent implements OnInit {
               this.selectedPickTaskRow.OPTM_SRC_BIN = data[0].BinCode;
               this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             }
+            this.IsAllItemPresentInSelectedBin(dataItem, data[0].BinCode);
           } else {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           }
         } else {
+          this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
-        } 
+        }
       },
-      error => { 
+      error => {
         this.showLoader = false;
         if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
           this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
@@ -747,61 +828,234 @@ export class PickingListComponent implements OnInit {
     );
   }
 
+  showShipmentList(dataItem){
+    this.showLoader = true;
+    this.picktaskService.GetAllShipmentOfPicklist(dataItem.OPTM_PICKLIST_ID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.Table.length > 0) {
+            this.lookupfor = "ShipmentList";
+            this.serviceData = data.Table;
+            for(var i=0; i<this.serviceData.length; i++){
+              this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+            }
+            this.showLookup = true;
+          } else {
 
-  onUpdatePress(){
-    this.updatePickItemAndTasks(this.updatedPicItemsArray,this.updatedPickTasksArray)
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
- 
-  updatePickItemAndTasks(pickItemList:any, pickTaskList:any){ 
-    var object:any={}
-    var dbId: any[]=[];
-    dbId.push({CompanyDBId: localStorage.getItem("CompID")});
-    object.DBId = dbId;
-    for(let i=0;i<pickItemList.length;i++){
-      pickItemList[i].OPTM_PLANDATETIME_Object=""
+
+  getShipStatusValue(OPTM_STATUS): string {
+    return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
+  }
+
+  IsAllItemPresentInSelectedBin(dataItem, bincode){
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    // this.selectedPickTaskRow = dataItem;
+    // if (bincode == undefined || bincode == "") {
+    //   return;
+    // }
+    this.showLoader = true;
+    this.picktaskService.IsAllItemPresentInSelectedBin(dataItem.OPTM_TASKID, this.srcWhsID, bincode).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == "Data Saved") {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = bincode;
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+          } else {
+            this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            this.toastr.error('', this.translate.instant("selectedBinMsg"));
+          }
+        } else {
+          this.selectedPickTaskRow.OPTM_SRC_BIN = ""
+          this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+          this.toastr.error('', this.translate.instant("selectedBinMsg"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  // run when user change anything in assigned user group.
+  // ChangeAssignedUserGroup(event, dataItem, companyRowIndex) {
+  //   dataItem.OPTM_USER_GRP = event.target.value;
+  //   this.selectedPickTaskRow = dataItem;
+  //   //update to list and use that item.
+  //   this.GetUserGroup();
+  //   var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+  //   if (row != null && row != undefined && row.length > 0) {
+  //     row[0].OPTM_USER_GRP = event.target.value;
+  //   } else {
+  //     this.selectedPickTaskRow.OPTM_USER_GRP = event.target.value;
+  //     this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+  //   }
+  // }
+
+  GetUserGroup(value, dataItem, index, display_name, event) {
+    this.srcWhsID = dataItem.OPTM_SRC_WHSE;
+    this.selectedPickTaskRow = dataItem;
+    if ((value == undefined || value == "") && event == "blur") {
+      return;
     }
-    for(let i=0;i<pickTaskList.length;i++){
-      pickTaskList[i].selectedMeansVal=""
+    if (event == "lookup") {
+      value = "";
+    }
+    this.showLoader = true;
+    this.picktaskService.GetUserGroup(dataItem.OPTM_SRC_BIN, value, this.srcWhsID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OPTM_USERGROUP.length > 0) {
+            // //update to list and use that item.
+            // var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+            // if (row != null && row != undefined && row.length > 0) {
+            //   row[0].OPTM_SRC_BIN = data[0].BinCode;
+            // } else {
+            //   this.selectedPickTaskRow.OPTM_SRC_BIN = data[0].BinCode;
+            //   this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            // }
+
+            if (event == "blur") {
+              var row = this.updatedPickTasksArray.filter(task => task.OPTM_TASKID === dataItem.OPTM_TASKID)
+              if (row != null && row != undefined && row.length > 0) {
+                row[0].OPTM_USER_GRP = data.OPTM_USERGROUP[0].OPTM_GROUPCODE;
+              } else {
+                this.selectedPickTaskRow.OPTM_USER_GRP = data.OPTM_USERGROUP[0].OPTM_GROUPCODE;
+                this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+              }
+            } else {
+              this.showLookup = true;
+              this.serviceData = data.OPTM_USERGROUP;
+              this.lookupfor = "UserGrp";
+            }
+          } else {
+            if (event == "blur") {
+              this.selectedPickTaskRow.OPTM_USER_GRP = ""
+              this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+              display_name.value = "";
+            }
+            this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
+          }
+        } else {
+          if (event == "blur") {
+            this.selectedPickTaskRow.OPTM_USER_GRP = ""
+            this.updatedPickTasksArray.push(this.selectedPickTaskRow);
+            display_name.value = "";
+          }
+          this.toastr.error('', this.translate.instant("InvalidUsrGrp"));
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
+  onUpdatePress() {
+    let IspickTaskEmpty = this.updatedPickTasksArray.find(e=> e.OPTM_USER_GRP == "" || e.OPTM_SRC_BIN == "");
+    if(IspickTaskEmpty != undefined){
+      this.toastr.error('', "Pick bin or User group is blank for any selected pick task.")
+      return;
+    }
+    this.updatePickItemAndTasks(this.updatedPicItemsArray, this.updatedPickTasksArray)
+  }
+
+  updatePickItemAndTasks(pickItemList: any, pickTaskList: any) {
+    var object: any = {}
+    var dbId: any[] = [];
+    dbId.push({ CompanyDBId: localStorage.getItem("CompID") });
+    object.DBId = dbId;
+    for (let i = 0; i < pickItemList.length; i++) {
+      pickItemList[i].OPTM_PLANDATETIME_Object = ""
+    }
+    for (let i = 0; i < pickTaskList.length; i++) {
+      pickTaskList[i].selectedMeansVal = ""
     }
     object.OPTM_WHS_PICKLIST = pickItemList;
     object.OPTM_WHSTASKLIST = pickTaskList;
-    if(pickItemList.length==0 && pickTaskList.length==0){
+    if (pickItemList.length == 0 && pickTaskList.length == 0) {
       this.toastr.error('', this.translate.instant("PickingNoItemToUpdate"));
       return;
-    }    
+    }
 
     this.showLoader = true;
     this.picktaskService.updatePickItemsAndTasks(object).subscribe(
-        (data: any) => {
-          this.showLoader = false;
-          if (data != undefined && data!=null) {
-            if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                this.translate.instant("CommonSessionExpireMsg"));
-              return;
-            }else {
-             var result = data.OUTPUT[0].RESULT;
-             if(result == "Data Saved")
-            this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-            this.PickItemList = [];
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined && data != null) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          } else {
+            var result = data.OUTPUT[0].RESULT;
+            if (result == "Data Saved")
+              this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
+            // this.PickItemList = [];
             this.PickTaskList = [];
             this.updatedPicItemsArray = [];
             this.updatedPickTasksArray = [];
             this.FillPickListDataInGrid();
           }
-         }else{
+        } else {
           // show error.
-         }
-        },
-        error => {
-          this.showLoader = false;
-          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-          }
-          else {
-            this.toastr.error('', error);
-          }
         }
-      );
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
   }
 }

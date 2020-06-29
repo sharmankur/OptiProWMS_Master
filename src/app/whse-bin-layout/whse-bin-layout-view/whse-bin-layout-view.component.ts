@@ -208,11 +208,11 @@ export class WhseBinLayoutViewComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          // if(data[0].RESULT == this.translate.instant("DataSaved")){
-          this.GetDataWareHouseMaster();
-          // }else{
-          //   this.toastr.error('', data[0].RESULT);
-          // }
+          if (data[0].RESULT == this.translate.instant("DataSaved")) {
+            this.GetDataWareHouseMaster();
+          } else {
+            this.toastr.error('', data[0].RESULT);
+          }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

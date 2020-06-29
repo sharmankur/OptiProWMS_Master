@@ -209,7 +209,7 @@ export class CommonData {
             { "Value": 2, "Name": this.translate.instant("CScheduledNew") },
             { "Value": 3, "Name": this.translate.instant("Part_Allocated") },
             { "Value": 4, "Name": this.translate.instant("Allocated") },
-            { "Value": 5, "Name": this.translate.instant("Picking") },
+            { "Value": 5, "Name": this.translate.instant("Part_Picked") },
             { "Value": 6, "Name": this.translate.instant("Picked") },
             { "Value": 7, "Name": this.translate.instant("Ship_Staged") },
             { "Value": 8, "Name": this.translate.instant("Unstaged") },
@@ -219,10 +219,11 @@ export class CommonData {
             { "Value": 12, "Name": this.translate.instant("Returned") },
             { "Value": 13, "Name": this.translate.instant("Return_Accepted") },
             { "Value": 14, "Name": this.translate.instant("CCancelledNew") },
-            { "Value": 15, "Name": "Loading" },
-            { "Value": 16, "Name": "UnLoaded" }
+            { "Value": 15, "Name": this.translate.instant("Loading") },
+            { "Value": 16, "Name": this.translate.instant("UnLoaded") }
         ];
     }
+
 
     // shiment_status_array() {
     //     return [
@@ -402,13 +403,13 @@ export class CommonData {
      */
     PickListStatusEnum() {
         return [
-            { "Value": 1, "Name": "CStatusNew" },
-            { "Value": 2, "Name": "Status_Release" },
-            { "Value": 3, "Name": "CAssignedNew" },
-            { "Value": 4, "Name": "Selected" },
-            { "Value": 5, "Name": "Status_Part_Picked" },
-            { "Value": 6, "Name": "Status_Picked" },
-            { "Value": 7, "Name": "CClosedNew" }
+            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
+            { "Value": 2, "Name": this.translate.instant("Status_Release") },
+            { "Value": 3, "Name": this.translate.instant("CAssignedNew") },
+            { "Value": 4, "Name": this.translate.instant("Selected") },
+            { "Value": 5, "Name": this.translate.instant("Status_Part_Picked") },
+            { "Value": 6, "Name": this.translate.instant("Status_Picked") },
+            { "Value": 7, "Name": this.translate.instant("CClosedNew") }
 
         ];
     }
@@ -437,6 +438,16 @@ export class CommonData {
         ];
     }
 
+    pickEnum(){
+        return [
+            { "Value": 1, "Name": "Container" },
+            { "Value": 2, "Name": "Item" },
+            { "Value": 3, "Name": "Batch" },
+            { "Value": 4, "Name": "Serial" }
+        ];
+    }
+
+   /**
 
 
     /**

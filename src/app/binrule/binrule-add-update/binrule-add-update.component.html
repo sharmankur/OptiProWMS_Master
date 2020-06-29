@@ -7,17 +7,6 @@
             </h3>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
-
-                    <!-- <div class="form-group row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label">{{'BinRuleWhsRule'|translate}}</label>
-                        <div class="col-sm-9">
-                            <div class="input-group input-group-sm">
-                                <input type="number" class="form-control form-control-sm" min="0" name="CAR_CPackRule" [(ngModel)]="CAR_CPackRule" placeholder="{{'BinRuleWhsRule'|translate}}"
-                                    [disabled]=true>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="form-group row">
                         <label label for="purpose" class="col-sm-3 col-form-label">
                             <span class="opti_form-label">{{'BinRuleRuleType'|translate}}</span>
@@ -75,22 +64,12 @@
                     </div>
                 </div>
             </div>
-<!-- 
-            <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
-                <span class="k-icon k-i-check" role="presentation"></span>Add Row</button> -->
-
             <div class="row">
                 <div class="col-md-12"> <div class="card shipment-widget-box">
                     <h5 class="card-header"><button class="float-right btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="AddRow()">
                         <span class="k-icon k-i-plus" role="presentation"></span> {{'Masking_AddRow'|translate}}</button></h5>                        
                     <kendo-grid class="no-shadow" [data]="binRuleArray" [resizable]="true" [sortable]="true" [selectable]="true"
                         #gridItem>
-                       <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_WHS_RULE" headerClass="text-right" class="text-center" [width]="18" title="{{'BinRuleWhsRule'|translate}}">
-                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_WHS_RULE" value={{dataItem.OPTM_WHS_RULE}} id="display_name"
-                                    #display_name (change)="updateMinfill(display_name, display_name.value, idx)" [disabled]=true>
-                            </ng-template>
-                        </kendo-grid-column> -->
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_STORAGE_FROM_BIN" [width]="18" title="{{'BinRuleFromBin'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
 
@@ -107,7 +86,6 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_STORAGE_TO_BIN" [width]="18" title="{{'BinRuleToBin'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_STORAGE_TO_BIN" value={{dataItem.OPTM_STORAGE_TO_BIN}} id="storage_to_bin"
                                         min="0" #storage_to_bin  (blur)="IsValidBinCode('tobin', dataItem,idx,storage_to_bin)">
@@ -156,13 +134,6 @@
                                 </button>
                             </ng-template>
                         </kendo-grid-column>
-                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_LINEID" [width]="18" title="{{'LineID'|translate}}">
-                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="number" class="text-right form-control form-control-sm" name="dataItem.OPTM_LINEID" value={{dataItem.OPTM_LINEID}}
-                                    id="lineId" min="0" #lineId (change)="updateLineId(lineId, lineId.value, idx)">
-                            </ng-template>
-                        </kendo-grid-column> -->
-
                     </kendo-grid>
                     </div>
                 </div>

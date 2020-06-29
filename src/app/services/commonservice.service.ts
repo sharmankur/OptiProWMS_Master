@@ -45,6 +45,9 @@ export class Commonservice {
       data => {
         sessionStorage.setItem('ConfigData', JSON.stringify(data[0]));
         this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
+        this.maxDescLength = 50;
+        this.maxCodeLength = 30;
+        this.maxNOLength = 100000;
       },
       (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -114,6 +117,9 @@ export class Commonservice {
   // For opening content from left navigation links.
   private navigatedData = new BehaviorSubject<boolean>(false);
   currentNavigatedData = this.navigatedData.asObservable();
+  maxDescLength;
+  maxCodeLength;
+  maxNOLength: number = 100;
 
   public setNavigatedData(navigationLink: boolean) {
     this.navigatedData.next(navigationLink);
@@ -744,12 +750,14 @@ export class Commonservice {
     localStorage.setItem('CustomizationDetail', JSON.stringify(customizationDetails));
   }
 
-  GetDataForContainerAutoRule(OPTM_CONTTYPE: any, RULEID: any): Observable<any> {
+  GetDataForContainerAutoRule(OPTM_CONTTYPE: any, RULEID: any, Purpose: string, AddItemFlg: String): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTTYPE: OPTM_CONTTYPE,
-        RULEID: RULEID
+        RULEID: RULEID, 
+        Purpose: Purpose,
+        AddItemFlg: AddItemFlg
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
@@ -1004,11 +1012,13 @@ export class Commonservice {
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
   }
 
-  GetAllocatedShipmentCode(status): Observable<any> {
+  GetAllocatedShipmentCode(status, SHIPMENTCODE, WHSE): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        STATUS: status 
+        STATUS: status,
+        SHIPMENTCODE: SHIPMENTCODE,
+        WHSE: WHSE 
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);

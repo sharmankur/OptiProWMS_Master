@@ -5,6 +5,7 @@ import { CTMasterComponent } from '../ctmaster.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { CommonData } from 'src/app/models/CommonData';
 
 @Component({
   selector: 'app-ctupdate',
@@ -12,18 +13,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./ctupdate.component.scss']
 })
 export class CTUpdateComponent implements OnInit {
-  CT_Description: string;
+  CT_Description: string="";
   CT_Length: string;
   CT_Width: string;
   CT_Height: string;
-  CT_Max_Width: string;
-  CT_Tare_Width: string;
+  CT_Max_Width: string = "";
+  CT_Tare_Width: string = "";
   CT_ContainerType: string;
   CT_ROW: any;
   BtnTitle: string;
   showLoader: boolean = false;
   isUpdate: boolean = false;
-  isUpdateHappen: boolean = false
+  isUpdateHappen: boolean = false;
+  commonData: any = new CommonData(this.translate);
+  maxCodeLength: any = ''
+  maxDescLength: any = ''
+  maxNOLength;
   constructor(private containerTypeService: ContainerTypeService, private commonservice: Commonservice, private router: Router, private toastr: ToastrService, private translate: TranslateService,
     private inboundMasterComponent: CTMasterComponent) {
     let userLang = navigator.language.split('-')[0];
@@ -35,7 +40,9 @@ export class CTUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
+    this.maxNOLength = this.commonservice.maxNOLength;
     let CtRow = localStorage.getItem("CT_ROW")
     if(CtRow != undefined && CtRow != ""){
       this.CT_ROW = JSON.parse(localStorage.getItem("CT_ROW"));
@@ -61,7 +68,7 @@ export class CTUpdateComponent implements OnInit {
   }
 
   formatCT_Width() {
-    if(Number(this.CT_Width) < 0 ){
+    if(Number(this.CT_Width) < 0){
       this.CT_Width = ''
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
       return false;
@@ -111,7 +118,7 @@ export class CTUpdateComponent implements OnInit {
       this.isUpdateHappen = true
     }
 
-    if(this.CT_Max_Width <= this.CT_Tare_Width){
+    if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){
       this.toastr.error('', this.translate.instant("MaxWeightValMsg"));
     }
   }
@@ -142,10 +149,10 @@ export class CTUpdateComponent implements OnInit {
       this.CT_Max_Width = "0";
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
-    } else if(Number(this.CT_Max_Width) < 1){
+    } else if(Number(this.CT_Max_Width) <= 0){
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
-    } else if(Number(this.CT_Tare_Width) < 1){
+    } else if(Number(this.CT_Tare_Width) <= 0 ){
       this.toastr.error('', this.translate.instant("WeightTareValMsg"));
       return false
     } else if(Number(this.CT_Max_Width) <= Number(this.CT_Tare_Width)){

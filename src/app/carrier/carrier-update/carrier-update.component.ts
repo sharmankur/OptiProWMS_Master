@@ -20,13 +20,16 @@ export class CarrierUpdateComponent implements OnInit {
   isUpdate: boolean = false;
   showLoader: boolean = false;
   isUpdateHappen: boolean = false;
-
+  maxCodeLength: string;
+  maxDescLength: string;
+  
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService,
     private carrierMainComponent: CarrierMainComponent, private carrierService: CarrierService, private router: Router) { }
 
   ngOnInit() {
     this.BtnTitle = this.translate.instant("Submit");
-
+    this.maxCodeLength = this.commonservice.maxCodeLength;
+    this.maxDescLength = this.commonservice.maxDescLength;
     let DD_ROW = localStorage.getItem("DD_ROW")
     if (DD_ROW != undefined && DD_ROW != "") {
       this.DD_ROW = JSON.parse(localStorage.getItem("DD_ROW"));

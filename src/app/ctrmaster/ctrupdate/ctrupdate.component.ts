@@ -26,6 +26,11 @@ export class CTRUpdateComponent implements OnInit {
   lookupfor: string;
   serviceData: any[];
   isUpdateHappen: boolean = false;
+  childCtrVol: number = 0;
+  parentCtrVolume: number = 0;
+  childCtrMaxWT: number = 0;
+  parentCtrMaxWT: number = 0;
+
   @ViewChild("scanContPartParent", {static: false}) scanContPartParent;
   @ViewChild("scanContPerPart", {static: false}) scanContPerPart;
 
@@ -93,6 +98,10 @@ export class CTRUpdateComponent implements OnInit {
     }
     else if(this.CTR_ConatainerPartofParent == "NaN" || this.CTR_ConatainerPartofParent == undefined || Number(this.CTR_ConatainerPartofParent) <= 0 ){
       this.toastr.error('', this.translate.instant("CPofPErrMsg"));
+      return false;
+    }
+    else if(Number(this.CTR_ConatainerPartofParent) >= Number(this.CTR_ConainerPerParent)){
+      this.toastr.error('', this.translate.instant("ContainersPerParentMsg"));
       return false;
     }
     return true;
@@ -194,6 +203,46 @@ export class CTRUpdateComponent implements OnInit {
     );
   }
 
+  ValidateContainerCapacities(clearField: string, childQty: number): boolean {
+    if (childQty == null) {
+      childQty = 1;
+    } else if (childQty <= 0) {
+      childQty = 1;
+    }
+
+    if (this.parentCtrVolume > 0 && this.childCtrVol > 0) {
+      if ((this.parentCtrVolume / (this.childCtrVol * childQty)) < 1) {
+        this.toastr.error('Srini', 'Parent container volume should be greater than total child container vloume.');
+        if (clearField == 'Parent') {
+          this.CTR_ParentContainerType = '';
+        } else if (clearField == 'Child') {
+          this.CTR_ContainerType = '';
+        } else {
+          this.CTR_ConainerPerParent = 0;
+          this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        }
+        return false;
+      }
+    }
+    if (this.parentCtrMaxWT > 0 && this.childCtrMaxWT > 0) {
+      if ((this.parentCtrMaxWT / (this.childCtrMaxWT * childQty)) < 1) {
+        this.toastr.error('Srini', 'Parent container capacity should be greater than total child container capacity.');
+        if (clearField == 'Parent') {
+          this.CTR_ParentContainerType = '';
+        } else if (clearField == 'Child') {
+          this.CTR_ContainerType = '';
+        } else {
+          this.CTR_ConainerPerParent = 0;
+          this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        }
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+
   OnContainerTypeChangeBlur(){
     if(this.isValidateCalled){
       return;
@@ -220,6 +269,12 @@ export class CTRUpdateComponent implements OnInit {
           this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ContainerType = data[0].OPTM_CONTAINER_TYPE;
+            this.childCtrVol = data[0].OPTM_Length * data[0].OPTM_WIDTH * data[0].OPTM_HEIGHT / 1000000;
+            this.childCtrMaxWT = data[0].OPTM_MAXWEIGHT; 
+            if (!(this.ValidateContainerCapacities('Child',this.CTR_ConainerPerParent))) {
+              result = false;
+              return;
+            }           
             result = true;
           }else{
             this.CTR_ContainerType = "";
@@ -270,6 +325,12 @@ export class CTRUpdateComponent implements OnInit {
           this.isUpdateHappen = true
           if(data.length > 0){
             this.CTR_ParentContainerType = data[0].OPTM_CONTAINER_TYPE;
+            this.parentCtrVolume = data[0].OPTM_Length * data[0].OPTM_WIDTH * data[0].OPTM_HEIGHT / 1000000;
+            this.parentCtrMaxWT = data[0].OPTM_MAXWEIGHT;
+            if (!(this.ValidateContainerCapacities('Parent',this.CTR_ConainerPerParent))) {
+              result = false;
+              return;
+            }
             result = true;
           }else{
             this.CTR_ParentContainerType = "";
@@ -344,24 +405,39 @@ export class CTRUpdateComponent implements OnInit {
     else if (this.lookupfor == "CTList") {
       this.CTR_ContainerType = $event[0];
       this.isUpdateHappen = true
+      this.childCtrVol = $event[2] * $event[3] * $event[4] / 1000000
+      this.childCtrMaxWT = $event[5];
+      if (!(this.ValidateContainerCapacities('Child',this.CTR_ConainerPerParent))) {
+        return;
+      }
     }
     else if (this.lookupfor == "PCTList") {
       this.CTR_ParentContainerType = $event[0];
       this.isUpdateHappen = true
+      this.parentCtrVolume = $event[2] * $event[3] * $event[4] / 1000000
+      this.parentCtrMaxWT = $event[5];
+      if (!(this.ValidateContainerCapacities('Parent',this.CTR_ConainerPerParent))) {
+        return;
+      }
     }
   }
 
   formatCTR_ConainerPerParent() {
     if(Number(this.CTR_ConainerPerParent) < 1 ){
-      this.CTR_ConainerPerParent = 0
+      this.CTR_ConainerPerParent = 0;
+      this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.toastr.error('', this.translate.instant("ContPerValMsg"));
       return false;
     } else if(!Number.isInteger(Number(this.CTR_ConainerPerParent))) {
-      this.CTR_ConainerPerParent = 0
+      this.CTR_ConainerPerParent = 0;
+      this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.toastr.error('', this.translate.instant("OnlyIntAllow"));
     }
 
-    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent);//.toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.CTR_ConainerPerParent = Number(this.CTR_ConainerPerParent).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    if (!(this.ValidateContainerCapacities('Quantity',this.CTR_ConainerPerParent))) {
+      return;
+    }
     this.CTR_ConatainerPartofParent = 1 / Number(this.CTR_ConainerPerParent)
     this.CTR_ConatainerPartofParent = this.CTR_ConatainerPartofParent.toFixed(Number(localStorage.getItem("DecimalPrecision")));
     this.isUpdateHappen = true
@@ -369,9 +445,9 @@ export class CTRUpdateComponent implements OnInit {
   }
 
   formatCTR_ConatainerPartofParent() {
-    if(Number(this.CTR_ConatainerPartofParent) < 0 ){
+    if(Number(this.CTR_ConatainerPartofParent) < 0 && Number(this.CTR_ConatainerPartofParent) > 1){
       this.CTR_ConatainerPartofParent = 0
-      this.toastr.error('', this.translate.instant("ContPerValMsg"));
+      this.toastr.error('', this.translate.instant("ContPerValMsg")); // error msg check
       return false;
     }
 

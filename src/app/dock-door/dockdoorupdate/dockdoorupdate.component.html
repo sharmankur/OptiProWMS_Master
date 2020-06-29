@@ -26,7 +26,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="DD_ID" [(ngModel)]="DD_ID" placeholder="{{'DD_ID'|translate}}"
-                                    (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField">
+                                    (blur)="OnDDIDChange()" #DDIDInputField [disabled]=isUpdate id="InboundDetailVendScanInputField" trim="blur" maxlength="{{maxCodeLength}}">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm" name="DD_DESC" [(ngModel)]="DD_DESC" placeholder="{{'DD_DESC'|translate}}"
-                                (blur)="onDescChangeBlur()">
+                                (blur)="onDescChangeBlur()" trim="blur" maxlength="{{maxDescLength}}">
                             </div>
                         </div>
                     </div>
@@ -85,14 +85,6 @@
 
                             </ng-template>
                         </kendo-grid-column>
-
-                        <!-- <kendo-grid-column media="(min-width: 768px)" field="OPTM_DEFAULT" headerClass="text-right" class="text-left" [width]="18" title="{{'Default_Bin'|translate}}">
-                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
-                                <input type="text" class="text-left form-control form-control-sm" name="dataItem.OPTM_DEFAULT" value={{dataItem.OPTM_DEFAULT}} id="display_name"
-                                    #display_name (change)="UpdateDefault(display_name, display_name.value, idx)">
-                            </ng-template>
-                        </kendo-grid-column> -->
-
                         <kendo-grid-checkbox-column title="{{'Default_Bin'|translate}}" [width]="9">
                             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                 <div class="custom-control custom-checkbox">

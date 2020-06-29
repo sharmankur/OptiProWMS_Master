@@ -82,6 +82,7 @@ export class ShipmentViewComponent implements OnInit {
   isarchived = false;
   SelectedRowsforShipmentArr = [];
   isUpdateHappen = false;
+  maxDescLength: any = ''
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService: ContainerShipmentService, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -171,6 +172,7 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.maxDescLength = this.commonservice.maxDescLength;
     this.shiment_status_array = this.commonData.shiment_status_array();
     this.Container_status_array = this.commonData.Container_Status_DropDown();
     this.clearStorage();
@@ -282,6 +284,9 @@ export class ShipmentViewComponent implements OnInit {
           this.hideLookup = false;
           this.showLookupLoader = false;
           this.serviceData = data;
+          for(var i=0; i<this.serviceData.length; i++){
+            this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+          }
           this.lookupfor = "ShipmentList";
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -299,6 +304,7 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  ShipmentLineStatus: string;
   GetDataBasedOnShipmentId(ShipmentID) {
     this.showLoader = true;
 
@@ -314,6 +320,7 @@ export class ShipmentViewComponent implements OnInit {
           this.updateShipmentHDR(data.OPTM_SHPMNT_HDR);
           this.shipmentData = data;
           //Shipment Detail 
+          this.ShipmentLineStatus = data.OPTM_SHPMNT_DTL[0].OPTM_STATUS;
           for (var i = 0; i < data.OPTM_SHPMNT_DTL.length; i++) {
             data.OPTM_SHPMNT_DTL[i].OPTM_STATUS = this.getShipLinesStatusValue(data.OPTM_SHPMNT_DTL[i].OPTM_STATUS);
             data.OPTM_SHPMNT_DTL[i].OPTM_QTY = Number(data.OPTM_SHPMNT_DTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
@@ -343,9 +350,9 @@ export class ShipmentViewComponent implements OnInit {
             data.OPTM_CONT_HDR[i].OPTM_STATUS = this.getContStatusValue(data.OPTM_CONT_HDR[i].OPTM_STATUS);
           }
           this.ShipContainers = data.OPTM_CONT_HDR;
-          if (this.ShipContainers.length > 0) {
-            this.UseContainer = true;
-          }
+          // if (this.ShipContainers.length > 0) {
+          //   this.UseContainer = true;
+          // }
           if (this.ShipContainers != undefined && this.ShipContainers.length > this.pageSize3) {
             this.pagable3 = true;
           }
@@ -395,17 +402,27 @@ export class ShipmentViewComponent implements OnInit {
     }
     //BatchSer Details
     this.ShipmentLineDetails = [];
+    this.ShipmentLineDetails = this.shipmentData.OPTM_SHPMNT_INVDTL.filter(element => element.OPTM_DTLLINEID == ShipmentLineId);
+    
+    /*
+
+
     if (this.shipmentData.OPTM_SHPMNT_INVDTL.length > 0 && !this.UseContainer) {
       for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_INVDTL.length; i++) {
         if (this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-          this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          //Srini - this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_INVDTL[i]);
         }
       }
       if (this.ShipmentLineDetails.length < 1) {
         for (var i = 0; i < this.shipmentData.OPTM_SHPMNT_BINDTL.length; i++) {
           if (this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_DTLLINEID === ShipmentLineId) {
-            this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            //Srini - this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY = Number(this.shipmentData.OPTM_SHPMNT_BINDTL[i].OPTM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].ITEM_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+            this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY = Number(this.shipmentData.OPTM_SHPMNT_INVDTL[i].BTCHSR_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+          
             this.ShipmentLineDetails.push(this.shipmentData.OPTM_SHPMNT_BINDTL[i]);
           }
         }
@@ -421,6 +438,7 @@ export class ShipmentViewComponent implements OnInit {
         }
       }
     }
+    */
 
     if (this.ShipmentLineDetails != undefined && this.ShipmentLineDetails.length > this.pageSize5) {
       this.pagable5 = true;
@@ -606,6 +624,7 @@ export class ShipmentViewComponent implements OnInit {
       this.ShpContainerType = "";
     }
     localStorage.setItem("ShpContType", this.ShpContainerType);
+    localStorage.setItem("ShpLineDtl", JSON.stringify(this.shipmentData.OPTM_SHPMNT_INVDTL));
     
 
     if (this.UseContainer) {
@@ -781,7 +800,7 @@ export class ShipmentViewComponent implements OnInit {
       OPTM_PARENTCODE: "",
       OPTM_GROUP_CODE: 0,
       OPTM_CREATEMODE: "3",
-      OPTM_PERPOSE: "Y",
+      OPTM_PURPOSE: "Y",
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Container",
       OPTM_WONUMBER: 0,
@@ -824,6 +843,7 @@ export class ShipmentViewComponent implements OnInit {
           if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
             this.toastr.success('', this.translate.instant("ContainerCreatedSuccessMsg"));
             this.containerCode = "";
+            this.dialogOpened = false;
             if (this.runningProcessName == "Stage") {
               this.onStageORUnstageShipmentClick();
             } else if (this.runningProcessName == "ShippingProcess") {
@@ -850,12 +870,21 @@ export class ShipmentViewComponent implements OnInit {
   }
 
   onUpdateClick() {
-    if (this.ShipmentID == undefined || this.ShipmentID == "") {
+    // if (this.ShipmentID == undefined || this.ShipmentID == "") {
+    //   return;
+    // }
+    let schDate = "";
+    if(this.ScheduleDatetime != undefined){
+      schDate = this.ScheduleDatetime.toLocaleDateString();
+    }
+    
+    if (!this.validateFields()) {
       return;
     }
+
     this.showLoader = true;
     let uc = this.UseContainer == true ? "Y" : "N";
-    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, this.ScheduleDatetime, this.DockDoor).subscribe(
+    this.shipmentService.updateShipment(this.ReturnOrderRef, uc, this.ShipmentID, this.BOLNumber, this.VehicleNumber, this.Container_Group, this.CarrierCode, schDate, this.DockDoor).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -1137,6 +1166,42 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
+  onAcceptReturnClick(){
+    if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
+      return;
+    }
+    this.showLoader = true;
+    this.shipmentService.AcceptReturnShipment(this.ShipmentID).subscribe(
+      (data: any) => {
+        this.showLoader = false;
+        if (data != undefined) {
+          if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+              this.translate.instant("CommonSessionExpireMsg"));
+            return;
+          }
+          if (data.OUTPUT[0].RESULT == this.translate.instant("DataSaved")) {
+            this.toastr.success('', "Return accepted");
+            this.GetDataBasedOnShipmentId(this.ShipmentID);
+          } else {
+            this.toastr.error('', data.OUTPUT[0].RESULT);
+          }
+        } else {
+
+        }
+      },
+      error => {
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
+        }
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
+  }
+
   CustomerReturn() {
     if (this.ShipmentID == "" || this.ShipmentID == null || this.ShipmentID == undefined) {
       return;
@@ -1173,7 +1238,6 @@ export class ShipmentViewComponent implements OnInit {
     );
   }
 
-
   TransferFromArchive() {
     this.ArchiveDialog = true;
     this.initializeData();
@@ -1183,13 +1247,18 @@ export class ShipmentViewComponent implements OnInit {
     this.ArchiveDialog = false;
   }
 
-  onScheduleDateChange(event) {
+  onDateDialogClose(value, ScheduleDT){
+    this.onScheduleDateChange(value, ScheduleDT)
+  }
+
+  onScheduleDateChange(event, ScheduleDT) {
     console.log("onScheduleDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
     if (event.getTime() < cDate.getTime()) {
       this.ScheduleDatetime = undefined;
+      ScheduleDT.value = undefined;
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
       return;
     }

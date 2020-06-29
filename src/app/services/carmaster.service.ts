@@ -21,7 +21,9 @@ export class CARMasterService {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTTYPE: '',
-        RULEID: ''
+        RULEID: '',
+        Purpose: '',
+        AddItemFlg: ''
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.commonService.httpOptions);

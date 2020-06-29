@@ -50,14 +50,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-    
+                    </div>    
                 </div>
     
                 <div class="row">
                     <div class="col-12">
-                        <div class="row">
-    
+                        <div class="row">    
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="BinId" class="col-sm-4 col-form-label">{{'Bin'|translate}}</label>
@@ -99,14 +97,14 @@
                                 <kendo-grid-column field="ITEMCODE" width="100" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="WHSCODE" width="64" title="{{'WarehouseCode'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="BINNO" width="108" title="{{'Bin_No'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="LOTNO" width="108" title="{{'LotNo'|translate}}" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
-                                <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="{{'Available_Quantity'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="AssignQty" width="60" class="text-right" title="{{'QtyAdded'|translate}}">
+                                <kendo-grid-column field="LOTNO" width="108" title="{{BatchSerStr}}" *ngIf="Tracking != 'N' && (SHPStatus == '2')"></kendo-grid-column>
+                                <kendo-grid-column field="AvailableQty" width="60" class="text-right" title="{{avlQtyTitle}}"></kendo-grid-column>
+                                <kendo-grid-column field="AssignQty" width="60" class="text-right" title="{{allocatesQtyTitle}}">
                                         <!--QtytoAssign-->
                                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                             <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
                                                 (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
-                                                value={{dataItem.AssignQty}} #AssignQty title="{{'QtyAdded'|translate}}" />
+                                                value={{dataItem.AssignQty}} #AssignQty title="{{allocatesQtyTitle}}" />
                                         </ng-template>
                                     </kendo-grid-column>
                                 <kendo-grid-column *ngIf="SHPStatus == '3'" [width]="45" headerClass="text-center" class="text-center">

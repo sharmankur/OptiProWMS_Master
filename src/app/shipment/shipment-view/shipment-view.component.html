@@ -1,6 +1,6 @@
 <div class="opti_container position-relative bg-white rounded">
     <form class="form-with-fix-btnBar" *ngIf="!viewLines">
-        <div class="opti_container_inner" [perfectScrollbar]=" ">
+        <div class="opti_container_inner">
             <h3 *ngIf="fromScreen == 'shipment'" class="border-bottom d-flex pt-1 pb-3 mb-4">
                 {{'DropdownMenu_Shipment'|translate}}
             </h3>
@@ -46,8 +46,10 @@
                                 <div class="form-group row">
                                     <label for="ScheduleDatetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                     <div class="col-sm-8">
-                                        <kendo-datepicker name="ScheduleDatetime" [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}}
-                                            (valueChange)="onScheduleDateChange($event)" [disabled]="isarchived"></kendo-datepicker>
+                                        <kendo-datepicker name="ScheduleDatetime" #ScheduleDT [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}} 
+                                            (blur)="onScheduleDateChange(ScheduleDT.value, ScheduleDT)" 
+                                            (close)="onDateDialogClose(ScheduleDT.value, ScheduleDT)"
+                                            [disabled]="isarchived"></kendo-datepicker>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +155,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='ReturnOrderRef' [(ngModel)]=ReturnOrderRef id="ReturnOrderRef"
                                         (blur)="onRefOrderNoChange()"
-                                            [disabled]="isarchived">
+                                            [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +166,7 @@
                                     <label for="BOLNumber" class="col-sm-4 col-form-label">{{'BOL_Number'|translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='BOLNumber' [(ngModel)]=BOLNumber id="BOLNumber" 
-                                        (blur)="onBOLChange()" [disabled]="isarchived">
+                                        (blur)="onBOLChange()" [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +178,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name='VehicleNumber' [(ngModel)]=VehicleNumber id="VehicleNumber"
                                         (blur)="onVechicleChange()"
-                                            [disabled]="isarchived">
+                                            [disabled]="isarchived" maxlength="{{maxDescLength}}">
                                     </div>
                                 </div>
                             </div>
@@ -319,16 +321,16 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="UseContainer">
+            <div *ngIf="UseContainer || ShipContainers.length > 0">
                 <a class="toggle-anchor" (click)="showShipDetails(1)">
                     <span [ngClass]="{kiarrowchevrondown:showShipDetailsEnable[1]}" class="k-icon k-i-arrow-chevron-right" role="presentation"></span>
                     <span class="toggle-anchor-text"> {{'ContainerDetails'|translate}}</span>
                 </a>
             </div>
-            <div *ngIf="showShipDetailsEnable[1] && UseContainer">
+            <div *ngIf="showShipDetailsEnable[1] && (ShipContainers.length > 0 || UseContainer)">
                 <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                        <!-- Shipment Lines -->
+                        <!-- Shipment Containers -->
                         <div class="card shipment-widget-box">
                             <h5 class="card-header">{{'ShipmentContainers'|translate}}</h5>
                             <div class="card-body">
@@ -350,7 +352,7 @@
                                     <kendo-grid-column field="OPTM_PARENTCONTID" title="{{'Parent_CId'|translate}}" width="100" class="text-right"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_STATUS" title="{{'ContainerStatus'|translate}}" width="90"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_SHIPELIGIBLE" title="{{'ShipEligible'|translate}}" width="75"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column>
+                                    <!-- <kendo-grid-column field="OPTM_PICKED_TOSHIP" title="{{'PickedForShipment'|translate}}" width="75"></kendo-grid-column> -->
                                     <kendo-grid-column field="OPTM_WHSE" title="{{'WarehouseCode'|translate}}" width="75"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BIN" title="{{'ContainerBin'|translate}}" width="200"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_WEIGHT" title="{{'Weight'|translate}}" width="75" class="text-right"></kendo-grid-column>
@@ -405,7 +407,11 @@
                                     <kendo-grid-column field="OPTM_ITEMCODE" width="95" title="{{'ItemCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BIN" width="95" title="{{'BinCode'|translate}}"></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BTCHSER" width="95" title="{{'BTCH_Number'|translate}}"></kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right"></kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_QTY" width="95" title="{{'Quantity'|translate}}" class="text-right">
+                                        <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
+                                            <label class="col-form-label">{{di.OPTM_QTY|numberFormat}}</label>
+                                        </ng-template>
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="OPTM_CONTAINER_ID" width="95" title="{{'ContainerCode'|translate}}"></kendo-grid-column>
                                 </kendo-grid>
                             </div>
@@ -434,7 +440,7 @@
                     <span role="presentation"></span> {{'Schedule'|translate}}</button>
 
                 <button *ngIf="fromScreen == 'shipment'" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="OnContainerBtnClick()"
-                    [disabled]="StatusId == '1' || ShipmentID==''">
+                    [disabled]="StatusId == '1' || ShipmentID=='' || StatusId > '5'">
                     <span role="presentation"></span> {{btnText}}</button>
 
                 <button *ngIf="fromScreen == 'archiveddata'" class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (click)="RestoreFromArchived()"
@@ -450,11 +456,15 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" (click)="onStageORUnstageShipmentClick()" *ngIf="!isStageDiabled">{{'Stage_Unstage'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item">{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId ==12" (click)="onAcceptReturnClick()" >{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId !=12" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId >=10 && StatusId !=14" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="StatusId<10 || StatusId==14">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="ShipmentLineStatus<4" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="ShipmentLineStatus>=4">{{'Cancel_Unassign'|translate}}</a>
                             <a class="dropdown-item" (click)="TransferFromArchive()">{{'TransferFromArchive'|translate}}</a>
-                            <a class="dropdown-item" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="UseContainer && StatusId>2 && StatusId<6" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="!UseContainer || (StatusId<=2 || StatusId>=6)">{{'Remove_from_shipment'|translate}}</a>
                         </div>
                     </div>
                 </div>

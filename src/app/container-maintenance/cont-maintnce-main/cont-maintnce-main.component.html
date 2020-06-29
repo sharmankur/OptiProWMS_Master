@@ -381,8 +381,8 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Reopened'" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Reopened'">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus=='Closed'" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus!='Closed'">{{'ReOpen'|translate}}</a>
 
                             <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Damaged'" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Damaged'">{{'Set_Damaged'|translate}}</a>
@@ -390,13 +390,20 @@
                             <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Cancelled'" (click)="onSetCancelClick()">{{'CancelContainer'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Cancelled'">{{'CancelContainer'|translate}}</a>
 
-                            <a class="dropdown-item" (click)="onCloseClick()" *ngIf="containerStatus!='Closed'">{{'CloseContainer'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatus=='Closed'">{{'CloseContainer'|translate}}</a>
+                            <a class="dropdown-item" (click)="onCloseClick()" *ngIf="containerStatusEnum==2 || containerStatusEnum==4">{{'CloseContainer'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatusEnum!=4 && containerStatusEnum!=2">{{'CloseContainer'|translate}}</a>
 
-                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
-                            <a class="dropdown-item" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
-                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
-                            <a class="dropdown-item" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="containerStatusEnum<=4" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatusEnum>4">{{'AssignSO'|translate}}</a>
+
+                            <a class="dropdown-item" *ngIf="containerStatusEnum<=4" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatusEnum>4">{{'RemoveSO'|translate}}</a>
+
+                            <a class="dropdown-item" *ngIf="containerStatusEnum<=4" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatusEnum>4">{{'AssignCC'|translate}}</a>
+
+                            <a class="dropdown-item" *ngIf="containerStatusEnum<=4" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="containerStatusEnum>4">{{'RemoveCC'|translate}}</a>
                         </div>
                     </div>
                 </div>

@@ -11,8 +11,13 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 export class AutoAllocationComponent implements OnInit {
 
-  // ShipToCodeFrom: string = "";
-  // ShipToCodeTo: string = "";
+
+  schedularFromDate: any;
+  schedularToDate: any;
+  tempFromDate: Date;
+  tempToDate: Date;
+  scheduleFromDate: string = "";
+  scheduleToDate: string = "";
   ShipIdFrom: string = "";
   ShipIdTo: string = "";
   ShipmentCodeFrom: string = "";
@@ -65,26 +70,30 @@ export class AutoAllocationComponent implements OnInit {
 
   }
 
-  schedularFromDate: any;
-  schedularToDate: any;
-  tempFromDate: Date;
-  tempToDate: Date;
   onScheduleFromDateChange(event) {
     this.isUpdateHappen = true
     console.log("onScheduleFromDateChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+     
     this.tempFromDate = event
     if (event.getTime() < cDate.getTime()) {
       this.schedularFromDate = '';
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
 
-    if (this.tempToDate.getTime() < event.getTime()) {
-      this.schedularFromDate = '';
-      this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
+    if (this.tempToDate != null) {
+      if (this.tempToDate.getTime() < event.getTime()) {
+        this.schedularFromDate = '';
+        this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
+      }
     }
+    
+    var varYear: string = event.getFullYear();
+    var varMonth: string = (event.getMonth() + 1);
+    var varDay: string = event.getDate();
+    this.scheduleFromDate = varYear + "-" + varMonth + "-" +  varDay
   }
 
   onScheduleToDateChange(event) {
@@ -103,6 +112,10 @@ export class AutoAllocationComponent implements OnInit {
       this.schedularToDate = '';
       this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
     }
+    var varYear: string = event.getFullYear();
+    var varMonth: string = (event.getMonth() + 1);
+    var varDay: string = event.getDate();
+    this.scheduleToDate = varYear + "-" + varMonth + "-" +  varDay
   }
 
   OnCancelClick() {
@@ -166,22 +179,22 @@ export class AutoAllocationComponent implements OnInit {
   }
 
   onAutoAllocClick() {
-    if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
-      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-      return
-    } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
-      this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-      return
-    } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
-      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-      return
-    } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
-      this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-      return
-    }
+    // if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
+    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    //   return
+    // } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
+    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
+    //   return
+    // } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
+    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    //   return
+    // } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
+    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
+    //   return
+    // }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
-      this.schedularFromDate, this.schedularToDate).subscribe(
+      this.scheduleFromDate, this.scheduleToDate).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {
@@ -191,7 +204,12 @@ export class AutoAllocationComponent implements OnInit {
               return;
             }
             // {"OUTPUT":[{"RESULT":"Data Saved"}]}
-            this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
+            
+            if(data.OUTPUT[0].RESULT == "Data Saved"){
+              this.toastr.success('', this.translate.instant("ShpAllocatedSuccess"));
+            }else{
+              this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
+            }
             this.ShipmentCodeFrom = ''
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''

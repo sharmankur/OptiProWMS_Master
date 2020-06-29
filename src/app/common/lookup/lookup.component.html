@@ -1,5 +1,5 @@
 <kendo-grid [kendoGridBinding]="serviceData" [filterable]=isColumnFilter [groupable]=isColumnGroup [selectable]="true" [sort]="state.sort"
-    [filter]="state.filter" [resizable]="true" [skip]="skip" (selectionChange)="on_item_select($event)" style="max-height:400px"
+    [filter]="state.filter" [resizable]="true" [skip]="skip" (selectionChange)="on_item_select($event)" style="max-height:400px" (pageChange)="pageChange($event)"
     class="no-shadow" [pageSize]="lookupPageSize" [pageable]="lookupPagable">
 
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="1">
@@ -37,7 +37,7 @@
         </ng-template>
         <ng-template kendoGridCellTemplate let-idx='rowIndex' let-di='dataItem'>
             <div class="custom-control custom-checkbox">
-                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]=selectall
+                <input #chkSelection type="checkbox"  (change)="onCheckboxClick(chkSelection.checked,idx)" [checked]="di.checked"
                     id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter" />
                 <label class="custom-control-label" for="chkbox-{{idx}}"></label>
             </div>

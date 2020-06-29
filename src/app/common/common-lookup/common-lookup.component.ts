@@ -234,14 +234,17 @@ export class CommonLookupComponent implements OnInit {
       
     }else if(this.lookupfor == "RULEITEMS"){
       this.showRuleItemList();
-    } else if(this.lookupfor == "AutoAllocate"){
+    } else if(this.lookupfor == "AutoAllocate"||this.lookupfor == "PicklistShipments"){
       this.showShipsForAutoAllocate();
     }else if(this.lookupfor == "ContItems"){
       this.showContitems();
     }else if(this.lookupfor == "showContBatchSerialList"){
       this.showContBatchSerialList();
     }
-
+    else if(this.lookupfor == "UserGrp"){
+      this.showUserGrpList();
+    }
+    this.dialogOpened = true;
     this.clearFilters();
     this.isColumnFilter = false
   }
@@ -493,6 +496,29 @@ export class CommonLookupComponent implements OnInit {
     }
   }  
 
+  showUserGrpList(){
+    this.table_head = [
+      {
+        field: 'OPTM_GROUPCODE',
+        title: this.translate.instant("AssignedUserGroup"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      }
+    ];
+    this.lookupTitle = this.translate.instant("UserGroupList");
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+      }
+    }
+  }  
+
   showContItemBatchSerialList(){
     this.table_head = [
       {
@@ -587,7 +613,7 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_DESC',
         title: this.translate.instant("CT_Description"),
-        type: 'date',
+        type: 'text',
         width: '100'
       }
     ];
@@ -602,7 +628,7 @@ export class CommonLookupComponent implements OnInit {
   showOutSOListNew() {
     this.table_head = [
       {
-        field: 'DocEntry',
+        field: 'DocNum',
         title: this.translate.instant("SO_NUM"),
         type: 'numeric',
         width: '100'
@@ -952,7 +978,13 @@ export class CommonLookupComponent implements OnInit {
         field: 'OPTM_SHIPMENT_CODE',
         title: this.translate.instant("Shipment_Code"),
         type: 'text',
-        width: '150'
+        width: '200'
+      },
+      {
+        field: 'OPTM_STATUS_VAL',
+        title: this.translate.instant("Status"),
+        type: 'text',
+        width: '100'
       },
       {
         field: 'OPTM_BPCODE',
@@ -969,6 +1001,12 @@ export class CommonLookupComponent implements OnInit {
       {
         field: 'OPTM_USE_CONTAINER',
         title: this.translate.instant("ShipmentContainers"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Warehouse"),
         type: 'text',
         width: '100'
       },
@@ -1111,7 +1149,23 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Parent_Container_Type"),
         type: 'text',
         width: '100'
-      }      
+      },   
+      {
+        field: 'OPTM_CONT_PERPARENT',
+        title: this.translate.instant("CTRContainersPerParent"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'OPTM_CONT_PARTOFPARENT',
+        title: this.translate.instant("CTRContainerPartofParent"),
+        headerClass: 'text-right',
+        class: 'text-right',
+        type: 'text',
+        width: '100'
+      }   
     ];
     this.lookupTitle = this.translate.instant("Parent_Container_Type");
     if (this.serviceData !== undefined) {
@@ -1321,13 +1375,13 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        title: this.translate.instant("Outbound_CustomerName"),
+        title: this.translate.instant("CustomerName"),
         field: 'CardCode',
         type: 'text',
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("CustomerList");
+    this.lookupTitle = this.translate.instant("Ship_To_Code");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
@@ -1381,7 +1435,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       }
     ];
-    this.lookupTitle = this.translate.instant("ShipmentLineDetails");
+    this.lookupTitle = this.translate.instant("PT_ShipmentList");
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;

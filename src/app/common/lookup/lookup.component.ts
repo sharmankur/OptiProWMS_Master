@@ -6,7 +6,7 @@ import 'bootstrap';
 import { ColumnSetting } from '../../models/CommonData';
 import { OutboundData } from '../../models/outbound/outbound-data';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { UIHelper } from '../../helpers/ui.helpers';
 import { State } from '@progress/kendo-data-query';
 import { CommonConstants } from '../../const/common-constants';
@@ -45,7 +45,7 @@ export class LookupComponent implements OnInit {
   gridHeight: number;
   showLoader: boolean = false;
   grid: any;
-  selectall: boolean = false;
+  public selectall: boolean = false;
   showSelection: boolean = false;
   public selectedValues: Array<any> = [];
   public mySelection: number[] = [];
@@ -61,6 +61,11 @@ export class LookupComponent implements OnInit {
      // console.log("translate.onLangChange.subscribe inside lookup component");
       this.ngOnChanges();
     });
+  }
+
+  public skip = 0;
+  pageChange(event: PageChangeEvent) {
+    this.skip = event.skip;
   }
 
   close_kendo_dialog() {
@@ -100,7 +105,7 @@ export class LookupComponent implements OnInit {
   }
 
   async ngOnChanges(): Promise<void> {
-  //  console.log("ngOnChanges ");
+    this.pageChange({ skip: 0, take: this.lookupPageSize });
     if (this.serviceData != undefined && this.serviceData.length >= this.lookupPageSize) {
       this.lookupPagable = true;
     }
@@ -463,7 +468,7 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("CT_Length"),
         headerClass: 'text-left',
         class: 'text-right',
-        type: 'numeric',
+        type: 'text',
         width: '100'
       },
       {
@@ -471,7 +476,7 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("CT_Width"),
         headerClass: 'text-left',
         class: 'text-right',
-        type: 'numeric',
+        type: 'text',
         width: '100'
       },
       {
@@ -479,7 +484,7 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("CT_Height"),
         headerClass: 'text-left',
         class: 'text-right',
-        type: 'numeric',
+        type: 'text',
         width: '100'
       }
       // ,
@@ -522,13 +527,13 @@ export class LookupComponent implements OnInit {
         title: this.translate.instant("CTRContainersPerParent"),
         headerClass: 'text-left',
         class: 'text-right',
-        type: 'numeric',
+        type: 'text',
         width: '150'
       },
       {
         field: 'OPTM_CONT_PARTOFPARENT',
         title: this.translate.instant("CTRContainerPartofParent"),
-        type: 'numeric',
+        type: 'text',
         headerClass: 'text-left',
         class: 'text-right',
         width: '150'
@@ -578,7 +583,7 @@ export class LookupComponent implements OnInit {
         field: 'OPTM_ADD_TOCONT',
         title: this.translate.instant("CAR_AddPartsToContainer"),
         headerClass: 'text-left',
-        type: 'boolean',
+        type: 'text',
         width: '100'
       }
     ];
@@ -1180,14 +1185,22 @@ export class LookupComponent implements OnInit {
   }
 
   on_Selectall_checkbox_checked(checkedvalue) {
-    var isExist = 0;
-    // this.CheckedData = []
+    // this.selectedValues = [];
+    // for (let i = 0; i < this.serviceData.length; ++i) {
+    //   let servivceItem: any = this.serviceData[i];
+    //   servivceItem.checked = this.selectall
+    //   this.selectedValues.push(servivceItem);
+    // }
+    // this.onChangeSelection.emit(Object.values(this.selectedValues));
+
+
     this.selectall = false
     if (checkedvalue == true) {
       if (this.serviceData.length > 0) {
         this.selectall = true
         for (let i = 0; i < this.serviceData.length; ++i) {
           let servivceItem: any = this.serviceData[i];
+          servivceItem.checked = this.selectall
           this.selectedValues.push(servivceItem);
         }
       }
@@ -1195,22 +1208,122 @@ export class LookupComponent implements OnInit {
     else {
       this.selectall = false
       this.selectedValues = [];
+      for (let i = 0; i < this.serviceData.length; ++i) {
+        let servivceItem: any = this.serviceData[i];
+          servivceItem.checked = false
+      }      
     }
+    this.onChangeSelection.emit(Object.values(this.selectedValues));
   }
 
   onCheckboxClick(checked: any, index: number) {
     let servivceItem: any = this.serviceData[index];
     if (checked) {
+      servivceItem.checked = true;
       this.selectedValues.push(servivceItem);
     } else {
-      for(let i=0;i<this.selectedValues.length;i++){
-        if(this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE){
-          this.selectedValues.splice(i, 1);
-        }
-      }
+      // for(let i=0;i<this.selectedValues.length;i++){
+      //   if(this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE){
+      //     this.selectedValues.splice(i, 1);
+      //   }
+      // }
+      servivceItem.checked = false;
+      this.selectedValues.splice(index, 1);
+    }
+    if(this.serviceData.length == this.selectedValues.length){
+      this.selectall = true;
+    }else{
+      this.selectall = false;
     }
     this.onChangeSelection.emit(Object.values(this.selectedValues));
   }
+
+  //---------------------------
+
+  // on_Selectall_checkbox_checked(checkedvalue) {
+  //   var isExist = 0;
+  //   // this.CheckedData = []
+  //   this.selectall = checkedvalue
+  //   // if (checkedvalue == true) {
+  //   //   if (this.serviceData.length > 0) {
+  //   //     this.selectall = true
+  //   //     this.selectedValues = [];
+  //   //     for (let i = 0; i < this.serviceData.length; ++i) {
+  //   //       let servivceItem: any = this.serviceData[i];
+  //   //       servivceItem.checked = true
+  //   //       this.selectedValues.push(servivceItem);
+  //   //     }
+  //   //   }
+  //   // }
+  //   // else {
+  //   //   this.selectall = false
+  //   //   this.selectedValues = [];
+  //   // }
+
+  //   this.selectedValues = [];
+  //   for (let i = 0; i < this.serviceData.length; ++i) {
+  //     let servivceItem: any = this.serviceData[i];
+  //     servivceItem.checked = this.selectall
+  //     this.selectedValues.push(servivceItem);
+  //   }
+  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
+  // }
+
+  isAlreadySelected(value){
+    for (let i = 0; i < this.selectedValues.length; i++) {
+      if (this.lookupfor == "CTList") {
+        if (this.selectedValues[i].OPTM_CONTAINER_TYPE == value) {
+          return true
+        }
+      } else {
+
+      }
+      
+    }
+    return false;
+  }
+
+  // onCheckboxClick(checked: any, index: number) {
+  //   let servivceItem: any = this.serviceData[index];
+  //   if (checked) {
+  //     servivceItem.checked = true
+  //     var isExist = false;
+  //     for (let i = 0; i < this.selectedValues.length; i++) {
+  //       if (this.lookupfor == "CTList") {
+  //         if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
+  //           isExist = true
+  //         }
+  //       } else {
+  
+  //       }
+  //     }
+  //     if(!isExist){
+  //       this.selectedValues.push(servivceItem);
+  //     }
+  //   } else {
+  //     servivceItem.checked = false
+  //     if (this.lookupfor == "CTList") {
+  //       for (let i = 0; i < this.selectedValues.length; i++) {
+  //         if (this.selectedValues[i].OPTM_CONTAINER_TYPE == servivceItem.OPTM_CONTAINER_TYPE) {
+  //           this.selectedValues.splice(i, 1);
+  //         }
+  //       }
+  //     } else {
+  //       for (let i = 0; i < this.selectedValues.length; i++) {
+  //         if (this.selectedValues[i].OPTM_BIN_RANGE == servivceItem.OPTM_BIN_RANGE) {
+  //           this.selectedValues.splice(i, 1);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   this.onChangeSelection.emit(Object.values(this.selectedValues));
+  //   if (this.selectedValues.length == this.serviceData.length) {
+  //     this.selectall = true
+  //   } else {
+  //     this.selectall = false
+  //   }
+  // }
+
 
   // checkExist(value){
   //   for(let i=0;i<this.selectedValues.length;i++){

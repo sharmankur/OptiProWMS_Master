@@ -319,9 +319,9 @@ export class WhseBinLayoutAddComponent implements OnInit {
           for (var i = 0; i < this.whseRangeList.length; i++) {
             if (i == this.index) {
               if (this.binType == 'from_bin') {
-                this.whseRangeList[i].FromBin = $event.BinCode;
+                this.whseRangeList[i].OPTM_FROM_BIN = $event.BinCode;
               } else {
-                this.whseRangeList[i].ToBin = $event.BinCode;
+                this.whseRangeList[i].OPTM_TO_BIN = $event.BinCode;
               }
             }
           }
@@ -344,12 +344,16 @@ export class WhseBinLayoutAddComponent implements OnInit {
         if (this.displayWhseRangeList[this.index].OPTM_BIN_RANGE == $event.OPTM_BIN_RANGE) {
           return
         }
-
+        
         if (this.isBinRangeExist($event.OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
           this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
           this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = ''
+          this.displayWhseRangeList[this.index].OPTM_FROM_BIN = ''
+          this.displayWhseRangeList[this.index].OPTM_TO_BIN = ''
         } else {
           this.displayWhseRangeList[this.index].OPTM_BIN_RANGE = $event.OPTM_BIN_RANGE
+          this.displayWhseRangeList[this.index].OPTM_FROM_BIN = $event.OPTM_FROM_BIN
+          this.displayWhseRangeList[this.index].OPTM_TO_BIN = $event.OPTM_TO_BIN
         }
         this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
         for (let i = 0; i < this.displayWhseRangeList.length; i++) {
@@ -358,8 +362,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
             WhseCode: this.whseCode,
             ZoneCode: this.selectedZoneCodeRow.ZoneCode,
             ZoneType: this.selectedZoneCodeRow.ZoneType,
-            FromBin: this.selectedZoneCodeRow.FromBin,
-            ToBin: this.selectedZoneCodeRow.ToBin,
+            OPTM_FROM_BIN: this.displayWhseRangeList[i].OPTM_FROM_BIN,
+            OPTM_TO_BIN: this.displayWhseRangeList[i].OPTM_TO_BIN
           })
         }
         this.isUpdateHappen = true
@@ -480,8 +484,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
         OPTM_WHSCODE: this.whseRangeList[i].WhseCode,
         OPTM_WHSZONE: this.whseRangeList[i].ZoneCode,
         OPTM_ZONETYPE: this.whseRangeList[i].ZoneType,
-        OPTM_FROM_BIN: this.whseRangeList[i].FromBin,
-        OPTM_TO_BIN: this.whseRangeList[i].ToBin,
+        OPTM_FROM_BIN: this.whseRangeList[i].OPTM_FROM_BIN,
+        OPTM_TO_BIN: this.whseRangeList[i].OPTM_TO_BIN,
         OPTM_BIN_RANGE: this.whseRangeList[i].OPTM_BIN_RANGE,
         OPTM_CREATEDBY: localStorage.getItem("UserId"),
       });
@@ -711,8 +715,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
               WhseCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSCODE,
               ZoneCode: data.OPTM_SHP_WHSE_ZONES[i].OPTM_WHSZONE,
               ZoneType: data.OPTM_SHP_WHSE_ZONES[i].OPTM_ZONETYPE,
-              FromBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,
-              ToBin: data.OPTM_SHP_WHSE_ZONES[i].OPTM_TO_BIN,
+              OPTM_FROM_BIN: data.OPTM_SHP_WHSE_ZONES[i].OPTM_FROM_BIN,  
+              OPTM_TO_BIN: data.OPTM_SHP_WHSE_ZONES[i].OPTM_TO_BIN,
               OPTM_BIN_RANGE: data.OPTM_SHP_WHSE_ZONES[i].OPTM_BIN_RANGE
             })
           }
@@ -890,8 +894,12 @@ export class WhseBinLayoutAddComponent implements OnInit {
             if (this.isBinRangeExist(data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE, this.selectedZoneCodeRow.ZoneCode)) {
               this.toastr.error('', this.translate.instant("BinRangeExistMsg"));
               this.displayWhseRangeList[index].OPTM_BIN_RANGE = ''
+              this.displayWhseRangeList[this.index].OPTM_FROM_BIN = ''
+              this.displayWhseRangeList[this.index].OPTM_TO_BIN = ''
             } else {
               this.displayWhseRangeList[index].OPTM_BIN_RANGE = data.OPTM_SHP_WHSE_BINS[0].OPTM_BIN_RANGE
+              this.displayWhseRangeList[this.index].OPTM_FROM_BIN = data.OPTM_SHP_WHSE_BINS[0].OPTM_FROM_BIN
+              this.displayWhseRangeList[this.index].OPTM_TO_BIN = data.OPTM_SHP_WHSE_BINS[0].OPTM_TO_BIN
             }
             this.whseRangeList = this.whseRangeList.filter(item => item.ZoneCode !== this.selectedZoneCodeRow.ZoneCode)
             for (let i = 0; i < this.displayWhseRangeList.length; i++) {
@@ -900,8 +908,8 @@ export class WhseBinLayoutAddComponent implements OnInit {
                 WhseCode: this.whseCode,
                 ZoneCode: this.selectedZoneCodeRow.ZoneCode,
                 ZoneType: this.selectedZoneCodeRow.ZoneType,
-                FromBin: this.selectedZoneCodeRow.FromBin,
-                ToBin: this.selectedZoneCodeRow.ToBin,
+                OPTM_FROM_BIN: this.displayWhseRangeList[i].OPTM_FROM_BIN,
+                OPTM_TO_BIN: this.displayWhseRangeList[i].OPTM_TO_BIN
               })
             }
           } else {

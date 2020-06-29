@@ -29,5 +29,5 @@ OPTM_WHSECODE: String;
 OPTM_WHSE_ZONE:String;
 OPTM_WO_NUMBER: String;
 OPTM_PLANDATETIME_Object: Date;
-
+Selected = false;
 }

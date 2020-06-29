@@ -29,6 +29,19 @@ export class ContainerCreationService {
     return this.httpclient.post(url, jObject, this.commonService.httpOptions);
   }
 
+  GetChildContainerTypes(ParentContainerType: string): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_CREATEDBY: localStorage.getItem("UserId"),
+        ParentContainerType: ParentContainerType
+      }])
+    };
+
+    var url = this.config_params.service_url + "/api/ShipContainer/GetChildContainerTypes";
+    return this.httpclient.post(url, jObject, this.commonService.httpOptions);
+  }
+
   CheckDuplicateContainerIdCreate(containerId: string): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
@@ -128,8 +141,8 @@ export class ContainerCreationService {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_FUNCTION: "shipping",
-        OPTM_OBJECT: "container"
+        OPTM_FUNCTION: "Shipping",
+        OPTM_OBJECT: "Container"
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetSampleOfContainerString", jObject, this.commonService.httpOptions);
@@ -208,8 +221,9 @@ export class ContainerCreationService {
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
   }
 
+  //Validate container parameters against the parameters entered in the screen
   CheckContainer(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION, CREATEMODE,
-    CONT_SELECT_TYPE): Observable<any> {
+    blnParentFlg, blnValidateCreateModeAndRuleID): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
@@ -223,10 +237,22 @@ export class ContainerCreationService {
         PURPOSE: PURPOSE,
         OPERATION: OPERATION,
         CREATEMODE: CREATEMODE,
-        CONT_SELECT_TYPE: CONT_SELECT_TYPE
+        PARENT_FLG: blnParentFlg,
+        ValidateCreateModeAndRuleID: blnValidateCreateModeAndRuleID
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);
+  }
+
+  GetContainer(CONTAINERCODE, blnParentFlg): Observable<any> {
+    let jObject = {
+      Shipment: JSON.stringify([{
+        CompanyDBId: localStorage.getItem("CompID"),
+        CONTAINERCODE: CONTAINERCODE,
+        PARENT_FLG: blnParentFlg
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetContainer", jObject, this.commonService.httpOptions);
   }
 
   CheckContainerScan(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION): Promise<any> {
