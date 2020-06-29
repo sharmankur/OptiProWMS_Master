@@ -543,12 +543,13 @@ export class PickingListComponent implements OnInit {
     }
   }
 
-  selectContainerRowChange(checkValue, dataItem, index) {
+  selectPicklistRow(checkValue, dataItem, index, gridItem) {
     var itemId = dataItem.OPTM_PICKLIST_ID;
     if (checkValue == true && !this.selectedPLItems.includes(itemId)) {
       this.selectedPLItems.push(itemId);
       this.selectedPLItemsDataForValidate.push(dataItem);
       this.PickItemListM[index].Selected = true;
+      gridItem.select(index);
     } else {
       if (checkValue == false && this.selectedPLItems.includes(itemId)) {
         this.selectedPLItems.splice(this.selectedPLItems.indexOf(itemId), 1);
