@@ -1214,7 +1214,7 @@ export class ContainerShipmentComponent implements OnInit {
         })
       }
 
-      this.containerShipmentService.RemoveShipmentFromContainer(tempArray).subscribe(
+      this.containerShipmentService.RemoveContainerFromShipment(tempArray).subscribe(
         (data: any) => {
           this.showLoader = false;
           if (data != undefined) {

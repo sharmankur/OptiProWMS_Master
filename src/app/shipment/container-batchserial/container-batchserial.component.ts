@@ -36,6 +36,9 @@ export class ContainerBatchserialComponent implements OnInit {
   RowCount: number = 0;
   SelectedQty: any = 0;
   OpenQty: any = 0;
+  itemShipQty: number = 0;
+  itemAllocatedQty: number = 0;
+  itemBalQtyToAllocate: number = 0;
   ItemOpenQtyArr: any = [];
   ItemCodeArray: any = [];
   TempGridData: any = [];
@@ -85,7 +88,7 @@ export class ContainerBatchserialComponent implements OnInit {
       this.IsShipment = false;
     }
     this.TempGridData = [];
-    this.getContainsItemDD();
+    this.getContainsItemDD(true);
   }
 
   ngOnDestroy() {
@@ -98,9 +101,9 @@ export class ContainerBatchserialComponent implements OnInit {
     return this.ContainerOperationArray[Number(this.Selectedlink) - 1].Name;
   }
 
-  getContainsItemDD() {
+  getContainsItemDD(blnFetchBTCHSRData:boolean) {
     this.ItemCodeArray = [];
-    let ItemCodeArray = this.ItemCodeArray;
+    let ItemCodeArray = [];
 
     this.ShimpmentArray.filter(function (obj) {
       let map = {};
@@ -108,17 +111,29 @@ export class ContainerBatchserialComponent implements OnInit {
       map['OPEN_QTY'] = parseFloat(obj.OPTM_QTY) - parseFloat(obj.OPTM_QTY_FULFILLED == null ? 0 : obj.OPTM_QTY_FULFILLED);
       map['TRACKING'] = obj.TRACKING;
       map['SHPSTATUS'] = obj.SHPSTATUS;
+      map['OPTM_QTY'] = obj.OPTM_QTY;
+      map['OPTM_QTY_FULFILLED'] = obj.OPTM_QTY_FULFILLED;
+
       ItemCodeArray.push(map);
     });
 
     this.ItemCodeArray = ItemCodeArray;
-    this.ContainsItemDD = this.ItemCodeArray[0];
-    this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
-    this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-    this.Tracking = this.ItemCodeArray[0].TRACKING;
-    this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
+    //this.ContainsItemDD = this.ItemCodeArray[0];
+    //this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
+    //this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    //this.Tracking = this.ItemCodeArray[0].TRACKING;
+    //this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
 
-    this.fillBatchSerialDataInGrid(this.Selectedlink);
+    //Do not fetch after Assign / Remove. Same Data is returned by Assign / Remove function
+    //Srini 26-Jun-2020
+    if (blnFetchBTCHSRData) {
+      this.ContainsItemDD = this.ItemCodeArray[0];
+      this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
+      this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      this.Tracking = this.ItemCodeArray[0].TRACKING;
+      this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
+      this.fillBatchSerialDataInGrid(this.Selectedlink);
+    }
 
     if (this.Tracking == 'B') {
       this.BatchSerStr = "Batch";
@@ -367,6 +382,9 @@ export class ContainerBatchserialComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
+
+            this.displayDataInBTCHSRGrid(this.Selectedlink,data.ShiplineBTCHSR);
+            /*
             this.ContainerBatchSerials = data;
             let ItemCode = this.ContainsItemID;
 
@@ -397,6 +415,7 @@ export class ContainerBatchserialComponent implements OnInit {
               let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
               this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
             }
+            */
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }
@@ -413,19 +432,85 @@ export class ContainerBatchserialComponent implements OnInit {
       );
   }
 
+displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
+  if (value != undefined) {
+    this.Selectedlink = value;
+  }
+
+  this.SelectedLinkTitle = 'A';
+  this.pageChange({ skip: 0, take: this.pageSize });
+  this.isColumnFilterView = false;
+  this.ShowGridPaging = false;
+    
+  if(value == 3){
+    this.avlQtyTitle = this.translate.instant("QtyAdded");
+    this.allocatesQtyTitle = this.translate.instant("QtyToRemove");
+  }else{
+    this.avlQtyTitle = this.translate.instant("Available_Quantity");
+    this.allocatesQtyTitle = this.translate.instant("QtyAdded");
+  }
+       
+  this.ContainerBatchSerials = BTCHSRdata;
+  let ItemCode = this.ContainsItemID;
+
+  if (this.SelectedRowsforShipmentArr.length > 0) {
+    this.SelectedRowsforShipmentArr = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE != ItemCode);
+  }
+
+  if (this.ContainerBatchSerials.length > this.pageSize) {
+    this.ShowGridPaging = true;
+  }
+  else {
+    this.ShowGridPaging = false;
+  }
+
+  let sum = 0;
+  for (let i = 0; i < this.ContainerBatchSerials.length; i++) {
+    this.ContainerBatchSerials[i].Selected = false;
+    this.ContainerBatchSerials[i].AssignQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.ContainerBatchSerials[i].QtytoAssign = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.ContainerBatchSerials[i].AvailableQty = Number(BTCHSRdata[i].AvailableQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.ContainerBatchSerials[i].SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    sum = sum + Number(BTCHSRdata[i].AvailableQty);
+  }
+
+  //Srini. Changed on 26-Jun-2020
+  /*
+  if (this.Selectedlink == 3) {
+    this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.OpenQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  } else {
+    this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
+    this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  }
+  */
+  let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
+  this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+  this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+  this.itemShipQty = this.ItemCodeArray[index].OPTM_QTY;
+  this.itemAllocatedQty = this.ItemCodeArray[index].OPTM_QTY_FULFILLED;
+  this.itemBalQtyToAllocate = this.OpenQty - this.SelectedQty;
+}
+
   onRemoveShipmentPress() {
     if (this.SelectedRowsforShipmentArr.length == 0) {
       this.toastr.error('', this.translate.instant("Select_row"));
       return;
     }
-    let tempArray = [];
+    
+    let oSaveData: any = {};
+    oSaveData.SelectedRows = [];
+    oSaveData.RetQryParam = [];
+
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
       this.SelectedRowsforShipmentArr[i].QtytoAssign = parseFloat(this.SelectedRowsforShipmentArr[i].QtytoAssign);
       if (this.SelectedRowsforShipmentArr[i].LOTNO == undefined) {
         this.SelectedRowsforShipmentArr[i].LOTNO = '';
       }
-      tempArray.push({
+      oSaveData.SelectedRows.push({
         CompanyDBId: localStorage.getItem("CompID"),
+        OPTM_SHIPMENTID: this.SelectedShipmentId,
         OPTM_SHIPMENT_CODE: this.SelectedShipmentCode,
         OPTM_STATUS: this.SelectedShipmentStatus,
         OPTM_ITEMCODE: this.SelectedRowsforShipmentArr[i].ITEMCODE,
@@ -435,8 +520,19 @@ export class ContainerBatchserialComponent implements OnInit {
         OPTM_BIN: this.SelectedRowsforShipmentArr[i].BINNO
       });
     }
+
+    oSaveData.RetQryParam.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      ContnrShipmentId: this.SelectedShipmentId,      
+      WarehouseId: this.WarehouseId,
+      BinId: this.BinId,
+      ItemCode: this.ContainsItemID,
+      SHPStatus: this.SHPStatus,
+      Tracking: this.Tracking,
+      OperationType: 3
+    })
     
-    this.containerBatchserialService.RemoveBatchSerialFromShipment(tempArray).subscribe(
+    this.containerBatchserialService.RemoveBatchSerialFromShipment(oSaveData).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
@@ -445,14 +541,21 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-            if (data[0].RESULT != '' && data[0].RESULT != null) {
-              if (data[0].RESULT == 'Data Saved') {
+          if (data.OUTPUT.length > 0) {
+            if (data.OUTPUT[0].RESULT != '' && data.OUTPUT[0].RESULT != null) {
+              if (data.OUTPUT[0].RESULT == 'Data Saved') {
                 this.toastr.success('', this.translate.instant("Btch_removed_successfully"));
-                this.fillBatchSerialDataInGrid(3);
+                //Commented By Srini 26-Jun-2020
+                //this.fillBatchSerialDataInGrid(3);
+                this.SelectedRowsforShipmentArr = [];
+                this.TempGridData = [];
+                this.ShimpmentArray = data.Shiplines;
+                this.getContainsItemDD(false);
+                this.displayDataInBTCHSRGrid(3,data.ShiplineBTCHSR);
+                this.setDataInTempGrid();
               }
               else {
-                this.toastr.error('', data[0].RESULT);
+                this.toastr.error('', data.OUTPUT[0].RESULT);
               }
             }
             else {
@@ -509,6 +612,8 @@ export class ContainerBatchserialComponent implements OnInit {
         this.ContainerBatchSerials[idx].Selected = true;
         if(this.Selectedlink == 3){
           this.ContainerBatchSerials[idx].SelectedQty = Number(CalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        } else if(this.Selectedlink == 2) {
+          this.itemBalQtyToAllocate = this.OpenQty - CalQty
         }
         this.SelectedRowsforShipmentArr.push(dataitem);
       }
@@ -573,11 +678,23 @@ export class ContainerBatchserialComponent implements OnInit {
     let oSaveData: any = {};
     oSaveData.SelectedRows = [];
     oSaveData.OtherData = [];
+    oSaveData.RetQryParam = [];
 
     oSaveData.OtherData.push({
       CompanyDBId: localStorage.getItem("CompID"),
       ContnrShipmentId: this.SelectedShipmentId,
       OPTM_CREATEDBY: localStorage.getItem("UserId")
+    })
+
+    oSaveData.RetQryParam.push({
+      CompanyDBId: localStorage.getItem("CompID"),
+      ContnrShipmentId: this.SelectedShipmentId,      
+      WarehouseId: this.WarehouseId,
+      BinId: this.BinId,
+      ItemCode: this.ContainsItemID,
+      SHPStatus: this.SHPStatus,
+      Tracking: this.Tracking,
+      OperationType: 2
     })
 
     for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
@@ -597,19 +714,24 @@ export class ContainerBatchserialComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.length > 0) {
-            if (data[0].RESULT == 'Shipment updated') {
+          if (data.OUTPUT.length > 0) {
+            if (data.OUTPUT[0].RESULT == 'Shipment updated') {
               // this.toastr.success('', this.translate.instant("Materials_assigned_successfully"));
-              this.toastr.success('', data[0].RESULT);
+              this.toastr.success('', data.OUTPUT[0].RESULT);
               this.SelectedRowsforShipmentArr = [];
               this.TempGridData = [];
               let OpenQty = this.OpenQty - this.SelectedQty;
               this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-              this.fillBatchSerialDataInGrid(2);
+              //Added By Srini 26-Jun-2020 to refresh data after every assignment submission
+              //this.fillBatchSerialDataInGrid(2);
+              this.ShimpmentArray = data.Shiplines;
+              this.getContainsItemDD(false);
+              this.displayDataInBTCHSRGrid(2,data.ShiplineBTCHSR);
+              this.setDataInTempGrid();
             }
             else {
-              if (data[0].RESULT != '' && data[0].RESULT != null) {
-                this.toastr.error('', data[0].RESULT);
+              if (data.OUTPUT[0].RESULT != '' && data.OUTPUT[0].RESULT != null) {
+                this.toastr.error('', data.OUTPUT[0].RESULT);
               }
               else {
                 this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -664,8 +786,6 @@ export class ContainerBatchserialComponent implements OnInit {
       return;
     }
 
-
-
     if(this.Selectedlink == 3){
       this.ContainerBatchSerials[rowindex].SelectedQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     }else{
@@ -674,6 +794,7 @@ export class ContainerBatchserialComponent implements OnInit {
         return a + parseFloat(b.AssignQty);
       }, 0);
       this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      this.itemBalQtyToAllocate = this.OpenQty - this.SelectedQty
       for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
         this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
       }

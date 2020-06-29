@@ -1312,7 +1312,7 @@ export class ShipmentViewComponent implements OnInit {
         OPTM_STATUS: this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE
       })
     }
-    this.containerShipmentService.RemoveShipmentFromContainer(tempArray).subscribe(
+    this.containerShipmentService.RemoveContainerFromShipment(tempArray).subscribe(
       (data: any) => {
         this.showLoader = false;
         if (data != undefined) {
