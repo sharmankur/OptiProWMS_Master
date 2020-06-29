@@ -3612,10 +3612,9 @@ export class AddItemToContComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data.Detail != null && data.Detail != undefined && data.Detail[0] != null
-            && data.Detail[0] != undefined) {
-            this.fileName = data.Detail[0].FileName;
-            this.base64String = data.Detail[0].Base64String;
+          if (data[0]!=null && data[0]!=undefined && data[0].Base64String) {
+            this.fileName = data[0].FileName;
+            this.base64String = data[0].Base64String;
           }
           if (this.base64String != null && this.base64String != "") {
             this.base64String = 'data:application/pdf;base64,' + this.base64String;

@@ -1153,7 +1153,7 @@ export class Commonservice {
         OPTM_NOOFCOPY: noOfCopies
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/PrintingServices", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListofContainer", jObject, this.httpOptions);
   }
 
   GetShipmentIdWithAllocAndPartAllocStatus(ShipId): Observable<any> {
