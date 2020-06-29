@@ -1100,6 +1100,7 @@ export class GeneratePickComponent implements OnInit {
       case this.PackTypeList[0]:
       case this.PackTypeList[1]:
       case this.PackTypeList[4]:
+        this.PickOperationList = [this.translate.instant("PickToTote"), this.translate.instant("Loose")];
         this.Pick_Operation = this.PickOperationList[0];
         this.pickOperationIndex = 1;
         break;
@@ -1114,30 +1115,30 @@ export class GeneratePickComponent implements OnInit {
     this.isUpdateHappen = true
     this.pickOperationIndex = this.PickOperationList.indexOf(event);
     this.pickOperationIndex = this.pickOperationIndex + 1;
-    switch (this.Pick_Type) {
-      case this.PackTypeList[0]:
-        if (event == this.PickOperationList[1]) {
-          this.toastr.error("", this.translate.instant("BatchPickingErrMsg"));
-          this.Pick_Operation = this.PickOperationList[0];
-          selectedvalue.text = this.PickOperationList[0];
-          this.pickOperationIndex = 1;
-        }
-        break;
-      case this.PackTypeList[1]:
-        if (event == this.PickOperationList[1]) {
-          this.toastr.error("", this.translate.instant("ClusterPickingErrMsg"));
-          selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
-          this.pickOperationIndex = 1;
-        }
-        break;
-      case this.PackTypeList[4]:
-        if (event == this.PickOperationList[1]) {
-          this.toastr.error("", this.translate.instant("ZonePickingErrMsg"));
-          selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
-          this.pickOperationIndex = 1;
-        }
-        break;
-    }
+    // switch (this.Pick_Type) {
+    //   case this.PackTypeList[0]:
+    //     if (event == this.PickOperationList[1]) {
+    //       this.toastr.error("", this.translate.instant("BatchPickingErrMsg"));
+    //       this.Pick_Operation = this.PickOperationList[0];
+    //       selectedvalue.text = this.PickOperationList[0];
+    //       this.pickOperationIndex = 1;
+    //     }
+    //     break;
+    //   case this.PackTypeList[1]:
+    //     if (event == this.PickOperationList[1]) {
+    //       this.toastr.error("", this.translate.instant("ClusterPickingErrMsg"));
+    //       selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
+    //       this.pickOperationIndex = 1;
+    //     }
+    //     break;
+    //   case this.PackTypeList[4]:
+    //     if (event == this.PickOperationList[1]) {
+    //       this.toastr.error("", this.translate.instant("ZonePickingErrMsg"));
+    //       selectedvalue.text = this.Pick_Operation = this.PickOperationList[0];
+    //       this.pickOperationIndex = 1;
+    //     }
+    //     break;
+    // }
   }
 
   //#region "validation"
@@ -1150,6 +1151,9 @@ export class GeneratePickComponent implements OnInit {
       return false;
     } else if (this.WareHouse == "" || this.WareHouse == undefined || this.WareHouse == null) {
       this.toastr.error("", this.translate.instant("Login_SelectwarehouseMsg"));
+      return false;
+    } else if (this.TaskPlanDT == "" || this.TaskPlanDT == undefined || this.TaskPlanDT == null) {
+      this.toastr.error("", this.translate.instant("PlanDateMsg"));
       return false;
     } else if (this.Priority == "" || this.Priority == undefined || this.Priority == null) {
       let priority = Number(this.Priority);
@@ -1206,25 +1210,30 @@ export class GeneratePickComponent implements OnInit {
   }
   //#endregion
 
-  onSchDateFromChange(event) {
+  onDateDialogClose(value, ScheduleDT){
+    this.onPlanDateChange(value, ScheduleDT)
+  }
+
+  onPlanDateChange(event, TaskPlanDT) {
     console.log("onSchDateFromChange: s" + event.getDate())
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
     if (event.getTime() < cDate.getTime()) {
-      this.Schedule_DatetimeFrom = '';
+      this.TaskPlanDT = '';
+      TaskPlanDT.value = undefined;
       this.toastr.error('', this.translate.instant("SchDateValMsg"));
     }
   }
 
-  onSchDateToChange(event) {
-    console.log("onSchDateToChange: s" + event.getDate())
-    var cDate = new Date();
-    event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
-    cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-    if (event.getTime() < cDate.getTime()) {
-      this.Schedule_DatetimeTo = '';
-      this.toastr.error('', this.translate.instant("SchDateValMsg"));
-    }
-  }
+  // onSchDateToChange(event) {
+  //   console.log("onSchDateToChange: s" + event.getDate())
+  //   var cDate = new Date();
+  //   event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+  //   cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
+  //   if (event.getTime() < cDate.getTime()) {
+  //     this.Schedule_DatetimeTo = '';
+  //     this.toastr.error('', this.translate.instant("SchDateValMsg"));
+  //   }
+  // }
 }

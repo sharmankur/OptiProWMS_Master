@@ -403,6 +403,16 @@ export class PickingListComponent implements OnInit {
     if (this.planDate != undefined) {
       plandateString = this.planDate.toLocaleDateString();
     }
+
+
+    if(this.ShipmentCodeFrom ==undefined || this.ShipmentCodeFrom == "" || this.ShipmentCodeFrom == null){
+      this.ShipmentIdFrom = "";
+    }
+
+    if(this.ShipmentCodeTo ==undefined || this.ShipmentCodeTo == "" || this.ShipmentCodeTo == null){
+      this.ShipmentIdTo = "";
+    }
+
     this.picktaskService.FillPickListDataInGrid(this.ShipmentIdFrom, this.ShipmentIdTo, this.WarehouseId, PickListBasicVal, planShiftVal, statusVal, plandateString, this.Priority).subscribe(
       (data: any) => {
         this.showLoader = false;
@@ -432,7 +442,8 @@ export class PickingListComponent implements OnInit {
           } else {
             this.selectedItemPickTaskList = [];
           }
-
+          this.selectedPLItems = [];
+          this.selectedPLItemsDataForValidate = [];
           // for (let i = 0; i < this.PickItemList.length; i++) {
           //   this.PickItemList[i].Selected = false;
           //   this.PickItemList[i].OPTM_STATUS = this.PickItemList[i].OPTM_STATUS;
@@ -657,7 +668,8 @@ export class PickingListComponent implements OnInit {
             var result = data.OUTPUT[0].RESULT;
             if (result == "Data Saved") {
               this.toastr.success('', this.translate.instant("PL_StatusUpdateSuccess"));
-              // this.PickItemList = [];
+              this.selectedPLItems = [];
+              this.selectedPLItemsDataForValidate = [];
               this.PickTaskList = [];
               this.FillPickListDataInGrid();
             } else {
@@ -830,6 +842,9 @@ export class PickingListComponent implements OnInit {
           if (data.Table.length > 0) {
             this.lookupfor = "ShipmentList";
             this.serviceData = data.Table;
+            for(var i=0; i<this.serviceData.length; i++){
+              this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+            }
             this.showLookup = true;
           } else {
 
@@ -848,6 +863,10 @@ export class PickingListComponent implements OnInit {
         }
       }
     );
+  }
+
+  getShipStatusValue(OPTM_STATUS): string {
+    return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
   }
 
   IsAllItemPresentInSelectedBin(dataItem, bincode){
