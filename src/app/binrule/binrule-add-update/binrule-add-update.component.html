@@ -127,6 +127,52 @@
                             </ng-template>
                         </kendo-grid-column>
 
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_PART_PICK_DROP_BIN" [width]="18" title="{{'BinRulePartPickDropBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm"  >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_PART_PICK_DROP_BIN" value={{dataItem.OPTM_PART_PICK_DROP_BIN}} id="OPTM_PART_PICK_DROP_BIN"
+                                        min="0" #OPTM_PART_PICK_DROP_BIN [disabled]=isPutAway (blur)="IsValidBinCode('partpickdropbin', dataItem, idx,OPTM_PART_PICK_DROP_BIN)" >
+                                    <div class="input-group-append">
+                                        <button [disabled]=isPutAway  tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,5)">
+                                            <i class="opti-icon-search" ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_DROP_BIN_FOR_TRANSFER" [width]="18" title="{{'BinRulePickTransferBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm"  >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_DROP_BIN_FOR_TRANSFER" value={{dataItem.OPTM_DROP_BIN_FOR_TRANSFER}} id="OPTM_DROP_BIN_FOR_TRANSFER"
+                                        min="0" #OPTM_DROP_BIN_FOR_TRANSFER [disabled]=isPutAway (blur)="IsValidBinCode('pickdroptransferbin', dataItem, idx,OPTM_DROP_BIN_FOR_TRANSFER)" >
+                                    <div class="input-group-append">
+                                        <button [disabled]=isPutAway  tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,6)">
+                                            <i class="opti-icon-search" ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column media="(min-width: 768px)" field="OPTM_SORT_PACK_BIN" [width]="18" title="{{'BinRuleSortAndPackBin'|translate}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-idx='rowIndex'>
+
+                                <div class="input-group input-group-sm"  >
+                                    <input type="text" class="form-control form-control-sm" name="dataItem.OPTM_SORT_PACK_BIN" value={{dataItem.OPTM_SORT_PACK_BIN}} id="OPTM_SORT_PACK_BIN"
+                                        min="0" #OPTM_SORT_PACK_BIN [disabled]=isPutAway (blur)="IsValidBinCode('sortandpackbin', dataItem, idx,OPTM_SORT_PACK_BIN)" >
+                                    <div class="input-group-append">
+                                        <button [disabled]=isPutAway  tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="GetBinCodeList(idx,7)">
+                                            <i class="opti-icon-search" ></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+
                         <kendo-grid-column media="(min-width: 768px)" field="" headerClass="text-left" class="text-left" [width]="10" title="{{'Action'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <button type="button" class="btn btn-danger k-button btn-sm btn-icon" (mousedown)="deleteRow(rowIndex, gridItem)">

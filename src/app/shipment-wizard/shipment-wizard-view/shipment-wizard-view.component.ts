@@ -215,8 +215,10 @@ export class ShipmentWizardViewComponent implements OnInit {
       OPTM_FUNCTION: "Shipping",
       OPTM_OBJECT: "Shipment"
     })
+    this.showLoader = true; //Srini 30-Jun
     this.WizardService.CreateShipMentData(this.ConsolidatedDataSelection).subscribe(
       resp => {
+        this.showLoader = false;  //Srini 30-Jun
         if (resp != undefined && resp != null) {
           if(resp.ShipmentHdr == undefined){
             this.toastr.error('', "Error in creating shipment");

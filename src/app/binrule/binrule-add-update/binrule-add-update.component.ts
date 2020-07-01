@@ -35,16 +35,15 @@ export class BinruleAddUpdateComponent implements OnInit {
   index: number = -1;
   fromWhere: any = '';
 
+  /*
   CAR_CPackRule: string;
   CAR_ContainerType: string;
   CAR_ItemCode: string;
   CAR_PartsPerContainer: Number;
   CAR_MinFillPercent: Number;
-
+  */
   BtnTitle: string;
-
   binRule_ROW: any;
-
   purpose: String = this.PurposeList[0];
   ruleType: String = this.RuleTypeList[0];
   whsCode: string = '';
@@ -149,6 +148,9 @@ export class BinruleAddUpdateComponent implements OnInit {
     if (this.isPutAway) {
       for (let i = 0; i < this.binRuleArray.length; i++) {
         this.binRuleArray[i].OPTM_PICK_DROP_BIN = '';
+        this.binRuleArray[i].OPTM_PART_PICK_DROP_BIN = '';
+        this.binRuleArray[i].OPTM_DROP_BIN_FOR_TRANSFER = '';
+        this.binRuleArray[i].OPTM_SORT_PACK_BIN = '';
 
       }
     } else {
@@ -367,6 +369,15 @@ export class BinruleAddUpdateComponent implements OnInit {
                 if (this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN == ""){
                   this.toastr.error('', this.translate.instant("StageBinValMsg"));
                   return false;
+                } else if (this.binRuleArray[iBtchIndex].OPTM_PART_PICK_DROP_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_PART_PICK_DROP_BIN == ""){
+                  this.toastr.error('', this.translate.instant("StageBinValMsg"));
+                  return false;
+                } else if (this.binRuleArray[iBtchIndex].OPTM_DROP_BIN_FOR_TRANSFER == undefined || this.binRuleArray[iBtchIndex].OPTM_DROP_BIN_FOR_TRANSFER == ""){
+                  this.toastr.error('', this.translate.instant("StageBinValMsg"));
+                  return false;
+                } else if (this.binRuleArray[iBtchIndex].OPTM_SORT_PACK_BIN == undefined || this.binRuleArray[iBtchIndex].OPTM_SORT_PACK_BIN == ""){
+                  this.toastr.error('', this.translate.instant("StageBinValMsg"));
+                  return false;
                 }
               }
             }
@@ -501,13 +512,14 @@ export class BinruleAddUpdateComponent implements OnInit {
         OPTM_STORAGE_TO_BIN: this.binRuleArray[iBtchIndex].OPTM_STORAGE_TO_BIN,
         OPTM_PUTWAY_STAGE_BIN: this.binRuleArray[iBtchIndex].OPTM_PUTWAY_STAGE_BIN,
         OPTM_PICK_DROP_BIN: this.binRuleArray[iBtchIndex].OPTM_PICK_DROP_BIN,
-
+        OPTM_PART_PICK_DROP_BIN: this.binRuleArray[iBtchIndex].OPTM_PART_PICK_DROP_BIN,
+        OPTM_DROP_BIN_FOR_TRANSFER: this.binRuleArray[iBtchIndex].OPTM_DROP_BIN_FOR_TRANSFER,
+        OPTM_SORT_PACK_BIN: this.binRuleArray[iBtchIndex].OPTM_SORT_PACK_BIN,
         OPTM_LINEID: this.lineId
       });
     }
     return oSubmitBinRuleObj;
   }
-
 
   async UpdateBinRule(BinRuleData: any) {
 
@@ -562,17 +574,19 @@ export class BinruleAddUpdateComponent implements OnInit {
         if (i === this.index) {
           if (this.fromWhere == 1) {
             this.binRuleArray[i].OPTM_STORAGE_FROM_BIN = $event.BinCode;
-          } else
-            if (this.fromWhere == 2) {
-              this.binRuleArray[i].OPTM_STORAGE_TO_BIN = $event.BinCode;
-            } else
-              if (this.fromWhere == 3) {
-                this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = $event.BinCode;
-              } else
-                if (this.fromWhere == 4) {
-                  this.binRuleArray[i].OPTM_PICK_DROP_BIN = $event.BinCode;
-                }
-
+          } else if (this.fromWhere == 2) {
+            this.binRuleArray[i].OPTM_STORAGE_TO_BIN = $event.BinCode;
+          } else if (this.fromWhere == 3) {
+            this.binRuleArray[i].OPTM_PUTWAY_STAGE_BIN = $event.BinCode;
+          } else if (this.fromWhere == 4) {
+            this.binRuleArray[i].OPTM_PICK_DROP_BIN = $event.BinCode;
+          } else if (this.fromWhere == 5) {
+            this.binRuleArray[i].OPTM_PART_PICK_DROP_BIN = $event.BinCode;
+          } else if (this.fromWhere == 6) {
+            this.binRuleArray[i].OPTM_DROP_BIN_FOR_TRANSFER = $event.BinCode;
+          } else if (this.fromWhere == 7) {
+            this.binRuleArray[i].OPTM_SORT_PACK_BIN = $event.BinCode;
+          }
         }
       }
     }
@@ -660,8 +674,14 @@ export class BinruleAddUpdateComponent implements OnInit {
       this.binRuleArray[index].OPTM_STORAGE_TO_BIN = bincode;
     } else if (from == "pickdropbin") {
       this.binRuleArray[index].OPTM_PICK_DROP_BIN = bincode;
+    } else if (from == "partpickdropbin") {
+      this.binRuleArray[index].OPTM_PART_PICK_DROP_BIN = bincode;
+    } else if (from == "pickdroptransferbin") {
+      this.binRuleArray[index].OPTM_DROP_BIN_FOR_TRANSFER = bincode;
     } else if (from == "putawaybin") {
       this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = bincode;
+    } else if (from == "sortandpackbin") {
+      this.binRuleArray[index].OPTM_SORT_PACK_BIN = bincode;
     }
 
     this.showLoader = true;
@@ -684,8 +704,13 @@ export class BinruleAddUpdateComponent implements OnInit {
               this.binRuleArray[index].OPTM_PICK_DROP_BIN = data[0].BinCode;
             } else if (from == "putawaybin") {
               this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = data[0].BinCode;
+            }  else if (from == "partpickdropbin") {
+              this.binRuleArray[index].OPTM_PART_PICK_DROP_BIN = data[0].BinCode;
+            } else if (from == "pickdroptransferbin") {
+              this.binRuleArray[index].OPTM_DROP_BIN_FOR_TRANSFER = data[0].BinCode;
+            } else if (from == "sortandpackbin") {
+              this.binRuleArray[index].OPTM_SORT_PACK_BIN = data[0].BinCode;
             }
-
           } else {
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
             //reset that index bin value.
@@ -697,6 +722,12 @@ export class BinruleAddUpdateComponent implements OnInit {
               this.binRuleArray[index].OPTM_PICK_DROP_BIN = '';
             } else if (from == "putawaybin") {
               this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = '';
+            } else if (from == "partpickdropbin") {
+              this.binRuleArray[index].OPTM_PART_PICK_DROP_BIN = '';
+            } else if (from == "pickdroptransferbin") {
+              this.binRuleArray[index].OPTM_DROP_BIN_FOR_TRANSFER = '';
+            } else if (from == "sortandpackbin") {
+              this.binRuleArray[index].OPTM_SORT_PACK_BIN = '';
             }
           }
         } else {
@@ -708,6 +739,12 @@ export class BinruleAddUpdateComponent implements OnInit {
             this.binRuleArray[index].OPTM_PICK_DROP_BIN = '';
           } else if (from == "putawaybin") {
             this.binRuleArray[index].OPTM_PUTWAY_STAGE_BIN = '';
+          } else if (from == "partpickdropbin") {
+            this.binRuleArray[index].OPTM_PART_PICK_DROP_BIN = '';
+          } else if (from == "pickdroptransferbin") {
+            this.binRuleArray[index].OPTM_DROP_BIN_FOR_TRANSFER = '';
+          } else if (from == "sortandpackbin") {
+            this.binRuleArray[index].OPTM_SORT_PACK_BIN = '';
           }
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
           //reset that index bin value.

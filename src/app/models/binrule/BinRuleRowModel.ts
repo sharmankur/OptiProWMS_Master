@@ -4,6 +4,9 @@ export class BinRuleRowModel{
     public OPTM_STORAGE_TO_BIN: string;
     public OPTM_PUTWAY_STAGE_BIN: string;
     public OPTM_PICK_DROP_BIN: string;
+    public OPTM_PART_PICK_DROP_BIN: string;
+    public OPTM_DROP_BIN_FOR_TRANSFER: string;
+    public OPTM_SORT_PACK_BIN: string;    
     public OPTM_LINEID: any;
 
     constructor(OPTM_WHS_RULE:string, OPTM_STORAGE_FROM_BIN: string, OPTM_STORAGE_TO_BIN: string,
@@ -12,7 +15,10 @@ export class BinRuleRowModel{
         this.OPTM_STORAGE_FROM_BIN = OPTM_STORAGE_FROM_BIN;
         this.OPTM_STORAGE_TO_BIN = OPTM_STORAGE_TO_BIN;
         this.OPTM_PUTWAY_STAGE_BIN = OPTM_PUTWAY_STAGE_BIN;
-        this.OPTM_PICK_DROP_BIN = ''
+        this.OPTM_PICK_DROP_BIN = '';
+        this.OPTM_PART_PICK_DROP_BIN = '';
+        this.OPTM_DROP_BIN_FOR_TRANSFER = ''
+        this.OPTM_SORT_PACK_BIN = ''
         this.OPTM_LINEID  = ''
     }
 }

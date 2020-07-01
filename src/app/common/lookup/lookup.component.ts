@@ -1038,6 +1038,12 @@ export class LookupComponent implements OnInit {
       //   width: '100'
       // },
       {
+        field: 'OPTM_WHSCODE',
+        title: this.translate.instant("Warehouse"),
+        type: 'text',
+        width: '100'
+      },
+      {
         field: 'OPTM_RULE_TYPE_Text',
         title: this.translate.instant("BinRuleRuleType"),
         type: 'text',
