@@ -119,16 +119,87 @@
                     </div>
                 </div>
     
+
                 <div class="row">
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerFrom" class="col-sm-3 col-form-label">Ship Quantity</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" name='ShipQtyId' [(ngModel)]=itemShipQty id="ShipQtyId" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerTo" class="col-sm-3 col-form-label">Open</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                </div>
+
+                <div class="row">
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerFrom" class="col-sm-3 col-form-label">Allocated Quantity</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" name='AllocatedQtyId' [(ngModel)]=itemAllocatedQty id="AllocatedQtyId"
+                                disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerTo" class="col-sm-3 col-form-label">Selected</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
+                                disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                </div>
+                
+                <div class="row">
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerFrom" class="col-sm-3 col-form-label">Label</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                    <!-- col start -->
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="CustomerTo" class="col-sm-3 col-form-label">Balance</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-sm text-right" name='BalanceQtyId' [(ngModel)]=itemBalQtyToAllocate id="BalanceQtyId"
+                                disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                </div>                
+
+
+                <!-- <div class="row">
                     <div class="d-flex flex-row">
-                        <label for="OpenQty" class="col-sm-4 col-form-label">Ship Quantity</label>
+                        <label for="OpenQty" class="col-sm-5 col-form-label">Ship Quantity</label>
                         <div class="col-sm-4 input-group">
                             <input type="text" class="form-control form-control-sm text-right" name='ShipQtyId' [(ngModel)]=itemShipQty id="ShipQtyId" disabled>
                         </div>
-                        <!-- <label for="RowCount" class="col-sm-2 col-form-label">{{'Row_Count'|translate}}</label>
-                            <div class="col-sm-4 input-group">
-                                <input type="text" class=" form-control form-control-sm" name='RowCountId' [(ngModel)]=RowCount id="RowCountId" disabled>
-                            </div>  -->
+                       
                         <label for="SelectedQty" class="col-sm-4 col-form-label">Open</label>
                         <div class="col-sm-4 input-group">
                             <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
@@ -138,15 +209,12 @@
                 </div>
                 <div class="row">
                     <div class="d-flex flex-row">
-                        <label for="OpenQty" class="col-sm-4 col-form-label">Allocated Quantity</label>
+                        <label for="OpenQty" class="col-sm-5 col-form-label">Allocated Quantity</label>
                         <div class="col-sm-4 input-group">
                             <input type="text" class="form-control form-control-sm text-right" name='AllocatedQtyId' [(ngModel)]=itemAllocatedQty id="AllocatedQtyId"
                                 disabled>
                         </div>
-                        <!-- <label for="RowCount" class="col-sm-2 col-form-label">{{'Row_Count'|translate}}</label>
-                            <div class="col-sm-4 input-group">
-                                <input type="text" class=" form-control form-control-sm" name='RowCountId' [(ngModel)]=RowCount id="RowCountId" disabled>
-                            </div>  -->
+
                         <label for="SelectedQty" class="col-sm-4 col-form-label">Selected</label>
                         <div class="col-sm-4 input-group">
                             <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
@@ -156,7 +224,7 @@
                 </div>
                 <div class="row">
                     <div class="d-flex flex-row">
-                        <label  class="col-sm-4 col-form-label">''</label>
+                        <label  class="col-sm-2 col-form-label">''</label>
                         <div class="col-sm-4 input-group">
                                 <input type="text" class="form-control form-control-sm text-right" disabled>
                         </div>
@@ -166,9 +234,7 @@
                                 disabled>
                         </div>
                     </div>
-                </div>
-               
-    
+                </div>              -->
             </div>
             <div class="fix-footer-btnBar">
                 <div class="col-sm-12 col-12">

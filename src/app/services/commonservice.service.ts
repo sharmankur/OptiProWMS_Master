@@ -1157,8 +1157,8 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
-        OPTM_FUNCTION: "shipping",
-        OPTM_OBJECT: "container",
+        OPTM_FUNCTION: "Shipping",
+        OPTM_OBJECT: "Container",
         OPTM_NOOFCONT: noOfContainer,
         OPTM_NOOFCOPY: noOfCopies
       }])
