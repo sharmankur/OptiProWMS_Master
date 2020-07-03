@@ -319,10 +319,10 @@
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'Cont_Code'|translate}}</label>
                                         <input type="text" #scanContCode id="scanContCode" name="containerCode" placeholder="{{containerCodePlaceholder}}" class="col-sm-9 form-control form-control-sm "
-                                        (keyup.enter)="EnterPressed()"
-                                            [(ngModel)]="containerCode" (blur)="onContainerCodeChangeBlur()">
+                                            (keyup.enter)="EnterPressed()" [(ngModel)]="containerCode" (blur)="onContainerCodeChangeBlur()">
                                         <div class="input-group-append has-seprate-btn">
-                                            <button tabIndex="-1" #scanTreeViewBtn id="scanTreeViewBtn"  (click)="onOpenTreeview()" class="k-button k-primary btn" title="{{'ViewItems'|translate}}" type="button">
+                                            <button tabIndex="-1" #scanTreeViewBtn id="scanTreeViewBtn" (click)="onOpenTreeview()" class="k-button k-primary btn" title="{{'ViewItems'|translate}}"
+                                                type="button">
                                                 <i class="opti-icon-view-batch"></i>
                                             </button>
                                             <div class="btn-group">
@@ -341,8 +341,10 @@
                                                             {{'Close_Container'|translate}}</a>
                                                         <a *ngIf="!enableCloseCont" class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
                                                             {{'Close_Container'|translate}}</a>
-                                                        <a class="dropdown-item" (click)="onPrintLabelClick()" style="color: black; cursor: not-allowed; pointer-events: all;">
+                                                        <a class="dropdown-item cursor-pointer" (click)="onPrintLabelClick()">
                                                             {{'Barcode'|translate}}</a>
+                                                        <!-- <a class="dropdown-item" (click)="onPrintLabelClick()" style="color: black; cursor: not-allowed; pointer-events: all;">
+                                                            {{'Barcode'|translate}}</a> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -410,8 +412,8 @@
                                                 <label class="k-radio-label" for="viewItem">{{'View'|translate}}</label>
                                             </div>
                                             <div class="col-sm-5">
-                                              <span class="text-danger" title="{{'Internal_Cont'|translate}}">{{InternalContCode}}</span> 
-                                            </div>                                           
+                                                <span class="text-danger" title="{{'Internal_Cont'|translate}}">{{InternalContCode}}</span>
+                                            </div>
                                         </div>
                                     </fieldset>
                                 </div>
@@ -518,8 +520,8 @@
 </span>
 
 <span *ngIf="showInternalDialogFlag">
-    <app-input-internal-container  [currentValue]="InternalContCode"  [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [fromWhere]="inputDialogFor"
-        [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oDataModel]="oDataModel"></app-input-internal-container>
+    <app-input-internal-container [currentValue]="InternalContCode" [titleMessage]="titleMessage" [yesButtonText]="yesButtonText"
+        [fromWhere]="inputDialogFor" [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oDataModel]="oDataModel"></app-input-internal-container>
 </span>
 
 <span *ngIf="showParentDialogFlag">
