@@ -224,7 +224,7 @@
                         <div class="col-sm-4 row">
                             <div class="form-group">
                                 <div>
-                                    <button type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                                    <button [disabled]="Selectedlink == 1" type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
                                 </div>
                             </div>
                         </div>

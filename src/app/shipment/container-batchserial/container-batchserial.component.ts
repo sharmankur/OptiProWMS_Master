@@ -117,21 +117,18 @@ export class ContainerBatchserialComponent implements OnInit {
       ItemCodeArray.push(map);
     });
 
-    this.ItemCodeArray = ItemCodeArray;
-    //this.ContainsItemDD = this.ItemCodeArray[0];
-    //this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
-    //this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-    //this.Tracking = this.ItemCodeArray[0].TRACKING;
-    //this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
+    this.ItemCodeArray = ItemCodeArray;   
 
     //Do not fetch after Assign / Remove. Same Data is returned by Assign / Remove function
     //Srini 26-Jun-2020
-    if (blnFetchBTCHSRData) {
+    
+    if (blnFetchBTCHSRData) { 
+      //Set the first record as default when loading the data first time.
       this.ContainsItemDD = this.ItemCodeArray[0];
       this.ContainsItemID = this.ItemCodeArray[0].OPTM_ITEMCODE;
       this.OpenQty = Number(this.ItemCodeArray[0].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.Tracking = this.ItemCodeArray[0].TRACKING;
-      this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;
+      this.SHPStatus = this.ItemCodeArray[0].SHPSTATUS;     
       this.fillBatchSerialDataInGrid(this.Selectedlink);
     }
 
@@ -298,7 +295,9 @@ export class ContainerBatchserialComponent implements OnInit {
       this.fillBatchSerialDataInGrid(this.Selectedlink);
     }else{
       this.getDataFromTempGrid();
-    } 
+    }
+    //Set Line Open Quantities
+    this.setLineQuantities(); 
   }
 
   getDataFromTempGrid() {
@@ -484,14 +483,24 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
     let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
     this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   }
-  */
+  
   let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == ItemCode);
   this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
   this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
   this.itemShipQty = this.ItemCodeArray[index].OPTM_QTY;
   this.itemAllocatedQty = this.ItemCodeArray[index].OPTM_QTY_FULFILLED;
   this.itemBalQtyToAllocate = this.OpenQty - this.SelectedQty;
+  */
+  this.setLineQuantities();
 }
+  setLineQuantities() {
+    let index = this.ItemCodeArray.findIndex(val => val.OPTM_ITEMCODE == this.ContainsItemID);
+    this.SelectedQty = Number(0).toFixed(Number(localStorage.getItem("DecimalPrecision")));  
+    this.OpenQty = Number(this.ItemCodeArray[index].OPEN_QTY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+    this.itemShipQty = this.ItemCodeArray[index].OPTM_QTY;
+    this.itemAllocatedQty = this.ItemCodeArray[index].OPTM_QTY_FULFILLED;
+    this.itemBalQtyToAllocate = this.OpenQty - this.SelectedQty;
+  }
 
   onRemoveShipmentPress() {
     if (this.SelectedRowsforShipmentArr.length == 0) {
@@ -547,9 +556,10 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
                 this.toastr.success('', this.translate.instant("Btch_removed_successfully"));
                 //Commented By Srini 26-Jun-2020
                 //this.fillBatchSerialDataInGrid(3);
+                this.itemBalQtyToAllocate = 0;
                 this.SelectedRowsforShipmentArr = [];
                 this.TempGridData = [];
-                this.ShimpmentArray = data.Shiplines;
+                this.ShimpmentArray = data.OPTM_SHPMNT_DTL;
                 this.getContainsItemDD(false);
                 this.displayDataInBTCHSRGrid(3,data.ShiplineBTCHSR);
                 this.setDataInTempGrid();
@@ -644,12 +654,17 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
     var sum = array.reduce(function (a, b) {
       return a + parseFloat(b.AssignQty);
     }, 0);
-    if (this.Selectedlink != 3) {
+
+    //if (this.Selectedlink != 3) {
       this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
         this.ContainerBatchSerials[upIdx].SelectedQty = this.SelectedQty;
       }
-    }
+
+      if (this.Selectedlink == 3) {
+        this.itemBalQtyToAllocate = this.itemAllocatedQty - this.SelectedQty;
+      }
+    //}
     // else if (this.Selectedlink == 3) {
     //   // this.SelectedQty = Number(sum).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     //   for (let upIdx = 0; upIdx < this.ContainerBatchSerials.length; upIdx++) {
@@ -724,7 +739,7 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
               this.OpenQty = Number(OpenQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
               //Added By Srini 26-Jun-2020 to refresh data after every assignment submission
               //this.fillBatchSerialDataInGrid(2);
-              this.ShimpmentArray = data.Shiplines;
+              this.ShimpmentArray = data.OPTM_SHPMNT_DTL;
               this.getContainsItemDD(false);
               this.displayDataInBTCHSRGrid(2,data.ShiplineBTCHSR);
               this.setDataInTempGrid();

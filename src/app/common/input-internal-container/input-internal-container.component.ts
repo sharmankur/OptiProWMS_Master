@@ -71,7 +71,6 @@ export class InputInternalContainerComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-
           if(action == 'lookup'){            
             if(data.length == 0){
               this.toastr.error('',this.translate.instant("NoContFound"));
@@ -85,13 +84,13 @@ export class InputInternalContainerComponent implements OnInit {
               this.IntContainerCode = '';
               this.toastr.error('', this.translate.instant("InvalidContainerId"));
               return;
-            }
+            }            
+            this.IntContItemQuantity = data[0].OPTM_QUANTITY;
             this.IntContainerCode = data[0].OPTM_CONTCODE;
             this.ContID = data[0].OPTM_CONTAINERID;
             this.intContainerStatus= data[0].OPTM_STATUS;
             this.GetListOfBatchSerOfSelectedContainerID(data[0].OPTM_CONTAINERID, data[0].OPTM_ITEMCODE); 
-          }
-         
+          }         
         } else {
           this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }

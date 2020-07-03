@@ -407,11 +407,15 @@ export class ContainerShipmentComponent implements OnInit {
   }
 
   onQueryBtnClick() {
-    this.fillDataInGridWithShipment(this.Selectedlink);
+    if (this.IsShipment && this.Selectedlink == 3) {
+      this.toastr.error('Srini', 'Query not applicable in remove from shipment');
+    } else {
+      this.fillDataInGridWithShipment(this.Selectedlink);
+    }    
   }
 
   getContainerType() {
-    this.ContainerTypeArray = [];
+    this.ContainerTypeArray = []; 
     this.containerCreationService.GetContainerType().subscribe(
       (data: any) => {
         if (data != undefined) {
