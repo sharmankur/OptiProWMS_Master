@@ -1008,14 +1008,37 @@ export class AddItemToContComponent implements OnInit {
                 this.workOrder = ''; this.taskId = 0; this.operationNo = 0;
                 this.WIPFGBin = "";
                 return;
-              }
-
+              }              
               this.taskId = data.WOLIST[0].OPTM_ID;
               this.operationNo = data.WOLIST[0].OPTM_FROMOPERNO;
               this.SelectedWOItemCode = data.WOLIST[0].OPTM_FGCODE;
               this.IsWIPCont = true;
 
-
+              //Added. Srini 3-Jul-. For WIP Container               
+              if (this.RuleItems.length > 0) {
+                let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
+                if (NoneTrackArr.length > 0) {                  
+                    this.oCreateModel.OtherItemsDTL.push({
+                      OPTM_ITEMCODE: NoneTrackArr[0].OPTM_ITEMCODE,
+                      OPTM_QUANTITY: NoneTrackArr[0].OPTM_PARTS_PERCONT,
+                      OPTM_CONTAINER: "",
+                      OPTM_AVLQUANTITY: 0,
+                      OPTM_INVQUANTITY: 0,
+                      OPTM_BIN: '',
+                      OPTM_CONTAINERID: 0,
+                      OPTM_TRACKING: NoneTrackArr[0].OPTM_TRACKING,
+                      OPTM_WEIGHT: 1,
+                      IsWIPItem: this.IsWIPCont,
+                      DirtyFlag: true,
+                      Operation: 'Add',
+                      Delete: false,
+                      TotalQty: NoneTrackArr[0].OPTM_PARTS_PERCONT,
+                      ServerQty: 0,
+                      LocQty: NoneTrackArr[0].OPTM_PARTS_PERCONT,
+                    });                  
+                }
+              }  
+              // End of addition
               result = true;
             }
           }
@@ -1242,12 +1265,15 @@ export class AddItemToContComponent implements OnInit {
         this.SelectedWOItemCode = $event.OPTM_FGCODE;
         this.IsWIPCont = true;
 
+        this.onWorkOrderBlur();
+        /*
         //Check if any of the Non-Tracked item is same as selected WO Item
         for (let i = 0; i < this.oCreateModel.OtherItemsDTL.length; i++) {
           if (this.oCreateModel.OtherItemsDTL[i].OPTM_ITEMCODE == this.SelectedWOItemCode) {
             this.oCreateModel.OtherItemsDTL[i].IsWIPItem = true;
           }
         }
+        */
       }
       else if ("RULEITEMS") {
         console.log($event);
@@ -2428,11 +2454,12 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
-  getAutoPackRule(action) {   
-
+  getAutoPackRule(action) { 
     if (this.ConSelectionType == 2) { //Case: Query Mode
       if (action != 'query') {
-        this.toastr.error('Srini', 'Cannot change rule on existing Container');
+        if (!(this.autoRuleId == undefined || this.autoRuleId == "")) {
+          this.toastr.error('Srini', 'Cannot change rule on existing Container');
+        }         
         return;
       }
     }
@@ -2440,9 +2467,11 @@ export class AddItemToContComponent implements OnInit {
     this.clearlookFields("CAR");
     let RuleId = '';
     if (this.containerType == undefined || this.containerType == "") {
+      if (!(this.autoRuleId == undefined || this.autoRuleId == "")) {
+        this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+      } 
       this.autoRuleId = ''; this.containerCode = ''; this.RuleItems = [];
-      this.setDefaultValues();      
-      this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+      this.setDefaultValues(); 
       return;
     }
 
@@ -2506,9 +2535,9 @@ export class AddItemToContComponent implements OnInit {
             this.lookupfor = "CARList"; 
 
           } else if (action == 'blur' || action == 'query') {
-            if (data.OPTM_CONT_AUTORULEHDR.length > 0) {               
+            if (data.OPTM_CONT_AUTORULEHDR.length > 0) {
               this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;            
-              this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
+              this.RuleItems = data.OPTM_CONT_AUTORULEDTL;            
               if (action == 'blur'){
                 this.CheckNonTrackItemsExistInRule(); 
               }              
@@ -3231,11 +3260,8 @@ export class AddItemToContComponent implements OnInit {
             }
 
             if (data.IteWiseInventory != null && data.IteWiseInventory != undefined) {
-
               if (data.IteWiseInventory.length > 0) {
-
                 let NoneTrackArr = data.IteWiseInventory.filter(val => val.OPTM_TRACKING == 'N');
-
                 if (NoneTrackArr.length > 0) {
                   var index: number;
                   var internalContainerID: number = 0;
@@ -3352,11 +3378,14 @@ export class AddItemToContComponent implements OnInit {
       this.oCreateModel.OtherItemsDTL = [];
     } else {
       for (let intCtr = 0; intCtr < this.oCreateModel.OtherItemsDTL.length; intCtr++) {
-        totalAutoItemWeight = totalAutoItemWeight + this.oCreateModel.OtherItemsDTL[intCtr].OPTM_WEIGHT;
+        totalAutoItemWeight = totalAutoItemWeight + this.oCreateModel.OtherItemsDTL[intCtr].OPTM_WEIGHT;        
       }
     }
 
     if (this.radioRuleSelected == 1) {
+      if (this.oCreateModel.OtherItemsDTL.length == 0) {
+        this.toastr.error('Srini', 'Non track items do not exist in selected rule. Cannot auto create container');
+      }
       createMode = 1;
     } else {
       if (this.autoRuleId == undefined || this.autoRuleId == "") {
@@ -3616,8 +3645,8 @@ export class AddItemToContComponent implements OnInit {
             if (intContainerStatus == 3) {
               this.ReOpenInternalCont(this.InternalContCode);
             }
-          } else {
-            this.toastr.success('Srini', 'Inventory not available for the item in selected container');                      
+          } else if ($event.IntContainerCode != '' && $event.IntContItemQuantity <= 0) {
+            this.toastr.error('Srini', 'Inventory not available for item in selected container');                      
           }
 
          // this.toastr.success('Srini', 'Cont ID ' +  $event.ContId);

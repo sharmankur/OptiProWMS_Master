@@ -8,8 +8,7 @@
                 <div class="input-group input-group-sm">
                     <label class="col-sm-3 col-form-label">{{'ContainerCode'|translate}}</label>
                     <input type="text" id="IntContainerCode" name="IntContainerCode" class="col-sm-6 form-control form-control-sm mr-3"
-                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="GetListOfContainerBasedOnRule('blur')"
-                        >
+                        [(ngModel)]="IntContainerCode" placeholder="{{'ContainerCode'|translate}}" (blur)="GetListOfContainerBasedOnRule('blur')" (keyup.enter)="OnEnterKeyPressed()">
                     <div class="input-group-append has-seprate-btn">
                         <button tabIndex="-1" class="k-button k-primary btn" type="button"
                             (mousedown)="GetListOfContainerBasedOnRule('lookup')">
@@ -30,6 +29,7 @@
     
         <kendo-dialog-actions>
             <button kendoButton (click)="close('no')">{{noButtonText}}</button>
+            <!-- <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true">{{yesButtonText}}</button> -->
             <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true">{{yesButtonText}}</button>
         </kendo-dialog-actions>
     </kendo-dialog>

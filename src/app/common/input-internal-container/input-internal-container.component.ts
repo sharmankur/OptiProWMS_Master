@@ -32,7 +32,7 @@ export class InputInternalContainerComponent implements OnInit {
   ContID : any = 0;
   IntContItemQuantity: number=0;
   bsrListByContainerId: any = [];
-  intContainerStatus: number = 0;
+  intContainerStatus: number = 0;  
   
   constructor(private commonservice: Commonservice, private translate: TranslateService, private toastr: ToastrService,
      private router: Router, private containerCreationService:ContainerCreationService) { }
@@ -371,6 +371,10 @@ export class InputInternalContainerComponent implements OnInit {
     return result;
   }
 
+  OnEnterKeyPressed() {
+    this.GetListOfContainerBasedOnRule('blur');
+  }
+
   public close(status) {   
     if (status == "cancel" || status == "no") { 
       if(this.forInternal){
@@ -394,13 +398,15 @@ export class InputInternalContainerComponent implements OnInit {
     if(this.forInternal){
       if (this.currentValue != undefined || this.currentValue != '') {
         if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
-          this.toastr.error('Convert to Constant', "Internal container cleared");            
+          this.IntContainerCode == '';
+          this.toastr.success('Srini', "Internal container cleared");            
         }
       } else
       if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
         this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
         return;
-      }
+      }      
+      
       this.isYesClick.emit({
         Status: "yes",
         From: "InternalContainer",
@@ -420,8 +426,6 @@ export class InputInternalContainerComponent implements OnInit {
           this.onConfirmParentClick();
         }, 400)
       }
-     
-
     // this.isYesClick.emit({
     //   Status: "yes",
     //   From: "AddToParentContainer",
