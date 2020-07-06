@@ -224,7 +224,8 @@
                         <div class="col-sm-4 row">
                             <div class="form-group">
                                 <div>
-                                    <button [disabled]="Selectedlink == 1" type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
+                                    <!--<button [disabled]="Selectedlink == 1" type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>-->
+                                    <button [disabled]="disableQryButton == 1" type="button" (click)="onQueryBtnClick()">{{'Query'|translate}}</button>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +238,7 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <h5>{{SelectedLinkTitle}}</h5>
-                    <kendo-grid [kendoGridBinding]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [skip]="skip" (pageChange)="pageChange($event)"
+                    <kendo-grid [data]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [skip]="skip" (pageChange)="pageChange($event)"
                         [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="isColumnFilterView">
                         <ng-template kendoGridToolbarTemplate>
                             <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>
@@ -259,7 +260,7 @@
                             </ng-template>
                             <ng-template kendoGridCellTemplate let-idx='rowIndex' let-dataItem='dataItem'>
                                 <div class="custom-control custom-checkbox">
-                                    <input #chkSelection type="checkbox" (change)="selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected"
+                                    <input #chkSelection type="checkbox" (change)= "selectContainerRowChange(chkSelection.checked, dataItem, idx)" [checked]="dataItem.Selected" 
                                         [disabled]="Selectedlink == 1" id="chkbox-{{idx}}" class="custom-control-input" name="columnfilter"
                                     />
                                     <label class="custom-control-label" for="chkbox-{{idx}}"></label>
@@ -269,6 +270,9 @@
                         <!-- <kendo-grid-column field="OPTM_CONTAINERID" class="text-right" width="85" title="{{'Container_Id'|translate}}" *ngIf=false></kendo-grid-column> -->
                         <kendo-grid-column field="TYPE" width="90" title="{{'Type'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="CODE" width="170" title="{{'Code'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="DocNum" width="80" title="{{'SONumber'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="OPTM_GROUP_CODE" width="80" title="{{'Cont GR'|translate}}"></kendo-grid-column>
+                        <kendo-grid-column field="OPTM_CONTTYPE" width="150" title="{{'Cont Type'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_STATUS" width="70" title="{{'Status'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_SHIPMENTID" width="100" title="{{'Shipment_Id'|translate}}"></kendo-grid-column>
@@ -280,22 +284,25 @@
                         <kendo-grid-column field="OPTM_BIN" width="180" title="{{'Bin'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_BUILT_SOURCE" width="150" title="{{'Built_In_Process'|translate}}"></kendo-grid-column>
                         <kendo-grid-column field="OPTM_SHIPELIGIBLE" width="75" title="{{'ShipEligible'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="DocNum" width="80" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                        <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="60" title="{{'Picked'|translate}}">
+                        <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>                        
+                        <!--Srini 5-Jul-2020<kendo-grid-column field="OPTM_PICKED_TOSHIP" width="60" title="{{'Picked'|translate}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <label class="custom-checkbox mb-0">
                                     <input type="checkbox" #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'" disabled>
                                     <span class="checkbox"></span>
                                 </label>
                             </ng-template>
-                        </kendo-grid-column>
+                        </kendo-grid-column>-->
                         <kendo-grid-column field="OPTM_PARENTCONTID" width="170" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
 
                         <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="ShowContainerItems">
                             <kendo-grid [data]="dataItem.ContainerItemList">
-                                <kendo-grid-column field="TYPE" width="109" title="{{'Type'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="-" width="19" title=""></kendo-grid-column>
+                                <kendo-grid-column field="TYPE" width="90" title="{{'Type'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="CODE" width="170" title="{{'Code'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="DocNum" width="80" title="{{'SONumber'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_GROUP_CODE" width="80" title="{{'Cont GR'|translate}}"></kendo-grid-column>
+                                <kendo-grid-column field="OPTM_CONTTYPE" width="150" title="{{'Cont Type'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_STATUS" width="70" title="{{'Status'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_QUANTITY" class="text-right" width="70" title="{{'Quantity'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SHIPMENTID" width="100" title="{{'Shipment_Id'|translate}}"></kendo-grid-column>
@@ -308,15 +315,14 @@
                                 <kendo-grid-column field="OPTM_BUILT_SOURCE" width="150" title="{{'Built_In_Process'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SHIPELIGIBLE" width="75" title="{{'ShipEligible'|translate}}"></kendo-grid-column>
                                 <kendo-grid-column field="OPTM_SHIPMENT_LINEID" width="100" title="{{'Shipment_Line'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="DocNum" width="80" title="{{'SONumber'|translate}}"></kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PICKED_TOSHIP" width="60" title="{{'Picked'|translate}}">
+                                <!--Srini 5-Jul-2020<kendo-grid-column field="OPTM_PICKED_TOSHIP" width="60" title="{{'Picked'|translate}}">
                                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                         <label class="custom-checkbox mb-0">
                                             <input type="checkbox" #checkedpickedvalue [checked]="dataItem.OPTM_PICKED_TOSHIP == 'Y'" disabled>
                                             <span class="checkbox"></span>
                                         </label>
                                     </ng-template>
-                                </kendo-grid-column>
+                                </kendo-grid-column>-->
                                 <kendo-grid-column field="OPTM_PARENTCONTID" width="170" title="{{'Parent_Cont'|translate}}"></kendo-grid-column>
                             </kendo-grid>
                         </ng-template>

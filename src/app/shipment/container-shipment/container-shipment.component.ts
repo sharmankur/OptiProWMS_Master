@@ -58,6 +58,7 @@ export class ContainerShipmentComponent implements OnInit {
   ContainerOperationArray: any = [];
   ShipmentStatus: any = '';
   //statusArrMulti: any = [];
+  disableQryButton: number = 0;
 
   constructor(private translate: TranslateService, private commonservice: Commonservice, private toastr: ToastrService, private containerCreationService: ContainerCreationService, private router: Router,
     private containerShipmentService: ContainerShipmentService) {
@@ -212,6 +213,12 @@ export class ContainerShipmentComponent implements OnInit {
     this.ShipmentId = "";
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.Selectedlink = value;
+    //Srini 5-Jun-2020. Added to disable Query button when Remove from shipment is selected
+    if (value == 3) {
+      this.disableQryButton = 1;
+    } else {
+      this.disableQryButton = 0;
+    }
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       if (value == 2 || value == 3 || value == 4) {
         this.setContainerGridTitle(value);
@@ -324,25 +331,46 @@ export class ContainerShipmentComponent implements OnInit {
 
   prepareGridDataForContainerItems(data: any) {
     var OPTM_CONT_DTL = data.OPTM_CONT_DTL
+    //Srini 5-Jul-2020. Made changes to reflect new data feed from Container Details table
+    var tempContItems: any = [];
     for (var j = 0; j < this.ContainerList.length; j++) {
       this.ContainerList[j].ContainerItemList = []
-      for (var i = 0; i < OPTM_CONT_DTL.length; i++) {
-        if (this.ContainerList[j].CODE == OPTM_CONT_DTL[i].OPTM_CONTCODE) {
-          this.ContainerList[j].ContainerItemList.push({
-            TYPE: "Item",
-            CODE: OPTM_CONT_DTL[i].OPTM_ITEMCODE,
-            OPTM_QUANTITY: OPTM_CONT_DTL[i].OPTM_QUANTITY,
-            OPTM_WEIGHT: OPTM_CONT_DTL[i].OPTM_WEIGHT1 == null ? '0' : OPTM_CONT_DTL[i].OPTM_WEIGHT1,
-            OPTM_VOLUME: OPTM_CONT_DTL[i].OPTM_VOLUME == null ? '0' : OPTM_CONT_DTL[i].OPTM_VOLUME,
-            OPTM_SHIPMENT_ID: OPTM_CONT_DTL[i].OPTM_SHIPMENTID == null ? '' : OPTM_CONT_DTL[i].OPTM_SHIPMENTID,
-            OPTM_PARENTCONTID: OPTM_CONT_DTL[i].OPTM_PARENTCONTID,
-            OPTM_PICKED_TOSHIP: OPTM_CONT_DTL[i].OPTM_PICKED_TOSHIP == "Y" ? true : false,
-            OPTM_WHSE: OPTM_CONT_DTL[i].OPTM_WHSE,
-            OPTM_BIN: OPTM_CONT_DTL[i].OPTM_BIN,
-            OPTM_SHIPELIGIBLE: OPTM_CONT_DTL[i].OPTM_SHIPELIGIBLE == "Y" ? true : false,
-            OPTM_SO_NUMBER: OPTM_CONT_DTL[i].OPTM_SO_NUMBER == null ? '' : OPTM_CONT_DTL[i].OPTM_SO_NUMBER,
-          });
+      tempContItems = OPTM_CONT_DTL.filter(element => element.OPTM_HDRSEQID == this.ContainerList[j].OPTM_CONTAINERID)
+      for (var i = 0; i < tempContItems.length; i++) {
+        this.ContainerList[j].ContainerItemList.push({
+          TYPE: "Item",
+          CODE: tempContItems[i].OPTM_ITEMCODE,
+          OPTM_QUANTITY: tempContItems[i].OPTM_QUANTITY,
+          OPTM_WEIGHT: tempContItems[i].OPTM_WEIGHT == null ? '0' : tempContItems[i].OPTM_WEIGHT,
+          OPTM_VOLUME: tempContItems[i].OPTM_VOLUME == null ? '0' : tempContItems[i].OPTM_VOLUME,
+          OPTM_SHIPMENT_ID: tempContItems[i].OPTM_SHIPMENT_ID == null ? '' : tempContItems[i].OPTM_SHIPMENT_ID,
+          OPTM_PARENTCONTID: 0,
+          OPTM_WHSE: tempContItems[i].OPTM_WHSE,
+          OPTM_BIN: tempContItems[i].OPTM_BIN,
+          OPTM_SHIPELIGIBLE: '',
+          OPTM_SO_NUMBER: ''
+        });
+        /*
+        for (var i = 0; i < OPTM_CONT_DTL.length; i++) {
+          if (this.ContainerList[j].CODE == OPTM_CONT_DTL[i].OPTM_CONTCODE) {
+            this.ContainerList[j].ContainerItemList.push({
+              TYPE: "Item",
+              CODE: OPTM_CONT_DTL[i].OPTM_ITEMCODE,
+              OPTM_QUANTITY: OPTM_CONT_DTL[i].OPTM_QUANTITY,
+              OPTM_WEIGHT: OPTM_CONT_DTL[i].OPTM_WEIGHT1 == null ? '0' : OPTM_CONT_DTL[i].OPTM_WEIGHT1,
+              OPTM_VOLUME: OPTM_CONT_DTL[i].OPTM_VOLUME == null ? '0' : OPTM_CONT_DTL[i].OPTM_VOLUME,
+              OPTM_SHIPMENT_ID: OPTM_CONT_DTL[i].OPTM_SHIPMENTID == null ? '' : OPTM_CONT_DTL[i].OPTM_SHIPMENTID,
+              OPTM_PARENTCONTID: OPTM_CONT_DTL[i].OPTM_PARENTCONTID,
+              OPTM_PARENTCONTID: 0,
+              OPTM_PICKED_TOSHIP: OPTM_CONT_DTL[i].OPTM_PICKED_TOSHIP == "Y" ? true : false,
+              OPTM_WHSE: OPTM_CONT_DTL[i].OPTM_WHSE,
+              OPTM_BIN: OPTM_CONT_DTL[i].OPTM_BIN,
+              OPTM_SHIPELIGIBLE: OPTM_CONT_DTL[i].OPTM_SHIPELIGIBLE == "Y" ? true : false,
+              OPTM_SO_NUMBER: OPTM_CONT_DTL[i].OPTM_SO_NUMBER == null ? '' : OPTM_CONT_DTL[i].OPTM_SO_NUMBER,              
+            });          
+          }
         }
+        */
       }
     }
   }
@@ -356,6 +384,7 @@ export class ContainerShipmentComponent implements OnInit {
       this.ContainerList[i].Selected = false;
       this.ContainerList[i].TYPE = "Container";
       this.ContainerList[i].CODE = this.ContainerList[i].OPTM_CONTCODE;
+      this.ContainerList[i].OPTM_CONTAINERID = this.ContainerList[i].OPTM_CONTAINERID; //Srini Added on 5-Jul-2020
       this.ContainerList[i].OPTM_QUANTITY = 1;
       this.ContainerList[i].OPTM_WEIGHT = this.ContainerList[i].OPTM_WEIGHT == null || '' || undefined ? 0 : Number(this.ContainerList[i].OPTM_WEIGHT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       this.ContainerList[i].OPTM_STATUS = this.getContainerStatus(this.ContainerList[i].OPTM_STATUS);
