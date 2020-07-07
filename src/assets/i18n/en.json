@@ -1091,5 +1091,9 @@
   "QtyToRemove": "Remove Quantity",
   "PlanDateMsg": "Please select plan date.",
 
+  "Line_Qty": "Line Qty",
+  "Ship_Qty": "Ship Qty",
+
+
   "Dummy": "Dummy"  
 }
