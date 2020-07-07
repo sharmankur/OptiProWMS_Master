@@ -182,59 +182,15 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="CustomerTo" class="col-sm-3 col-form-label">Balance</label>
+                            <label for="itemBalQtyToAllocate" class="col-sm-3 col-form-label">Balance</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control form-control-sm text-right" name='BalanceQtyId' [(ngModel)]=itemBalQtyToAllocate id="BalanceQtyId"
+                                <input type="text" class="form-control form-control-sm text-right" name='itemBalQtyToAllocate' [ngModel]="itemBalQtyToAllocate|numberFormat" id="itemBalQtyToAllocate" (ngModelChange)="itemBalQtyToAllocate=$event"
                                 disabled>
                             </div>
                         </div>
                     </div>
                     <!-- col end -->
                 </div>                
-
-
-                <!-- <div class="row">
-                    <div class="d-flex flex-row">
-                        <label for="OpenQty" class="col-sm-5 col-form-label">Ship Quantity</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='ShipQtyId' [(ngModel)]=itemShipQty id="ShipQtyId" disabled>
-                        </div>
-                       
-                        <label for="SelectedQty" class="col-sm-4 col-form-label">Open</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="d-flex flex-row">
-                        <label for="OpenQty" class="col-sm-5 col-form-label">Allocated Quantity</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='AllocatedQtyId' [(ngModel)]=itemAllocatedQty id="AllocatedQtyId"
-                                disabled>
-                        </div>
-
-                        <label for="SelectedQty" class="col-sm-4 col-form-label">Selected</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
-                                disabled>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="d-flex flex-row">
-                        <label  class="col-sm-2 col-form-label">''</label>
-                        <div class="col-sm-4 input-group">
-                                <input type="text" class="form-control form-control-sm text-right" disabled>
-                        </div>
-                        <label for="SelectedQty" class="col-sm-4 col-form-label">Balance</label>
-                        <div class="col-sm-4 input-group">
-                            <input type="text" class="form-control form-control-sm text-right" name='BalanceQtyId' [(ngModel)]=itemBalQtyToAllocate id="BalanceQtyId"
-                                disabled>
-                        </div>
-                    </div>
-                </div>              -->
             </div>
             <div class="fix-footer-btnBar">
                 <div class="col-sm-12 col-12">
@@ -243,10 +199,6 @@
                     </button>
                     <button class="btn btn-success k-button btn-sm btn-icon-with-text" type="button" (mousedown)="onCancelClick()" *ngIf="!IsShipment">
                         <span class="k-icon k-i-close-outline" role="presentation"></span>{{'Cancel'|translate}}</button>
-    
-                    <!-- <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onAssignShipmentPress()">
-                        <span class="k-icon k-i-check" role="presentation"></span>{{'Assign_to_shipment'|translate}}</button>  -->
-    
                     <button type="button" class="btn btn-success k-button btn-sm btn-icon-with-text" (click)="onUpdateBtnPress()" [disabled]="Selectedlink == 1">
                         <!-- <span class="k-icon k-i-check" role="presentation"></span> -->
                         {{'Submit'|translate}}</button>
@@ -258,11 +210,10 @@
                                 <i class="opti-icon-more"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <!-- <a [ngClass]="Selectedlink == 1 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" 
-                                (click)="fillBatchSerialDataInGrid(1)">{{'View_BatchSer'|translate}}</a> -->
                                 <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(2)">{{'Assign_to_shipment'|translate}}</a>
                                 <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(3)">{{'Remove_from_shipment'|translate}}</a>
-                                <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="fillBatchSerialDataInGrid(4)">{{'Return_by_customer'|translate}}</a>                                
+                                <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" *ngIf="ShipmentHDRStatus >= 10" (click)="fillBatchSerialDataInGrid(4)">{{'Return_by_customer'|translate}}</a>           
+                                <a class="dropdown-item" *ngIf="ShipmentHDRStatus < 10" style="color: gray; cursor: not-allowed; pointer-events: all;">{{'Return_by_customer'|translate}}</a>                    
                             </div>
                         </div>
                     </div>

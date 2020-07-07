@@ -624,6 +624,7 @@ export class ShipmentViewComponent implements OnInit {
       this.ShpContainerType = "";
     }
     localStorage.setItem("ShpContType", this.ShpContainerType);
+    localStorage.setItem("ShipmentHDRStatus", this.StatusId);
     localStorage.setItem("ShpLineDtl", JSON.stringify(this.shipmentData.OPTM_SHPMNT_INVDTL));
     
 

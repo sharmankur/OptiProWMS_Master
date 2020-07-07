@@ -354,16 +354,8 @@ export class InputInternalContainerComponent implements OnInit {
             return;
           }
           this.bsrListByContainerId = data;
-          if(whichAction != undefined && whichAction == "fromConfirm"){
-            this.isYesClick.emit({
-              Status: "yes",
-              From: "InternalContainer",
-              IntContainerCode: this.IntContainerCode,
-              ContId: this.ContID,
-              intContainerStatus: this.intContainerStatus,
-              BatSerList: this.bsrListByContainerId,
-              IntContItemQuantity: this.IntContItemQuantity
-            });
+          if(whichAction != undefined && whichAction == "fromConfirm" && this.IntContainerCode != ''){
+            this.EmitInternalContainer();
           }
         } else {
           // this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -411,7 +403,9 @@ export class InputInternalContainerComponent implements OnInit {
         if (this.currentValue != undefined || this.currentValue != '') {
           if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
             this.IntContainerCode == '';
-            this.toastr.success('Srini', "Internal container cleared");
+            //this.toastr.success('Srini', "Internal container cleared");
+            this.EmitInternalContainer();
+            return;
           }
         } else
           if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
@@ -420,15 +414,7 @@ export class InputInternalContainerComponent implements OnInit {
           }
 
           if(this.isContBlurFired){
-            this.isYesClick.emit({
-              Status: "yes",
-              From: "InternalContainer",
-              IntContainerCode: this.IntContainerCode,
-              ContId: this.ContID,
-              intContainerStatus: this.intContainerStatus,
-              BatSerList: this.bsrListByContainerId,
-              IntContItemQuantity: this.IntContItemQuantity
-            });
+            this.EmitInternalContainer();
           }else{
             this.GetListOfContainerBasedOnRule('blur', "fromConfirm");
           }
@@ -444,5 +430,17 @@ export class InputInternalContainerComponent implements OnInit {
         }      
       }
     }
+  }
+
+  EmitInternalContainer(){
+    this.isYesClick.emit({
+      Status: "yes",
+      From: "InternalContainer",
+      IntContainerCode: this.IntContainerCode,
+      ContId: this.ContID,
+      intContainerStatus: this.intContainerStatus,
+      BatSerList: this.bsrListByContainerId,
+      IntContItemQuantity: this.IntContItemQuantity
+    });
   }
 }

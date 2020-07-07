@@ -358,10 +358,10 @@
                             <a [ngClass]="Selectedlink == 5 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(5)">{{'Set_Damaged'|translate}}</a>
                             <a [ngClass]="Selectedlink == 6 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(6)">{{'Close_Container'|translate}}</a>
 
-                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
-                            <a class="dropdown-item" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
-                            <a class="dropdown-item" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
-                            <a class="dropdown-item" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
                         </div>
                     </div>
                 </div>

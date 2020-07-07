@@ -61,6 +61,10 @@ export class AutoAllocationComponent implements OnInit {
     else if (this.lookup == "ShipIdFrom") {
       this.ShipIdFrom = event.OPTM_SHIPMENTID;
       this.ShipmentCodeFrom = event.OPTM_SHIPMENT_CODE;
+      if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
+        this.ShipmentCodeTo = event.OPTM_SHIPMENT_CODE
+        this.ShipIdTo = event.OPTM_SHIPMENTID;
+      }
     }
     else if (this.lookup == "ShipIdTo") {
       this.ShipIdTo = event.OPTM_SHIPMENTID;
@@ -94,6 +98,10 @@ export class AutoAllocationComponent implements OnInit {
     var varMonth: string = (event.getMonth() + 1);
     var varDay: string = event.getDate();
     this.scheduleFromDate = varYear + "-" + varMonth + "-" +  varDay
+    if(this.schedularToDate == undefined || this.schedularToDate == ""){
+      this.schedularToDate = this.schedularFromDate;
+      this.scheduleToDate = this.scheduleFromDate;
+    }
   }
 
   onScheduleToDateChange(event) {
@@ -122,13 +130,16 @@ export class AutoAllocationComponent implements OnInit {
     this.router.navigate(['home/dashboard']);
   }
   
-  GetShipmentIdWithAllocAndPartAllocStatus(fieldName) {
+  GetShipmentIdWithAllocAndPartAllocStatus(fieldName, action?) {
     var shipId = ''
-    if (fieldName == 'ShipIdFrom') {
-      shipId = this.ShipmentCodeFrom
-    } else {
-      shipId = this.ShipmentCodeTo
+    if(action != 'lookup'){
+      if (fieldName == 'ShipIdFrom') {
+        shipId = this.ShipmentCodeFrom
+      } else {
+        shipId = this.ShipmentCodeTo
+      }
     }
+
     this.showLoader = true;
     this.hideLookup = true;
     this.commonservice.GetShipmentIdWithAllocAndPartAllocStatus(shipId).subscribe(
@@ -150,8 +161,14 @@ export class AutoAllocationComponent implements OnInit {
             if (data.Table.length > 0) {
               if (fieldName == 'ShipIdFrom') {
                 this.ShipmentCodeFrom = data.Table[0].OPTM_SHIPMENT_CODE
+                this.ShipIdFrom = data.Table[0].OPTM_SHIPMENTID
+                if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
+                  this.ShipmentCodeTo = data.Table[0].OPTM_SHIPMENT_CODE
+                  this.ShipIdTo = data.Table[0].OPTM_SHIPMENTID
+                }
               } else {
                 this.ShipmentCodeTo = data.Table[0].OPTM_SHIPMENT_CODE
+                this.ShipIdTo = data.Table[0].OPTM_SHIPMENTID
               }
             } else {
               if (fieldName == 'ShipIdFrom') {
@@ -214,6 +231,8 @@ export class AutoAllocationComponent implements OnInit {
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''
             this.schedularToDate = ''
+            this.ShipIdTo = '';
+            this.ShipIdFrom = '';
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }

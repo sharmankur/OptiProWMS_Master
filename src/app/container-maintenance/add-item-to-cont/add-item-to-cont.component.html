@@ -335,11 +335,11 @@
 
                                                         <a *ngIf="showAddToParent" class="dropdown-item cursor-pointer" (click)="onAddToParentClick()">
                                                             {{'+/-ParentCont'|translate}}</a>
-                                                        <a *ngIf="!showAddToParent" class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" (click)="onAddToParentClick()">
+                                                        <a *ngIf="!showAddToParent" class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" (click)="onAddToParentClick()">
                                                             {{'+/-ParentCont'|translate}}</a>
                                                         <a *ngIf="enableCloseCont" class="dropdown-item cursor-pointer" (click)="onCloseContClick()">
                                                             {{'Close_Container'|translate}}</a>
-                                                        <a *ngIf="!enableCloseCont" class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: none;">
+                                                        <a *ngIf="!enableCloseCont" class="dropdown-item" (click)="onCloseContClick()" style="color: gray; cursor: not-allowed; pointer-events: all;">
                                                             {{'Close_Container'|translate}}</a>
                                                         <a class="dropdown-item cursor-pointer" (click)="onPrintLabelClick()">
                                                             {{'Barcode'|translate}}</a>

@@ -71,7 +71,7 @@ export class ContainerShipmentComponent implements OnInit {
       this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
       this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
       this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();
-
+      this.shiment_status_array = this.commonData.shiment_status_array();
       this.SelectedLinkTitle = this.ContainerOperationArray[0].Name;
     });
   }
@@ -104,7 +104,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.InvPostStatusArray = this.commonData.Container_Shipment_Inv_Status_DropDown();
     this.ContainerBuildSourceArray = this.commonData.ContainerBuildSourceEnum();
     this.ContainerOperationArray = this.commonData.Container_Shipment_Operations();
-
+    this.shiment_status_array = this.commonData.shiment_status_array();
     this.SelectedShipmentId = localStorage.getItem("ShipShipmentID");
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
@@ -484,6 +484,11 @@ export class ContainerShipmentComponent implements OnInit {
     }
   }
 
+  shiment_status_array = [];
+  getShipStatusValue(OPTM_STATUS): string {
+    return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
+  }
+
   GetShipmentIdForShipment(operation) {
     this.showLoader = true;
     this.commonservice.GetShipmentIdForShipment("", operation).subscribe(
@@ -497,6 +502,9 @@ export class ContainerShipmentComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
+          for(var i=0; i<this.serviceData.length; i++){
+            this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
+          }
           if (operation == undefined) {
             this.lookupfor = "ShipmentListForFilter";
           } else {

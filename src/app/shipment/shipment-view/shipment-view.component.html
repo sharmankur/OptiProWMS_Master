@@ -47,7 +47,7 @@
                                     <label for="ScheduleDatetime" class="col-sm-4 col-form-label">{{'Schedule_Datetime'|translate}}</label>
                                     <div class="col-sm-8">
                                         <kendo-datepicker name="ScheduleDatetime" #ScheduleDT [(ngModel)]=ScheduleDatetime [format]=dateFormat [value]="defaultDateValue" placeholder={{dateFormat}} 
-                                            (blur)="onScheduleDateChange(ScheduleDT.value, ScheduleDT)" 
+                                            (change)="onScheduleDateChange(ScheduleDT.value, ScheduleDT)" 
                                             (close)="onDateDialogClose(ScheduleDT.value, ScheduleDT)"
                                             [disabled]="isarchived"></kendo-datepicker>
                                     </div>
@@ -454,17 +454,17 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" (click)="onStageORUnstageShipmentClick()" *ngIf="!isStageDiabled">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="StatusId ==12" (click)="onAcceptReturnClick()" >{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="StatusId !=12" style="color: gray; cursor: not-allowed; pointer-events: none;">{{'Accept_Return'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="StatusId >=10 && StatusId !=14" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="StatusId<10 || StatusId==14">{{'Customer_Return'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="ShipmentLineStatus<4" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="ShipmentLineStatus>=4">{{'Cancel_Unassign'|translate}}</a>
-                            <a class="dropdown-item" (click)="TransferFromArchive()">{{'TransferFromArchive'|translate}}</a>
-                            <a class="dropdown-item" *ngIf="UseContainer && StatusId>2 && StatusId<6" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: none;" *ngIf="!UseContainer || (StatusId<=2 || StatusId>=6)">{{'Remove_from_shipment'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="onStageORUnstageShipmentClick()" *ngIf="!isStageDiabled">{{'Stage_Unstage'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="isStageDiabled">{{'Stage_Unstage'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" *ngIf="StatusId ==12" (click)="onAcceptReturnClick()" >{{'Accept_Return'|translate}}</a>
+                            <a class="dropdown-item" *ngIf="StatusId !=12" style="color: gray; cursor: not-allowed; pointer-events: all;">{{'Accept_Return'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" *ngIf="StatusId >=10 && StatusId !=14" (click)="CustomerReturn()">{{'Customer_Return'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="StatusId<10 || StatusId==14">{{'Customer_Return'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" *ngIf="ShipmentLineStatus<4" (click)="cancelAndUnassign()">{{'Cancel_Unassign'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="ShipmentLineStatus>=4">{{'Cancel_Unassign'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="TransferFromArchive()">{{'TransferFromArchive'|translate}}</a>
+                            <a [ngClass]="'dropdown-item cursor-pointer'" *ngIf="UseContainer && StatusId>2 && StatusId<6" (click)="onRemoveFromShipmentBtnPress()">{{'Remove_from_shipment'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="!UseContainer || (StatusId<=2 || StatusId>=6)">{{'Remove_from_shipment'|translate}}</a>
                         </div>
                     </div>
                 </div>

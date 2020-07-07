@@ -45,6 +45,7 @@ export class ContainerBatchserialComponent implements OnInit {
   ShimpmentArray: any = [];
   Tracking: any = '';
   SHPStatus: any = '';
+  ShipmentHDRStatus: String = "";
   commonData: any = new CommonData(this.translate);
   lookupData: any = [];
   BatchSerialData: any = [];
@@ -76,6 +77,7 @@ export class ContainerBatchserialComponent implements OnInit {
     this.Selectedlink = 2;
     this.SelectedWhse = localStorage.getItem("ShipWhse");
     this.SelectedBin = localStorage.getItem("ShipBin");
+    this.ShipmentHDRStatus = localStorage.getItem("ShipmentHDRStatus");
     this.ShimpmentArray = JSON.parse(localStorage.getItem("ShipmentArrData"));
     this.SelectedShipmentId = this.ShimpmentArray[0].OPTM_SHIPMENTID;
     this.SelectedShipmentCode = this.ShimpmentArray[0].OPTM_SHIPMENT_CODE;
@@ -803,6 +805,7 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
 
     if(this.Selectedlink == 3){
       this.ContainerBatchSerials[rowindex].SelectedQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+      this.SelectedQty = Number(qtyValue).toFixed(Number(localStorage.getItem("DecimalPrecision")));
     }else{
       let array = this.SelectedRowsforShipmentArr.filter(val => val.ITEMCODE == this.ContainsItemID);
       var sum = array.reduce(function (a, b) {

@@ -72,7 +72,7 @@
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn"
                                                             type="button"
-                                                            (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdFrom')"
+                                                            (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdFrom', 'lookup')"
                                                             [disabled]=isSHIdDisabled>
                                                             <i class="opti-icon-search"></i>
                                                         </button>
@@ -95,7 +95,7 @@
                                                         (blur)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdTo')">
                                                     <div class="input-group-append has-seprate-btn">
                                                         <button tabIndex="-1" class="k-button k-primary btn"
-                                                            type="button" (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdTo')"
+                                                            type="button" (mousedown)="GetShipmentIdWithAllocAndPartAllocStatus('ShipIdTo', 'lookup')"
                                                             [disabled]=isSHIdDisabled>
                                                             <i class="opti-icon-search"></i>
                                                         </button>

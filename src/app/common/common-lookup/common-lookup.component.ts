@@ -1936,13 +1936,19 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("SONumber"),
         type: 'text',
         width: '100'
+      },
+      {
+        field: 'CardCode',
+        title: this.translate.instant("Customer"),
+        type: 'text',
+        width: '100'
+      },
+      {
+        field: 'DelDate',
+        title: this.translate.instant("DueDate"),
+        type: 'text',
+        width: '100'
       }
-      // {
-      //   field: 'SODocEntry',
-      //   title: this.translate.instant("DocEntry"),
-      //   type: 'text',
-      //   width: '100'
-      // }
     ];
     if (value === "From")
       this.lookupTitle = this.translate.instant("SrNoTitleFrom");
