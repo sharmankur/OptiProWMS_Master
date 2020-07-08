@@ -8,12 +8,10 @@
                 <span *ngIf="SelectedWhse == ''">{{'ViewAndManageCont'|translate}}</span>
             </h3>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="!redirectedFromShipment">
                 <!-- row start -->
                 <div class="row">
-
                     <!-- col start -->
-
                     <div class="col-sm-4">
                         <div class="form-group row">
                             <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'Contains_Item'|translate}}</label>
@@ -27,7 +25,6 @@
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -69,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="!redirectedFromShipment">
                 <!-- row start -->
                 <div class="row">
 
@@ -121,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="!redirectedFromShipment">
                 <!-- row start -->
                 <div class="row">
 
@@ -171,7 +168,7 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-12" *ngIf="!redirectedFromShipment">
                 <!-- row start -->
                 <div class="row">
                     <!-- col start -->
@@ -355,13 +352,13 @@
                             <a [ngClass]="Selectedlink == 2 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(2)">{{'Assign_to_shipment'|translate}}</a>
                             <a [ngClass]="Selectedlink == 3 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(3)">{{'Remove_from_shipment'|translate}}</a>
                             <a [ngClass]="Selectedlink == 4 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(4)">{{'Return_by_customer'|translate}}</a>
-                            <a [ngClass]="Selectedlink == 5 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(5)">{{'Set_Damaged'|translate}}</a>
-                            <a [ngClass]="Selectedlink == 6 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(6)">{{'Close_Container'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="Selectedlink == 5 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(5)">{{'Set_Damaged'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="Selectedlink == 6 ? 'dropdown-item cursor-pointer active' : 'dropdown-item cursor-pointer'" (click)="SelectShpandDisplayContainers(6)">{{'Close_Container'|translate}}</a>
 
-                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
-                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
-                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
-                            <a [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(1)">{{'AssignSO'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(1)">{{'RemoveSO'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="'dropdown-item cursor-pointer'" (click)="ShowSOandContainerCodeDialog(2)">{{'AssignCC'|translate}}</a>
+                            <a *ngIf="!redirectedFromShipment" [ngClass]="'dropdown-item cursor-pointer'" (click)="RemoveFromContainer(2)">{{'RemoveCC'|translate}}</a>
                         </div>
                     </div>
                 </div>

@@ -11,26 +11,17 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-    
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="ContainsItemID" class="col-sm-4 col-form-label">{{'ItemCode'|translate}}</label>
                                     <div class="input-group col-sm-7">
-                                        <!-- <input type="text" class="form-control form-control-sm" name='ContainsItemID' [(ngModel)]=ContainsItemID 
-                                     id="ContainsItemID" (blur)="onContainsItemChange()"> -->
                                         <kendo-dropdownlist class="form-control form-control-sm" [data]="ItemCodeArray" textField="OPTM_ITEMCODE" valueField="OPTM_ITEMCODE"
                                             id="ItemCode" name="ItemCode" [(ngModel)]="ContainsItemDD" #selectedvalue (selectionChange)="onItemCodeChange($event)"></kendo-dropdownlist>
                                     </div>
-                                    <!-- <div class="input-group-append has-seprate-btn">
-                                        <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="getContainsItem('lookup')">
-                                            <i class="opti-icon-search"></i>
-                                        </button>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-    
                 </div>
     
                 <div class="row">
@@ -103,7 +94,7 @@
                                         <!--QtytoAssign-->
                                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                             <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
-                                                (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex)"
+                                                (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex, AssignQty)"
                                                 value={{dataItem.AssignQty}} #AssignQty title="{{allocatesQtyTitle}}" />
                                         </ng-template>
                                     </kendo-grid-column>
@@ -124,9 +115,11 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="CustomerFrom" class="col-sm-3 col-form-label">Ship Quantity</label>
+                            <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'ShipQuantity'|translate}}</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control form-control-sm text-right" name='ShipQtyId' [(ngModel)]=itemShipQty id="ShipQtyId" disabled>
+                                <input type="text" class="form-control form-control-sm text-right" name='ShipQtyId' id="ShipQtyId" 
+                                [ngModel]="itemShipQty|numberFormat" id="itemShipQty" (ngModelChange)="itemShipQty=$event"
+                                disabled>
                             </div>
                         </div>
                     </div>
@@ -134,7 +127,7 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="CustomerTo" class="col-sm-3 col-form-label">Open</label>
+                            <label for="CustomerTo" class="col-sm-3 col-form-label">{{'Open'|translate}}</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control form-control-sm text-right" name='OpenQtyId' [(ngModel)]=OpenQty id="OpenQtyId" disabled>
                             </div>
@@ -147,9 +140,10 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="CustomerFrom" class="col-sm-3 col-form-label">Allocated Quantity</label>
+                            <label for="CustomerFrom" class="col-sm-3 col-form-label">{{'Allocated_Quantity'|translate}}</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control form-control-sm text-right" name='AllocatedQtyId' [(ngModel)]=itemAllocatedQty id="AllocatedQtyId"
+                                <input type="text" class="form-control form-control-sm text-right" name='AllocatedQtyId' id="AllocatedQtyId"
+                                [ngModel]="itemAllocatedQty|numberFormat" id="itemAllocatedQty" (ngModelChange)="itemAllocatedQty=$event"
                                 disabled>
                             </div>
                         </div>
@@ -158,7 +152,7 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="CustomerTo" class="col-sm-3 col-form-label">Selected</label>
+                            <label for="CustomerTo" class="col-sm-3 col-form-label">{{'Selected'|translate}}</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control form-control-sm text-right" name='SelectedQtyId' [(ngModel)]=SelectedQty id="SelectedQtyId"
                                 disabled>
@@ -182,7 +176,7 @@
                     <!-- col start -->
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="itemBalQtyToAllocate" class="col-sm-3 col-form-label">Balance</label>
+                            <label for="itemBalQtyToAllocate" class="col-sm-3 col-form-label">{{'Balance'|translate}}</label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control form-control-sm text-right" name='itemBalQtyToAllocate' [ngModel]="itemBalQtyToAllocate|numberFormat" id="itemBalQtyToAllocate" (ngModelChange)="itemBalQtyToAllocate=$event"
                                 disabled>

@@ -519,6 +519,12 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
       if (this.SelectedRowsforShipmentArr[i].LOTNO == undefined) {
         this.SelectedRowsforShipmentArr[i].LOTNO = '';
       }
+
+      if(Number(this.SelectedRowsforShipmentArr[i].AssignQty) <= 0){
+        this.toastr.error('', "Please check each selected item qty should be greater than 0.")
+        return;
+      }
+
       oSaveData.SelectedRows.push({
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_SHIPMENTID: this.SelectedShipmentId,
@@ -526,7 +532,7 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
         OPTM_STATUS: this.SelectedShipmentStatus,
         OPTM_ITEMCODE: this.SelectedRowsforShipmentArr[i].ITEMCODE,
         OPTM_BTCHSER: this.SelectedRowsforShipmentArr[i].LOTNO,
-        OPTM_QTY_FULFILLED: this.SelectedRowsforShipmentArr[i].SelectedQty,
+        OPTM_QTY_FULFILLED: this.SelectedRowsforShipmentArr[i].AssignQty,
         OPTM_WHSE: this.SelectedRowsforShipmentArr[i].WHSCODE,
         OPTM_BIN: this.SelectedRowsforShipmentArr[i].BINNO
       });
@@ -775,10 +781,18 @@ displayDataInBTCHSRGrid(value: any, BTCHSRdata:any){
     );
   }
 
-  onAssignedQtyChange(value, rowindex) {
+  onAssignedQtyChange(value, rowindex, AssignQty) {
 
     if (value == '' || value == undefined || value == null) {
       value = 0;
+    }
+
+    if(this.Tracking == 'S'){
+      if(!Number.isInteger(Number(value))) {
+        value = 0;
+        AssignQty.value = Number(value).toFixed(Number(localStorage.getItem("DecimalPrecision")));
+        this.toastr.error('', this.translate.instant("OnlyIntAllow"));
+      }
     }
 
     let qtyValue = parseFloat(value);

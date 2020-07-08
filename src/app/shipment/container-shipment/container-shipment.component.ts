@@ -41,6 +41,7 @@ export class ContainerShipmentComponent implements OnInit {
   SelectedWhse: any = '';
   SelectedBin: any = '';
   IsShipment: boolean = false;
+  redirectedFromShipment: boolean = false;
   shipeligible: string = '';
   ContainsItemID: any = '';
   SelectedRowsforShipmentArr = [];
@@ -112,6 +113,7 @@ export class ContainerShipmentComponent implements OnInit {
     this.isColumnFilterView = false;
     if (this.SelectedShipmentId != undefined && this.SelectedShipmentId != '' && this.SelectedShipmentId != null) {
       this.IsShipment = true;
+      this.redirectedFromShipment = true;
       if (reset != "Y") {
         this.containerGroupCode = localStorage.getItem("ContGrpCode");
         this.ContainerTypeId = localStorage.getItem("ShpContType");
@@ -128,6 +130,7 @@ export class ContainerShipmentComponent implements OnInit {
       this.Selectedlink = 2;
     }
     else {
+      this.redirectedFromShipment = false;
       this.IsShipment = false;
       this.Selectedlink = 1;
     }
@@ -502,6 +505,7 @@ export class ContainerShipmentComponent implements OnInit {
           }
           this.showLookup = true;
           this.serviceData = data;
+          this.serviceData = this.serviceData.filter(e=> e.OPTM_USE_CONTAINER == "Y");
           for(var i=0; i<this.serviceData.length; i++){
             this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
           }
