@@ -17,6 +17,7 @@ export class InputInternalContainerComponent implements OnInit {
   @Input() yesButtonText: any;
   @Input() noButtonText: any;
   @Input() currentValue: any;
+  @Input() containerbeingcreated: any;
   @Input() fromWhere: any;
   @Input() oDataModel: any;
   @Output() isYesClick = new EventEmitter();
@@ -53,7 +54,7 @@ export class InputInternalContainerComponent implements OnInit {
     if (action == 'blur') {
       if (this.IntContainerCode == undefined || this.IntContainerCode == "") {
         return;
-      }
+      }    
       IntCode = this.IntContainerCode
       this.isContBlurFired = true;
     } else {
@@ -91,6 +92,13 @@ export class InputInternalContainerComponent implements OnInit {
               this.IntContainerCode = data[0].OPTM_CONTCODE;
               this.ContID = data[0].OPTM_CONTAINERID;
               this.intContainerStatus = data[0].OPTM_STATUS;
+              if (this.IntContainerCode != undefined || this.IntContainerCode != "") {
+                if (this.containerbeingcreated == this.IntContainerCode){
+                  this.toastr.error('Srini', 'Selected container same as container being created. Cannot continue');
+                  this.IntContainerCode = '';
+                  return;
+                }
+              } 
               this.GetListOfBatchSerOfSelectedContainerID(data[0].OPTM_CONTAINERID, data[0].OPTM_ITEMCODE, whichAction);
             }
           } else {

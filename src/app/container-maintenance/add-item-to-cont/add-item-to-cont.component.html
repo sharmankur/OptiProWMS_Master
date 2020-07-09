@@ -525,7 +525,7 @@
 </span>
 
 <span *ngIf="showInternalDialogFlag">
-    <app-input-internal-container [currentValue]="InternalContCode" [titleMessage]="titleMessage" [yesButtonText]="yesButtonText"
+    <app-input-internal-container [currentValue]="InternalContCode" [titleMessage]="titleMessage" [yesButtonText]="yesButtonText" [containerbeingcreated]="containerCode"
         [fromWhere]="inputDialogFor" [noButtonText]="noButtonText" (isYesClick)="getInputDialogValue($event)" [oDataModel]="oDataModel"></app-input-internal-container>
 </span>
 

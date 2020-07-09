@@ -39,7 +39,7 @@ export class AddItemToContComponent implements OnInit {
   parentContainerType: any;
   //containerLookupType: any;
   scanItemCode: any;
-  itemQty: number;
+  itemQty: number = 0;
   itemWt: number = 0;
   bsVisible: boolean = false;
   bsItemQty: number = 0;
@@ -1483,79 +1483,108 @@ export class AddItemToContComponent implements OnInit {
   }
 
   SetItemQuantitiesForAddOpn() {
-    let val = 0; 
-    var qtyaddedToCont: number  = 0;
+    let qtyaddedToContTot = 0; 
+    var qtyaddedToContNow: number  = 0;
     var canAddItemQty: number = 0;
+    var balItmQtyForAdd: number = 0;
     /* Srini 8-May-2020 Start */
+    //Get total quantoty of item added to container and quantity added in this session
     //if (this.oSubmitModel.OtherItemsDTL.length > 0 && this.autoRuleId != '' && this.autoRuleId != undefined) {
     if (this.oSubmitModel.OtherItemsDTL.length > 0) {
       let iTemRec = this.oSubmitModel.OtherItemsDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode);
       if (iTemRec != null) {
-        val = iTemRec.OPTM_QUANTITY;
-        qtyaddedToCont = iTemRec.OPTM_QUANTITY - iTemRec.ServerQty;
-        if (qtyaddedToCont < 0) {
-          qtyaddedToCont = 0;
+        qtyaddedToContTot = iTemRec.OPTM_QUANTITY;
+        qtyaddedToContNow = iTemRec.OPTM_QUANTITY - iTemRec.ServerQty;
+        if (qtyaddedToContNow < 0) {
+          qtyaddedToContNow = 0;
         }     
       }
     }
     
+    //****************************************************************************************** */
+    //Item Inv variable this.ItemINV holds the Inventory of item in Internal Container, if selected
+    // or from Inventory if internal container is not selected
+    //ItemInvQty stores Item Inventory from Inventory Bin when Internal container is blank.
+    //ItemInvQty stores Item Inventory from Internal Container when Internal container is set.
     //Initialize quantity that can be added to Item Inventory level
-    canAddItemQty = this.ItemInvQty;
-    if (this.InternalContCode != '') {                   
-      //balintContQty = this.BSInvQty - qtyaddedToCont;
-      //ItemInvQty stores Item Inventory from Inventory Bin when Internal container is blank.
-      //ItemInvQty stores Item Inventory from Internal Container when Internal container is set.
-      canAddItemQty = canAddItemQty - qtyaddedToCont;
-    } 
+    balItmQtyForAdd = this.ItemInvQty - qtyaddedToContNow;
 
-    if (this.RuleQty > val) {
-      this.BalQty1 = this.RuleQty - val;      
-      this.itemQty = this.RuleQty - val;
-      //Srini 6-Jul-2020. Set Item quantity to balance available in Inventory      
-      if (canAddItemQty < this.itemQty) {
-        this.itemQty = canAddItemQty;
+    //Derive balance quantity that can be added to container
+    if (this.autoRuleId > 0 && this.autoRuleId != undefined) {
+      canAddItemQty = this.RuleQty - qtyaddedToContTot;
+      if (canAddItemQty > balItmQtyForAdd) {
+        canAddItemQty = balItmQtyForAdd;
       }
-
-      if (this.itemQty <= 0){          
-        return false;
-      }
-      // End
-      this.tempBal1 = this.RuleQty - val;
-
-      if (this.scanItemTracking == 'S' || this.scanItemTracking == 'B'){
-        this.BalQty2 = this.itemQty;
-        if (this.scanItemTracking == 'S' && this.BalQty2 >= 1) {
-          this.bsItemQty = 1;
-        } else {
-          this.bsItemQty = this.BalQty2;
-          //Srini 6-Jul-2020. Set Batch/Serial quantity to balance available in Inventory
-          let btchSRrec = this.oSubmitModel.OtherBtchSerDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo);
-          var btchSRQtyAdded: number = 0;
-          var canaddBtchSRqty: number = 0;
-
-          if (btchSRrec != null) {
-            btchSRQtyAdded = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
-            canaddBtchSRqty = this.BSInvQty - btchSRQtyAdded;
-            if (canaddBtchSRqty <= this.bsItemQty) {
-              this.bsItemQty = canaddBtchSRqty;
-              this.BalQty2 = this.bsItemQty;
-              if (this.bsItemQty <= 0) {
-                this.scanBSrLotNo = '';
-                return false;
-              }
-            }
-          }
-          //End
-        }
-      }
-      return true;
     } else {
-      this.BalQty1 = 0;
-      this.itemQty = 0;
-      this.tempBal1 = 0;
+      canAddItemQty = balItmQtyForAdd;
+    }
+
+    this.BalQty1 = canAddItemQty;
+    this.itemQty = canAddItemQty;
+    this.tempBal1 = canAddItemQty;
+    this.BalQty2 = 0;
+    this.bsItemQty = 0;
+
+    if (this.scanItemTracking == 'S') {
+      this.BalQty2 = 1;
+    } else if (this.scanItemTracking == 'B'){
       this.BalQty2 = this.itemQty;
+    }
+
+    if (canAddItemQty <= 0){
+      this.scanBSrLotNo = "";
       return false;
     }
+    //****************************************************************************************** */
+    
+    //Validate if item is Batch Or Serial
+    if ((this.scanItemTracking == 'S' || this.scanItemTracking == 'B') && this.scanBSrLotNo != ''){
+      var itemBtchSerials: any [];
+      var index: number = -1;    
+      
+      //Check internal container for the batch serial and set the inventory to quantity available in internal conatiner
+      if (this.InternalContCode != '') {
+        if (this.selInternalContainerDtl != null) {
+          index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
+        }
+    
+        if (index > -1) {      
+          itemBtchSerials = this.selInternalContainerDtl[index].BatchSerials;
+    
+          let idx = itemBtchSerials.findIndex(r => r.LOTNO == this.scanBSrLotNo);
+          if (idx > -1) {
+            this.BSInvQty = itemBtchSerials[idx].TOTALQTY; 
+          }
+        } else {
+          this.toastr.error('Srini', 'Selected Batch / Serial not available in internal container');
+          this.scanBSrLotNo = '';
+          return false;
+        }
+      }
+
+      //Srini 6-Jul-2020. Set Batch/Serial quantity to balance available in Inventory
+      let btchSRrec = this.oSubmitModel.OtherBtchSerDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo);
+      var btchSRQtyAdded: number = 0;
+      var canaddBtchSRqty: number = 0;
+
+      if (btchSRrec != null) {
+        btchSRQtyAdded = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
+      }
+
+      canaddBtchSRqty = this.BSInvQty - btchSRQtyAdded;        
+      if (canaddBtchSRqty <= this.BalQty2) {
+        this.bsItemQty = canaddBtchSRqty;
+        this.BalQty2 = canaddBtchSRqty;          
+      } else {
+        this.bsItemQty = this.BalQty2;          
+      }
+
+      if (this.bsItemQty <= 0) {
+        this.scanBSrLotNo = '';
+        return false;
+      }
+    }
+    return true;    
     /* Srini 8-May-2020 End */
   }
 
@@ -1581,6 +1610,11 @@ export class AddItemToContComponent implements OnInit {
         this.bsItemQty = 1;
       } else {
         this.bsItemQty = this.BalQty2;
+        //Srini 6-Jul-2020. Set Batch/Serial quantity to balance available in Inventory
+        let btchSRrec = this.oSubmitModel.OtherBtchSerDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo);
+        if (btchSRrec != null) {
+          this.bsItemQty = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
+        }        
       }
       return true
     } else {
@@ -1740,16 +1774,19 @@ export class AddItemToContComponent implements OnInit {
     if (this.ValidateScanBtchSerials()) {
       if (this.radioSelected == 1) {
         //Check Batch Serials in Internal Container, if Internal container is selected
+      
         var index: number = -1;
         if (this.selInternalContainerDtl != null) {
           index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
         }
         
+        /*
         //Get Batch Serial inventory from Internal Container
         if (index > -1) {  
           this.CheckInInternalContainer();
         } 
-        
+        */
+
         //Verify Selected Container and Item Quantitites
         if (this.SetItemQuantitiesForAddOpn() == false) {
           this.toastr.error('Srini', 'Quantity not available for Batch/Serial');              
@@ -1764,7 +1801,7 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
- 
+  /*
   CheckInInternalContainer(): boolean {
     //Check if using internal container for the Item
     
@@ -1792,6 +1829,7 @@ export class AddItemToContComponent implements OnInit {
           this.bsItemQty = this.BalQty2;
         } else {
           this.bsItemQty = this.BSInvQty;
+          this.BalQty2 = this.BSInvQty;
         }
         return true;
       } else {
@@ -1807,6 +1845,7 @@ export class AddItemToContComponent implements OnInit {
       return;
     } 
   }
+  */
 
   scanCurrentLotNoData: any;
   GetScannedBtchSerFromDB() {
@@ -2234,6 +2273,8 @@ export class AddItemToContComponent implements OnInit {
 
   SetDataForNoneTrackItem(dblItemQuantity: number) {
     var internalContainerID: number = 0;
+    //Number field is multiplied by 1 to convert strng to number
+    dblItemQuantity = dblItemQuantity * 1.0
     //this.itemWt
     var idx: number = -1;
     if (this.selInternalContainerDtl != null) {
@@ -2352,12 +2393,12 @@ export class AddItemToContComponent implements OnInit {
         this.oSubmitModel.OtherBtchSerDTL.push({
           OPTM_ITEMCODE: this.scanItemCode,
           OPTM_BTCHSER: this.scanBSrLotNo,
-          OPTM_QUANTITY: this.bsItemQty,
+          OPTM_QUANTITY: this.bsItemQty * 1.0,
           DirtyFlag: true,
           Operation: 'Add',
           Delete: false,
-          TotalQty: this.bsItemQty,
-          LocQty: this.bsItemQty,
+          TotalQty: this.bsItemQty * 1.0,
+          LocQty: this.bsItemQty * 1.0,
           ServerQty: 0
         });
         if (this.scanItemTracking == 'S') {
@@ -2634,15 +2675,26 @@ export class AddItemToContComponent implements OnInit {
   getAutoPackRule(action) { 
     if (this.ConSelectionType == 2) { //Case: Query Mode
       if (action != 'query') {
-        if (!(this.autoRuleId == undefined || this.autoRuleId == "")) {
+        if ((!(this.autoRuleId == undefined || this.autoRuleId == "") && action == 'blur') || action == 'lookup') {
           this.toastr.error('Srini', 'Cannot change rule on existing Container');
         }         
+        return;
+      }
+    } else {
+      if (this.containerType == undefined || this.containerType == "") {
+        if ((!(this.autoRuleId == undefined || this.autoRuleId == "") && action == 'blur') || action == 'lookup') {
+          this.toastr.error('', this.translate.instant("SelectContainerMsg"));
+          this.autoRuleId = ''; this.containerCode = ''; this.RuleItems = [];
+          this.setDefaultValues(); 
+        }
         return;
       }
     }
 
     this.clearlookFields("CAR");
     let RuleId = '';
+    
+    /*
     if (this.containerType == undefined || this.containerType == "") {
       if (!(this.autoRuleId == undefined || this.autoRuleId == "")) {
         this.toastr.error('', this.translate.instant("SelectContainerMsg"));
@@ -2651,6 +2703,7 @@ export class AddItemToContComponent implements OnInit {
       this.setDefaultValues(); 
       return;
     }
+    */
 
     this.RuleItems = [];
     if (action == 'blur') {
@@ -3230,6 +3283,7 @@ export class AddItemToContComponent implements OnInit {
   }
 
   setOtherReqFields(OPTM_CONT_HDR) {
+    this.InternalContCode = ''; //Srini 8-Jul-2020
     this.whse = OPTM_CONT_HDR.OPTM_WHSE;
     this.binNo = OPTM_CONT_HDR.OPTM_BIN;
     this.containerType = OPTM_CONT_HDR.OPTM_CONTTYPE;
@@ -3811,12 +3865,17 @@ export class AddItemToContComponent implements OnInit {
           if (this.selInternalContainerDtl != null) {
             index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
             if (index > -1) {              
-              //Remove Item related record from container array
-              if (this.InternalContCode != '' && $event.IntContainerCode == ''){
-                this.toastr.success('Srini', "Internal container cleared");
-              }
+              //Remove Item related record from container array              
               this.selInternalContainerDtl.splice(index,1);
               this.InternalContCode = '';
+              if (this.InternalContCode != '' && $event.IntContainerCode == ''){
+                this.toastr.success('Srini', "Internal container cleared");
+                this.scanItemCode = '';
+                this.itemQty = 0;
+                this.BalQty1 = 0;
+                this.BalQty2 = 0;
+                this.bsItemQty = 0;
+              }              
               this.itemQty = this.BalQty1;
               this.BalQty2 = this.itemQty;
             }
