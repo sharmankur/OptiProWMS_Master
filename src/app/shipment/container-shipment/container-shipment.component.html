@@ -235,7 +235,7 @@
             <div class="row mt-2">
                 <div class="col-12">
                     <h5>{{SelectedLinkTitle}}</h5>
-                    <kendo-grid [data]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [skip]="skip" (pageChange)="pageChange($event)"
+                    <kendo-grid [kendoGridBinding]="ContainerList" [resizable]="true" [height]="300" [pageSize]="pageSize" [pageable]="ShowGridPaging" [skip]="skip" (pageChange)="pageChange($event)"
                         [selectable]="{ checkboxOnly: true, mode: 'multiple' }" [filterable]="isColumnFilterView">
                         <ng-template kendoGridToolbarTemplate>
                             <span class="grid-toolbar-title">{{'Container_Items'|translate}}</span>

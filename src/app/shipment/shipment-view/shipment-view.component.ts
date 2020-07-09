@@ -7,6 +7,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { CommonData } from '../../models/CommonData';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 import { ContainerShipmentService } from '../../services/container-shipment.service';
+import { PageChangeEvent } from '../../../../node_modules/@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-shipment-view',
@@ -91,7 +92,7 @@ export class ShipmentViewComponent implements OnInit {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.onCheckChange();
       this.shiment_status_array = this.commonData.shiment_status_array();
-      this.Container_status_array = this.commonData.Container_Status_DropDown();
+      this.Container_status_array = this.commonData.Container_Shipment_Status_DropDown();
       this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     });
   }
@@ -174,7 +175,7 @@ export class ShipmentViewComponent implements OnInit {
   ngOnInit() {
     this.maxDescLength = this.commonservice.maxDescLength;
     this.shiment_status_array = this.commonData.shiment_status_array();
-    this.Container_status_array = this.commonData.Container_Status_DropDown();
+    this.Container_status_array = this.commonData.Container_Shipment_Status_DropDown();
     this.clearStorage();
     this.shiment_lines_status_array = this.commonData.Shipment_Lines_Status_DropDown();
     this.fromScreen = localStorage.getItem("fromscreen");
@@ -443,7 +444,12 @@ export class ShipmentViewComponent implements OnInit {
 
     if (this.ShipmentLineDetails != undefined && this.ShipmentLineDetails.length > this.pageSize5) {
       this.pagable5 = true;
+      this.pageChange({ skip: 0, take: this.pageSize5 });
     }
+  }
+
+  pageChange(event: PageChangeEvent) {
+    this.skip = event.skip;
   }
 
   updateShipmentHDR(OPTM_SHPMNT_HDR) {

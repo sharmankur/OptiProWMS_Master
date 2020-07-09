@@ -401,7 +401,7 @@
                         <div class="card shipment-widget-box">
                             <h5 class="card-header">{{'ShipmentLineDetails'|translate}}</h5>
                             <div class="card-body">
-                                <kendo-grid [data]="ShipmentLineDetails" [resizable]="true" [pageSize]="pageSize5" [skip]="skip" [height]="gridheight" [pageable]="pagable5">
+                                <kendo-grid [kendoGridBinding]="ShipmentLineDetails" [resizable]="true" [height]="gridheight" [pageable]="true" (pageChange)="pageChange($event)" [pageSize]="pageSize5" [skip]="skip">
                                     <kendo-grid-column field="OPTM_SHIPMENTID" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_DTLLINEID" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>
                                     <kendo-grid-column field="OPTM_BINDTLLINEID" width="55" title="{{'LineID'|translate}}" class="text-right" *ngIf=false></kendo-grid-column>

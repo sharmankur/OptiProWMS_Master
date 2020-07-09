@@ -343,7 +343,7 @@ export class ContMaintnceMainComponent implements OnInit {
 
             for (var i = 0; i < data.ChlidContainerDeiail.length; i++) {
               this.containerItems.push({
-                TYPE: "Container",
+                TYPE: this.translate.instant("Container"),
                 CODE: data.ChlidContainerDeiail[i].OPTM_CONTCODE,
                 OPTM_QUANTITY: 1,
                 OPTM_WEIGHT: data.ChlidContainerDeiail[i].OPTM_WEIGHT == null ? '0' : data.ChlidContainerDeiail[i].OPTM_WEIGHT,
@@ -399,7 +399,7 @@ export class ContMaintnceMainComponent implements OnInit {
       for (var i = 0; i < childContItems.length; i++) {
         if (this.containerItems[j].CODE == childContItems[i].OPTM_CONTAINERID) {
           this.containerItems[j].ItemBatchSerailData.push({
-            TYPE: "Item",
+            TYPE: this.translate.instant("Item"),
             CODE: childContItems[i].OPTM_ITEMCODE,
             OPTM_QUANTITY: childContItems[i].OPTM_QUANTITY,
             OPTM_WEIGHT: childContItems[i].OPTM_WEIGHT == null ? '0' : childContItems[i].OPTM_WEIGHT,

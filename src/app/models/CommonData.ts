@@ -224,41 +224,6 @@ export class CommonData {
         ];
     }
 
-
-    // shiment_status_array() {
-    //     return [
-    //         { "Value": 1, "Name": "New" },
-    //         { "Value": 2, "Name": "Scheduled" },
-    //         { "Value": 3, "Name": "Part Allocated" },
-    //         { "Value": 4, "Name": "Allocated" },
-    //         { "Value": 5, "Name": "Part Picked" },
-    //         { "Value": 6, "Name": "Picked" },
-    //         { "Value": 7, "Name": "Ship Ready" },
-    //         { "Value": 8, "Name": "Loaded on truck" },
-    //         { "Value": 9, "Name": "Shipped" },
-    //         { "Value": 10, "Name": "Cancelled" },
-    //         { "Value": 11, "Name": "Returned" },
-    //         { "Value": 12, "Name": "Return Accepted" },
-    //     ];
-    // }
-
-    Container_Status_DropDown() {
-        return [
-            { "Value": 1, "Name": this.translate.instant("CStatusNew") },
-            { "Value": 2, "Name": this.translate.instant("Open") },
-            { "Value": 3, "Name": this.translate.instant("CClosedNew") },
-            { "Value": 4, "Name": this.translate.instant("CReopenedNew") },
-            { "Value": 5, "Name": this.translate.instant("CAssignedNew") },
-            { "Value": 6, "Name": "Picked" },
-            { "Value": 7, "Name": "Loaded" },
-            { "Value": 8, "Name": this.translate.instant("CShippedNew") },
-            { "Value": 9, "Name": this.translate.instant("Returned") },
-            { "Value": 10, "Name": this.translate.instant("CDamagedNew") },
-            { "Value": 11, "Name": this.translate.instant("CCancelledNew") }
-
-        ];
-    }
-
     Container_Shipment_Inv_Status_DropDown() {
         return [
             { "Value": 1, "Name": this.translate.instant("InvStatusPending") },

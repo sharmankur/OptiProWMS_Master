@@ -381,8 +381,8 @@
                             <i class="opti-icon-more"></i>
                         </a>
                         <div class="dropdown-menu mr-3 mb-1" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatus=='Closed'" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
-                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="containerStatus!='Closed'">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item cursor-pointer" *ngIf="containerStatusEnum==3 || containerStatusEnum==10" (click)="onReopenClick()">{{'ReOpen'|translate}}</a>
+                            <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="containerStatusEnum!=3&&containerStatusEnum!=10">{{'ReOpen'|translate}}</a>
 
                             <a class="dropdown-item cursor-pointer" *ngIf="containerStatus!='Damaged'" (click)="onSetDamagedClick()">{{'Set_Damaged'|translate}}</a>
                             <a class="dropdown-item" style="color: gray; cursor: not-allowed; pointer-events: all;" *ngIf="containerStatus=='Damaged'">{{'Set_Damaged'|translate}}</a>
