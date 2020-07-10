@@ -1510,7 +1510,7 @@ export class AddItemToContComponent implements OnInit {
     balItmQtyForAdd = this.ItemInvQty - qtyaddedToContNow;
 
     //Derive balance quantity that can be added to container
-    if (this.autoRuleId > 0 && this.autoRuleId != undefined) {
+    if (this.autoRuleId != '' && this.autoRuleId != undefined) {
       canAddItemQty = this.RuleQty - qtyaddedToContTot;
       if (canAddItemQty > balItmQtyForAdd) {
         canAddItemQty = balItmQtyForAdd;
@@ -1964,6 +1964,7 @@ export class AddItemToContComponent implements OnInit {
     return true;
   }
 
+  /*
   AllowBalQtyNone() {
     //let tempBal1 = this.BalQty1;        
     if (this.itemQty >= 0) {
@@ -1977,7 +1978,7 @@ export class AddItemToContComponent implements OnInit {
       }
     }
   }
-
+  
   AllowBalQtyBS() {
     if (this.bsItemQty >= 0) {
       let diff = this.BalQty2 - this.bsItemQty;
@@ -1997,7 +1998,7 @@ export class AddItemToContComponent implements OnInit {
       }
     }
   }
-
+  */
   /*
   onConfirmClick() {
 
