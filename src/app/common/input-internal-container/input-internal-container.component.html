@@ -28,9 +28,9 @@
         </div>
     
         <kendo-dialog-actions>
-            <button kendoButton (click)="close('no')">{{noButtonText}}</button>
+            <button kendoButton (click)="close('no')" (keyup.enter)="ClickEnterKeyOnCancel()">{{noButtonText}}</button>
             <!-- <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true">{{yesButtonText}}</button> -->
-            <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true">{{yesButtonText}}</button>
+            <button class="ml-1" kendoButton (mousedown)="close('yes')" primary="true" (keyup.enter)="ClickEnterKeyOnConfirm()">{{yesButtonText}}</button>
         </kendo-dialog-actions>
     </kendo-dialog>
     

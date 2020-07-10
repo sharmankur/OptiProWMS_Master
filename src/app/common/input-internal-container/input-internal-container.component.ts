@@ -384,59 +384,67 @@ export class InputInternalContainerComponent implements OnInit {
   }
 
   OnEnterKeyPressed() {
-    this.GetListOfContainerBasedOnRule('blur');
+    this.GetListOfContainerBasedOnRule('blur', "fromConfirm");
+  }
+
+  ClickEnterKeyOnConfirm(){
+    if (this.forInternal) {
+      if (this.currentValue != undefined || this.currentValue != '') {
+        if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
+          this.IntContainerCode == '';
+          //this.toastr.success('Srini', "Internal container cleared");
+          this.EmitInternalContainer();
+          return;
+        }
+      } else
+        if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
+          this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
+          return;
+        }
+
+        if(this.isContBlurFired){
+          this.EmitInternalContainer();
+        }else{
+          this.GetListOfContainerBasedOnRule('blur', "fromConfirm");
+        }
+
+    }
+    else {
+      if (this.parentOnChangeStarted) {
+        this.onConfirmParentClick();
+      } else {
+        setTimeout(() => {
+          this.onConfirmParentClick();
+        }, 400)
+      }      
+    }
+  }
+
+  ClickEnterKeyOnCancel(){
+    if (this.forInternal) {
+      this.isYesClick.emit({
+        Status: "no",
+        From: "InternalContainer",
+        IntContainerCode: "",
+        ContId: 0,
+        intContainerStatus: 0,
+        BatSerList: []
+      });
+    } else {
+      this.isYesClick.emit({
+        Status: "no",
+        From: "AddToParentContainer",
+        ParentContainerCode: ""
+      });
+    }
   }
 
   public close(status) {
     if (status == "cancel" || status == "no") {
-      if (this.forInternal) {
-        this.isYesClick.emit({
-          Status: "no",
-          From: "InternalContainer",
-          IntContainerCode: "",
-          ContId: 0,
-          intContainerStatus: 0,
-          BatSerList: []
-        });
-      } else {
-        this.isYesClick.emit({
-          Status: "no",
-          From: "AddToParentContainer",
-          ParentContainerCode: ""
-        });
-      }
+      this.ClickEnterKeyOnCancel();
     }
     else {
-      if (this.forInternal) {
-        if (this.currentValue != undefined || this.currentValue != '') {
-          if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
-            this.IntContainerCode == '';
-            //this.toastr.success('Srini', "Internal container cleared");
-            this.EmitInternalContainer();
-            return;
-          }
-        } else
-          if (this.IntContainerCode == undefined || this.IntContainerCode == '') {
-            this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
-            return;
-          }
-
-          if(this.isContBlurFired){
-            this.EmitInternalContainer();
-          }else{
-            this.GetListOfContainerBasedOnRule('blur', "fromConfirm");
-          }
-
-      }
-      else {
-        if (this.parentOnChangeStarted) {
-          this.onConfirmParentClick();
-        } else {
-          setTimeout(() => {
-            this.onConfirmParentClick();
-          }, 400)
-        }      
-      }
+      this.ClickEnterKeyOnConfirm();
     }
   }
 
