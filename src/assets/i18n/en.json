@@ -1099,5 +1099,8 @@
   "SelectContainers_AssignSalesOrder": "Select Containers to Assign Sales Order",
   "SelectContainers_AssignContainerGC": "Select Containers to Assign Container group code",
 
+  "BIN_Qty": "Available",
+  "INT_CONT_QTY": "Int Cont Qty",
+  "SHP_CONT_QTY": "Ship Cont Qty",
   "Dummy": "Dummy"
 }

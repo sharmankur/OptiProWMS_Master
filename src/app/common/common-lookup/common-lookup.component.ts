@@ -437,6 +437,30 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
+        field: 'INVENTORY',
+        title: this.translate.instant("BIN_Qty"),
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'INTCONTQTY',
+        title: this.translate.instant("INT_CONT_QTY"),
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
+        field: 'SHIPCNTQTY',
+        title: this.translate.instant("SHP_CONT_QTY"),
+        type: 'text',
+        class: 'text-right',
+        headerClass: 'text-right',
+        width: '100'
+      },
+      {
         field: 'TOTALQTY',
         title: this.translate.instant("Item_Qty"),
         type: 'text',
@@ -1431,6 +1455,32 @@ export class CommonLookupComponent implements OnInit {
       {
         title: this.translate.instant("Shipment_Code"),
         field: 'OPTM_SHIPMENT_CODE',
+        type: 'text',
+        width: '100'
+      },
+      {
+        title: this.translate.instant("Status"),
+        field: 'STATUS',
+        type: 'text',
+        width: '100'
+      },
+      {
+        title: this.translate.instant("Use_Container"),
+        field: 'OPTM_USE_CONTAINER',
+        type: 'text',
+        width: '100'
+      }
+      ,
+      {
+        title: this.translate.instant("Customer"),
+        field: 'OPTM_BPCODE',
+        type: 'text',
+        width: '100'
+      }
+      ,
+      {
+        title: this.translate.instant("Schedule_Datetime"),
+        field: 'OPTM_SCH_DATETIME',
         type: 'text',
         width: '100'
       }

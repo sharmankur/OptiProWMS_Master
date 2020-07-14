@@ -106,6 +106,7 @@ export class AddItemToContComponent implements OnInit {
   BalQty2: number = 0;
   RuleQty: number = 0;
   ItemInvQty: number = 0;
+  TotInternalContQty: number = 0;
   BSInvQty: number = 0;
   tempBal1: number = 0;
   containerCodePlaceholder: string;
@@ -1398,15 +1399,21 @@ export class AddItemToContComponent implements OnInit {
                 this.ItemInvQty = this.selInternalContainerDtl[idx].ItemINV
                 this.InternalContCode = this.selInternalContainerDtl[idx].Container_Code;
               } else {
-                this.ItemInvQty = data[0].TOTALQTY;
+                this.ItemInvQty = data[0].INVENTORY;
+                //Added by Srini on 12-Jul-2020. Show the item if it is available in Inventory or in Internal container
+                this.TotInternalContQty = data[0].INTCONTQTY;                
+                 
+                //this.ItemInvQty = data[0].TOTALQTY; Srini 12-Jul-2020
                 this.InternalContCode = '';
               }
-
-              if (this.ItemInvQty <= 0) {
+              
+              if (this.ItemInvQty <= 0  && this.TotInternalContQty == 0) {
                 this.toastr.error('Srini', 'Inventory not available for item ' + this.scanItemCode);
                 this.scanItemCode = '';
                 this.scanItemTracking = '';
                 return;
+              } else if (this.ItemInvQty == 0 && this.TotInternalContQty > 0) {
+                this.toastr.error('Srini', 'Inventory available only in Inventory containers'); 
               }
               
               // Srini Add Item Weight from Item Master
@@ -3868,7 +3875,7 @@ export class AddItemToContComponent implements OnInit {
             if (index > -1) {              
               //Remove Item related record from container array              
               this.selInternalContainerDtl.splice(index,1);
-              this.InternalContCode = '';
+              
               if (this.InternalContCode != '' && $event.IntContainerCode == ''){
                 this.toastr.success('Srini', "Internal container cleared");
                 this.scanItemCode = '';
@@ -3879,6 +3886,7 @@ export class AddItemToContComponent implements OnInit {
               }              
               this.itemQty = this.BalQty1;
               this.BalQty2 = this.itemQty;
+              this.InternalContCode = '';
             }
           }            
           

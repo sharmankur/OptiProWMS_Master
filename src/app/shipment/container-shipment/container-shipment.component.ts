@@ -1204,7 +1204,8 @@ export class ContainerShipmentComponent implements OnInit {
 
       for (let i = 0; i < this.SelectedRowsforShipmentArr.length; i++) {
         oSaveData.SelectedRows.push({
-          Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE)
+          Container_Id: JSON.stringify(this.SelectedRowsforShipmentArr[i].OPTM_CONTCODE),
+          SelContainers: JSON.stringify(this.SelectedRowsforShipmentArr[i].OPTM_CONTAINERID)
         })
       }
       this.containerShipmentService.AssignContainerToShipment(oSaveData).subscribe(
@@ -1217,14 +1218,14 @@ export class ContainerShipmentComponent implements OnInit {
               return;
             }
             if (data.length > 0) {
-              if (data[0].RESULT != '' && data[0].RESULT != null) {
-                if (data[0].RESULT == 'Shipment updated') {
-                  this.toastr.success('', data[0].RESULT);
+              if (data.OUTPUT[0].RESULT != '' && data.OUTPUT[0].RESULT != null) {
+                if (data.OUTPUT[0].ErrorCode == 0) {
+                  this.toastr.success('', data.OUTPUT[0].RESULT);
                   this.fillDataInGridWithShipment(this.Selectedlink);
                 }
                 else {
-                  this.toastr.error('', data[0].RESULT);
-                }
+                  this.toastr.error('', data.OUTPUT[0].RESULT);
+                }                
               }
               else {
                 this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
