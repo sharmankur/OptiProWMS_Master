@@ -170,8 +170,8 @@
             <div class="form-group row mt-2">
                 <div class="input-group input-group-sm">
                     <kendo-grid [kendoGridBinding]="AutoAllocateShipments" [resizable]="true" [height]="gridheight"  [skip]="skip">
-                        <kendo-grid-column field="Shipment_Code" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
-                        <kendo-grid-column field="Allocation_Status" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>                        
+                        <kendo-grid-column field="Shipment_Code" width="200" title="{{'PT_ShipmentId'|translate}}" ></kendo-grid-column>
+                        <kendo-grid-column field="Allocation_Status" width="300" title="{{'Shipment_Lines'|translate}}" ></kendo-grid-column>                        
                     </kendo-grid>
                 </div>
             </div>
