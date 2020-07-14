@@ -1093,6 +1093,11 @@
   "ShipQuantity": "Ship Quantity",
   "Allocated_Quantity": "Allocated Quantity",
   "Balance": "Balance",
+  "ContainerSelected": "Container Selected ",
+  "Select_Containers_Remove": "Select Containers to Remove",
+  "Select_Containers": "Select Containers",
+  "SelectContainers_AssignSalesOrder": "Select Containers to Assign Sales Order",
+  "SelectContainers_AssignContainerGC": "Select Containers to Assign Container group code",
 
   "Dummy": "Dummy"
 }

@@ -160,3 +160,25 @@
 <div class="opti_loader full-section" *ngIf="showLoader == true">
     <div class="opti_spinner"></div>
 </div>
+
+<kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+    <div class="new-custom-grid">
+        <kendo-dialog-titlebar>
+            Shipment Status
+        </kendo-dialog-titlebar>
+        <div class="px-3">
+            <div class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <kendo-grid [kendoGridBinding]="AutoAllocateShipments" [resizable]="true" [height]="gridheight"  [skip]="skip">
+                        <kendo-grid-column field="Shipment_Code" class="text-right" width="85" title="{{'PT_ShipmentId'|translate}}" *ngIf=false></kendo-grid-column>
+                        <kendo-grid-column field="Allocation_Status" class="text-right" width="95" title="{{'Shipment_Lines'|translate}}" *ngIf=false></kendo-grid-column>                        
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+
+        <kendo-dialog-actions>
+            <button class="ml-1" kendoButton (click)="closeDialog()" primary="true">Ok</button>
+        </kendo-dialog-actions>
+    </div>
+</kendo-dialog>

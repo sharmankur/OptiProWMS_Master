@@ -193,17 +193,17 @@ export class ContainerShipmentComponent implements OnInit {
   setContainerGridTitle(value) {
     switch (value) {
       case 3: // Remove from shipment
-        this.SelectedLinkTitle = "Select Containers to Remove"
+        this.SelectedLinkTitle = this.translate.instant("Select_Containers_Remove");
         break;
       case 4: // view container
       case 2: // assign to shipment
-        this.SelectedLinkTitle = "Select Containers"
+        this.SelectedLinkTitle = this.translate.instant("Select_Containers");
         break;
       case 7: // assign to Sales order
-        this.SelectedLinkTitle = "Select Containers to Assign Sales Order"
+        this.SelectedLinkTitle = this.translate.instant("SelectContainers_AssignSalesOrder"); 
         break;
       case 8: // assign to Container group code
-        this.SelectedLinkTitle = "Select Containers to Assign Container group code"
+        this.SelectedLinkTitle = this.translate.instant("SelectContainers_AssignContainerGC"); 
         break;
       // case 2: // assign to shipment
       // this.SelectedLinkTitle = "Select Containers"

@@ -80,7 +80,7 @@ export class AutoAllocationComponent implements OnInit {
     var cDate = new Date();
     event = new Date(event.getFullYear(), event.getMonth(), event.getDate());
     cDate = new Date(cDate.getFullYear(), cDate.getMonth(), cDate.getDate());
-     
+
     this.tempFromDate = event
     if (event.getTime() < cDate.getTime()) {
       this.schedularFromDate = '';
@@ -93,12 +93,12 @@ export class AutoAllocationComponent implements OnInit {
         this.toastr.error('', this.translate.instant("SchDateGreaterValMsg"));
       }
     }
-    
+
     var varYear: string = event.getFullYear();
     var varMonth: string = (event.getMonth() + 1);
     var varDay: string = event.getDate();
-    this.scheduleFromDate = varYear + "-" + varMonth + "-" +  varDay
-    if(this.schedularToDate == undefined || this.schedularToDate == ""){
+    this.scheduleFromDate = varYear + "-" + varMonth + "-" + varDay
+    if (this.schedularToDate == undefined || this.schedularToDate == "") {
       this.schedularToDate = this.schedularFromDate;
       this.scheduleToDate = this.scheduleFromDate;
     }
@@ -123,16 +123,16 @@ export class AutoAllocationComponent implements OnInit {
     var varYear: string = event.getFullYear();
     var varMonth: string = (event.getMonth() + 1);
     var varDay: string = event.getDate();
-    this.scheduleToDate = varYear + "-" + varMonth + "-" +  varDay
+    this.scheduleToDate = varYear + "-" + varMonth + "-" + varDay
   }
 
   OnCancelClick() {
     this.router.navigate(['home/dashboard']);
   }
-  
+
   GetShipmentIdWithAllocAndPartAllocStatus(fieldName, action?) {
     var shipId = ''
-    if(action != 'lookup'){
+    if (action != 'lookup') {
       if (fieldName == 'ShipIdFrom') {
         shipId = this.ShipmentCodeFrom
       } else {
@@ -196,19 +196,6 @@ export class AutoAllocationComponent implements OnInit {
   }
 
   onAutoAllocClick() {
-    // if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == '') {
-    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-    //   return
-    // } else if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == '') {
-    //   this.toastr.error('', this.translate.instant("ShipmentFromBlankMsg"));
-    //   return
-    // } else if (this.schedularFromDate == undefined || this.schedularFromDate == '') {
-    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-    //   return
-    // } else if (this.schedularToDate == undefined || this.schedularToDate == '') {
-    //   this.toastr.error('', this.translate.instant("SheduleBlankMsg"));
-    //   return
-    // }
     this.showLoader = true;
     this.commonservice.AllocateContAndBtchSerToShipment(this.ShipIdFrom, this.ShipIdTo,
       this.scheduleFromDate, this.scheduleToDate).subscribe(
@@ -220,13 +207,16 @@ export class AutoAllocationComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            // {"OUTPUT":[{"RESULT":"Data Saved"}]}
-            
-            if(data.OUTPUT[0].RESULT == "Data Saved"){
+
+            // if (data.OUTPUT[0].RESULT == "Data Saved") {
               this.toastr.success('', this.translate.instant("ShpAllocatedSuccess"));
-            }else{
-              this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
-            }
+              this.AutoAllocateShipments = data.OUTPUT;
+              this.dialogOpened = true;
+              // return;
+            // } 
+            // else {
+            //   this.toastr.error('', this.translate.instant(data.OUTPUT[0].RESULT));
+            // }
             this.ShipmentCodeFrom = ''
             this.ShipmentCodeTo = ''
             this.schedularFromDate = ''
@@ -247,5 +237,15 @@ export class AutoAllocationComponent implements OnInit {
           }
         }
       );
+  }
+
+  AutoAllocateShipments = [];
+  dialogOpened: boolean = false;
+  closeDialog() {
+    this.dialogOpened = false;
+  }
+
+  close_kendo_dialog() {
+    this.dialogOpened = false;
   }
 }
