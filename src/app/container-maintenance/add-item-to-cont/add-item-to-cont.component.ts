@@ -952,7 +952,7 @@ export class AddItemToContComponent implements OnInit {
     this.containerCode = '';
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
-    this.oSubmitModel.OtherBtchSerDTL = [];
+    this.oSubmitModel.OtherBtchSerDTL = [];    
 
     for (let cidx = 0; cidx < this.oCreateModel.OtherItemsDTL.length; cidx++) {
       this.oCreateModel.OtherItemsDTL[cidx].IsWIPItem = false;
@@ -1014,8 +1014,20 @@ export class AddItemToContComponent implements OnInit {
               this.SelectedWOItemCode = data.WOLIST[0].OPTM_FGCODE;
               this.IsWIPCont = true;
 
-              //Added. Srini 3-Jul-. For WIP Container               
-              if (this.RuleItems.length > 0) {
+              //Added. Srini 3-Jul-. For WIP Container 
+              let index = this.oCreateModel.OtherItemsDTL.find(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
+              if (index > -1) {
+                this.oCreateModel.OtherItemsDTL[index].IsWIPItem = true;
+              } else {
+                //Error Item not found in the rule
+                this.toastr.error('Srini', 'Work Order Item not fiund in Rule Items');
+                this.workOrder = ''; this.taskId = 0; this.operationNo = 0;
+                this.WIPFGBin = "";
+                return;
+              }
+              
+              /*
+              if (this.RuleItems.length > 0) {                
                 let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
                 if (NoneTrackArr.length > 0) {                  
                     this.oCreateModel.OtherItemsDTL.push({
@@ -1037,8 +1049,8 @@ export class AddItemToContComponent implements OnInit {
                       LocQty: NoneTrackArr[0].OPTM_PARTS_PERCONT,
                     });                  
                 }
-              }  
-              // End of addition
+              }  */
+              // End of addition 
               result = true;
             }
           }
@@ -1419,7 +1431,7 @@ export class AddItemToContComponent implements OnInit {
               // Srini Add Item Weight from Item Master
               this.itemWt = data[0].IWeight1;              
 
-              if (data[0].LOTTRACKINGTYPE != undefined && data[0].LOTTRACKINGTYPE != "N") {
+              if (data[0].OPTM_TRACKING != undefined && data[0].OPTM_TRACKING != "N") {
                 this.bsVisible = true;
               } else {
                 this.bsVisible = false;
@@ -1793,16 +1805,15 @@ export class AddItemToContComponent implements OnInit {
           this.CheckInInternalContainer();
         } 
         */
+        //If not from internal container, check inventory from DB
+        if (index == -1) {        
+          this.GetScannedBtchSerFromDB();
+        }
 
         //Verify Selected Container and Item Quantitites
         if (this.SetItemQuantitiesForAddOpn() == false) {
           this.toastr.error('Srini', 'Quantity not available for Batch/Serial');              
           return false;
-        }
-
-        //If not from internal container, check inventory from DB
-        if (index == -1) {        
-          this.GetScannedBtchSerFromDB();
         }
       }
     }
