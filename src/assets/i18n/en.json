@@ -1093,6 +1093,8 @@
   "ShipQuantity": "Ship Quantity",
   "Allocated_Quantity": "Allocated Quantity",
   "Balance": "Balance",
-
+  "BIN_Qty": "Available",
+  "INT_CONT_QTY": "Int Cont Qty",
+  "SHP_CONT_QTY": "Ship Cont Qty",
   "Dummy": "Dummy"
 }
