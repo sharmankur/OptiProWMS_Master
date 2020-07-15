@@ -1015,7 +1015,7 @@ export class AddItemToContComponent implements OnInit {
               this.IsWIPCont = true;
 
               //Added. Srini 3-Jul-. For WIP Container 
-              let index = this.oCreateModel.OtherItemsDTL.find(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
+              let index = this.oCreateModel.OtherItemsDTL.findindex(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
               if (index > -1) {
                 this.oCreateModel.OtherItemsDTL[index].IsWIPItem = true;
               } else {
@@ -1384,6 +1384,7 @@ export class AddItemToContComponent implements OnInit {
       this.containerCode).subscribe(
         data => {
           this.showLoader = false;
+          this.setScanItemDataBlank(); //Added By Srini on 14-Jul-2020
           if (data != undefined && data.length > 0) {
             if (data[0].ErrorMsg == "7001") {
               this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -1392,7 +1393,7 @@ export class AddItemToContComponent implements OnInit {
             }
 
             if (data.length == 0) {
-              this.setScanItemDataBlank();
+              //this.setScanItemDataBlank();
               this.toastr.error('', this.translate.instant("InvalidItemCode"));
               this.scanItmCode.nativeElement.focus();
               result = false
