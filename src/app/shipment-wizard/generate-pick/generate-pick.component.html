@@ -525,3 +525,26 @@
 <div class="opti_loader full-section" *ngIf="showLoader">
     <div class="opti_spinner"></div>
 </div>
+
+<kendo-dialog [width]="500" *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+    <div class="new-custom-grid">
+        <kendo-dialog-titlebar>
+            Pick Generate Result
+        </kendo-dialog-titlebar>
+        <div class="px-3">
+            <div class="form-group row mt-2">
+                <div class="input-group input-group-sm">
+                    <kendo-grid [kendoGridBinding]="PickResultArray" [resizable]="true" [height]="gridheight"  [skip]="skip">
+                        <kendo-grid-column field="Shipment_Code" width="150" title="{{'PT_ShipmentId'|translate}}" ></kendo-grid-column>
+                        <kendo-grid-column field="Ship_Line" width="80" title="{{'Shipment_Lines'|translate}}" ></kendo-grid-column>                        
+                        <kendo-grid-column field="ErrDesc" width="250" title="{{'Status'|translate}}" ></kendo-grid-column>                        
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+
+        <kendo-dialog-actions>
+            <button class="ml-1" kendoButton (click)="closeDialog()" primary="true">Ok</button>
+        </kendo-dialog-actions>
+    </div>
+</kendo-dialog>

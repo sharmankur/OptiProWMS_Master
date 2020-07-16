@@ -12,6 +12,7 @@ import { ShipmentWizardMasterComponent } from './shipment-wizard-master.componen
 import { ShipmentWizardViewComponent } from './shipment-wizard-view/shipment-wizard-view.component';
 import { ShipmentPreviewListComponent } from './shipment-preview-list/shipment-preview-list.component';
 import { ShipmentDetailsListComponent } from './shipment-details-list/shipment-details-list.component';
+import { DialogsModule } from '../../../node_modules/@progress/kendo-angular-dialog';
 
 @NgModule({
   declarations: [ShipmentDetailsListComponent, ShipmentWizardMasterComponent, ShipmentWizardViewComponent, ShipmentPreviewListComponent],
@@ -19,7 +20,7 @@ import { ShipmentDetailsListComponent } from './shipment-details-list/shipment-d
     CommonModule,
     GridModule,
     SharedModule,
-    
+    DialogsModule,
     TrnaslateLazyModule,
     PerfectScrollbarModule, 
     FormsModule,

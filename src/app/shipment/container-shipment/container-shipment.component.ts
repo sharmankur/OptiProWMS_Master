@@ -1217,7 +1217,7 @@ export class ContainerShipmentComponent implements OnInit {
                 this.translate.instant("CommonSessionExpireMsg"));
               return;
             }
-            if (data.length > 0) {
+            // if (data.length > 0) {
               if (data.OUTPUT[0].RESULT != '' && data.OUTPUT[0].RESULT != null) {
                 if (data.OUTPUT[0].ErrorCode == 0) {
                   this.toastr.success('', data.OUTPUT[0].RESULT);
@@ -1230,10 +1230,10 @@ export class ContainerShipmentComponent implements OnInit {
               else {
                 this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
               }
-            }
-            else {
-              this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
-            }
+            // }
+            // else {
+            //   this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
+            // }
           } else {
             this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
           }

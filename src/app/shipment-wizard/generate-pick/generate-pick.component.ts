@@ -1190,6 +1190,8 @@ export class GeneratePickComponent implements OnInit {
           }
           if (data.OUTPUT[0].RESULT == "Picklist created") {
             this.toastr.success('', this.translate.instant("Picklist_Created_Msg"));
+            this.PickResultArray = data.OUTPUTDETAILS;
+            this.dialogOpened = true;
           } else {
             this.toastr.error('', data.OUTPUT[0].RESULT);
           }
@@ -1209,6 +1211,16 @@ export class GeneratePickComponent implements OnInit {
     );
   }
   //#endregion
+  
+  PickResultArray = [];
+  dialogOpened: boolean = false;
+  closeDialog() {
+    this.dialogOpened = false;
+  }
+
+  close_kendo_dialog() {
+    this.dialogOpened = false;
+  }
 
   onDateDialogClose(value, ScheduleDT){
     this.onPlanDateChange(value, ScheduleDT)

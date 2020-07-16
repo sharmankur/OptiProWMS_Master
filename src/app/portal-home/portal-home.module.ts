@@ -41,6 +41,7 @@ import { ContainerMaintenanceModule } from '../container-maintenance/container-m
 import { SetupModule } from '../Setup/setup.module';
 import { BinRangeModule } from '../bin-range/bin-range.module';
 import { CTModule } from '../container-type/ct.module';
+import { DialogsModule } from '../../../node_modules/@progress/kendo-angular-dialog';
 
 @NgModule({
   imports: [
@@ -58,7 +59,7 @@ import { CTModule } from '../container-type/ct.module';
     HttpClientModule,         
     FormsModule,
     NgbModule,
-
+    DialogsModule,
     CommonModule, 
     GridModule,
     SharedModule,
