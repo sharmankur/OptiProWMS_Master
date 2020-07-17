@@ -459,8 +459,8 @@
                                 <div class="col">
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'Bat/Ser'|translate}}</label>
-                                        <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" class="col-sm-9 form-control form-control-sm" [ngModel]="scanBSrLotNo"
-                                            (blur)="onBatchSerialBlur()" [disabled]="DisableScanFields || radioSelected == 3">
+                                        <input type="text" id="scanBSrLotNo" name="scanBSrLotNo" #BatchSerNo class="col-sm-9 form-control form-control-sm" [ngModel]="scanBSrLotNo"
+                                            (blur)="onBatchSerialBlur(BatchSerNo)" [disabled]="DisableScanFields || radioSelected == 3">
                                         <div class="input-group-append has-seprate-btn">
                                             <button tabIndex="-1" class="k-button k-primary btn" type="button" (mousedown)="ShowContBatchSerList()" [disabled]="DisableScanFields || radioSelected == 3">
                                                 <i class="opti-icon-search"></i>

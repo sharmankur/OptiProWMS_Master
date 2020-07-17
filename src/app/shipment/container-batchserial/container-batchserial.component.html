@@ -94,7 +94,7 @@
                                         <!--QtytoAssign-->
                                         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                             <input type="text" fieldSize="small" name="dataItem.AssignQty" class="form-control form-control-sm text-right" id="AssignQtyid"
-                                                (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(AssignQty.value,rowIndex, AssignQty)"
+                                                (keypress)="numberDecimalOnly($event)" (change)="onAssignedQtyChange(dataItem, AssignQty.value,rowIndex, AssignQty)"
                                                 value={{dataItem.AssignQty}} #AssignQty title="{{allocatesQtyTitle}}" />
                                         </ng-template>
                                     </kendo-grid-column>

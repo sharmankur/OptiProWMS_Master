@@ -144,7 +144,7 @@ export class AddItemToContComponent implements OnInit {
     });
   }
 
-  EnterPressed(){
+  EnterPressed() {
     this.onContainerCodeChangeBlur();
   }
 
@@ -225,7 +225,7 @@ export class AddItemToContComponent implements OnInit {
 
     this.from = localStorage.getItem("From")
     this.GetSampleStringOfContainerCode();
-    if(localStorage.getItem("loadContainer") != ""){
+    if (localStorage.getItem("loadContainer") != "") {
       this.ConSelectionType = 2;
       this.containerCode = localStorage.getItem("loadContainer");
       this.onContainerCodeChange();
@@ -252,31 +252,31 @@ export class AddItemToContComponent implements OnInit {
       this.radioSelected = 1;
       this.addItemOpn = "Add";
 
-      if (this.containerCode != "" && this.containerCode != undefined && this.containerCode != null) {       
-       
-          if (!(this.ScannedContainerStatus  == 1 || this.ScannedContainerStatus == 2 || this.ScannedContainerStatus == 4)) {
-            this.toastr.error('', this.translate.instant("CannotAddItem"));
-            this.DisableScanFields = true;
-            this.bsVisible = false;
-          }      
+      if (this.containerCode != "" && this.containerCode != undefined && this.containerCode != null) {
+
+        if (!(this.ScannedContainerStatus == 1 || this.ScannedContainerStatus == 2 || this.ScannedContainerStatus == 4)) {
+          this.toastr.error('', this.translate.instant("CannotAddItem"));
+          this.DisableScanFields = true;
+          this.bsVisible = false;
+        }
 
       }
-         
+
     } else if (action == 'remove') {
       this.radioSelected = 2;
-      this.addItemOpn = "Remove";       
+      this.addItemOpn = "Remove";
 
-    if (this.containerCode != "" && this.containerCode != undefined && this.containerCode != null) { 
+      if (this.containerCode != "" && this.containerCode != undefined && this.containerCode != null) {
         if (this.ScannedContainerStatus == 3) {
           this.showDialog("ReopenConfirm", this.translate.instant("yes"), this.translate.instant("no"),
             this.translate.instant("ReopenAlert"));
-        }      
+        }
       }
     }
     else {
       this.radioSelected = 3;
       this.addItemOpn = "View"
-      this.treeViewShow = true;       
+      this.treeViewShow = true;
     }
     //this.checkChangeEvent = event;    
   }
@@ -320,7 +320,7 @@ export class AddItemToContComponent implements OnInit {
     this.IsWIPCont = false; this.SelectedWOItemCode = '';
 
     if (this.radioRuleSelected == 1) {
-      this.radioRuleSelected = 2;     
+      this.radioRuleSelected = 2;
     } else {
       this.radioRuleSelected = 1;
     }
@@ -347,7 +347,7 @@ export class AddItemToContComponent implements OnInit {
     this.whse = '';
     this.binNo = '';
     this.containerType = '';
-    this.autoRuleId = ''; 
+    this.autoRuleId = '';
     this.RuleItems = [];
     this.parentContainerType = '';
     this.workOrder = '';
@@ -357,16 +357,16 @@ export class AddItemToContComponent implements OnInit {
     this.soNumber = '';
     this.soDocEntry = ''
     this.checkParent = false;
-    if (this.ConSelectionType == 1) {      
+    if (this.ConSelectionType == 1) {
       this.ConSelectionType = 2;
       this.radioSelected = 3;
       this.addItemOpn = "View"
-      this.treeViewShow = true; 
+      this.treeViewShow = true;
     } else {
       this.ConSelectionType = 1;
       this.radioSelected = 1;
       this.addItemOpn = "Add"
-      this.treeViewShow = false; 
+      this.treeViewShow = false;
     }
     this.checkChangeEvent = event;
     this.setContainerDataBlank();
@@ -389,7 +389,7 @@ export class AddItemToContComponent implements OnInit {
     this.whse = '';
     this.binNo = '';
     this.containerType = '';
-    this.autoRuleId = ''; 
+    this.autoRuleId = '';
     this.RuleItems = [];
     this.parentContainerType = '';
     this.workOrder = '';
@@ -403,9 +403,9 @@ export class AddItemToContComponent implements OnInit {
   setDefaultValues() {
     this.containerCode = '';
     this.containerId = '';
-    this.scanItemCode = ''; this.itemQty = 0; 
+    this.scanItemCode = ''; this.itemQty = 0;
     this.InternalContCode = '';
-    this.scanBSrLotNo = ''; this.bsItemQty = 0; 
+    this.scanBSrLotNo = ''; this.bsItemQty = 0;
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
     this.oSubmitModel.OtherBtchSerDTL = [];
@@ -417,14 +417,14 @@ export class AddItemToContComponent implements OnInit {
 
   setContainerDataBlank() {
     this.containerCode = '';
-    this.containerId = '';  this.InternalContCode = '';
-    this.scanItemCode = ''; this.itemQty = 0; 
+    this.containerId = ''; this.InternalContCode = '';
+    this.scanItemCode = ''; this.itemQty = 0;
     this.InternalContCode = '';
-    this.scanBSrLotNo = ''; this.bsItemQty = 0; 
+    this.scanBSrLotNo = ''; this.bsItemQty = 0;
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
     this.oSubmitModel.OtherBtchSerDTL = [];
-    this.DisplayTreeData = []; 
+    this.DisplayTreeData = [];
     this.BalQty1 = 0; this.BalQty2 = 0;
   }
 
@@ -557,11 +557,11 @@ export class AddItemToContComponent implements OnInit {
       this.autoRuleId = '';
       this.RuleItems = [];
       if (field != "CT") {
-        this.containerType = ''; 
-      }     
+        this.containerType = '';
+      }
     }
     this.containerGroupCode = '';
-    this.soNumber = '';    
+    this.soNumber = '';
     this.soDocEntry = '';
     this.parentContainerType = "";
   }
@@ -814,8 +814,8 @@ export class AddItemToContComponent implements OnInit {
               else {
                 this.ParentPerQty = this.ParentCTAray[index].OPTM_CONT_PERPARENT;
                 this.showAddToParent = false;
-                if(this.oSubmitModel.OPTM_CONT_HDR.length > 0){
-                  if(this.ScannedContainerStatus == 3){
+                if (this.oSubmitModel.OPTM_CONT_HDR.length > 0) {
+                  if (this.ScannedContainerStatus == 3) {
                     this.showAddToParent = true;
                   }
                 }
@@ -952,7 +952,7 @@ export class AddItemToContComponent implements OnInit {
     this.containerCode = '';
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
-    this.oSubmitModel.OtherBtchSerDTL = [];    
+    this.oSubmitModel.OtherBtchSerDTL = [];
 
     for (let cidx = 0; cidx < this.oCreateModel.OtherItemsDTL.length; cidx++) {
       this.oCreateModel.OtherItemsDTL[cidx].IsWIPItem = false;
@@ -1008,7 +1008,7 @@ export class AddItemToContComponent implements OnInit {
                 this.workOrder = ''; this.taskId = 0; this.operationNo = 0;
                 this.WIPFGBin = "";
                 return;
-              }              
+              }
               this.taskId = data.WOLIST[0].OPTM_ID;
               this.operationNo = data.WOLIST[0].OPTM_FROMOPERNO;
               this.SelectedWOItemCode = data.WOLIST[0].OPTM_FGCODE;
@@ -1025,7 +1025,7 @@ export class AddItemToContComponent implements OnInit {
                 this.WIPFGBin = "";
                 return;
               }
-              
+
               /*
               if (this.RuleItems.length > 0) {                
                 let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_ITEMCODE == this.SelectedWOItemCode);
@@ -1131,7 +1131,7 @@ export class AddItemToContComponent implements OnInit {
   }
 
   getLookupDataValue($event) {
-    this.showLookup = false;   
+    this.showLookup = false;
 
     if ($event != null && $event == "close") {
 
@@ -1148,8 +1148,8 @@ export class AddItemToContComponent implements OnInit {
         this.parentContainerType = $event.OPTM_PARENT_CONTTYPE;
         this.ParentPerQty = $event.OPTM_CONT_PERPARENT;
         this.showAddToParent = false;
-        if(this.oSubmitModel.OPTM_CONT_HDR.length > 0){
-          if(this.ScannedContainerStatus == 3){
+        if (this.oSubmitModel.OPTM_CONT_HDR.length > 0) {
+          if (this.ScannedContainerStatus == 3) {
             this.showAddToParent = true;
           }
         }
@@ -1167,11 +1167,11 @@ export class AddItemToContComponent implements OnInit {
         //Fetch Rule Details        
         //this.getAutoPackRule('blur');
         if (this.radioRuleSelected == 1) {
-          this.CheckNonTrackItemsExistInRule();           
+          this.CheckNonTrackItemsExistInRule();
         } else {
           this.canCreateContainer = true;
-        }        
-                        
+        }
+
       } else if (this.lookupfor == "WareHouse") {
         this.clearlookFields("whs");
         this.whse = $event.WhsCode;
@@ -1242,13 +1242,13 @@ export class AddItemToContComponent implements OnInit {
         this.scanBSrLotNo = $event.LOTNO;
         this.BSInvQty = $event.TOTALQTY;
         this.scanCurrentLotNoData = $event;
-        this.onBatchSerialBlur();               
+        this.onBatchSerialBlur();
       }
       else if (this.lookupfor == "showContBatchSerialList") {
         this.scanBSrLotNo = $event.OPTM_BTCHSER;
         this.BSInvQty = $event.OPTM_QUANTITY;
         this.scanCurrentLotNoData = $event;
-        this.onBatchSerialBlur();                   
+        this.onBatchSerialBlur();
       }
       else if (this.lookupfor == "WOLIST") {
         this.containerCode = '';
@@ -1296,7 +1296,7 @@ export class AddItemToContComponent implements OnInit {
   checkItemCodeAndQty() {
     var Qty: any = 0;
     //If Rule Qty is already fulfilled on server or in local array data and still trying to add
-    if (this.autoRuleId != "") { 
+    if (this.autoRuleId != "") {
       let idx = this.RuleItems.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
       if (idx > -1) {
         Qty = this.RuleItems[idx].OPTM_PARTS_PERCONT;
@@ -1312,7 +1312,7 @@ export class AddItemToContComponent implements OnInit {
           this.toastr.error('', this.translate.instant("ItemReqQty"));
           this.setScanItemDataBlank();
           return false;
-        }        
+        }
       } else if (this.radioSelected == 2) {
         let index = this.oSubmitModel.OtherItemsDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_QUANTITY > 0);
         if (index == -1) {// Cannot remove selected item. Item or quantity not available
@@ -1320,15 +1320,15 @@ export class AddItemToContComponent implements OnInit {
           this.setScanItemDataBlank();
           return false;
         }
-      }      
+      }
     }
     return true;
   }
 
   setScanItemDataBlank() {
-    this.scanItemCode = ''; this.itemQty = 0; 
+    this.scanItemCode = ''; this.itemQty = 0;
     this.InternalContCode = '';
-    this.scanBSrLotNo = ''; this.bsItemQty = 0; 
+    this.scanBSrLotNo = ''; this.bsItemQty = 0;
     this.BalQty1 = 0; this.BalQty2 = 0;
     this.bsVisible = false;
     this.RuleQty = 0; this.tempBal1 = 0;
@@ -1401,7 +1401,7 @@ export class AddItemToContComponent implements OnInit {
             } else {
               this.scanItemCode = data[0].ITEMCODE;
               this.scanItemTracking = data[0].OPTM_TRACKING;
-              
+
               //Set Item Inventory quantity to quantity from Internal container, if internal container is selected
               // Otherwise set the inventory value to Item Onhand - Containerized quantity
               var idx: number = -1;
@@ -1414,23 +1414,23 @@ export class AddItemToContComponent implements OnInit {
               } else {
                 this.ItemInvQty = data[0].INVENTORY;
                 //Added by Srini on 12-Jul-2020. Show the item if it is available in Inventory or in Internal container
-                this.TotInternalContQty = data[0].INTCONTQTY;                
-                 
+                this.TotInternalContQty = data[0].INTCONTQTY;
+
                 //this.ItemInvQty = data[0].TOTALQTY; Srini 12-Jul-2020
                 this.InternalContCode = '';
               }
-              
-              if (this.ItemInvQty <= 0  && this.TotInternalContQty == 0) {
+
+              if (this.ItemInvQty <= 0 && this.TotInternalContQty == 0) {
                 this.toastr.error('Srini', 'Inventory not available for item ' + this.scanItemCode);
                 this.scanItemCode = '';
                 this.scanItemTracking = '';
                 return;
               } else if (this.ItemInvQty == 0 && this.TotInternalContQty > 0) {
-                this.toastr.error('Srini', 'Inventory available only in Inventory containers'); 
+                this.toastr.error('Srini', 'Inventory available only in Inventory containers');
               }
-              
+
               // Srini Add Item Weight from Item Master
-              this.itemWt = data[0].IWeight1;              
+              this.itemWt = data[0].IWeight1;
 
               if (data[0].OPTM_TRACKING != undefined && data[0].OPTM_TRACKING != "N") {
                 this.bsVisible = true;
@@ -1445,9 +1445,9 @@ export class AddItemToContComponent implements OnInit {
 
                 if (this.itemQty > this.ItemInvQty) {
                   this.itemQty = this.ItemInvQty;
-                  this.toastr.error('Srini', 'Inventory not fully available for item ' + this.scanItemCode);                  
-                }              
-                
+                  this.toastr.error('Srini', 'Inventory not fully available for item ' + this.scanItemCode);
+                }
+
                 idx = this.RuleItems.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
                 if (idx > -1) {
                   //this.itemPackWt = this.RuleItems[idx].Quantity
@@ -1473,14 +1473,14 @@ export class AddItemToContComponent implements OnInit {
                 }
               }
             }
-            result = true 
+            result = true
 
           } else {
             this.scanItemCode = ''
             this.InternalContCode = '';
             this.bsVisible = false;
             this.scanBSrLotNo = ''
-            this.itemQty = 0; 
+            this.itemQty = 0;
             this.bsItemQty = 0
             this.toastr.error('', this.translate.instant("InvalidItemCode"));
             result = false
@@ -1503,8 +1503,8 @@ export class AddItemToContComponent implements OnInit {
   }
 
   SetItemQuantitiesForAddOpn() {
-    let qtyaddedToContTot = 0; 
-    var qtyaddedToContNow: number  = 0;
+    let qtyaddedToContTot = 0;
+    var qtyaddedToContNow: number = 0;
     var canAddItemQty: number = 0;
     var balItmQtyForAdd: number = 0;
     /* Srini 8-May-2020 Start */
@@ -1517,10 +1517,10 @@ export class AddItemToContComponent implements OnInit {
         qtyaddedToContNow = iTemRec.OPTM_QUANTITY - iTemRec.ServerQty;
         if (qtyaddedToContNow < 0) {
           qtyaddedToContNow = 0;
-        }     
+        }
       }
     }
-    
+
     //****************************************************************************************** */
     //Item Inv variable this.ItemINV holds the Inventory of item in Internal Container, if selected
     // or from Inventory if internal container is not selected
@@ -1547,33 +1547,33 @@ export class AddItemToContComponent implements OnInit {
 
     if (this.scanItemTracking == 'S') {
       this.BalQty2 = 1;
-    } else if (this.scanItemTracking == 'B'){
+    } else if (this.scanItemTracking == 'B') {
       this.BalQty2 = this.itemQty;
     }
 
-    if (canAddItemQty <= 0){
+    if (canAddItemQty <= 0) {
       this.scanBSrLotNo = "";
       return false;
     }
     //****************************************************************************************** */
-    
+
     //Validate if item is Batch Or Serial
-    if ((this.scanItemTracking == 'S' || this.scanItemTracking == 'B') && this.scanBSrLotNo != ''){
-      var itemBtchSerials: any [];
-      var index: number = -1;    
-      
+    if ((this.scanItemTracking == 'S' || this.scanItemTracking == 'B') && this.scanBSrLotNo != '') {
+      var itemBtchSerials: any[];
+      var index: number = -1;
+
       //Check internal container for the batch serial and set the inventory to quantity available in internal conatiner
       if (this.InternalContCode != '') {
         if (this.selInternalContainerDtl != null) {
           index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
         }
-    
-        if (index > -1) {      
+
+        if (index > -1) {
           itemBtchSerials = this.selInternalContainerDtl[index].BatchSerials;
-    
+
           let idx = itemBtchSerials.findIndex(r => r.LOTNO == this.scanBSrLotNo);
           if (idx > -1) {
-            this.BSInvQty = itemBtchSerials[idx].TOTALQTY; 
+            this.BSInvQty = itemBtchSerials[idx].TOTALQTY;
           }
         } else {
           this.toastr.error('Srini', 'Selected Batch / Serial not available in internal container');
@@ -1591,12 +1591,12 @@ export class AddItemToContComponent implements OnInit {
         btchSRQtyAdded = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
       }
 
-      canaddBtchSRqty = this.BSInvQty - btchSRQtyAdded;        
+      canaddBtchSRqty = this.BSInvQty - btchSRQtyAdded;
       if (canaddBtchSRqty <= this.BalQty2) {
         this.bsItemQty = canaddBtchSRqty;
-        this.BalQty2 = canaddBtchSRqty;          
+        this.BalQty2 = canaddBtchSRqty;
       } else {
-        this.bsItemQty = this.BalQty2;          
+        this.bsItemQty = this.BalQty2;
       }
 
       if (this.bsItemQty <= 0) {
@@ -1604,7 +1604,7 @@ export class AddItemToContComponent implements OnInit {
         return false;
       }
     }
-    return true;    
+    return true;
     /* Srini 8-May-2020 End */
   }
 
@@ -1621,7 +1621,7 @@ export class AddItemToContComponent implements OnInit {
       this.tempBal1 = val;
 
       itemTracking = iTemRec.OPTM_TRACKING;
-      
+
       if (itemTracking != 'N') {
         this.bsVisible = true;
       }
@@ -1634,7 +1634,7 @@ export class AddItemToContComponent implements OnInit {
         let btchSRrec = this.oSubmitModel.OtherBtchSerDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo);
         if (btchSRrec != null) {
           this.bsItemQty = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
-        }        
+        }
       }
       return true
     } else {
@@ -1644,7 +1644,7 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
-  
+
   openInternalCont() {
 
     if (this.scanItemCode == undefined || this.scanItemCode == '') {
@@ -1718,13 +1718,13 @@ export class AddItemToContComponent implements OnInit {
         if (index == -1) {
           this.toastr.error('', this.translate.instant("CannotRemoveCont"));
           this.scanBSrLotNo = '';
-          this.bsItemQty = 0; 
+          this.bsItemQty = 0;
           return false;
         }
       } else {
         this.toastr.error('', this.translate.instant("CannotRemoveCont"));
         this.scanBSrLotNo = ''; this.bsItemQty = 0;
-        this.bsItemQty = 0; 
+        this.bsItemQty = 0;
         return false;
       }
     }
@@ -1734,12 +1734,12 @@ export class AddItemToContComponent implements OnInit {
   ValidateScanBtchSerials(): boolean {
     if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
       this.toastr.error('', this.translate.instant("BtchSrNBlank"));
-      this.scanBSrLotNo = ''; this.bsItemQty = 0; 
+      this.scanBSrLotNo = ''; this.bsItemQty = 0;
       return;
     }
 
     if (this.itemQty == 0 || this.itemQty == undefined) {
-      this.scanBSrLotNo = ''; this.bsItemQty = 0; 
+      this.scanBSrLotNo = ''; this.bsItemQty = 0;
       this.toastr.error('', this.translate.instant("ItemQtyBlankMsg"));
       return;
     }
@@ -1786,20 +1786,24 @@ export class AddItemToContComponent implements OnInit {
   }
 
 
-  onBatchSerialBlur() {
+  onBatchSerialBlur(BatchSerNo?) {
     if (this.isValidateCalled) {
       return
+    }
+
+    if (BatchSerNo != undefined) {// Rishabh on 16072020
+      this.scanBSrLotNo = BatchSerNo.value;
     }
 
     if (this.ValidateScanBtchSerials()) {
       if (this.radioSelected == 1) {
         //Check Batch Serials in Internal Container, if Internal container is selected
-      
+
         var index: number = -1;
         if (this.selInternalContainerDtl != null) {
           index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
         }
-        
+
         /*
         //Get Batch Serial inventory from Internal Container
         if (index > -1) {  
@@ -1807,13 +1811,13 @@ export class AddItemToContComponent implements OnInit {
         } 
         */
         //If not from internal container, check inventory from DB
-        if (index == -1) {        
+        if (index == -1) {
           this.GetScannedBtchSerFromDB();
-        }
+        } 
 
         //Verify Selected Container and Item Quantitites
         if (this.SetItemQuantitiesForAddOpn() == false) {
-          this.toastr.error('Srini', 'Quantity not available for Batch/Serial');              
+          this.toastr.error('Srini', 'Quantity not available for Batch/Serial');
           return false;
         }
       }
@@ -1868,48 +1872,49 @@ export class AddItemToContComponent implements OnInit {
 
   scanCurrentLotNoData: any;
   GetScannedBtchSerFromDB() {
-      
-      this.showLoader = true;
-      var result = false;
-      this.containerCreationService.IsValidBtchSer(this.scanItemCode, this.scanBSrLotNo, this.whse, this.binNo, 1,
-        this.containerCode).subscribe(
-          data => {
-            this.showLoader = false;
-            if (data != undefined && data.length > 0) {
-              if (data[0].ErrorMsg == "7001") {
-                this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
-                  this.translate.instant("CommonSessionExpireMsg"));
-                return;
-              }
-              this.scanBSrLotNo = data[0].LOTNO;
-              this.BSInvQty = data[0].TOTALQTY;           
+
+    this.showLoader = true;
+    var result = false;
+    this.containerCreationService.IsValidBtchSer(this.scanItemCode, this.scanBSrLotNo, this.whse, this.binNo, 1,
+      this.containerCode).subscribe(
+        data => {
+          this.showLoader = false;
+          if (data != undefined && data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
+                this.translate.instant("CommonSessionExpireMsg"));
+              return;
+            }
+            this.scanBSrLotNo = data[0].LOTNO;
+            this.BSInvQty = data[0].TOTALQTY;
+            this.bsItemQty = 0;
+            this.scanCurrentLotNoData = data;
+
+            if (this.scanItemTracking == 'S') {
+              this.bsItemQty = 1;
+            } else {
+              this.ValidBSQty = data[0].TOTALQTY;
+            }
+
+            if (data[0].TOTALQTY > this.BalQty2) {
+              this.bsItemQty = this.BalQty2;
+            } else {
+              this.bsItemQty = data[0].TOTALQTY;
+             // this.BalQty2 = data[0].TOTALQTY;   // Rishabh on 16072020
+            }
+            result = true;
+          }
+
+          if (data.length == 0) {
+            if (this.radioSelected == 1) {
+              this.scanBSrLotNo = '';
               this.bsItemQty = 0;
-              this.scanCurrentLotNoData = data;
-
-              if (this.scanItemTracking == 'S') {
-                this.bsItemQty = 1;
-              } else {
-                this.ValidBSQty = data[0].TOTALQTY;
-              }
-
-              if (data[0].TOTALQTY > this.BalQty2) {
-                this.bsItemQty = this.BalQty2;
-              } else {
-                this.bsItemQty = data[0].TOTALQTY;
-              }
-              result = true;
+              this.scanCurrentLotNoData = '';
+              this.toastr.error('', this.translate.instant("Plt_InValidBatchSerial"));
+              result = false
+              this.scanLotNo.nativeElement.focus()
             }
-
-            if (data.length == 0) {
-              if (this.radioSelected == 1) {
-                this.scanBSrLotNo = '';
-                this.bsItemQty = 0;
-                this.scanCurrentLotNoData = '';
-                this.toastr.error('', this.translate.instant("Plt_InValidBatchSerial"));
-                result = false
-                this.scanLotNo.nativeElement.focus()
-              }
-            }
+          }
         },
         error => {
           result = false
@@ -1950,15 +1955,15 @@ export class AddItemToContComponent implements OnInit {
       this.bsItemQty = TotalQty;
     }
   }
-  */    
+  */
   onBatSerQtyChange(scanBsItemQty) {
-    if(Number(scanBsItemQty.value) < 0 ){
+    if (Number(scanBsItemQty.value) < 0) {
       this.bsItemQty = 0
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
       return false;
     }
 
-    if(scanBsItemQty != undefined){
+    if (scanBsItemQty != undefined) {
       this.bsItemQty = scanBsItemQty.value;
       this.bsItemQty = Number(this.bsItemQty);
     }
@@ -2137,129 +2142,129 @@ export class AddItemToContComponent implements OnInit {
 
   */
 
- onConfirmClick() {
+  onConfirmClick() {
 
-  if (this.containerCode == undefined || this.containerCode == "") {
-    this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
-    this.scanItemCode = ''; this.itemQty = 0; 
-    this.InternalContCode = '';
-    this.scanLotNo = ''; this.bsItemQty = 0;
-    return;
-  }
-
-  if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
-    this.toastr.error('', this.translate.instant("EnterItemCode"));
-    this.itemQty = 0; 
-    this.scanLotNo = ''; this.bsItemQty = 0;
-    return;
-  } else {
-    if (this.radioSelected == 2) {
-      let index = this.oSubmitModel.OtherItemsDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_QUANTITY > 0);
-      if (index == -1) { //Item not found
-        this.toastr.error('Srini', 'Item not found to delete');
-        this.itemQty = 0; 
-        this.scanLotNo = ''; this.bsItemQty = 0;
-        this.scanItemCode = '';
-        this.InternalContCode = '';
-        return;
-      }
-    }
-  }
-
-  if (this.itemQty == undefined || this.itemQty == 0) {
-    this.scanLotNo = ''; this.bsItemQty = 0;
-    this.toastr.error('', this.translate.instant("ItemQtyBlankMsg"));
-    return;
-  }
-
-  if (this.itemQty > this.BalQty1) {
-    this.toastr.error('', this.translate.instant("ScannedQtyCannotGreater"));
-    this.bsItemQty = this.BalQty1;
-    return;
-  }
-
-  if (this.scanItemTracking != 'N') {
-    if (this.scanBSrLotNo == undefined || this.scanBSrLotNo == "") {
-      this.toastr.error('', this.translate.instant("BtchSrNBlank"));
-      this.bsItemQty = 0; 
-      this.scanLotNo = '';
-      return;
-    } else if (this.bsItemQty == 0) {
-      this.toastr.error('', this.translate.instant("QtyCannotGreater"));
-    }
-
-    if (this.radioSelected == 2) {
-      let index = this.oSubmitModel.OtherBtchSerDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo && r.OPTM_QUANTITY > 0);
-      if (index == -1) { // Bacth Serial not found in the current Container list of Batch Serials
-        this.toastr.error('Convert to Constant','Batch Seral not found');
-        this.bsItemQty = 0; 
-        this.scanBSrLotNo = '';
-        this.scanLotNo = '';
-        return;
-      }
-    }      
-  }    
-  
-  if (this.scanItemTracking == "N") {
-    this.SetDataForNoneTrackItem(this.itemQty);
-    if (!this.NonSuccess) {
+    if (this.containerCode == undefined || this.containerCode == "") {
+      this.toastr.error('', this.translate.instant("ContainerCodeBlankMsg"));
+      this.scanItemCode = ''; this.itemQty = 0;
+      this.InternalContCode = '';
+      this.scanLotNo = ''; this.bsItemQty = 0;
       return;
     }
-    //this.AllowBalQtyNone(); //Srini 7-Jul-2020
-  } else {
-    var processedBtchSrQty: number = this.bsItemQty;
-    this.SetDataForBatchSerialItem();
-    if (!this.BtchSerialSuccess) {
+
+    if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
+      this.toastr.error('', this.translate.instant("EnterItemCode"));
+      this.itemQty = 0;
+      this.scanLotNo = ''; this.bsItemQty = 0;
       return;
     } else {
-      // Update Item Information after updating Batch Serial
-      this.SetDataForNoneTrackItem(processedBtchSrQty);
+      if (this.radioSelected == 2) {
+        let index = this.oSubmitModel.OtherItemsDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_QUANTITY > 0);
+        if (index == -1) { //Item not found
+          this.toastr.error('Srini', 'Item not found to delete');
+          this.itemQty = 0;
+          this.scanLotNo = ''; this.bsItemQty = 0;
+          this.scanItemCode = '';
+          this.InternalContCode = '';
+          return;
+        }
+      }
+    }
+
+    if (this.itemQty == undefined || this.itemQty == 0) {
+      this.scanLotNo = ''; this.bsItemQty = 0;
+      this.toastr.error('', this.translate.instant("ItemQtyBlankMsg"));
+      return;
+    }
+
+    if (this.itemQty > this.BalQty1) {
+      this.toastr.error('', this.translate.instant("ScannedQtyCannotGreater"));
+      this.bsItemQty = this.BalQty1;
+      return;
+    }
+
+    if (this.scanItemTracking != 'N') {
+      if (this.scanBSrLotNo == undefined || this.scanBSrLotNo == "") {
+        this.toastr.error('', this.translate.instant("BtchSrNBlank"));
+        this.bsItemQty = 0;
+        this.scanLotNo = '';
+        return;
+      } else if (this.bsItemQty == 0) {
+        this.toastr.error('', this.translate.instant("QtyCannotGreater"));
+      }
+
+      if (this.radioSelected == 2) {
+        let index = this.oSubmitModel.OtherBtchSerDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo && r.OPTM_QUANTITY > 0);
+        if (index == -1) { // Bacth Serial not found in the current Container list of Batch Serials
+          this.toastr.error('Convert to Constant', 'Batch Seral not found');
+          this.bsItemQty = 0;
+          this.scanBSrLotNo = '';
+          this.scanLotNo = '';
+          return;
+        }
+      }
+    }
+
+    if (this.scanItemTracking == "N") {
+      this.SetDataForNoneTrackItem(this.itemQty);
       if (!this.NonSuccess) {
         return;
       }
-    }
-  }
-
-  if (this.radioSelected == 1) {
-    //this.AllowBalQtyBS();
-    this.SetItemQuantitiesForAddOpn();
-    if (this.itemQty == 0) {
-      this.setScanItemDataBlank();
-      this.scanBSrLotNo = '';
-    }
-  } else if (this.radioSelected == 2) {
-    if (this.itemQty == 0) {
-      this.setScanItemDataBlank();
-      this.scanBSrLotNo = '';
-      this.bsItemQty = 0;
+      //this.AllowBalQtyNone(); //Srini 7-Jul-2020
     } else {
-      this.SetItemQuantitiesForRemoveOpn();
-      if (this.bsItemQty == 0) {
-        this.scanBSrLotNo = '';
+      var processedBtchSrQty: number = this.bsItemQty;
+      this.SetDataForBatchSerialItem();
+      if (!this.BtchSerialSuccess) {
+        return;
+      } else {
+        // Update Item Information after updating Batch Serial
+        this.SetDataForNoneTrackItem(processedBtchSrQty);
+        if (!this.NonSuccess) {
+          return;
+        }
       }
     }
+
+    if (this.radioSelected == 1) {
+      //this.AllowBalQtyBS();
+      this.SetItemQuantitiesForAddOpn();
+      if (this.itemQty == 0) {
+        this.setScanItemDataBlank();
+        this.scanBSrLotNo = '';
+      }
+    } else if (this.radioSelected == 2) {
+      if (this.itemQty == 0) {
+        this.setScanItemDataBlank();
+        this.scanBSrLotNo = '';
+        this.bsItemQty = 0;
+      } else {
+        this.SetItemQuantitiesForRemoveOpn();
+        if (this.bsItemQty == 0) {
+          this.scanBSrLotNo = '';
+        }
+      }
+    }
+
+    this.displayTreeDataValue();
+    // this.AllowBalQtyNone();      
+    // this.AllowBalQtyBS();
+    this.updateDisabled = false;
+
+    if (this.oSubmitModel.OtherItemsDTL.length == 0) {
+      //this.toastr.error('', this.translate.instant("AddItemToUpdate"));
+      this.updateDisabled = true;
+    }
+
   }
 
-  this.displayTreeDataValue();
-  // this.AllowBalQtyNone();      
-  // this.AllowBalQtyBS();
-  this.updateDisabled = false;
-  
-  if(this.oSubmitModel.OtherItemsDTL.length == 0){
-    //this.toastr.error('', this.translate.instant("AddItemToUpdate"));
-    this.updateDisabled = true;
-  } 
-
-}
-
   onScanItemQtyChange(scanItemQty) {
-    if(Number(scanItemQty.value) < 0 ){
+    if (Number(scanItemQty.value) < 0) {
       this.itemQty = 0
       this.toastr.error('', this.translate.instant("CannotLessThenZero"));
       return false;
     }
 
-    if(scanItemQty != undefined){
+    if (scanItemQty != undefined) {
       this.itemQty = scanItemQty.value;
     }
     if (this.scanItemCode == '' || this.scanItemCode == undefined) {
@@ -2303,7 +2308,7 @@ export class AddItemToContComponent implements OnInit {
     if (idx > -1) {
       internalContainerID = this.selInternalContainerDtl[idx].Container_ID;
       this.InternalContCode = this.selInternalContainerDtl[idx].Container_Code;
-    }else{
+    } else {
       this.InternalContCode = '';
       internalContainerID = 0;
     }
@@ -2311,7 +2316,7 @@ export class AddItemToContComponent implements OnInit {
     let index = this.oSubmitModel.OtherItemsDTL.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
     if (index == -1) { //Item not found
       if (this.radioSelected == 1) { // If Add
-       // this.toastr.error('Srini', 'Adding ' + internalContainerID);
+        // this.toastr.error('Srini', 'Adding ' + internalContainerID);
         this.oSubmitModel.OtherItemsDTL.push({
           OPTM_ITEMCODE: this.scanItemCode,
           OPTM_TRACKING: this.scanItemTracking,
@@ -2353,7 +2358,7 @@ export class AddItemToContComponent implements OnInit {
         this.oSubmitModel.OtherItemsDTL[index].DirtyFlag = true;
         this.oSubmitModel.OtherItemsDTL[index].Delete = false;
         this.oSubmitModel.OtherItemsDTL[index].OPTM_WEIGHT = totalqty * this.itemWt;
-        this.oSubmitModel.OtherItemsDTL[index].OPTM_CONTAINERID = internalContainerID;        
+        this.oSubmitModel.OtherItemsDTL[index].OPTM_CONTAINERID = internalContainerID;
       } else if (this.radioSelected == 2) { //If Remove
         if (this.oSubmitModel.OtherItemsDTL[index].Operation == 'Add') { // New Record exists
           let diff = this.oSubmitModel.OtherItemsDTL[index].TotalQty - dblItemQuantity;
@@ -2381,7 +2386,7 @@ export class AddItemToContComponent implements OnInit {
             this.bsItemQty = 0;
             this.NonSuccess = false;
           } else {
-            let netQty = this.oSubmitModel.OtherItemsDTL[index].TotalQty - dblItemQuantity;           
+            let netQty = this.oSubmitModel.OtherItemsDTL[index].TotalQty - dblItemQuantity;
             this.oSubmitModel.OtherItemsDTL[index].OPTM_WEIGHT = netQty * this.itemWt;
             this.oSubmitModel.OtherItemsDTL[index].Operation = 'Edit';
             if (netQty <= 0) {
@@ -2438,7 +2443,7 @@ export class AddItemToContComponent implements OnInit {
           this.toastr.error('', "Total quantity added excceds available inventory");
           this.BtchSerialSuccess = false;
           return;
-        } 
+        }
         if (this.scanItemTracking == 'B' || (this.scanItemTracking == 'S' && totalqty == 1)) {
           this.oSubmitModel.OtherBtchSerDTL[index].OPTM_QUANTITY = totalqty;
           this.oSubmitModel.OtherBtchSerDTL[index].TotalQty = totalqty;
@@ -2466,7 +2471,7 @@ export class AddItemToContComponent implements OnInit {
             return;
           } else if (diff == 0) { // New record being added. Delete it as user wants to remove it
             this.oSubmitModel.OtherBtchSerDTL.splice(index, 1);
-            this.BtchSerialSuccess = true;            
+            this.BtchSerialSuccess = true;
             this.bsItemQty = 0;
             return;
           } else {
@@ -2692,12 +2697,12 @@ export class AddItemToContComponent implements OnInit {
     }
   }
 
-  getAutoPackRule(action) { 
+  getAutoPackRule(action) {
     if (this.ConSelectionType == 2) { //Case: Query Mode
       if (action != 'query') {
         if ((!(this.autoRuleId == undefined || this.autoRuleId == "") && action == 'blur') || action == 'lookup') {
           this.toastr.error('Srini', 'Cannot change rule on existing Container');
-        }         
+        }
         return;
       }
     } else {
@@ -2705,7 +2710,7 @@ export class AddItemToContComponent implements OnInit {
         if ((!(this.autoRuleId == undefined || this.autoRuleId == "") && action == 'blur') || action == 'lookup') {
           this.toastr.error('', this.translate.instant("SelectContainerMsg"));
           this.autoRuleId = ''; this.containerCode = ''; this.RuleItems = [];
-          this.setDefaultValues(); 
+          this.setDefaultValues();
         }
         return;
       }
@@ -2713,7 +2718,7 @@ export class AddItemToContComponent implements OnInit {
 
     this.clearlookFields("CAR");
     let RuleId = '';
-    
+
     /*
     if (this.containerType == undefined || this.containerType == "") {
       if (!(this.autoRuleId == undefined || this.autoRuleId == "")) {
@@ -2729,11 +2734,11 @@ export class AddItemToContComponent implements OnInit {
     if (action == 'blur') {
       this.containerCode = '';
       this.setDefaultValues();
-      
+
       if (this.autoRuleId == undefined || this.autoRuleId == "") {
         return;
       }
-      
+
       RuleId = this.autoRuleId;
     } else if (action == 'query') {
       RuleId = this.autoRuleId;
@@ -2751,7 +2756,7 @@ export class AddItemToContComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          
+
           /*
           if (data.OPTM_CONT_AUTORULEHDR.length > 0) {
             this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;
@@ -2763,7 +2768,7 @@ export class AddItemToContComponent implements OnInit {
           //if (action == 'lookup' || action == 'query') {
           if (action == 'lookup') {
             //this.showLookup = true;           
-            
+
             this.serviceData = data.OPTM_CONT_AUTORULEHDR;
             this.AutoService = data.OPTM_CONT_AUTORULEDTL;
             for (var iBtchIndex = 0; iBtchIndex < this.serviceData.length; iBtchIndex++) {
@@ -2780,23 +2785,23 @@ export class AddItemToContComponent implements OnInit {
               } else {
                 this.serviceData[iBtchIndex].OPTM_CONTUSE = this.translate.instant("Both");
               }
-            }            
+            }
             this.showLookup = true;
-            this.lookupfor = "CARList"; 
+            this.lookupfor = "CARList";
 
           } else if (action == 'blur' || action == 'query') {
             if (data.OPTM_CONT_AUTORULEHDR.length > 0) {
-              this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;            
-              this.RuleItems = data.OPTM_CONT_AUTORULEDTL;            
-              if (action == 'blur'){
-                this.CheckNonTrackItemsExistInRule(); 
-              }              
+              this.autoRuleId = data.OPTM_CONT_AUTORULEHDR[0].OPTM_RULEID;
+              this.RuleItems = data.OPTM_CONT_AUTORULEDTL;
+              if (action == 'blur') {
+                this.CheckNonTrackItemsExistInRule();
+              }
             } else {
               this.autoRuleId = '';
               this.scanAutoRuleId.nativeElement.focus();
               this.toastr.error('', this.translate.instant("RuleIdInvalidMsg"));
-            }   
-            this.bsVisible = false;                
+            }
+            this.bsVisible = false;
             /*
             if (data.OPTM_CONT_AUTORULEHDR.length > 0) {              
               //Get Item details only when Container is created in Auto mode.
@@ -2838,14 +2843,14 @@ export class AddItemToContComponent implements OnInit {
       }
     );
   }
-  
+
   CheckNonTrackItemsExistInRule() {
-    if (this.RuleItems.length > 0) {              
+    if (this.RuleItems.length > 0) {
       //Get Item details only when Container is created in Auto mode.
       //In manual mode Item Inventory is obtained after item selection
       this.canCreateContainer = true;
-      if (this.radioRuleSelected == 1) {          
-        let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_TRACKING == 'N'); 
+      if (this.radioRuleSelected == 1) {
+        let NoneTrackArr = this.RuleItems.filter(val => val.OPTM_TRACKING == 'N');
         if (NoneTrackArr.length > 0) {
           this.GetItemsToAutoCreateContainer();
         } else {
@@ -2866,13 +2871,13 @@ export class AddItemToContComponent implements OnInit {
   }
 
   TransferDataToContainerModel(data: any) {
-    
+
     if (data.OPTM_CONT_HDR != null && data.OPTM_CONT_HDR != undefined) {
       if (data.OPTM_CONT_HDR.length == 0) {
         //this.toastr.error('', this.translate.instant("GreaterOpenQtyCheck"));
         this.setContainerDataBlank();
         return;
-      }    
+      }
     } else {
       this.setContainerDataBlank();
       return;
@@ -2880,21 +2885,21 @@ export class AddItemToContComponent implements OnInit {
 
     this.oSubmitModel.OPTM_CONT_HDR = [];
     this.oSubmitModel.OtherItemsDTL = [];
-    this.oSubmitModel.OtherBtchSerDTL = [];    
+    this.oSubmitModel.OtherBtchSerDTL = [];
 
     this.containerId = data.OPTM_CONT_HDR[0].OPTM_CONTAINERID;
     this.containerCode = data.OPTM_CONT_HDR[0].OPTM_CONTCODE;
     this.containerStatus = this.getContainerStatus(data.OPTM_CONT_HDR[0].OPTM_STATUS);
-    this.ScannedContainerStatus  = Number(data.OPTM_CONT_HDR[0].OPTM_STATUS);
+    this.ScannedContainerStatus = Number(data.OPTM_CONT_HDR[0].OPTM_STATUS);
 
-    if(data.OPTM_CONT_HDR[0].OPTM_SHIPELIGIBLE == "N"){
+    if (data.OPTM_CONT_HDR[0].OPTM_SHIPELIGIBLE == "N") {
       this.defaultPurpose = this.purposeArray[1];
-    }else{
+    } else {
       this.defaultPurpose = this.purposeArray[0];
     }
     this.purpose = this.defaultPurpose.Name;
     this.purposeId = this.defaultPurpose.Value;
-    
+
     this.oSubmitModel.OPTM_CONT_HDR.push({
       CompanyDBId: localStorage.getItem("CompID"),
       OPTM_CONTID: data.OPTM_CONT_HDR[0].OPTM_CONTAINERID,
@@ -2907,9 +2912,9 @@ export class AddItemToContComponent implements OnInit {
       OPTM_STATUS: data.OPTM_CONT_HDR[0].OPTM_STATUS,
       OPTM_SOURCE: data.OPTM_CONT_HDR[0].OPTM_SOURCE,
       OPTM_SONO: data.OPTM_CONT_HDR[0].OPTM_SO_NUMBER,
-    //  OPTM_SONO: data.OPTM_CONT_HDR[0].DocNum,
+      //  OPTM_SONO: data.OPTM_CONT_HDR[0].DocNum,
       OPTM_GROUP_CODE: data.OPTM_CONT_HDR[0].OPTM_GROUP_CODE,
-      IsWIPCont: data.OPTM_CONT_HDR[0].OPTM_SOURCE == 1? true : false      
+      IsWIPCont: data.OPTM_CONT_HDR[0].OPTM_SOURCE == 1 ? true : false
     })
 
     if (data.OPTM_CONT_DTL != null && data.OPTM_CONT_DTL != undefined) {
@@ -2930,7 +2935,7 @@ export class AddItemToContComponent implements OnInit {
             LocQty: 0
           });
         }
-      }            
+      }
     }
 
     if (data.OPTM_CONT_BTCHSER != null && data.OPTM_CONT_BTCHSER != undefined) {
@@ -2955,14 +2960,14 @@ export class AddItemToContComponent implements OnInit {
 
     //User selected Query option to fetch container data and set the container parameters accordingly
     if (this.ConSelectionType == 2) {
-      this.setOtherReqFields(data.OPTM_CONT_HDR[0]);      
+      this.setOtherReqFields(data.OPTM_CONT_HDR[0]);
       this.parentContainerType = data.OPTM_CONT_HDR[0].PARENT_CONTTYPE;
       if (this.parentContainerType != '' && this.parentContainerType != null) {
         this.checkParent = true;
       } else {
         this.checkParent = false;
-      }       
-    }   
+      }
+    }
     this.RefreshContextMenu()
   }
 
@@ -2975,10 +2980,10 @@ export class AddItemToContComponent implements OnInit {
       } else {
         if (this.checkParent && this.parentContainerType != '') {
           this.showAddToParent = true;
-          this.InitializeItemAndBtchSRvalues();          
+          this.InitializeItemAndBtchSRvalues();
         }
         else {
-          this.showAddToParent = false;          
+          this.showAddToParent = false;
           if (this.ConSelectionType == 1) {
             //Clear container code, if option selected is to Create a container and scanned container is closed
             this.containerCode = '';
@@ -2987,12 +2992,12 @@ export class AddItemToContComponent implements OnInit {
           } else {
             this.radioSelected = 3;
             this.treeViewShow = true;
-          }            
-        } 
+          }
+        }
         this.enableCloseCont = false;
-        
+
       }
-      this.DisableScanFields = true;      
+      this.DisableScanFields = true;
     } else {
       this.showAddToParent = false;
       if (this.oSubmitModel.OtherItemsDTL.length > 0) {
@@ -3011,14 +3016,14 @@ export class AddItemToContComponent implements OnInit {
       return;
     }
 
-    if(this.oSubmitModel.OtherItemsDTL.length > 0){
+    if (this.oSubmitModel.OtherItemsDTL.length > 0) {
       for (let treeidx = 0; treeidx < this.oSubmitModel.OtherItemsDTL.length; treeidx++) {
 
         let childArr = [];
         let val = 0;
-  
+
         for (let q = 0; q < this.oSubmitModel.OtherBtchSerDTL.length; q++) {
-  
+
           if (this.oSubmitModel.OtherBtchSerDTL[q].OPTM_ITEMCODE == this.oSubmitModel.OtherItemsDTL[treeidx].OPTM_ITEMCODE) {
             childArr.push({
               text: this.oSubmitModel.OtherBtchSerDTL[q].OPTM_BTCHSER,
@@ -3027,7 +3032,7 @@ export class AddItemToContComponent implements OnInit {
             val = Number(val) + Number(this.oSubmitModel.OtherBtchSerDTL[q].OPTM_QUANTITY);
           }
         }
-  
+
         DisplayChildData.push({
           text: this.oSubmitModel.OtherItemsDTL[treeidx].OPTM_ITEMCODE,
           // quantity: (this.oSubmitModel.OtherItemsDTL[treeidx].OPTM_TRACKING) == "N" ? this.oSubmitModel.OtherItemsDTL[treeidx].TotalQty : this.oSubmitModel.OtherItemsDTL[treeidx].OPTM_QUANTITY,
@@ -3035,19 +3040,19 @@ export class AddItemToContComponent implements OnInit {
           items: childArr
         });
       }
-  
+
       this.DisplayTreeData.push({
         text: this.containerCode + ' {' + this.containerStatus + '} ',
         quantity: this.oSubmitModel.OtherItemsDTL.length,
         items: DisplayChildData
       });
-    }else{
+    } else {
       this.DisplayTreeData.push({
         text: this.containerCode + ' {' + this.containerStatus + '} ',
         quantity: this.oSubmitModel.OtherItemsDTL.length,
         items: []
       });
-    } 
+    }
   }
 
   InitializeItemAndBtchSRvalues() {
@@ -3078,9 +3083,9 @@ export class AddItemToContComponent implements OnInit {
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved") {
               this.toastr.success('', this.translate.instant("ContainerClosedMsg"));
-              this.ScannedContainerStatus  = 3;              
+              this.ScannedContainerStatus = 3;
               this.oSubmitModel.OPTM_CONT_HDR[0].OPTM_STATUS = this.ScannedContainerStatus;
-              this.containerStatus = this.getContainerStatus(this.ScannedContainerStatus);   
+              this.containerStatus = this.getContainerStatus(this.ScannedContainerStatus);
               this.RefreshContextMenu();
             } else {
               this.toastr.error('', data[0].RESULT);
@@ -3166,14 +3171,14 @@ export class AddItemToContComponent implements OnInit {
     if (this.ConSelectionType == 1) {
       if (this.validateSelectionCriteria() == false) {
         return "";
-      }else{
+      } else {
         //this.CONT_SELECT_TYPE = "Create";
         this.CheckContainer();
       }
     } else {
       //this.CONT_SELECT_TYPE = "Fetch";
       this.GetContainer();
-      
+
     }
   };
 
@@ -3191,30 +3196,30 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.InternalContCode = '';
-    this.ProcessScannedContainer(); 
+    this.ProcessScannedContainer();
   }
 
-  GetContainer () {
+  GetContainer() {
     this.showLoader = true;
     var result = false;
     this.ScannedContainerStatus = 0;
-      
+
     this.containerCreationService.GetContainer(this.containerCode, false).subscribe(
-        (data: any) => {
-          this.showLoader = false;
-          result = this.DisplayContainerData(data);
-        },
-        error => {
-          result = false;
-          this.showLoader = false;
-          if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-            this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
-          }
-          else {
-            this.toastr.error('', error);
-          }
+      (data: any) => {
+        this.showLoader = false;
+        result = this.DisplayContainerData(data);
+      },
+      error => {
+        result = false;
+        this.showLoader = false;
+        if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
+          this.commonservice.unauthorizedToken(error, this.translate.instant("token_expired"));
         }
-      );
+        else {
+          this.toastr.error('', error);
+        }
+      }
+    );
     return result
   }
 
@@ -3233,7 +3238,7 @@ export class AddItemToContComponent implements OnInit {
     this.showLoader = true;
     var result = false;
     this.ScannedContainerStatus = 0;
-      
+
     this.containerCreationService.CheckContainer(this.containerCode, this.whse, this.binNo, this.autoRuleId, this.containerGroupCode,
       this.soNumber, this.containerType, this.purps, this.radioSelected, createMode, false, true).subscribe(
         (data: any) => {
@@ -3261,7 +3266,7 @@ export class AddItemToContComponent implements OnInit {
           this.translate.instant("CommonSessionExpireMsg"));
         return;
       }
-      
+
       //Container scanned exists in database but its attributes do not match selected parameters
       //Do not use the container
       if (data.OUTPUT[0].RESULT != undefined && data.OUTPUT[0].RESULT != null && data.OUTPUT[0].RESULT != '') {
@@ -3273,29 +3278,29 @@ export class AddItemToContComponent implements OnInit {
           this.setContainerDataBlank();
           this.DisableScanFields = true;
         }
-        else {   
+        else {
           //In case container matches all selected criteria and ready to be closed, Result and Container data are returned
-          this.TransferDataToContainerModel(data);                
+          this.TransferDataToContainerModel(data);
           return false;
         }
       } else if (data.OPTM_CONT_HDR.length == 0) {
-          if (this.ConSelectionType == 2) {
-            //Container doesn't exist for query
-            this.toastr.error('', this.translate.instant("CreateConMsg"));
-            return false;
-          } else {
-            //Container doesn't exist. Creating container
-            if (this.canCreateContainer) {
-              this.generateContainer();
-              this.scanTreeViewBtn.nativeElement.focus();
-            }
+        if (this.ConSelectionType == 2) {
+          //Container doesn't exist for query
+          this.toastr.error('', this.translate.instant("CreateConMsg"));
+          return false;
+        } else {
+          //Container doesn't exist. Creating container
+          if (this.canCreateContainer) {
+            this.generateContainer();
+            this.scanTreeViewBtn.nativeElement.focus();
           }
+        }
       } else if (data.OPTM_CONT_HDR.length > 0) {
         //Container is already created and fetching data 
         this.TransferDataToContainerModel(data);
         this.scanTreeViewBtn.nativeElement.focus();
         return true;
-      }              
+      }
     } else {
       return false;
       this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
@@ -3312,8 +3317,8 @@ export class AddItemToContComponent implements OnInit {
       this.getAutoPackRule('query');
     } else {
       this.RuleItems = [];
-    }        
-      
+    }
+
     this.soNumber = OPTM_CONT_HDR.DocNum;
     this.soDocEntry = OPTM_CONT_HDR.OPTM_SO_NUMBER;
     this.containerGroupCode = OPTM_CONT_HDR.OPTM_GROUP_CODE;
@@ -3321,23 +3326,23 @@ export class AddItemToContComponent implements OnInit {
     this.containerId = OPTM_CONT_HDR.OPTM_CONTAINERID;
     this.workOrder = OPTM_CONT_HDR.OPTM_WO_NUMBER;
     this.taskId = OPTM_CONT_HDR.OPTM_TASKHDID;
-    this.operationNo = OPTM_CONT_HDR.OPTM_OPER_NUMBER;    
-    if(OPTM_CONT_HDR.OPTM_CREATE_MODE == 1){
+    this.operationNo = OPTM_CONT_HDR.OPTM_OPER_NUMBER;
+    if (OPTM_CONT_HDR.OPTM_CREATE_MODE == 1) {
       this.radioRuleSelected = 1;
-    }else{
+    } else {
       this.radioRuleSelected = 2;
     }
-    if(OPTM_CONT_HDR.OPTM_SHIPELIGIBLE == 'Y'){
+    if (OPTM_CONT_HDR.OPTM_SHIPELIGIBLE == 'Y') {
       this.defaultPurpose = this.purposeArray[0];
-      
-    }else{
-      this.defaultPurpose = this.purposeArray[1];      
-    }   
+
+    } else {
+      this.defaultPurpose = this.purposeArray[1];
+    }
     this.purpose = this.defaultPurpose.Name;
-    this.purposeId = this.defaultPurpose.Value; 
-    this.purps = OPTM_CONT_HDR.OPTM_SHIPELIGIBLE;   
+    this.purposeId = this.defaultPurpose.Value;
+    this.purps = OPTM_CONT_HDR.OPTM_SHIPELIGIBLE;
   }
-  
+
   ReOpenCont() {
     this.commonservice.ReopenClick(this.containerCode).subscribe(
       (data: any) => {
@@ -3352,13 +3357,13 @@ export class AddItemToContComponent implements OnInit {
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved" || data[0].RESULT == "Data saved.") {
               this.toastr.success('', this.translate.instant("ContainerReopenedMsg"));
-              
-              this.ScannedContainerStatus  = 4;
+
+              this.ScannedContainerStatus = 4;
               this.oSubmitModel.OPTM_CONT_HDR[0].OPTM_STATUS = this.ScannedContainerStatus;
-              this.containerStatus = this.getContainerStatus(this.ScannedContainerStatus);   
-              this.RefreshContextMenu();           
+              this.containerStatus = this.getContainerStatus(this.ScannedContainerStatus);
+              this.RefreshContextMenu();
             } else {
-              this.toastr.error('', data[0].RESULT);              
+              this.toastr.error('', data[0].RESULT);
             }
           }
         } else {
@@ -3392,13 +3397,13 @@ export class AddItemToContComponent implements OnInit {
 
           if (data.length > 0) {
             if (data[0].RESULT == "Data Saved" || data[0].RESULT == "Data saved.") {
-              this.toastr.success('', this.translate.instant("ContainerReopenedMsg"));         
+              this.toastr.success('', this.translate.instant("ContainerReopenedMsg"));
             } else {
-              this.toastr.error('', data[0].RESULT);              
+              this.toastr.error('', data[0].RESULT);
             }
           }
         } else {
-          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));          
+          this.toastr.error('', this.translate.instant("CommonNoDataAvailableMsg"));
         }
       },
       error => {
@@ -3427,18 +3432,18 @@ export class AddItemToContComponent implements OnInit {
           if (this.oSubmitModel.OtherItemsDTL[intCtr].OPTM_CONTAINERID > 0) {
             //Added to remove the internal container when item quantity in internal container is used up
             let index: number = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.oSubmitModel.OtherItemsDTL[intCtr].OPTM_ITEMCODE);
-            if (index > -1) {              
+            if (index > -1) {
               itmQtyAdded = this.oSubmitModel.OtherItemsDTL[intCtr].OPTM_QUANTITY - this.oSubmitModel.OtherItemsDTL[intCtr].ServerQty
-              if (itmQtyAdded > 0 && itmQtyAdded == this.selInternalContainerDtl[index].ItemINV){
-                this.selInternalContainerDtl.splice(index,1);
+              if (itmQtyAdded > 0 && itmQtyAdded == this.selInternalContainerDtl[index].ItemINV) {
+                this.selInternalContainerDtl.splice(index, 1);
               }
             }
           }
         }
-       // this.toastr.success('Srini', 'Cont ID ' + this.oSubmitModel.OtherItemsDTL[intCtr].OPTM_CONTAINERID);
+        // this.toastr.success('Srini', 'Cont ID ' + this.oSubmitModel.OtherItemsDTL[intCtr].OPTM_CONTAINERID);
       }
     }
-    
+
     this.showLoader = true;
     this.containerCreationService.InsertItemInContainerNew(this.oSubmitModel).subscribe(
       data => {
@@ -3499,7 +3504,7 @@ export class AddItemToContComponent implements OnInit {
 
   GetItemsToAutoCreateContainer() {
     this.oCreateModel.OtherItemsDTL = [];
-    
+
     if (this.radioRuleSelected == 1) {
       // Fetch inventory data only when Auto Rule is checked as Items are not added in Manual container
       this.showLoader = true;
@@ -3526,14 +3531,14 @@ export class AddItemToContComponent implements OnInit {
                     //let tempArr = this.AutoRuleDTL.filter(val => val.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
                     let tempArr = this.RuleItems.filter(val => val.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
                     this.PartsQty = tempArr[0].OPTM_PARTS_PERCONT;
-                    
+
                     index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == NoneTrackArr[idxOth].ITEMCODE);
                     if (index > -1) {
                       internalContainerID = this.selInternalContainerDtl[index].Container_ID;
-                      this.InternalContCode = this.selInternalContainerDtl[index].Container_Code;                      
-                    }else{
+                      this.InternalContCode = this.selInternalContainerDtl[index].Container_Code;
+                    } else {
                       this.InternalContCode = '';
-                      internalContainerID = 0;                      
+                      internalContainerID = 0;
                     }
 
                     this.oCreateModel.OtherItemsDTL.push({
@@ -3632,7 +3637,7 @@ export class AddItemToContComponent implements OnInit {
       this.oCreateModel.OtherItemsDTL = [];
     } else {
       for (let intCtr = 0; intCtr < this.oCreateModel.OtherItemsDTL.length; intCtr++) {
-        totalAutoItemWeight = totalAutoItemWeight + this.oCreateModel.OtherItemsDTL[intCtr].OPTM_WEIGHT;        
+        totalAutoItemWeight = totalAutoItemWeight + this.oCreateModel.OtherItemsDTL[intCtr].OPTM_WEIGHT;
       }
     }
 
@@ -3650,7 +3655,7 @@ export class AddItemToContComponent implements OnInit {
     }
 
     this.oCreateModel.HeaderTableBindingData.push({
-    //  OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
+      //  OPTM_SONO: (this.soNumber == undefined) ? '' : this.soNumber,
       OPTM_SONO: this.soDocEntry,
       OPTM_CONTAINERID: 0,
       OPTM_CONTTYPE: this.containerType,
@@ -3714,16 +3719,16 @@ export class AddItemToContComponent implements OnInit {
               this.setContainerDataBlank();
               return;
             }
-          }        
+          }
 
-          if (data.OPTM_CONT_HDR != undefined) {            
+          if (data.OPTM_CONT_HDR != undefined) {
             this.containerId = data.OPTM_CONT_HDR[0].OPTM_CONTAINERID
             this.containerCode = data.OPTM_CONT_HDR[0].OPTM_CONTCODE
             this.scanItemCode = ''
             this.InternalContCode = ''
             this.bsVisible = false;
             this.scanBSrLotNo = ''
-            this.itemQty = 0; 
+            this.itemQty = 0;
             this.bsItemQty = 0;
 
             this.TransferDataToContainerModel(data);
@@ -3869,40 +3874,40 @@ export class AddItemToContComponent implements OnInit {
             this.selInternalContainerDtl[index].Container_Code = $event.IntContainerCode;
           }
           
-          */ 
-         
+          */
+
           //Check if Items are added to the list and pending to be submitted to database.
           //If yes, user cannot add items from Inventory or Other Internal container till they save current
           //Data. Do not allow replacing or removing the internal container
           let arr = this.oSubmitModel.OtherItemsDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode);
           if (arr != null) {
-            if (arr.OPTM_CONTAINERID > 0 || (arr.OPTM_QUANTITY != arr.ServerQty)){
+            if (arr.OPTM_CONTAINERID > 0 || (arr.OPTM_QUANTITY != arr.ServerQty)) {
               this.toastr.error('Srini', 'Items changed in container. Save current data before changing internal container');
               return;
-            }            
+            }
           }
-          
+
           if (this.selInternalContainerDtl != null) {
             index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
-            if (index > -1) {              
+            if (index > -1) {
               //Remove Item related record from container array              
-              this.selInternalContainerDtl.splice(index,1);
-              
-              if (this.InternalContCode != '' && $event.IntContainerCode == ''){
+              this.selInternalContainerDtl.splice(index, 1);
+
+              if (this.InternalContCode != '' && $event.IntContainerCode == '') {
                 this.toastr.success('Srini', "Internal container cleared");
                 this.scanItemCode = '';
                 this.itemQty = 0;
                 this.BalQty1 = 0;
                 this.BalQty2 = 0;
                 this.bsItemQty = 0;
-              }              
+              }
               this.itemQty = this.BalQty1;
               this.BalQty2 = this.itemQty;
               this.InternalContCode = '';
             }
-          }            
-          
-          if ($event.IntContainerCode != '' && $event.IntContItemQuantity > 0) {              
+          }
+
+          if ($event.IntContainerCode != '' && $event.IntContItemQuantity > 0) {
             this.selInternalContainerDtl.push({
               Container_ID: $event.ContId,
               Container_Code: $event.IntContainerCode,
@@ -3912,11 +3917,11 @@ export class AddItemToContComponent implements OnInit {
             })
 
             this.InternalContCode = $event.IntContainerCode;
-            intContainerStatus = $event.intContainerStatus;   
-            this.ItemInvQty = $event.IntContItemQuantity;            
+            intContainerStatus = $event.intContainerStatus;
+            this.ItemInvQty = $event.IntContItemQuantity;
             this.scanBSrLotNo = '';
 
-            if (this.itemQty > this.ItemInvQty ){
+            if (this.itemQty > this.ItemInvQty) {
               this.itemQty = this.ItemInvQty;
             }
 
@@ -3927,10 +3932,10 @@ export class AddItemToContComponent implements OnInit {
               this.ReOpenInternalCont(this.InternalContCode);
             }
           } else if ($event.IntContainerCode != '' && $event.IntContItemQuantity <= 0) {
-            this.toastr.error('Srini', 'Inventory not available for item in selected container');                      
+            this.toastr.error('Srini', 'Inventory not available for item in selected container');
           }
 
-         // this.toastr.success('Srini', 'Cont ID ' +  $event.ContId);
+          // this.toastr.success('Srini', 'Cont ID ' +  $event.ContId);
           /*
           for (let idx = 0; idx < $event.BatSerList.length; idx++) {
             this.scanBSrLotNo = $event.BatSerList[idx].LOTNO;
@@ -4030,7 +4035,7 @@ export class AddItemToContComponent implements OnInit {
         case ("confirmCommit"):
           this.updateDisabled = true;
           this.InternalContCode = '';
-          this.ProcessScannedContainer();          
+          this.ProcessScannedContainer();
           break;
         case ("DirtyFlag"): {
           this.autoRuleId = '';
@@ -4097,22 +4102,22 @@ export class AddItemToContComponent implements OnInit {
     if (currentFocus != undefined) {
       this.lastFocussedField = currentFocus;
       if (currentFocus == "scanWhse") {
-        
+
         return this.onWhseChange();
       } else if (currentFocus == "scanBinCode") {
-        
+
         return this.onBinChange();
       } else if (currentFocus == "scanContType") {
-        
+
         return this.onContainerTypeChange();
       } else if (currentFocus == "scanAutoRuleId") {
-        
+
         //return this.onAutoPackRuleChange();
       } else if (currentFocus == "scanContGroupCode") {
-        
+
         return this.IsValidContainerGroup();
       } else if (currentFocus == "scanSONumber") {
-        
+
         //return this.onSONumberChange();
         return this.IsValidSONumberBasedOnRule('blur');
       }
@@ -4159,7 +4164,7 @@ export class AddItemToContComponent implements OnInit {
               this.translate.instant("CommonSessionExpireMsg"));
             return;
           }
-          if (data[0]!=null && data[0]!=undefined && data[0].Base64String) {
+          if (data[0] != null && data[0] != undefined && data[0].Base64String) {
             this.fileName = data[0].FileName;
             this.base64String = data[0].Base64String;
           }
@@ -4246,12 +4251,12 @@ export class AddItemToContComponent implements OnInit {
           serviceData[i].QtyAdded = Number(row.OPTM_QUANTITY).toFixed(Number(localStorage.getItem("DecimalPrecision")));
           if (this.autoRuleId != '' && this.autoRuleId != undefined) {
             serviceData[i].BalQty = Number(serviceData[i].OPTM_PARTS_PERCONT) - Number(row.OPTM_QUANTITY);
-          }          
+          }
         }
       }
       serviceData[i].BalQty = Number(serviceData[i].BalQty).toFixed(Number(localStorage.getItem("DecimalPrecision")));
       serviceData[i].OPTM_PARTS_PERCONT_VAL = Number(serviceData[i].OPTM_PARTS_PERCONT).toFixed(Number(localStorage.getItem("DecimalPrecision")));
-      
+
     }
     return serviceData;
   }
@@ -4277,7 +4282,7 @@ export class AddItemToContComponent implements OnInit {
 
     }
   }
-  
+
   ShowContBatchSerList() {
     if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
       this.toastr.error('', this.translate.instant("BtchSrNBlank"));
@@ -4317,7 +4322,7 @@ export class AddItemToContComponent implements OnInit {
     this.showLoader = true;
 
     var idx: number = -1;
-    if (this.selInternalContainerDtl != null) {      
+    if (this.selInternalContainerDtl != null) {
       idx = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
     }
     if (idx > -1) {
