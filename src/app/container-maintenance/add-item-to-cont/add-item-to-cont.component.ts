@@ -224,6 +224,7 @@ export class AddItemToContComponent implements OnInit {
     this.oCreateModel.OtherBtchSerDTL = [];
 
     this.from = localStorage.getItem("From")
+
     this.GetSampleStringOfContainerCode();
     if (localStorage.getItem("loadContainer") != "") {
       this.ConSelectionType = 2;
@@ -1242,13 +1243,13 @@ export class AddItemToContComponent implements OnInit {
         this.scanBSrLotNo = $event.LOTNO;
         this.BSInvQty = $event.TOTALQTY;
         this.scanCurrentLotNoData = $event;
-        this.onBatchSerialBlur();
+        this.onBatchSerialBlur(true);
       }
       else if (this.lookupfor == "showContBatchSerialList") {
         this.scanBSrLotNo = $event.OPTM_BTCHSER;
         this.BSInvQty = $event.OPTM_QUANTITY;
         this.scanCurrentLotNoData = $event;
-        this.onBatchSerialBlur();
+        this.onBatchSerialBlur(true);
       }
       else if (this.lookupfor == "WOLIST") {
         this.containerCode = '';
@@ -1627,7 +1628,7 @@ export class AddItemToContComponent implements OnInit {
       }
 
       if (itemTracking == 'S' && this.BalQty2 >= 1) {
-        this.bsItemQty = 1;
+        this.bsItemQty = this.BalQty2 = 1;
       } else {
         this.bsItemQty = this.BalQty2;
         //Srini 6-Jul-2020. Set Batch/Serial quantity to balance available in Inventory
@@ -1731,7 +1732,7 @@ export class AddItemToContComponent implements OnInit {
     return true;
   }
 
-  ValidateScanBtchSerials(): boolean {
+  ValidateScanBtchSerials(BatchSerNo): boolean {
     if ((this.scanItemCode == undefined || this.scanItemCode == "")) {
       this.toastr.error('', this.translate.instant("BtchSrNBlank"));
       this.scanBSrLotNo = ''; this.bsItemQty = 0;
@@ -1758,6 +1759,7 @@ export class AddItemToContComponent implements OnInit {
           if (index > -1) {
             this.toastr.error('', this.translate.instant("SerialItemCannotAdd"));
             this.scanBSrLotNo = '';
+            BatchSerNo.value = "";
             return false;
           }
         }
@@ -1769,6 +1771,7 @@ export class AddItemToContComponent implements OnInit {
         if (index == -1) {
           this.toastr.error('', this.translate.instant("CannotRemoveCont"));
           this.scanBSrLotNo = '';
+          BatchSerNo.value = "";
           this.bsItemQty = 0;
           return false;
         } else {
@@ -1777,6 +1780,7 @@ export class AddItemToContComponent implements OnInit {
       } else {
         this.toastr.error('', this.translate.instant("CannotRemoveCont"));
         this.scanBSrLotNo = '';
+        BatchSerNo.value = "";
         this.bsItemQty = 0;
         return false;
       }
@@ -1786,7 +1790,7 @@ export class AddItemToContComponent implements OnInit {
   }
 
 
-  onBatchSerialBlur(BatchSerNo?) {
+  onBatchSerialBlur(fromlookup, BatchSerNo?) {
     if (this.isValidateCalled) {
       return
     }
@@ -1795,7 +1799,7 @@ export class AddItemToContComponent implements OnInit {
       this.scanBSrLotNo = BatchSerNo.value;
     }
 
-    if (this.ValidateScanBtchSerials()) {
+    if (this.ValidateScanBtchSerials(BatchSerNo)) {
       if (this.radioSelected == 1) {
         //Check Batch Serials in Internal Container, if Internal container is selected
 
@@ -1804,22 +1808,44 @@ export class AddItemToContComponent implements OnInit {
           index = this.selInternalContainerDtl.findIndex(r => r.OPTM_ITEMCODE == this.scanItemCode);
         }
 
-        /*
-        //Get Batch Serial inventory from Internal Container
-        if (index > -1) {  
-          this.CheckInInternalContainer();
-        } 
-        */
-        //If not from internal container, check inventory from DB
-        if (index == -1) {
-          this.GetScannedBtchSerFromDB();
-        } 
 
-        //Verify Selected Container and Item Quantitites
-        if (this.SetItemQuantitiesForAddOpn() == false) {
-          this.toastr.error('Srini', 'Quantity not available for Batch/Serial');
-          return false;
+        //Get Batch Serial inventory from Internal Container
+        if (index > -1) {
+          // this.CheckInInternalContainer();
+          var itemBtchSerials: any[];
+          itemBtchSerials = this.selInternalContainerDtl[index].BatchSerials;
+          let idx = itemBtchSerials.findIndex(r => r.LOTNO == this.scanBSrLotNo);
+          if (idx == -1) {
+            this.scanBSrLotNo = '';
+            BatchSerNo.value = "";
+            this.bsItemQty = 0;
+            this.toastr.error('Srini', 'Selected Batch / Serial not available in internal container');
+            return;
+          }
         }
+
+        //for Internal container or Lookup
+        if (index > -1 || fromlookup) {
+          //Verify Selected Container and Item Quantitites
+          if (this.SetItemQuantitiesForAddOpn() == false) {
+            this.toastr.error('Srini', 'Quantity not available for Batch/Serial');
+            return false;
+          }
+        } else {
+          //If not from internal container, check inventory from DB
+          this.GetScannedBtchSerFromDB();
+        }
+
+        // //If not from internal container, check inventory from DB
+        // if (index == -1 || !fromlookup) {
+        //   this.GetScannedBtchSerFromDB();
+        // } else {
+        //   //Verify Selected Container and Item Quantitites
+        //   if (this.SetItemQuantitiesForAddOpn() == false) {
+        //     this.toastr.error('Srini', 'Quantity not available for Batch/Serial');
+        //     return false;
+        //   }
+        // }
       }
     }
   }
@@ -1872,7 +1898,6 @@ export class AddItemToContComponent implements OnInit {
 
   scanCurrentLotNoData: any;
   GetScannedBtchSerFromDB() {
-
     this.showLoader = true;
     var result = false;
     this.containerCreationService.IsValidBtchSer(this.scanItemCode, this.scanBSrLotNo, this.whse, this.binNo, 1,
@@ -1900,7 +1925,13 @@ export class AddItemToContComponent implements OnInit {
               this.bsItemQty = this.BalQty2;
             } else {
               this.bsItemQty = data[0].TOTALQTY;
-             // this.BalQty2 = data[0].TOTALQTY;   // Rishabh on 16072020
+              // this.BalQty2 = data[0].TOTALQTY;   // Rishabh on 16072020
+            }
+
+            //Verify Selected Container and Item Quantitites
+            if (this.SetItemQuantitiesForAddOpn() == false) {
+              this.toastr.error('Srini', 'Quantity not available for Batch/Serial');
+              return false;
             }
             result = true;
           }
@@ -3296,9 +3327,15 @@ export class AddItemToContComponent implements OnInit {
           }
         }
       } else if (data.OPTM_CONT_HDR.length > 0) {
-        //Container is already created and fetching data 
-        this.TransferDataToContainerModel(data);
-        this.scanTreeViewBtn.nativeElement.focus();
+        if (this.ConSelectionType == 2) {
+          //Container is already created and fetching data 
+          this.TransferDataToContainerModel(data);
+          this.scanTreeViewBtn.nativeElement.focus();
+        } else {
+          this.toastr.error('', this.translate.instant("Cont_already_exists"));
+          this.containerCode = "";
+          return false;
+        }
         return true;
       }
     } else {
@@ -3313,6 +3350,14 @@ export class AddItemToContComponent implements OnInit {
     this.binNo = OPTM_CONT_HDR.OPTM_BIN;
     this.containerType = OPTM_CONT_HDR.OPTM_CONTTYPE;
     this.autoRuleId = OPTM_CONT_HDR.OPTM_AUTORULEID;
+    if (OPTM_CONT_HDR.OPTM_SHIPELIGIBLE == 'Y') {
+      this.defaultPurpose = this.purposeArray[0];
+    } else {
+      this.defaultPurpose = this.purposeArray[1];
+    }
+    this.purpose = this.defaultPurpose.Name;
+    this.purposeId = this.defaultPurpose.Value;
+    this.purps = OPTM_CONT_HDR.OPTM_SHIPELIGIBLE;
     if (this.autoRuleId != '' && this.autoRuleId != null) {
       this.getAutoPackRule('query');
     } else {
@@ -3332,15 +3377,6 @@ export class AddItemToContComponent implements OnInit {
     } else {
       this.radioRuleSelected = 2;
     }
-    if (OPTM_CONT_HDR.OPTM_SHIPELIGIBLE == 'Y') {
-      this.defaultPurpose = this.purposeArray[0];
-
-    } else {
-      this.defaultPurpose = this.purposeArray[1];
-    }
-    this.purpose = this.defaultPurpose.Name;
-    this.purposeId = this.defaultPurpose.Value;
-    this.purps = OPTM_CONT_HDR.OPTM_SHIPELIGIBLE;
   }
 
   ReOpenCont() {
@@ -4062,7 +4098,10 @@ export class AddItemToContComponent implements OnInit {
             break;
           case ("confirmCommit"):
             //this.containerCode = "";
-            this.containerCode = this.DisplayTreeData[0].text;
+            this.containerCode = this.DisplayTreeData[0].text.substr(0,
+              this.DisplayTreeData[0].text.indexOf(" {"));
+
+            // this.containerCode = this.oSubmitModel.OPTM_CONT_HDR[0].OPTM_CONTCODE//this.DisplayTreeData[0].text;
             this.updateDisabled = false;
             break;
           case ("DirtyFlag"):
@@ -4129,7 +4168,7 @@ export class AddItemToContComponent implements OnInit {
         return this.onScanItemQtyChange(undefined);
       } else if (currentFocus == "scanLotNo") {
         //return this.GetScannedBtchSerFromDB();
-        return this.onBatchSerialBlur();
+        return this.onBatchSerialBlur(false);
       } else if (currentFocus == "scanBsItemQty") {
         return this.onBatSerQtyChange(undefined);
       }

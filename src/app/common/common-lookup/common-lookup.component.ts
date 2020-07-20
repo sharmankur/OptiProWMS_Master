@@ -1456,7 +1456,7 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Shipment_Code"),
         field: 'OPTM_SHIPMENT_CODE',
         type: 'text',
-        width: '100'
+        width: '170'
       },
       {
         title: this.translate.instant("Status"),
@@ -1468,7 +1468,7 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Use_Container"),
         field: 'OPTM_USE_CONTAINER',
         type: 'text',
-        width: '100'
+        width: '80'
       }
       ,
       {
@@ -1482,7 +1482,7 @@ export class CommonLookupComponent implements OnInit {
         title: this.translate.instant("Schedule_Datetime"),
         field: 'OPTM_SCH_DATETIME',
         type: 'text',
-        width: '100'
+        width: '150'
       }
     ];
     this.lookupTitle = this.translate.instant("PT_ShipmentList");

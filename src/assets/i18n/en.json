@@ -980,7 +980,7 @@
   "NoBatchSerialQtyToAdd": "No available qty of batch/serial to add",
   "ParentContClosed": "Parent Container is Closed",
   "Cont_Does_Not_Exists": "Container does not exists. Cannot remove.",
-  "Cont_already_exists": "Container already exists",
+  "Cont_already_exists": "Container already exists.",
   "NoDataFound": "No data found",
   "NoSOFound": "No Sales Order found",
   "NoContFound": "No Container found",
