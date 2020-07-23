@@ -42,16 +42,6 @@
             format="{{column.format}}" width="{{column.width}}" minResizableWidth="{{column.width}}" headerClass={{column.headerClass}}
             class={{column.class}}></kendo-grid-column>
 
-        <!-- <kendo-grid-column *ngIf="showSelection==true" field="Balance" title="Balance" [width]="100" headerClass="text-right"
-            class="text-right">
-            <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm" name="qtytoadd" value={{dataItem.QuantityToAdd}}
-                                id="qtytoadd" min="0" #qtytoadd (change)="onQtyToAddChange(qtytoadd.value, idx)" [disabled]="dataItem.isDesable">
-                        </div>
-                    </ng-template>
-        </kendo-grid-column> -->
-
         <kendo-grid-column *ngIf="showSelection==true" field="QuantityToAdd" title="{{'Allocated'|translate}}" [width]="80"
             headerClass="text-left" class="text-left">
             <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">

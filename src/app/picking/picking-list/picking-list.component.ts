@@ -181,8 +181,8 @@ export class PickingListComponent implements OnInit {
           if (event == 'blur') {
             if (data.length > 0) {
               if (fieldName == "ShipIdFrom") {
-                this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
-                this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
+                this.ShipmentIdFrom = data[0].OPTM_SHIPMENTID;
+                this.ShipmentCodeFrom = data[0].OPTM_SHIPMENT_CODE;
                 if (this.ShipmentCodeTo == "" || this.ShipmentCodeTo == undefined) {
                   this.ShipmentIdTo = data[0].OPTM_SHIPMENTID;
                   this.ShipmentCodeTo = data[0].OPTM_SHIPMENT_CODE;
@@ -194,8 +194,8 @@ export class PickingListComponent implements OnInit {
               }
             } else {
               if (fieldName == "ShipIdFrom") {
-                this.ShipmentIdTo = "";
-                this.ShipmentCodeTo = ""
+                this.ShipmentIdFrom = "";
+                this.ShipmentCodeFrom = ""
               }
               else if (fieldName == "ShipIdTo") {
                 this.ShipmentIdTo = ""
@@ -1010,12 +1010,19 @@ export class PickingListComponent implements OnInit {
   updatePickItemAndTasks(pickItemList: any, pickTaskList: any) {
     var object: any = {}
     var dbId: any[] = [];
+
+    // if(pickItemList.length <= 0){
+    //   this.toastr.error('', 'Please select any pick list to update.')
+    //   return;
+    // }
+
     dbId.push({ CompanyDBId: localStorage.getItem("CompID") });
     object.DBId = dbId;
     for (let i = 0; i < pickItemList.length; i++) {
       pickItemList[i].OPTM_PLANDATETIME_Object = ""
     }
     for (let i = 0; i < pickTaskList.length; i++) {
+      pickTaskList[i].OPTM_TRANSIT_MEANS = pickTaskList[i].selectedMeansVal.Value;
       pickTaskList[i].selectedMeansVal = ""
     }
     object.OPTM_WHS_PICKLIST = pickItemList;

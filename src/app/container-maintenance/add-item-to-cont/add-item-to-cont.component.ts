@@ -1347,6 +1347,20 @@ export class AddItemToContComponent implements OnInit {
       return;
     }
     this.onItemCodeChange()
+    //Creating model for Internal
+    this.oDataModel.HeaderTableBindingData = [];
+    this.oDataModel.HeaderTableBindingData.push({
+      OPTM_CREATEMODE: this.radioRuleSelected,
+      OPTM_PURPOSE: this.purpose,
+      OPTM_WHSE: this.whse,
+      OPTM_BIN: this.binNo,
+      OPTM_CONTAINER_TYPE: this.containerType,
+      OPTM_AUTORULEID: this.autoRuleId,
+      OPTM_CONT_CODE: this.containerCode,
+      OPTM_ITEMCODE: this.scanItemCode,
+      ShowLookupFor: "Internal",
+      IsWIPCont: this.IsWIPCont
+    });
   }
 
   async onItemCodeChange() {
@@ -1370,11 +1384,9 @@ export class AddItemToContComponent implements OnInit {
       this.scanBSrLotNo = '';
       this.bsItemQty = 0;
       if (this.radioSelected == 2) {
-        if (this.SetItemQuantitiesForRemoveOpn() == false) {
-          return;
-        }
+        this.SetItemQuantitiesForRemoveOpn();
+        return;
       }
-      result = true
     };
 
     //Execute below logic only for Item Addition case
@@ -1458,7 +1470,7 @@ export class AddItemToContComponent implements OnInit {
               } else {
                 this.RuleQty = data[0].TOTALQTY;
               }
-
+              console.log("item qtu:    " + this.itemQty);
               this.scanBSrLotNo = '';
               this.bsItemQty = 0;
               if (this.radioSelected == 1) {
@@ -1634,7 +1646,8 @@ export class AddItemToContComponent implements OnInit {
         //Srini 6-Jul-2020. Set Batch/Serial quantity to balance available in Inventory
         let btchSRrec = this.oSubmitModel.OtherBtchSerDTL.find(r => r.OPTM_ITEMCODE == this.scanItemCode && r.OPTM_BTCHSER == this.scanBSrLotNo);
         if (btchSRrec != null) {
-          this.bsItemQty = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
+          this.bsItemQty = btchSRrec.OPTM_QUANTITY;// - btchSRrec.ServerQty;
+          // this.bsItemQty = btchSRrec.OPTM_QUANTITY - btchSRrec.ServerQty;
         }
       }
       return true

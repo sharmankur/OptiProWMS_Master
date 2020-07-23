@@ -259,7 +259,7 @@
                 </ng-template> -->
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <input type="text" class="form-control form-control-sm text-right" [value]="dataItem.OPTM_TOTE_NUMBER" (change)="ChangeToteNumber($event,dataItem,rowIndex)"
-                                    [disabled]="dataItem.OPTM_STATUS==6">
+                                    [disabled]="dataItem.OPTM_STATUS==6 || dataItem.OPTM_PICK_TYPE==3">
                             </ng-template>
 
                         </kendo-grid-column>

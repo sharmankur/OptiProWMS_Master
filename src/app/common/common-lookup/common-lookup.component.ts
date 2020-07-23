@@ -1480,9 +1480,10 @@ export class CommonLookupComponent implements OnInit {
       ,
       {
         title: this.translate.instant("Schedule_Datetime"),
-        field: 'OPTM_SCH_DATETIME',
+        field: 'OPTM_SCH_DATE',
         type: 'text',
         width: '150'
+        // format: 'MM/dd/yyyy'
       }
     ];
     this.lookupTitle = this.translate.instant("PT_ShipmentList");

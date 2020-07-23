@@ -446,7 +446,7 @@
                                     <div class="input-group input-group-sm">
                                         <label class="col-sm-3 col-form-label">{{'ScanQty'|translate}}</label>
                                         <input type="number" #scanItemQty id="scanItemQty" name="itemQty" class="col-sm-3 form-control form-control-sm text-right"
-                                            [ngModel]="itemQty|numberFormat" min="0" (blur)="onScanItemQtyChange(scanItemQty)"
+                                            [ngModel]="itemQty|numberFormat" min="0" (change)="onScanItemQtyChange(scanItemQty)"
                                             [disabled]="scanItemCode == '' || DisableScanFields || radioSelected == 3 || bsVisible">
                                         <label class="col-sm-3 col-form-label custom-pl-2  mobile-hide text-right">{{'Bal'|translate}}</label>
                                         <label class="col-sm-3 col-form-label custom-pl-2  mobile-show">{{'Bal'|translate}}</label>
