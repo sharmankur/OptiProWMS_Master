@@ -84,6 +84,7 @@ export class ShipmentViewComponent implements OnInit {
   SelectedRowsforShipmentArr = [];
   isUpdateHappen = false;
   maxDescLength: any = ''
+  containsDamagedContFlg: boolean = false;
 
   constructor(private shipmentService: ShipmentService, private commonservice: Commonservice, private router: Router, private containerShipmentService: ContainerShipmentService, private toastr: ToastrService, private translate: TranslateService) {
     let userLang = navigator.language.split('-')[0];
@@ -219,6 +220,7 @@ export class ShipmentViewComponent implements OnInit {
     this.ShipContainers = [];
     this.ContainerItems = [];
     this.SODetails = [];
+    this.containsDamagedContFlg = false;
   }
 
   IsValidShipmentCode() {
@@ -482,6 +484,8 @@ export class ShipmentViewComponent implements OnInit {
     this.BOLNumber = OPTM_SHPMNT_HDR[0].OPTM_BOLNUMBER;
     this.Container_Group = OPTM_SHPMNT_HDR[0].OPTM_CONT_GRP;
     this.UseContainer = OPTM_SHPMNT_HDR[0].OPTM_USE_CONTAINER == "Y" ? true : false;
+    this.containsDamagedContFlg = OPTM_SHPMNT_HDR[0].OPTM_CONTAINS_DAMAGED_CONT == 1 ? true : false;
+    
     if (this.UseContainer == null) {
       this.UseContainer = false;
     }

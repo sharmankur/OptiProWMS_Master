@@ -102,7 +102,8 @@ export class GeneratePickComponent implements OnInit {
 
     this.PackTypeList = [this.translate.instant("Batch_Picking"),
     this.translate.instant("Cluster_Picking"), this.translate.instant("Container_Picking"),
-    this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
+    this.translate.instant("Discreate_Picking")];
+    //this.translate.instant("Discreate_Picking"), this.translate.instant("Zone_Picking")];
     // this.Pick_Type = this.PackTypeList[0];
 
     this.PickOperationList = [this.translate.instant("PickToTote"),

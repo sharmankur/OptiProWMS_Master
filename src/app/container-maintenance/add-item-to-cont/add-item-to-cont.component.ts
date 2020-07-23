@@ -1428,6 +1428,7 @@ export class AddItemToContComponent implements OnInit {
                 return;
               } else if (this.ItemInvQty == 0 && this.TotInternalContQty > 0) {
                 this.toastr.error('Srini', 'Inventory available only in Inventory containers');
+                return;
               }
 
               // Srini Add Item Weight from Item Master
@@ -2955,6 +2956,8 @@ export class AddItemToContComponent implements OnInit {
             OPTM_ITEMCODE: data.OPTM_CONT_DTL[i].OPTM_ITEMCODE,
             OPTM_TRACKING: data.OPTM_CONT_DTL[i].OPTM_TRACKING,
             OPTM_QUANTITY: data.OPTM_CONT_DTL[i].OPTM_QUANTITY,
+            OPTM_WHSE: data.OPTM_CONT_DTL[i].OPTM_WHSE,
+            OPTM_BIN: data.OPTM_CONT_DTL[i].OPTM_BIN,
             OPTM_ITEM_QTY: this.RuleQty,
             OPTM_CONTAINERID: 0, //data.OPTM_CONT_DTL[i].OPTM_CONTAINERID,
             DirtyFlag: false,
