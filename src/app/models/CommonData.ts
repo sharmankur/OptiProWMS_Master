@@ -398,8 +398,8 @@ export class CommonData {
             { "Value": 1, "Name": "Batch_Picking" },
             { "Value": 2, "Name": "Cluster_Picking" },
             { "Value": 3, "Name": "Container_Picking" },
-            { "Value": 4, "Name": "Discreate_Picking" },
-            { "Value": 5, "Name": "Zone_Picking" }
+            { "Value": 4, "Name": "Discreate_Picking" }
+            //{ "Value": 5, "Name": "Zone_Picking" }
         ];
     }
 
