@@ -1422,7 +1422,7 @@ export class CommonLookupComponent implements OnInit {
         width: '100'
       },
       {
-        title: "Item Tracking",
+        title: this.translate.instant("TrackType"),
         field: 'OPTM_TRACKING_VALUE',
         type: 'text',
         width: '100'

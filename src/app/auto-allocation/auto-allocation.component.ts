@@ -209,7 +209,7 @@ export class AutoAllocationComponent implements OnInit {
             }
 
             // if (data.OUTPUT[0].RESULT == "Data Saved") {
-              this.toastr.success('', this.translate.instant("ShpAllocatedSuccess"));
+//              this.toastr.success('', this.translate.instant("ShpAllocatedSuccess"));
               this.AutoAllocateShipments = data.OUTPUT;
               this.dialogOpened = true;
               // return;

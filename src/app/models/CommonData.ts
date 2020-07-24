@@ -431,9 +431,9 @@ export class CommonData {
     */
    TransferMeansTypeEnum() {
     return [
-        { Value: 1, Name: "Manual" },
-        { Value: 2, Name: "ForkLift" },
-        { Value: 3, Name: "Crane" }
+        { Value: "1", Name: "Manual" },
+        { Value: "2", Name: "ForkLift" },
+        { Value: "3", Name: "Crane" }
     ];
 }
 

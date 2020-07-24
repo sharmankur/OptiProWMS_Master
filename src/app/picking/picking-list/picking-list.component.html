@@ -139,7 +139,7 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemListM" [resizable]="true" [sortable]="true" [selectable]="true"
+                    <kendo-grid class="no-shadow" [kendoGridBinding]="PickItemListM" [resizable]="true" [sortable]="true" [selectable]="true" 
                         id="gridItem" [height]="180" [pageSize]="pageSize" [pageable]="ShowGridPaging" #gridItem (selectionChange)="onPickListItemClick($event)"
                         [filterable]="isColumnFilterView">
 
@@ -289,7 +289,7 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    <kendo-grid class="no-shadow" [data]="selectedItemPickTaskList" [resizable]="true" [sortable]="true" [selectable]="true"
+                    <kendo-grid class="no-shadow" [data]="selectedItemPickTaskList" [resizable]="true" [sortable]="true" [selectable]="true" [sortable]="true"
                         id="gridItem" [height]="150" #gridItem [pageable]="false">
                         <!-- grid template start -->
                         <ng-template kendoGridToolbarTemplate>
