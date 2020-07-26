@@ -52,7 +52,7 @@ export class PickTaskService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerRelationship", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
   UpdateContainerRelationship(OPTM_CONTAINER_TYPE, OPTM_PARENT_CONTTYPE, OPTM_CONT_PERPARENT, OPTM_CONT_PARTOFPARENT): Observable<any> {
@@ -66,12 +66,12 @@ export class PickTaskService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerRelationship", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromContainerRelationship(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerRelationship", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromContainerRelationship", jObject, this.commonService.httpOptions);
   }
 
   SubmitPickList(oSubmitPOLots: any): Observable<any> {

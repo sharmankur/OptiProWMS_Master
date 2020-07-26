@@ -21,7 +21,7 @@ export class WhsUserGroupService {
         CompanyDBId: localStorage.getItem("CompID")       
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForDockDoor", jObject, this.commonService.httpOptions);
   }
  
   isValidWHS(whsCode:String): Promise<any> {
@@ -30,7 +30,7 @@ export class WhsUserGroupService {
         CompanyDBId: localStorage.getItem("CompID")       
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForDockDoor", jObject, this.commonService.httpOptions).toPromise();
   } 
 
   GetWHSZoneList(whsCode): Observable<any> {
@@ -40,7 +40,7 @@ export class WhsUserGroupService {
         OPTM_WHSCODE:whsCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForWarehouseZone", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForWarehouseZone", jObject, this.commonService.httpOptions);
   }
 
   isValidWHSZone(whsCode:String, whsZone:String): Promise<any> {
@@ -52,7 +52,7 @@ export class WhsUserGroupService {
 
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWarehouseZone", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWarehouseZone", jObject, this.commonService.httpOptions).toPromise();
   }
 
   GetBinRangeList(whsCode:String): Observable<any> {
@@ -62,7 +62,7 @@ export class WhsUserGroupService {
         OPTM_WHSCODE: whsCode    
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForBinRange", jObject, this.commonService.httpOptions);
   }
 
   isValidBinRange(whsCode:String,binRange:String): Promise<any> {
@@ -73,7 +73,7 @@ export class WhsUserGroupService {
         OPTM_BIN_RANGE: binRange
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinRange", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidBinRange", jObject, this.commonService.httpOptions).toPromise();
   }
 
 
@@ -84,7 +84,7 @@ export class WhsUserGroupService {
         OPTM_TENANTKEY: localStorage.getItem("TenantId")      
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForUserGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForUserGroup", jObject, this.commonService.httpOptions);
   }
 
   isValidGroup(userGroup:String):Promise<any> {
@@ -95,7 +95,7 @@ export class WhsUserGroupService {
         OPTM_GROUPCODE: userGroup     
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidUserGroup", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidUserGroup", jObject, this.commonService.httpOptions).toPromise();
   }
 
 
@@ -117,7 +117,7 @@ export class WhsUserGroupService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWarehouseUserGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
   
 
@@ -127,7 +127,7 @@ export class WhsUserGroupService {
         CompanyDBId: localStorage.getItem("CompID"),
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForWarehouseUserGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
 
   DeleteUserGroup(optmId: String, whsCode:String,whsZone:String,whsBinRange:String): Observable<any> {
@@ -140,13 +140,13 @@ export class WhsUserGroupService {
         OPTM_BINRANGE:whsBinRange
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
   DeleteMultipleUserGroup(data:any): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify(data)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWarehouseUserGroup", jObject, this.commonService.httpOptions);
   }
 
   updateWhsUserGroup(optm_id:String, whsCode:String,whsZone:String,binRange:String,groupPicking:String,groupPacking:String,
@@ -168,6 +168,6 @@ export class WhsUserGroupService {
          OPTM_MODIFIEDBY: localStorage.getItem("UserId")
        }])
      };
-     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWarehouseUserGroup", jObject, this.commonService.httpOptions);
+     return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWarehouseUserGroup", jObject, this.commonService.httpOptions);
    }
 }

@@ -22,19 +22,19 @@ export class WhseBinLayoutService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataWareHouseMaster", jObject, this.commonService.httpOptions);
   }
 
   DeleteWhseBinLayout(deleteArry: any[]): Observable<any>{
     var jObject = { Shipment: JSON.stringify(deleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseMaster", jObject, this.commonService.httpOptions);
   }
 
   InsertIntoWareHouseMaster(shipmentModel: any): Observable<any>{
     let jObject = {
       Shipment: JSON.stringify(shipmentModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseMaster", jObject, this.commonService.httpOptions);
   }
 
   IsValidWareHouseMaster(whsecode: any): Observable<any>{
@@ -44,13 +44,13 @@ export class WhseBinLayoutService {
         OPTM_WHSCODE: whsecode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseMaster", jObject, this.commonService.httpOptions);
   }
 
   UpdateWareHouseMaster(shipmentModel: any): Observable<any>{
     let jObject = {
       Shipment: JSON.stringify(shipmentModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseMaster", jObject, this.commonService.httpOptions);
   }
 }

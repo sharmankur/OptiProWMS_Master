@@ -23,7 +23,7 @@ export class CarrierService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoCarrier", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoCarrier", jObject, this.commonService.httpOptions);
   }
 
   GetDataForCarrier(): Observable<any> {
@@ -32,7 +32,7 @@ export class CarrierService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForCarrier", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForCarrier", jObject, this.commonService.httpOptions);
   }
 
   UpdateCarrier(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
@@ -44,11 +44,11 @@ export class CarrierService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateCarrier", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateCarrier", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromCarrier(oShipmentAutoRule: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromCarrier", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromCarrier", jObject, this.commonService.httpOptions);
   }
 }

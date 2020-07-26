@@ -32,7 +32,7 @@ export class ContainerTypeService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerType", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoContainerType", jObject, this.commonService.httpOptions);
   }
 
   UpdateContainerType(OPTM_CONTAINER_TYPE: string, OPTM_DESC: string, OPTM_LENGTH,
@@ -50,14 +50,14 @@ export class ContainerTypeService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerType", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateContainerType", jObject, this.commonService.httpOptions);
   }
 
   
 
   DeleteFromContainerType(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerType", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromContainerType", jObject, this.commonService.httpOptions);
   }
 
   getUOMs(itemCode: string): Observable<any> {

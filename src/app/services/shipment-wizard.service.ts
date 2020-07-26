@@ -42,20 +42,20 @@ GetSalesOrder(SetParameter:any): Observable<any> {
         CompanyDBId: localStorage.getItem("CompID")
         }])
       };
-      return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataOfSalesOrder", jObject, this.commonService.httpOptions);
+      return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataOfSalesOrder", jObject, this.commonService.httpOptions);
     }
 
     GetSalesOrderConsolidatedData(SetParameter:any): Observable<any> {
     
       let url=this.config_params.service_url
       var jObject = { Shipment: JSON.stringify(SetParameter)};
-      return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataOfConsolidation", jObject, this.commonService.httpOptions);
+      return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataOfConsolidation", jObject, this.commonService.httpOptions);
     }
 
     CreateShipMentData(SetParameter:any): Observable<any> {
     
       let url=this.config_params.service_url
       var jObject = { Shipment: JSON.stringify(SetParameter)};
-      return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/CreateShipments", jObject, this.commonService.httpOptions);
+      return this.httpclient.post(this.config_params.service_url + "/api/Shipment/CreateShipments", jObject, this.commonService.httpOptions);
     }
 }
