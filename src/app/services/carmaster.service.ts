@@ -26,7 +26,7 @@ export class CARMasterService {
         AddItemFlg: ''
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerAutoRule", jObject, this.commonService.httpOptions);
   }
 
   IsValidContainerAutoRule(OPTM_RULEID: number, OPTM_CONTTYPE: string, OPTM_PACKTYPE: any): Promise<any> {
@@ -38,22 +38,22 @@ export class CARMasterService {
         OPTM_CONTUSE: OPTM_PACKTYPE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerAutoRule", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidContainerAutoRule", jObject, this.commonService.httpOptions).toPromise();
   }
   
   InsertIntoContainerAutoRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoContainerAutoRule", jObject, this.commonService.httpOptions);
   }
 
   UpdateContainerAutoRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateContainerAutoRule", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromContainerAutoRule(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromContainerAutoRule", jObject, this.commonService.httpOptions);
   }
   
 }

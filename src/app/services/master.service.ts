@@ -35,7 +35,7 @@ export class MasterService {
         OPTM_PURPOSE: purspose
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
   }
 
   /**
@@ -58,7 +58,7 @@ export class MasterService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };  
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   /**
@@ -81,7 +81,7 @@ export class MasterService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };      
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   /**
@@ -90,7 +90,7 @@ export class MasterService {
   */
   DeleteFromBinranges(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   //=============================== methods for warehouse bin layout==================================
@@ -103,7 +103,7 @@ export class MasterService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataWareHouseMaster", jObject, this.commonService.httpOptions);
   }
   /**
    * This method deletes the selected warehouse bins.
@@ -111,7 +111,7 @@ export class MasterService {
    */
   DeleteWhseBinLayout(deleteArry: any[]): Observable<any>{
     var jObject = { Shipment: JSON.stringify(deleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseMaster", jObject, this.commonService.httpOptions);
   }
   /**
    * This method is used to create a new warehouse bin layout record.
@@ -121,7 +121,7 @@ export class MasterService {
     let jObject = {
       Shipment: JSON.stringify(shipmentModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseMaster", jObject, this.commonService.httpOptions);
   }
   /**
    * This method check the passed whsecode is valid or not.
@@ -134,7 +134,7 @@ export class MasterService {
         OPTM_WHSCODE: whsecode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseMaster", jObject, this.commonService.httpOptions);
   }
  
   /**
@@ -145,7 +145,7 @@ export class MasterService {
     let jObject = {
       Shipment: JSON.stringify(shipmentModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseMaster", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseMaster", jObject, this.commonService.httpOptions);
   }
    
 
@@ -155,7 +155,7 @@ export class MasterService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
   
   // repeated method at binrule and bin range need to test
@@ -169,7 +169,7 @@ export class MasterService {
   //       OPTM_PURPOSE: purspose
   //     }])
   //   };
-  //   return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
+  //   return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
   // }
 
   /**
@@ -178,7 +178,7 @@ export class MasterService {
    */
   InsertIntoBinRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
   /**
@@ -187,7 +187,7 @@ export class MasterService {
    */
   UpdateBinRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
   /**
@@ -196,7 +196,7 @@ export class MasterService {
    */
   DeleteBinRule(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
 

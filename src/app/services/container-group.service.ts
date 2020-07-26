@@ -19,7 +19,7 @@ export class ContainerGroupService {
         CompanyDBId: localStorage.getItem("CompID")       
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerGroup", jObject, this.commonService.httpOptions);
   }
 
   InsertIntoContainerGroup(OPTM_CONTAINER_GROUP: string, OPTM_DESC:string): Observable<any> {
@@ -31,7 +31,7 @@ export class ContainerGroupService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoContainerGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoContainerGroup", jObject, this.commonService.httpOptions);
   }
 
   UpdateContainerGroup(OPTM_CONTAINER_GROUP: string, OPTM_DESC:string): Observable<any> {
@@ -43,12 +43,12 @@ export class ContainerGroupService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateContainerGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateContainerGroup", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromContainerGroup(oShipmentContnrGroup: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentContnrGroup) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromContainerGroup", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromContainerGroup", jObject, this.commonService.httpOptions);
   }
 
 }

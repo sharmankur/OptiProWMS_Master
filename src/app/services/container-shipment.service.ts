@@ -22,7 +22,7 @@ export class ContainerShipmentService {
         IsShipment: IsShipment
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/GetContainsItemCode", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetContainsItemCode", jObject, this.commonService.httpOptions);
   }
 
   FillContainerDataInGrid(ContnrShipmentId:number,OPTM_CONTCODE:any, OPTM_SHIPELIGIBLE:string, OPTM_STATUS:number, OPTM_CONTTYPE:string, OPTM_ITEMCODE:string,
@@ -47,7 +47,7 @@ export class ContainerShipmentService {
         OPTM_CONT_GROUPCODE: OPTM_CONT_GROUPCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/FillContainerDataInGrid", jObject, this.commonService.httpOptions);
   }
 
   IsValidContainsItemCode(ItemCode:string, IsShipment:boolean, ShipmentId:string){
@@ -60,31 +60,31 @@ export class ContainerShipmentService {
         ShipmentId: ShipmentId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/IsValidContainsItemCode", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidContainsItemCode", jObject, this.commonService.httpOptions);
   }
 
   AssignContainerToShipment(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignContainerstoShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/AssignContainerstoShipment", jObject, this.commonService.httpOptions);
   }
 
   RemoveContainerFromShipment(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveFromShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/RemoveFromShipment", jObject, this.commonService.httpOptions);
   }
 
   SetDamagedContainer(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/SetContainersDamaged", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/SetContainersDamaged", jObject, this.commonService.httpOptions);
   }
 
   CloseContainer(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CloseContainer", jObject, this.commonService.httpOptions);
   } 
   
   ContainerReturned(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/ContainerReturned", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/ContainerReturned", jObject, this.commonService.httpOptions);
   }  
 }

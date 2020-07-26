@@ -25,7 +25,7 @@ export class ContainerCreationService {
       }])
     };
 
-    var url = this.config_params.service_url + "/api/ShipContainer/GetContainerType";
+    var url = this.config_params.service_url + "/api/Container/GetContainerType";
     return this.httpclient.post(url, jObject, this.commonService.httpOptions);
   }
 
@@ -38,7 +38,7 @@ export class ContainerCreationService {
       }])
     };
 
-    var url = this.config_params.service_url + "/api/ShipContainer/GetChildContainerTypes";
+    var url = this.config_params.service_url + "/api/Container/GetChildContainerTypes";
     return this.httpclient.post(url, jObject, this.commonService.httpOptions);
   }
 
@@ -49,7 +49,7 @@ export class ContainerCreationService {
         ContainerId: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/CheckDuplicateContainerIdCreate", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CheckDuplicateContainerIdCreate", jObject, this.commonService.httpOptions);
   }
 
   GetAutoRule(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
@@ -61,14 +61,14 @@ export class ContainerCreationService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetAutoRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetAutoRule", jObject, this.commonService.httpOptions);
   }
 
   GenerateShipContainer(oSaveModel: any): Observable<any> {
     var jObject = {
       Shipment: JSON.stringify(oSaveModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GenerateShipContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GenerateShipContainer", jObject, this.commonService.httpOptions);
   }
    
   SaveReportProgress(OPTMID: any, Qty: any): Observable<any> {
@@ -85,14 +85,14 @@ export class ContainerCreationService {
         NCQty: 0
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/SaveReportProgress", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/SaveReportProgress", jObject, this.commonService.httpOptions);
   }
   
   RemoveShipContainer(oSaveModel: any): Observable<any> {
     var jObject = {
       Shipment: JSON.stringify(oSaveModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/RemoveShipContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/RemoveShipContainer", jObject, this.commonService.httpOptions);
   }
 
   GetOtherItemsFromContDTL(OPTM_CARRIERID: string, OPTM_DESC: string): Observable<any> {
@@ -104,7 +104,7 @@ export class ContainerCreationService {
         OPTM_MODIFIEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetOtherItemsFromContDTL", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetOtherItemsFromContDTL", jObject, this.commonService.httpOptions);
   }
 
   GetOpenSONumber(): Observable<any> {
@@ -113,7 +113,7 @@ export class ContainerCreationService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetOpenSONumber", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetOpenSONumber", jObject, this.commonService.httpOptions);
   }
 
   IsValidWhseCode(whse: string): Promise<any> {
@@ -123,7 +123,7 @@ export class ContainerCreationService {
         WhsCode: whse
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWhseCode", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWhseCode", jObject, this.commonService.httpOptions).toPromise();
   }
 
   IsValidBinCode(whse: string, binCode: string): Promise<any> {
@@ -134,7 +134,7 @@ export class ContainerCreationService {
         BinCode: binCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidBinCode", jObject, this.commonService.httpOptions).toPromise();
   }
 
   GetSampleOfContainerString(): Observable<any> {
@@ -145,7 +145,7 @@ export class ContainerCreationService {
         OPTM_OBJECT: "Container"
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetSampleOfContainerString", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetSampleOfContainerString", jObject, this.commonService.httpOptions);
   }
 
   GetContainerNumber(): Observable<any> {
@@ -156,7 +156,7 @@ export class ContainerCreationService {
         OPTM_OBJECT: "container"
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetContainerNumber", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetContainerNumber", jObject, this.commonService.httpOptions);
   }
 
   InsertItemInContainer(conatinerId: any, containerType: any, itemCode: any,
@@ -177,14 +177,14 @@ export class ContainerCreationService {
         OPTM_OPERATION: operation
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertItemInContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/InsertItemInContainer", jObject, this.commonService.httpOptions);
   }
 
   InsertItemInContainerNew(oSaveModel: any): Observable<any> {
     var jObject = {
       Shipment: JSON.stringify(oSaveModel)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertItemInContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/InsertItemInContainer", jObject, this.commonService.httpOptions);
   }
 
   InsertContainerinContainer(containerId: any, containerChildID: any, opn: any, containerType: any, parentContainerType: any): Observable<any> {
@@ -198,7 +198,7 @@ export class ContainerCreationService {
         OPTM_PARENTCONTTYPE: parentContainerType
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/InsertContainerinContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/InsertContainerinContainer", jObject, this.commonService.httpOptions);
   }
 
   GetSelectesdRuleItem(ruleId: any): Observable<any> {
@@ -208,7 +208,7 @@ export class ContainerCreationService {
         RULEID: ruleId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetSelectesdRuleItem", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetSelectesdRuleItem", jObject, this.commonService.httpOptions);
   }
 
   GetAllContainer(containerCode): Observable<any> {
@@ -218,7 +218,7 @@ export class ContainerCreationService {
         CONTAINERCODE: containerCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetAllContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetAllContainer", jObject, this.commonService.httpOptions);
   }
 
   //Validate container parameters against the parameters entered in the screen
@@ -241,7 +241,7 @@ export class ContainerCreationService {
         ValidateCreateModeAndRuleID: blnValidateCreateModeAndRuleID
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CheckContainer", jObject, this.commonService.httpOptions);
   }
 
   GetContainer(CONTAINERCODE, blnParentFlg): Observable<any> {
@@ -252,7 +252,7 @@ export class ContainerCreationService {
         PARENT_FLG: blnParentFlg
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/GetContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetContainer", jObject, this.commonService.httpOptions);
   }
 
   CheckContainerScan(CONTAINERCODE,WHSCODE,BINCODE,RULEID,GROUPCODE,SONO,CONTTYPE,PURPOSE, OPERATION): Promise<any> {
@@ -270,7 +270,7 @@ export class ContainerCreationService {
         OPERATION: OPERATION
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/CheckContainer", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CheckContainer", jObject, this.commonService.httpOptions).toPromise();
   }
 
   IsValidContainerId(containerId: any): Observable<any> {
@@ -280,7 +280,7 @@ export class ContainerCreationService {
         CONTAINERID: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidContainerId", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidContainerId", jObject, this.commonService.httpOptions);
   }
 
   IsValidSONumber(soNumber: any): Observable<any> {
@@ -290,7 +290,7 @@ export class ContainerCreationService {
         SONUMBER: soNumber
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidSONumber", jObject, this.commonService.httpOptions);
   }
   
   IsValidSONumberBasedOnRule(soNumber: any, RULEID: any, WH: any): Observable<any> {
@@ -302,7 +302,7 @@ export class ContainerCreationService {
         WAREHOUSE: WH
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidSONumberBasedOnRule", jObject, this.commonService.httpOptions);
   }
 
   IsValidItemCode(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Observable<any> {
@@ -317,7 +317,7 @@ export class ContainerCreationService {
         CONTAINERCODE: contcode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidItemCode", jObject, this.commonService.httpOptions);
   }
 
   IsValidItemCodeScan(ruleId: any, itemCode: any, whse: any, bin: any, operation: any, contcode: any): Promise<any> {
@@ -332,7 +332,7 @@ export class ContainerCreationService {
         CONTAINERCODE: contcode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidItemCode", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidItemCode", jObject, this.commonService.httpOptions).toPromise();
   }
 
   IsValidBtchSer(itemCode: any, lotNo:any, whse: any, bin: any,operation: any, contcode: any): Observable<any> {
@@ -347,7 +347,7 @@ export class ContainerCreationService {
         CONTAINERCODE: contcode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerOperation/IsValidBtchSer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidBtchSer", jObject, this.commonService.httpOptions);
   }
 
   CheckScanAndCreateVisiblity(ruleId: any): Observable<any> {
@@ -357,7 +357,7 @@ export class ContainerCreationService {
         RULEID: ruleId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/CheckScanAndCreateVisiblity", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CheckScanAndCreateVisiblity", jObject, this.commonService.httpOptions);
   }
 
   GetListOfContainerBasedOnRule(ruleId: any, itemCode: any, whse: any, binCode: any, ContainerId:any): Observable<any> {
@@ -371,7 +371,7 @@ export class ContainerCreationService {
         CONTAINERID: ContainerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfContainerBasedOnRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetListOfContainerBasedOnRule", jObject, this.commonService.httpOptions);
   }
 
   GetListOfBatchSerOfSelectedContainerID(containerId: any, itemCode: AnimationQueryOptions): Observable<any> {
@@ -382,7 +382,7 @@ export class ContainerCreationService {
         ITEMCODE: itemCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetListOfBatchSerOfSelectedContainerID", jObject, this.commonService.httpOptions);
   }
 
   GetWorkOrderList(WorkOrder: any, Whse: any, AutoRule: any): Observable<any> {
@@ -394,7 +394,7 @@ export class ContainerCreationService {
         RULEID: AutoRule
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetWorkOrderList", jObject, this.commonService.httpOptions);
   }
 
   GetTotalWeightBasedOnRuleID(ruleId): Observable<any> {
@@ -404,7 +404,7 @@ export class ContainerCreationService {
         RULEID: ruleId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetTotalWeightBasedOnRuleID", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetTotalWeightBasedOnRuleID", jObject, this.commonService.httpOptions);
   }
 
   GetDataForParentContainerType(ContainerType:string): Observable<any> {
@@ -414,7 +414,7 @@ export class ContainerCreationService {
         ContainerType: ContainerType
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetDataForParentContainerType", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetDataForParentContainerType", jObject, this.commonService.httpOptions);
   }
   
   GetCountOfParentContainer(ParentContId:string): Observable<any> {
@@ -424,7 +424,7 @@ export class ContainerCreationService {
         ParentContId: ParentContId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetCountOfParentContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetCountOfParentContainer", jObject, this.commonService.httpOptions);
   }
 
   GetConatinersAddedInParentContainer(ParentContId:string): Observable<any> {
@@ -434,7 +434,7 @@ export class ContainerCreationService {
         ParentContId: ParentContId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetConatinersAddedInParentContainer", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetConatinersAddedInParentContainer", jObject, this.commonService.httpOptions);
   }
   
   IsDuplicateContainerCode(ContainerCode:string): Observable<any> {
@@ -444,7 +444,7 @@ export class ContainerCreationService {
         ContainerCode: ContainerCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsDuplicateContainerCode", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsDuplicateContainerCode", jObject, this.commonService.httpOptions);
   }
 
   GetDataofSelectedTask(TaskId:number): Observable<any> {
@@ -454,7 +454,7 @@ export class ContainerCreationService {
         TaskId: TaskId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetDataofSelectedTask", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetDataofSelectedTask", jObject, this.commonService.httpOptions);
   }
 
   GetItemAndBtchSerDetailBasedOnContainerID(containerId, code): Observable<any> {
@@ -465,7 +465,7 @@ export class ContainerCreationService {
         OPTM_CONTCODE: code
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetItemAndBtchSerDetailBasedOnContainerID", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetItemAndBtchSerDetailBasedOnContainerID", jObject, this.commonService.httpOptions);
   }
 
 }

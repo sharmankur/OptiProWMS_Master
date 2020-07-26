@@ -28,19 +28,19 @@ export class ContainerBatchserialService {
         OperationType: Operation
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/FillBatchSerialDataInGrid", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/FillBatchSerialDataInGrid", jObject, this.commonService.httpOptions);
   }
   
   AssignMaterialToShipment(oSaveArray:any){
 
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
 
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/AssignMaterialToShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/AssignMaterialToShipment", jObject, this.commonService.httpOptions);
   }
 
   RemoveBatchSerialFromShipment(oSaveArray:any){
     let jObject = { Shipment: JSON.stringify(oSaveArray) };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/RemoveBatchSerialFromShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/RemoveBatchSerialFromShipment", jObject, this.commonService.httpOptions);
   }
 
   GetItemsOpenQuantity(ContnrShipmentId:number){
@@ -51,7 +51,7 @@ export class ContainerBatchserialService {
         ContnrShipmentId: ContnrShipmentId       
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/GetItemsOpenQuantity", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetItemsOpenQuantity", jObject, this.commonService.httpOptions);
   }
 
   getLotNoInventoryData(WHSE:string, Bin:string){
@@ -64,6 +64,6 @@ export class ContainerBatchserialService {
         RULEID: ''
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/getLotNoInventoryData", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/getLotNoInventoryData", jObject, this.commonService.httpOptions);
   }
 }

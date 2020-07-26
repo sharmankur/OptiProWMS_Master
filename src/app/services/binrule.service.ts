@@ -23,7 +23,7 @@ export class BinruleService {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
   IsValidBinRule(whsRule: String, whsCode: string, whsZone: number, purspose:String): Promise<any> {
     let jObject = {
@@ -35,22 +35,22 @@ export class BinruleService {
         OPTM_PURPOSE: purspose
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
   }
 
   InsertIntoBinRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
   UpdateBinRule(oShipmentAutoRule: any): Observable<any> {
     var jObject = { Shipment: JSON.stringify(oShipmentAutoRule) };    
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
   DeleteBinRule(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseBinRule", jObject, this.commonService.httpOptions);
   }
 
 }

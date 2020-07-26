@@ -27,7 +27,7 @@ export class BinRangeService {
         OPTM_PURPOSE: purspose
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseBinRule", jObject, this.commonService.httpOptions).toPromise();
   }
 
   InsertIntoWareHouseBinRange(OPTM_BIN_RANGE: string, OPTM_WHSCODE, OPTM_FROM_BIN, OPTM_TO_BIN, OPTM_RANGE_DESC): Observable<any> {
@@ -42,7 +42,7 @@ export class BinRangeService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };  
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/InsertIntoWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/InsertIntoWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   UpdateWareHouseBinRange(OPTM_BIN_RANGE, OPTM_WHSCODE, OPTM_FROM_BIN, OPTM_TO_BIN, OPTM_RANGE_DESC): Observable<any> {
@@ -57,12 +57,12 @@ export class BinRangeService {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };      
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/UpdateWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
   DeleteFromBinranges(ddDeleteArry: any[]): Observable<any> {
     var jObject = { Shipment: JSON.stringify(ddDeleteArry) };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/DeleteFromWareHouseBinRange", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/DeleteFromWareHouseBinRange", jObject, this.commonService.httpOptions);
   }
 
 }

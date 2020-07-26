@@ -26,7 +26,7 @@ export class ShipmentService {
         OPTM_ARC: OPTM_ARC
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataBasedOnShipmentId", jObject, this.commonService.httpOptions);
   }
   
   ScheduleShipment(OPTM_SHIPMENTID: string, OPTM_CARRIER: string, OPTM_SCH_DATETIME, OPTM_DOCKDOORID, OPTM_SHIPMENT_CODE, OPTM_SHP_PROCESS, OPTM_PROCESS_STEP_NO, OPTM_CONT_GRP): Observable<any> {
@@ -44,7 +44,7 @@ export class ShipmentService {
         OPTM_CONT_GRP: OPTM_CONT_GRP
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/ScheduleShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/ScheduleShipment", jObject, this.commonService.httpOptions);
   }
 
   StageORUnstageShipment(OPTM_SHIPMENTID: any, OPTM_STATUS: string): Observable<any> {
@@ -56,7 +56,7 @@ export class ShipmentService {
         OPTM_USERNAME: localStorage.getItem("UserId")
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/StageORUnstageShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/StageORUnstageShipment", jObject, this.commonService.httpOptions);
   }
 
   updateShipment(OPTM_RETURN_ORDER_REF, OPTM_USE_CONTAINER, OPTM_SHIPMENTID, OPTM_BOLNUMBER, OPTM_VEHICLENO, OPTM_CONT_GRP, OPTM_CARRIER, OPTM_SCH_DATETIME, OPTM_DOCKDOORID): Observable<any> {
@@ -75,7 +75,7 @@ export class ShipmentService {
         OPTM_DOCKDOORID: OPTM_DOCKDOORID,
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/UpdateShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/UpdateShipment", jObject, this.commonService.httpOptions);
   }
 
   ChangeShippingProcess(SHIPMENTCODE, SHIPMENTPROCESS, SHIPMENTPROCESSNO, OPTM_STATUS): Observable<any> {
@@ -88,12 +88,12 @@ export class ShipmentService {
         OPTM_STATUS: OPTM_STATUS
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/ChangeShippingProcess", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/ChangeShippingProcess", jObject, this.commonService.httpOptions);
   }
   
   CreateContainerForPacking(oSaveModel): Observable<any> {
     let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateContainerForPacking", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/CreateContainerForPacking", jObject, this.commonService.httpOptions);
   }
 
   CreateReturnDocument(OPTM_SHIPMENTID): Observable<any> {
@@ -105,7 +105,7 @@ export class ShipmentService {
         UserId: localStorage.getItem("UserId")
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CreateReturnDocument", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/CreateReturnDocument", jObject, this.commonService.httpOptions);
   }
 
   AcceptReturnShipment(OPTM_SHIPMENTID): Observable<any> {
@@ -115,7 +115,7 @@ export class ShipmentService {
         OPTM_SHIPMENTID: OPTM_SHIPMENTID,
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/AcceptReturnShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/AcceptReturnShipment", jObject, this.commonService.httpOptions);
   }
 
   TransferArchieveDataToShipment(oSaveModel): Observable<any> {
@@ -126,7 +126,7 @@ export class ShipmentService {
     //   }])
     // }; 
     let jObject = {Shipment: JSON.stringify(oSaveModel)}; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/TransferArchieveDataToShipment", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/TransferArchieveDataToShipment", jObject, this.commonService.httpOptions);
   }
     
 
@@ -143,7 +143,7 @@ export class ShipmentService {
         TOCUSTOMERCODE: TOCUSTOMERCODE
       }])
     }; 
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetArchieivingShipmentData", jObject, this.commonService.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetArchieivingShipmentData", jObject, this.commonService.httpOptions);
   }
 }
 

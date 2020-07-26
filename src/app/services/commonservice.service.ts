@@ -667,7 +667,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerType", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerType", jObject, this.httpOptions);
   }
 
   IsValidContainerType(OPTM_CONTAINER_TYPE: string): Promise<any> {
@@ -677,7 +677,7 @@ export class Commonservice {
         OPTM_CONTAINER_TYPE: OPTM_CONTAINER_TYPE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerType", jObject, this.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidContainerType", jObject, this.httpOptions).toPromise();
   }
 
   IsValidItemCode(OPTM_ITEMCODE: string): Promise<any> {
@@ -687,7 +687,7 @@ export class Commonservice {
         OPTM_ITEMCODE: OPTM_ITEMCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidItemCode", jObject, this.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidItemCode", jObject, this.httpOptions).toPromise();
   }
 
   GetItemCodeList(): Observable<any> {
@@ -696,7 +696,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeList", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetItemCodeList", jObject, this.httpOptions);
   }
 
   GetDataForSalesOrderLookup(OPTM_CONTUSE, OPTM_SONUMBER): Observable<any> {
@@ -707,7 +707,7 @@ export class Commonservice {
         OPTM_SONUMBER: OPTM_SONUMBER
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetDataSalesOrderLookup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataSalesOrderLookup", jObject, this.httpOptions);
   }
   GetDataForCustomerLookup(OPTM_CUSTOMERCODE): Observable<any> {
     let jObject = {
@@ -716,7 +716,7 @@ export class Commonservice {
         OPTM_CUSTOMERCODE: OPTM_CUSTOMERCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetCustomerLookup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetCustomerLookup", jObject, this.httpOptions);
   }
   GetDataForItemCodeLookup(OPTM_ITEMCODE): Observable<any> {
     let jObject = {
@@ -725,7 +725,7 @@ export class Commonservice {
         OPTM_ITEMCODE: OPTM_ITEMCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetItemCodeLookup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetItemCodeLookup", jObject, this.httpOptions);
   }
   GetDataForWHSLookup(OPTM_WHSCODE): Observable<any> {
     let jObject = {
@@ -734,7 +734,7 @@ export class Commonservice {
         OPTM_WHSCODE: OPTM_WHSCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipmentWizard/GetWHSELookup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetWHSELookup", jObject, this.httpOptions);
   }
 
   getCustomizationDetail(): any {
@@ -760,7 +760,7 @@ export class Commonservice {
         AddItemFlg: AddItemFlg
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRule", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerAutoRule", jObject, this.httpOptions);
   }
 
   GetDataForContainerAutoRuleWIP(ContainerType: string, ItemCode: string, CreateMode: any, RULEID: any): Observable<any> {
@@ -773,7 +773,7 @@ export class Commonservice {
         RULEID: RULEID
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerAutoRuleWIP", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerAutoRuleWIP", jObject, this.httpOptions);
   }
 
   GetWhseCode(): Observable<any> {
@@ -782,7 +782,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetWhseCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetWhseCode", jObject, this.httpOptions);
   }
 
   GetBinCode(whse: string): Observable<any> {
@@ -792,7 +792,7 @@ export class Commonservice {
         WHSECODE: whse
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetBinCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetBinCode", jObject, this.httpOptions);
   }
 
   GetDataForDockDoor(): Observable<any> {
@@ -801,7 +801,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForDockDoor", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForDockDoor", jObject, this.httpOptions);
   }
 
   GetDockDoorBasedOnWarehouse(OPTM_WHSE): Observable<any> {
@@ -811,7 +811,7 @@ export class Commonservice {
         OPTM_WHSE: OPTM_WHSE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetDockDoorBasedOnWarehouse", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDockDoorBasedOnWarehouse", jObject, this.httpOptions);
   }
 
   GetDataForCarrier(): Observable<any> {
@@ -820,7 +820,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForCarrier", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForCarrier", jObject, this.httpOptions);
   }
 
   GetDataForContainerGroup(): Observable<any> {
@@ -829,7 +829,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataForContainerGroup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataForContainerGroup", jObject, this.httpOptions);
   }
 
   IsValidContainerGroup(groupcode: string): Observable<any> {
@@ -839,7 +839,7 @@ export class Commonservice {
         OPTM_CONTAINER_GROUP: groupcode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerGroup", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidContainerGroup", jObject, this.httpOptions);
   }
 
   IsValidContainerGroupScan(groupcode: string): Promise<any> {
@@ -849,7 +849,7 @@ export class Commonservice {
         OPTM_CONTAINER_GROUP: groupcode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidContainerGroup", jObject, this.httpOptions).toPromise();
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidContainerGroup", jObject, this.httpOptions).toPromise();
   }
 
   IsValidBinCode(whse: string, binCode: string): Observable<any> {
@@ -860,7 +860,7 @@ export class Commonservice {
         BinCode: binCode
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidBinCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidBinCode", jObject, this.httpOptions);
   }
 
   GetInventoryData(whse: string, binCode: string, ruleId: string): Observable<any> {
@@ -872,7 +872,7 @@ export class Commonservice {
         RULEID: ruleId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetInventoryData", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetInventoryData", jObject, this.httpOptions);
   }
 
   IsValidWhseCode(whse: string): Observable<any> {
@@ -882,7 +882,7 @@ export class Commonservice {
         WhsCode: whse
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWhseCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWhseCode", jObject, this.httpOptions);
   }
 
   IsValidDockDoor(OPTM_DOCKDOORID: string, whse: string): Observable<any> {
@@ -893,7 +893,7 @@ export class Commonservice {
         OPTM_WHSE: whse
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidDockDoor", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidDockDoor", jObject, this.httpOptions);
   }
 
   IsValidSONumber(SONUMBER: string): Observable<any> {
@@ -903,7 +903,7 @@ export class Commonservice {
         SONUMBER: SONUMBER
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidSONumber", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidSONumber", jObject, this.httpOptions);
   }
 
   IsValidShipToAddress(ADDRESS: string): Observable<any> {
@@ -913,7 +913,7 @@ export class Commonservice {
         ADDRESS: ADDRESS
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipToAddress", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidShipToAddress", jObject, this.httpOptions);
   }
 
   IsValidAllocatedShipmentCode(SHIPMENTCODE: string): Observable<any> {
@@ -923,7 +923,7 @@ export class Commonservice {
         SHIPMENTCODE: SHIPMENTCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
   IsValidShipmentCode(SHIPMENTCODE: string, OPTM_ARC): Observable<any> {
@@ -935,7 +935,7 @@ export class Commonservice {
         OPTM_ARC: OPTM_ARC
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidShipmentCode", jObject, this.httpOptions);
   }
 
   IsValidShipmentId(SHIPMENTID: string): Observable<any> {
@@ -945,7 +945,7 @@ export class Commonservice {
         SHIPMENTID: SHIPMENTID
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidShipmentId", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidShipmentId", jObject, this.httpOptions);
   }
 
   IsValidCustomer(CARDCODE: string): Observable<any> {
@@ -955,7 +955,7 @@ export class Commonservice {
         CARDCODE: CARDCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/IsValidCustomer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCustomer", jObject, this.httpOptions);
   }
 
   IsValidWONumber(WONUMBER: string): Observable<any> {
@@ -965,7 +965,7 @@ export class Commonservice {
         WONUMBER: WONUMBER
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/IsValidWONumber", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/IsValidWONumber", jObject, this.httpOptions);
   }
 
   GetWorkOrderList(): Observable<any> {
@@ -977,7 +977,7 @@ export class Commonservice {
         RULEID: 0
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetWorkOrderList", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetWorkOrderList", jObject, this.httpOptions);
   }
 
   IsValidCarrier(OPTM_CARRIERID: string): Observable<any> {
@@ -987,7 +987,7 @@ export class Commonservice {
         OPTM_CARRIERID: OPTM_CARRIERID
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidCarrier", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidCarrier", jObject, this.httpOptions);
   }
 
   GetShipToAddress(OPTM_SHIPTO): Observable<any> {
@@ -997,7 +997,7 @@ export class Commonservice {
         OPTM_SHIPTO: OPTM_SHIPTO
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipToAddress", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetShipToAddress", jObject, this.httpOptions);
   }
 
   GetShipmentIdForShipment(OPTM_ARC, SelectedOperation): Observable<any> {
@@ -1009,7 +1009,7 @@ export class Commonservice {
         Operation: SelectedOperation
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetShipmentIdForShipment", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetShipmentIdForShipment", jObject, this.httpOptions);
   }
 
   GetAllocatedShipmentCode(status, SHIPMENTCODE, WHSE): Observable<any> {
@@ -1021,7 +1021,7 @@ export class Commonservice {
         WHSE: WHSE 
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/GetAllocatedShipmentCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetAllocatedShipmentCode", jObject, this.httpOptions);
   }
 
   GeneratePickList(PRIORITY, PICKBASIS, PICKOPERATION, PICKTYPE, WHSECODE, FROMCUSTOMER, TOCUSTOMER, FROMSHIPTOCODE, TOSHIPTOCODE, FROMSHIPMENTID, TOSHIPMENTID, FROMDOCKDOOR, TODOCKDOOR, FROMDATETIME, TODATETIME, FROMITEMCODE, TOITEMCODE, FROMCARRIERCODE, TOCARRIERCODE, FROMSALESORDER, TOSALESORDER, FROMWORKORDER, TOWORKORDER, PLANSHIFT, TASKPLANDATETIME): Observable<any> {
@@ -1060,7 +1060,7 @@ export class Commonservice {
         OPTM_CREATEDBY: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/GeneratePickList/GeneratePickList", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Picklist/GeneratePickList", jObject, this.httpOptions);
   }
 
   GetDataForBinRanges(OPTM_WHSCODE): Observable<any> {
@@ -1070,7 +1070,7 @@ export class Commonservice {
         OPTM_WHSCODE: OPTM_WHSCODE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetDataWareHouseBinRange", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetDataWareHouseBinRange", jObject, this.httpOptions);
   }
 
   IsValidWareHouseBinRange(OPTM_WHSCODE, OPTM_BIN_RANGE): Observable<any> {
@@ -1081,7 +1081,7 @@ export class Commonservice {
         OPTM_BIN_RANGE: OPTM_BIN_RANGE
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/IsValidWareHouseBinRange", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/IsValidWareHouseBinRange", jObject, this.httpOptions);
   }
 
   CloseClick(containerId): Observable<any> {
@@ -1091,7 +1091,7 @@ export class Commonservice {
         OPTM_CONTCODE: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseContainer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CloseContainer", jObject, this.httpOptions);
   }
 
   CloseParentContainer(containerId): Observable<any> {
@@ -1101,7 +1101,7 @@ export class Commonservice {
         ContainerCode: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CloseParentContainer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CloseParentContainer", jObject, this.httpOptions);
   }
 
   ReopenClick(containerId): Observable<any> {
@@ -1111,7 +1111,7 @@ export class Commonservice {
         OPTM_CONTCODE: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/ReopenContainer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/ReopenContainer", jObject, this.httpOptions);
   }
 
   DamagedClick(code, containerId): Observable<any> {
@@ -1122,7 +1122,7 @@ export class Commonservice {
         CONTAINERID: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/SetContainersDamaged", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/SetContainersDamaged", jObject, this.httpOptions);
   }
 
   CancelClick(containerId): Observable<any> {
@@ -1132,7 +1132,7 @@ export class Commonservice {
         OPTM_CONTAINERID: containerId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerMaintenance/CancelContainer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/CancelContainer", jObject, this.httpOptions);
   }
 
   CancelOrUnassignShipment(OPTM_SHIPMENTID: string, OPTM_ARC): Observable<any> {
@@ -1143,7 +1143,7 @@ export class Commonservice {
         OPTM_ARC: OPTM_ARC
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Ship/CancelOrUnassignShipment", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/CancelOrUnassignShipment", jObject, this.httpOptions);
   }
 
 
@@ -1163,7 +1163,7 @@ export class Commonservice {
         OPTM_NOOFCOPY: noOfCopies
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ShipContainer/GetListofContainer", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetListofContainer", jObject, this.httpOptions);
   }
 
   GetShipmentIdWithAllocAndPartAllocStatus(ShipId): Observable<any> {
@@ -1173,7 +1173,7 @@ export class Commonservice {
         OPTM_SHIPMENT_CODE: ShipId
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ship/GetShipmentIdWithAllocAndPartAllocStatus", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetShipmentIdWithAllocAndPartAllocStatus", jObject, this.httpOptions);
   }
 
   AllocateContAndBtchSerToShipment(ShipIdFrom, ShipIdTo,
@@ -1189,7 +1189,7 @@ export class Commonservice {
         OPTM_USERID: localStorage.getItem("UserId")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ship/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/AllocateContAndBtchSerToShipment", jObject, this.httpOptions);
   }
 
   GetUnitOfMeasure(): Observable<any> {
@@ -1198,14 +1198,14 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID")
       }])
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetUnitOfMeasure", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Masters/GetUnitOfMeasure", jObject, this.httpOptions);
   }
 
   UpdateContainerSoNo(contArray): Observable<any> {
     let jObject = {
       Shipment: JSON.stringify(contArray)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/UpdateContainerSoNo", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/UpdateContainerSoNo", jObject, this.httpOptions);
   }
 
 
@@ -1213,7 +1213,7 @@ export class Commonservice {
     let jObject = {
       Shipment: JSON.stringify(contArray)
     };
-    return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/UpdateContainerGroupCode", jObject, this.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/api/Container/UpdateContainerGroupCode", jObject, this.httpOptions);
   }
 
   GetloginParams() {
