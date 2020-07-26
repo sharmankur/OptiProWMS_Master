@@ -3,7 +3,7 @@
         <div class="opti_container_inner" [perfectScrollbar]=" ">
 
             <h3 class="border-bottom d-flex pt-1 pb-3 mb-4">
-                {{'GeneratePickTask'|translate}}
+                {{'GeneratePicklistShipments'|translate}}
             </h3>
             <div class="row">
                 <div class="col-10">
@@ -526,7 +526,7 @@
     <div class="opti_spinner"></div>
 </div>
 
-<kendo-dialog [width]="500" [height]="500"  *ngIf="dialogOpened" (close)="close_kendo_dialog()">
+<kendo-dialog [width]="700" [height]="600"  *ngIf="dialogOpened" (close)="close_kendo_dialog()">
     <div class="new-custom-grid">
         <kendo-dialog-titlebar>
             Pick Generate Result
@@ -534,7 +534,7 @@
         <div class="px-3">
             <div class="form-group row mt-2">
                 <div class="input-group input-group-sm">
-                    <kendo-grid [kendoGridBinding]="PickResultArray" [resizable]="true" [height]="400"  [skip]="skip">
+                    <kendo-grid [kendoGridBinding]="PickResultArray" [resizable]="true" [height]="450"  [skip]="skip">
                         <kendo-grid-column field="Shipment_Code" width="150" title="{{'PT_ShipmentId'|translate}}" ></kendo-grid-column>
                         <kendo-grid-column field="Ship_Line" width="80" title="{{'Shipment_Lines'|translate}}" ></kendo-grid-column>                        
                         <kendo-grid-column field="ErrDesc" width="250" title="{{'Status'|translate}}" ></kendo-grid-column>                        
