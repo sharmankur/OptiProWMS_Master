@@ -185,6 +185,8 @@ export class PickTaskService {
   }
 
   updatePickItemsAndTasks(data: any): Observable<any> {
+    //Added By Srini on 26-Jul-2020
+    //data.loginParams = this.commonService.GetloginParams;
     var jObject = { Shipment: JSON.stringify(data) };
     return this.httpclient.post(this.config_params.service_url + "/api/PickList/UpdateMaintainPicklist", jObject, this.commonService.httpOptions);
   }

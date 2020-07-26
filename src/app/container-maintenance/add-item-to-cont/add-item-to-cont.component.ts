@@ -1439,8 +1439,8 @@ export class AddItemToContComponent implements OnInit {
                 this.scanItemTracking = '';
                 return;
               } else if (this.ItemInvQty == 0 && this.TotInternalContQty > 0) {
+                this.ItemInvQty = this.TotInternalContQty;
                 this.toastr.error('Srini', 'Inventory available only in Inventory containers');
-                return;
               }
 
               // Srini Add Item Weight from Item Master

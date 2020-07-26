@@ -1215,6 +1215,17 @@ export class Commonservice {
     };
     return this.httpclient.post(this.config_params.service_url + "/api/ContainerandShipment/UpdateContainerGroupCode", jObject, this.httpOptions);
   }
+
+  GetloginParams() {
+    // Added by Srini on 26-Jul-2020
+    var loginParams = {userID: localStorage.getItem("UserId"), 
+      companyDBId: localStorage.getItem("CompID"),
+      warehouseCode: localStorage.getItem("whseId"),
+      tenantID: localStorage.getItem("TenantId")
+      }
+    return loginParams;
+    }
+  
   
   //--------------------container group lookup and validate--------------
 

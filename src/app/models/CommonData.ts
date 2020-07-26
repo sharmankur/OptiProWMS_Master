@@ -473,9 +473,7 @@ export class CommonData {
             }
         }
         return meanValue;
-    }
-
-
+    }     
 
     getPickListValue(value: any) {
         //this.PickListStatusEnum().indexOf("Name" value)

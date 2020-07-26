@@ -37,6 +37,7 @@ export class ContMaintnceMainComponent implements OnInit {
   ContainerType = "";
   containerItems: any = []
   childContainerList: any = [];
+  damageFlg: string = "";
   // pageSize: number = 10
   // pageable: boolean = false;
   // pageable2: boolean = false;
@@ -208,6 +209,7 @@ export class ContMaintnceMainComponent implements OnInit {
             this.inventoryStatus = this.getInvStatus(this.inventoryStatusEnum)
             this.purpose = this.getShipEligible(this.purposeEnum);
             this.packProcess = this.getBuiltProcess(this.packProcessEnum);
+            this.damageFlg = data[0].OPTM_DAMAGE_FLG == 1 ? ' (Damage)' : '';
             this.getItemAndBSDetailByContainerId()
           }
         } else {
