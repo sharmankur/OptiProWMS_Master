@@ -81,4 +81,16 @@ export class SigninService {
      }
     return this.httpclient.post(this.config_params.service_url + this.lisenceDataUrl, jObject, this.commonService.httpOptions);
   }
+
+  setUserData(): Observable<any> {
+    let jObject = {
+      LoginDetail: JSON.stringify([{
+      SHP_USERID: localStorage.getItem("UserId"),
+      SHP_TENANTID: localStorage.getItem("TenantId"),
+      SHP_WHS_CODE: localStorage.getItem("whseId"),
+      SHP_COMPANYDBID: localStorage.getItem("CompID")
+      }])
+    };
+    return this.httpclient.post(this.config_params.service_url + "/api/login/setUserData", jObject, this.commonService.httpOptions);
+  }
 }

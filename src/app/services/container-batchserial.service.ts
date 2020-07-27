@@ -43,17 +43,6 @@ export class ContainerBatchserialService {
     return this.httpclient.post(this.config_params.service_url + "/api/Container/RemoveBatchSerialFromShipment", jObject, this.commonService.httpOptions);
   }
 
-  GetItemsOpenQuantity(ContnrShipmentId:number){
-
-    let jObject = {
-      Shipment: JSON.stringify([{
-        CompanyDBId: localStorage.getItem("CompID"),
-        ContnrShipmentId: ContnrShipmentId       
-      }])
-    };
-    return this.httpclient.post(this.config_params.service_url + "/api/Container/GetItemsOpenQuantity", jObject, this.commonService.httpOptions);
-  }
-
   getLotNoInventoryData(WHSE:string, Bin:string){
 
     let jObject = {

@@ -28,7 +28,7 @@ export class SigninComponent implements OnInit {
     // Cookie
     userName: any;
     password: string;
-    isRemember: boolean = false;    
+    isRemember: boolean = false;
 
     // Captcha
     randomstring = '';
@@ -159,19 +159,38 @@ export class SigninComponent implements OnInit {
             //    this.getLicenseData();
             var tenantId = this.getTenantIdFromCompanyId(this.selectedItem)
             //console.log("selectedTenentId:",tenantId);
+            
             localStorage.setItem("TenantId", tenantId);
             localStorage.setItem("CompID", this.selectedItem);
             localStorage.setItem("whseId", "01");
             localStorage.setItem("UserId", this.userName);
             localStorage.setItem("Token", "2bf91be7-819c-4443-a1bc-82dc150da05d");
-            localStorage.setItem("DATEFORMAT", "MM/dd/yyyy");            
+            localStorage.setItem("DATEFORMAT", "MM/dd/yyyy");
 
             localStorage.setItem("DecimalPrecision", "2");
             localStorage.setItem("DecimalSeparator", ".");
-            this.router.navigateByUrl('home/dashboard');
-
+            this.setUserData();
         }
     }
+
+    private setUserData() {
+        this.signinService.setUserData().subscribe(
+            data => {
+                this.showLoader = false;
+                if (data != null && data != undefined && data == "Data Saved") {
+                    this.router.navigateByUrl('home/dashboard');
+                } else {
+                    this.toastr.error('', data);
+                }
+            },
+            error => {
+                this.toastr.error('', this.translate.instant("Login_InvalidUnPwdErrMsg"),
+                    this.commonService.toast_config.iconClasses.error);
+                this.showLoader = false;
+            }
+        );
+    }
+
 
     private getTenantIdFromCompanyId(selectedCompany: any) {
 
