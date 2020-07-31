@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { OutRequest } from '../models/outbound/request-model';
 import { HttpClient } from '@angular/common/http';
 import { Commonservice } from './commonservice.service';
 import { Observable } from 'rxjs';
@@ -12,7 +11,6 @@ import { AnimationQueryOptions } from '@angular/animations';
 export class ContainerCreationService {
 
   public config_params: any;
-  public outRequest: OutRequest = new OutRequest();
   constructor(private httpclient: HttpClient, private commonService: Commonservice) {
     this.config_params = JSON.parse(sessionStorage.getItem('ConfigData'));
   }

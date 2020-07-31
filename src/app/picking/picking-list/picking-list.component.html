@@ -369,8 +369,8 @@
                         </kendo-grid-column>
                         <kendo-grid-column media="(min-width: 768px)" field="OPTM_TRANSIT_MEANS" [width]="65" title="{{'TransferMeans'|translate}}"
                             headerClass="text-left" class="text-left">
-                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                <kendo-dropdownlist [data]="meansData" [textField]="'Name'" [valueField]="'Value'" name='transfermeans1' [(ngModel)]="dataItem.selectedMeansVal"
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <kendo-dropdownlist [data]="meansData" textField="Name" valueField="Value" [valuePrimitive]="true" [value]="dataItem.OPTM_TRANSIT_MEANS"
                                     (valueChange)="meansDropDownValueChange($event,dataItem,rowIndex)" [disabled]="dataItem.OPTM_PICKLIST_STATUS==6">
                                 </kendo-dropdownlist>
                             </ng-template>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { OpenPOLinesModel } from '../models/Inbound/OpenPOLinesModel';
 
 @Component({
   selector: 'app-ctmaster',
@@ -15,8 +14,6 @@ export class CTMasterComponent implements OnInit {
   public openPOmodel: any;
   public oSubmitPOLotsArray: any[] = []; 
   public AddtoGRPOFlag: boolean = false;
-  public SubmitPOArray: OpenPOLinesModel[] = [];
-  
 
   ngOnInit() {
     
@@ -34,9 +31,4 @@ export class CTMasterComponent implements OnInit {
     this.oSubmitPOLotsArray.push(oSubmitPOLot);
     this.AddtoGRPOFlag = true;
   }
-
-  public AddPOList(openPOLinesModel: OpenPOLinesModel){
-    this.SubmitPOArray.push(openPOLinesModel);
-  }
-
 }

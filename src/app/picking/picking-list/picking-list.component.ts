@@ -80,23 +80,18 @@ export class PickingListComponent implements OnInit {
     this.shiment_status_array = this.commonData.shiment_status_array();
   }
   shiment_status_array = [];
-
+  index: number;
   ngOnInit() {
-
+    this.index = 0;
     this.picktaskService.clearLocaStorage();
     // this.getShipmentList()
     this.commonservice.setCustomizeInfo();
     this.meansData = this.commonData.TransferMeansTypeEnum()
-    // this.meansData =  [
-    //   { Value: 1, Name:  this.translate.instant("Manual") },
-    //   { Value: 2, Name:  this.translate.instant("Name_ForkLift") },
-    //   { Value: 3, Name:  this.translate.instant("Name_Crane") }
-    //  ];
     this.selectedMeansValue = this.meansData[0];// { "Value": 1, "Name": "Manual" };
     this.StatusValue = this.statusArray[0];
   }
 
-  onPriorityChange(){
+  onPriorityChange() {
 
   }
 
@@ -405,11 +400,11 @@ export class PickingListComponent implements OnInit {
     }
 
 
-    if(this.ShipmentCodeFrom ==undefined || this.ShipmentCodeFrom == "" || this.ShipmentCodeFrom == null){
+    if (this.ShipmentCodeFrom == undefined || this.ShipmentCodeFrom == "" || this.ShipmentCodeFrom == null) {
       this.ShipmentIdFrom = "";
     }
 
-    if(this.ShipmentCodeTo ==undefined || this.ShipmentCodeTo == "" || this.ShipmentCodeTo == null){
+    if (this.ShipmentCodeTo == undefined || this.ShipmentCodeTo == "" || this.ShipmentCodeTo == null) {
       this.ShipmentIdTo = "";
     }
 
@@ -438,7 +433,7 @@ export class PickingListComponent implements OnInit {
           });
 
           if (this.PickItemListM.length > 0) {
-            this.FilterPickTask(this.PickItemListM[0]);
+            this.FilterPickTask(this.PickItemListM[this.index]);
           } else {
             this.selectedItemPickTaskList = [];
           }
@@ -479,10 +474,9 @@ export class PickingListComponent implements OnInit {
 
   setTaskMeanValue() {
     for (let i = 0; i < this.PickTaskListM.length; i++) {
-      var meanVal = this.PickTaskListM[i].OPTM_TRANSIT_MEANS
+      let meanVal = this.PickTaskListM[i].OPTM_TRANSIT_MEANS
       this.PickTaskListM[i].selectedMeansVal = { Value: meanVal, Name: this.commonData.getMeansStringByValue(meanVal) }
     }
-    console.log("value set");
   }
 
   getLookupDataValue($event) {
@@ -539,6 +533,7 @@ export class PickingListComponent implements OnInit {
    * @param $event 
    */
   onPickListItemClick($event) {
+    this.index = this.PickItemListM.findIndex(e=> e.OPTM_PICKLIST_ID == $event.selectedRows[0].dataItem.OPTM_PICKLIST_ID)
     this.FilterPickTask($event.selectedRows[0].dataItem);
   }
 
@@ -547,7 +542,14 @@ export class PickingListComponent implements OnInit {
       item.OPTM_PICKLIST_ID === selectedRows.OPTM_PICKLIST_ID);
     this.selectedItemPickTaskList = selectedPickTasks;
     for (var i = 0; i < this.selectedItemPickTaskList.length; i++) {
-      this.selectedItemPickTaskList.OPTM_PICKLIST_STATUS = selectedRows.OPTM_STATUS;
+      this.selectedItemPickTaskList[i].OPTM_PICKLIST_STATUS = selectedRows.OPTM_STATUS;
+      // if(this.selectedItemPickTaskList[i].OPTM_TRANSIT_MEANS == "1"){
+      //   this.selectedItemPickTaskList[i].TransmitMeans = "Manual";
+      // }else if(this.selectedItemPickTaskList[i].OPTM_TRANSIT_MEANS == "2"){
+      //   this.selectedItemPickTaskList[i].TransmitMeans = "Forklift";
+      // }else{
+      //   this.selectedItemPickTaskList[i].TransmitMeans = "Crane";
+      // }
     }
   }
 
@@ -597,7 +599,7 @@ export class PickingListComponent implements OnInit {
     }
     */
     this.selectedPickTaskRow = dataItem;
-    this.selectedPickTaskRow.OPTM_TRANSIT_MEANS = $event.Value;
+    this.selectedPickTaskRow.OPTM_TRANSIT_MEANS = $event;//.value;
     this.UpdatePickTaskArray(this.selectedPickTaskRow);
   }
 
@@ -654,7 +656,7 @@ export class PickingListComponent implements OnInit {
   changePlanDateTime(date: any, dataItem: any, companyRowIndex: Number) {
     var dateString = moment(date).format('MM/DD/YYYY');
     dataItem.OPTM_PLANDATETIME = dateString;
-    this.selectedPickItemRow = dataItem;    
+    this.selectedPickItemRow = dataItem;
     this.UpdatePicklistArray(this.selectedPickItemRow);
     /* Commented by Srini on 26-Jul-2020
     //  new Date(event.getFullYear(), event.getMonth(), event.getDate());
@@ -684,7 +686,7 @@ export class PickingListComponent implements OnInit {
     this.showLoader = true;
     this.picktaskService.updateReleaseStatusForPickListItems(this.selectedPLItems).subscribe(
       (data: any) => {
-        this.showLoader = false;
+        this.showLoader = false;        
         if (data != undefined && data != null) {
           if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
             this.commonservice.RemoveLicenseAndSignout(this.toastr, this.router,
@@ -808,7 +810,7 @@ export class PickingListComponent implements OnInit {
   UpdatePickTaskArray(selPickTaskObj: any) {
     var index = this.updatedPickTasksArray.findIndex(task => task.OPTM_TASKID === selPickTaskObj.OPTM_TASKID)
     if (index > -1) {
-      this.updatedPickTasksArray.splice(index);      
+      this.updatedPickTasksArray.splice(index);
     }
     this.updatedPickTasksArray.push(selPickTaskObj);
   }
@@ -816,7 +818,7 @@ export class PickingListComponent implements OnInit {
   UpdatePicklistArray(selPicklisObj: any) {
     var index = this.updatedPicItemsArray.findIndex(pickItem => pickItem.OPTM_PICKLIST_ID === selPicklisObj.OPTM_PICKLIST_ID)
     if (index > -1) {
-      this.updatedPicItemsArray.splice(index);      
+      this.updatedPicItemsArray.splice(index);
     }
     this.updatedPicItemsArray.push(selPicklisObj);
   }
@@ -862,9 +864,9 @@ export class PickingListComponent implements OnInit {
           } else {
             this.selectedPickTaskRow.OPTM_SRC_BIN = "";
             this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
-          }          
+          }
         } else {
-          this.selectedPickTaskRow.OPTM_SRC_BIN = ""          
+          this.selectedPickTaskRow.OPTM_SRC_BIN = ""
           //this.updatedPickTasksArray.push(this.selectedPickTaskRow);
           this.toastr.error('', this.translate.instant("Invalid_Bin_Code"));
         }
@@ -882,7 +884,7 @@ export class PickingListComponent implements OnInit {
     );
   }
 
-  showShipmentList(dataItem){
+  showShipmentList(dataItem) {
     this.showLoader = true;
     this.picktaskService.GetAllShipmentOfPicklist(dataItem.OPTM_PICKLIST_ID).subscribe(
       (data: any) => {
@@ -896,7 +898,7 @@ export class PickingListComponent implements OnInit {
           if (data.Table.length > 0) {
             this.lookupfor = "ShipmentList";
             this.serviceData = data.Table;
-            for(var i=0; i<this.serviceData.length; i++){
+            for (var i = 0; i < this.serviceData.length; i++) {
               this.serviceData[i].OPTM_STATUS_VAL = this.getShipStatusValue(this.serviceData[i].OPTM_STATUS);
             }
             this.showLookup = true;
@@ -923,7 +925,7 @@ export class PickingListComponent implements OnInit {
     return this.shiment_status_array[Number(OPTM_STATUS) - 1].Name;
   }
 
-  IsAllItemPresentInSelectedBin(dataItem, bincode){
+  IsAllItemPresentInSelectedBin(dataItem, bincode) {
     this.srcWhsID = dataItem.OPTM_SRC_WHSE;
     // this.selectedPickTaskRow = dataItem;
     // if (bincode == undefined || bincode == "") {
@@ -946,7 +948,7 @@ export class PickingListComponent implements OnInit {
             this.selectedPickTaskRow.OPTM_SRC_BIN = ""
             //this.updatedPickTasksArray.push(this.selectedPickTaskRow);
             this.toastr.error('', this.translate.instant("selectedBinMsg"));
-          }          
+          }
         } else {
           this.selectedPickTaskRow.OPTM_SRC_BIN = ""
           //this.updatedPickTasksArray.push(this.selectedPickTaskRow);
@@ -1026,7 +1028,7 @@ export class PickingListComponent implements OnInit {
               this.showLookup = true;
               this.serviceData = data.OPTM_USERGROUP;
               this.lookupfor = "UserGrp";
-            }            
+            }
           } else {
             if (event == "blur") {
               this.selectedPickTaskRow.OPTM_USER_GRP = ""
@@ -1059,8 +1061,8 @@ export class PickingListComponent implements OnInit {
   }
 
   onUpdatePress() {
-    let IspickTaskEmpty = this.updatedPickTasksArray.find(e=> e.OPTM_USER_GRP == "" || e.OPTM_SRC_BIN == "");
-    if(IspickTaskEmpty != undefined){
+    let IspickTaskEmpty = this.updatedPickTasksArray.find(e => e.OPTM_USER_GRP == "" || e.OPTM_SRC_BIN == "");
+    if (IspickTaskEmpty != undefined) {
       this.toastr.error('', "Pick bin or User group is blank for any selected pick task.")
       return;
     }
@@ -1081,14 +1083,14 @@ export class PickingListComponent implements OnInit {
     for (let i = 0; i < pickItemList.length; i++) {
       pickItemList[i].OPTM_PLANDATETIME_Object = ""
     }
-    
+
     for (let i = 0; i < pickTaskList.length; i++) {
-     // pickTaskList[i].OPTM_TRANSIT_MEANS = pickTaskList[i].selectedMeansVal.Value;
+      // pickTaskList[i].OPTM_TRANSIT_MEANS = pickTaskList[i].selectedMeansVal.Value;
       pickTaskList[i].selectedMeansVal = ""
     }
-    
+
     object.OPTM_WHS_PICKLIST = pickItemList;
-    object.OPTM_WHSTASKLIST = pickTaskList;    
+    object.OPTM_WHSTASKLIST = pickTaskList;
     if (pickItemList.length == 0 && pickTaskList.length == 0) {
       this.toastr.error('', this.translate.instant("PickingNoItemToUpdate"));
       return;

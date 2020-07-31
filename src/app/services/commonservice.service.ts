@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '../../environments/environment.prod';
+import { Subject, BehaviorSubject, Observable, throwError } from 'rxjs';
 import { opticonstants } from '../constants';
 import { CurrentSidebarInfo } from '../models/sidebar/current-sidebar-info';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -755,7 +754,7 @@ export class Commonservice {
       Shipment: JSON.stringify([{
         CompanyDBId: localStorage.getItem("CompID"),
         OPTM_CONTTYPE: OPTM_CONTTYPE,
-        RULEID: RULEID, 
+        RULEID: RULEID,
         Purpose: Purpose,
         AddItemFlg: AddItemFlg
       }])
@@ -1018,7 +1017,7 @@ export class Commonservice {
         CompanyDBId: localStorage.getItem("CompID"),
         STATUS: status,
         SHIPMENTCODE: SHIPMENTCODE,
-        WHSE: WHSE 
+        WHSE: WHSE
       }])
     };
     return this.httpclient.post(this.config_params.service_url + "/api/Shipment/GetAllocatedShipmentCode", jObject, this.httpOptions);
@@ -1218,89 +1217,38 @@ export class Commonservice {
 
   GetloginParams() {
     // Added by Srini on 26-Jul-2020
-    var loginParams = {userID: localStorage.getItem("UserId"), 
+    var loginParams = {
+      userID: localStorage.getItem("UserId"),
       companyDBId: localStorage.getItem("CompID"),
       warehouseCode: localStorage.getItem("whseId"),
       tenantID: localStorage.getItem("TenantId")
-      }
-    return loginParams;
     }
-  
-  
-  //--------------------container group lookup and validate--------------
+    return loginParams;
+  }
 
-  // GetContainerGroupLookupData(translate: TranslateService): any {
-  //   // this.showLoader = true;
-  //   this.GetDataForContainerGroup().subscribe(
-  //     (data: any) => {
-  //       // this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         // this.showLookup = true;
-  //         //this.serviceData = data;
-  //         return data;
-  //         // this.lookupfor = "GroupCodeList";
-  //       } else {
-  //         this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
-  //       }
-  //     },
-  //     error => {
-  //       // this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.unauthorizedToken(error, translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  // }
 
-  // async OnContainerGroupChange(dialogValue, translate) {
-  //   if (dialogValue == undefined || dialogValue == "") {
-  //     return;
-  //   }
-  //   // this.showLoader = true;
-  //   var result = false
-  //   await this.IsValidContainerGroupScan(dialogValue).then(
-  //     (data: any) => {
-  //       // this.showLoader = false;
-  //       if (data != undefined) {
-  //         if (data.LICDATA != undefined && data.LICDATA[0].ErrorMsg == "7001") {
-  //           this.RemoveLicenseAndSignout(this.toastr, this.router,
-  //             translate.instant("CommonSessionExpireMsg"));
-  //           return;
-  //         }
-  //         if (data.length > 0) {
-  //           dialogValue = data[0].OPTM_CONTAINER_GROUP;
-  //           result = true;
-  //         } else {
-  //           dialogValue = '';
-  //           this.toastr.error('', translate.instant("InvalidGroupCode"));
-  //           result = false
-  //         } 
-  //         return dialogValue;
-  //       } else {
-  //         this.toastr.error('', translate.instant("CommonNoDataAvailableMsg"));
-  //         result = false
-  //       }
-  //     },
-  //     error => {
-  //       result = false
-  //       // this.showLoader = false;
-  //       if (error.error.ExceptionMessage != null && error.error.ExceptionMessage != undefined) {
-  //         this.unauthorizedToken(error, translate.instant("token_expired"));
-  //       }
-  //       else {
-  //         this.toastr.error('', error);
-  //       }
-  //     }
-  //   );
-  //   return dialogValue;
-  // }
+  handleResponse(data: any, translate: TranslateService): boolean {
+    if(data.OUTPUT[0].ErrCode == 0) {
+      //datatable.length == 0
+      return true;
+    } else {
+      this.toastr.error(this.getErrorfromErroNo(data.OUTPUT[0].ErrNumber, data.OUTPUT[0].ErrCode, translate))
+      throwError("");
+      return false;
+    }
+  }
 
+  getErrorfromErroNo(ErrNumber: Number, ErrCode: string, translate: TranslateService): string {
+    switch (ErrNumber) {
+      case -1:
+        break;
+
+      case -2:
+        break;
+
+      case 10001:
+        break;
+    }
+    return translate.instant(ErrCode);//("SONotAssigned");
+  }
 }

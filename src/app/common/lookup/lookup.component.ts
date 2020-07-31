@@ -4,14 +4,9 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import 'bootstrap';
 import { ColumnSetting } from '../../models/CommonData';
-import { OutboundData } from '../../models/outbound/outbound-data';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { UIHelper } from '../../helpers/ui.helpers';
 import { State } from '@progress/kendo-data-query';
-import { CommonConstants } from '../../const/common-constants';
-// import { UIHelper } from '../../../helpers/ui.helpers';
-// import { Http, ResponseContentType } from '@angular/http';
 
 @Component({
   selector: 'app-lookup',
@@ -19,8 +14,6 @@ import { CommonConstants } from '../../const/common-constants';
   styleUrls: ['./lookup.component.scss']
 })
 export class LookupComponent implements OnInit {
-  // @ViewChild("lookupsearch") _el: ElementRef;
-  // input and output emitters
   @Input() serviceData: any;
   @Input() lookupfor: any;
   @Input() fillLookupArray: any;

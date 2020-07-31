@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Commonservice } from '../../services/commonservice.service';
 import { Router } from '@angular/router';
 import { CARMainComponent } from '../carmain/carmain.component';
-import { AutoRuleModel } from '../../models/Inbound/autoRuleModel';
 import { CARMasterService } from '../../services/carmaster.service';
+import { AutoRuleModel } from '../../models/AutoRuleModel';
 
 @Component({
   selector: 'app-carupdate',

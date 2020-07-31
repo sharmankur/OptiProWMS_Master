@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AutoRuleModel } from '../../models/Inbound/autoRuleModel';
 import { Commonservice } from '../../services/commonservice.service';
 import { ToastrService } from 'ngx-toastr';
 import { BinrulemasterComponent } from '../binrulemaster/binrulemaster.component';
@@ -7,8 +6,8 @@ import { Router } from '@angular/router';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { BinruleService } from '../../services/binrule.service';
 import { ContainerCreationService } from '../../services/container-creation.service';
-import { WhsUserGroupService } from '../../services/whs-user-group.service';
 import { BinRuleRowModel } from '../../models/binrule/BinRuleRowModel';
+import { WhsUserGroupService } from '../../services/whs-user-group.service';
 
 @Component({
   selector: 'app-binrule-add-update',

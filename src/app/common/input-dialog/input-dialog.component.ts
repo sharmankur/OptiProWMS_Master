@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { InventoryTransferService } from '../../services/inventory-transfer.service';
 import { Commonservice } from '../../services/commonservice.service';
 import { ContainerTypeService } from '../../services/ContainerType.service';
 import { Router } from '@angular/router';
